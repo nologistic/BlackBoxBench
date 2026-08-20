@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blackboxbench/schemas/interaction.schema.json",
+  "title": "InteractionStep",
+  "description": "One step of an agent interaction trajectory: (observation, action, observation).",
+  "type": "object",
+  "required": ["step", "timestamp", "action", "accepted"],
+  "properties": {
+    "step": {"type": "integer", "minimum": 0},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "accepted": {"type": "boolean"},
+    "error": {"type": ["string", "null"]},
+    "duration_ms": {"type": "number", "minimum": 0},
+    "before_frame": {"type": ["integer", "null"], "minimum": 0},
+    "after_frame": {"type": ["integer", "null"], "minimum": 0},
+    "action": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["click", "double_click", "move_pointer", "mouse_down", "mouse_up",
+                   "drag", "type_text", "key_press", "key_down", "key_up",
+                   "scroll", "wait", "switch_tab", "close_tab",
+                   "touch", "swipe", "pinch"]
+        },
+        "x": {"type": ["integer", "null"]},
+        "y": {"type": ["integer", "null"]},
+        "x1": {"type": ["integer", "null"]},
+        "y1": {"type": ["integer", "null"]},
+        "x2": {"type": ["integer", "null"]},
+        "y2": {"type": ["integer", "null"]},
+        "duration_ms": {"type": ["integer", "null"]},
+        "text": {"type": ["string", "null"]},
+        "key": {"type": ["string", "null"]},
+        "dx": {"type": ["integer", "null"]},
+        "dy": {"type": ["integer", "null"]},
+        "ms": {"type": ["integer", "null"]},
+        "tab_index": {"type": ["integer", "null"], "minimum": 0}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

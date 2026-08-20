@@ -1,0 +1,45 @@
+# syntax=docker/dockerfile:1
+#
+# Agent container image (docs/architecture.md §4.1).
+#
+# Runs the demo agent (or a user agent) against the controller. It sits on
+# `agentnet` (internal: true) and can therefore reach NOTHING except the
+# controller — this is what makes the black-box guarantee hold against an
+# actively adversarial agent (docs/security_model.md T1–T3).
+#
+# Deliberately NOT in this image: sample_apps/, schemas/, benchmark/,
+# ground_truth.json, any browser/CDP tooling (T7). The agent SDK exposes
+# pixels + HID + discovery tools only.
+#
+# Build context must be the REPOSITORY ROOT:
+#   docker build -f docker/Dockerfile.agent -t blackboxbench/agent .
+#
+# NOTE: statically reviewed only — not built or run on the authoring machine
+# (no Docker available there).
+
+FROM python:3.12-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
+WORKDIR /app
+
+# Agent-side dependency set is intentionally minimal: the SDK talks HTTP.
+# (httpx pin matches the project requirements.txt.)
+RUN pip install --no-cache-dir httpx==0.28.1
+
+COPY agent_sdk/ /app/agent_sdk/
+COPY demo_agent/ /app/demo_agent/
+
+RUN useradd --create-home --uid 1000 bbb \
+    && chown -R bbb:bbb /app
+USER bbb
+
+ENV BBB_CONTROLLER=http://controller:7800
+
+# Default entrypoint: run the bundled demo agent once against the controller.
+# NOTE: compose sets `restart: unless-stopped`, so a demo that exits will be
+# re-run — `docker compose stop agent` to keep it down. Override the command
+# to run your own agent instead, e.g.:
+#   docker compose run --rm agent python my_agent.py
+CMD ["python", "-m", "demo_agent.run_demo", "--controller", "http://controller:7800"]

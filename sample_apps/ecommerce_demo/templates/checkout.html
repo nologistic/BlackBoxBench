@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Checkout - Nimbus Market{% endblock %}
+{% block content %}
+<div class="checkout-wrap">
+  <div class="ship-form">
+    <h2>Shipping address</h2>
+    <form method="post" action="/checkout/place">
+      <label class="field-label" for="name">Full name</label>
+      <input class="ship-input" type="text" name="name" id="name" value="{{ form.get('name', '') }}">
+      <label class="field-label" for="address">Address</label>
+      <input class="ship-input" type="text" name="address" id="address" value="{{ form.get('address', '') }}">
+      <label class="field-label" for="city">City</label>
+      <input class="ship-input" type="text" name="city" id="city" value="{{ form.get('city', '') }}">
+      <label class="field-label" for="zip">ZIP code</label>
+      <input class="ship-input" type="text" name="zip" id="zip" value="{{ form.get('zip', '') }}">
+      <button class="place-btn" type="submit">Place Order</button>
+    </form>
+  </div>
+  <div class="order-summary">
+    <h2>Order summary</h2>
+    {% for row in rows %}
+    <div class="summary-item">{{ row.product.name }} &times; {{ row.qty }} <span class="amount">{{ row.line_total|money }}</span></div>
+    {% endfor %}
+    <div class="summary-item">Subtotal <span class="amount">{{ subtotal|money }}</span></div>
+    {% if discount %}
+    <div class="summary-item">Discount ({{ coupon }}) <span class="amount">-{{ discount|money }}</span></div>
+    {% endif %}
+    <div class="summary-total">Total <span class="amount">{{ total|money }}</span></div>
+  </div>
+</div>
+{% endblock %}

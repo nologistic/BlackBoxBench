@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="cat-row">
+  <a href="/"{% if not cat %} class="active"{% endif %}>All</a>
+  {% for c in categories %}
+  <a href="/?cat={{ c }}"{% if cat == c %} class="active"{% endif %}>{{ c }}</a>
+  {% endfor %}
+</div>
+{% if products %}
+<div class="grid">
+  {% for p in products %}
+  <div class="card">
+    <svg class="card-img" width="285" height="170" viewBox="0 0 285 170" xmlns="http://www.w3.org/2000/svg">
+      <rect width="285" height="170" fill="{{ p.color }}"/>
+      <text x="142" y="102" font-size="56" fill="#ffffff" text-anchor="middle" font-family="Arial, Helvetica, sans-serif">{{ p.name[0] }}</text>
+    </svg>
+    <div class="card-name">{{ p.name }}</div>
+    <div class="card-cat">{{ p.category }}</div>
+    <div class="card-price">{{ p.price_cents|money }}</div>
+    <a class="card-view" href="/product/{{ p.id }}">View</a>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+  <div>No products found{% if q %} for &ldquo;{{ q }}&rdquo;{% endif %}.</div>
+  <div class="sub">Try a different search term or browse a category.</div>
+</div>
+{% endif %}
+{% endblock %}

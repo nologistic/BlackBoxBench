@@ -1,0 +1,194 @@
+"""Live-target runtime: headed Chromium against a real website (e.g. Douyin).
+
+SECURITY CRITICAL — same rules as local_chromium.py:
+The CDP connection is a capability whitelist (Page navigate+screenshot,
+Input.*, Emulation viewport, Browser.close). NO Runtime.evaluate, DOM.*,
+Accessibility.*, Network.*, Storage.* — the agent receives pixels and only
+pixels, exactly as for local targets.
+
+Differences from LocalChromiumRuntime (see docs/security_model.md, live targets):
+- headed, not headless: real consumer sites bot-detect headless Chrome and
+  serve captcha walls before the first page (verified against douyin.com).
+- persistent browser profile holds the operator-maintained login state, with
+  a golden backup restored as a self-heal step when the precheck fails.
+- network is allowlist-only via --host-resolver-rules: the site's own domains
+  resolve, everything else fails — in-page navigation cannot leave the target.
+- NO reset-to-S0: reset() is a cold browser restart back to the entry URL.
+  Server-side state is untouched; determinism does not apply to live targets.
+"""
+from __future__ import annotations
+
+import shutil
+import subprocess
+import time
+from pathlib import Path
+
+from .. import config
+from .local_chromium import LocalChromiumRuntime, _CDP, _free_port, find_browser
+
+
+def live_state_dir(app_id: str) -> Path:
+    """Operator-owned per-target state: profile/, profile_golden/, header_ref."""
+    return config.RUNS_DIR / "live_targets" / app_id
+
+
+def _resolver_allowlist(spec) -> tuple:
+    """Hostnames the live browser may resolve; everything else is NOTFOUND.
+
+    Deliberately tight: the agent can click any in-page link, this is the
+    control that keeps the browser on the target site. Registered specs carry
+    a curated tuple; ad-hoc specs derive host + bare domain from live_url.
+    """
+    if spec.allowed_hosts:
+        return tuple(spec.allowed_hosts)
+    from urllib.parse import urlparse
+    host = (urlparse(spec.live_url).netloc or "").split(":")[0].lower()
+    if not host:
+        raise RuntimeError(f"{spec.app_id}: cannot derive allowlist")
+    bare = host[4:] if host.startswith("www.") else host
+    return (host, f"*.{bare}")
+
+
+def profile_dir(app_id: str) -> Path:
+    return live_state_dir(app_id) / "profile"
+
+
+def golden_dir(app_id: str) -> Path:
+    return live_state_dir(app_id) / "profile_golden"
+
+
+def ensure_profile(app_id: str, require_golden: bool = False) -> Path:
+    """First use: seed the working profile from the golden backup. Targets
+    with a registered login precheck REQUIRE a golden (fail fast with
+    operator guidance); ad-hoc targets may start from an empty profile."""
+    prof = profile_dir(app_id)
+    if not prof.exists():
+        golden = golden_dir(app_id)
+        if golden.exists():
+            shutil.copytree(golden, prof)
+        elif require_golden:
+            raise RuntimeError(
+                f"no login profile for {app_id} yet — run "
+                f"scripts/live_login.py --capture first")
+        else:
+            prof.mkdir(parents=True)
+    return prof
+
+
+def restore_golden_files(app_id: str) -> None:
+    """Overwrite the working profile with the golden backup (browser must be
+    stopped first — profile files are locked while Chromium runs)."""
+    golden = golden_dir(app_id)
+    if not golden.exists():
+        raise RuntimeError(f"no golden profile for {app_id}")
+    prof = profile_dir(app_id)
+    shutil.rmtree(prof, ignore_errors=True)
+    shutil.copytree(golden, prof)
+
+
+class LiveChromiumRuntime(LocalChromiumRuntime):
+    """Headed Chromium + persistent profile, pointed at a real website.
+
+    Inherits the whitelisted CDP client and all pixel/HID primitives from
+    LocalChromiumRuntime; only the lifecycle (no app subprocess, no gateway,
+    headed flags, profile persistence) differs.
+    """
+
+    def __init__(self, spec, work_dir: Path):
+        self._spec = spec
+        self._work_dir = Path(work_dir)
+        self._w = config.VIEWPORT_WIDTH
+        self._h = config.VIEWPORT_HEIGHT
+        self._cdp_port = _free_port()
+        self._browser = None
+        self._cdp: _CDP | None = None
+        # tab-follow tracking (used by _attach/_follow_latest in the base)
+        self._ws_url: str | None = None
+        self._current_target_id: str | None = None
+        self._seen_target_ids: set = set()
+        self._tab_order: list = []
+        self._last_target_poll = 0.0
+        self._profile_dir = ensure_profile(
+            spec.app_id, require_golden=bool(spec.precheck))
+        self._pointer = (0, 0)
+        # base-class machinery we deliberately do not use
+        self._app = None
+        self._app_cmd = None
+        self._app_port = None
+        self._secret = None
+        self._gw_port = None
+        self._gateway = None
+        self._gateway_server = None
+
+    # ------------------------------------------------------------ lifecycle
+
+    def start(self) -> None:
+        self._work_dir.mkdir(parents=True, exist_ok=True)
+        self._start_browser()
+
+    # stop()/health()/input/screenshot inherited. reset() inherited: cold
+    # browser restart on the same profile (NOT a state reset — live targets
+    # have no S0).
+
+    def restore_golden(self) -> None:
+        """Self-heal path for a failed login precheck."""
+        self._kill_browser()
+        restore_golden_files(self._spec.app_id)
+        self._start_browser()
+
+    # ------------------------------------------------------------ browser
+
+    def _start_browser(self) -> None:
+        exe = find_browser()
+        self._profile_dir.mkdir(parents=True, exist_ok=True)
+        log = open(self._work_dir / "browser.log", "ab")
+        rules = ", ".join(
+            [f"EXCLUDE {h}" for h in _resolver_allowlist(self._spec)]
+            + ["MAP * ~NOTFOUND"])
+        args = [
+            str(exe),
+            # headed on purpose — headless is captcha-walled by the target
+            "--no-sandbox", "--disable-crashpad", "--mute-audio",
+            f"--remote-debugging-port={self._cdp_port}",
+            "--remote-allow-origins=*",
+            f"--user-data-dir={self._profile_dir}",
+            # extra height for browser chrome; Emulation pins the viewport
+            f"--window-size={self._w},{self._h + 100}",
+            "--force-device-scale-factor=1",
+            "--no-first-run", "--no-default-browser-check",
+            "--disable-extensions", "--disable-component-update",
+            "--disable-sync", "--disable-translate",
+            "--password-store=basic", "--disable-features=TranslateUI",
+            "--autoplay-policy=user-gesture-required",
+            "--disable-blink-features=AutomationControlled",
+            "--lang=zh-CN",
+            # direct connection (system proxy must not see this traffic) and
+            # the allowlist above keeps the browser on the target's domains
+            "--no-proxy-server",
+            f"--host-resolver-rules={rules}",
+            "about:blank",
+        ]
+        self._browser = subprocess.Popen(
+            args, stdout=log, stderr=subprocess.STDOUT)
+        self._attach(self._await_debugger())
+        self._cdp.call("Page.navigate", {"url": self._spec.live_url})
+        self._cdp.wait_event("Page.loadEventFired", timeout=20)
+        time.sleep(4.0)  # real sites keep rendering after load; settle a bit
+
+    def _kill_browser(self) -> None:
+        """Like the base implementation but NEVER deletes the profile — it is
+        shared operator state holding the login session."""
+        if self._cdp:
+            try:
+                self._cdp.call("Browser.close", timeout=3)
+            except Exception:
+                pass
+            self._cdp.close()
+            self._cdp = None
+        if self._browser:
+            try:
+                self._browser.wait(timeout=5)
+            except Exception:
+                self._browser.kill()
+                self._browser.wait(timeout=5)
+            self._browser = None

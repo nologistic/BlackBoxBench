@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blackboxbench/schemas/state.schema.json",
+  "title": "State",
+  "description": "A discovered UI state. A state is anchored in visual evidence; it is NOT a URL or a DOM snapshot.",
+  "type": "object",
+  "required": ["id", "type", "name", "visual_evidence", "confidence", "status"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^state_"},
+    "type": {"const": "STATE"},
+    "name": {"type": "string", "minLength": 1},
+    "description": {"type": "string"},
+    "visual_evidence": {
+      "type": "array",
+      "items": {"type": "integer", "minimum": 0},
+      "description": "Frame ids captured in this session that show this state."
+    },
+    "entry_conditions": {"type": "array", "items": {"type": "string"}},
+    "observed_elements": {"type": "array", "items": {"type": "string"}},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "status": {"type": "string", "enum": ["hypothesized", "confirmed", "rejected", "uncertain"]},
+    "created_step": {"type": "integer", "minimum": 0},
+    "updated_step": {"type": "integer", "minimum": 0}
+  },
+  "additionalProperties": false
+}

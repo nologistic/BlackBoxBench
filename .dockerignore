@@ -1,0 +1,8 @@
+# Docker build context exclusions
+vendor/
+runs/
+*.pyc
+__pycache__/
+.pytest_cache/
+docs/images/
+2605.14415v1*.txt

@@ -1,0 +1,55 @@
+# syntax=docker/dockerfile:1
+#
+# Controller container image (docs/architecture.md §4.1).
+#
+# Runs the FastAPI orchestrator (benchmark.server:app): session lifecycle,
+# budgets, recorder, discovery store, dashboard. It is the ONLY container
+# connected to both internal networks, and the only one publishing a host
+# port (7800, dashboard/operator API).
+#
+# sample_apps/ is copied for metadata only (GET /api/apps listing); the
+# controller never starts reference apps in docker mode — the environment
+# lives in the reference container, driven through
+# benchmark/runtime/docker_x11.py over the Runtime RPC.
+#
+# Build context must be the REPOSITORY ROOT:
+#   docker build -f docker/Dockerfile.controller -t blackboxbench/controller .
+#
+# NOTE: statically reviewed only — not built or run on the authoring machine
+# (no Docker available there).
+
+FROM python:3.12-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
+WORKDIR /app
+
+# Dependencies first for layer caching.
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+COPY benchmark/ /app/benchmark/
+COPY dashboard/ /app/dashboard/
+COPY schemas/ /app/schemas/
+COPY sample_apps/ /app/sample_apps/
+
+# Non-root runtime user. The host bind-mount ./runs -> /app/runs must be
+# writable by uid 1000 (mkdir -p runs on the host before `compose up`).
+RUN useradd --create-home --uid 1000 bbb \
+    && mkdir -p /app/runs \
+    && chown -R bbb:bbb /app
+USER bbb
+
+# Runtime selection + reference RPC endpoint (see benchmark/config.py and
+# benchmark/runtime/docker_x11.py).
+ENV BBB_RUNTIME=docker \
+    BBB_REFERENCE_RPC=http://reference:8300 \
+    BBB_RUNS_DIR=/app/runs
+
+EXPOSE 7800
+
+HEALTHCHECK --interval=15s --timeout=5s --start-period=20s --retries=5 \
+    CMD ["python", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:7800/api/apps', timeout=3)"]
+
+CMD ["uvicorn", "benchmark.server:app", "--host", "0.0.0.0", "--port", "7800"]

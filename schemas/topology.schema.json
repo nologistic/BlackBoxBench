@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blackboxbench/schemas/topology.schema.json",
+  "title": "FunctionalTopologyGraph",
+  "description": "The final machine-readable functional topology graph of a black-box explored application.",
+  "type": "object",
+  "required": ["app_id", "graph_version", "session_id", "nodes", "edges", "unresolved_questions", "coverage_summary"],
+  "properties": {
+    "app_id": {"type": "string"},
+    "graph_version": {"type": "string"},
+    "session_id": {"type": "string"},
+    "generated_at": {"type": "string"},
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "name", "confidence"],
+        "properties": {
+          "id": {"type": "string"},
+          "type": {"type": "string", "enum": ["STATE", "FEATURE", "DATA"]},
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+          "status": {"type": "string", "enum": ["hypothesized", "confirmed", "rejected", "uncertain"]}
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "source", "target", "type", "confidence", "status"],
+        "properties": {
+          "id": {"type": "string"},
+          "source": {"type": "string"},
+          "target": {"type": "string"},
+          "type": {
+            "type": "string",
+            "enum": ["REQUIRES", "TRANSITIONS_TO", "MUTATES", "ENABLES", "DISABLES",
+                     "PERSISTS_TO", "REVEALS", "DEPENDS_ON", "CONFLICTS_WITH", "VALIDATES"]
+          },
+          "evidence": {"type": "array", "items": {"type": "object"}},
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+          "status": {"type": "string", "enum": ["hypothesized", "confirmed", "rejected", "uncertain"]},
+          "note": {"type": ["string", "null"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "unresolved_questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "statement", "status", "confidence"],
+        "properties": {
+          "id": {"type": "string"},
+          "statement": {"type": "string"},
+          "status": {"type": "string", "enum": ["unverified", "confirmed", "rejected", "uncertain"]},
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+          "next_probe": {"type": "string"}
+        }
+      }
+    },
+    "coverage_summary": {
+      "type": "object",
+      "properties": {
+        "states": {"type": "integer"},
+        "features": {"type": "integer"},
+        "data_entities": {"type": "integer"},
+        "edges": {"type": "integer"},
+        "confirmed_ratio": {"type": "number"},
+        "actions_used": {"type": "integer"}
+      }
+    }
+  },
+  "additionalProperties": false
+}

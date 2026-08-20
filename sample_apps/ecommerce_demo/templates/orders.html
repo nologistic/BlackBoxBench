@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Orders - Nimbus Market{% endblock %}
+{% block content %}
+<h1 class="page-title">Your Orders</h1>
+{% if orders %}
+<table class="data-table">
+  <tr>
+    <th style="width:20%">Order</th>
+    <th style="width:40%">Items</th>
+    <th style="width:20%">Total</th>
+    <th style="width:20%"></th>
+  </tr>
+  {% for o in orders %}
+  <tr>
+    <td>Order #{{ o.id }}</td>
+    <td>{% for item in o["items"] %}{{ item.name }} &times; {{ item.qty }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+    <td>{{ o.total_cents|money }}</td>
+    <td><a href="/orders/{{ o.id }}">View</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<div class="empty-cart">
+  <div class="msg">You have no orders yet.</div>
+  <a class="cont" href="/">Continue shopping</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Log in - Nimbus Market{% endblock %}
+{% block content %}
+<div class="login-card">
+  <h2>Log in</h2>
+  <form method="post" action="/login">
+    <input type="hidden" name="next" value="{{ next }}">
+    <label class="field-label" for="username">Username</label>
+    <input class="field-input" type="text" name="username" id="username" value="{{ username }}">
+    <label class="field-label" for="password">Password</label>
+    <input class="field-input" type="password" name="password" id="password" value="">
+    <button class="primary-btn" type="submit">Log in</button>
+  </form>
+</div>
+{% endblock %}

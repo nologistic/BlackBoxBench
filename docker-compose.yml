@@ -1,0 +1,86 @@
+# BlackBoxBench container deployment (docs/architecture.md §4.1).
+#
+#   reference  ── refnet (internal) ──  controller  ── agentnet (internal) ──  agent
+#   (app+browser)                       | 7800 published to host (dashboard)
+#
+# - reference: no published ports, no outbound network (refnet is internal),
+#   cap_drop ALL + no-new-privileges. Only the controller can reach :8300.
+# - controller: the only service on both networks; publishes 7800 to the host.
+# - agent: can reach only the controller (agentnet is internal).
+#
+# Usage:
+#   mkdir -p runs                       # must be writable by uid 1000
+#   export BBB_GATEWAY_SECRET=$(openssl rand -hex 32)   # real runs
+#   docker compose up --build
+#
+# NOTE: statically reviewed only — not executed on the authoring machine
+# (no Docker available there). Compose file validated as YAML only.
+
+name: blackboxbench
+
+services:
+  reference:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.reference
+    image: blackboxbench/reference:latest
+    container_name: bbb-reference
+    environment:
+      # Dev default only — override for any real benchmark run.
+      BBB_GATEWAY_SECRET: ${BBB_GATEWAY_SECRET:-bbb-dev-only-secret}
+      BBB_APP_ID: ${BBB_APP_ID:-ecommerce_demo}
+    networks:
+      - refnet
+    # NO `ports:` — nothing is published to the host.
+    restart: unless-stopped
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    shm_size: 512m          # chromium + throwaway profile live on /dev/shm
+    stop_grace_period: 10s
+
+  controller:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.controller
+    image: blackboxbench/controller:latest
+    container_name: bbb-controller
+    environment:
+      BBB_RUNTIME: docker
+      BBB_REFERENCE_RPC: http://reference:8300
+      BBB_RUNS_DIR: /app/runs
+    volumes:
+      - ./runs:/app/runs
+    ports:
+      - "7800:7800"         # dashboard / operator API on the host
+    networks:
+      - refnet
+      - agentnet
+    depends_on:
+      reference:
+        condition: service_healthy
+    restart: unless-stopped
+
+  agent:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.agent
+    image: blackboxbench/agent:latest
+    container_name: bbb-agent
+    environment:
+      BBB_CONTROLLER: http://controller:7800
+    networks:
+      - agentnet            # internal: can reach the controller, nothing else
+    depends_on:
+      controller:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  refnet:
+    driver: bridge
+    internal: true          # no route to the outside world from this network
+  agentnet:
+    driver: bridge
+    internal: true

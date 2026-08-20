@@ -1,0 +1,74 @@
+# syntax=docker/dockerfile:1
+#
+# Reference container image (docs/architecture.md §4.1).
+#
+# Holds the whole trusted side of the benchmark: Xvfb virtual display,
+# kiosk chromium (resolver-locked to reference-app.internal), xdotool /
+# scrot / imagemagick for HID-in / pixels-out, the sample reference app,
+# the loopback header-injecting gateway, and the Runtime RPC service.
+#
+# The container sits on an `internal: true` network and publishes no host
+# ports; only the controller can reach :8300 (compose is the access control).
+#
+# Build context must be the REPOSITORY ROOT:
+#   docker build -f docker/Dockerfile.reference -t blackboxbench/reference .
+#
+# NOTE: statically reviewed only — not built or run on the authoring machine
+# (no Docker available there).
+
+FROM debian:bookworm-slim
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    DISPLAY=:99
+
+# --- system packages -------------------------------------------------------
+# x11-utils provides xdpyinfo (X liveness debugging); fonts-* give chromium
+# deterministic glyph rendering (incl. CJK) inside Xvfb.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        chromium \
+        xvfb \
+        xdotool \
+        scrot \
+        imagemagick \
+        x11-utils \
+        python3 python3-pip python3-venv \
+        curl ca-certificates \
+        fonts-liberation fonts-noto-cjk \
+    && rm -rf /var/lib/apt/lists/*
+
+# --- python runtime (RPC service + sample app) ------------------------------
+# Bookworm enforces PEP 668, so install into a venv. Version pins MUST match
+# the project requirements.txt (subset needed by the reference side).
+RUN python3 -m venv /opt/bbb-venv
+ENV PATH="/opt/bbb-venv/bin:${PATH}"
+RUN pip install --no-cache-dir \
+        fastapi==0.115.12 \
+        uvicorn==0.34.2 \
+        pydantic==2.11.4 \
+        jinja2==3.1.6 \
+        pillow==11.2.1
+
+# --- application payload ----------------------------------------------------
+WORKDIR /app
+COPY sample_apps/ /app/sample_apps/
+COPY docker/runtime_rpc_server.py /app/runtime_rpc_server.py
+COPY docker/internal_gateway.py /app/internal_gateway.py
+COPY docker/reference_entrypoint.sh /app/reference_entrypoint.sh
+
+# --- non-root runtime user + writable data dir (T6) -------------------------
+RUN useradd --create-home --uid 1000 bbb \
+    && mkdir -p /data \
+    && chmod 0755 /app/reference_entrypoint.sh \
+    && chown -R bbb:bbb /app /data
+USER bbb
+
+# The only container surface. Published to NOBODY on the host (compose has no
+# `ports:` for this service); reachable only from the controller via refnet.
+EXPOSE 8300
+
+HEALTHCHECK --interval=15s --timeout=5s --start-period=45s --retries=5 \
+    CMD curl -fsS http://localhost:8300/health || exit 1
+
+# BBB_GATEWAY_SECRET / BBB_APP_ID are injected by compose.
+ENTRYPOINT ["/app/reference_entrypoint.sh"]

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ p.name }} - Nimbus Market{% endblock %}
+{% block content %}
+<div class="detail">
+  <a class="back-link" href="/">&larr; Back to products</a>
+  <svg class="detail-img" width="400" height="320" viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="320" fill="{{ p.color }}"/>
+    <text x="200" y="182" font-size="96" fill="#ffffff" text-anchor="middle" font-family="Arial, Helvetica, sans-serif">{{ p.name[0] }}</text>
+  </svg>
+  <div class="detail-name">{{ p.name }}</div>
+  <div class="detail-price">{{ p.price_cents|money }}</div>
+  <div class="detail-stock">In stock: {{ p.stock }}</div>
+  <div class="detail-desc">{{ p.description }}</div>
+  <form method="post" action="/cart/add">
+    <input type="hidden" name="product_id" value="{{ p.id }}">
+    <span class="qty-label">Quantity</span>
+    <input class="qty-input" type="text" name="quantity" value="{{ qty }}">
+    <button class="add-btn" type="submit">Add to Cart</button>
+  </form>
+</div>
+{% endblock %}

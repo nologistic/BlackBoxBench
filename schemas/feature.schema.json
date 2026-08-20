@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blackboxbench/schemas/feature.schema.json",
+  "title": "Feature",
+  "description": "A discovered feature: an observable behavior contract, not a UI element.",
+  "type": "object",
+  "required": ["id", "type", "name", "behavior", "evidence", "confidence", "status"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^feature_"},
+    "type": {"const": "FEATURE"},
+    "name": {"type": "string", "minLength": 1},
+    "description": {"type": "string"},
+    "behavior": {
+      "type": "object",
+      "properties": {
+        "preconditions": {"type": "array", "items": {"type": "string"}},
+        "trigger": {
+          "type": ["object", "null"],
+          "properties": {
+            "type": {"type": "string"},
+            "target_description": {"type": "string"}
+          },
+          "required": ["type", "target_description"],
+          "additionalProperties": false
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": {"type": "string"},
+              "kind": {"type": "string"},
+              "constraints": {"type": "string"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "postconditions": {"type": "array", "items": {"type": "string"}},
+        "persistent_effects": {"type": "array", "items": {"type": "string"}},
+        "constraints": {"type": "array", "items": {"type": "string"}},
+        "error_cases": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "status": {"type": "string", "enum": ["hypothesized", "confirmed", "rejected", "uncertain"]},
+    "created_step": {"type": "integer", "minimum": 0},
+    "updated_step": {"type": "integer", "minimum": 0}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "required": ["step", "before_frame", "action", "after_frame"],
+      "properties": {
+        "step": {"type": "integer", "minimum": 0},
+        "before_frame": {"type": "integer", "minimum": 0},
+        "action": {"type": "string"},
+        "after_frame": {"type": "integer", "minimum": 0},
+        "note": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    }
+  }
+}
