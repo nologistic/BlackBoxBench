@@ -5,6 +5,8 @@ Run: vendor/python/python.exe scripts/e2e_smoke.py
 from __future__ import annotations
 
 import sys
+import shutil
+import tempfile
 import time
 from pathlib import Path
 
@@ -18,7 +20,8 @@ from benchmark.orchestrator.apps import AppSpec
 apps._REGISTRY["miniapp"] = AppSpec(
     app_id="miniapp", description="test", module="tests.fixtures.miniapp")
 
-mgr = SessionManager()
+tmp_runs = Path(tempfile.mkdtemp(prefix="bbb_e2e_"))
+mgr = SessionManager(tmp_runs)
 print("creating session...")
 sess = mgr.create("miniapp", {"max_actions": 50, "max_duration_s": 300,
                               "max_observations": 100})
@@ -30,7 +33,8 @@ print(f"observed frame {frame0}, {obs['width']}x{obs['height']}, "
       f"png b64 len={len(obs['screenshot_png_b64'])}")
 assert obs["width"] == 1440 and obs["height"] == 900
 assert set(obs.keys()) == {"frame_id", "timestamp", "width", "height",
-                           "screenshot_png_b64", "cursor", "budget"}, obs.keys()
+                           "screenshot_png_b64", "cursor", "budget", "brief",
+                           "tabs"}, obs.keys()
 
 # click the Increment button at (200, 130)
 from benchmark.topology import models as m
@@ -48,9 +52,9 @@ px = list(img0.resize((1, 1)).getdata())[0]
 assert sum(px) / 3 > 150, f"page looks dark/failed to load: mean rgb={px}"
 print("page load check OK (mean rgb:", px, ")")
 
-res = sess.execute(m.Action(type="click", x=200, y=130))
-print("click accepted:", res)
-assert res["accepted"]
+increment_result = sess.execute(m.Action(type="click", x=200, y=130))
+print("click accepted:", increment_result)
+assert increment_result["accepted"]
 
 obs2 = sess.observe()
 # compare only the counter text region (away from cursor overlay)
@@ -62,7 +66,7 @@ print("counter increment visible: True")
 # type into echo field
 sess.execute(m.Action(type="click", x=220, y=318))
 sess.execute(m.Action(type="type_text", text="hello"))
-res = sess.execute(m.Action(type="key_press", key="Enter"))
+sess.execute(m.Action(type="key_press", key="Enter"))
 obs3 = sess.observe()
 assert crop(obs2["frame_id"], (100, 375, 700, 410)).tobytes() != \
        crop(obs3["frame_id"], (100, 375, 700, 410)).tobytes(), \
@@ -76,7 +80,8 @@ fid = sess.store.add_feature(m.FeatureCreate(
         preconditions=["首页可见"], postconditions=["计数增加"],
         trigger=m.TriggerModel(type="click", target_description="Increment 按钮")),
     evidence=[m.Evidence(step=1, before_frame=frame0,
-                         action="click(200,130)", after_frame=res["frame_id"])],
+                         action="click(200,130)",
+                         after_frame=increment_result["frame_id"])],
     confidence=0.9))
 print("feature recorded:", fid)
 sid_state = sess.store.add_state(m.StateCreate(
@@ -107,4 +112,5 @@ status = sess.status_dict()
 print("status:", {k: status[k] for k in ("step", "counts", "status")})
 
 mgr.close(sess.id)
+shutil.rmtree(tmp_runs, ignore_errors=True)
 print("E2E SMOKE PASS")

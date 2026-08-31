@@ -17,6 +17,24 @@ __pycache__/
 build/
 dist/
 .pytest_cache/
+.test-tmp/
+.playwright-cli/
+.codebuddy/
+/test_*.txt
+
+# ---- 网站复现 Agent 的固定写入目录 ----
+website_output/*
+!website_output/.gitkeep
+
+# ---- Android APK 复现输出与可重建移动素材 ----
+app_output/*
+!app_output/.gitkeep
+reproduction/materials/generated/
+app_reproduction/materials/generated/
+sample_apps/android_commerce_demo/.gradle/
+sample_apps/android_commerce_demo/**/build/
+sample_apps/android_commerce_demo/app/src/main/res/drawable/product_camera.png
+sample_apps/android_commerce_demo/app/src/main/res/raw/
 
 # ---- 环境 / 本地配置 / 日志 ----
 .env

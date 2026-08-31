@@ -28,6 +28,14 @@ class TestRegistry:
         assert spec.precheck in prechecks.PRECHECKS
         assert spec.seed == "live"
 
+    def test_yuque_web_spec_uses_soft_network_constraint(self):
+        spec = get_app("yuque_web")
+        assert spec.kind == "live"
+        assert spec.live_url == "https://www.yuque.com/"
+        assert not spec.precheck
+        assert "不是域名或导航白名单" in spec.brief
+        assert "不得" in spec.brief and "原始实现" in spec.brief
+
     def test_live_spec_has_no_local_launch(self):
         with pytest.raises(RuntimeError):
             get_app("douyin_web").launch_command(1234, "x")
@@ -116,6 +124,13 @@ class TestDispatch:
                      "_last_target_poll"):
             assert hasattr(rt, attr), attr
 
+    def test_live_runtime_has_no_dns_or_url_allowlist(self):
+        import inspect
+        source = inspect.getsource(
+            live_chromium.LiveChromiumRuntime._start_browser)
+        assert "host-resolver-rules" not in source
+        assert "~NOTFOUND" not in source
+
     def test_live_busy_guard(self, tmp_path, monkeypatch):
         # hermetic: never touch the real operator profile in tests
         monkeypatch.setattr(
@@ -134,6 +149,31 @@ class TestDispatch:
         fake.status = "closed"
         with pytest.raises(RuntimeError, match="no_profile"):
             mgr.create("douyin_web")
+
+    def test_docker_shared_reference_busy_guard(self, tmp_path, monkeypatch):
+        """docker-mode sessions share ONE reference browser: a second
+        concurrent session must be refused instead of contaminating it."""
+        from benchmark.orchestrator.manager import SessionManager
+        monkeypatch.setenv("BBB_RUNTIME", "docker")
+        mgr = SessionManager(tmp_path / "runs")
+        running = types.SimpleNamespace(
+            spec=types.SimpleNamespace(app_id="ecommerce_demo"),
+            status="running", id="sess_docker_one",
+            runtime=types.SimpleNamespace(shared_environment=True))
+        mgr._sessions["sess_docker_one"] = running
+        with pytest.raises(RuntimeError, match="docker reference environment busy"):
+            mgr.create("ecommerce_demo")
+        # a finished docker session frees the shared environment, and
+        # local-mode (BBB_RUNTIME unset) ignores the shared guard entirely:
+        # execution must get PAST the guard into runtime construction.
+        running.status = "closed"
+        monkeypatch.delenv("BBB_RUNTIME")
+
+        def _sentinel(spec, data_dir, sdir):
+            raise RuntimeError("past the guard")
+        monkeypatch.setattr(mgr, "_make_runtime", _sentinel)
+        with pytest.raises(RuntimeError, match="past the guard"):
+            mgr.create("ecommerce_demo")
 
 
 # ------------------------------------------------------------------ ad-hoc URL targets
@@ -156,13 +196,12 @@ class TestAdhocLiveSpec:
             with pytest.raises(ValueError, match="live_url|invalid"):
                 mk(bad)
 
-    def test_allowlist_derivation(self):
+    def test_live_specs_have_no_network_allowlist(self):
         from benchmark.orchestrator.apps import make_live_spec_for_url as mk
-        curated = get_app("douyin_web")
-        assert "douyinpic.com" in live_chromium._resolver_allowlist(curated)
-        adhoc = mk("https://www.example.com/")
-        assert live_chromium._resolver_allowlist(adhoc) == \
-            ("www.example.com", "*.example.com")
+        for spec in (get_app("douyin_web"), get_app("yuque_web"),
+                     mk("https://www.example.com/")):
+            assert not hasattr(spec, "allowed_hosts")
+            assert "不是域名或导航白名单" in spec.brief
 
     def test_live_url_session_validation(self, client):
         # invalid URLs are rejected BEFORE any browser would launch
@@ -232,7 +271,7 @@ class TestLiveReset:
 class TestBudgetFreeze:
     """Terminal sessions must stop ticking. Before the freeze, status_dict()
     kept computing elapsed/seconds_remaining from time.monotonic(), so the
-    dashboard showed closed sessions with ever-growing Elapsed and budgets
+    operator status showed closed sessions with ever-growing Elapsed and budgets
     draining to 0."""
 
     def test_close_freezes_elapsed_and_budget(self, tmp_path):

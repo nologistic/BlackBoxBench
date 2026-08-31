@@ -1,7 +1,7 @@
 """Cursor rendering: draws the virtual pointer into frames.
 
 Headless screenshots contain no cursor. To keep frames self-contained
-(human-equivalent observation, replay, video), the controller renders the
+(human-equivalent observation and audit frames), the controller renders the
 tracked virtual cursor into every stored frame. Cursor position is known to
 the controller because all pointer movement flows through it.
 """

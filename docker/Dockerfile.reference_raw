@@ -1,0 +1,59 @@
+# syntax=docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32
+# Trusted reference side for self-built-tool exploration. This image contains
+# no managed Controller/MCP/SDK and exposes only hardware-like device files.
+FROM debian:bookworm-slim@sha256:88200866dfff7ea7f5cbcb6ec7c8a701889efe6fe859fe64d6990e4b07ea4171
+
+ENV DEBIAN_FRONTEND=noninteractive PYTHONUNBUFFERED=1 DISPLAY=:99
+
+RUN set -eu; \
+    attempt=1; \
+    while true; do \
+      if apt-get -o Acquire::Retries=5 update \
+        && apt-get -o Acquire::Retries=5 install -y --no-install-recommends ca-certificates; then \
+        break; \
+      fi; \
+      if [ "$attempt" -ge 3 ]; then exit 1; fi; \
+      attempt=$((attempt + 1)); \
+      sleep 2; \
+    done; \
+    rm -rf /var/lib/apt/lists/*; \
+    sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list.d/debian.sources
+
+RUN set -eu; \
+    attempt=1; \
+    while true; do \
+      if apt-get -o Acquire::Retries=5 update \
+        && apt-get -o Acquire::Retries=5 install -y --no-install-recommends \
+          chromium xvfb xdotool scrot curl \
+          python3 python3-pip python3-venv \
+          fonts-liberation fonts-noto-cjk; then \
+        break; \
+      fi; \
+      if [ "$attempt" -ge 3 ]; then exit 1; fi; \
+      attempt=$((attempt + 1)); \
+      sleep 2; \
+    done; \
+    rm -rf /var/lib/apt/lists/*; \
+    python3 -m venv /opt/raw-venv
+ENV PATH="/opt/raw-venv/bin:${PATH}" TMPDIR=/data/tmp
+RUN pip install --no-cache-dir fastapi==0.115.12 uvicorn==0.34.2 \
+      pydantic==2.11.4 jinja2==3.1.6 pillow==11.2.1
+
+WORKDIR /trusted
+COPY sample_apps/ /trusted/sample_apps/
+COPY docker/internal_gateway.py /trusted/internal_gateway.py
+COPY docker/public_web_proxy.py /trusted/public_web_proxy.py
+COPY docker/raw_device_bridge.py /trusted/raw_device_bridge.py
+COPY docker/self_login_ui.py /trusted/self_login_ui.py
+COPY docker/reference_raw_entrypoint.sh /trusted/reference_raw_entrypoint.sh
+
+RUN useradd --create-home --uid 1000 bbb \
+    && mkdir -p /data /device /tmp/.X11-unix \
+    && chmod 1777 /tmp/.X11-unix \
+    && chmod 0755 /trusted/reference_raw_entrypoint.sh \
+    && chown -R bbb:bbb /trusted /data /device
+USER root
+
+HEALTHCHECK --interval=5s --timeout=2s --start-period=30s --retries=10 \
+  CMD test -f /device/fb0.ppm -a -p /device/event0 || exit 1
+ENTRYPOINT ["/trusted/reference_raw_entrypoint.sh"]

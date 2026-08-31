@@ -64,7 +64,15 @@ class DockerX11Runtime(Runtime):
     """Runtime backed by the Xvfb+xdotool+scrot stack behind the Runtime RPC.
 
     Pixels + HID. Nothing else. Ever.
+
+    NOTE: all DockerX11Runtime instances attach to ONE shared reference
+    environment (the bbb-reference container owns the single browser), so
+    the orchestrator enforces single-occupancy for docker-mode sessions.
+    Local-mode sessions each get their own app+browser and can run many at
+    once.
     """
+
+    shared_environment = True
 
     def __init__(self, rpc_url: str, *, width: Optional[int] = None,
                  height: Optional[int] = None,

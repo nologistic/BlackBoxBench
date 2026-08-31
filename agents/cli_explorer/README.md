@@ -1,98 +1,85 @@
-# CLI Explorer — 在真实 Agent 框架中评测模型
+# MCP Explorer
 
-与 `agents/kimi_explorer/`(自建 harness 直调 API)不同,这里模型运行在
-**真实 Agent 框架**(Kimi Code / Claude Code / Codex / OpenCode)内,
-通过 **MCP 工具服务器**获得 GUI 交互能力,框架自己的规划/工具调用循环
-驱动整个探索。这测的是"模型 × Agent 框架"组合体。
+这里是 BlackBoxBench 唯一保留的 Agent 框架入口。
 
 ```text
-Agent CLI (kimi / claude / codex / opencode, 无头或交互)
-   │  MCP stdio (JSON-RPC, 21 个工具)
-   ▼
-agents/cli_explorer/mcp_server.py
-   │  HTTP /agent/{sid}/...(白名单通道)
-   ▼
-Controller → Reference App(黑盒)
+External Agent ── MCP stdio ──▶ mcp_server.py
+                                  │
+                                  └─ /agent/{sid}/... ──▶ Controller
 ```
 
-## 两种用法
+MCP Server 不负责模型调用或规划，探索阶段只提供受控工具：截图观察、坐标级类人输入、
+Session 选择、证据记录、拓扑修订和 finalize。Agent 不能通过这些工具读取 DOM、
+URL、selector、网络或本地应用实现。
 
-### A. 零命令模式(skill 触发,自举)
+finalize 成功后，Server 会立即把同一 Agent 切换到独立的复现容器。此时
+`workspace_*` 操作只能写本次输出，定稿拓扑和公共素材以只读方式挂载。探索截图中的
+真实账号、文档、消息等私人信息不得进入成品，实例内容必须取自公共虚构素材。
+首次生成后还必须用 `start_reproduction_review` 和 `review_*` 对本地成品做像素/坐标级
+黑盒复验；可在 `complete_reproduction_review(decision="revise")` 后修改并重验，默认
+最多 3 轮，`accept` 后才能调用 `finish_reproduction`。
 
-一次性安装后,日常使用不需要任何终端命令:
+## 安装
 
 ```powershell
-vendor/python/python.exe -m agents.cli_explorer.install   # 一次性
+vendor/python/python.exe -m agents.cli_explorer.install
 ```
 
-之后: 新开一个 kimi 对话 → 输入 `/skill:blackbox-explorer` → 探索自动开始。
-原理: 用户级 `~/.kimi-code/mcp.json` 常驻注册 MCP 服务器(不带 session env);
-CLI 拉起服务器时它自动检测/启动 Controller、自动创建新会话;
-对话结束(stdin 关闭)时自动 finalize 并退出。`--uninstall` 可移除。
-Claude Code 用 `install --cli claude` 打印对应注册指引。
+安装器默认为 Kimi Code 注册用户级 MCP 配置和 Skill；`--cli codex`
+直接安装 Codex 配置，`--cli claude` 打印 Claude Code 注册命令。其他支持 stdio
+MCP 的框架可直接
+注册：
 
-### B. Attach 模式(手动启动,指定会话/参数)
+```text
+<project>/vendor/python/python.exe -m agents.cli_explorer.mcp_server
+```
 
-你自己启动 Agent CLI 的交互界面,attach 进程负责建**指定**会话、注册 MCP、
-安装探索 skill,并监督到会话结束:
+## 两种运行方式
+
+无环境变量时，Server 会检查并按需启动 Controller（多进程同时自举由跨进程
+锁串行化，不会重复拉起），在首次工具调用时自动创建 Session；stdin 关闭时
+自动 finalize 自己创建的 Session。
+
+绑定现有 Session 时设置：
+
+```text
+BBB_CONTROLLER=http://127.0.0.1:7800
+BBB_SESSION=sess_...
+```
+
+默认目标和预算可以通过 `BBB_APP_ID`、`BBB_MAX_ACTIONS`、`BBB_MINUTES` 设置。
+也可以让 Agent 调用 `list_targets` 和 `start_session` 选择 app ID 或公网 URL。
+
+## 并行会话
+
+宿主 Controller（本地 runtime）天然支持多个并行 session：每个 Agent 对话
+的 MCP 进程各自创建独立 session，拥有独立的 app 子进程与浏览器，互不串扰。
+同一 live 目标仍同时只允许一个 session（共享登录 profile）。容器化部署
+（BBB_RUNTIME=docker）共享单一 reference 浏览器，同一时刻只允许一个 session，
+Controller 会以明确的 busy 错误拒绝第二个并发 session。
+
+## 约束
+
+外部 Agent 仍应运行在不含本仓库源码的隔离工作目录中，并禁用 shell、文件读取和
+任意网络工具。MCP 只是唯一允许的 App 信息通道。正式评测应使用 Docker 部署，
+避免本地 Agent 扫描 loopback 或读取绝对路径。
+
+## 客户端容器化（严格模式）
+
+要把客户端自带的宿主工具彻底关起来，可让 Agent 客户端运行在 Docker 容器中：
 
 ```powershell
-# 终端 1
-vendor/python/python.exe -m benchmark.server --port 7800
-# 终端 2
-vendor/python/python.exe -m agents.cli_explorer.attach --cli kimi
+vendor/python/python.exe -m agents.cli_explorer.agent_runtime --image <客户端镜像>
 ```
 
-按打印的指引操作:
-
-1. 另开终端启动 CLI(示例: `kimi --agent-file "runs/<sid>/agent_workspace/explorer.md"`);
-2. 在对话框输入 `/skill:blackbox-explorer`(attach 已把 skill 安装到
-   `~/.kimi-code/skills/`),或直接粘贴打印的启动语;
-3. 模型的思考直接显示在 CLI 自己的界面里;
-   应用画面在 Dashboard 实时可见。
-
-结束: Agent 调用 finalize,或在 attach 终端按 Ctrl+C —— 自动还原
-用户级 mcp.json 并兜底 finalize。
-
-### C. Headless 模式(无头自动跑,用于批量评测)
-
-```powershell
-vendor/python/python.exe -m agents.cli_explorer.run --cli kimi      # 或 claude/codex/opencode
-```
-
-runner 拉起 CLI 子进程并流式转发输出——Agent 的思考过程就在其 stdout/界面里。
-
-参数(两种用法通用): `--app-id` `--session`(接入已有会话)
-`--max-actions 400` `--minutes 30`;attach 另有 `--no-skill`。
-
-CLI 的模型/账号由各 CLI 自己的登录态决定(如 Kimi Code 用 `/login`
-的会员额度;Claude Code 可用 Kimi Code 端点,见官方文档
-third-party-tools 页)。
-
-## 各框架的黑盒约束实现
-
-| CLI | MCP 注册 | 内置工具限制 | 权限模式 |
-|---|---|---|---|
-| kimi | 运行期临时注入用户级 `~/.kimi-code/mcp.json`(结束自动还原;项目级因 headless 信任提示不可用) | `--agent-file` 白名单 `tools: [mcp__blackboxbench__*]`(无 Bash/Read/…) | 默认(manual)— print 模式下 MCP 调用直接执行 |
-| claude | `--mcp-config <ws>/mcp.json` | `--disallowedTools Bash Read Write Edit … WebFetch WebSearch …` | `--permission-mode bypassPermissions` |
-| codex | `-c mcp_servers.*` 命令行覆盖(不碰用户 ~/.codex) | `--sandbox read-only` + 隔离 cwd | `approval_policy=never` |
-| opencode | `<ws>/opencode.json` | `permission: {bash/read/edit/…: deny}` | run 默认非交互 |
-
-共同兜底: 隔离空工作区作 cwd;任务 prompt/skill 明文禁止本地文件/shell/
-网络;所有 App 信息只经 MCP 工具(像素截图)。
-
-## 已知残余风险(本机模式)
-
-拥有 shell 的 Agent 理论上可扫本机 loopback 端口(发现 CDP)或读绝对路径。
-已通过工具禁用缓解;**正式评测用 Docker 部署**(agent 容器内无仓库、
-无 CDP 可达性)。见 `docs/security_model.md`。
+宿主侧 MCP 以 TCP 模式监听 `127.0.0.1`（强制 per-run token），容器**不挂载仓库、
+不挂载 docker.sock**，只读挂载 MCP shim 与 Skill；客户端经
+`host.docker.internal:<port>+token` 连回宿主 MCP（shim 见 `agent_runtime_assets/`）。
+一次 TCP 连接即一次完整探索+复现生命周期。finalize 还会做跨会话筛查：定稿拓扑
+与其他 Agent 的成品交付物做指纹比对，命中即拒绝（`benchmark/topology/crosscheck.py`）。
 
 ## 验证
 
-- `tests/test_mcp_server.py`: 真实子进程握手 + observe 图像返回 + click/
-  record/finalize 全链路(3 项)。
-- `tests/test_cli_adapters.py`: 四个适配器的配置/命令/限制清单断言(6 项)。
-- 真机冒烟: Kimi Code CLI headless 使用 MCP 工具完成 observe→click→observe,
-  画面理解与坐标估计准确(session trace 记录 `click(148,391)` 命中 View 链接)。
-- attach 机制实测: 会话创建/skill 安装/mcp.json 注入/finalize 检测/自动还原
-  全链路通过。
+`tests/test_mcp_server.py` 覆盖真实 stdio 子进程握手、图片观察、动作、discovery、
+finalize、自举、目标切换、失效重绑定、中文 payload 和 finalize 后的自动复现交接。
+`tests/test_agent_runtime.py` 覆盖 TCP 传输认证、容器封闭性与跨会话筛查。

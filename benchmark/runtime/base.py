@@ -23,6 +23,9 @@ class RuntimeInfo:
     width: int
     height: int
     device_scale_factor: float
+    platform: str = "web"
+    orientation: str = "landscape"
+    density_dpi: int | None = None
 
 
 class Runtime(abc.ABC):
@@ -95,3 +98,20 @@ class Runtime(abc.ABC):
 
     def close_tab(self) -> None:
         raise ValueError("unsupported_action: tabs not supported")
+
+    # ------------------------------------------------------- touch surface
+    # Mobile runtimes override these methods.  Keeping them as optional
+    # capabilities preserves the frozen browser Runtime implementations while
+    # allowing Session to use one pixels/HID trace format for both platforms.
+    def tap(self, x: int, y: int) -> None:
+        self.click(x, y)
+
+    def long_press(self, x: int, y: int, duration_ms: int = 700) -> None:
+        raise ValueError("unsupported_action: long press not supported")
+
+    def swipe(self, x1: int, y1: int, x2: int, y2: int,
+              duration_ms: int = 400) -> None:
+        raise ValueError("unsupported_action: swipe not supported")
+
+    def restart_app(self) -> None:
+        raise ValueError("unsupported_action: app restart not supported")

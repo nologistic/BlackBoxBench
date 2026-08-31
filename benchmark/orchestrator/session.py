@@ -16,6 +16,7 @@ from ..recorder import diff as imgdiff
 from ..recorder.cursor import draw_cursor
 from ..recorder.trace import TraceRecorder, utc_now
 from ..runtime.base import Runtime
+from ..topology import crosscheck
 from ..topology import models as m
 from ..topology.store import TopologyStore
 from .apps import AppSpec
@@ -99,20 +100,27 @@ class Session:
     # ------------------------------------------------------------ metadata
 
     def _write_session_meta(self) -> None:
+        info = self.runtime.info()
         meta = {
             "session_id": self.id,
             "app_id": self.spec.app_id,
             "seed": self.spec.seed,
             "created_at": self.created_at,
-            "viewport": {"width": config.VIEWPORT_WIDTH,
-                         "height": config.VIEWPORT_HEIGHT,
-                         "device_scale_factor": config.DEVICE_SCALE_FACTOR,
-                         "browser_zoom": config.BROWSER_ZOOM,
-                         "browser_chrome": "none (headless/kiosk)"},
+            "platform": getattr(self.spec, "platform", info.platform),
+            "viewport": {"width": info.width,
+                         "height": info.height,
+                         "device_scale_factor": info.device_scale_factor,
+                         "orientation": info.orientation,
+                         "density_dpi": info.density_dpi,
+                         "browser_zoom": (config.BROWSER_ZOOM
+                                          if info.platform == "web" else None),
+                         "browser_chrome": ("none (headless/kiosk)"
+                                            if info.platform == "web" else None)},
             "budget": {"max_actions": self.budget.max_actions,
                        "max_duration_s": self.budget.max_duration_s,
                        "max_observations": self.budget.max_observations},
             "status": self.status,
+            "close_reason": self.close_reason,
         }
         (self.dir / "session.json").write_text(json.dumps(meta, indent=2),
                                                encoding="utf-8")
@@ -142,7 +150,8 @@ class Session:
                 if settle_ms > config.SETTLE_TIMEOUT_MS:
                     break
         png = draw_cursor(raw, self.cursor["x"], self.cursor["y"]) \
-            if config.DRAW_CURSOR_IN_FRAMES else raw
+            if (config.DRAW_CURSOR_IN_FRAMES and
+                self.runtime.info().platform == "web") else raw
         fid = self.recorder.save_frame(png)
         d_prev = imgdiff.diff_score(imgdiff.load(png), prev) if prev else 1.0
         self._last_frame_png = png
@@ -162,17 +171,28 @@ class Session:
             self.budget.observations_used += 1
             fid, _, _ = self._capture_frame(self.step, settle=False)
             png = (self.dir / "frames" / f"frame_{fid:06d}.png").read_bytes()
-            return {
+            info = self.runtime.info()
+            response = {
                 "frame_id": fid,
                 "timestamp": utc_now(),
-                "width": config.VIEWPORT_WIDTH,
-                "height": config.VIEWPORT_HEIGHT,
+                "width": info.width,
+                "height": info.height,
                 "screenshot_png_b64": base64.b64encode(png).decode(),
                 "cursor": dict(self.cursor),
                 "budget": self.budget.remaining(),
                 "brief": self.spec.brief,
                 "tabs": self._tabs_info(),
             }
+            # Preserve the frozen web Agent-channel whitelist byte-for-byte.
+            # Mobile geometry is variable, so Android alone receives these
+            # non-semantic display facts.
+            if info.platform == "android":
+                response.update({
+                    "platform": "android",
+                    "orientation": info.orientation,
+                    "density_dpi": info.density_dpi,
+                })
+            return response
 
     def _tabs_info(self) -> dict | None:
         """Tab-strip awareness for receipts: count + active index only.
@@ -203,6 +223,7 @@ class Session:
                 # range at runtime): a 400 for the agent, NOT a session failure
                 raise
             except Exception as e:  # runtime failure → session failed (crash report)
+                self.budget.freeze()
                 self.status = "failed"
                 self.close_reason = f"runtime error: {e}"
                 self._write_crash(e)
@@ -223,16 +244,32 @@ class Session:
                     "tabs": self._tabs_info()}
 
     def _validate(self, a: m.Action) -> None:
-        W, H = config.VIEWPORT_WIDTH, config.VIEWPORT_HEIGHT
+        info = self.runtime.info()
+        W, H = info.width, info.height
+        mobile_actions = {
+            m.ActionType.TAP, m.ActionType.LONG_PRESS, m.ActionType.SWIPE,
+            m.ActionType.TYPE_TEXT, m.ActionType.PRESS_BACK,
+            m.ActionType.PRESS_ENTER, m.ActionType.WAIT,
+            m.ActionType.RESTART_APP,
+        }
+        is_android = info.platform == "android"
+        if is_android and a.type not in mobile_actions:
+            raise ValueError("invalid_action: unavailable on Android")
+        if not is_android and a.type in {
+                m.ActionType.TAP, m.ActionType.LONG_PRESS, m.ActionType.SWIPE,
+                m.ActionType.PRESS_BACK, m.ActionType.PRESS_ENTER,
+                m.ActionType.RESTART_APP}:
+            raise ValueError("invalid_action: unavailable on web")
         def pt(x, y):
             if not (0 <= x < W and 0 <= y < H):
                 raise ValueError("invalid_coordinates")
         coord_actions = {m.ActionType.CLICK, m.ActionType.DOUBLE_CLICK,
                          m.ActionType.MOVE_POINTER, m.ActionType.MOUSE_DOWN,
-                         m.ActionType.MOUSE_UP}
+                         m.ActionType.MOUSE_UP, m.ActionType.TAP,
+                         m.ActionType.LONG_PRESS}
         if a.type in coord_actions:
             pt(a.x, a.y)
-        elif a.type == m.ActionType.DRAG:
+        elif a.type in (m.ActionType.DRAG, m.ActionType.SWIPE):
             pt(a.x1, a.y1)
             pt(a.x2, a.y2)
         elif a.type == m.ActionType.TYPE_TEXT and not a.text:
@@ -257,6 +294,21 @@ class Session:
         if a.type == m.ActionType.CLICK:
             rt.click(a.x, a.y)
             self.cursor = {"x": a.x, "y": a.y}
+        elif a.type == m.ActionType.TAP:
+            rt.tap(a.x, a.y)
+            self.cursor = {"x": a.x, "y": a.y}
+        elif a.type == m.ActionType.LONG_PRESS:
+            rt.long_press(a.x, a.y, a.duration_ms or 700)
+            self.cursor = {"x": a.x, "y": a.y}
+        elif a.type == m.ActionType.SWIPE:
+            rt.swipe(a.x1, a.y1, a.x2, a.y2, a.duration_ms or 400)
+            self.cursor = {"x": a.x2, "y": a.y2}
+        elif a.type == m.ActionType.PRESS_BACK:
+            rt.key("Back", "press")
+        elif a.type == m.ActionType.PRESS_ENTER:
+            rt.key("Enter", "press")
+        elif a.type == m.ActionType.RESTART_APP:
+            rt.restart_app()
         elif a.type == m.ActionType.DOUBLE_CLICK:
             rt.click(a.x, a.y, count=2)
             self.cursor = {"x": a.x, "y": a.y}
@@ -312,7 +364,10 @@ class Session:
         import shutil
         with self._lock:
             self._require_running()
-            if self.spec.kind == "live":
+            if getattr(self.spec, "platform", "web") == "android":
+                self.runtime.reset()
+                self.recorder.log_event("reset_android")
+            elif self.spec.kind == "live":
                 self.runtime.reset()
                 self.recorder.log_event("reset_live_entry")
             else:
@@ -327,12 +382,24 @@ class Session:
 
     def finalize(self) -> dict:
         with self._lock:
-            self.budget.freeze()
+            # Refuse handover when the topology copies another agent's
+            # completed deliverables verbatim (cross-session contamination).
+            output_root = (config.APP_OUTPUT_DIR if
+                           getattr(self.spec, "platform", "web") == "android"
+                           else config.PROJECT_ROOT / "website_output")
+            crosscheck.assert_clean(
+                self.store.graph().model_dump_json(indent=2),
+                self.dir.parent,
+                output_root,
+                self.store.session_id)
             summary = self.store.finalize()
+            # If topology finalization fails, leave a normal running budget so
+            # the agent can correct its discoveries and retry.
+            self.budget.freeze()
             self.status = "closed"
             self.close_reason = "agent_finalized"
             self._write_session_meta()
-            self._produce_final_artifacts()
+            self._write_summary()
             try:
                 self.runtime.stop()
             finally:
@@ -347,22 +414,14 @@ class Session:
             self.status = "closed"
             self.close_reason = reason
             self._write_session_meta()
-            self._produce_final_artifacts()
+            self._write_summary()
             try:
                 self.runtime.stop()
             finally:
                 self.recorder.close()
 
-    def _produce_final_artifacts(self) -> None:
-        """metrics.json + session_summary.json + video (best effort)."""
-        try:
-            from ..metrics import compute_metrics
-            metrics = compute_metrics(
-                self.dir, self.recorder, self.budget.actions_used,
-                self.budget.observations_used,
-                int(self.budget.elapsed()), self.store)
-        except Exception:
-            metrics = {}
+    def _write_summary(self) -> None:
+        """Write the compact session summary; raw frames remain the audit log."""
         try:
             g = self.store.graph()
             (self.dir / "session_summary.json").write_text(json.dumps({
@@ -372,15 +431,10 @@ class Session:
                 "observations_used": self.budget.observations_used,
                 "steps": self.step, "frames": self.recorder.frame_count,
                 "coverage": g.coverage_summary.model_dump(),
-                "metrics": metrics,
+                "elapsed_s": int(self.budget.elapsed()),
             }, indent=2, ensure_ascii=False), encoding="utf-8")
         except Exception:
             pass
-        try:
-            from ..recorder.video import render_video
-            render_video(self.dir, self.recorder)
-        except Exception:
-            pass  # video is best-effort; frames + dashboard replay always exist
 
     def mark_failed(self, exc: Exception) -> None:
         with self._lock:
@@ -413,6 +467,7 @@ class Session:
         return {
             "session_id": self.id,
             "app_id": self.spec.app_id,
+            "platform": getattr(self.spec, "platform", "web"),
             "status": self.status,
             "close_reason": self.close_reason,
             "brief": self.spec.brief,

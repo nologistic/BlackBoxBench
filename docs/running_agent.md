@@ -5,6 +5,10 @@
 > 注意: 容器链路未在编写机上运行验证 (无 Docker);文中客户端示例仅依据
 > API 契约静态编写。
 
+本文描述的是“托管探索工具”条件。若要评测 Agent 现场实现自己的截图、输入、证据
+和分析工具，使用独立的 [自建工具条件](../self_explorer/README.md)；两种条件不能在
+同一次 Agent 运行中同时启用。
+
 ## 1. 运行拓扑
 
 Agent 永远只和 **controller** 通信:
@@ -148,8 +152,8 @@ client.finalize()
 工程建议:
 
 - 每 N 步或每发现新 state 就把假设队列里最便宜的一条 probe 掉。
-- 用 frame phash 去重避免原地打转 (controller 内部也统计 `repeated_action_runs`,
-  会体现在最终 metrics)。
+- 在 Agent 自己的探索记忆中对近期画面去重，避免原地打转；研究者也可以从最终
+  轨迹离线统计重复动作和状态重访。
 - 坐标来自对截图的目测;点偏了不会有任何报错 —— 用 observe 对比验证,
   这是本 benchmark 的核心考点。
 

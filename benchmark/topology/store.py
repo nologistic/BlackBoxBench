@@ -2,7 +2,7 @@
 
 Responsibilities:
 - canonical id allocation (state_/feature_/data_ + slug)
-- evidence validation against the session trace (frames/steps must exist)
+- evidence validation against the exact action record for each step
 - revisions: update / merge / delete (agent-initiated only, never auto-merge)
 - aggregation into the final TopologyGraph document + markdown rendering
 - append-only audit via recorder.log_discovery
@@ -47,13 +47,23 @@ class TopologyStore:
         self._current_step = step
 
     def _validate_evidence(self, evidence: list[m.Evidence]) -> None:
+        actions = {record.get("step"): record
+                   for record in self._rec.read_actions()
+                   if record.get("accepted") and "step" in record}
         for ev in evidence:
             if not self._rec.frame_exists(ev.before_frame):
                 raise EvidenceError(f"before_frame {ev.before_frame} does not exist")
             if not self._rec.frame_exists(ev.after_frame):
                 raise EvidenceError(f"after_frame {ev.after_frame} does not exist")
-            if not self._rec.step_exists(ev.step):
+            action = actions.get(ev.step)
+            if action is None:
                 raise EvidenceError(f"step {ev.step} not found in accepted actions")
+            if action.get("before_frame") != ev.before_frame:
+                raise EvidenceError(
+                    f"before_frame {ev.before_frame} does not belong to step {ev.step}")
+            if action.get("after_frame") != ev.after_frame:
+                raise EvidenceError(
+                    f"after_frame {ev.after_frame} does not belong to step {ev.step}")
 
     def _validate_frames(self, frames: list[int]) -> None:
         for f in frames:

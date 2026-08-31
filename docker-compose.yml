@@ -1,7 +1,7 @@
 # BlackBoxBench container deployment (docs/architecture.md §4.1).
 #
 #   reference  ── refnet (internal) ──  controller  ── agentnet (internal) ──  agent
-#   (app+browser)                       | 7800 published to host (dashboard)
+#   (app+browser)                       | 7800 published to host (operator API)
 #
 # - reference: no published ports, no outbound network (refnet is internal),
 #   cap_drop ALL + no-new-privileges. Only the controller can reach :8300.
@@ -53,7 +53,7 @@ services:
     volumes:
       - ./runs:/app/runs
     ports:
-      - "7800:7800"         # dashboard / operator API on the host
+      - "7800:7800"         # operator API on the host
     networks:
       - refnet
       - agentnet
@@ -75,7 +75,9 @@ services:
     depends_on:
       controller:
         condition: service_healthy
-    restart: unless-stopped
+    profiles: ["mcp"]       # launch on demand through an MCP stdio client
+    stdin_open: true
+    restart: "no"
 
 networks:
   refnet:

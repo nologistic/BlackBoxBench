@@ -1,36 +1,37 @@
-"""FastAPI controller server: agent channel + operator/dashboard API.
+"""FastAPI controller server: agent channel + minimal operator API.
 
 Route families (see docs/api_contract.md):
 - /agent/{sid}/...   the ONLY agent-reachable surface; whitelist response schemas
-- /api/...           operator/dashboard API
-- /                  static dashboard
+- /api/...           session lifecycle and live inspection
 """
 from __future__ import annotations
 
-import io
-from pathlib import Path
-
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, Field
 
 from . import config
-from .metrics import compute_metrics
-from .orchestrator import archive
 from .orchestrator.manager import SessionManager
 from .orchestrator.session import BudgetExhausted, SessionClosed
-from .replay.replayer import deterministic_replay
 from .topology import models as m
 from .topology.store import EvidenceError
 
 manager = SessionManager()
 
 
+class SessionBudget(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    max_actions: int = Field(default=config.DEFAULT_MAX_ACTIONS, gt=0)
+    max_duration_s: int = Field(default=config.DEFAULT_MAX_DURATION_S, gt=0)
+    max_observations: int = Field(default=config.DEFAULT_MAX_OBSERVATIONS, gt=0)
+
+
 class CreateSession(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
     app_id: str | None = None
-    seed: str | None = None
-    budget: dict | None = None
+    budget: SessionBudget | None = None
     # ad-hoc live target: explore any website without a registry entry
     live_url: str | None = None
 
@@ -59,20 +60,6 @@ def create_app() -> FastAPI:
             return manager.get(sid)
         except KeyError:
             raise HTTPException(404, detail="session_not_found")
-
-    def _session_or_archive(sid: str):
-        """(live Session, None) or (None, archived artifact dir).
-
-        Read-only operator GET routes serve both; mutating/agent routes must
-        keep using _session() (live only).
-        """
-        try:
-            return manager.get(sid), None
-        except KeyError:
-            d = archive.archived_dir(manager.runs_dir, sid)
-            if d is None:
-                raise HTTPException(404, detail="session_not_found")
-            return None, d
 
     # ---------------------------------------------------------- agent channel
     @app.post("/agent/{sid}/observe")
@@ -133,7 +120,13 @@ def create_app() -> FastAPI:
 
     @app.post("/agent/{sid}/finalize")
     def finalize(sid: str):
-        summary = _session(sid).finalize()
+        try:
+            summary = _session(sid).finalize()
+        except ValueError as e:
+            # e.g. cross-session contamination: the session stays runnable so
+            # the agent can correct its discoveries and retry.
+            raise HTTPException(409, detail=str(e))
+        manager.release_runtime(sid)
         return {"topology_path": f"runs/{sid}/functional_topology.json",
                 "summary": summary}
 
@@ -143,15 +136,16 @@ def create_app() -> FastAPI:
         if not req.app_id and not req.live_url:
             raise HTTPException(400, detail="app_id or live_url required")
         try:
+            budget = req.budget.model_dump() if req.budget else None
             if req.live_url:
                 from .orchestrator.apps import make_live_spec_for_url
                 try:
                     spec = make_live_spec_for_url(req.live_url)
                 except ValueError as e:
                     raise HTTPException(400, detail=str(e))
-                sess = manager.create_spec(spec, req.budget)
+                sess = manager.create_spec(spec, budget)
             else:
-                sess = manager.create(req.app_id, req.budget)
+                sess = manager.create(req.app_id, budget)
         except HTTPException:
             raise
         except KeyError as e:
@@ -159,24 +153,27 @@ def create_app() -> FastAPI:
         except Exception as e:
             raise HTTPException(503, detail=f"runtime_start_failed: {e}")
         return {"session_id": sess.id, "brief": sess.spec.brief,
-                "app_id": sess.spec.app_id}
+                "app_id": sess.spec.app_id,
+                "platform": getattr(sess.spec, "platform", "web")}
 
     @app.get("/api/sessions")
     def list_sessions():
         return manager.list()
 
     @app.get("/api/apps")
-    def list_apps_route():
-        return manager.apps()
+    def list_apps_route(platform: str = "web"):
+        try:
+            return manager.apps(platform)
+        except ValueError as exc:
+            raise HTTPException(400, detail=str(exc))
 
     @app.get("/api/sessions/{sid}")
     def session_status(sid: str):
-        sess, d = _session_or_archive(sid)
-        return sess.status_dict() if sess else archive.read_status(d)
+        return _session(sid).status_dict()
 
     @app.post("/api/sessions/{sid}/reset")
     def reset_session(sid: str):
-        _session(sid)  # live-only: 404 for archived/unknown
+        _session(sid)
         manager.reset(sid)
         return {"ok": True}
 
@@ -185,35 +182,18 @@ def create_app() -> FastAPI:
         _session(sid).close()
         return {"ok": True}
 
-    @app.post("/api/sessions/{sid}/replay")
-    def replay_session(sid: str, mode: str = "visual"):
-        sess = _session(sid)
-        if mode == "deterministic":
-            return deterministic_replay(sess)
-        if mode == "visual":
-            return {"ok": True,
-                    "hint": "open the dashboard Replay view, or render video via "
-                            "benchmark.recorder.video.render_video"}
-        raise HTTPException(400, detail="invalid_mode")
-
     @app.get("/api/sessions/{sid}/frames/{frame_id}.png")
     def frame(sid: str, frame_id: int):
-        sess, d = _session_or_archive(sid)
-        p = sess.recorder.frame_path(frame_id) if sess else \
-            archive.frame_path(d, frame_id)
-        if p is None or not p.exists():
+        p = _session(sid).recorder.frame_path(frame_id)
+        if not p.exists():
             raise HTTPException(404, detail="frame_not_found")
         return FileResponse(p, media_type="image/png")
 
     @app.get("/api/sessions/{sid}/live.png")
     def live(sid: str):
-        sess, d = _session_or_archive(sid)
-        if sess:
-            status = sess.status_dict()
-            fid = status.get("current_frame")
-            p = sess.recorder.frame_path(fid) if fid is not None else None
-        else:
-            p = archive.last_frame_path(d)  # static last frame for archived
+        sess = _session(sid)
+        fid = sess.status_dict().get("current_frame")
+        p = sess.recorder.frame_path(fid) if fid is not None else None
         if p is None or not p.exists():
             raise HTTPException(404, detail="no_frame_yet")
         return FileResponse(p, media_type="image/png",
@@ -221,49 +201,17 @@ def create_app() -> FastAPI:
 
     @app.get("/api/sessions/{sid}/trace")
     def trace(sid: str):
-        sess, d = _session_or_archive(sid)
-        if sess:
-            return {"actions": sess.recorder.read_actions(),
-                    "observations": sess.recorder.read_observations()}
-        return archive.read_trace(d)
+        sess = _session(sid)
+        return {"actions": sess.recorder.read_actions(),
+                "observations": sess.recorder.read_observations()}
 
     @app.get("/api/sessions/{sid}/topology")
     def topology(sid: str):
-        sess, d = _session_or_archive(sid)
-        if sess:
-            return sess.store.graph().model_dump()
-        g = archive.read_topology(d)
-        if g is None:
-            raise HTTPException(404, detail="topology_not_found")
-        return g
+        return _session(sid).store.graph().model_dump()
 
     @app.get("/api/sessions/{sid}/hypotheses")
     def hypotheses(sid: str):
-        sess, d = _session_or_archive(sid)
-        if sess:
-            return [h.model_dump() for h in sess.store.hypotheses()]
-        return archive.read_hypotheses(d)
-
-    @app.get("/api/sessions/{sid}/metrics")
-    def metrics(sid: str):
-        sess, d = _session_or_archive(sid)
-        if sess:
-            import time
-            return compute_metrics(sess.dir, sess.recorder,
-                                   sess.budget.actions_used,
-                                   sess.budget.observations_used,
-                                   int(time.monotonic() - sess.budget.started_at),
-                                   sess.store)
-        mdata = archive.read_metrics(d)
-        if mdata is None:
-            raise HTTPException(404, detail="metrics_not_found")
-        return mdata
-
-    # ---------------------------------------------------------- dashboard
-    static_dir = config.PROJECT_ROOT / "dashboard" / "static"
-    if static_dir.exists():
-        app.mount("/", StaticFiles(directory=static_dir, html=True),
-                  name="dashboard")
+        return [h.model_dump() for h in _session(sid).store.hypotheses()]
 
     return app
 

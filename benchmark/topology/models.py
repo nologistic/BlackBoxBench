@@ -69,10 +69,14 @@ class ActionType(str, Enum):
     # tab-strip control (window-management level; no page semantics exposed)
     SWITCH_TAB = "switch_tab"
     CLOSE_TAB = "close_tab"
-    # reserved for future mobile/touch runtimes
-    TOUCH = "touch"
+    # Mobile-only human input.  They deliberately carry no selector, package,
+    # accessibility or device semantics.
+    TAP = "tap"
+    LONG_PRESS = "long_press"
     SWIPE = "swipe"
-    PINCH = "pinch"
+    PRESS_BACK = "press_back"
+    PRESS_ENTER = "press_enter"
+    RESTART_APP = "restart_app"
 
 
 # ---------------------------------------------------------------- leak screening

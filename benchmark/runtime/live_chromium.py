@@ -11,8 +11,9 @@ Differences from LocalChromiumRuntime (see docs/security_model.md, live targets)
   serve captcha walls before the first page (verified against douyin.com).
 - persistent browser profile holds the operator-maintained login state, with
   a golden backup restored as a self-heal step when the precheck fails.
-- network is allowlist-only via --host-resolver-rules: the site's own domains
-  resolve, everything else fails — in-page navigation cannot leave the target.
+- normal public network access is available so redirects, authentication, and
+  cross-domain assets work. The entry URL is not a hostname/navigation
+  allowlist; network-use restrictions are expressed in the agent task brief.
 - NO reset-to-S0: reset() is a cold browser restart back to the entry URL.
   Server-side state is untouched; determinism does not apply to live targets.
 """
@@ -30,23 +31,6 @@ from .local_chromium import LocalChromiumRuntime, _CDP, _free_port, find_browser
 def live_state_dir(app_id: str) -> Path:
     """Operator-owned per-target state: profile/, profile_golden/, header_ref."""
     return config.RUNS_DIR / "live_targets" / app_id
-
-
-def _resolver_allowlist(spec) -> tuple:
-    """Hostnames the live browser may resolve; everything else is NOTFOUND.
-
-    Deliberately tight: the agent can click any in-page link, this is the
-    control that keeps the browser on the target site. Registered specs carry
-    a curated tuple; ad-hoc specs derive host + bare domain from live_url.
-    """
-    if spec.allowed_hosts:
-        return tuple(spec.allowed_hosts)
-    from urllib.parse import urlparse
-    host = (urlparse(spec.live_url).netloc or "").split(":")[0].lower()
-    if not host:
-        raise RuntimeError(f"{spec.app_id}: cannot derive allowlist")
-    bare = host[4:] if host.startswith("www.") else host
-    return (host, f"*.{bare}")
 
 
 def profile_dir(app_id: str) -> Path:
@@ -142,9 +126,6 @@ class LiveChromiumRuntime(LocalChromiumRuntime):
         exe = find_browser()
         self._profile_dir.mkdir(parents=True, exist_ok=True)
         log = open(self._work_dir / "browser.log", "ab")
-        rules = ", ".join(
-            [f"EXCLUDE {h}" for h in _resolver_allowlist(self._spec)]
-            + ["MAP * ~NOTFOUND"])
         args = [
             str(exe),
             # headed on purpose — headless is captcha-walled by the target
@@ -162,10 +143,10 @@ class LiveChromiumRuntime(LocalChromiumRuntime):
             "--autoplay-policy=user-gesture-required",
             "--disable-blink-features=AutomationControlled",
             "--lang=zh-CN",
-            # direct connection (system proxy must not see this traffic) and
-            # the allowlist above keeps the browser on the target's domains
+            # Avoid inheriting a host proxy. Unlike deterministic local apps,
+            # live targets retain normal public DNS/navigation so site-owned
+            # redirects, authentication, and cross-domain assets keep working.
             "--no-proxy-server",
-            f"--host-resolver-rules={rules}",
             "about:blank",
         ]
         self._browser = subprocess.Popen(

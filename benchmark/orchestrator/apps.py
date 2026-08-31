@@ -37,9 +37,7 @@ class AppSpec:
     brief: str = ""
     live_url: str = ""                   # kind=live: entry URL
     precheck: str = ""                   # kind=live: orchestrator.prechecks key
-    # kind=live: browser resolver allowlist (all other names fail to resolve).
-    # Empty → derived from live_url host (host + *.bare-domain).
-    allowed_hosts: tuple = ()
+    platform: str = "web"
 
     def launch_command(self, port: int, data_dir: Path) -> list[str]:
         if self.kind != "local":
@@ -48,26 +46,11 @@ class AppSpec:
                 "--port", str(port), "--data-dir", str(data_dir)]
 
 
-# douyin.com pulls media from sibling CDN domains — a bare-host derivation
-# would break images/video, so the curated list is kept here.
-_DOUYIN_HOSTS = (
-    "douyin.com", "*.douyin.com",
-    "douyinpic.com", "*.douyinpic.com",       # images
-    "douyinvod.com", "*.douyinvod.com",       # video
-    "douyinstatic.com", "*.douyinstatic.com", # static assets
-    "douyinvodclick.com", "*.douyinvodclick.com",
-    "douyinliving.com", "*.douyinliving.com", # live streaming
-)
-
-# bilibili.com likewise: styles/images on hdslb.com, video on bilivideo.com,
-# several APIs on biliapi.net.
-_BILIBILI_HOSTS = (
-    "bilibili.com", "*.bilibili.com",
-    "hdslb.com", "*.hdslb.com",               # static assets & covers
-    "bilivideo.com", "*.bilivideo.com",       # video streams
-    "biliapi.net", "*.biliapi.net",           # api endpoints
-    "b23.tv", "*.b23.tv",                     # short-link redirects
-)
+_LIVE_SOFT_NETWORK_RULE = (
+    "起始 URL 只是目标入口,不是域名或导航白名单;允许网站正常重定向、跨域加载"
+    "以及站内类人导航。不得把网络能力用于主动访问搜索引擎、代码托管站、网页"
+    "归档或其他站点来查找目标的原始实现,也不得直接请求、下载或读取目标页面"
+    "源码、接口响应等语义内容。")
 
 
 _REGISTRY: dict[str, AppSpec] = {
@@ -90,12 +73,12 @@ _REGISTRY: dict[str, AppSpec] = {
                     "确定性保证, 仅像素+HID 通道不变)。",
         live_url="https://www.douyin.com/",
         precheck="avatar_logged_in",
-        allowed_hosts=_DOUYIN_HOSTS,
         seed="live",
         brief=("这是一个短视频内容平台的网页版,你当前处于已登录状态。"
                "它可以搜索、浏览视频、直播等。注意: 这是一个真实线上应用,"
                "内容会实时变化,请不要执行发帖、评论、关注、点赞、私信等"
-               "任何会修改账号公开状态的操作,只读探索和搜索是允许的。"),
+               "任何会修改账号公开状态的操作,只读探索和站内搜索是允许的。"
+               + _LIVE_SOFT_NETWORK_RULE),
     ),
     # Live target: bilibili web. Same operator-maintained login model as
     # douyin_web (scripts/live_login.py --app bilibili_web --capture).
@@ -106,12 +89,24 @@ _REGISTRY: dict[str, AppSpec] = {
                     "确定性保证, 仅像素+HID 通道不变)。",
         live_url="https://www.bilibili.com/",
         precheck="avatar_logged_in",
-        allowed_hosts=_BILIBILI_HOSTS,
         seed="live",
         brief=("这是一个视频内容平台的网页版,你当前处于已登录状态。"
                "它可以搜索、浏览视频、番剧、直播等。注意: 这是一个真实线上应用,"
                "内容会实时变化,请不要执行发帖、评论、关注、点赞、投币、收藏、"
-               "私信等任何会修改账号公开状态的操作,只读探索和搜索是允许的。"),
+               "私信等任何会修改账号公开状态的操作,只读探索和站内搜索是允许的。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "yuque_web": AppSpec(
+        app_id="yuque_web",
+        kind="live",
+        description="语雀网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://www.yuque.com/",
+        seed="live",
+        brief=("这是语雀文档与知识库网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要新建、编辑、删除、分享文档或修改账号、团队与权限设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
     ),
 }
 
@@ -119,7 +114,8 @@ _REGISTRY: dict[str, AppSpec] = {
 _LIVE_BRIEF = (
     "这是一个真实线上网站,你通过浏览器访问它的网页版。内容会实时变化。"
     "请只读探索(浏览、搜索、查看),不要执行任何会修改服务端或账号状态的"
-    "操作(发帖、评论、点赞、关注、购买、删除、设置变更等)。")
+    "操作(发帖、评论、点赞、关注、购买、删除、设置变更等)。"
+    + _LIVE_SOFT_NETWORK_RULE)
 
 
 def make_live_spec_for_url(url: str) -> AppSpec:
@@ -127,8 +123,8 @@ def make_live_spec_for_url(url: str) -> AppSpec:
 
     The derived app_id is a stable per-host slug (live_www_example_com), so
     the browser profile — and any login state captured for the site —
-    persists across sessions. The resolver allowlist falls back to the
-    URL's own host + bare domain.
+    persists across sessions. The URL is only the browser's entry point;
+    redirects and cross-domain resources use normal public networking.
     """
     raw = url.strip()
     if "://" not in raw:
@@ -153,15 +149,36 @@ def make_live_spec_for_url(url: str) -> AppSpec:
     )
 
 
-def list_apps() -> list[dict]:
-    return [{"app_id": s.app_id, "description": s.description}
-            for s in _REGISTRY.values()]
+def list_apps(platform: str = "web") -> list[dict]:
+    items = [{"app_id": s.app_id, "description": s.description,
+              "platform": s.platform, "kind": s.kind}
+             for s in _REGISTRY.values()]
+    if platform == "android":
+        try:
+            from ..android.targets import list_android_targets
+            return list_android_targets()
+        except Exception:
+            return []
+    if platform not in ("web", "all"):
+        raise ValueError("platform must be web, android or all")
+    if platform == "all":
+        try:
+            from ..android.targets import list_android_targets
+            items.extend(list_android_targets())
+        except Exception:
+            pass
+    return items
 
 
 def get_app(app_id: str) -> AppSpec:
-    if app_id not in _REGISTRY:
-        raise KeyError(f"unknown app_id: {app_id!r}; available: {sorted(_REGISTRY)}")
-    return _REGISTRY[app_id]
+    if app_id in _REGISTRY:
+        return _REGISTRY[app_id]
+    try:
+        from ..android.targets import get_android_target
+        return get_android_target(app_id)  # type: ignore[return-value]
+    except KeyError:
+        available = [item["app_id"] for item in list_apps("all")]
+        raise KeyError(f"unknown app_id: {app_id!r}; available: {sorted(available)}")
 
 
 def new_gateway_secret() -> str:

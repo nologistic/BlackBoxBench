@@ -1,0 +1,13 @@
+# Optional Docker-native login seed for external self-built exploration.
+# Only the trusted reference receives the read-only golden profile. The
+# tool_builder service is intentionally absent, so cookies never enter the
+# Agent filesystem or its mount namespace.
+services:
+  reference_raw:
+    environment:
+      BBB_PROFILE_SEED_DIR: /profile-seed
+    volumes:
+      - type: bind
+        source: ${BBB_SELF_PROFILE_SEED:?set BBB_SELF_PROFILE_SEED}
+        target: /profile-seed
+        read_only: true

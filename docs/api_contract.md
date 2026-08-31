@@ -10,6 +10,12 @@
 - `frame_id`: 整数,会话内单调递增,对应 `frames/frame_000127.png`
 - `step`: 整数,每个被接受的 action 使 step+1; observe 不增加 step
 
+Android Session 沿用同一 `/agent/{sid}` 契约。`observe` 额外返回白名单字段
+`platform: "android"`、`orientation`、`density_dpi`，宽高来自当前模拟器截图而非网页
+固定 viewport。Android action 只增加 `tap`、`long_press`、`swipe`、`type_text`、
+`press_back`、`press_enter`、`wait`、`restart_app`；回执仍只有
+accepted/frame/step，不包含控件、package、Activity、ADB、日志或动作语义结果。
+
 ## 1. Agent 通道 (`/agent/{sid}/...`)
 
 **这是 Agent SDK 唯一允许访问的路由族。** 响应字段为白名单,
@@ -183,29 +189,26 @@ kind ∈ `state|feature|data`。修订接口:
 
 - `visual_evidence` 中每个 frame_id 必须 ≤ 当前最大 frame_id。
 - evidence 条目中的 `step` 必须存在于 actions.jsonl 且 `accepted=true`;
-  `before_frame`/`after_frame` 必须存在。
+  `before_frame`/`after_frame` 必须存在，并且必须与该 step 的动作记录完全对应。
 - 文本字段命中泄漏正则 → 422 `leak_detected`:
   `(?i)(/api/|\.tsx?\b|\.jsx\b|localhost|127\.0\.0\.1|\bSELECT\b|\bINSERT\b|React|Vue|Angular|DOM|selector|xpath|css\s*selector|sourcemap|graphql)`
 
-## 3. 操作员/Dashboard API (`/api/...`)
+## 3. 操作员 API (`/api/...`)
 
 不对 Agent 暴露(语义上属于 operator;本机模式同端口,容器模式仅 controller 可达)。
 
 | 路由 | 说明 |
 |---|---|
-| `GET /` | Dashboard SPA (静态) |
-| `POST /api/sessions` | `{app_id, seed?, budget?{max_actions,max_duration_s,max_observations}}` → `{session_id}` |
+| `POST /api/sessions` | `{app_id|live_url, budget?{max_actions,max_duration_s,max_observations}}`；预算字段必须为正整数 |
 | `GET /api/sessions` | 会话列表 |
 | `GET /api/sessions/{sid}` | 状态: step/elapsed/budget 余量/counts{states,features,edges,hypotheses,unresolved}/last_action/current_frame/status |
 | `POST /api/sessions/{sid}/reset` | 环境回到 S0(重播种 DB+重启浏览器),trace 记录 reset 事件 |
-| `POST /api/sessions/{sid}/close` | 终止并收尾(视频、metrics) |
-| `POST /api/sessions/{sid}/replay?mode=visual\|deterministic` | deterministic: reset 后重放 action 序列,对比末帧,产出 replay 报告 |
+| `POST /api/sessions/{sid}/close` | 终止并写入 Session 摘要 |
 | `GET /api/sessions/{sid}/frames/{frame_id}.png` | 原始帧 PNG |
-| `GET /api/sessions/{sid}/live.png` | 最新帧 + 叠加(光标/最近点击标记),Dashboard 轮询用 |
+| `GET /api/sessions/{sid}/live.png` | 当前 Session 最新的含光标帧 |
 | `GET /api/sessions/{sid}/trace` | actions+observations 合并 JSON 数组 |
 | `GET /api/sessions/{sid}/topology` | 当前图 JSON |
 | `GET /api/sessions/{sid}/hypotheses` | 假设列表 |
-| `GET /api/sessions/{sid}/metrics` | 指标 JSON |
 | `GET /api/apps` | 可用 reference app 列表(id/描述) |
 
 **不存在**任何暴露 ground truth、App 内部状态、URL、DOM 的路由。
@@ -221,8 +224,9 @@ kind ∈ `state|feature|data`。修订接口:
 ## 5. Session 状态机
 
 ```text
-created → running ⇄ (budget_exhausted | agent_finalized | operator_closed) → closed
-        → failed (runtime crash; 写 crash_report.json; 可 reset 重试)
+created → running ⇄ reset
+                ├→ agent_finalized / operator_closed → closed
+                └→ runtime crash → failed (写 crash_report.json)
 ```
 
 ## 6. 预算语义

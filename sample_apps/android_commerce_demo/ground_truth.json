@@ -1,0 +1,11 @@
+{
+  "app_id": "android_commerce_demo",
+  "account": {"username": "linxi", "password": "demo123"},
+  "features": [
+    "login_validation", "catalog", "search", "category_filter",
+    "product_detail", "favorite_persistence", "cart_mutation",
+    "checkout", "order_persistence", "profile", "logout",
+    "audio_playback", "video_playback"
+  ],
+  "reset": "clear application data"
+}

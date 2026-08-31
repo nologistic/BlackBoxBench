@@ -1,231 +1,188 @@
-# BlackBoxBench 系统架构
+# BlackBoxBench 最小探索架构
 
-> 版本: 1.0 · 状态: Phase I 基础设施
+## 1. 目标
 
-## 1. 研究目标
-
-本系统测量的是:
-
-```text
-Unknown Application
-        ↓
-Visual Exploration        (Agent 只能看到像素)
-        ↓
-Behavior Discovery        (Agent 只能发送人类式 GUI 输入)
-        ↓
-Functional Modeling
-        ↓
-Functional Topology Graph
-```
-
-它**不是** Screenshot-to-Code、不是 GUI 任务完成度评测、也不是浏览器自动化框架。
-它测量 Agent 能否像第一次使用陌生软件的人类一样,通过主动操作、观察反馈、
-尝试边界条件、分析状态变化,逆向理解一个黑盒软件系统。
-
-## 2. 最高优先级安全边界: Pixels-Only
+系统让 Agent 在受控条件下，以像素和类人输入探索未知 App。现有托管工具是条件 A，
+保存证据并形成 Functional Topology；Agent 自建工具是隔离的条件 B，不预设探索工具、
+记录格式、拓扑、覆盖标准或工作流。
 
 ```text
-Observation_t = Pixels_t + CursorPosition_t
+Observation_t = Screenshot_t + Cursor_t + Budget_t
+Action_t      = Coordinate-level mouse/keyboard input
 ```
 
-Agent **永远不能**获得: 源代码、HTML、DOM、Accessibility Tree、CSS/JS 源、
-DevTools/CDP、Playwright locator、Selenium selector、API 文档、网络请求、
-WebSocket 消息、localStorage/sessionStorage/IndexedDB、Cookies、数据库、
-应用日志、文件系统、包元数据、Git 仓库、sourcemap、浏览器 console、
-内部事件监听、隐藏测试用例、ground-truth graph。
+探索结束时只作一次单向交接：立即启动与探索隔离的网站复现沙盒。托管条件携带定稿
+拓扑，自建条件不要求拓扑。复现执行器属于 Controller 之外的下游域；差分评测仍属于
+下一阶段。
 
-Agent 能获得的只有:
-
-- 屏幕截图 (PNG, 含渲染进去的光标)
-- 光标坐标
-- OS 输入级别的事件回执 (`accepted: true/false`, 不含任何语义结果)
-- 探索预算余量
-
-**工程上如何守住这条边界:**
-
-1. **Runtime 驱动收口**: 所有与浏览器的底层通信(CDP)只存在于
-   `benchmark/runtime/` 内部。该模块只暴露
-   `screenshot() / send_mouse() / send_key() / navigate() / reset()`,
-   **不存在** `evaluate()`、`get_dom()`、`locator()` 之类的方法——不是"不调用",
-   是代码里根本没有这个能力面。
-2. **Agent 通道收口**: Agent 只能访问 Controller 的 `/agent/{sid}/...` 路由。
-   这些路由的响应 schema 是白名单式的 (见 §7 与 `docs/api_contract.md`),
-   响应中不存在 URL、元素、语义标注字段。
-3. **网络收口**: 浏览器通过 `--host-resolver-rules` 被限制为只能解析
-   `reference-app.internal`; App 进程只接受带内部网关头的请求;
-   Docker 部署中 reference 容器位于 `internal: true` 网络,无外网路由。
-4. **工件收口**: `ground_truth.json` 不以任何形式通过 HTTP 暴露;
-   Agent 容器/进程内不存在该文件。
-
-## 3. 逻辑分层
+## 2. 四个核心组件
 
 ```text
-┌──────────────────────────────────────────────┐
-│             Benchmark Orchestrator           │
-│  session 生命周期 / 预算 / reset / 日志 / 指标  │
-└───────────────┬──────────────────────────────┘
-                │  controlled interface (HTTP)
-┌───────────────▼──────────────────────────────┐
-│              Agent Controller                │
-│  observe() click() type() scroll() key()     │
-│  drag() wait() + discovery 工具集             │
-└───────────────┬──────────────────────────────┘
-                │  pixels + HID events only
-┌───────────────▼──────────────────────────────┐
-│          Reference App Environment           │
-│  Chromium (kiosk, headless/Xvfb)             │
-│        │                                     │
-│        ▼                                     │
-│  Reference App  (源码/DB/内部 API 对 Agent 不可达)│
-└──────────────────────────────────────────────┘
-
-┌──────────────────────────────────────────────┐
-│           Observation Recorder               │
-│  frames/ actions.jsonl observations.jsonl    │
-│  cursor / click markers / timing / 状态转换    │
-│  video (overlay) / 视觉差分 / settle 检测      │
-└──────────────────────────────────────────────┘
-
-┌──────────────────────────────────────────────┐
-│        Functional Discovery Engine           │
-│  states / features / data / edges            │
-│  hypotheses / evidence 校验 / topology 聚合    │
-└──────────────────────────────────────────────┘
+Agent (MCP / SDK)
+        │
+        ▼
+Controller ── Session / budget / API whitelist
+        │
+        ├── Recorder ── frames + actions/observations JSONL
+        ├── Topology ── evidence validation + graph
+        └── Runtime ── screenshot in / HID out
+                          │
+                          ▼
+                    Reference App
 ```
 
-## 4. 部署拓扑
+### Controller 与 Session
 
-### 4.1 容器部署 (有 Docker 的机器,完整隔离)
+`benchmark/server.py` 提供 Agent 白名单接口和精简 Operator API。
+`benchmark/orchestrator/session.py` 串行化单个 Session 内的观察和动作，负责预算、
+坐标校验、视觉 settle、reset、finalize 和失败清理。
+
+### Runtime
+
+`benchmark/runtime/base.py` 的能力面只有截图、导航/reset、鼠标、键盘、滚动、健康
+检查和有限标签页控制。Local Runtime 的 CDP 方法白名单是安全边界，不允许增加
+任何 DOM/Runtime/Accessibility/Network/Storage 方法。
+
+### Recorder
+
+Recorder 保存含光标的 PNG、动作 JSONL 和观察 JSONL。系统不再生成视频或 Replay；
+原始帧和轨迹就是单一审计事实源。
+
+### Topology
+
+Topology Store 接受 State、Feature、Data、Edge、Hypothesis 和 Revision。confirmed
+声明必须引用当前 Session 中存在的 frame/step，文本必须通过实现泄漏检查。
+
+## 3. 一次动作的数据流
 
 ```text
-docker-compose:
-  reference-container   ← Chromium+Xvfb+xdotool+scrot+App+RuntimeRPC
-                          网络: refnet (internal: true, 无外网)
-  controller-container  ← FastAPI Orchestrator
-                          网络: refnet + agentnet + 对宿主暴露 Dashboard 端口
-  agent-container       ← Agent 进程 (demo 或用户 Agent)
-                          网络: agentnet only (只能到 controller)
+POST /agent/{sid}/action
+  → 检查 Session、预算、动作 schema 和坐标
+  → 记录 before frame
+  → Runtime 发送鼠标/键盘事件
+  → 等待画面稳定
+  → 保存含光标的 after frame
+  → 写 actions.jsonl / observations.jsonl
+  → 返回 accepted + frame_id + step + tabs
 ```
 
-三个安全域之间只允许严格定义的通信:
+Action 回执不解释动作结果，Agent 必须通过下一张截图自行判断。
 
-- agent → controller: HTTP `/agent/{sid}/...`
-- controller → reference: RuntimeRPC (screenshot/input/reset)
-- agent ✗→ reference: 网络上不可达
+## 4. 部署模式
 
-### 4.2 本机开发模式 (无 Docker 的机器,如本仓库验证环境)
+### Local
 
-同一套代码,`LocalChromiumRuntime` 替换 `DockerX11Runtime`:
+- App 子进程绑定随机 loopback 端口。
+- Gateway Secret 保护 App，直接访问返回空 404。
+- Chromium 固定 1440×900、DPR=1。
+- `--no-proxy-server` 和 resolver rules 限制网络。
+- CDP 仅用于允许的截图、输入和导航能力。
 
-- App 以子进程运行,绑定 `127.0.0.1:<random>`,**只接受带 `X-BBB-Gateway`
-  内部头的请求** (由 Controller 内置网关注入); 直接访问返回 404。
-- 浏览器为项目内 vendor 的 Chrome for Testing,headless,CDP 端口随机且
-  仅绑定 loopback,**只用于截图与输入注入**。
-- 浏览器经 `--host-resolver-rules` 锁定: 只能解析 `reference-app.internal`,
-  其余全部 `~NOTFOUND` —— 即使 Agent 尝试在页面里跳外网也会失败。
-- 所有进程外依赖 (Python / Chromium / ffmpeg) 均 vendor 在项目目录内,
-  `scripts/bootstrap.py` 可在任意 Windows/Linux/macOS 机器一键重建。
+### Docker
 
-两种模式对 Agent 暴露的接口与黑盒保证**完全一致**; 差异仅在于 OS 级
-隔离强度 (本机模式防意外泄漏,容器模式防主动对抗),见
-`docs/security_model.md`。
+正式评测使用 reference/controller/agent 三容器。Agent 只能访问 Controller；
+Reference 容器无外网，且使用 Xvfb/xdotool/scrot，不开放 CDP。
 
-## 5. 数据流
+### Live target
 
-### 5.1 一次 action 的完整路径
+真实网站使用持久 profile、正常公网导航和头像像素预检。入口 URL 只用于指定起点，
+不作为域名/跳转白名单；对搜索原实现、直接下载页面或读取语义接口的禁令由任务 brief
+软约束。Live target 只允许只读探索，没有确定性 S0；reset 只代表浏览器冷启动回入口页。
+
+## 5. Session 生命周期
 
 ```text
-Agent: POST /agent/{sid}/action {"type":"click","x":812,"y":431}
-  → Orchestrator: 预算检查 + 坐标校验
-  → Recorder: 记录 action, 捕获 before-frame (若无)
-  → Runtime: CDP Input.dispatchMouseEvent (move/press/release)
-  → Controller: 虚拟光标位置更新 (812,431)
-  → Settle 检测: 轮询截图直至帧差 < 阈值或超时
-  → Recorder: 保存 after-frame (渲染光标叠加层), 写 observations.jsonl
-  → 内部遥测: 视觉差分 (phash/均方差), loop 检测 (不进 agent 响应)
-  → Agent 收到: {"accepted": true, "frame_id": 128}
+create → capture S0 → running → finalize/close → closed
+                              └→ runtime error → failed
 ```
 
-Agent 随后 `observe()` 拿第 128 帧,自行判断点击造成了什么。
+- Budget 包含 actions、observations 和 duration。
+- Local reset 会删除 Session appdata、重新播种并冷启动浏览器。
+- Live reset 不删除服务端状态。
+- finalize 生成最终 topology 和 session summary。
+- 启动或运行失败会释放 Runtime 和 Recorder。
 
-### 5.2 Discovery → Topology
-
-Agent 在探索中随时调用结构化记忆工具 (`record_state/feature/data/edge/
-hypothesis`)。Controller 做三件事:
-
-1. **Schema 校验** (pydantic): 类型、confidence ∈ [0,1]、edge 类型枚举。
-2. **Evidence 校验**: 引用的 frame_id/step 必须真实存在于本会话
-   (Evidence > Eloquence,机械强制)。
-3. **泄漏检查**: 文本字段命中实现细节正则 (`/api/`、`.tsx`、`localhost`、
-   `SELECT `、`React`…) 一律 422 拒绝。
-
-通过后写入 `discovery.jsonl` (append-only) 并增量更新 `topology.json`。
-支持 create / update / merge / delete (Agent 早期理解可能错,必须可修正)。
-`finalize` 时生成 `functional_topology.json` + `.md` + `coverage_report.json`
-+ `session_summary.json`。
-
-## 6. 坐标系统
-
-- 统一屏幕像素坐标, 原点左上, x→右, y→下。
-- 默认 viewport **1440×900**, `devicePixelRatio=1`, zoom=100%, 无 browser chrome
-  (headless / kiosk), 全部写入 `session.json`。
-- action 坐标与截图像素严格 1:1 (CDP 输入使用 CSS 像素, dpr=1 时等于设备像素)。
-
-## 7. observe() 响应 (白名单 schema)
-
-```json
-{
-  "frame_id": 127,
-  "timestamp": "2026-08-18T12:00:00.000Z",
-  "width": 1440,
-  "height": 900,
-  "screenshot_png_b64": "...",
-  "cursor": {"x": 812, "y": 431},
-  "budget": {"actions_remaining": 372, "seconds_remaining": 1412,
-             "observations_remaining": 900}
-}
-```
-
-不存在 `url` / `elements` / `dom` / `html` / `network` 等任何语义字段。
-action 回执同理: `{"accepted": true}` —— "OS 鼠标事件已发送",仅此而已。
-
-## 8. Session 工件布局
+## 6. 工件
 
 ```text
-runs/{session_id}/
-  session.json            # viewport/dpr/seed/app/budget/状态/计时
-  actions.jsonl           # {step, ts, action, accepted, error}
-  observations.jsonl      # {step, frame_id, ts, path, cursor, diff, settle_ms}
-  discovery.jsonl         # append-only discovery 操作日志
-  topology.json           # 实时增量图
+runs/<session_id>/
+  session.json
+  frames/frame_*.png
+  actions.jsonl
+  observations.jsonl
+  discovery.jsonl
+  topology.json
   hypotheses.json
-  frames/frame_*.png      # 含光标叠加
-  video/session.mp4       # 叠加光标/点击涟漪/步号/动作
-  functional_topology.json|.md   # finalize 产物
+  functional_topology.json
+  functional_topology.md
   coverage_report.json
   session_summary.json
-  metrics.json
-  replay_{n}/             # deterministic replay 产物
-  crash_report.json       # 异常时
+  crash_report.json        # 仅失败时
 ```
 
-## 9. 关键设计决策
+测试通过独立临时 runs 目录运行，不得污染正式 `runs/`。
 
-| 决策 | 理由 |
-|---|---|
-| CDP 仅用于截图+输入,且封装在 runtime 内部 | 规范允许截图管线用 CDP;输入经 `Input.dispatch*`,等价于人类 HID;能力面物理上不含 DOM |
-| 光标由 Controller 渲染进帧 | headless 截图不带光标;渲染后帧自包含,replay/视频/dashboard 统一 |
-| Server-rendered Sample App | 行为全部经由导航/表单可见,不依赖 JS 内部状态,便于黑盒验证 |
-| filesystem + JSONL 存储 | Phase I 无需数据库;工件可直接审计 |
-| 轮询式 Dashboard (700ms) | 零额外依赖,稳定;WS 可作为后续优化 |
-| 禁止 URL 作为 State | State 由 Agent 以视觉证据定义;同页多态 (空购物车/非空) 必须可分 |
-| Evidence 机械校验 | Graph 可审计的根基;无证据的声明写入即拒绝 |
+## 7. 扩展边界
 
-## 10. 未来扩展挂钩
+### Self-built-tool condition
 
-- `runtime/base.py` 的 `Runtime` 抽象 → Android/Electron/Desktop 驱动
-- `ReferenceBehaviorRunner` / `GeneratedBehaviorRunner` / `DifferentialEvaluator`
-  接口预留 (Phase II 差分评测)
-- touch/swipe/pinch 加入 action 枚举 (schema 已预留)
-- 多 seed (`seed_001...`) → robustness 评测
-- 输入通道可替换为 X11/xdotool (docker 模式已实现该路径)
+```text
+Agent framework (only generic workspace MCP)
+        │ write/read/argv exec
+        ▼
+tool_builder (bundled: network none; public URL: prompt-governed egress)
+        │ discoverable device volume; no documentation/client
+        ▼
+reference_raw (bundled: network none; public URL: filtered egress)
+```
+
+该条件不经过 Controller，也不导入托管 Runtime、SDK 或 discovery。Agent 初始只收到
+明确起始 URL 和任务限制；该 URL 不限制后续重定向或跨域导航。workspace 为空，不含
+协议、示例、starter code、辅助库或输出模板。可信侧只
+维护一个像素设备文件和一个 Linux input-event FIFO，机械执行受限键鼠，并执行时长、
+动作、帧预算和最小动作间隔。系统明确目标浏览器已经启动并给出浏览器 I/O 根位置，
+但设备格式、输入协议和客户端不写进 Skill、MCP 返回或 Agent 镜像；系统也不告诉
+Agent 应构建什么工具或采用什么探索过程。
+
+宿主侧探索工件默认写入项目内 `runs/self_built/self_*/workspace/`；这只是结果归档位置，
+不是隔离边界。Agent 容器仍仅挂载当前 workspace，严格实验还必须使用客户端工具
+allowlist 或客户端容器化。最终网页写入独立的 `website_output/<handoff_id>/`。
+
+强隔离由三个边界共同形成：Agent image 使用窄 build context；两个容器只共享设备
+volume。内置目标的两个容器都断网；公网 URL 目标让可信 reference 经逐连接验证 public
+IP 的 loopback proxy 出网，同时给 tool_builder 普通出网，其网络用途由 Skill 软约束，
+不以入口 URL 建立网络白名单。
+外部 Agent 客户端还必须使用工具 allowlist，仅保留通用 workspace MCP。具体见
+`self_explorer/README.md`。
+
+登录态按运行平台分离：宿主托管浏览器使用普通 `profile_golden`；Linux 自建容器使用
+由 `scripts/self_live_login.py` 人工建立的 `docker_profile_golden`。操作员登录阶段是
+独立 Compose 项目，不启动 Agent，只临时在 host loopback 提供像素/坐标界面。正式
+自建探索把 Docker golden Profile 只读挂载给 `reference_raw`，启动时复制到 tmpfs；
+`tool_builder`、workspace 和下游复现容器不挂载任何 Profile。
+
+### Reproduction handoff layer
+
+`reproduction/materials/` 提供公共只读的虚构内容、媒体、SQLite 和后端模板。
+复现 Agent 读取公共素材与该条件允许交接的输入，只在本次
+`website_output/<handoff_id>/` 中实现网页。托管模式提供 finalized topology，自建模式
+没有必需 topology。
+需要修改数据库或后端时先复制到输出目录，避免污染公共素材。
+
+交接容器无网络、只读根文件系统、drop all capabilities，并有 CPU、内存和
+进程数上限。它挂载公共素材、条件对应的白名单探索工件、本次可写输出，以及仅在
+托管模式下存在的定稿 topology；不挂载
+仓库、Reference App 源码、ground truth、live profile 或浏览器语义接口。两个
+探索条件只共享这个中性下游域，不互相导入探索实现。
+
+### Android vertical slice
+
+`benchmark/android/` 把本地 APK 注册为受保护目标，并以可信 Emulator Runtime 实现
+pixels-in/touch-out。通用 Session、Recorder 和 Topology 只增加平台元数据与触控动作，
+网页 Runtime 和两个网页条件保持原行为。
+
+Android 方法层位于两个互不 import 的目录：`agents/android_baseline/` 与
+`agents/android_our_method/`。二者共享 `app_reproduction/` 的中立 Compose 脚手架、
+虚构移动素材、断网构建器和 review emulator。输出固定为
+`app_output/<handoff_id>/{project,review,artifacts}`；生成 APK 可进一步交给
+`app_evaluation.AppEvaluator` 按人工清单进行四档像素验收。

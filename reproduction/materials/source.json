@@ -1,0 +1,82 @@
+{
+  "meta": {
+    "version": 1,
+    "locale": "zh-CN",
+    "license": "Project-generated synthetic fixtures for BlackBoxBench",
+    "notice": "所有人物、品牌、地址和事件均为虚构测试数据"
+  },
+  "site": {
+    "brand_name": "Lumen Yard",
+    "tagline": "把日常灵感整理成可分享的生活方式",
+    "support_email": "support@example.test",
+    "currency": "CNY",
+    "navigation": ["首页", "发现", "商店", "文章", "社区", "我的"],
+    "footer_links": ["关于我们", "帮助中心", "隐私说明", "服务条款"],
+    "faq": [
+      {"question": "这些内容是真实用户数据吗？", "answer": "不是，素材包中的人物与内容全部为虚构测试数据。"},
+      {"question": "订单多久可以发出？", "answer": "模拟商店通常在一个工作日内更新为已发货。"},
+      {"question": "可以修改公开资料吗？", "answer": "可以，微型后端提供当前网页输出目录内的资料修改能力。"}
+    ]
+  },
+  "users": [
+    {"id": 1, "username": "linxi", "password": "demo123", "display_name": "林溪", "email": "linxi@example.test", "role": "member", "bio": "城市散步与手冲咖啡爱好者", "location": "杭州", "avatar": "images/avatars/linxi.png"},
+    {"id": 2, "username": "zhouye", "password": "demo123", "display_name": "周野", "email": "zhouye@example.test", "role": "creator", "bio": "记录小空间、旧物与自然光", "location": "成都", "avatar": "images/avatars/zhouye.png"},
+    {"id": 3, "username": "momo", "password": "demo123", "display_name": "沫沫", "email": "momo@example.test", "role": "member", "bio": "周末去郊外，工作日养绿植", "location": "上海", "avatar": "images/avatars/momo.png"},
+    {"id": 4, "username": "ayan", "password": "demo123", "display_name": "阿言", "email": "ayan@example.test", "role": "editor", "bio": "独立编辑，关注技术与人的关系", "location": "北京", "avatar": "images/avatars/ayan.png"},
+    {"id": 5, "username": "qiaoqiao", "password": "demo123", "display_name": "乔乔", "email": "qiaoqiao@example.test", "role": "member", "bio": "烘焙新手，也喜欢收集包装纸", "location": "厦门", "avatar": "images/avatars/qiaoqiao.png"},
+    {"id": 6, "username": "beichen", "password": "demo123", "display_name": "北辰", "email": "beichen@example.test", "role": "creator", "bio": "声音设计与短片剪辑", "location": "深圳", "avatar": "images/avatars/beichen.png"}
+  ],
+  "products": [
+    {"id": 101, "sku": "LY-CAM-01", "name": "微光随身相机", "category": "数码", "price_cents": 42900, "stock": 12, "rating": 4.8, "image": "images/products/camera.png", "description": "轻量化随身相机，适合城市记录，配有防抖与低光模式。"},
+    {"id": 102, "sku": "LY-KEY-02", "name": "静音机械键盘", "category": "数码", "price_cents": 69900, "stock": 8, "rating": 4.6, "image": "images/products/keyboard.png", "description": "84 键紧凑布局，柔和背光与静音段落轴。"},
+    {"id": 103, "sku": "LY-LAMP-03", "name": "潮汐桌灯", "category": "家居", "price_cents": 26800, "stock": 21, "rating": 4.9, "image": "images/products/lamp.png", "description": "三档暖光桌灯，磨砂灯罩让光线均匀铺开。"},
+    {"id": 104, "sku": "LY-MUG-04", "name": "云边陶瓷杯", "category": "家居", "price_cents": 8900, "stock": 35, "rating": 4.7, "image": "images/products/mug.png", "description": "350ml 手感陶瓷杯，可用于微波炉和洗碗机。"},
+    {"id": 105, "sku": "LY-BAG-05", "name": "折线通勤包", "category": "出行", "price_cents": 32900, "stock": 16, "rating": 4.5, "image": "images/products/bag.png", "description": "防泼水面料与独立电脑夹层，适合短途通勤。"},
+    {"id": 106, "sku": "LY-BTL-06", "name": "山谷保温瓶", "category": "出行", "price_cents": 15900, "stock": 28, "rating": 4.8, "image": "images/products/bottle.png", "description": "600ml 双层不锈钢保温瓶，瓶盖可单手开启。"},
+    {"id": 107, "sku": "LY-NBK-07", "name": "留白点阵本", "category": "文具", "price_cents": 4900, "stock": 60, "rating": 4.6, "image": "images/products/notebook.png", "description": "A5 点阵内页，适合计划、速写和项目笔记。"},
+    {"id": 108, "sku": "LY-PEN-08", "name": "雾蓝中性笔组", "category": "文具", "price_cents": 3600, "stock": 44, "rating": 4.4, "image": "images/products/pens.png", "description": "六支装低饱和色中性笔，书写顺滑且快干。"}
+  ],
+  "articles": [
+    {"id": 201, "slug": "slow-morning", "title": "把清晨还给自己：一套二十分钟的慢启动", "excerpt": "不追求完美仪式，只用光线、热水和一张纸建立一天的节奏。", "author_id": 1, "published_at": "2026-05-08T08:30:00Z", "tags": ["生活", "习惯"], "cover": "images/covers/morning.png", "body": "很多人把早晨设计成一场效率竞赛，但真正可持续的开始往往很简单。先拉开窗帘，让自然光成为第一个明确的时间信号；再烧一壶水，在等待时不看消息，只整理桌面上最碍事的三件东西。最后拿一张纸，写下今天必须完成的一件事、可以推迟的一件事，以及想留给自己的十分钟。\n\n这套流程不需要昂贵器具，也不要求每天完全一致。关键是给身体一个缓慢而清晰的切换过程。偶尔起晚了，可以只保留其中一步。习惯的价值不在连续打卡，而在忙乱时仍知道怎样回到自己的节奏。"},
+    {"id": 202, "slug": "small-room-light", "title": "小房间的三种光：从照亮到营造层次", "excerpt": "顶灯之外，桌面、墙角与窗边可以组成更舒适的夜间空间。", "author_id": 2, "published_at": "2026-05-16T12:00:00Z", "tags": ["家居", "设计"], "cover": "images/covers/room.png", "body": "小空间最容易出现的问题不是灯太少，而是所有光都来自同一个方向。只开顶灯时，桌面很亮，墙角却显得空，人的脸和物品也缺少层次。可以先把顶灯调暗，再增加一盏照向工作面的桌灯，以及一束朝墙面反射的低位光。\n\n选择色温时不必执着于具体数字。需要专注的区域保持清爽，休息区域略暖即可。灯具之间最好能独立开关，这样阅读、看电影和整理房间时都能快速切换。布置完成后从门口看一眼：如果视线能自然落到两三个亮点，而不是被一片白光压住，空间通常就舒服了。"},
+    {"id": 203, "slug": "city-walk-notes", "title": "城市散步笔记：如何记录那些没有地标的路", "excerpt": "真正值得记住的，常常是一家店关门前的声音或转角处的树影。", "author_id": 4, "published_at": "2026-06-02T09:15:00Z", "tags": ["城市", "摄影"], "cover": "images/covers/walk.png", "body": "散步不一定需要路线。可以从一条熟悉的街开始，在每个路口选择阴影更多的方向。拍照时先不要寻找宏大的对象，而是留意重复出现的颜色、门牌上被覆盖的旧字，以及不同店铺把椅子摆在门口的方式。\n\n回家后只挑三张照片，每张写一句当时听到或闻到的东西。这样的记录不会成为完整攻略，却能保留城市在某个下午的质感。时间久了，你会发现同一条路会因为季节、营业时间和自己的心情产生完全不同的版本。"},
+    {"id": 204, "slug": "weekend-baking", "title": "周末烘焙失败指南：让不完美也能被吃掉", "excerpt": "从温度、时间和含水量判断问题，而不是急着责怪配方。", "author_id": 5, "published_at": "2026-06-11T15:40:00Z", "tags": ["食物", "教程"], "cover": "images/covers/baking.png", "body": "烘焙失败通常不是一个神秘事件。表面已经很深、内部仍湿，往往意味着温度偏高；整体干硬，可能是时间过长或面粉吸水性不同；没有膨胀，则先检查膨松剂和搅拌方式。记录烤箱温度、模具尺寸和最终状态，比简单写下成功或失败更有用。\n\n多数失败成品仍然可以被重新安排：偏干的蛋糕切块后搭配酸奶，碎裂的饼干变成甜点底，没成形的面包烘干做成面包丁。这样做并不是掩盖问题，而是让练习成本变低。愿意继续尝试，通常比一次做得完美更重要。"},
+    {"id": 205, "slug": "quiet-notifications", "title": "安静的通知：重新设计数字生活的入口", "excerpt": "不是关闭所有提醒，而是让真正需要行动的信息更容易被看见。", "author_id": 4, "published_at": "2026-06-20T07:50:00Z", "tags": ["技术", "效率"], "cover": "images/covers/notifications.png", "body": "通知的压力常常来自优先级混在一起。快递进度、群聊表情、付款提醒和家人消息使用相同的声音与角标，大脑只能不断检查。可以先保留需要立即行动的两类通知，把其余内容改为静默并集中在固定时间查看。\n\n第二步是减少入口。桌面只留下一个通信工具和一个任务入口，其他应用通过搜索打开。这样并不会让信息消失，却能减少无意识点击。调整一周后再复盘：错过了什么，哪些提醒其实从未产生价值。通知设置不是一次性整理，而是一套会随生活变化的规则。"}
+  ],
+  "posts": [
+    {"id": 301, "author_id": 1, "content": "今天绕湖多走了一站，风把水面吹成了很细的银色。", "media": "images/posts/lake.png", "created_at": "2026-07-01T09:20:00Z", "likes": 42},
+    {"id": 302, "author_id": 2, "content": "把书架移到窗边以后，下午四点的光刚好落在最下面一层。", "media": "images/posts/shelf.png", "created_at": "2026-07-01T11:45:00Z", "likes": 67},
+    {"id": 303, "author_id": 6, "content": "做了一段三秒的循环动画，尝试只用两个颜色讲完一个动作。", "media": "videos/story_loop.mp4", "created_at": "2026-07-02T14:10:00Z", "likes": 31},
+    {"id": 304, "author_id": 5, "content": "第一盘曲奇边缘有点深，但配牛奶意外合适。", "media": "images/posts/cookies.png", "created_at": "2026-07-03T08:05:00Z", "likes": 25},
+    {"id": 305, "author_id": 3, "content": "阳台的薄荷终于长出了新叶。", "media": "images/posts/mint.png", "created_at": "2026-07-03T16:35:00Z", "likes": 54},
+    {"id": 306, "author_id": 4, "content": "今晚读到一句很轻的表达，先抄在这里，明天再想。", "media": null, "created_at": "2026-07-04T21:12:00Z", "likes": 18}
+  ],
+  "comments": [
+    {"id": 401, "target_type": "post", "target_id": 301, "author_id": 3, "content": "这个描述让我也想出门走走。", "created_at": "2026-07-01T09:35:00Z"},
+    {"id": 402, "target_type": "post", "target_id": 302, "author_id": 1, "content": "光线太适合阅读了。", "created_at": "2026-07-01T12:03:00Z"},
+    {"id": 403, "target_type": "post", "target_id": 304, "author_id": 2, "content": "边缘焦一点反而更香。", "created_at": "2026-07-03T08:44:00Z"},
+    {"id": 404, "target_type": "article", "target_id": 201, "author_id": 5, "content": "我准备从只写一件必须完成的事开始。", "created_at": "2026-07-05T10:20:00Z"},
+    {"id": 405, "target_type": "article", "target_id": 205, "author_id": 6, "content": "把快递提醒也静音后轻松了很多。", "created_at": "2026-07-06T18:30:00Z"}
+  ],
+  "messages": [
+    {"id": 501, "sender_id": 2, "recipient_id": 1, "content": "周六的旧物市集要不要一起去？", "created_at": "2026-07-07T10:00:00Z", "read": true},
+    {"id": 502, "sender_id": 1, "recipient_id": 2, "content": "好呀，下午两点入口见。", "created_at": "2026-07-07T10:08:00Z", "read": true},
+    {"id": 503, "sender_id": 5, "recipient_id": 1, "content": "你上次推荐的点阵本很好用，谢谢！", "created_at": "2026-07-08T19:16:00Z", "read": false}
+  ],
+  "notifications": [
+    {"id": 601, "user_id": 1, "kind": "like", "text": "沫沫赞了你的动态", "created_at": "2026-07-09T08:12:00Z", "read": false},
+    {"id": 602, "user_id": 1, "kind": "order", "text": "订单 #9001 已发货", "created_at": "2026-07-09T09:30:00Z", "read": false},
+    {"id": 603, "user_id": 1, "kind": "system", "text": "本周精选文章已经更新", "created_at": "2026-07-09T12:00:00Z", "read": true}
+  ],
+  "orders": [
+    {"id": 9001, "user_id": 1, "status": "shipped", "total_cents": 35700, "created_at": "2026-06-28T13:20:00Z", "items": [{"product_id": 103, "quantity": 1, "price_cents": 26800}, {"product_id": 104, "quantity": 1, "price_cents": 8900}]},
+    {"id": 9002, "user_id": 3, "status": "paid", "total_cents": 15900, "created_at": "2026-07-04T17:05:00Z", "items": [{"product_id": 106, "quantity": 1, "price_cents": 15900}]}
+  ],
+  "media": [
+    {"id": "notification", "type": "audio", "path": "audio/notification.wav", "title": "轻提示音", "duration_s": 0.7},
+    {"id": "success", "type": "audio", "path": "audio/success.wav", "title": "成功反馈音", "duration_s": 1.1},
+    {"id": "ambient", "type": "audio", "path": "audio/ambient.wav", "title": "柔和环境循环", "duration_s": 6.0},
+    {"id": "product_demo", "type": "video", "path": "videos/product_demo.mp4", "title": "商品展示短片", "duration_s": 4.0},
+    {"id": "story_loop", "type": "video", "path": "videos/story_loop.mp4", "title": "社交动态循环短片", "duration_s": 3.0}
+  ]
+}

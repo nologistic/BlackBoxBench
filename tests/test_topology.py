@@ -65,6 +65,14 @@ class TestCreateAndValidate:
                 evidence=[m.Evidence(step=999, before_frame=f0,
                                      action="x", after_frame=f1)]))
 
+    def test_frames_must_belong_to_evidence_step(self, store):
+        st, f0, f1 = store
+        with pytest.raises(EvidenceError, match="does not belong"):
+            st.add_feature(m.FeatureCreate(
+                name="Mismatched proof", confidence=0.5,
+                evidence=[m.Evidence(step=1, before_frame=f1,
+                                     action="click", after_frame=f0)]))
+
     def test_edge_endpoints_must_exist(self, store):
         st, f0, f1 = store
         a = st.add_state(m.StateCreate(name="A"))

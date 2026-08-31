@@ -3,10 +3,21 @@ controller clients. Tests spawn real browser+app subprocesses; keep one
 session per module to bound runtime."""
 from __future__ import annotations
 
+import os
+import shutil
 import sys
+import tempfile
 from pathlib import Path
 
 import pytest
+
+# Set all mutable benchmark roots before importing benchmark.config.  Pytest's
+# normal temp fixture starts too late because module imports initialize the
+# global Controller manager.
+_TEST_ROOT = Path(tempfile.mkdtemp(prefix="blackboxbench-tests-"))
+os.environ.setdefault("BBB_RUNS_DIR", str(_TEST_ROOT / "runs"))
+os.environ.setdefault("BBB_APP_OUTPUT_DIR", str(_TEST_ROOT / "app_output"))
+os.environ.setdefault("BBB_ANDROID_TARGETS_DIR", str(_TEST_ROOT / "android_targets"))
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -19,6 +30,21 @@ apps._REGISTRY.setdefault("miniapp", AppSpec(
 
 SMALL_BUDGET = {"max_actions": 60, "max_duration_s": 600,
                 "max_observations": 200}
+
+
+@pytest.fixture(scope="session", autouse=True)
+def isolated_test_runs(tmp_path_factory):
+    """Never let tests create benchmark sessions in the real runs/ folder."""
+    from benchmark.server import manager
+
+    original_runs_dir = manager.runs_dir
+    manager.runs_dir = tmp_path_factory.mktemp("blackboxbench-runs")
+    yield
+    manager.shutdown_all()
+    manager._sessions.clear()
+    manager._runtimes.clear()
+    manager.runs_dir = original_runs_dir
+    shutil.rmtree(_TEST_ROOT, ignore_errors=True)
 
 
 @pytest.fixture(scope="module")

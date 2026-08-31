@@ -74,7 +74,7 @@ class TraceRecorder:
             self._disc.flush()
 
     def log_event(self, kind: str, payload: dict | None = None) -> None:
-        """Lifecycle events (reset, replay, close...) into actions.jsonl."""
+        """Lifecycle events (reset, close...) into actions.jsonl."""
         with self._lock:
             self._actions.write(json.dumps(
                 {"event": kind, "ts": utc_now(), **(payload or {})},
@@ -94,10 +94,6 @@ class TraceRecorder:
         if not p.exists():
             return []
         return [json.loads(l) for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
-
-    def step_exists(self, step: int) -> bool:
-        return any(r.get("step") == step and r.get("accepted")
-                   for r in self.read_actions() if "step" in r)
 
     def close(self) -> None:
         for fh in (self._actions, self._obs, self._disc):

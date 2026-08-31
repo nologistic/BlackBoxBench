@@ -1,0 +1,10 @@
+{
+  "app_id": "android_commerce_demo",
+  "features": [
+    {"id": "login", "name": "登录校验", "steps": ["输入测试账号并登录"], "expected": "正确账号进入商品首页，错误账号显示错误"},
+    {"id": "catalog", "name": "目录搜索筛选", "steps": ["搜索商品", "切换分类"], "expected": "列表随查询与分类变化"},
+    {"id": "favorite", "name": "收藏持久化", "steps": ["收藏商品", "重启 App"], "expected": "收藏状态在重启后保留"},
+    {"id": "cart", "name": "购物车与结算", "steps": ["加入购物车", "模拟结算"], "expected": "购物车清空且新增订单"},
+    {"id": "media", "name": "离线媒体", "steps": ["打开媒体展示"], "expected": "音频按钮和离线视频可用"}
+  ]
+}

@@ -1,7 +1,7 @@
 """Visual difference utilities — benchmark-internal telemetry only.
 
 These never reach the agent. Used for: settle detection, no-op detection,
-loop/revisit telemetry, deterministic replay comparison.
+visual settle detection and optional internal comparisons.
 """
 from __future__ import annotations
 

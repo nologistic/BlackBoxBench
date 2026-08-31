@@ -1,0 +1,79 @@
+# Self-built-tool exploration mode.
+#
+# There is intentionally no Controller, managed MCP/SDK, browser network, or
+# repository mount here. The two containers share only hardware-like pixel and
+# Linux input-event files in an otherwise empty named volume:
+#
+#   trusted reference (app + browser) <-> device volume <-> blank workshop
+#
+# The operator-side generic workspace MCP talks to the workshop through
+# `docker compose exec`; it never places benchmark source in the container.
+
+services:
+  reference_raw:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.reference_raw
+    image: blackboxbench/reference-raw:latest
+    environment:
+      BBB_APP_ID: ${BBB_APP_ID:-ecommerce_demo}
+      BBB_TARGET_URL: ${BBB_TARGET_URL:-http://reference-app.internal:8200/}
+      BBB_TARGET_MODE: ${BBB_TARGET_MODE:-bundled}
+      BBB_GATEWAY_SECRET: ${BBB_GATEWAY_SECRET:-bbb-raw-dev-secret}
+    network_mode: none
+    volumes:
+      - raw_device:/device
+    tmpfs:
+      - /data:size=64m,uid=1000,gid=1000,mode=0700
+      - /tmp:size=64m,uid=0,gid=0,mode=1777
+    shm_size: 512m
+    read_only: true
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETGID
+      - SETUID
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 256
+    mem_limit: 1g
+    cpus: 2.0
+    init: true
+    restart: "no"
+
+  tool_builder:
+    # Security boundary: this narrow directory—not the repository root—is
+    # the complete build context visible while producing the Agent image.
+    build:
+      context: ./self_explorer/agent_image
+      dockerfile: Dockerfile
+    image: blackboxbench/self-tool-builder:latest
+    environment:
+      # The only advertised browser contract for the self-built condition.
+      # Contents remain raw device objects; no client or exploration tool is
+      # supplied, and the trusted browser stays in the other container.
+      BROWSER_IO_ROOT: /device
+    network_mode: none
+    volumes:
+      - raw_device:/device
+      - type: bind
+        source: ${BBB_SELF_WORKSPACE:?set BBB_SELF_WORKSPACE to one run workspace}
+        target: /workspace
+    tmpfs:
+      - /tmp:size=128m,uid=1000,gid=1000,mode=0700
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 128
+    mem_limit: 1g
+    cpus: 2.0
+    init: true
+    depends_on:
+      reference_raw:
+        condition: service_healthy
+    restart: "no"
+
+volumes:
+  raw_device:

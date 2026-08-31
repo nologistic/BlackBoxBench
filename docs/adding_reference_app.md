@@ -70,9 +70,8 @@ sample_apps/<app_id>/
 
 ## 6. 确定性要求
 
-- 同一 seed 下,首屏与任一固定操作序列后的画面必须像素级稳定
-  (deterministic replay 用 phash 汉明距 ≤ 6、末帧 MSE ≤ 0.001 判定,
-  见 `benchmark/config.py`)。
+- 同一 seed 下,首屏与任一固定操作序列后的画面必须稳定；接入时用相同轨迹
+  重复运行并人工核对关键帧。
 - 禁止: 渲染 wall-clock 时间/日期、随机推荐、A/B 抖动、外部字体/图片/CDN。
   动画应短暂可 settle(settle 检测阈值: 60ms 轮询, 2000ms 超时)。
 - 若确实需要时间展示(如"订单创建时间"),固定为 seed 中的逻辑时间。
@@ -121,7 +120,7 @@ sample_apps/<app_id>/
       无 HTTP 路由可访问它 (T7)
 - [ ] `docker compose up --build` 后 reference 容器 healthy,
       `curl http://localhost:8300/health`(容器内)返回 ok
-- [ ] 跑一次完整 demo session + deterministic replay,末帧 match
+- [ ] 跑一次完整 MCP/SDK 探索 Session，并核对 reset 后相同轨迹
 
 ## 10. Live Target(真实网站,例外通道)
 
@@ -135,37 +134,36 @@ sample_apps/<app_id>/
 
 - 会话 API: `POST /api/sessions {"live_url": "https://example.com/"}`。
 - MCP/skill: `start_session(url=...)`;CLI: `run.py --cli kimi --url <URL>`。
-- 行为: 自动派生 app_id(`live_<host_slug>`)、resolver 白名单(站点 host +
-  bare 域名)与按站点持久化的 profile(`runs/live_targets/live_<host>/`)。
+- 行为: 自动派生 app_id(`live_<host_slug>`)与按站点持久化的
+  profile(`runs/live_targets/live_<host>/`)；入口 URL 只指定起点，浏览器允许站点
+  正常重定向、登录和跨域资源加载。
 - 需要登录: `scripts/live_login.py --url <URL> --capture`(同一站点只需一次)。
-- **已知限制**: 站点静态资源若在独立 CDN 域(非本站域名族,如
-  douyinpic.com),派生白名单会拦截它们→页面渲染残缺。出现这种情况或需要
-  precheck/定制 brief 时,按下文注册为正式 live target。
+- 只有需要固定 app_id、定制只读 brief 或像素 precheck 时，才按下文注册为正式
+  live target；不需要为 CDN、认证域或跳转域维护名单。
 
 ### 10.1 注册为正式 live target(以 douyin_web 为范例)
 
 1. `benchmark/orchestrator/apps.py` 注册:
    `AppSpec(app_id=..., kind="live", live_url="https://.../", precheck="<key>",
-   allowed_hosts=(...), seed="live", brief=...)`。brief 必须告知 agent 这是
-   真实线上应用并划定只读边界(禁止发帖/评论/点赞等修改账号公开状态的操作)。
-2. `allowed_hosts` 核对目标站点所需域名(主站 + 图床 + 视频 CDN),其余一律
-   不解析;留空则自动派生(站点 host + bare 域名,见 §10.0 的限制)。
-3. `benchmark/orchestrator/prechecks.py` 注册一个像素级 precheck(只用
+   seed="live", brief=...)`。brief 必须告知 agent 这是
+   真实线上应用并划定只读边界(禁止发帖/评论/点赞等修改账号公开状态的操作)，
+   同时软限制不得通过搜索、下载或直接请求来获取目标原始实现。浏览器不使用
+   live_url 构造域名/跳转白名单。
+2. `benchmark/orchestrator/prechecks.py` 注册一个像素级 precheck(只用
    `runtime.screenshot()`,禁止语义通道),登录态/人工前置条件不满足时抛
    `PreflightError`。
-4. 人工捕获登录态: `vendor/python/python.exe scripts/live_login.py --capture`
+3. 人工捕获登录态: `vendor/python/python.exe scripts/live_login.py --capture`
    ( headed 窗口手动登录 → Enter → 自动保存头像参考图与 golden profile 到
    `runs/live_targets/<app_id>/`)。之后 `--check` 可随时验证。
-5. 建会话: `POST /api/sessions {"app_id": "<app_id>"}`;precheck 失败会先
+4. 建会话: `POST /api/sessions {"app_id": "<app_id>"}`;precheck 失败会先
    自愈(还原 golden profile)再拒绝启动。同一 live target 同时只允许一个
    running 会话(profile 是单例)。
-6. CLI 评测: `agents/cli_explorer/run.py --cli kimi --app-id <app_id>`,或
-   零命令入口新开对话 `/skill:blackbox-explorer <app_id>`(skill 内调
-   `start_session` 选定目标;`install --app` 只决定缺省目标)。
+5. MCP 评测: `/skill:blackbox-explorer <app_id>`，或让 Agent 调用
+   `start_session {"app_id": "<app_id>"}`；`install --app` 只决定缺省目标。
 
 live target 的已知限制(设计接受,非 bug):
 
-- 无 S0 reset、无 determinism replay;`reset` 语义 = 冷启动浏览器回入口页。
+- 无 S0 reset、无 determinism 保证；`reset` 语义 = 冷启动浏览器回入口页。
 - 登录 cookie 会过期/被风控,表现为建会话 503 并提示重新 `--capture`;
   扫码那一步永远需要人工。
-- 探索 artifacts(截图/视频)包含真实账号信息,按敏感数据处理。
+- 探索 artifacts(截图和轨迹)包含真实账号信息,按敏感数据处理。

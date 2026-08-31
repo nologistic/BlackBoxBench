@@ -52,6 +52,9 @@ class Observation:
     brief: str = ""     # operator-authored task info (e.g. a demo account);
                         # never app internals
     tabs: dict | None = None  # {"count": N, "active": i}; window-manager level
+    platform: str = "web"
+    orientation: str | None = None
+    density_dpi: int | None = None
 
     def save(self, path: str) -> None:
         with open(path, "wb") as f:
@@ -83,9 +86,9 @@ class Environment:
 
     # ------------------------------------------------------------ core I/O
 
-    def _post(self, path: str, payload: dict) -> dict:
-        r = self._client.post(f"{self._base}/agent/{self._sid}{path}",
-                              json=payload)
+    @staticmethod
+    def _response_json(r) -> dict:
+        """Apply the SDK's error mapping consistently to every HTTP verb."""
         if r.status_code == 403:
             raise BudgetExhaustedError(r.json().get("detail", "budget_exhausted"))
         if r.status_code == 410:
@@ -98,6 +101,11 @@ class Environment:
         r.raise_for_status()
         return r.json()
 
+    def _post(self, path: str, payload: dict) -> dict:
+        r = self._client.post(f"{self._base}/agent/{self._sid}{path}",
+                              json=payload)
+        return self._response_json(r)
+
     def observe(self) -> Observation:
         d = self._post("/observe", {})
         return Observation(
@@ -105,7 +113,10 @@ class Environment:
             width=d["width"], height=d["height"],
             screenshot_png=base64.b64decode(d["screenshot_png_b64"]),
             cursor=d["cursor"], budget=d["budget"],
-            brief=d.get("brief", ""), tabs=d.get("tabs"))
+            brief=d.get("brief", ""), tabs=d.get("tabs"),
+            platform=d.get("platform", "web"),
+            orientation=d.get("orientation"),
+            density_dpi=d.get("density_dpi"))
 
     # ------------------------------------------------------------ actions
 
@@ -159,6 +170,29 @@ class Environment:
     def close_tab(self) -> ActionResult:
         """Close the current tab and fall back to the previous one."""
         return self._action(type="close_tab")
+
+    # Android pixels + touch.  These methods expose no device or UI semantics.
+    def tap(self, x: int, y: int) -> ActionResult:
+        return self._action(type="tap", x=x, y=y)
+
+    def long_press(self, x: int, y: int,
+                   duration_ms: int = 700) -> ActionResult:
+        return self._action(type="long_press", x=x, y=y,
+                            duration_ms=duration_ms)
+
+    def swipe(self, x1: int, y1: int, x2: int, y2: int,
+              duration_ms: int = 400) -> ActionResult:
+        return self._action(type="swipe", x1=x1, y1=y1, x2=x2, y2=y2,
+                            duration_ms=duration_ms)
+
+    def press_back(self) -> ActionResult:
+        return self._action(type="press_back")
+
+    def press_enter(self) -> ActionResult:
+        return self._action(type="press_enter")
+
+    def restart_app(self) -> ActionResult:
+        return self._action(type="restart_app")
 
     # ------------------------------------------------------------ discovery memory
 
@@ -215,10 +249,11 @@ class Environment:
     def revise(self, kind: str, node_id: str, op: str,
                fields: Optional[dict] = None, into: Optional[str] = None,
                reason: Optional[str] = None) -> dict:
-        return self._client.patch(
+        response = self._client.patch(
             f"{self._base}/agent/{self._sid}/discovery/{kind}/{node_id}",
             json={"op": op, "fields": fields, "into": into,
-                  "reason": reason}).json()
+                  "reason": reason})
+        return self._response_json(response)
 
     def finalize(self) -> dict:
         return self._post("/finalize", {})

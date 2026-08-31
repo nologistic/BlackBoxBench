@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "images": [
+    {
+      "name": "docker/dockerfile:1",
+      "digest": "sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32",
+      "approx_download_size": "43 MB",
+      "purpose": "Pinned Dockerfile frontend"
+    },
+    {
+      "name": "python:3.12-slim",
+      "digest": "sha256:09f7da3bc104798d0afb40bc08d23ab2da20a76130cec1f2ef170848f5d85217",
+      "approx_download_size": "179 MB",
+      "purpose": "Controller and managed Agent images"
+    },
+    {
+      "name": "debian:bookworm-slim",
+      "digest": "sha256:88200866dfff7ea7f5cbcb6ec7c8a701889efe6fe859fe64d6990e4b07ea4171",
+      "approx_download_size": "116 MB",
+      "purpose": "Reference, self-built and web reproduction images"
+    },
+    {
+      "name": "node:22-bookworm-slim",
+      "digest": "sha256:83f487e0a63425e5b4d146fb5e5be574bcbe1b7b843d3ebafdd95eaf7767a7e5",
+      "approx_download_size": "329 MB",
+      "purpose": "Optional strict Agent client image examples"
+    },
+    {
+      "name": "gradle:8.10.2-jdk17",
+      "digest": "sha256:c2900027f3f0681c2cbfb09d527813851ad67aeafbb409997297efa2df20e748",
+      "approx_download_size": "1.15 GB",
+      "purpose": "Offline Android reproduction workbench base"
+    }
+  ]
+}

@@ -1,8 +1,14 @@
 # Docker build context exclusions
 vendor/
 runs/
+website_output/
+app_output/
+.codebuddy/
+.git/
 *.pyc
 __pycache__/
 .pytest_cache/
 docs/images/
 2605.14415v1*.txt
+# Ground truth must never enter any image (AGENTS.md: T7).
+sample_apps/*/ground_truth.json

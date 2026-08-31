@@ -54,6 +54,9 @@ def mcp_proc(live_server):
     env = dict(os.environ)
     env["BBB_SESSION"] = sid
     env["BBB_CONTROLLER"] = f"http://127.0.0.1:{live_server}"
+    # This fixture tests the exploration MCP protocol in a subprocess.  The
+    # reproduction handoff itself is covered with a mocked sandbox below.
+    env["BBB_REPRODUCTION_AUTOSTART"] = "0"
     proc = subprocess.Popen(
         [str(PY), "-m", "agents.cli_explorer.mcp_server"],
         stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -80,6 +83,83 @@ def rpc(proc, method, params=None, mid=1):
             return msg
 
 
+def test_managed_finalize_immediately_enters_reproduction(monkeypatch, tmp_path):
+    from agents.cli_explorer import mcp_server as managed
+
+    sid = "sess_20260825_120000_abcd1234"
+    topology = tmp_path / "runs" / sid / "functional_topology.json"
+    topology.parent.mkdir(parents=True)
+    topology.write_text('{"nodes":[],"edges":[]}', encoding="utf-8")
+    frames = topology.parent / "frames"
+    frames.mkdir()
+    frame = frames / "frame_000007.png"
+    frame.write_bytes(b"png")
+    topology_md = topology.parent / "functional_topology.md"
+    topology_md.write_text("# topology", encoding="utf-8")
+    captured = {}
+
+    class FakeReproduction:
+        @classmethod
+        def start(cls, **kwargs):
+            captured.update(kwargs)
+            return cls()
+
+        def started_payload(self):
+            return {"stage": "reproduction", "ready": True,
+                    "handoff_id": "handoff", "output": "website_output/handoff"}
+
+    monkeypatch.setattr(managed, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(managed.benchmark_config, "RUNS_DIR",
+                        tmp_path / "runs")
+    monkeypatch.setattr(managed, "_session", sid)
+    monkeypatch.setattr(managed, "_reproduction", None)
+    monkeypatch.setattr(managed, "_review", None)
+    monkeypatch.setattr(managed, "ReproductionWorkspace", FakeReproduction)
+    monkeypatch.delenv("BBB_REPRODUCTION_AUTOSTART", raising=False)
+
+    result = managed._t_finalize({})
+    payload = json.loads(result["content"][0]["text"])
+    assert payload["exploration_finished"] is True
+    assert payload["stage"] == "reproduction"
+    assert captured["source_mode"] == "managed-tools"
+    assert captured["source_id"] == sid
+    assert captured["topology_path"] == topology
+    assert captured["exploration_files"] == {
+        "screenshots/frame_000007.png": frame,
+        "functional_topology.md": topology_md,
+    }
+
+
+def test_finish_reproduction_is_gated_by_accepted_review(monkeypatch):
+    from agents.cli_explorer import mcp_server as managed
+
+    class FakeReproduction:
+        def finish(self, *, review_summary=None):
+            return {"finished": True, "review_summary": review_summary}
+
+    class FakeReview:
+        def ensure_accepted(self):
+            pass
+
+        def summary(self):
+            return {"accepted": True, "rounds": [{"round": 1}]}
+
+        def close(self):
+            pass
+
+    monkeypatch.setattr(managed, "_reproduction", FakeReproduction())
+    monkeypatch.setattr(managed, "_review", None)
+    with pytest.raises(ValueError, match="start_reproduction_review"):
+        managed._t_finish_reproduction({})
+
+    monkeypatch.setattr(managed, "_review", FakeReview())
+    result = managed._t_finish_reproduction({})
+    payload = json.loads(result["content"][0]["text"])
+    assert payload["finished"] is True
+    assert payload["review_summary"]["accepted"] is True
+    assert managed._reproduction is None and managed._review is None
+
+
 class TestMCPServer:
     def test_handshake_and_tools(self, mcp_proc):
         proc, _ = mcp_proc
@@ -91,7 +171,10 @@ class TestMCPServer:
         names = {t["name"] for t in tools}
         for expected in ("observe", "click", "type_text", "key_press", "scroll",
                          "record_state", "record_feature", "record_edge",
-                         "record_hypothesis", "revise", "finalize"):
+                         "record_hypothesis", "revise", "finalize",
+                         "start_reproduction_review", "review_observe",
+                         "review_click", "complete_reproduction_review",
+                         "finish_reproduction"):
             assert expected in names
         for t in tools:
             assert "inputSchema" in t

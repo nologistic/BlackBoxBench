@@ -21,8 +21,9 @@
           "type": "string",
           "enum": ["click", "double_click", "move_pointer", "mouse_down", "mouse_up",
                    "drag", "type_text", "key_press", "key_down", "key_up",
-                   "scroll", "wait", "switch_tab", "close_tab",
-                   "touch", "swipe", "pinch"]
+                   "scroll", "wait", "switch_tab", "close_tab", "tap",
+                   "long_press", "swipe", "press_back", "press_enter",
+                   "restart_app"]
         },
         "x": {"type": ["integer", "null"]},
         "y": {"type": ["integer", "null"]},
