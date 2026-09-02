@@ -18,8 +18,17 @@ from . import models as m
 
 
 def _slug(name: str) -> str:
-    s = re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
-    return s or "unnamed"
+    """Readable id fragment, including for non-Latin names.
+
+    The pattern used to be ASCII-only (`[^a-z0-9]+`), which erased every CJK
+    character and collapsed the whole name to "unnamed". With the guest UI pinned
+    to zh-CN, an Agent naming states in the language it sees on screen ended up
+    with `state_unnamed_1..17` — ids it then has to reference by number when
+    recording transition edges. That is a usability defect the platform imposed
+    on the Agent, so names keep their own script here.
+    """
+    s = re.sub(r"[^\w]+", "_", name.strip().lower(), flags=re.UNICODE)
+    return s.strip("_") or "unnamed"
 
 
 class EvidenceError(ValueError):

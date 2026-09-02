@@ -21,10 +21,8 @@ from __future__ import annotations
 
 import base64
 import json
-import shutil
 import socket
 import subprocess
-import tempfile
 import threading
 import time
 import urllib.request
@@ -33,6 +31,7 @@ from pathlib import Path
 import websocket  # websocket-client
 
 from .. import config
+from ..scratch import new_scratch_dir, reclaim_scratch, remove_scratch_dir
 from .base import Runtime, RuntimeInfo
 
 
@@ -220,6 +219,9 @@ class LocalChromiumRuntime(Runtime):
 
     def start(self) -> None:
         self._work_dir.mkdir(parents=True, exist_ok=True)
+        # A crashed or force-killed session cannot delete its own profile;
+        # reclaim such leftovers before adding another one.
+        reclaim_scratch()
         self._start_app()
         self._start_gateway()
         self._start_browser()
@@ -338,8 +340,12 @@ class LocalChromiumRuntime(Runtime):
 
     def _start_browser(self) -> None:
         exe = find_browser()
-        self._profile_dir = Path(tempfile.mkdtemp(prefix="bbb_profile_",
-                                                  dir=str(self._work_dir)))
+        # A Chromium user-data dir is a few hundred cache files that nobody
+        # reads after the session. Keeping it out of the repository stops every
+        # teardown from bulk-deleting workspace files and keeps `runs/` an
+        # evidence tree. See benchmark/scratch.py.
+        self._profile_dir = new_scratch_dir(
+            "chromium", self._work_dir.parent.name)
         log = open(self._work_dir / "browser.log", "ab")
         args = [
             str(exe),
@@ -389,10 +395,26 @@ class LocalChromiumRuntime(Runtime):
             "width": self._w, "height": self._h,
             "deviceScaleFactor": config.DEVICE_SCALE_FACTOR, "mobile": False})
 
-    def _page_targets(self) -> list[dict]:
-        with _NO_PROXY_OPENER.open(
-                f"http://127.0.0.1:{self._cdp_port}/json/list", timeout=2) as r:
-            return [t for t in json.loads(r.read()) if t.get("type") == "page"]
+    def _page_targets(self, attempts: int = 3) -> list[dict]:
+        # DevTools' /json/list is loopback HTTP, but it still drops the odd
+        # request while the browser is busy swapping renderers. Callers on the
+        # action path (switch_tab, close_tab) would turn that into a session
+        # failure, so absorb a single blip here. Callers that already poll in a
+        # loop pass attempts=1 and keep their own cadence.
+        last: Exception | None = None
+        for attempt in range(max(1, attempts)):
+            try:
+                with _NO_PROXY_OPENER.open(
+                        f"http://127.0.0.1:{self._cdp_port}/json/list",
+                        timeout=2) as r:
+                    return [t for t in json.loads(r.read())
+                            if t.get("type") == "page"]
+            except Exception as e:
+                last = e
+                if attempt < max(1, attempts) - 1:
+                    time.sleep(0.2)
+        assert last is not None
+        raise last
 
     @staticmethod
     def _target_to_follow(targets: list[dict], seen_ids: set,
@@ -501,7 +523,7 @@ class LocalChromiumRuntime(Runtime):
                 raise RuntimeError(
                     f"browser exited early, see {self._work_dir/'browser.log'}")
             try:
-                targets = self._page_targets()
+                targets = self._page_targets(attempts=1)
                 t = self._target_to_follow(targets, self._seen_target_ids,
                                            self._current_target_id) \
                     or (targets[0] if targets else None)
@@ -527,7 +549,11 @@ class LocalChromiumRuntime(Runtime):
                 self._browser.wait(timeout=5)
             self._browser = None
         if self._profile_dir:
-            shutil.rmtree(self._profile_dir, ignore_errors=True)
+            # Windows can hold a renderer handle open for a moment after exit,
+            # so this retries rather than giving up silently. The directory is
+            # outside the repository and owner-tagged, so even a hard failure is
+            # reclaimed by the next runtime start.
+            remove_scratch_dir(self._profile_dir)
             self._profile_dir = None
 
     # ------------------------------------------------------------ pixels
@@ -540,7 +566,17 @@ class LocalChromiumRuntime(Runtime):
     def _cdp_call(self, method: str, params: dict | None = None,
                   retries: int = 8, delay: float = 0.2):
         """CDP call with resilience to transient navigation detach and socket
-        resets (WinError 10054 et al. surface as bare OSError from the ws lib)."""
+        resets (WinError 10054 et al. surface as bare OSError from the ws lib).
+
+        The wait between attempts backs off. A fixed 0.2 s gave a total window
+        of well under two seconds, which is enough for a renderer swap but not
+        for a real website's network hiccup or a browser that is briefly busy —
+        two live explorations were lost tens of steps in to `WinError 10054` and
+        `Connection timed out` that a slightly more patient retry would have
+        ridden out. An environment blip must not be recorded as an observation
+        about the Agent. A reconnect that itself fails also costs an attempt
+        rather than being retried instantly against a dead socket.
+        """
         last: Exception | None = None
         for attempt in range(retries):
             try:
@@ -557,7 +593,8 @@ class LocalChromiumRuntime(Runtime):
                 )
                 if not transient or attempt == retries - 1:
                     raise
-                time.sleep(delay)
+                # 0.2, 0.4, 0.8, 1.6, 3.2, 3.2, 3.2 → ~12.6 s in total
+                time.sleep(min(delay * (2 ** attempt), 3.2))
                 if "Not attached" not in msg:
                     # connection-level failure: reconnect before retrying
                     try:
@@ -570,6 +607,19 @@ class LocalChromiumRuntime(Runtime):
         self._follow_latest()
         result = self._cdp_call("Page.captureScreenshot", {"format": "png"})
         return base64.b64decode(result["data"])
+
+    def reload(self) -> None:
+        """Page.reload — stays inside the whitelisted Page domain.
+
+        The web evaluation condition uses this as the browser counterpart of
+        an app restart (persistence probes). Exploration conditions do not
+        expose it to their agents; a raw F5 key event would not reach the
+        browser's command controller from page-level CDP input.
+        """
+        self._follow_latest()
+        self._cdp_call("Page.reload", {})
+        self._cdp.wait_event("Page.loadEventFired", timeout=15)
+        time.sleep(0.2)
 
     def info(self) -> RuntimeInfo:
         return RuntimeInfo(self._w, self._h, config.DEVICE_SCALE_FACTOR)

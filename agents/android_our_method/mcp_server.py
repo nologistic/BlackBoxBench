@@ -54,7 +54,12 @@ _bound_target = ""     # normalized target key set by start_session
 _reproduction: AppReproductionWorkspace | None = None
 _review: AndroidReproductionReview | None = None
 
-_http = httpx.Client(timeout=120.0, trust_env=False)
+# Android session creation boots a fresh AVD clone, pins the guest
+# locale (which restarts the framework) and installs the APK, so the
+# first call legitimately takes minutes. A web-sized timeout would
+# abandon a session that the controller is still building.
+_http = httpx.Client(timeout=httpx.Timeout(600.0, connect=10.0),
+                     trust_env=False)
 
 
 def _log(msg: str) -> None:
@@ -160,6 +165,12 @@ def _post(path: str, payload: dict) -> tuple[dict | None, str | None]:
             return None, (f"HTTP {r.status_code}: {msg} —— 会话已失效且绑定已释放。"
                           f"恢复方法: 调用 start_session(app_id 同前)"
                           f"重建会话后继续探索。")
+        if r.status_code == 409:
+            # A recoverable environment blip. The device is still healthy, so
+            # this is not a fault to report or work around — the step simply did
+            # not land. Say so plainly, without inviting a strategy change.
+            return None, (f"{msg}。这一步没有生效，设备仍然正常；"
+                          f"直接重试同一操作即可继续。")
         return None, f"HTTP {r.status_code}: {msg}"
     return r.json(), None
 
@@ -574,6 +585,17 @@ def _t_finalize(_args: dict) -> dict:
         return _ok([_text({"exploration_finished": True,
                            **_reproduction.started_payload(),
                            "review": _review_payload()})])
+    if not _session:
+        # finalize means "finish the exploration I am bound to". Letting it
+        # fall through to _post would lazily create a fresh session on the
+        # default app — the path by which a dead Google Clock session once
+        # handed off a blank commerce-demo topology: the agent believes it
+        # is completing its own work while the MCP silently binds a
+        # zero-exploration session, possibly on a different target. Refuse
+        # and point at the recovery path instead.
+        return _err("没有可定稿的探索会话：原会话已失效或尚未开始，finalize 不会"
+                    "隐式新建会话。请先调用 start_session(app_id 同前) 重建会话、"
+                    "完成探索后再 finalize。")
     source_id = _session
     existing = (benchmark_config.RUNS_DIR / source_id /
                 "functional_topology.json") if source_id else None

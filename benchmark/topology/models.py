@@ -364,3 +364,9 @@ class ObservationRecord(BaseModel):
     cursor: dict
     diff_score: float = 0.0     # internal telemetry: diff vs previous frame
     settle_ms: float = 0.0      # internal telemetry: time until visually stable
+    # Why the settle loop stopped: "still" (screen went quiet), "animation"
+    # (a small area keeps repainting — a clock, stopwatch or spinner), "timeout"
+    # (gave up) or "none" (no settle requested). Internal telemetry: it never
+    # reaches the Agent, and it exists so a later diagnosis can tell a genuinely
+    # slow transition apart from a target that simply never goes still.
+    settle_reason: str = "none"

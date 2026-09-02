@@ -6,13 +6,16 @@ Route families (see docs/api_contract.md):
 """
 from __future__ import annotations
 
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 
 from . import config
 from .orchestrator.manager import SessionManager
-from .orchestrator.session import BudgetExhausted, SessionClosed
+from .orchestrator.session import (
+    BudgetExhausted, SessionClosed, TransientEnvironmentError)
 from .topology import models as m
 from .topology.store import EvidenceError
 
@@ -37,8 +40,18 @@ class CreateSession(BaseModel):
 
 
 def create_app() -> FastAPI:
+    @asynccontextmanager
+    async def lifespan(_app: FastAPI):
+        # A force-killed Controller leaves session.json claiming "running" for
+        # sessions no API call can reach again. Correct that on-disk state once,
+        # at startup, so tooling never trusts a status that is certainly wrong.
+        for sid in manager.mark_abandoned_sessions():
+            print(f"[controller] session {sid} was abandoned by a previous "
+                  f"controller; recorded as failed")
+        yield
+
     app = FastAPI(title="BlackBoxBench Controller", docs_url=None,
-                  redoc_url=None, openapi_url=None)
+                  redoc_url=None, openapi_url=None, lifespan=lifespan)
 
     # ---------------------------------------------------------- errors
     @app.exception_handler(BudgetExhausted)
@@ -62,9 +75,33 @@ def create_app() -> FastAPI:
             raise HTTPException(404, detail="session_not_found")
 
     # ---------------------------------------------------------- agent channel
+    def _runtime_failure(sid: str, exc: Exception) -> HTTPException:
+        """Report a terminal runtime failure without leaking how it happened.
+
+        The session already froze itself and stopped its runtime; drop the
+        manager's handle too so nothing keeps an emulator port or target lease
+        bound to a session that can never run again. The message is the neutral
+        one the session produced — never a raw adb command line, CDP method or
+        host path, which would disclose the machinery behind the pixels-only
+        boundary.
+        """
+        manager.release_runtime(sid)
+        return HTTPException(503, detail=str(exc))
+
     @app.post("/agent/{sid}/observe")
     def observe(sid: str):
-        return _session(sid).observe()
+        sess = _session(sid)
+        try:
+            return sess.observe()
+        except (BudgetExhausted, SessionClosed):
+            raise
+        except TransientEnvironmentError as e:
+            # The environment blipped but is healthy: this observation did not
+            # go through, the session continues. 409 keeps it distinct from an
+            # invalid request (400) and from a dead environment (503).
+            raise HTTPException(409, detail=str(e))
+        except Exception as e:
+            raise _runtime_failure(sid, e)
 
     @app.post("/agent/{sid}/action")
     def action(sid: str, action: m.Action):
@@ -72,37 +109,68 @@ def create_app() -> FastAPI:
         try:
             return sess.execute(action)
         except ValueError as e:
+            # invalid action: a 400 for the agent, the session stays runnable
             raise HTTPException(400, detail=str(e))
+        except (BudgetExhausted, SessionClosed):
+            raise
+        except TransientEnvironmentError as e:
+            raise HTTPException(409, detail=str(e))
+        except Exception as e:
+            raise _runtime_failure(sid, e)
+
+    # ---------------------------------------------------------- discovery
+    # Every discovery route funnels through here so a refusal is auditable.
+    # Without it, "the Agent never tried to record an edge" and "the Agent tried
+    # and the platform refused" leave identical traces, and a platform artefact
+    # gets mistaken for a limit of the Agent.
+    def _discovery(sid: str, op: str, request, handler):
+        sess = _session(sid)
+        try:
+            return handler(sess)
+        except (EvidenceError, ValueError, KeyError) as exc:
+            try:
+                payload = (request.model_dump(mode="json")
+                           if hasattr(request, "model_dump") else dict(request))
+            except Exception:
+                payload = {}
+            sess.recorder.log_discovery_rejected(op, str(exc), payload)
+            raise
 
     @app.post("/agent/{sid}/discovery/state")
     def add_state(sid: str, req: m.StateCreate):
-        node = _session(sid).store.add_state(req)
+        node = _discovery(sid, "create_state", req,
+                          lambda s: s.store.add_state(req))
         return {"state_id": node.id}
 
     @app.post("/agent/{sid}/discovery/feature")
     def add_feature(sid: str, req: m.FeatureCreate):
-        node = _session(sid).store.add_feature(req)
+        node = _discovery(sid, "create_feature", req,
+                          lambda s: s.store.add_feature(req))
         return {"feature_id": node.id}
 
     @app.post("/agent/{sid}/discovery/data")
     def add_data(sid: str, req: m.DataCreate):
-        node = _session(sid).store.add_data(req)
+        node = _discovery(sid, "create_data", req,
+                          lambda s: s.store.add_data(req))
         return {"data_id": node.id}
 
     @app.post("/agent/{sid}/discovery/edge")
     def add_edge(sid: str, req: m.EdgeCreate):
-        edge = _session(sid).store.add_edge(req)
+        edge = _discovery(sid, "create_edge", req,
+                          lambda s: s.store.add_edge(req))
         return {"edge_id": edge.id}
 
     @app.post("/agent/{sid}/discovery/hypothesis")
     def add_hyp(sid: str, req: m.HypothesisCreate):
-        hyp = _session(sid).store.add_hypothesis(req)
+        hyp = _discovery(sid, "create_hypothesis", req,
+                         lambda s: s.store.add_hypothesis(req))
         return {"hypothesis_id": hyp.id}
 
     @app.post("/agent/{sid}/discovery/hypothesis/{hid}/resolve")
     def resolve_hyp(sid: str, hid: str, req: m.HypothesisResolve):
         try:
-            _session(sid).store.resolve_hypothesis(hid, req)
+            _discovery(sid, "resolve_hypothesis", req,
+                       lambda s: s.store.resolve_hypothesis(hid, req))
         except KeyError:
             raise HTTPException(404, detail="hypothesis_not_found")
         return {"ok": True}
@@ -112,7 +180,8 @@ def create_app() -> FastAPI:
         if kind not in ("state", "feature", "data"):
             raise HTTPException(400, detail="invalid_kind")
         try:
-            return _session(sid).store.revise(kind, node_id, req)
+            return _discovery(sid, f"revise_{kind}", req,
+                              lambda s: s.store.revise(kind, node_id, req))
         except KeyError:
             raise HTTPException(404, detail="node_not_found")
         except ValueError as e:

@@ -1,6 +1,7 @@
 """Session manager: creation, lookup, reset and teardown."""
 from __future__ import annotations
 
+import json
 import threading
 from datetime import datetime, timezone
 from pathlib import Path
@@ -34,6 +35,36 @@ class SessionManager:
         self._lock = threading.Lock()
         import atexit
         atexit.register(self.shutdown_all)
+
+    def mark_abandoned_sessions(self) -> list[str]:
+        """Correct on-disk state left by a Controller that did not exit cleanly.
+
+        Sessions live in memory only, so a force-killed Controller leaves
+        `session.json` claiming `running` for a session no API call can ever
+        reach again: it cannot be observed, closed or resumed. Recording that
+        honestly at startup keeps operator tooling and post-hoc analysis from
+        trusting a status that is certainly wrong. Frames, traces and topology
+        are left untouched — they are the audit log.
+        """
+        corrected: list[str] = []
+        for meta_path in sorted(self.runs_dir.glob("sess_*/session.json")):
+            try:
+                meta = json.loads(meta_path.read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                continue
+            if not isinstance(meta, dict) or meta.get("status") != "running":
+                continue
+            meta["status"] = "failed"
+            meta["close_reason"] = (
+                "controller exited without closing this session; its runtime "
+                "is gone and the session cannot be resumed")
+            try:
+                meta_path.write_text(json.dumps(meta, indent=2),
+                                     encoding="utf-8")
+            except OSError:
+                continue
+            corrected.append(meta_path.parent.name)
+        return corrected
 
     def shutdown_all(self) -> None:
         """Best-effort teardown of every live runtime (atexit hygiene: never

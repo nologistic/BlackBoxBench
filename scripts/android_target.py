@@ -9,7 +9,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from benchmark.android.targets import list_android_targets, register_android_target
+from benchmark.android.targets import (
+    list_android_targets, register_android_target, rename_android_target,
+    unregister_android_target)
 from benchmark.android.toolchain import AndroidToolchain
 
 
@@ -18,6 +20,12 @@ def main() -> None:
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("list")
     sub.add_parser("preflight")
+    rename = sub.add_parser("rename")
+    rename.add_argument("--from", dest="old_id", required=True)
+    rename.add_argument("--to", dest="new_id", required=True)
+    unregister = sub.add_parser("unregister")
+    unregister.add_argument("--id", required=True)
+    unregister.add_argument("--keep-artifacts", action="store_true")
     register = sub.add_parser("register")
     register.add_argument("--id", required=True)
     register.add_argument("--apk", type=Path, required=True)
@@ -43,6 +51,15 @@ def main() -> None:
                           "sdk_root": str(toolchain.sdk_root),
                           "avd_template": str(toolchain.avd_template),
                           "missing": toolchain.missing()}, indent=2))
+    elif args.command == "rename":
+        spec = rename_android_target(args.old_id, args.new_id)
+        print(json.dumps({"renamed": args.old_id, "to": spec.app_id,
+                          "package": spec.package_name,
+                          "network_policy": spec.network_policy}, indent=2))
+    elif args.command == "unregister":
+        unregister_android_target(args.id, keep_artifacts=args.keep_artifacts)
+        print(json.dumps({"unregistered": args.id,
+                          "artifacts_kept": args.keep_artifacts}, indent=2))
     else:
         regions = []
         if args.protected_regions_json:

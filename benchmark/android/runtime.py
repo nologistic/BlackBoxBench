@@ -8,17 +8,22 @@ import os
 import re
 import shlex
 import shutil
+import socket
 import subprocess
 import sys
 import threading
 import time
+import uuid
 from contextlib import contextmanager
 from pathlib import Path
 
 from PIL import Image
 
 from .. import config
+from ..filelock import lock_for
 from ..runtime.base import Runtime, RuntimeInfo
+from ..scratch import (
+    new_scratch_dir, pid_alive, reclaim_scratch, remove_scratch_dir)
 from .network_policy import (
     EMULATOR_DNS, PUBLIC_BLOCK_V4, PUBLIC_BLOCK_V6, parse_controlled_proxy)
 from .toolchain import AndroidToolchain
@@ -38,37 +43,47 @@ _KEY_CODES = {
     "ArrowUp": "KEYCODE_DPAD_UP", "ArrowDown": "KEYCODE_DPAD_DOWN",
     "ArrowLeft": "KEYCODE_DPAD_LEFT", "ArrowRight": "KEYCODE_DPAD_RIGHT",
 }
+# BCP-47 subset accepted for the guest UI language. The value is passed to an
+# adb shell command, so it is validated rather than quoted defensively.
+_LOCALE_PATTERN = re.compile(r"[a-z]{2,3}(-[A-Z][a-z]{3})?(-[A-Z]{2})?")
+
+
+class DeviceError(RuntimeError):
+    """A device-level failure, worded so it can never reach an Agent unsafely.
+
+    Raw adb failures carry the tool path, the command line and the emulator
+    serial — e.g. ``CalledProcessError(4294967295, ['.../platform-tools/adb.exe',
+    '-s', 'emulator-5554', 'exec-out', 'screencap', '-p'])``. That text used to
+    travel out through the controller's error detail and into the Agent's tool
+    result, which discloses that ADB exists, what it was asked to do, and the
+    host's directory layout. ADB must stay wholly inside this trusted process.
+
+    ``str(self)`` is therefore a neutral, operator-agnostic sentence, marked
+    with ``agent_safe`` so the Session layer knows it may be passed on. The full
+    technical cause is kept in ``detail`` for the local trace only.
+    """
+
+    agent_safe = True
+
+    def __init__(self, message: str, detail: str = "", *,
+                 recoverable: bool = False):
+        super().__init__(message)
+        self.detail = detail or message
+        self.recoverable = recoverable
+
+
+def _redacted_cause(exc: BaseException) -> str:
+    """Describe a failure for the local trace without a full command line."""
+    if isinstance(exc, subprocess.TimeoutExpired):
+        return f"device command timed out after {exc.timeout}s"
+    if isinstance(exc, subprocess.CalledProcessError):
+        return f"device command exited {exc.returncode}"
+    return type(exc).__name__
 
 
 def _pid_alive(pid: int) -> bool:
-    if pid <= 0:
-        return False
-    if pid == os.getpid():
-        return True
-    if os.name == "nt":
-        # ``os.kill(pid, 0)`` does not provide the Unix existence probe on
-        # Windows.  Querying a limited process handle is read-only and avoids
-        # incorrectly deleting a live cross-process Android target lease.
-        process_query_limited_information = 0x1000
-        still_active = 259
-        kernel32 = ctypes.windll.kernel32
-        handle = kernel32.OpenProcess(
-            process_query_limited_information, False, pid)
-        if not handle:
-            return False
-        try:
-            exit_code = ctypes.c_ulong()
-            if not kernel32.GetExitCodeProcess(
-                    handle, ctypes.byref(exit_code)):
-                return False
-            return exit_code.value == still_active
-        finally:
-            kernel32.CloseHandle(handle)
-    try:
-        os.kill(pid, 0)
-        return True
-    except OSError:
-        return False
+    """Backwards-compatible alias; the implementation is shared (scratch.py)."""
+    return pid_alive(pid)
 
 
 def _remove_stale_pid_lock(path: Path) -> None:
@@ -102,6 +117,180 @@ def _pid_mutex(path: Path, timeout: float = 10.0):
                 path.unlink(missing_ok=True)
         except OSError:
             pass
+
+
+# Console ports an emulator may occupy; the adb port is always console + 1.
+EMULATOR_PORT_RANGE = range(5554, 5682, 2)
+LEGACY_PORT_LOCK_DIRNAME = "android_port_locks"
+
+
+def port_locks_dir() -> Path:
+    """The single host-wide namespace for emulator port reservations.
+
+    Exploration, operator/manual sessions, smoke runs, evaluation and
+    reproduction review all compete for the same console ports on one machine,
+    so the reservation has to live in exactly one directory.  It used to be
+    derived from ``work_dir``, whose nesting depth differs per session kind,
+    which silently split the reservations into several mutually invisible
+    directories: two sessions would each "reserve" emulator-5554, and when one
+    emulator stopped, the other's ``adb -s emulator-5554`` calls started
+    addressing a dead or foreign device — the observed ``screencap`` exit -1.
+    """
+    return config.ANDROID_TARGETS_DIR / "port_locks"
+
+
+def legacy_port_lock_dirs() -> list[Path]:
+    """Pre-unification reservation directories, for reporting and reclaim.
+
+    These are no longer written to, but a crashed session can leave files
+    behind that an operator still needs to see and clear.
+    """
+    candidates = [
+        config.RUNS_DIR / LEGACY_PORT_LOCK_DIRNAME,
+        config.ANDROID_TARGETS_DIR / "manual_sessions" / LEGACY_PORT_LOCK_DIRNAME,
+        config.ANDROID_TARGETS_DIR / "smoke" / LEGACY_PORT_LOCK_DIRNAME,
+        config.APP_OUTPUT_DIR / "evaluations" / LEGACY_PORT_LOCK_DIRNAME,
+    ]
+    if config.APP_OUTPUT_DIR.is_dir():
+        candidates += sorted(
+            config.APP_OUTPUT_DIR.glob(f"*/review/{LEGACY_PORT_LOCK_DIRNAME}"))
+    return [path for path in candidates if path.is_dir()]
+
+
+def _port_pair_free(port: int) -> bool:
+    """Whether both the console and adb ports of an emulator slot are unused.
+
+    A reservation file whose owner process is gone is reclaimed automatically,
+    but the qemu child it launched can outlive that owner.  Handing the serial
+    out while the old emulator still answers would point every later ``adb -s``
+    call at the wrong device, so probe the ports as well as the lock file.
+
+    Binding is used rather than connecting: a connect attempt to an unused
+    loopback port is silently dropped on some hosts and only fails after the
+    timeout, which would make scanning the whole range take half a minute.
+    """
+    for candidate in (port, port + 1):
+        with socket.socket() as probe:
+            try:
+                probe.bind(("127.0.0.1", candidate))
+            except OSError:
+                return False
+    return True
+
+
+def clone_root_is_volatile(lease_mode: str) -> bool:
+    """Whether this session's AVD clone belongs in scratch space.
+
+    An exploration clone is several GB of disk images nobody reads afterwards,
+    so it lives outside the repository (benchmark/scratch.py) and is reclaimed
+    by owner PID. Login maintenance is the exception: `scripts/android_live_login.py`
+    copies the golden profile out of its clone, so an operator must be able to
+    find it at a stable path under `runs/android_targets/login_work/`.
+    """
+    return lease_mode != "login"
+
+
+def reclaim_orphan_clones() -> list[tuple[Path, bool]]:
+    """Delete AVD clones whose owning process is gone.
+
+    Called before a new emulator boots, so an operator does not have to notice
+    the leak: a crashed or force-killed session cannot clean up after itself.
+    Ownership comes from the scratch directory name, so no registry is needed.
+    """
+    return [(path, removed) for path, removed in reclaim_scratch()
+            if path.name.startswith("avd_")]
+
+
+def available_memory_mb() -> int | None:
+    """Free host memory in MiB, or None when the platform cannot report it."""
+    if os.name == "nt":
+        class _MemoryStatus(ctypes.Structure):
+            _fields_ = [("dwLength", ctypes.c_ulong),
+                        ("dwMemoryLoad", ctypes.c_ulong),
+                        ("ullTotalPhys", ctypes.c_ulonglong),
+                        ("ullAvailPhys", ctypes.c_ulonglong),
+                        ("ullTotalPageFile", ctypes.c_ulonglong),
+                        ("ullAvailPageFile", ctypes.c_ulonglong),
+                        ("ullTotalVirtual", ctypes.c_ulonglong),
+                        ("ullAvailVirtual", ctypes.c_ulonglong),
+                        ("ullAvailExtendedVirtual", ctypes.c_ulonglong)]
+
+        status = _MemoryStatus()
+        status.dwLength = ctypes.sizeof(_MemoryStatus)
+        if not ctypes.windll.kernel32.GlobalMemoryStatusEx(
+                ctypes.byref(status)):
+            return None
+        return int(status.ullAvailPhys // (1024 * 1024))
+    try:
+        for line in Path("/proc/meminfo").read_text(
+                encoding="ascii").splitlines():
+            if line.startswith("MemAvailable:"):
+                return int(line.split()[1]) // 1024
+    except (OSError, IndexError, ValueError):
+        pass
+    return None
+
+
+def booting_dir() -> Path:
+    """Markers for emulators that have started but are not yet resident."""
+    return config.ANDROID_TARGETS_DIR / "booting"
+
+
+def _booting_reservations() -> int:
+    """How many emulators are mid-boot right now, across all processes."""
+    root = booting_dir()
+    if not root.is_dir():
+        return 0
+    count = 0
+    for marker in root.glob("*.lock"):
+        _remove_stale_pid_lock(marker)
+        if marker.exists():
+            count += 1
+    return count
+
+
+def _require_memory_headroom() -> Path | None:
+    """Refuse to boot an emulator the host cannot actually feed.
+
+    Under memory pressure adb does not fail cleanly: individual commands start
+    returning exit -1 or timing out while the device looks alive, which ends an
+    exploration dozens of steps in and reads like a device fault. An explicit
+    refusal before the AVD clone is both honest and cheap to recover from.
+
+    Parallel sessions make this a race: an emulator that is still booting has
+    not yet claimed its memory, so two admissions checked at the same moment
+    would both pass and then jointly overcommit the host. The check and the
+    reservation therefore happen together under a cross-process lock, and each
+    booting emulator is charged its expected footprint until it is up.
+
+    Returns the reservation marker to release once the device has booted.
+    """
+    required = int(getattr(config, "ANDROID_MIN_FREE_MEMORY_MB", 0) or 0)
+    if required <= 0:
+        return None
+    per_emulator = int(getattr(config, "ANDROID_EMULATOR_MEMORY_MB", 0) or 0)
+    with lock_for("android:memory-admission", timeout=120):
+        available = available_memory_mb()
+        if available is None:
+            return None
+        reserved = _booting_reservations() * per_emulator
+        effective = available - reserved
+        if effective < required:
+            raise RuntimeError(
+                f"insufficient free memory for an Android emulator: "
+                f"{available} MiB available"
+                + (f" minus {reserved} MiB reserved for emulators still booting"
+                   if reserved else "")
+                + f", {required} MiB required. Close another emulator or "
+                f"session, or lower BBB_ANDROID_MIN_FREE_MB if this host is "
+                f"known to cope.")
+        root = booting_dir()
+        root.mkdir(parents=True, exist_ok=True)
+        marker = root / f"{os.getpid()}-{uuid.uuid4().hex[:8]}.lock"
+        fd = os.open(marker, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+        os.write(fd, str(os.getpid()).encode("ascii"))
+        os.close(fd)
+        return marker
 
 
 class AndroidEmulatorRuntime(Runtime):
@@ -149,7 +338,11 @@ class AndroidEmulatorRuntime(Runtime):
             else:
                 if login.exists():
                     raise RuntimeError("target login maintenance is in progress")
-                target = lease_root / f"explore-{os.getpid()}-{id(self):x}.lock"
+                # A memory address (``id(self)``) is reused once the object it
+                # belonged to is collected, so two live runtimes in the same
+                # process could end up sharing one lease file name.
+                target = (lease_root /
+                          f"explore-{os.getpid()}-{uuid.uuid4().hex[:8]}.lock")
             fd = os.open(target, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
             os.write(fd, f"{os.getpid()} {self.lease_mode}".encode("ascii"))
             os.close(fd)
@@ -161,21 +354,112 @@ class AndroidEmulatorRuntime(Runtime):
             self._target_lease = None
 
     def _run(self, *args: str, timeout: int = 30,
-             check: bool = True, binary: bool = False):
+             check: bool = True, binary: bool = False,
+             retries: int = 2):
+        """Run one adb command, retrying transient device hiccups.
+
+        A long exploration issues thousands of adb calls. The emulator
+        occasionally drops a single one — `screencap` returns exit -1, `am
+        start` loses the window, `dumpsys` times out — while the device itself
+        recovers immediately. Treating the first such blip as fatal used to end
+        an exploration that was tens of steps in, which is an environment
+        artefact rather than an observation about the Agent. Retry those blips
+        after waiting for the device, and only then give up.
+
+        A persistent failure is re-raised as `DeviceError`, never as the raw
+        `CalledProcessError`: the latter carries the adb path, the command line
+        and the serial, all of which must stay inside this trusted process.
+        """
         command = [str(self.toolchain.adb)]
         if self.serial:
             command += ["-s", self.serial]
         command += list(args)
-        return subprocess.run(
-            command, cwd=self.work_dir,
-            env=self.toolchain.environment(self._avd_home),
-            capture_output=True, text=not binary, timeout=timeout, check=check,
-            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        environment = self.toolchain.environment(self._avd_home)
+
+        last_error: Exception | None = None
+        for attempt in range(max(0, retries) + 1):
+            try:
+                return subprocess.run(
+                    command, cwd=self.work_dir, env=environment,
+                    capture_output=True, text=not binary, timeout=timeout,
+                    check=check,
+                    creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+            except (subprocess.CalledProcessError,
+                    subprocess.TimeoutExpired) as exc:
+                last_error = exc
+                if attempt >= max(0, retries):
+                    break
+                # Give the device a moment, then confirm it is back before
+                # spending the next attempt on the real command.
+                time.sleep(1.0 + attempt)
+                try:
+                    subprocess.run(
+                        [str(self.toolchain.adb), "-s", self.serial,
+                         "wait-for-device"] if self.serial else
+                        [str(self.toolchain.adb), "wait-for-device"],
+                        cwd=self.work_dir, env=environment,
+                        capture_output=True, timeout=30, check=False,
+                        creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+                except (OSError, subprocess.SubprocessError):
+                    pass
+        assert last_error is not None
+        raise DeviceError(
+            "the device did not complete this operation",
+            detail=f"{_redacted_cause(last_error)} after "
+                   f"{max(0, retries) + 1} attempts: {args[0] if args else '?'}",
+            recoverable=self._device_responsive())
+
+    def _device_responsive(self) -> bool:
+        """Is the emulator still usable, or is this failure terminal?
+
+        A single dropped command on a live device is recoverable — the Agent can
+        simply try again — whereas a device that no longer answers at all ends
+        the session. Distinguishing them is what stops one transient blip from
+        discarding an exploration dozens of steps in.
+
+        The probe runs on the very host that just dropped the command it is
+        asked about, so the probe's own silence proves nothing: under memory
+        pressure ``adb get-state`` times out at the same moment the target
+        command did, and reading that as "device gone" is what ended four
+        sessions on 2026-09-01 whose emulators were merely starved. adb is
+        therefore asked repeatedly, and only an adb that actually answers
+        with a non-device state (while the emulator process is still alive)
+        counts as terminal. A probe that never answers is conservatively
+        read as recoverable: the worst outcome is a retryable failure the
+        Agent can see, not the loss of an exploration dozens of steps in.
+        """
+        if self.process is not None and self.process.poll() is not None:
+            return False
+        if not self.serial:
+            return False
+        answered = False
+        for delay in (0.0, 2.0, 4.0):
+            if delay:
+                time.sleep(delay)
+            try:
+                probe = subprocess.run(
+                    [str(self.toolchain.adb), "-s", self.serial, "get-state"],
+                    cwd=self.work_dir,
+                    env=self.toolchain.environment(self._avd_home),
+                    capture_output=True, text=True, timeout=15, check=False,
+                    creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+            except (OSError, subprocess.SubprocessError):
+                continue
+            state = (probe.stdout or "").strip()
+            if state == "device":
+                return True
+            if state or (probe.stderr or "").strip() or probe.returncode != 0:
+                # An explicit non-device answer ("offline", "unauthorized",
+                # or "error: device not found" on stderr). A transient
+                # offline phase right after a dropped connection gets the
+                # remaining polls to clear, but adb has answered.
+                answered = True
+        return not answered
 
     def _reserve_port(self) -> int:
-        locks = self.work_dir.parent.parent / "android_port_locks"
+        locks = port_locks_dir()
         locks.mkdir(parents=True, exist_ok=True)
-        for port in range(5554, 5682, 2):
+        for port in EMULATOR_PORT_RANGE:
             lock = locks / f"emulator-{port}.lock"
             try:
                 fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
@@ -185,11 +469,31 @@ class AndroidEmulatorRuntime(Runtime):
                     fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
                 except FileExistsError:
                     continue
+            if not _port_pair_free(port):
+                # The reservation was stale but its emulator is still answering
+                # (a killed launcher leaves an orphaned qemu behind).  Taking
+                # this serial now would address someone else's device.
+                os.close(fd)
+                lock.unlink(missing_ok=True)
+                continue
             os.write(fd, str(os.getpid()).encode("ascii"))
             os.close(fd)
             self._port_lock = lock
             return port
         raise RuntimeError("no free Android emulator port")
+
+    def _prepare_clone_root(self) -> None:
+        """Move this session's AVD clone out of the repository.
+
+        The clone is several GB of disk images that nobody reads after the
+        session, so keeping it under `runs/` both polluted the evidence tree and
+        made teardown delete thousands of workspace files. Login maintenance
+        keeps its clone at a stable path because the operator copies the golden
+        profile out of it.
+        """
+        if not clone_root_is_volatile(self.lease_mode):
+            return
+        self._avd_home = new_scratch_dir("avd", self.work_dir.name)
 
     def _prepare_avd(self) -> str:
         name = "bbb_" + re.sub(r"[^a-z0-9]", "_", self.work_dir.name.lower())
@@ -218,6 +522,11 @@ class AndroidEmulatorRuntime(Runtime):
         if expected_sha and hashlib.sha256(apk.read_bytes()).hexdigest() != expected_sha:
             raise RuntimeError("target APK fingerprint mismatch")
         self.work_dir.mkdir(parents=True, exist_ok=True)
+        booting_marker = _require_memory_headroom()
+        # A crashed or force-killed session cannot delete its own multi-GB AVD
+        # clone; reclaim such leftovers before adding another one.
+        reclaim_scratch()
+        self._prepare_clone_root()
         self._acquire_target_lease()
         try:
             self.port = self._reserve_port()
@@ -238,6 +547,7 @@ class AndroidEmulatorRuntime(Runtime):
                 creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
             self._wait_until_booted()
             self._configure_network()
+            self._apply_locale()
             self._run("install", "-r", "-t", str(apk), timeout=120)
             self._seed_file_picker()
             self._set_orientation()
@@ -246,6 +556,11 @@ class AndroidEmulatorRuntime(Runtime):
         except Exception:
             self.stop()
             raise
+        finally:
+            # The emulator is resident (or gone) — its memory now shows up in
+            # the host's own figures, so stop double-charging it.
+            if booting_marker is not None:
+                booting_marker.unlink(missing_ok=True)
 
     def _wait_until_booted(self) -> None:
         deadline = time.monotonic() + self.boot_timeout
@@ -299,6 +614,57 @@ class AndroidEmulatorRuntime(Runtime):
                    Path(executable).suffix.lower() == ".py" else [executable])
         subprocess.run([*command, *args], check=True, timeout=30,
                        capture_output=True, text=True)
+
+    def _apply_locale(self) -> None:
+        """Pin the guest UI language before the target APK is installed.
+
+        The AVD is re-cloned from the template on every start, so a locale set
+        by hand inside one session would vanish with that clone. Applying it
+        here instead keeps exploration, reproduction review and evaluation in
+        one language, which is what makes an operator-authored checklist
+        comparable with what an Agent and a judge actually see.
+
+        This is a device-level display setting, not a semantic channel: no
+        target data is read and nothing is reported back to the Agent. A failure
+        is non-fatal — a wrong UI language degrades comparability, not safety.
+        """
+        locale = getattr(config, "ANDROID_LOCALE", "").strip()
+        if not locale or not _LOCALE_PATTERN.fullmatch(locale):
+            if locale:
+                raise ValueError(f"invalid BBB_ANDROID_LOCALE: {locale!r}")
+            return
+        current = self._run("shell", "getprop", "persist.sys.locale",
+                            timeout=15, check=False)
+        if (current.stdout or "").strip() == locale:
+            return
+        # setprop on a persist.* key needs root; the guest firewall step above
+        # already established it, so a failure here means the image forbids it.
+        result = self._run("shell", "setprop", "persist.sys.locale", locale,
+                           timeout=15, check=False)
+        if result.returncode != 0:
+            return
+        self._run("shell", "settings", "put", "system", "system_locales",
+                  locale, timeout=15, check=False)
+        # Restarting the framework (not the emulator) re-inflates every system
+        # UI string. The APK is installed afterwards, so no target state is lost.
+        self._run("shell", "setprop", "sys.boot_completed", "0",
+                  timeout=15, check=False)
+        self._run("shell", "stop", timeout=30, check=False)
+        self._run("shell", "start", timeout=30, check=False)
+        self._wait_until_booted()
+        self._wait_for_package_manager()
+
+    def _wait_for_package_manager(self) -> None:
+        """After a framework restart `pm`/`am` reject work for a short while."""
+        deadline = time.monotonic() + 120
+        while time.monotonic() < deadline:
+            result = self._run("shell", "cmd", "package", "path", "android",
+                               timeout=10, check=False)
+            if result.returncode == 0 and "package:" in (result.stdout or ""):
+                return
+            time.sleep(1)
+        raise TimeoutError("Android package manager did not come back after "
+                           "the locale restart")
 
     @staticmethod
     def _parse_controlled_proxy(value: str) -> tuple[str, int]:
@@ -379,9 +745,26 @@ class AndroidEmulatorRuntime(Runtime):
     def restart_app(self) -> None:
         self._run("shell", "am", "force-stop", self.spec.package_name,
                   check=False)
-        self._run("shell", "am", "start", "-W", "-n", self._component(),
-                  timeout=30)
-        time.sleep(0.5)
+        # `am start` can transiently fail right after a force-stop while the
+        # window manager is still tearing the old task down — and under host
+        # memory pressure it can stay flaky for tens of seconds (observed on
+        # the 2026-09-01 dual-emulator runs). Retry on a widening window and
+        # only report a problem if the App really will not come back — a
+        # relaunch hiccup must not end an exploration in progress.
+        component = self._component()
+        for attempt in range(5):
+            result = self._run("shell", "am", "start", "-W", "-n", component,
+                               timeout=60, check=False, retries=1)
+            output = ((result.stdout or "") +
+                      (getattr(result, "stderr", "") or ""))
+            if result.returncode == 0 and "Error" not in output:
+                time.sleep(0.5)
+                return
+            if attempt < 4:
+                time.sleep(1.0 + attempt * attempt)
+        raise DeviceError("the target App could not be relaunched",
+                          detail="am start kept failing after force-stop",
+                          recoverable=self._device_responsive())
 
     def stop(self) -> None:
         if self._guard_attached and self.serial:
@@ -413,21 +796,12 @@ class AndroidEmulatorRuntime(Runtime):
         self.serial = ""
         self.port = None
         self._release_target_lease()
-        if self.lease_mode != "login" and self._avd_home.exists():
-            # On Windows the emulator launcher can exit a moment before its
-            # qemu child releases the cloned disk files.  Retry the isolated
-            # clone cleanup so normal exploration does not accumulate large,
-            # unusable AVD directories.  Login maintenance deliberately keeps
-            # its clone until the operator copies the golden profile.
-            for attempt in range(20):
-                try:
-                    shutil.rmtree(self._avd_home)
-                    break
-                except OSError:
-                    if attempt == 19:
-                        shutil.rmtree(self._avd_home, ignore_errors=True)
-                    else:
-                        time.sleep(0.25)
+        if clone_root_is_volatile(self.lease_mode) and self._avd_home.exists():
+            # Windows can hold a qemu file handle open for a moment after the
+            # launcher exits, so this retries patiently. The clone lives in
+            # owner-tagged scratch space, so even a hard failure is reclaimed by
+            # the next emulator start instead of sitting in the repository.
+            remove_scratch_dir(self._avd_home)
 
     def reset(self) -> None:
         strategy = getattr(self.spec, "reset_strategy", "clear_data")
@@ -450,7 +824,12 @@ class AndroidEmulatorRuntime(Runtime):
                            binary=True)
         raw = bytes(result.stdout)
         if not raw.startswith(_PNG):
-            raise RuntimeError("emulator returned an invalid screenshot")
+            # A truncated or empty capture is almost always transient: the
+            # surface was mid-flip. Treat it as a blip on a live device so one
+            # bad frame cannot end an exploration.
+            raise DeviceError("the screen could not be captured this time",
+                              detail="screencap returned a non-PNG payload",
+                              recoverable=self._device_responsive())
         self._last_info = self._info_from_png(raw)
         return raw
 
@@ -537,12 +916,36 @@ class AndroidEmulatorRuntime(Runtime):
     def type_text(self, text: str) -> None:
         if any(c in text for c in "\r\n\0"):
             raise ValueError("type_text accepts one visible line")
+        if not text.isascii():
+            self._reject_non_ascii()
         # ADB joins ``shell`` arguments into a remote shell command.  Quote the
         # complete visible-text argument so punctuation cannot become shell
         # syntax inside the trusted emulator.
         encoded = shlex.quote(text.replace("%", "%25").replace(" ", "%s"))
         self._run("shell", "input", "text", encoded)
         self._after_input()
+
+    @staticmethod
+    def _reject_non_ascii() -> None:
+        """Refuse non-ASCII text as a recoverable action, never as a crash.
+
+        `input text` resolves each character through the device
+        KeyCharacterMap, which has no CJK entries: the emulator answers any CJK
+        argument with `NullPointerException: Attempt to get length of null
+        array` and exit 255, no matter how the bytes are quoted or escaped
+        (verified with scripts/android_typing_diagnose.py — a `printf` escape
+        delivers the right bytes and still fails). So there is no shortcut to
+        repair, and this must not read like a device fault: a person without an
+        IME shortcut is in exactly this position and uses the on-screen
+        keyboard, which is fully reachable through taps.
+
+        Raising ValueError keeps the session alive (Session.execute turns it
+        into a 400) instead of ending an exploration dozens of steps in.
+        """
+        raise ValueError(
+            "unsupported_action: this device can only inject ASCII text "
+            "directly. Type the characters on the App's on-screen keyboard, "
+            "or use its own picker or suggestion list.")
 
     def key(self, key: str, kind: str = "press") -> None:
         if kind != "press":

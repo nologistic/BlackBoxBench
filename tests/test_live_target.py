@@ -242,9 +242,14 @@ class TestLiveReset:
         assert sess.status == "running"  # rejected without failing the session
 
     def test_failed_session_stops_runtime(self, tmp_path):
-        """A runtime error marks the session failed AND releases the browser
-        (live profile singleton lock) immediately, not at close()/exit."""
-        from benchmark.orchestrator.session import Budget, Session
+        """A dead runtime marks the session failed AND releases the browser
+        (live profile singleton lock) immediately, not at close()/exit.
+
+        Health decides: a browser that still answers costs the Agent one action,
+        while one that is gone ends the session. For a live target the profile is
+        a singleton, so a dead session must not keep holding it."""
+        from benchmark.orchestrator.session import (
+            Budget, Session, SessionClosed)
         from benchmark.topology import models as m
 
         class _BoomRt(_ShotRuntime):
@@ -253,6 +258,9 @@ class TestLiveReset:
             def click(self, x, y, button="left", count=1):
                 raise RuntimeError("boom")
 
+            def health(self):
+                return False
+
             def stop(self):
                 self.stopped = True
 
@@ -260,10 +268,12 @@ class TestLiveReset:
         sess = Session(session_id="sess_t3", spec=get_app("douyin_web"),
                        runtime=rt, session_dir=tmp_path / "s3",
                        budget=Budget(10, 60, 10))
-        with pytest.raises(RuntimeError, match="boom"):
+        with pytest.raises(SessionClosed):
             sess.execute(m.Action(type=m.ActionType.CLICK, x=10, y=10))
         assert sess.status == "failed"
         assert rt.stopped
+        # The raw cause never reaches the Agent, only the local trace.
+        assert "boom" in (sess.dir / "session.json").read_text("utf-8")
 
 
 # ------------------------------------------------------------------ budget freeze

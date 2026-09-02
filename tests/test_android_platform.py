@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
+import subprocess
 import zipfile
 from contextlib import nullcontext
 from pathlib import Path
@@ -13,15 +15,18 @@ import pytest
 
 from app_reproduction import workspace as app_workspace
 from app_reproduction.review import AndroidReproductionReview
-from app_evaluation.cli import execute_plan
-from app_evaluation.evaluator import AppEvaluator
+from app_evaluation.checklist import Checklist
+from app_evaluation.session import AppEvaluationSession
 from agents.android_baseline import agent_runtime as baseline_agent_runtime
 from agents.android_our_method import agent_runtime as ours_agent_runtime
 from benchmark.android.runtime import AndroidEmulatorRuntime
+from benchmark.android import runtime as android_runtime
 from benchmark.android.toolchain import AndroidToolchain, load_toolchain_lock
 from benchmark.android import targets
+from benchmark import config as android_config
 from benchmark.orchestrator.apps import list_apps
-from benchmark.orchestrator.session import Budget, Session
+from benchmark.orchestrator.session import (
+    Budget, Session, SessionClosed, TransientEnvironmentError)
 from benchmark.runtime.base import RuntimeInfo
 from benchmark.topology.models import Action, ActionType
 
@@ -151,16 +156,19 @@ def test_android_runtime_accepts_android_35_resumed_activity(tmp_path):
     runtime._enforce_foreground()
 
 
-def test_android_runtime_stop_removes_explore_clone_but_keeps_login(tmp_path):
+def test_android_runtime_stop_removes_explore_clone_but_keeps_login(
+        monkeypatch, tmp_path):
+    monkeypatch.setattr(android_config, "SCRATCH_DIR", tmp_path / "scratch")
     spec = SimpleNamespace(app_id="target", package_name="com.example.app",
                            launch_activity=".MainActivity")
     explore = AndroidEmulatorRuntime(spec, tmp_path / "explore")
-    explore._avd_home.mkdir(parents=True)
+    explore._prepare_clone_root()
     (explore._avd_home / "disk.img").write_bytes(b"clone")
     explore.stop()
     assert not explore._avd_home.exists()
 
     login = AndroidEmulatorRuntime(spec, tmp_path / "login", lease_mode="login")
+    login._prepare_clone_root()
     login._avd_home.mkdir(parents=True)
     (login._avd_home / "disk.img").write_bytes(b"profile")
     login.stop()
@@ -208,6 +216,217 @@ def test_android_network_policy_is_enforced_inside_guest(monkeypatch, tmp_path):
             "fc00::/7", "-j", "REJECT") in calls
 
 
+def test_android_runtime_retries_transient_adb_failures(tmp_path, monkeypatch):
+    """A single dropped adb call must not end an exploration in progress.
+
+    Long sessions issue thousands of adb calls and the emulator occasionally
+    loses one (screencap exit -1, dumpsys timeout) while recovering at once.
+    Observed in practice: sessions died at step 49 and step 2 for exactly this.
+    """
+    spec = SimpleNamespace(package_name="com.example.app",
+                           launch_activity=".MainActivity")
+    runtime = AndroidEmulatorRuntime(spec, tmp_path)
+    runtime.serial = "emulator-5554"
+    monkeypatch.setattr("benchmark.android.runtime.time.sleep", lambda _s: None)
+
+    attempts = []
+
+    def flaky(command, **kwargs):
+        attempts.append(command)
+        if "wait-for-device" in command:
+            return SimpleNamespace(stdout="", returncode=0)
+        real = [c for c in attempts if "wait-for-device" not in c]
+        if len(real) == 1:                      # first try drops
+            raise subprocess.CalledProcessError(4294967295, command)
+        return SimpleNamespace(stdout="ok", returncode=0)
+
+    monkeypatch.setattr("benchmark.android.runtime.subprocess.run", flaky)
+    assert runtime._run("exec-out", "screencap", "-p").stdout == "ok"
+    # It waited for the device between attempts instead of retrying blindly.
+    assert any("wait-for-device" in command for command in attempts)
+
+    # A persistent failure still surfaces, so real breakage is not hidden —
+    # but as a neutral DeviceError, never as the raw adb command line.
+    monkeypatch.setattr(
+        "benchmark.android.runtime.subprocess.run",
+        lambda command, **kwargs: (_ for _ in ()).throw(
+            subprocess.CalledProcessError(1, command))
+        if "wait-for-device" not in command else SimpleNamespace(returncode=0))
+    with pytest.raises(android_runtime.DeviceError):
+        runtime._run("exec-out", "screencap", "-p")
+
+
+def test_android_restart_app_retries_before_reporting_failure(tmp_path,
+                                                              monkeypatch):
+    spec = SimpleNamespace(package_name="com.example.app",
+                           launch_activity=".MainActivity")
+    runtime = AndroidEmulatorRuntime(spec, tmp_path)
+    monkeypatch.setattr("benchmark.android.runtime.time.sleep", lambda _s: None)
+
+    starts = []
+
+    def responses(*args, **kwargs):
+        if args[:3] == ("shell", "am", "start"):
+            starts.append(args)
+            if len(starts) == 1:                # window manager still busy
+                return SimpleNamespace(
+                    stdout="Error: Activity not started", returncode=0)
+            return SimpleNamespace(stdout="Status: ok", returncode=0)
+        return SimpleNamespace(stdout="", returncode=0)
+
+    runtime._run = responses
+    runtime.restart_app()
+    assert len(starts) == 2                     # retried, did not raise
+
+    starts.clear()
+    runtime._run = lambda *args, **kwargs: SimpleNamespace(
+        stdout="Error: Activity not started", returncode=0)
+    with pytest.raises(RuntimeError, match="could not be relaunched"):
+        runtime.restart_app()
+
+
+def _responsive_runtime(tmp_path):
+    spec = SimpleNamespace(package_name="com.example.app",
+                           launch_activity=".MainActivity")
+    runtime = AndroidEmulatorRuntime(spec, tmp_path)
+    runtime.serial = "emulator-5554"
+    return runtime
+
+
+def test_android_probe_silence_reads_recoverable_not_terminal(tmp_path,
+                                                              monkeypatch):
+    """A starved probe must not read as a dead device.
+
+    Under host memory pressure `adb get-state` times out at the same moment
+    as the command it is probing for; treating that silence as "device
+    gone" is what failed four healthy-but-starved sessions on 2026-09-01.
+    The probe's own silence is conservatively recoverable.
+    """
+    runtime = _responsive_runtime(tmp_path)
+    monkeypatch.setattr("benchmark.android.runtime.time.sleep", lambda _s: None)
+
+    def starved(command, **kwargs):
+        raise subprocess.TimeoutExpired(command, timeout=15)
+    monkeypatch.setattr("benchmark.android.runtime.subprocess.run", starved)
+    assert runtime._device_responsive() is True
+
+
+def test_android_explicit_non_device_state_is_terminal(tmp_path, monkeypatch):
+    """adb answering a non-device state while qemu lives is terminal."""
+    runtime = _responsive_runtime(tmp_path)
+    monkeypatch.setattr("benchmark.android.runtime.time.sleep", lambda _s: None)
+    monkeypatch.setattr(
+        "benchmark.android.runtime.subprocess.run",
+        lambda command, **kwargs: SimpleNamespace(
+            stdout="offline", stderr="", returncode=0))
+    assert runtime._device_responsive() is False
+
+
+def test_android_probe_recovering_to_device_is_healthy(tmp_path, monkeypatch):
+    """One offline answer followed by "device" reads recoverable."""
+    runtime = _responsive_runtime(tmp_path)
+    monkeypatch.setattr("benchmark.android.runtime.time.sleep", lambda _s: None)
+    answers = iter(["offline", "device"])
+    monkeypatch.setattr(
+        "benchmark.android.runtime.subprocess.run",
+        lambda command, **kwargs: SimpleNamespace(
+            stdout=next(answers), stderr="", returncode=0))
+    assert runtime._device_responsive() is True
+
+
+def test_android_dead_emulator_process_is_terminal(tmp_path, monkeypatch):
+    runtime = _responsive_runtime(tmp_path)
+    runtime.process = SimpleNamespace(poll=lambda: 1)
+    monkeypatch.setattr(
+        "benchmark.android.runtime.subprocess.run",
+        lambda command, **kwargs: SimpleNamespace(
+            stdout="device", stderr="", returncode=0))
+    assert runtime._device_responsive() is False
+
+
+def test_android_runtime_types_non_ascii_without_failing_the_session(tmp_path):
+    """CJK input must not kill the session.
+
+    `adb shell input text` resolves characters through the device
+    KeyCharacterMap, which has no CJK entries, so a CJK argument answers with
+    `NullPointerException` and exit 255 regardless of quoting or escaping
+    (scripts/android_typing_diagnose.py). That used to surface as a runtime
+    failure and end the whole exploration. It is now refused as an invalid
+    action (ValueError -> 400), pointing the Agent at the on-screen keyboard,
+    which taps can reach.
+    """
+    spec = SimpleNamespace(package_name="com.example.app",
+                           launch_activity=".MainActivity")
+    runtime = AndroidEmulatorRuntime(spec, tmp_path)
+    calls = []
+    runtime._run = lambda *args, **kwargs: calls.append(args) or SimpleNamespace(
+        stdout="", returncode=0)
+    runtime._after_input = lambda: None
+
+    runtime.type_text("Shanghai")
+    assert calls == [("shell", "input", "text", "Shanghai")]
+
+    # A refusal must be recoverable, must not touch the device, and must send
+    # the Agent somewhere that actually works.
+    for rejected in ("\u5317\u4eac", "a\u4e2d"):
+        calls.clear()
+        with pytest.raises(ValueError, match="on-screen keyboard"):
+            runtime.type_text(rejected)
+        assert calls == [], "a refusal must not spend adb calls"
+
+
+def _locale_runtime(tmp_path, monkeypatch, locale, current="en-US"):
+    monkeypatch.setattr(android_config, "ANDROID_LOCALE", locale)
+    runtime = AndroidEmulatorRuntime(SimpleNamespace(network_policy="offline"),
+                                     tmp_path)
+    calls = []
+
+    def fake_run(*args, **kwargs):
+        calls.append(args)
+        if args == ("shell", "getprop", "persist.sys.locale"):
+            return SimpleNamespace(stdout=f"{current}\n", returncode=0)
+        if args[:3] == ("shell", "cmd", "package"):
+            return SimpleNamespace(
+                stdout="package:/system/framework/framework-res.apk\n",
+                returncode=0)
+        return SimpleNamespace(stdout="", returncode=0)
+
+    runtime._run = fake_run
+    runtime._wait_until_booted = lambda: None
+    return runtime, calls
+
+
+def test_android_locale_is_pinned_before_apk_install(tmp_path, monkeypatch):
+    runtime, calls = _locale_runtime(tmp_path, monkeypatch, "zh-CN")
+    runtime._apply_locale()
+    assert ("shell", "setprop", "persist.sys.locale", "zh-CN") in calls
+    assert ("shell", "settings", "put", "system", "system_locales",
+            "zh-CN") in calls
+    # The framework is restarted, never the emulator, and the package manager is
+    # awaited so the install that follows cannot race it.
+    assert ("shell", "stop") in calls and ("shell", "start") in calls
+    assert any(args[:3] == ("shell", "cmd", "package") for args in calls)
+
+
+def test_android_locale_skipped_when_already_correct(tmp_path, monkeypatch):
+    runtime, calls = _locale_runtime(tmp_path, monkeypatch, "zh-CN",
+                                     current="zh-CN")
+    runtime._apply_locale()
+    assert ("shell", "stop") not in calls
+    assert not any(args[:2] == ("shell", "setprop") for args in calls)
+
+
+def test_android_locale_empty_keeps_image_default_and_rejects_junk(
+        tmp_path, monkeypatch):
+    runtime, calls = _locale_runtime(tmp_path, monkeypatch, "")
+    runtime._apply_locale()
+    assert calls == []
+    # The value reaches an adb shell command, so it must be validated.
+    runtime, _ = _locale_runtime(tmp_path / "b", monkeypatch, "zh-CN; rm -rf /")
+    with pytest.raises(ValueError):
+        runtime._apply_locale()
+
+
 def test_android_login_lease_blocks_exploration_but_explorers_can_parallel(
         monkeypatch, tmp_path):
     monkeypatch.setattr(targets.config, "ANDROID_TARGETS_DIR", tmp_path / "targets")
@@ -219,6 +438,9 @@ def test_android_login_lease_blocks_exploration_but_explorers_can_parallel(
     login = AndroidEmulatorRuntime(spec, tmp_path / "login", lease_mode="login")
     first._acquire_target_lease(); second._acquire_target_lease()
     try:
+        # Two live runtimes in one process must never share a lease file name.
+        assert len(list((tmp_path / "targets" / "leases" / "same_target").glob(
+            "explore-*.lock"))) == 2
         try:
             login._acquire_target_lease()
             assert False, "login must not overlap exploration"
@@ -235,6 +457,329 @@ def test_android_login_lease_blocks_exploration_but_explorers_can_parallel(
             assert "maintenance" in str(exc)
     finally:
         login._release_target_lease()
+
+
+def test_android_port_reservation_uses_one_namespace_for_every_session_kind(
+        monkeypatch, tmp_path):
+    """Every session kind must compete in the same reservation directory.
+
+    The namespace used to be derived from ``work_dir``, whose nesting depth
+    differs per session kind, so an exploration and a manual session could both
+    believe they owned emulator-5554 and then address each other's device.
+    """
+    monkeypatch.setattr(android_config, "ANDROID_TARGETS_DIR",
+                        tmp_path / "targets")
+    monkeypatch.setattr("benchmark.android.runtime._port_pair_free",
+                        lambda _port: True)
+    spec = SimpleNamespace(app_id="target", package_name="com.example.app",
+                           launch_activity=".MainActivity")
+    work_dirs = [
+        tmp_path / "runs" / "sess_a" / "runtime",                  # exploration
+        tmp_path / "targets" / "manual_sessions" / "m1" / "runtime",
+        tmp_path / "targets" / "smoke" / "google_clock" / "runtime",
+        tmp_path / "app_output" / "evaluations" / "e1" / "runtime",
+        tmp_path / "app_output" / "h1" / "review" / "round_01" / "runtime",
+    ]
+    runtimes = [AndroidEmulatorRuntime(spec, path) for path in work_dirs]
+    ports = [runtime._reserve_port() for runtime in runtimes]
+    try:
+        assert len(set(ports)) == len(ports), "reservations must not collide"
+        locks = {runtime._port_lock.parent for runtime in runtimes}
+        assert locks == {tmp_path / "targets" / "port_locks"}
+    finally:
+        for runtime in runtimes:
+            runtime._port_lock.unlink(missing_ok=True)
+
+
+def test_android_port_reservation_skips_ports_an_orphan_emulator_still_holds(
+        monkeypatch, tmp_path):
+    """A stale lock file does not prove the emulator behind it is gone."""
+    monkeypatch.setattr(android_config, "ANDROID_TARGETS_DIR",
+                        tmp_path / "targets")
+    busy = {5554, 5556}
+    monkeypatch.setattr("benchmark.android.runtime._port_pair_free",
+                        lambda port: port not in busy)
+    spec = SimpleNamespace(app_id="target", package_name="com.example.app",
+                           launch_activity=".MainActivity")
+    runtime = AndroidEmulatorRuntime(spec, tmp_path / "runs" / "s" / "runtime")
+    assert runtime._reserve_port() == 5558
+    # A rejected candidate must not leave its reservation file behind.
+    locks = tmp_path / "targets" / "port_locks"
+    assert not (locks / "emulator-5554.lock").exists()
+    assert (locks / "emulator-5558.lock").is_file()
+    runtime._port_lock.unlink()
+
+
+def test_android_start_refuses_a_host_without_memory_headroom(monkeypatch):
+    """Host exhaustion must be an explicit refusal, not a random adb fault."""
+    monkeypatch.setattr(android_config, "ANDROID_MIN_FREE_MEMORY_MB", 8192)
+    monkeypatch.setattr(android_runtime, "available_memory_mb", lambda: 2048)
+    with pytest.raises(RuntimeError, match="insufficient free memory"):
+        android_runtime._require_memory_headroom()
+    # A host that cannot report its memory must never be blocked.
+    monkeypatch.setattr(android_runtime, "available_memory_mb", lambda: None)
+    android_runtime._require_memory_headroom()
+    # Enough headroom, and the operator override, both pass.
+    monkeypatch.setattr(android_runtime, "available_memory_mb", lambda: 9000)
+    android_runtime._require_memory_headroom()
+    monkeypatch.setattr(android_config, "ANDROID_MIN_FREE_MEMORY_MB", 0)
+    monkeypatch.setattr(android_runtime, "available_memory_mb", lambda: 1)
+    android_runtime._require_memory_headroom()
+
+
+def test_android_available_memory_probe_works_on_this_host():
+    value = android_runtime.available_memory_mb()
+    assert value is None or value > 0
+
+
+class _FailingRuntime(_MobileRuntime):
+    """Screenshots succeed until `broken`, mimicking a transient adb blip."""
+
+    def __init__(self):
+        super().__init__()
+        self.broken = False
+        self.stopped = False
+        self.healthy = True
+
+    def screenshot(self):
+        if self.broken:
+            raise RuntimeError("emulator returned an invalid screenshot")
+        return self.frame
+
+    def health(self):
+        return self.healthy
+
+    def stop(self):
+        self.stopped = True
+
+
+def test_android_observe_failure_is_survivable_or_terminal_by_device_health(
+        tmp_path):
+    """A capture failure ends the session only when the device is truly gone.
+
+    Observation drives dumpsys and screencap, so it is where a device hiccup
+    surfaces. A healthy device that drops one frame costs the Agent that
+    observation, not 85 steps of work; an unusable device ends the session and
+    must hand back the emulator, target lease and port reservation at once.
+    """
+    runtime = _FailingRuntime()
+    session = Session("sess_android", _android_spec(), runtime, tmp_path,
+                      Budget(20, 60, 20))
+    session.observe()
+
+    # Healthy device, one bad frame: recoverable, session lives on.
+    runtime.broken = True
+    runtime.healthy = True
+    used_before = session.budget.observations_used
+    with pytest.raises(TransientEnvironmentError):
+        session.observe()
+    assert session.status == "running"
+    assert runtime.stopped is False
+    # A blip must not silently consume the observation budget.
+    assert session.budget.observations_used == used_before
+    runtime.broken = False
+    assert session.observe()["frame_id"] is not None
+
+    # Device gone: terminal, and everything it held is handed back.
+    runtime.broken = True
+    runtime.healthy = False
+    with pytest.raises(SessionClosed):
+        session.observe()
+    assert session.status == "failed"
+    assert runtime.stopped is True
+    assert (tmp_path / "crash_report.json").is_file()
+    assert json.loads((tmp_path / "session.json").read_text(
+        encoding="utf-8"))["status"] == "failed"
+
+
+def test_volatile_clones_and_profiles_never_live_in_the_repository(
+        monkeypatch, tmp_path):
+    """A session's AVD clone must not sit under runs/.
+
+    An AVD clone is several GB of disk images; a Chromium user-data dir is
+    hundreds of cache files. Creating them inside the session directory meant
+    every teardown had to delete thousands of workspace files -- slow, and it
+    trips bulk-delete protection -- and left 7.8 GB behind when it failed.
+    `runs/` is the evidence tree; volatile runtime state belongs outside it.
+    """
+    monkeypatch.setattr(android_config, "SCRATCH_DIR", tmp_path / "scratch")
+    spec = SimpleNamespace(app_id="target", package_name="com.example.app",
+                           launch_activity=".MainActivity")
+    runtime = AndroidEmulatorRuntime(spec, tmp_path / "runs" / "sess_a" / "runtime")
+    runtime._prepare_clone_root()
+    assert (tmp_path / "scratch") in runtime._avd_home.parents
+    assert (tmp_path / "runs") not in runtime._avd_home.parents
+    # The owning PID is in the name; that is what makes unattended reclaim work.
+    assert str(os.getpid()) in runtime._avd_home.name
+
+    # Login maintenance is the deliberate exception: the operator copies the
+    # golden profile out of that clone, so it keeps a stable, findable path.
+    login = AndroidEmulatorRuntime(spec, tmp_path / "login_work",
+                                   lease_mode="login")
+    login._prepare_clone_root()
+    assert login._avd_home == tmp_path / "login_work" / "avd_home"
+
+
+def test_orphan_clone_is_reclaimed_when_its_owner_is_gone(monkeypatch, tmp_path):
+    """A crashed session cannot delete its own clone, so the next start does."""
+    monkeypatch.setattr(android_config, "SCRATCH_DIR", tmp_path / "scratch")
+    dead = tmp_path / "scratch" / "avd_sess-dead_999999_abcd"
+    live = tmp_path / "scratch" / "avd_sess-live_1234_efgh"
+    for path in (dead, live):
+        path.mkdir(parents=True)
+        (path / "userdata.img").write_bytes(b"disk")
+
+    monkeypatch.setattr("benchmark.scratch.pid_alive", lambda pid: pid == 1234)
+    reclaimed = android_runtime.reclaim_orphan_clones()
+    assert [path for path, _ in reclaimed] == [dead]
+    assert not dead.exists()
+    # A clone whose owner is still running is never touched.
+    assert live.is_dir()
+
+
+def test_parallel_output_domains_fail_closed_instead_of_colliding(
+        monkeypatch, tmp_path):
+    """Two Agents working on one target must never share an output domain.
+
+    Reproduction handoffs and evaluation runs both derive a directory name from
+    a random suffix. What makes that safe is not the entropy but the exclusive
+    create: a collision must abort loudly, never silently reuse or overwrite
+    another Agent's deliverables.
+    """
+    output_root = tmp_path / "app_output"
+    (output_root / "sess_a-abc123").mkdir(parents=True)
+    with pytest.raises(FileExistsError):
+        (output_root / "sess_a-abc123").mkdir(parents=False, exist_ok=False)
+
+    # The evaluation session applies the same rule to its own run directory.
+    apk = tmp_path / "app.apk"
+    apk.write_bytes(b"apk")
+    checklist = Checklist.from_object(
+        {"platform": "android", "features": [{"id": "a", "name": "A"}]},
+        default_id="fixture")
+    first = AppEvaluationSession(
+        apk=apk, checklist=checklist, output_root=tmp_path / "evaluations",
+        runtime_factory=lambda spec, directory: _ReviewRuntime())
+    assert first.output_dir.is_dir()
+    monkeypatch.setattr(
+        "app_evaluation.session.time.time_ns", lambda: 1)
+    second = AppEvaluationSession(
+        apk=apk, checklist=checklist, output_root=tmp_path / "evaluations",
+        runtime_factory=lambda spec, directory: _ReviewRuntime())
+    assert second.output_dir != first.output_dir
+    with pytest.raises(FileExistsError):
+        AppEvaluationSession(
+            apk=apk, checklist=checklist, output_root=tmp_path / "evaluations",
+            runtime_factory=lambda spec, directory: _ReviewRuntime())
+
+
+def test_device_failures_never_disclose_adb_to_an_agent(tmp_path):
+    """A device failure must not leak the machinery behind the pixels boundary.
+
+    A raw adb failure reads
+    ``CalledProcessError(4294967295, ['.../platform-tools/adb.exe', '-s',
+    'emulator-5554', 'exec-out', 'screencap', '-p'])``. That text used to travel
+    out through the controller's error detail into the Agent's tool result,
+    disclosing that ADB exists, what it was asked to do, the emulator serial and
+    the host's directory layout. ADB must stay wholly inside the trusted
+    runtime.
+    """
+    spec = SimpleNamespace(package_name="com.example.app",
+                           launch_activity=".MainActivity")
+    runtime = AndroidEmulatorRuntime(spec, tmp_path)
+    runtime.serial = "emulator-5554"
+    runtime._device_responsive = lambda: True
+
+    def always_fails(*args, **kwargs):
+        raise subprocess.CalledProcessError(
+            4294967295, [str(tmp_path / "platform-tools" / "adb.exe"),
+                         "-s", "emulator-5554", "exec-out", "screencap", "-p"])
+
+    monkeypatched = subprocess.run
+    try:
+        subprocess.run = always_fails
+        with pytest.raises(android_runtime.DeviceError) as caught:
+            runtime._run("exec-out", "screencap", "-p", retries=0)
+    finally:
+        subprocess.run = monkeypatched
+
+    message = str(caught.value)
+    for forbidden in ("adb", "emulator-5554", "screencap", "platform-tools",
+                      str(tmp_path), "CalledProcessError", "4294967295"):
+        assert forbidden not in message, f"{forbidden!r} leaked to the Agent"
+    # The cause is still available locally, for the crash report only.
+    assert "exited" in caught.value.detail
+    # A live device makes this recoverable: one blip must not end a session.
+    assert caught.value.recoverable is True
+
+
+def test_screenshot_blip_is_recoverable_while_the_device_lives(tmp_path):
+    spec = SimpleNamespace(package_name="com.example.app",
+                           launch_activity=".MainActivity")
+    runtime = AndroidEmulatorRuntime(spec, tmp_path)
+    runtime.serial = "emulator-5554"
+    runtime._enforce_foreground = lambda: None
+    runtime._run = lambda *a, **k: SimpleNamespace(stdout=b"not-a-png",
+                                                   returncode=0)
+    runtime._device_responsive = lambda: True
+    with pytest.raises(android_runtime.DeviceError) as caught:
+        runtime.screenshot()
+    assert caught.value.recoverable is True
+    assert "emulator" not in str(caught.value)
+
+    # A device that has stopped answering is terminal, not a blip.
+    runtime._device_responsive = lambda: False
+    with pytest.raises(android_runtime.DeviceError) as caught:
+        runtime.screenshot()
+    assert caught.value.recoverable is False
+
+
+def test_memory_admission_reserves_headroom_for_booting_emulators(
+        monkeypatch, tmp_path):
+    """Parallel starts must not both pass the same memory check.
+
+    A booting emulator has not claimed its memory yet, so two sessions starting
+    together would each see enough room and then jointly overcommit the host —
+    which is exactly the condition that makes adb drop commands at random.
+    """
+    monkeypatch.setattr(android_config, "ANDROID_TARGETS_DIR",
+                        tmp_path / "targets")
+    monkeypatch.setattr(android_config, "ANDROID_MIN_FREE_MEMORY_MB", 5120)
+    monkeypatch.setattr(android_config, "ANDROID_EMULATOR_MEMORY_MB", 3072)
+    monkeypatch.setattr(android_runtime, "available_memory_mb", lambda: 8000)
+
+    first = android_runtime._require_memory_headroom()
+    assert first is not None and first.is_file()
+
+    # 8000 - 3072 reserved = 4928 < 5120 required: the second start is refused
+    # instead of being allowed to overcommit.
+    with pytest.raises(RuntimeError, match="still booting"):
+        android_runtime._require_memory_headroom()
+
+    # Once the first emulator is resident its footprint shows in the host
+    # figures, so the reservation is released and a second start may proceed.
+    first.unlink()
+    second = android_runtime._require_memory_headroom()
+    assert second is not None
+    second.unlink()
+
+
+def test_topology_ids_keep_non_latin_names_readable():
+    """Ids must stay referenceable when the UI language is not Latin.
+
+    The slug pattern used to be ASCII-only, so every Chinese state name
+    collapsed to `state_unnamed_N`. With the guest UI pinned to zh-CN that left
+    an Agent referencing its own states by number when recording transitions —
+    a usability defect the platform imposed on the Agent.
+    """
+    from benchmark.topology.store import _slug
+
+    assert _slug("闹钟列表") == "闹钟列表"
+    assert _slug("Alarm List") == "alarm_list"
+    assert _slug("世界时钟 / World") == "世界时钟_world"
+    # Punctuation-only names still degrade gracefully rather than crash.
+    assert _slug("!!!") == "unnamed"
+    assert _slug("") == "unnamed"
 
 
 def test_operator_apk_registry_hides_sensitive_metadata(monkeypatch, tmp_path):
@@ -586,6 +1131,28 @@ def test_android_network_guard_verifies_complete_ordered_policy():
             "\n".join(ipv6_lines))
 
 
+def test_android_finalize_refuses_implicit_session_bootstrap(monkeypatch):
+    """A dead session must not turn finalize into a fresh default-app one.
+
+    When the bound session fails and releases, finalize used to fall through
+    to _post -> _ensure_session, silently creating a zero-exploration session
+    on BBB_ANDROID_APP_ID (default android_commerce_demo) — the path by which
+    a Google Clock handoff once ended up on a blank demo topology. finalize
+    must refuse instead of bootstrapping.
+    """
+    from agents.android_baseline import mcp_server as baseline_mcp
+    from agents.android_our_method import mcp_server as ours_mcp
+    for mcp in (baseline_mcp, ours_mcp):
+        def no_bootstrap():
+            raise AssertionError("finalize must not lazily create a session")
+        monkeypatch.setattr(mcp, "_ensure_session", no_bootstrap)
+        monkeypatch.setattr(mcp, "_session", "")
+        monkeypatch.setattr(mcp, "_reproduction", None)
+        result = mcp._t_finalize({})
+        assert result["isError"] is True
+        assert "start_session" in result["content"][0]["text"]
+
+
 def test_android_mcp_surfaces_do_not_expose_web_or_device_tools():
     from agents.android_baseline import mcp_server as baseline
     from agents.android_our_method import mcp_server as ours
@@ -613,51 +1180,145 @@ def test_android_strict_agent_runtimes_mount_no_repository_or_docker_socket():
         assert str(runtime.SKILL_DIR) in joined
 
 
-def test_app_evaluator_requires_evidence_and_four_level_grades(tmp_path):
-    apk = tmp_path / "app.apk"; apk.write_bytes(b"apk")
-    checklist = tmp_path / "checklist.json"
-    checklist.write_text(json.dumps({"features": [
-        {"id": "login", "name": "Login", "expected": "opens home"},
-        {"id": "save", "name": "Save", "expected": "persists"},
-    ]}), encoding="utf-8")
-    evaluator = AppEvaluator(
-        apk=apk, package_name="com.example.app",
-        launch_activity=".MainActivity", checklist_path=checklist,
+def _evaluation_session(tmp_path, features):
+    apk = tmp_path / "app.apk"
+    apk.write_bytes(b"apk")
+    checklist = Checklist.from_object({"platform": "android",
+                                       "features": features},
+                                      default_id="fixture")
+    return AppEvaluationSession(
+        apk=apk, checklist=checklist, package_name="com.example.app",
+        launch_activity=".MainActivity",
         output_root=tmp_path / "evaluations",
         runtime_factory=lambda spec, directory: _ReviewRuntime())
-    evaluator.observe()
-    evaluator.record_result(feature_id="login", grade="full",
-                            rationale="visible home", evidence_observations=[1])
-    evaluator.record_result(feature_id="save", grade="placeholder",
-                            rationale="button does not persist", evidence_observations=[1])
-    result = evaluator.finish()
+
+
+def test_app_evaluation_requires_evidence_and_four_level_grades(tmp_path):
+    session = _evaluation_session(tmp_path, [
+        {"id": "login", "name": "Login", "expected": "opens home"},
+        {"id": "save", "name": "Save", "expected": "shows a list"},
+    ])
+    session.start()
+    session.observe()
+    session.observe()
+    session.record_result(requirement_id="login", grade="full",
+                          rationale="visible home", evidence_observations=[1])
+    # A grade may not cite a frame that was never captured.
+    with pytest.raises(ValueError):
+        session.record_result(requirement_id="save", grade="full",
+                              rationale="x", evidence_observations=[99])
+    # Grades come from the closed four-value set.
+    with pytest.raises(ValueError):
+        session.record_result(requirement_id="save", grade="mostly-ok",
+                              rationale="x", evidence_observations=[1])
+    # Finishing is refused while a requirement is ungraded.
+    with pytest.raises(ValueError):
+        session.finish()
+    session.record_result(requirement_id="save", grade="placeholder",
+                          rationale="button does not persist",
+                          evidence_observations=[2])
+    result = session.finish()
     assert result["counts"]["full"] == 1
     assert result["counts"]["placeholder"] == 1
     report = json.loads(Path(result["report"]).read_text(encoding="utf-8"))
-    assert [item["grade_label"] for item in report["features"]] == ["完整", "占位"]
+    assert [item["grade_label"] for item in report["requirements"]] == ["完整", "占位"]
+    assert report["platform"] == "android"
 
 
-def test_app_evaluation_cli_plan_executes_and_sanitizes_actions(tmp_path):
-    apk = tmp_path / "app.apk"; apk.write_bytes(b"apk")
-    checklist = tmp_path / "checklist.json"
-    checklist.write_text(json.dumps({"features": [
-        {"id": "login", "name": "Login"},
-    ]}), encoding="utf-8")
-    evaluator = AppEvaluator(
-        apk=apk, package_name="com.example.app",
-        launch_activity=".MainActivity", checklist_path=checklist,
-        output_root=tmp_path / "evaluations",
-        runtime_factory=lambda spec, directory: _ReviewRuntime())
-    result = execute_plan(evaluator, {"steps": [
-        {"type": "observe"},
-        {"type": "action", "action": "type_text",
-         "args": {"text": "private@example.test"}},
-        {"type": "record_result", "feature_id": "login", "grade": "full",
-         "rationale": "visible", "evidence_observations": [1]},
-    ]})
-    report = Path(result["report"]).read_text(encoding="utf-8")
+def test_app_evaluation_trace_omits_typed_values(tmp_path):
+    session = _evaluation_session(tmp_path, [{"id": "login", "name": "Login"}])
+    session.start()
+    session.observe()
+    session.action("type_text", {"text": "private@example.test"})
+    session.observe()
+    session.record_result(requirement_id="login", grade="full",
+                          rationale="visible", evidence_observations=[1, 2])
+    report = Path(session.finish()["report"]).read_text(encoding="utf-8")
     assert "private@example.test" not in report
     assert json.loads(report)["actions"] == [{"type": "type_text"}]
+
+
+def test_app_evaluation_persistence_evidence_is_structural(tmp_path):
+    session = _evaluation_session(
+        tmp_path, [{"id": "favorite", "name": "Favorite", "persistence": True}])
+    session.start()
+    session.observe()                                     # 1: before
+    # A persistence requirement cannot reach `full` without a probe triple.
+    with pytest.raises(ValueError):
+        session.record_result(requirement_id="favorite", grade="full",
+                              rationale="looks saved",
+                              evidence_observations=[1])
+    session.action("tap", {"x": 10, "y": 10})
+    session.observe()                                     # 2: after
+    # Missing restart/re-entry probe between after and persisted is rejected.
+    with pytest.raises(ValueError):
+        session.record_result(
+            requirement_id="favorite", grade="full", rationale="saved",
+            evidence_observations=[1, 2],
+            persistence_evidence={"before_observation": 1,
+                                  "after_observation": 2,
+                                  "persisted_observation": 2})
+    session.action("restart_app", {})
+    session.observe()                                     # 3: persisted
+    result = session.record_result(
+        requirement_id="favorite", grade="full",
+        rationale="收藏后列表新增该商品；重启后仍在收藏列表",
+        evidence_observations=[1, 2, 3],
+        persistence_evidence={"before_observation": 1,
+                              "after_observation": 2,
+                              "persisted_observation": 3})
+    assert result["grade"] == "full"
+    report = json.loads(Path(session.finish()["report"]).read_text(encoding="utf-8"))
+    assert report["requirements"][0]["persistence_evidence"][
+        "persisted_observation"] == 3
+
+
+def test_app_evaluation_multi_user_requirement_needs_caveat(tmp_path):
+    session = _evaluation_session(
+        tmp_path, [{"id": "notify", "name": "Notify", "multi_user": True}])
+    session.start()
+    session.observe()
+    session.observe()
+    with pytest.raises(ValueError):
+        session.record_result(requirement_id="notify", grade="partial",
+                             rationale="sender side works",
+                             evidence_observations=[1])
+    session.record_result(
+        requirement_id="notify", grade="partial",
+        rationale="发送端提示正常显示",
+        evidence_observations=[1, 2],
+        not_verifiable_reason="单台模拟器无法登录第二个账号确认对端是否收到通知")
+    report = json.loads(Path(session.finish()["report"]).read_text(encoding="utf-8"))
+    assert report["requirements"][0]["not_verifiable_reason"]
+
+
+def test_checklist_validation_rejects_malformed_specs():
+    with pytest.raises(ValueError):
+        Checklist.from_object({"features": []})
+    with pytest.raises(ValueError):
+        Checklist.from_object({"features": [{"id": "a", "name": "A"},
+                                            {"id": "a", "name": "B"}]})
+    with pytest.raises(ValueError):
+        Checklist.from_object({"features": [{"id": "Bad Id", "name": "A"}]})
+    with pytest.raises(ValueError):
+        Checklist.from_object({"features": [{"id": "a"}]})
+    checklist = Checklist.from_object({"platform": "web",
+                                       "features": [{"id": "a", "name": "A"}]},
+                                      default_id="fixture")
+    with pytest.raises(ValueError):
+        checklist.expect_platform("android")
+
+
+def test_shipped_android_checklist_is_valid_and_flagged():
+    root = Path(__file__).resolve().parent.parent
+    checklist = Checklist.load(root / "review_specs" / "android_commerce_demo.json")
+    checklist.expect_platform("android")
+    assert len(checklist.features) >= 10
+    assert any(item["persistence"] for item in checklist.features)
+    # Every ground-truth feature family must appear in the human checklist.
+    for required in ("login", "search", "favorite", "cart", "checkout",
+                     "profile", "logout", "media"):
+        assert required in checklist.ids
 
 
 def test_dependency_locks_are_referenced_by_build_files():

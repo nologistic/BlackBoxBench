@@ -263,12 +263,17 @@ vendor/python/python.exe scripts/e2e_smoke.py
 
 ## 当前范围
 
-当前负责"受控探索 → 条件对应的安全交接 → 隔离复现工作区"；其中证据轨迹与功能
-拓扑只属于托管探索条件。
+当前负责"受控探索 → 条件对应的安全交接 → 隔离复现工作区 → 人工清单四档评测"；
+其中证据轨迹与功能拓扑只属于托管探索条件。评测由 LLM judge 在 Skill 内做语义判断，
+代码只做薄护栏（证据引用真实截图、四档封闭、不漏项、报告 schema 固定），见
+`docs/evaluation_contract.md`。Android 侧为 `agents/app_review/` +
+`app_evaluation/`；网页侧的 `web-review` Skill 尚未收编入仓库。
+
 以下内容暂不包含：
 
 - 专用 VLM 调用循环；Agent 规划由外部 MCP Agent 框架负责。
 - 脚本化坐标 Demo。
 - Dashboard、视频、历史 Session 浏览和 deterministic replay。
-- 原站/复现站的自动差分评测。
+- 原站/复现站的**像素级**自动差分：评的是功能是否实现，按钮位置、文案、配色与
+  素材差异都不构成降级理由。
 - 网页条件仍不规定固定前端或后端技术栈；Android 复现固定使用 Kotlin + Compose。

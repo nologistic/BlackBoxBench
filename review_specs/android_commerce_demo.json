@@ -1,10 +1,75 @@
 {
-  "app_id": "android_commerce_demo",
+  "checklist_id": "android_commerce_demo",
+  "platform": "android",
   "features": [
-    {"id": "login", "name": "登录校验", "steps": ["输入测试账号并登录"], "expected": "正确账号进入商品首页，错误账号显示错误"},
-    {"id": "catalog", "name": "目录搜索筛选", "steps": ["搜索商品", "切换分类"], "expected": "列表随查询与分类变化"},
-    {"id": "favorite", "name": "收藏持久化", "steps": ["收藏商品", "重启 App"], "expected": "收藏状态在重启后保留"},
-    {"id": "cart", "name": "购物车与结算", "steps": ["加入购物车", "模拟结算"], "expected": "购物车清空且新增订单"},
-    {"id": "media", "name": "离线媒体", "steps": ["打开媒体展示"], "expected": "音频按钮和离线视频可用"}
+    {
+      "id": "login",
+      "name": "登录校验",
+      "steps": ["输入错误账号尝试登录", "输入测试账号登录"],
+      "expected": "错误账号显示错误提示且停留在登录页；正确账号进入商品首页"
+    },
+    {
+      "id": "catalog",
+      "name": "商品目录浏览",
+      "steps": ["浏览首页商品列表", "打开任一商品详情"],
+      "expected": "列表展示多个商品，可进入详情查看图片、价格与描述"
+    },
+    {
+      "id": "search",
+      "name": "商品搜索",
+      "steps": ["输入关键词搜索", "输入无结果关键词"],
+      "expected": "列表按关键词过滤；无匹配时给出空状态而非报错"
+    },
+    {
+      "id": "category_filter",
+      "name": "分类筛选",
+      "steps": ["切换商品分类"],
+      "expected": "列表随所选分类变化"
+    },
+    {
+      "id": "favorite",
+      "name": "收藏与持久化",
+      "steps": ["在详情或列表收藏商品", "查看收藏列表", "重启 App 后再看收藏"],
+      "expected": "收藏状态可见，收藏列表包含该商品，重启后仍保留",
+      "persistence": true
+    },
+    {
+      "id": "cart",
+      "name": "购物车增删",
+      "steps": ["加入购物车", "查看购物车合计", "移除商品"],
+      "expected": "加入后出现对应条目与正确合计；移除后条目和合计同步变化"
+    },
+    {
+      "id": "checkout",
+      "name": "下单结算",
+      "steps": ["购物车内执行模拟结算", "查看订单页"],
+      "expected": "结算后购物车清空并生成新订单"
+    },
+    {
+      "id": "order_history",
+      "name": "订单记录与持久化",
+      "steps": ["查看订单列表", "确认订单编号与状态", "重启 App 后再看订单"],
+      "expected": "订单列表包含刚生成的订单编号和状态，重启后仍存在",
+      "persistence": true
+    },
+    {
+      "id": "profile",
+      "name": "个人中心",
+      "steps": ["进入个人中心"],
+      "expected": "显示当前登录用户信息、收藏与订单数量，并提供媒体展示和退出登录操作"
+    },
+    {
+      "id": "logout",
+      "name": "登出与会话状态",
+      "steps": ["在个人中心登出", "重启 App"],
+      "expected": "登出后回到登录页；重启后仍为未登录状态",
+      "persistence": true
+    },
+    {
+      "id": "media",
+      "name": "离线媒体播放",
+      "steps": ["打开媒体展示页", "播放音频", "播放视频"],
+      "expected": "音频与视频均可在断网环境下播放，播放状态可见"
+    }
   ]
 }

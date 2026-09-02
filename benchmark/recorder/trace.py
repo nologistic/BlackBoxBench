@@ -73,6 +73,25 @@ class TraceRecorder:
                 ensure_ascii=False) + "\n")
             self._disc.flush()
 
+    def log_discovery_rejected(self, op: str, reason: str,
+                               request: dict | None = None) -> None:
+        """Record a discovery call the platform refused.
+
+        Only successful calls used to be written, which made two very different
+        situations indistinguishable afterwards: an Agent that never attempted
+        to record a transition edge, and an Agent that attempted it and was
+        refused (bad evidence, unknown node id). The first is a finding about
+        the Agent; the second is a platform artefact that must not be scored as
+        Agent behaviour. This log is local audit only — the Agent still receives
+        exactly the same error it did before.
+        """
+        with self._lock:
+            self._disc.write(json.dumps(
+                {"ts": utc_now(), "op": op, "accepted": False,
+                 "reason": reason, "request": request or {}},
+                ensure_ascii=False) + "\n")
+            self._disc.flush()
+
     def log_event(self, kind: str, payload: dict | None = None) -> None:
         """Lifecycle events (reset, close...) into actions.jsonl."""
         with self._lock:

@@ -5,6 +5,7 @@ import json
 import subprocess
 
 from agents.cli_explorer import install as managed_install
+from agents.app_review import install as app_review_install
 from self_explorer import install as self_install
 
 
@@ -52,6 +53,31 @@ def test_self_built_codex_install_is_separate(monkeypatch, tmp_path):
     assert add[-3:] == [str(self_install.PYTHON), "-m",
                         "self_explorer.mcp_server"]
     assert (tmp_path / "skills" / "self-built-explorer" / "SKILL.md").is_file()
+
+
+def test_app_review_codex_install_registers_judge_only(monkeypatch, tmp_path):
+    calls = []
+
+    def run(argv, **kwargs):
+        calls.append(argv)
+        return _completed(argv, **kwargs)
+
+    monkeypatch.setattr(app_review_install, "_codex_home", lambda: tmp_path)
+    monkeypatch.setattr(app_review_install, "_codex_command",
+                        lambda: "codex.cmd")
+    monkeypatch.setattr(app_review_install.subprocess, "run", run)
+    app_review_install.install_codex("demo.json")
+
+    add = calls[-1]
+    assert add[:5] == ["codex.cmd", "mcp", "add", "app-review", "--env"]
+    assert "BBB_APP_REVIEW_CHECKLIST=demo.json" in add
+    assert add[-3:] == [app_review_install._python(), "-m",
+                        "agents.app_review.mcp_server"]
+    skill = tmp_path / "skills" / "app-review" / "SKILL.md"
+    assert skill.is_file()
+    text = skill.read_text(encoding="utf-8")
+    assert "只调用 `app-review` MCP" in text
+    assert "android-our-method" not in add and "android-blackboxbench" not in add
 
 
 # ------------------------------------------------------ CodeBuddy (user level)

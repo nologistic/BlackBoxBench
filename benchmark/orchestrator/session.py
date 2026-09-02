@@ -30,6 +30,31 @@ class SessionClosed(Exception):
     pass
 
 
+class TransientEnvironmentError(Exception):
+    """A recoverable environment blip: the step failed, the session lives on.
+
+    A device or browser that drops one operation while remaining healthy is an
+    environment artefact, not an observation about the Agent. Ending an
+    exploration dozens of steps in because of it discards real work, so the
+    Agent is told this single step did not go through and may simply continue.
+    """
+
+
+def _agent_safe_message(exc: Exception) -> str:
+    """A neutral description of a runtime failure, safe to hand to an Agent.
+
+    Raw runtime exceptions name the tools behind the pixels-only boundary: an
+    adb command line and emulator serial, a CDP method, a websocket URL, host
+    absolute paths. Those must never reach the Agent — they disclose that ADB or
+    CDP exist and what they were asked to do. Only exceptions that were
+    deliberately worded for this purpose (`agent_safe`) are passed through; full
+    technical detail stays in the local crash report, which no Agent can read.
+    """
+    if getattr(exc, "agent_safe", False):
+        return str(exc)
+    return "the environment did not complete this operation"
+
+
 # Live targets run HEADED: F12 would open DevTools and leak the DOM as pixels.
 # It is the only single-key escape hatch — the action schema has no modifier
 # keys (no Ctrl+Shift+I / Ctrl+L) and no right-click — so blocking F12 plus
@@ -93,6 +118,8 @@ class Session:
         self.cursor = {"x": 0, "y": 0}
         self._last_frame_png: bytes | None = None
         self._last_frame_id: int | None = None
+        self._latencies: list[float] = []
+        self._last_latency_warning = 0
         self._lock = threading.RLock()
         self.created_at = utc_now()
         self._write_session_meta()
@@ -132,12 +159,20 @@ class Session:
         (frame_id, diff_vs_prev, settle_ms)."""
         t0 = time.monotonic()
         settle_ms = 0.0
+        settle_reason = "none"
         raw = self.runtime.screenshot()
         prev = None
         if self._last_frame_png is not None:
             prev = imgdiff.load(self._last_frame_png)
         if settle and config.CAPTURE_AFTER_ACTION:
-            # poll until visually stable
+            # Poll until visually stable. "Stable" has two acceptable forms: the
+            # screen stops changing, or it keeps changing only inside a small,
+            # steady area — a clock face, stopwatch or spinner. Without the
+            # second form a target that animates forever can never settle, so
+            # every observation waits out the full timeout and spends the
+            # session's duration budget on nothing.
+            animated_polls = 0
+            settle_reason = "timeout"
             while True:
                 img = imgdiff.load(raw)
                 time.sleep(config.SETTLE_POLL_MS / 1000)
@@ -146,7 +181,16 @@ class Session:
                 raw = nxt
                 settle_ms = (time.monotonic() - t0) * 1000
                 if d < config.SETTLE_STABLE_DIFF:
+                    settle_reason = "still"
                     break
+                if d <= config.SETTLE_ANIMATION_DIFF:
+                    animated_polls += 1
+                    if animated_polls >= config.SETTLE_ANIMATION_POLLS:
+                        settle_reason = "animation"
+                        break
+                else:
+                    # A large change means the transition is still in progress.
+                    animated_polls = 0
                 if settle_ms > config.SETTLE_TIMEOUT_MS:
                     break
         png = draw_cursor(raw, self.cursor["x"], self.cursor["y"]) \
@@ -159,7 +203,8 @@ class Session:
         self.recorder.log_observation(m.ObservationRecord(
             step=step, frame_id=fid, timestamp=utc_now(),
             path=f"frames/frame_{fid:06d}.png", cursor=dict(self.cursor),
-            diff_score=round(d_prev, 5), settle_ms=round(settle_ms, 1)))
+            diff_score=round(d_prev, 5), settle_ms=round(settle_ms, 1),
+            settle_reason=settle_reason))
         return fid, d_prev, settle_ms
 
     # ------------------------------------------------------------ agent API
@@ -169,7 +214,16 @@ class Session:
             self._require_running()
             self.budget.check_observe()
             self.budget.observations_used += 1
-            fid, _, _ = self._capture_frame(self.step, settle=False)
+            try:
+                fid, _, _ = self._capture_frame(self.step, settle=False)
+            except Exception as e:
+                # Capturing pixels is a runtime operation like any action: on
+                # Android it drives dumpsys and screencap, which are exactly
+                # where a transient device failure surfaces. A device that is
+                # still healthy costs the Agent one observation, not the whole
+                # session; only an unusable one ends it.
+                self.budget.observations_used -= 1
+                raise self._classify_runtime_failure(e) from e
             png = (self.dir / "frames" / f"frame_{fid:06d}.png").read_bytes()
             info = self.runtime.info()
             response = {
@@ -222,26 +276,76 @@ class Session:
                 # invalid action surfacing from dispatch (e.g. tab index out of
                 # range at runtime): a 400 for the agent, NOT a session failure
                 raise
-            except Exception as e:  # runtime failure → session failed (crash report)
-                self.budget.freeze()
-                self.status = "failed"
-                self.close_reason = f"runtime error: {e}"
-                self._write_crash(e)
-                self._write_session_meta()
-                # a failed session never accepts work again — release the
-                # browser (and for live targets the profile singleton lock)
-                # immediately instead of leaking it until close()/exit
-                try:
-                    self.runtime.stop()
-                except Exception:
-                    pass
-                raise
+            except Exception as e:  # runtime failure
+                raise self._classify_runtime_failure(e) from e
             self.recorder.log_action(m.ActionRecord(
                 step=self.step, timestamp=utc_now(), action=action,
                 accepted=True, error=None, duration_ms=round(dur, 1),
                 before_frame=before_fid, after_frame=after_fid))
+            self._watch_latency(dur)
             return {"accepted": True, "frame_id": after_fid, "step": self.step,
                     "tabs": self._tabs_info()}
+
+    def _watch_latency(self, duration_ms: float) -> None:
+        """Note when the environment starts degrading, before it fails outright.
+
+        An emulator running out of host resources does not stop cleanly: action
+        latency drifts upward for dozens of steps and only then does an adb call
+        fail. One lost exploration went 1.9s -> 4.9s mean with a 16s spike before
+        `screencap` finally died, and nothing recorded that — the crash report
+        alone made a slow collapse look like a sudden fault.
+
+        This is trace-only telemetry: the Agent's receipt is unchanged, so no
+        information channel is widened and no session decision depends on it.
+        """
+        self._latencies.append(duration_ms)
+        window = 10
+        if len(self._latencies) < window * 2:
+            return
+        baseline = sum(self._latencies[:window]) / window
+        recent = sum(self._latencies[-window:]) / window
+        if baseline <= 0:
+            return
+        ratio = recent / baseline
+        # Throttle on measurements, not on `self.step`: capture-only paths also
+        # feed this, and a step-based guard silently never fires for them.
+        measured = len(self._latencies)
+        if ratio >= 3.0 and measured - self._last_latency_warning >= window:
+            self._last_latency_warning = measured
+            self.recorder.log_event("environment_degrading", {
+                "step": self.step,
+                "baseline_ms": round(baseline, 1),
+                "recent_ms": round(recent, 1),
+                "ratio": round(ratio, 2),
+            })
+
+    def _classify_runtime_failure(self, exc: Exception) -> Exception:
+        """Decide whether one runtime failure ends the session.
+
+        The environment sometimes drops a single operation while staying
+        perfectly usable. Ending an exploration at step 85 because of one such
+        blip throws away real work and records an environment artefact as if it
+        were a limit of the Agent. So: ask the runtime whether it is still
+        healthy, and only give up when it is not.
+
+        Either way the Agent receives a neutral sentence — never an adb command
+        line, CDP method or host path.
+        """
+        recoverable = bool(getattr(exc, "recoverable", False))
+        if not recoverable:
+            # Not every runtime tags its errors; ask the runtime directly.
+            try:
+                recoverable = bool(self.runtime.health())
+            except Exception:
+                recoverable = False
+        detail = getattr(exc, "detail", None) or repr(exc)
+        if recoverable:
+            self.recorder.log_event("environment_blip", {
+                "step": self.step, "detail": str(detail)[:500],
+                "recovered": True})
+            return TransientEnvironmentError(_agent_safe_message(exc))
+        self._fail(exc, f"runtime error: {detail}")
+        return SessionClosed(_agent_safe_message(exc))
 
     def _validate(self, a: m.Action) -> None:
         info = self.runtime.info()
@@ -438,11 +542,26 @@ class Session:
 
     def mark_failed(self, exc: Exception) -> None:
         with self._lock:
-            self.budget.freeze()
-            self.status = "failed"
-            self.close_reason = str(exc)
-            self._write_crash(exc)
-            self._write_session_meta()
+            self._fail(exc, str(exc))
+
+    def _fail(self, exc: Exception, reason: str) -> None:
+        """Terminal runtime failure. Caller must hold the session lock.
+
+        A failed session never accepts work again, so everything it holds is
+        handed back here: the browser or emulator process, the live-profile
+        singleton, the Android target lease and the emulator port reservation.
+        Leaving those attached to a dead session is what made a single
+        transient device hiccup block every later run against the same target.
+        """
+        self.budget.freeze()
+        self.status = "failed"
+        self.close_reason = reason
+        self._write_crash(exc)
+        self._write_session_meta()
+        try:
+            self.runtime.stop()
+        except Exception:
+            pass
 
     def _write_crash(self, exc: Exception) -> None:
         (self.dir / "crash_report.json").write_text(json.dumps({

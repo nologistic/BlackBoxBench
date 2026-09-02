@@ -229,6 +229,58 @@ def register_android_target(*, target_id: str, apk: Path,
     return spec
 
 
+def unregister_android_target(target_id: str, *,
+                              keep_artifacts: bool = False) -> None:
+    """Remove an operator-registered target and, by default, its stored APK."""
+    if target_id == "android_commerce_demo":
+        raise ValueError("the bundled sample target cannot be unregistered")
+    items = _load_registered()
+    if target_id not in items:
+        raise KeyError(target_id)
+    del items[target_id]
+    _save_registered(items)
+    if keep_artifacts:
+        return
+    root = config.ANDROID_TARGETS_DIR
+    for directory in (root / "artifacts" / target_id,
+                      root / "profiles" / target_id,
+                      root / "leases" / target_id):
+        resolved = directory.resolve()
+        # Refuse to delete anything that escaped the protected target tree.
+        if root.resolve() in resolved.parents and resolved.is_dir():
+            shutil.rmtree(resolved, ignore_errors=True)
+
+
+def rename_android_target(old_id: str, new_id: str) -> AndroidTargetSpec:
+    """Re-register a target under a new id, preserving every recorded field.
+
+    Target ids appear in session metadata, checklists and report file names, so
+    a dataset that was first registered under a provisional name can be given
+    its real one without re-extracting the APK.
+    """
+    if not SAFE_ID.fullmatch(new_id):
+        raise ValueError("target_id must use lowercase letters, digits, _ or -")
+    if old_id == "android_commerce_demo":
+        raise ValueError("the bundled sample target cannot be renamed")
+    items = _load_registered()
+    if old_id not in items:
+        raise KeyError(old_id)
+    if new_id in items:
+        raise FileExistsError(f"Android target already exists: {new_id}")
+    old = items[old_id]
+    profile = Path(old.profile_snapshot) if old.profile_snapshot else None
+    spec = register_android_target(
+        target_id=new_id, apk=old.apk, description=old.description,
+        brief=old.brief, package_name=old.package_name,
+        launch_activity=old.launch_activity, orientation=old.orientation,
+        reset_strategy=old.reset_strategy, network_policy=old.network_policy,
+        profile_snapshot=profile if profile and profile.is_dir() else None,
+        protected_strings=old.protected_strings,
+        protected_regions=old.protected_regions)
+    unregister_android_target(old_id)
+    return spec
+
+
 def get_android_target(target_id: str) -> AndroidTargetSpec:
     if target_id == "android_commerce_demo":
         return _sample_spec()

@@ -8,18 +8,28 @@
 覆盖指标或探索工作流，用来观察 Agent 的原初表现。复现 Agent 读取各条件允许交接的
 输入与公共虚构素材，只在固定输出目录实现网页。
 
-## 当前实验状态（2026-08）
+## 当前实验状态（2026-09）
 
 - 自建模式已完成实验周期并**从所有 Agent（Codex/CodeBuddy/Kimi）注销**；
   代码归档于 `self_explorer/`，历史产物在 `runs/self_built/`。本文件中与自建
   模式相关的约束继续适用于归档代码与其复现实验。
-- 当前活跃条件为两个：**托管基线**（`agents/cli_explorer`，冻结作对照）与
-  **our-method**（`agents/our_method`，基线的独立演进副本；改进含只读
-  `input_read`/`input_list` 素材通道、交接证据帧索引、写前预检、完成硬闸与
-  写路径证据验收，详见 `agents/our_method/README.md`）。二者共享
-  `benchmark/*` 平台底座，不得互相 import；our-method 的改进不得反向修改基线。
+- 当前活跃的**探索条件为四个**：网页 **baseline**（`agents/cli_explorer`，
+  冻结作对照）、网页 **our-method**（`agents/our_method`，基线的独立演进副本；
+  改进含只读 `input_read`/`input_list` 素材通道、交接证据帧索引、写前预检、
+  完成硬闸与写路径证据验收，详见 `agents/our_method/README.md`）、Android
+  **baseline**（`agents/android_baseline`）与 Android **our-method**
+  （`agents/android_our_method`）。四者共享 `benchmark/*` 平台底座（Android 两
+  条件另共享 `benchmark/android`、Recorder、Topology 与 `app_reproduction`），
+  但不得互相 import 方法层实现；任一 our-method 的改进不得反向修改对应 baseline。
+- 另有**两个评测条件**：`web-review`（`agents/web_review/` + `web_evaluation/`，
+  已收编；像素+类人输入+交接源码只读通道 `read_source`，与 app-review 护栏
+  完全对齐）与 `app-review`（`agents/app_review/` + `app_evaluation/`）。
+  语义判定由 LLM judge 在 Skill 内完成，代码只做薄护栏（证据引用真实截图、四档
+  封闭、不漏项、报告 schema 固定），契约见 `docs/evaluation_contract.md`。
 - 正式对照实验中每个 Agent 任务只应暴露一个条件的 MCP（our-method 安装器
-  提供 `--exclusive` 互斥注册）。
+  提供 `--exclusive` 互斥注册）；评测任务只启用 `app-review`。
+- 正式数据集与自写样例必须区分：`yuque_web`（网页首个数据集）与 `google_clock`
+  （Android 首个数据集）是数据集，`android_commerce_demo` 只用于冒烟测试。
 
 ## 不可违反的约束
 
@@ -59,7 +69,10 @@
   app 子进程与浏览器）；自建模式每个 Agent 一个 MCP 进程、独立 Compose 项目；
   复现素材重建与沙箱镜像构建由跨进程文件锁（`reproduction/filelock.py`）串行化。
   docker 托管模式（BBB_RUNTIME=docker）共享单一 reference 浏览器，同一时刻只允许
-  一个 session。
+  一个 session。Android 多 Agent 同目标并行依赖：target lease（explore 可多持有、
+  login 互斥）、全局端口命名空间、每会话独立 AVD clone、只读共享 APK、
+  `app_output/<handoff_id>` 与 `app_output/evaluations/<run_id>` 的独占创建
+  （碰撞必须报错而非覆盖）、构建镜像文件锁、启动前内存准入。
 - 自建 `finish_workspace` 只执行安全与完整性指纹检测（ground truth/被测 App 源码/
   设备桥/托管实现/跨会话工件 + 探索期 Agent 自写文本 LEAK 扫描）。常规第三方依赖根
   （如 `.deps`、`.venv`、`node_modules`）不参与内容扫描且不得进入复现交接，避免把
@@ -90,6 +103,8 @@
 
 - `benchmark/orchestrator/`：Session、预算、生命周期、目标注册和 live precheck。
 - `benchmark/runtime/`：Local、Live、Docker pixels+HID Runtime。
+- `benchmark/scratch.py`：仓库外易失运行态（浏览器 profile、AVD clone）与按 owner
+  PID 回收；`pid_alive` 是全项目"owner 已死则回收"规则的共同基础。
 - `benchmark/recorder/`：截图、光标、动作和观察轨迹。
 - `benchmark/topology/`：模型、证据校验、增量图和 finalize。
 - `agents/cli_explorer/`：通用 MCP Server、安装器和探索 Skill。
@@ -103,6 +118,8 @@
 - `agents/android_our_method/`：Android our-method 独立 MCP、门禁与 Skill。
 - `app_reproduction/`：固定 Compose 脚手架、移动素材、离线 APK 构建和像素复测。
 - `app_evaluation/`：安装后 Android 功能清单四档评测。
+- `web_evaluation/`：网页交接产物的四档评测会话（像素+类人输入+源码只读通道）。
+- `agents/web_review/`：网页评审 MCP、安装器与 Skill。
 - `app_output/`：Android 复现 Agent 唯一输出目录；`project/` 可写，`review/` 与
   `artifacts/` 由可信侧管理。
 
@@ -118,6 +135,39 @@
   guard 时必须拒绝，不得回退到不受限网络。
 - 每个探索或复测会话必须使用独立 AVD clone、ADB serial、端口和目录；Agent 不得离开
   目标 App，权限控制器和受控文件选择器是唯一允许的临时系统界面。
+- Android 端口预留必须来自唯一的全局命名空间
+  （`runs/android_targets/port_locks/`，见 `benchmark/android/runtime.py`
+  的 `port_locks_dir()`）。禁止再按 `work_dir` 相对推导锁目录：不同会话类型的
+  层级不同会把预留切成互不可见的命名空间，两个会话各自"占用" emulator-5554，
+  随后 `adb -s` 指向已死或错误设备（表现为 screencap exit -1）。预留还必须探测
+  console/adb 端口对，孤儿 qemu 仍在应答时不得发放该 serial。
+- Android 模拟器启动前必须做内存准入（`BBB_ANDROID_MIN_FREE_MB`，默认 5120）。
+  宿主内存不足时 adb 不会干净失败，而是随机丢单条命令；必须明确拒绝而非放行。
+- 每个会话的 AVD clone 数 GB、浏览器 profile 数百文件，都是易失运行态，必须建在
+  **仓库之外**的 scratch（`BBB_SCRATCH_DIR`，默认 `%TEMP%/blackboxbench-scratch`，
+  见 `benchmark/scratch.py`）。`runs/` 只存证据（帧、轨迹、拓扑）与诊断日志。
+  scratch 目录名带 owner PID，崩溃遗留在下次启动前自动回收，无需登记表。唯一例外
+  是 Android login 维护：其 clone 保留在 `runs/android_targets/login_work/` 固定
+  路径，供操作员取出 golden profile。曾因把它们建在会话目录内，每次 teardown 要
+  删数千个工作区文件，并遗留 7.8GB。
+- 会话进入 `failed` 必须立即归还它持有的一切：模拟器/浏览器进程、target lease、
+  端口预留。observe 与 action 两条路径都要走同一失败处理，否则一次瞬时设备抖动
+  会把目标锁死到 Controller 重启。Controller 被强杀后残留的 `status: running`
+  僵尸元数据必须在下次启动时改写为 failed（帧/轨迹/拓扑保持原样）。
+- 瞬时传输故障必须重试而非上报：CDP 退避重试约 12s 并在连接级失败后重连，adb
+  重试前先 wait-for-device。重试仍失败时按**设备/浏览器是否仍健康**分级：健康 →
+  可恢复（HTTP 409，只损失这一步，会话存活）；不健康 → 会话 failed 并归还资源。
+  环境噪声不得被记录成对 Agent 的观察。
+- **失败消息绝不泄漏可信侧机制**。adb 原始错误含工具路径、命令行与 emulator
+  serial，CDP 错误含方法名与 ws URL；它们只能进本地 trace。回传 Agent 的必须是
+  中性句子（`DeviceError` / `_agent_safe_message`）。泄漏等于告诉 Agent ADB/CDP
+  存在及其用途，违反 pixels-only 边界。
+- Android 内存准入必须在跨进程锁内完成"检查 + 预留"，并为**启动中**的模拟器扣除
+  预算（`BBB_ANDROID_EMULATOR_MB`）。否则两个并发启动会各自认为内存足够而共同超配，
+  正是 adb 随机丢命令的诱因。
+- `type_text` 只能注入 ASCII。设备 KeyCharacterMap 无 CJK 映射，`input text` 对
+  CJK 必然失败（任何引号或转义都无效）；非 ASCII 必须作为可恢复的无效动作拒绝
+  （会话存活），并引导 Agent 用屏幕键盘点按。
 - Android 交接必须使用脱敏白名单副本。目标 APK、profile、原 App 私有数据、真实凭据
   与 protected strings/regions 不得进入 `/exploration`、`/input`、复现项目或 APK。
 - Android 构建容器固定 Kotlin + Jetpack Compose、`network=none`、离线依赖；只能挂载
@@ -138,14 +188,24 @@ vendor/python/python.exe scripts/build_android_reproduction_image.py --accept-li
 vendor/python/python.exe scripts/build_android_sample.py
 vendor/python/python.exe -m agents.android_baseline.install --cli codex
 vendor/python/python.exe -m agents.android_our_method.install --cli codex
+vendor/python/python.exe -m agents.app_review.install --cli codex
+vendor/python/python.exe -m agents.web_review.install --cli codex
+vendor/python/python.exe scripts/android_launch_preflight.py --app google_clock --condition our-method --close
+vendor/python/python.exe scripts/android_parallel_check.py --app google_clock
+vendor/python/python.exe scripts/android_locks.py --reclaim
 ```
 
 ## Session 清理
 
-测试必须使用 pytest 临时目录，不得写正式 `runs/`。自建工具测试必须 mock Docker，
-不能实际创建 `runs/self_*`。清理 `runs/` 前先查询
+测试必须使用 pytest 临时目录，不得写正式 `runs/`。跑 pytest 必须带
+`--basetemp=.test-tmp/<name>`，否则 IDE 的批量删除保护会中断清理。自建工具测试必须
+mock Docker，不能实际创建 `runs/self_*`。清理 `runs/` 前先查询
 `GET /api/sessions` 并确认没有 running Session，再停止相关 Controller/MCP/Chrome
 进程。只清理 `runs/sess_*`；`runs/live_targets/` 是敏感登录资料，必须保留。
+Android 会话还要跑 `scripts/android_locks.py --reclaim` 回收 lease 与端口预留，
+必要时加 `--kill-emulators` 清掉孤儿 qemu。
+
+PowerShell 会吞 `$` 变量并破坏中文，复杂脚本请写成文件再执行。
 
 ## Live target
 
@@ -160,6 +220,13 @@ vendor/python/python.exe -m agents.android_our_method.install --cli codex
 ## 修改原则
 
 - 优先保持探索内核小而明确，不重新引入专用模型 harness、展示层或重复 runner。
+- **失败归属必须先判性质**（判据与已判定实例见 `docs/evaluation_contract.md` §11）：
+  Agent 做了合法的事却拿不到结果 = 平台缺陷，必须修并重跑受影响会话；平台正常服务
+  而 Agent 选择不做或做得不好 = 能力/方法差异，**不得修**，如实计入结果。检验方式是
+  "同平台下别的条件/会话是否做到了"。判定必须基于 `discovery.jsonl` 的拒绝记录、
+  `observations.jsonl` 的 `settle_reason`、`actions.jsonl` 的 `environment_degrading`
+  与 crash report，不得凭印象或从截图反推。
+- 诊断信息只写本地 trace（Agent 不可达），不得因为"便于分析"而扩大 Agent 可见通道。
 - 新功能必须说明是否扩大 Agent 可见通道；两个探索条件不得互相导入或共享实现。
 - 修改 Runtime、Agent API、evidence 或网络边界后必须运行对应安全测试和完整测试。
 - 新 Reference App 按 `docs/adding_reference_app.md` 接入。

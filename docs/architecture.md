@@ -101,6 +101,16 @@ create → capture S0 → running → finalize/close → closed
 - Live reset 不删除服务端状态。
 - finalize 生成最终 topology 和 session summary。
 - 启动或运行失败会释放 Runtime 和 Recorder。
+- **失败即归还**：observe 与 action 走同一失败路径，标记 failed 时立即停止
+  Runtime，交回浏览器/模拟器进程、live profile 单例、Android target lease 与
+  端口预留。Controller 也会丢弃该 Session 的 runtime 句柄。任何一处遗漏都会让
+  一次瞬时抖动把目标锁死到 Controller 重启。
+- **瞬时故障不等于 Agent 表现**：Runtime 层对可恢复的传输故障重试（CDP 退避重试
+  约 12s 并在连接级失败后重连；adb 重试前先 wait-for-device），只有持续故障才
+  上报。环境噪声不应被记录成对 Agent 的观察。
+- **Controller 非正常退出**：Session 只存在于内存，被强杀后磁盘上会残留
+  `status: running` 的僵尸目录，它无法再被观察、关闭或恢复。Controller 启动时
+  会把这类元数据改写为 failed，帧、轨迹与拓扑作为审计日志保持原样。
 
 ## 6. 工件
 
@@ -118,7 +128,15 @@ runs/<session_id>/
   coverage_report.json
   session_summary.json
   crash_report.json        # 仅失败时
+  runtime/app.log          # 诊断日志
+  runtime/browser.log
 ```
+
+`runs/` 只存证据与诊断。易失运行态（浏览器 user-data-dir 数百个缓存文件、Android
+AVD clone 数 GB）建在仓库之外的 scratch（`BBB_SCRATCH_DIR`，默认
+`%TEMP%/blackboxbench-scratch`，见 `benchmark/scratch.py`）：它们会话结束即无价值，
+放在仓库内会让每次 teardown 删掉数千个工作区文件，删除失败还会留下数 GB 垃圾。
+scratch 目录名带 owner PID，因此崩溃遗留可在下次启动前自动回收，无需登记表。
 
 测试通过独立临时 runs 目录运行，不得污染正式 `runs/`。
 
@@ -185,4 +203,6 @@ Android 方法层位于两个互不 import 的目录：`agents/android_baseline/
 `agents/android_our_method/`。二者共享 `app_reproduction/` 的中立 Compose 脚手架、
 虚构移动素材、断网构建器和 review emulator。输出固定为
 `app_output/<handoff_id>/{project,review,artifacts}`；生成 APK 可进一步交给
-`app_evaluation.AppEvaluator` 按人工清单进行四档像素验收。
+独立的 `app-review` MCP/Skill。评审 Agent 通过
+`app_evaluation.AppEvaluationSession` 自适应执行“观察截图—坐标操作—再次观察”，
+并按人工清单产出带证据帧引用的四档功能报告；它不接触任一探索条件或目标 APK。
