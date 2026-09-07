@@ -1,0 +1,44 @@
+{
+  "note": "虚构目录树。hidden=true 表示以点开头的隐藏文件/目录。size 为字节（目录为 null）。",
+  "root": {
+    "name": "内部存储",
+    "type": "dir",
+    "children": [
+      {"name": "Documents", "type": "dir", "children": [
+        {"name": "年度总结.md", "type": "file", "size": 12480, "mtime": "2026-08-30T09:12"},
+        {"name": "黑盒实验记录.txt", "type": "file", "size": 3841, "mtime": "2026-09-05T21:47"},
+        {"name": "素材清单.pdf", "type": "file", "size": 262144, "mtime": "2026-07-18T14:03"},
+        {"name": "会议录音.zip", "type": "archive", "size": 15810000, "mtime": "2026-09-01T10:20",
+         "children": [
+           {"name": "周一例会.wav", "type": "file", "size": 7800000},
+           {"name": "评审会.wav", "type": "file", "size": 7500000},
+           {"name": "readme.txt", "type": "file", "size": 1024}
+         ]},
+        {"name": ".draft", "type": "dir", "hidden": true, "children": [
+          {"name": "未定稿.md", "type": "file", "size": 2400, "mtime": "2026-08-28T23:55"}
+        ]}
+      ]},
+      {"name": "Pictures", "type": "dir", "children": [
+        {"name": "截图 2026-09-06.png", "type": "file", "size": 482300, "mtime": "2026-09-06T18:30"},
+        {"name": "湖边.png", "type": "file", "size": 512000, "mtime": "2026-08-12T16:08"},
+        {"name": ".nomedia", "type": "file", "size": 0, "mtime": "2026-08-12T16:08"}
+      ]},
+      {"name": "Download", "type": "dir", "children": [
+        {"name": "feeder.apk", "type": "file", "size": 53000000, "mtime": "2026-08-20T11:11"},
+        {"name": "素材包.zip", "type": "archive", "size": 12400000, "mtime": "2026-09-04T08:44",
+         "children": [
+           {"name": "avatars", "type": "dir", "children": []},
+           {"name": "manifest.json", "type": "file", "size": 7168}
+         ]},
+        {"name": "临时", "type": "dir", "children": []}
+      ]},
+      {"name": ".trash", "type": "dir", "hidden": true, "children": [
+        {"name": "旧方案.docx", "type": "file", "size": 45056, "mtime": "2026-06-01T10:00"}
+      ]}
+    ]
+  },
+  "bookmarks": [
+    {"name": "文档", "path": "/内部存储/Documents"},
+    {"name": "下载", "path": "/内部存储/Download"}
+  ]
+}

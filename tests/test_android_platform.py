@@ -875,14 +875,55 @@ def test_android_workspace_mounts_only_project_and_filtered_inputs(
     try:
         run = next(call for call in calls if call and call[0] == "run")
         command = "\n".join(run)
-        assert "--network\nnone" in command
+        # The network is deliberately open (skill text carries the
+        # prefer-materials discipline); isolation comes from the read-only
+        # root, cap-dropping and the seccomp defaults.
+        assert "--network" not in command
         assert f"source={ws.project_dir},target=/workspace" in command
         assert "target=/materials/common,readonly" in command
         assert "target=/materials/mobile,readonly" in command
+        assert "target=/materials/app" not in command  # no pack passed
         assert "target=/input/functional_topology.json,readonly" in command
         assert "Secret" not in ws.topology_path.read_text(encoding="utf-8")
         assert str(tmp_path / "input.apk") not in command
         assert ws.output_dir.parent == (tmp_path / "app_output").resolve()
+    finally:
+        ws.close()
+
+
+def test_android_workspace_mounts_per_app_materials(monkeypatch, tmp_path):
+    """A target with a supplement pack gets it mounted at /materials/app."""
+    scaffold = tmp_path / "scaffold"; scaffold.mkdir()
+    (scaffold / "settings.gradle.kts").write_text(
+        "rootProject.name='x'", encoding="utf-8")
+    common = tmp_path / "common"; common.mkdir()
+    mobile = tmp_path / "mobile"; mobile.mkdir()
+    topology = tmp_path / "functional_topology.json"
+    topology.write_text('{"nodes":[]}', encoding="utf-8")
+    frame = tmp_path / "frame.png"; _png(frame)
+    calls = []
+    monkeypatch.setattr(app_workspace, "SCAFFOLD_ROOT", scaffold)
+    monkeypatch.setattr(app_workspace, "OUTPUT_ROOT", tmp_path / "app_output")
+    monkeypatch.setattr(app_workspace, "IMAGE_CONTEXT", tmp_path / "image")
+    monkeypatch.setattr(app_workspace, "ensure_docker_available", lambda: "ok")
+    monkeypatch.setattr(app_workspace, "ensure_materials", lambda: common)
+    monkeypatch.setattr(app_workspace, "ensure_app_materials", lambda: mobile)
+    monkeypatch.setattr(app_workspace, "_docker",
+                        lambda *args, **kwargs: calls.append(args) or
+                        SimpleNamespace(returncode=0, stdout="", stderr=""))
+    # aegis ships a repository supplement pack (app_reproduction/materials/
+    # apps/aegis), so this exercises the real pack-lookup branch.
+    ws = app_workspace.AppReproductionWorkspace.start(
+        source_mode="android-baseline", source_id="sess_android",
+        topology_path=topology,
+        exploration_files={"screenshots/frame.png": frame},
+        target_id="aegis")
+    try:
+        run = next(call for call in calls if call and call[0] == "run")
+        command = "\n".join(run)
+        assert "target=/materials/app,readonly" in command
+        assert "--network" not in command
+        assert ws.app_materials_dir is not None
     finally:
         ws.close()
 
@@ -1166,6 +1207,42 @@ def test_android_mcp_surfaces_do_not_expose_web_or_device_tools():
     assert not (forbidden & set(ours._TOOLS))
     assert "input_read" not in baseline._TOOLS
     assert {"input_read", "input_list"} <= set(ours._TOOLS)
+
+
+def test_android_ours_input_read_accepts_per_app_materials(monkeypatch,
+                                                            tmp_path):
+    """The /materials/app supplement pack reads through the same input
+    whitelist as common/mobile (regression for the 2026-09-07 failure
+    'materials root must be common or mobile')."""
+    from agents.android_our_method import mcp_server as ours_mcp
+
+    class _Rep:
+        artifact_dir = None
+        topology_path = None
+        app_materials_dir = None
+
+    pack = tmp_path / "pack"
+    pack.mkdir()
+    (pack / "CATALOG.md").write_text("catalog", encoding="utf-8")
+    monkeypatch.setattr(ours_mcp, "ensure_materials", lambda: tmp_path / "common")
+    monkeypatch.setattr(ours_mcp, "ensure_app_materials",
+                        lambda: tmp_path / "mobile")
+    rep = _Rep()
+    monkeypatch.setattr(ours_mcp, "_reproduction", rep)
+
+    # without a mounted pack /materials/app stays rejected
+    with pytest.raises(ValueError):
+        ours_mcp._resolve_input_host("/materials/app/CATALOG.md", rep)
+
+    # with the pack mounted it resolves inside the pack
+    rep.app_materials_dir = pack
+    host = ours_mcp._resolve_input_host("/materials/app/CATALOG.md", rep)
+    assert host == pack / "CATALOG.md"
+    assert ours_mcp._material_roots()["app"] == pack
+
+    # traversal out of the pack is still rejected
+    with pytest.raises(ValueError):
+        ours_mcp._resolve_input_host("/materials/app/../../secrets.txt", rep)
 
 
 def test_android_strict_agent_runtimes_mount_no_repository_or_docker_socket():

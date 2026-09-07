@@ -26,6 +26,9 @@ dist/
 website_output/*
 !website_output/.gitkeep
 
+# ---- 2026-09-07 环境改版前的历史归档（旧交接工程/评测帧/会话证据，只读） ----
+cache/
+
 # ---- Android APK 复现输出与可重建移动素材 ----
 app_output/*
 !app_output/.gitkeep

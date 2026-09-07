@@ -1,0 +1,284 @@
+{
+  "checklist_id": "feeder",
+  "platform": "android",
+  "features": [
+    {
+      "name": "订阅源列表与空状态",
+      "steps": [
+        "首次无订阅源",
+        "“所有订阅源”显示空状态",
+        "添加第一个订阅源后侧边栏出现 Feed",
+        "多个 Feed 分别显示未读数量",
+        "删除最后一个 Feed 后重新恢复空状态"
+      ],
+      "expected": "删除最后一个 Feed 后重新恢复空状态",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f01"
+    },
+    {
+      "name": "通过 URL 添加订阅源",
+      "steps": [
+        "进入“添加订阅源”",
+        "输入 Feed URL",
+        "请求并解析源",
+        "展示可订阅结果",
+        "确认后创建 Feed",
+        "首批文章同步进入列表",
+        "无效 URL / 无法解析的内容显示错误且不创建无效订阅"
+      ],
+      "expected": "无效 URL / 无法解析的内容显示错误且不创建无效订阅",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f02"
+    },
+    {
+      "name": "RSS / Atom / JSON Feed 多格式解析",
+      "steps": [
+        "分别添加 RSS、Atom、JSON Feed",
+        "将三种格式统一转换为相同的 Feed/Article 模型",
+        "标题、链接、发布日期、正文、图片等在列表与阅读器中表现一致。官方明确支持三种 Feed 格式。GitHub"
+      ],
+      "expected": "标题、链接、发布日期、正文、图片等在列表与阅读器中表现一致。官方明确支持三种 Feed 格式。GitHub",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f03"
+    },
+    {
+      "name": "订阅源编辑与独立配置",
+      "steps": [
+        "打开“编辑订阅源”",
+        "修改标题、标签",
+        "配置“完整文章 / 打开时摘要 / 缩略图增强 / 新内容通知 / 跳过重复文章”等",
+        "保存",
+        "仅此 Feed 使用这些设置",
+        "退出重进后保持"
+      ],
+      "expected": "退出重进后保持",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f04"
+    },
+    {
+      "name": "Feed 同步与增量更新",
+      "steps": [
+        "已有 Feed 和文章",
+        "执行“同步订阅源”",
+        "获取服务器最新内容",
+        "仅新增真正的新文章",
+        "既有 Article 的已读、保存等本地状态不被覆盖",
+        "再次同步相同内容不会重复插入"
+      ],
+      "expected": "再次同步相同内容不会重复插入",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f05"
+    },
+    {
+      "name": "重复文章识别策略",
+      "steps": [
+        "Feed 返回相同 GUID、URL 或标题等重复内容",
+        "根据 Feed 的“跳过重复文章”和唯一 ID 配置判断是否创建新 Article",
+        "改变策略后后续同步按新规则处理"
+      ],
+      "expected": "改变策略后后续同步按新规则处理",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f06"
+    },
+    {
+      "name": "多 Feed 汇总与未读计数",
+      "steps": [
+        "同时订阅 Feeder News、xkcd 等多个 Feed",
+        "“所有订阅源”聚合各源文章",
+        "每个 Feed 独立维护未读数",
+        "阅读某个 Feed 的文章后该 Feed 和全局未读数量同步变化"
+      ],
+      "expected": "阅读某个 Feed 的文章后该 Feed 和全局未读数量同步变化",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f07"
+    },
+    {
+      "name": "已读 / 未读生命周期",
+      "steps": [
+        "新同步文章默认为未读",
+        "打开或执行标记后变为已读",
+        "返回列表样式及未读计数变化",
+        "重新标记未读后重新进入未读集合",
+        "刷新/重启不丢失状态"
+      ],
+      "expected": "刷新/重启不丢失状态",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f08"
+    },
+    {
+      "name": "全部标记为已读",
+      "steps": [
+        "某范围内存在多个未读 Article",
+        "选择“全部标记为已读”",
+        "所有文章仍保留，只修改 read state",
+        "Feed 未读计数和全局计数变为 0",
+        "“已保存文章”等其他关系不受影响"
+      ],
+      "expected": "“已保存文章”等其他关系不受影响",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f09"
+    },
+    {
+      "name": "滚动自动标记已读",
+      "steps": [
+        "开启“滚动时自动标记为已读”",
+        "用户滚过文章列表",
+        "已经过阅读阈值的 Article 自动转为已读",
+        "未浏览的项目保持未读",
+        "关闭功能后滚动不再修改状态"
+      ],
+      "expected": "关闭功能后滚动不再修改状态",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f10"
+    },
+    {
+      "name": "保存文章生命周期",
+      "steps": [
+        "对 Article 执行保存",
+        "文章出现在“已保存文章”",
+        "原 Feed 页面仍显示保存状态",
+        "在“已保存文章”取消保存",
+        "原页面同步恢复未保存",
+        "删除 Feed 时按实际产品数据规则处理已保存内容"
+      ],
+      "expected": "删除 Feed 时按实际产品数据规则处理已保存内容",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f11"
+    },
+    {
+      "name": "文章搜索、筛选与排序",
+      "steps": [
+        "从文章列表输入搜索词",
+        "返回标题/正文匹配项",
+        "配合未读、Feed、标签等筛选",
+        "再修改“从新到旧”等排序方式",
+        "结果由同一 Article 数据实时重新计算",
+        "清除查询恢复列表"
+      ],
+      "expected": "清除查询恢复列表",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f12"
+    },
+    {
+      "name": "标签与 Feed 组织",
+      "steps": [
+        "给不同 Feed 配置标签",
+        "导航中按标签/Feed 组织内容",
+        "修改标签后 Feed 和文章归属视图同步变化",
+        "文章自身数据不被复制"
+      ],
+      "expected": "文章自身数据不被复制",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f13"
+    },
+    {
+      "name": "后台同步策略",
+      "steps": [
+        "设置“每小时查找新文章”",
+        "可叠加“应用启动时 / 仅 Wi-Fi / 仅充电时”等条件",
+        "满足条件时执行后台刷新",
+        "新内容写入本地",
+        "不满足条件时跳过本轮",
+        "下次满足条件时继续。官方确认 Feeder 支持后台同步。F-Droid"
+      ],
+      "expected": "下次满足条件时继续。官方确认 Feeder 支持后台同步。F-Droid",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f14"
+    },
+    {
+      "name": "新内容通知",
+      "steps": [
+        "Feed 开启“新内容通知”",
+        "同步发现真正的新 Article",
+        "生成通知",
+        "已存在文章不得反复通知",
+        "关闭该 Feed 的通知后仍同步文章但不再产生通知。官方确认 Feeder 支持通知。GitHub"
+      ],
+      "expected": "关闭该 Feed 的通知后仍同步文章但不再产生通知。官方确认 Feeder 支持通知。GitHub",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f15"
+    },
+    {
+      "name": "离线文章与内容缓存",
+      "steps": [
+        "成功同步后断网",
+        "已缓存的 Feed/文章仍可列表浏览和阅读",
+        "未缓存的完整文章或图片显示相应不可用状态",
+        "恢复网络后再次同步补全内容。离线阅读属于官方核心功能。F-Droid"
+      ],
+      "expected": "恢复网络后再次同步补全内容。离线阅读属于官方核心功能。F-Droid",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f16"
+    },
+    {
+      "name": "完整文章、摘要与图片增强",
+      "steps": [
+        "对 Feed 开启“默认获取完整文章”",
+        "Feed 摘要不足时尝试获取正文",
+        "开启“打开时生成摘要”时在阅读阶段生成/展示摘要",
+        "“从文章元数据增强缩略图”改变列表图片来源",
+        "原始 Feed 数据仍可保留"
+      ],
+      "expected": "原始 Feed 数据仍可保留",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f17"
+    },
+    {
+      "name": "阅读器与内容打开方式",
+      "steps": [
+        "打开 Article",
+        "根据设置在内置阅读器中显示 HTML 内容",
+        "外部链接按“自定义标签页”等方式打开",
+        "音频 enclosure 可交给内置播放器",
+        "开启分页模式后由连续滚动切换为翻页阅读"
+      ],
+      "expected": "开启分页模式后由连续滚动切换为翻页阅读",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f18"
+    },
+    {
+      "name": "OPML 导入 / 导出 Round Trip",
+      "steps": [
+        "当前存在多个 Feed",
+        "导出 OPML",
+        "新环境导入",
+        "恢复 Feed URL、标题及可表达的分组结构",
+        "已有订阅应按规则合并而非简单生成重复 Feed。OPML Import/Export 是官方明确功能。GitHub"
+      ],
+      "expected": "已有订阅应按规则合并而非简单生成重复 Feed。OPML Import/Export 是官方明确功能。GitHub",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f19"
+    },
+    {
+      "name": "已保存文章导入 / 导出与显示配置",
+      "steps": [
+        "导出已保存文章",
+        "在另一环境导入并恢复 Saved 集合",
+        "与 OPML 的“订阅源迁移”保持不同语义；同时主题、动态色彩、字体/缩放、卡片样式、缩略图、最大行数、单双列等显示设置跨重启保持"
+      ],
+      "expected": "与 OPML 的“订阅源迁移”保持不同语义；同时主题、动态色彩、字体/缩放、卡片样式、缩略图、最大行数、单双列等显示设置跨重启保持",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f20"
+    }
+  ]
+}

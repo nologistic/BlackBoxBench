@@ -290,7 +290,8 @@ def _t_finalize(_args: dict) -> dict:
             topology_path=topology,
             exploration_files=_managed_exploration_files(run_dir),
             protected_strings=target.protected_strings,
-            protected_regions=target.protected_regions)
+            protected_regions=target.protected_regions,
+            target_id=target_id)
     except DockerUnavailableError as exc:
         _log(f"reproduction handoff unavailable: {exc}")
         return _err(str(exc))

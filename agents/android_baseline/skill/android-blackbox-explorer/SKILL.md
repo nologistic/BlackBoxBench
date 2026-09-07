@@ -36,11 +36,16 @@ description: 仅通过 Android App 可见截图和坐标级触控进行黑盒功
 
 - 复现工作区已经包含中立 Kotlin + Jetpack Compose 工程。只能通过 MCP 的
   `workspace_*` 工具修改它，不能访问宿主项目。
-- 使用 `/exploration` 中的允许交接截图和拓扑理解布局与行为；使用
-  `/materials/common` 和 `/materials/mobile` 的虚构内容、图片、音视频和数据库。
+- 使用 `/exploration` 中的允许交接截图和拓扑理解布局与行为；优先使用
+  `/materials/app` 的目标专属补充素材与非实体信息（先读其中的 CATALOG.md 与
+  SUPPLEMENT.md），再使用 `/materials/common` 和 `/materials/mobile` 的虚构内容、
+  图片、音视频和数据库。
 - 探索画面可能包含私人信息。不得在代码、APK、日志、说明或复测记录中复制或转述；
   人物、账号、文章、消息、商品和订单必须替换为公共虚构素材。
-- 沙箱没有网络；依赖已固定。使用 `gradle --offline assembleDebug` 构建，不下载依赖。
+- 沙盒可以联网，但非必要不联网：素材和补充信息能解决的绝不上网；仅当补充材料
+  确实缺少必要的公开资料（如格式规范、API 文档）时才联网查询，且绝不上传或发送
+  探索截图、敏感内容、工程文件或任何会话数据。构建始终使用
+  `gradle --offline assembleDebug`，不下载依赖。
 - 首次实现后调用 `start_reproduction_review`，只用 `review_observe` 和
   `review_tap`、`review_long_press`、`review_swipe`、`review_type_text`、
   `review_press_back`、`review_press_enter`、`review_restart_app`、`review_wait`

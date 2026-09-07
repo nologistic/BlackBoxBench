@@ -1,0 +1,36 @@
+{
+  "note": "虚构 KeePass 数据库结构。passwords 为演示用弱口令样例；expires_enabled=false 时忽略 expires。",
+  "database": {
+    "name": "黑盒密码库.kdbx",
+    "version": "kdbx4",
+    "encryption": "ChaCha20 + Argon2",
+    "recycle_bin": {"id": "grp_trash", "enabled": true},
+    "root": {
+      "name": "黑盒密码库",
+      "icon": "database",
+      "children": [
+        {"id": "grp_work", "name": "工作", "icon": "briefcase", "children": [
+          {"id": "grp_work_dev", "name": "开发平台", "icon": "terminal", "children": []}
+        ]},
+        {"id": "grp_finance", "name": "财务", "icon": "bank", "children": []},
+        {"id": "grp_social", "name": "社交", "icon": "people", "children": []},
+        {"id": "grp_trash", "name": "回收站", "icon": "trash", "children": []}
+      ]
+    },
+    "entries": [
+      {"id": "e001", "group": "grp_work_dev", "title": "Git 仓库平台", "username": "linxi", "password": "Gk7!demo-master-key", "url": "https://git.blackboxbench.example", "notes": "个人访问令牌每 90 天轮换", "icon": "key", "tags": ["开发"], "expires_enabled": false, "expires": "", "created": "2026-08-01T10:00", "modified": "2026-09-02T14:20"},
+      {"id": "e002", "group": "grp_work_dev", "title": "构建服务器", "username": "deploy", "password": "Bb2026#deploy", "url": "https://ci.blackboxbench.example", "notes": "仅限构建节点使用", "icon": "server", "tags": ["开发", "运维"], "expires_enabled": true, "expires": "2026-12-31", "created": "2026-08-15T09:30", "modified": "2026-08-15T09:30"},
+      {"id": "e003", "group": "grp_work", "title": "公司邮箱", "username": "linxi@blackboxbench.example", "password": "Mail!demo-7741", "url": "https://mail.blackboxbench.example", "notes": "", "icon": "mail", "tags": [], "expires_enabled": false, "expires": "", "created": "2026-07-20T16:00", "modified": "2026-08-30T11:10"},
+      {"id": "e004", "group": "grp_finance", "title": "工资卡网银", "username": "linxi", "password": "Bank#demo-0903", "url": "https://bank.blackboxbench.example", "notes": "U 盾放抽屉第二层", "icon": "bank", "tags": ["重要"], "expires_enabled": false, "expires": "", "created": "2026-06-11T20:45", "modified": "2026-09-01T08:00"},
+      {"id": "e005", "group": "grp_finance", "title": "报销系统", "username": "linxi", "password": "Fee!demo-3321", "url": "https://fee.blackboxbench.example", "notes": "每月 10 日前提单", "icon": "invoice", "tags": [], "expires_enabled": false, "expires": "", "created": "2026-07-05T13:25", "modified": "2026-08-12T09:55"},
+      {"id": "e006", "group": "grp_social", "title": "黑盒论坛", "username": "linxi", "password": "Forum-demo-556", "url": "https://forum.blackboxbench.example", "notes": "", "icon": "chat", "tags": ["社区"], "expires_enabled": false, "expires": "", "created": "2026-05-30T19:00", "modified": "2026-05-30T19:00"},
+      {"id": "e007", "group": "grp_social", "title": "书签同步服务", "username": "linxi", "password": "Sync-demo-908", "url": "https://sync.blackboxbench.example", "notes": "设备码在备注附件", "icon": "bookmark", "tags": [], "expires_enabled": false, "expires": "", "created": "2026-06-25T12:40", "modified": "2026-09-03T22:15"},
+      {"id": "e008", "group": "grp_trash", "title": "旧测试账号（已废弃）", "username": "old_test", "password": "Old-demo-000", "url": "", "notes": "已从回收站清理流程演示保留", "icon": "trash", "tags": [], "expires_enabled": false, "expires": "", "created": "2026-04-01T10:00", "modified": "2026-08-20T17:30"}
+    ],
+    "settings": {
+      "lock_timeout_seconds": 120,
+      "clipboard_clear_seconds": 30,
+      "password_generator": {"length": 20, "upper": true, "lower": true, "digits": true, "symbols": true}
+    }
+  }
+}

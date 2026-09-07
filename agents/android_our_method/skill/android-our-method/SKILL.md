@@ -28,13 +28,16 @@ description: 使用 Android our-method 的像素触控黑盒探索、索引化�
 2. 读取 `/exploration/functional_topology.md` 或
    `/input/functional_topology.json`。
 3. 按 INDEX 优先级查看至少 12 张探索帧；实际帧少于 12 张时读完全部。
-4. 用 `input_list/input_read` 查看 `/materials/common` 与 `/materials/mobile`，选择虚构素材。
+4. 用 `input_list/input_read` 优先查看 `/materials/app`（先读其中的 CATALOG.md
+   与 SUPPLEMENT.md），再查看 `/materials/common` 与 `/materials/mobile`，选择虚构素材。
 5. 完成上述首批阅读前，不要调用 `workspace_write` 或 `workspace_run`；服务端会拦截。
 
-只在中立 Kotlin + Jetpack Compose 工程内实现。构建环境断网，使用已缓存依赖和
-`gradle --offline assembleDebug`。探索画面中的真实账号、头像、文档、消息、订单和
-其他私人信息只能帮助理解界面，绝不能进入源码、APK、日志、报告和复测记录；必须使用
-公共虚构素材替代。
+只在中立 Kotlin + Jetpack Compose 工程内实现。沙盒可以联网，但非必要不联网：素材和
+补充信息能解决的绝不上网；仅当补充材料确实缺少必要的公开资料（如格式规范、API
+文档）时才联网查询，且绝不上传或发送探索截图、敏感内容、工程文件或任何会话数据。
+构建始终使用已缓存依赖和 `gradle --offline assembleDebug`。探索画面中的真实账号、
+头像、文档、消息、订单和其他私人信息只能帮助理解界面，绝不能进入源码、APK、日志、
+报告和复测记录；必须使用公共虚构素材替代。
 
 ## 多轮像素复验
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>技术摘要</title>
+  <subtitle>虚构的技术周报，用于 Atom 复现测试。</subtitle>
+  <id>urn:uuid:6f2a4c3e-0001-4a2b-9c3d-techdigest</id>
+  <updated>2026-09-07T07:00:00Z</updated>
+  <entry>
+    <title>Kotlin 2.1 的编译器插件生态</title>
+    <id>urn:uuid:6f2a4c3e-0101-4a2b-9c3d</id>
+    <updated>2026-09-07T07:00:00Z</updated>
+    <link href="https://tech.blackboxbench.example/kotlin-21-plugins"/>
+    <summary>编译器插件正在成为 DSL 构建的标准路径。</summary>
+    <content type="html">&lt;p&gt;从注解处理到 IR 转换，插件作者拥有了更多可控阶段。&lt;/p&gt;&lt;p&gt;配套的调试工具也在同步演进。&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>Compose 性能剖析的三条军规</title>
+    <id>urn:uuid:6f2a4c3e-0102-4a2b-9c3d</id>
+    <updated>2026-09-05T12:00:00Z</updated>
+    <link href="https://tech.blackboxbench.example/compose-perf"/>
+    <summary>重组、跳过与稳定性检查的实践清单。</summary>
+    <content type="html">&lt;p&gt;减少不必要的重组是第一要务；不可变数据模型是地基。&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>离线数据库迁移的灰度方法</title>
+    <id>urn:uuid:6f2a4c3e-0103-4a2b-9c3d</id>
+    <updated>2026-09-03T09:30:00Z</updated>
+    <link href="https://tech.blackboxbench.example/db-migration"/>
+    <summary>把破坏性迁移拆成两个版本发布。</summary>
+    <content type="html">&lt;p&gt;先加列后删列；中间版本永远可回滚。&lt;/p&gt;</content>
+  </entry>
+  <entry>
+    <title>开源许可证扫描的自动化</title>
+    <id>urn:uuid:6f2a4c3e-0104-4a2b-9c3d</id>
+    <updated>2026-09-01T15:20:00Z</updated>
+    <link href="https://tech.blackboxbench.example/license-scan"/>
+    <summary>在 CI 里守住合规底线。</summary>
+    <content type="html">&lt;p&gt;依赖树每变化一次就重新扫描一次，报告归档保留。&lt;/p&gt;</content>
+  </entry>
+</feed>

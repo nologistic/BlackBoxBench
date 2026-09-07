@@ -297,6 +297,8 @@ class AppReproductionWorkspace:
     accepted_apk_hash: str = ""
     common_material_hash: str = ""
     mobile_material_hash: str = ""
+    app_materials_dir: Path | None = None
+    app_material_hash: str = ""
 
     @classmethod
     def start(cls, *, source_mode: str, source_id: str,
@@ -304,6 +306,7 @@ class AppReproductionWorkspace:
               exploration_files: Mapping[str, Path] | None = None,
               protected_strings: list[str] | None = None,
               protected_regions: list[dict] | None = None,
+              target_id: str = "",
               ) -> "AppReproductionWorkspace":
         if source_mode not in ("android-baseline", "android-our-method"):
             raise ValueError("invalid Android source mode")
@@ -319,6 +322,15 @@ class AppReproductionWorkspace:
         require_android_build_image()
         common_materials = ensure_materials().resolve()
         mobile_materials = ensure_app_materials().resolve()
+        # Per-app supplement pack: domain materials the generic packs do not
+        # cover (feed samples, unit tables, TOTP concepts, ...). Optional —
+        # targets without a pack keep the generic mounts only.
+        app_materials = None
+        if target_id:
+            candidate = (Path(__file__).resolve().parent / "materials" /
+                         "apps" / target_id)
+            if candidate.is_dir():
+                app_materials = candidate.resolve()
 
         handoff_id = f"{source_id}-{secrets.token_hex(3)}"
         output = (OUTPUT_ROOT / handoff_id).resolve()
@@ -362,8 +374,18 @@ class AppReproductionWorkspace:
                 patch_signatures)
             workspace.common_material_hash = _tree_fingerprint(common_materials)
             workspace.mobile_material_hash = _tree_fingerprint(mobile_materials)
-            _docker(
-                "run", "-d", "--name", container, "--network", "none",
+            workspace.app_materials_dir = app_materials
+            if app_materials is not None:
+                workspace.app_material_hash = _tree_fingerprint(app_materials)
+            # The sandbox keeps hard isolation from cap-dropping and the
+            # read-only root, but the network is deliberately left open: with
+            # a 20-app dataset no generic material pack can cover every
+            # domain, so an agent may look up public references the per-app
+            # supplement does not include. Discipline lives in the skill
+            # text: prefer /materials/app, go online only when necessary and
+            # never upload exploration content or project files.
+            run_args = [
+                "run", "-d", "--name", container,
                 "--read-only", "--cap-drop", "ALL", "--security-opt",
                 "no-new-privileges:true", "--pids-limit", "256", "--memory",
                 "4g", "--cpus", "4", "--tmpfs",
@@ -373,9 +395,17 @@ class AppReproductionWorkspace:
                 "--mount", f"type=bind,source={project},target=/workspace",
                 "--mount", f"type=bind,source={common_materials},target=/materials/common,readonly",
                 "--mount", f"type=bind,source={mobile_materials},target=/materials/mobile,readonly",
+            ]
+            if app_materials is not None:
+                run_args += [
+                    "--mount",
+                    f"type=bind,source={app_materials},"
+                    "target=/materials/app,readonly"]
+            run_args += [
                 "--mount", f"type=bind,source={safe_topology},target=/input/functional_topology.json,readonly",
                 "--mount", f"type=bind,source={bundle},target=/exploration,readonly",
-                IMAGE_NAME, timeout=120)
+                IMAGE_NAME]
+            _docker(*run_args, timeout=120)
         except Exception:
             _docker("rm", "-f", "-v", container, check=False, timeout=60)
             shutil.rmtree(output, ignore_errors=True)
@@ -708,6 +738,9 @@ class AppReproductionWorkspace:
         if (self.common_material_hash != _tree_fingerprint(common) or
                 self.mobile_material_hash != _tree_fingerprint(mobile)):
             raise ValueError("public Android materials changed during reproduction")
+        if (self.app_materials_dir is not None and
+                self.app_material_hash != _tree_fingerprint(self.app_materials_dir)):
+            raise ValueError("per-app materials changed during reproduction")
         summary_text = json.dumps(dict(review_summary), ensure_ascii=False)
         for secret in self.protected_strings:
             if secret and secret.casefold() in summary_text.casefold():
@@ -739,7 +772,15 @@ class AppReproductionWorkspace:
                             "exploration_artifacts": "/exploration",
                             "common_materials": "/materials/common",
                             "mobile_materials": "/materials/mobile",
-                            "inputs_read_only": True, "network": "none",
+                            "app_materials": ("/materials/app"
+                                              if self.app_materials_dir is not None
+                                              else ""),
+                            "inputs_read_only": True,
+                            "network": "available",
+                            "network_policy": ("prefer materials; search online only "
+                                               "when the supplement pack lacks a "
+                                               "necessary public reference; never "
+                                               "upload exploration or project data"),
                             "build": "gradle --offline assembleDebug"}}
 
 

@@ -1,0 +1,16 @@
+#EXTM3U
+# 播放列表一：产品演示
+#EXTINF:27,商品展示循环
+product_demo.mp4
+#EXTINF:21,品牌故事
+story_loop.mp4
+#EXTINF:47,成功提示音合集
+success.wav
+#EXTINF:30,通知提示音合集
+notification.wav
+
+# 播放列表二：深夜氛围
+#EXTINF:258,环境音
+ambient.wav
+#EXTINF:21,品牌故事
+story_loop.mp4

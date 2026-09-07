@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head>
+    <title>BlackBoxBench 虚构订阅</title>
+    <dateCreated>Mon, 07 Sep 2026 08:00:00 GMT</dateCreated>
+  </head>
+  <body>
+    <outline type="rss" text="黑盒时报" xmlUrl="https://news.blackboxbench.example/feed.rss"/>
+    <outline type="rss" text="技术摘要" xmlUrl="https://tech.blackboxbench.example/atom.xml"/>
+    <outline type="rss" text="设计手记" xmlUrl="https://design.blackboxbench.example/feed.json"/>
+    <outline type="rss" text="周末厨房" xmlUrl="https://kitchen.blackboxbench.example/rss"/>
+    <outline type="rss" text="城市漫步" xmlUrl="https://walk.blackboxbench.example/rss"/>
+  </body>
+</opml>

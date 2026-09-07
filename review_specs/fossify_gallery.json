@@ -1,0 +1,313 @@
+{
+  "checklist_id": "fossify_gallery",
+  "platform": "android",
+  "features": [
+    {
+      "name": "媒体扫描与文件夹首页",
+      "steps": [
+        "启动 Gallery",
+        "扫描允许访问的本地媒体",
+        "根据真实文件系统形成文件夹/媒体列表",
+        "新增图片后刷新能够出现",
+        "删除或移动文件后原位置同步消失",
+        "文件数量和封面重新计算"
+      ],
+      "expected": "文件数量和封面重新计算",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f01"
+    },
+    {
+      "name": "文件与文件夹搜索",
+      "steps": [
+        "输入文件名或文件夹名",
+        "返回匹配媒体/目录",
+        "清空查询恢复原视图",
+        "开启“搜索所有文件，而不仅限于主屏幕显示的文件夹”后搜索范围扩大到被主页组织规则隐藏但允许搜索的内容"
+      ],
+      "expected": "开启“搜索所有文件，而不仅限于主屏幕显示的文件夹”后搜索范围扩大到被主页组织规则隐藏但允许搜索的内容",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f02"
+    },
+    {
+      "name": "多字段排序",
+      "steps": [
+        "在名称、路径、大小、修改日期、拍摄日期、随机等排序之间切换",
+        "结果顺序由媒体元数据计算",
+        "切换升序/降序立即逆转规则",
+        "“仅应用于此文件夹”控制排序是局部还是全局配置"
+      ],
+      "expected": "“仅应用于此文件夹”控制排序是局部还是全局配置",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f03"
+    },
+    {
+      "name": "多维媒体分组",
+      "steps": [
+        "选择“不分组 / 修改时间按天或月 / 拍摄日期按天或月 / 文件类型 / 扩展名 / 文件夹”等方式",
+        "相同媒体被重新组织到不同 Section",
+        "分组标题与成员随元数据变化",
+        "排序与分组可以独立组合"
+      ],
+      "expected": "排序与分组可以独立组合",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f04"
+    },
+    {
+      "name": "文件类型过滤与视图布局",
+      "steps": [
+        "勾选图片、视频、GIF、RAW、SVG、竖向等过滤条件",
+        "仅符合条件的媒体显示",
+        "在网格/列表之间切换",
+        "修改 1–15 列数量",
+        "过滤条件不因布局变化而丢失"
+      ],
+      "expected": "过滤条件不因布局变化而丢失",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f05"
+    },
+    {
+      "name": "包含 / 排除文件夹",
+      "steps": [
+        "将目录加入“排除的文件夹”后，该目录及相应媒体不再进入普通 Gallery 列表",
+        "从排除列表移除后重新出现",
+        "管理“包含的文件夹”改变媒体扫描范围",
+        "文件本身仍然存在于存储中"
+      ],
+      "expected": "文件本身仍然存在于存储中",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f06"
+    },
+    {
+      "name": "隐藏媒体生命周期",
+      "steps": [
+        "对图片/文件夹执行“隐藏”",
+        "普通 Gallery 中不可见",
+        "打开“显示隐藏项目”后重新显示",
+        "取消隐藏恢复普通状态",
+        "Hidden 与 Excluded 保持不同语义：前者是媒体隐藏状态，后者是 Gallery 浏览范围规则"
+      ],
+      "expected": "Hidden 与 Excluded 保持不同语义：前者是媒体隐藏状态，后者是 Gallery 浏览范围规则",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f07"
+    },
+    {
+      "name": "收藏生命周期",
+      "steps": [
+        "对媒体点击收藏",
+        "收藏集合中出现同一个 MediaItem",
+        "原文件夹中仍显示已收藏状态",
+        "在收藏页取消收藏后原页面同步",
+        "移动/重命名媒体时收藏关系继续指向正确对象；官方 Gallery 将 Favorites 作为核心媒体组织功能。F-Droid"
+      ],
+      "expected": "移动/重命名媒体时收藏关系继续指向正确对象；官方 Gallery 将 Favorites 作为核心媒体组织功能。F-Droid",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f08"
+    },
+    {
+      "name": "文件夹与文件操作",
+      "steps": [
+        "新建文件夹",
+        "将媒体复制/移动进去",
+        "路径、文件夹成员和媒体数量更新",
+        "Rename 修改名称但保持文件内容",
+        "Copy 创建第二份文件",
+        "Move 只改变位置而不产生逻辑重复"
+      ],
+      "expected": "Move 只改变位置而不产生逻辑重复",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f09"
+    },
+    {
+      "name": "多选与批量操作",
+      "steps": [
+        "长按进入选择模式",
+        "选择多个媒体",
+        "顶栏显示 n / total",
+        "批量旋转、收藏/取消收藏、复制、移动、隐藏或删除",
+        "操作只影响被选择集合",
+        "“全选”动态选择当前范围全部项目"
+      ],
+      "expected": "“全选”动态选择当前范围全部项目",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f10"
+    },
+    {
+      "name": "回收站完整生命周期",
+      "steps": [
+        "删除媒体",
+        "在启用回收站时从普通列表移入 Recycle Bin",
+        "原始路径不再作为正常媒体显示",
+        "Restore 恢复到原位置并重新进入索引",
+        "Empty Recycle Bin 后永久移除",
+        "回收站占用大小同步变化"
+      ],
+      "expected": "回收站占用大小同步变化",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f11"
+    },
+    {
+      "name": "文件属性与媒体元数据",
+      "steps": [
+        "打开“属性”",
+        "展示文件路径、大小、分辨率、修改时间、拍摄日期等信息",
+        "对带 EXIF/GPS 数据的照片可以使用地图等相关能力",
+        "“修复拍摄日期”改变用于日期分组/排序的元数据后，相应列表重新组织"
+      ],
+      "expected": "“修复拍摄日期”改变用于日期分组/排序的元数据后，相应列表重新组织",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f12"
+    },
+    {
+      "name": "图片全屏查看",
+      "steps": [
+        "从网格打开图片",
+        "进入全屏 Viewer",
+        "左右切换同一集合中的前后媒体",
+        "返回后仍位于原文件夹和大致浏览上下文",
+        "文件被移动/删除后 Viewer 集合同步调整"
+      ],
+      "expected": "文件被移动/删除后 Viewer 集合同步调整",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f13"
+    },
+    {
+      "name": "图片缩放、旋转与全屏手势",
+      "steps": [
+        "全屏查看",
+        "双指/双击缩放",
+        "支持手势旋转",
+        "根据设置控制亮度、下滑退出、边缘切换、屏幕常亮、系统 UI 隐藏等",
+        "切换设置后 Viewer 使用新的交互规则"
+      ],
+      "expected": "切换设置后 Viewer 使用新的交互规则",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f14"
+    },
+    {
+      "name": "高质量与特殊图像显示",
+      "steps": [
+        "JPEG/PNG/RAW/SVG/GIF/Ultra HDR 等媒体按格式进入 Gallery",
+        "Viewer 选择合适解码方式",
+        "“使用最高画质”“HDR 显示”“GIF 缩略图动画”等配置改变呈现方式",
+        "文件本身不被修改。Fossify 当前公开资料明确支持 RAW、SVG、GIF、AVIF/JPEG XL 等多种格式以及 Ultra HDR。GitHub"
+      ],
+      "expected": "文件本身不被修改。Fossify 当前公开资料明确支持 RAW、SVG、GIF、AVIF/JPEG XL 等多种格式以及 Ultra HDR。GitHub",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f15"
+    },
+    {
+      "name": "视频播放状态机",
+      "steps": [
+        "打开视频",
+        "Play/Pause",
+        "Seek 改变位置",
+        "开启“记住上次播放位置”后退出再打开继续",
+        "Loop 开启时结束后重新播放",
+        "关闭后结束进入停止状态",
+        "多个视频的进度相互独立"
+      ],
+      "expected": "多个视频的进度相互独立",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f16"
+    },
+    {
+      "name": "视频手势与播放配置",
+      "steps": [
+        "配置自动播放、横向全屏、纵向手势控制音量/亮度、点击视频后的播放器行为",
+        "在 Viewer 中执行对应操作",
+        "设置改变后后续视频遵循新规则"
+      ],
+      "expected": "设置改变后后续视频遵循新规则",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f17"
+    },
+    {
+      "name": "幻灯片",
+      "steps": [
+        "选择文件夹/一组媒体",
+        "启动“幻灯片”",
+        "按集合顺序自动切换媒体",
+        "播放到下一项而非重复当前项",
+        "退出后返回原 Gallery 上下文；当前 Fossify changelog 也持续维护 Slideshow 行为。GitHub"
+      ],
+      "expected": "退出后返回原 Gallery 上下文；当前 Fossify changelog 也持续维护 Slideshow 行为。GitHub",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f18"
+    },
+    {
+      "name": "内置图片编辑完整流程",
+      "steps": [
+        "打开图片",
+        "Edit",
+        "进入内置编辑器",
+        "可裁剪并选择自由、1:1、4:3、16:9 等比例",
+        "旋转/翻转/Resize",
+        "调整图像参数",
+        "应用滤镜或绘制",
+        "Confirm 保存结果",
+        "Gallery 重新加载编辑后的文件。官方 Gallery 明确支持 crop、resize、rotate、flip、draw、filters。GitHub"
+      ],
+      "expected": "Gallery 重新加载编辑后的文件。官方 Gallery 明确支持 crop、resize、rotate、flip、draw、filters。GitHub",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f19"
+    },
+    {
+      "name": "编辑提交与文件状态同步",
+      "steps": [
+        "编辑过程中改变多个参数",
+        "Cancel 不覆盖原文件",
+        "Confirm 才提交输出",
+        "保存后缩略图、全屏图、尺寸/修改时间等元数据重新索引",
+        "开启“文件操作后保留原有修改日期”时相关日期按设置处理"
+      ],
+      "expected": "开启“文件操作后保留原有修改日期”时相关日期按设置处理",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f20"
+    },
+    {
+      "name": "系统级媒体操作",
+      "steps": [
+        "对媒体可执行 Share、Open with、Set as、Copy to clipboard、Print、Create shortcut、Show on map 或交给其他编辑器",
+        "Android chooser 使用正确文件 URI/媒体类型",
+        "外部操作返回后 Gallery 状态保持。当前 Fossify 也已经加入图片复制到剪贴板等能力。GitHub"
+      ],
+      "expected": "外部操作返回后 Gallery 状态保持。当前 Fossify 也已经加入图片复制到剪贴板等能力。GitHub",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f21"
+    },
+    {
+      "name": "安全、迁移与持久化设置",
+      "steps": [
+        "可分别为整个 App、隐藏内容、删除/移动操作配置 PIN/图案/生物识别保护",
+        "未认证时对应操作被阻止",
+        "导出/导入 Favorites 与 Settings 后在新环境恢复应用级状态",
+        "缓存清理只清派生缓存，不删除源媒体。官方资料确认 Gallery 支持 PIN、Pattern、Fingerprint 对媒体或整个应用进行保护。GitHub"
+      ],
+      "expected": "缓存清理只清派生缓存，不删除源媒体。官方资料确认 Gallery 支持 PIN、Pattern、Fingerprint 对媒体或整个应用进行保护。GitHub",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f22"
+    }
+  ]
+}

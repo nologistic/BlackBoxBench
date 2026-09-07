@@ -1,0 +1,18 @@
+{
+  "note": "虚构的 Aegis 条目数据，与 otpauth_uris.txt 一一对应。字段与真实 Aegis 的条目模型对齐。",
+  "groups": ["ExampleCorp", "CloudStore", "PaymentHub", "DevForge", "MailGate", "StreamBox", "SocialNest"],
+  "entries": [
+    {"account": "linxi@example.com", "issuer": "ExampleCorp", "group": "ExampleCorp", "secret": "JBSWY3DPEHPK3PXP", "digits": 6, "period": 30, "icon_hint": "avatars/linxi.png"},
+    {"account": "momo@example.com", "issuer": "ExampleCorp", "group": "ExampleCorp", "secret": "KRSXG5CTMVRXEZLU", "digits": 6, "period": 30, "icon_hint": "avatars/momo.png"},
+    {"account": "beichen@cloudstore.dev", "issuer": "CloudStore", "group": "CloudStore", "secret": "MFRGGZDFMZTWQ2LK", "digits": 6, "period": 30, "icon_hint": "avatars/beichen.png"},
+    {"account": "qiaoqiao@cloudstore.dev", "issuer": "CloudStore", "group": "CloudStore", "secret": "NBSWY3DPFQQFO33S", "digits": 6, "period": 30, "icon_hint": "avatars/qiaoqiao.png"},
+    {"account": "zhouye@paymenthub.io", "issuer": "PaymentHub", "group": "PaymentHub", "secret": "ONSWG4TFOQQGS4ZA", "digits": 8, "period": 30, "icon_hint": "avatars/zhouye.png"},
+    {"account": "linxi@paymenthub.io", "issuer": "PaymentHub", "group": "PaymentHub", "secret": "PAXC432FQQQG65TN", "digits": 6, "period": 60, "icon_hint": "avatars/linxi.png"},
+    {"account": "ayan@devforge.net", "issuer": "DevForge", "group": "DevForge", "secret": "QVSWY3DPEHPK3PXQ", "digits": 6, "period": 30, "icon_hint": "avatars/ayan.png"},
+    {"account": "momo@devforge.net", "issuer": "DevForge", "group": "DevForge", "secret": "RJSXG5CTMVRXEZLV", "digits": 6, "period": 30, "icon_hint": "avatars/momo.png"},
+    {"account": "beichen@mailgate.org", "issuer": "MailGate", "group": "MailGate", "secret": "SFRGGZDFMZTWQ2LM", "digits": 6, "period": 30, "icon_hint": "avatars/beichen.png"},
+    {"account": "qiaoqiao@streambox.tv", "issuer": "StreamBox", "group": "StreamBox", "secret": "TBSWY3DPFQQFO33T", "digits": 6, "period": 30, "icon_hint": "avatars/qiaoqiao.png"},
+    {"account": "zhouye@streambox.tv", "issuer": "StreamBox", "group": "StreamBox", "secret": "UCSXG5CTMVRXEZLW", "digits": 6, "period": 30, "icon_hint": "avatars/zhouye.png"},
+    {"account": "ayan@socialnest.app", "issuer": "SocialNest", "group": "SocialNest", "secret": "VFRGGZDFMZTWQ2LN", "digits": 6, "period": 30, "icon_hint": "avatars/ayan.png"}
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "note": "九类单位换算表。除温度外均为线性换算：基准值 = 数值 × factor。复现必须与该表一致，否则换算结果错误。",
+  "categories": [
+    {"id": "length", "name": "长度", "base": "m", "units": [
+      {"id": "mm", "name": "毫米", "factor": 0.001},
+      {"id": "cm", "name": "厘米", "factor": 0.01},
+      {"id": "m", "name": "米", "factor": 1},
+      {"id": "km", "name": "千米", "factor": 1000},
+      {"id": "in", "name": "英寸", "factor": 0.0254},
+      {"id": "ft", "name": "英尺", "factor": 0.3048},
+      {"id": "yd", "name": "码", "factor": 0.9144},
+      {"id": "mi", "name": "英里", "factor": 1609.344}
+    ]},
+    {"id": "area", "name": "面积", "base": "m2", "units": [
+      {"id": "mm2", "name": "平方毫米", "factor": 1e-06},
+      {"id": "cm2", "name": "平方厘米", "factor": 0.0001},
+      {"id": "m2", "name": "平方米", "factor": 1},
+      {"id": "ha", "name": "公顷", "factor": 10000},
+      {"id": "km2", "name": "平方千米", "factor": 1000000},
+      {"id": "ft2", "name": "平方英尺", "factor": 0.09290304},
+      {"id": "acre", "name": "英亩", "factor": 4046.8564224}
+    ]},
+    {"id": "volume", "name": "体积", "base": "L", "units": [
+      {"id": "ml", "name": "毫升", "factor": 0.001},
+      {"id": "L", "name": "升", "factor": 1},
+      {"id": "m3", "name": "立方米", "factor": 1000},
+      {"id": "tsp", "name": "茶匙", "factor": 0.00492892159375},
+      {"id": "tbsp", "name": "汤匙", "factor": 0.01478676478125},
+      {"id": "cup", "name": "杯", "factor": 0.2365882365},
+      {"id": "gal_us", "name": "加仑(美)", "factor": 3.785411784}
+    ]},
+    {"id": "mass", "name": "质量", "base": "kg", "units": [
+      {"id": "mg", "name": "毫克", "factor": 1e-06},
+      {"id": "g", "name": "克", "factor": 0.001},
+      {"id": "kg", "name": "千克", "factor": 1},
+      {"id": "t", "name": "吨", "factor": 1000},
+      {"id": "oz", "name": "盎司", "factor": 0.028349523125},
+      {"id": "lb", "name": "磅", "factor": 0.45359237},
+      {"id": "jin", "name": "市斤", "factor": 0.5}
+    ]},
+    {"id": "time", "name": "时间", "base": "s", "units": [
+      {"id": "ms", "name": "毫秒", "factor": 0.001},
+      {"id": "s", "name": "秒", "factor": 1},
+      {"id": "min", "name": "分", "factor": 60},
+      {"id": "h", "name": "小时", "factor": 3600},
+      {"id": "d", "name": "天", "factor": 86400},
+      {"id": "wk", "name": "周", "factor": 604800}
+    ]},
+    {"id": "speed", "name": "速度", "base": "m/s", "units": [
+      {"id": "m_s", "name": "米每秒", "factor": 1},
+      {"id": "km_h", "name": "千米每小时", "factor": 0.2777777777777778},
+      {"id": "mph", "name": "英里每小时", "factor": 0.44704},
+      {"id": "kn", "name": "节", "factor": 0.5144444444444445}
+    ]},
+    {"id": "pressure", "name": "压强", "base": "kPa", "units": [
+      {"id": "Pa", "name": "帕斯卡", "factor": 0.001},
+      {"id": "kPa", "name": "千帕", "factor": 1},
+      {"id": "MPa", "name": "兆帕", "factor": 1000},
+      {"id": "bar", "name": "巴", "factor": 100},
+      {"id": "atm", "name": "标准大气压", "factor": 101.325},
+      {"id": "mmHg", "name": "毫米汞柱", "factor": 0.133322387415},
+      {"id": "psi", "name": "磅每平方英寸", "factor": 6.894757293168}
+    ]},
+    {"id": "energy", "name": "能量", "base": "J", "units": [
+      {"id": "J", "name": "焦耳", "factor": 1},
+      {"id": "kJ", "name": "千焦", "factor": 1000},
+      {"id": "cal", "name": "卡路里", "factor": 4.184},
+      {"id": "kcal", "name": "千卡", "factor": 4184},
+      {"id": "Wh", "name": "瓦时", "factor": 3600},
+      {"id": "kWh", "name": "千瓦时", "factor": 3600000},
+      {"id": "Btu", "name": "英热单位", "factor": 1055.05585262}
+    ]}
+  ],
+  "temperature": {
+    "note": "温度是仿射换算，不能用线性系数，直接使用公式。",
+    "units": ["°C", "°F", "K"],
+    "from_celsius": {"°F": "F = C * 9/5 + 32", "K": "K = C + 273.15"},
+    "to_celsius": {"°F": "C = (F - 32) * 5/9", "K": "C = K - 273.15"},
+    "examples": [
+      {"input": "0 °C", "results": {"°F": 32, "K": 273.15}},
+      {"input": "100 °C", "results": {"°F": 212, "K": 373.15}},
+      {"input": "98.6 °F", "results": {"°C": 37, "K": 310.15}},
+      {"input": "0 K", "results": {"°C": -273.15, "°F": -459.67}}
+    ]
+  }
+}

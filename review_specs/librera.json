@@ -1,0 +1,298 @@
+{
+  "checklist_id": "librera",
+  "platform": "android",
+  "features": [
+    {
+      "name": "书库扫描与自动索引",
+      "steps": [
+        "配置“包含的文件夹”",
+        "选择允许索引的 EPUB/PDF/FB2/MOBI/DJVU/DOC 等格式",
+        "执行刷新",
+        "扫描真实文件系统并创建 Library 条目",
+        "新增文件后刷新出现",
+        "删除文件后刷新消失",
+        "改变扫描目录或格式白名单后书库重新计算。官方明确支持用户指定扫描目录和文件类型。Librera"
+      ],
+      "expected": "改变扫描目录或格式白名单后书库重新计算。官方明确支持用户指定扫描目录和文件类型。Librera",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f01"
+    },
+    {
+      "name": "多格式文档识别与阅读",
+      "steps": [
+        "同一书库包含 EPUB、PDF、FB2、MOBI/AZW、DjVu、TXT、RTF、DOC/DOCX、ZIP 等",
+        "每种文件正确识别格式和基本元数据",
+        "点击后进入对应阅读器",
+        "返回 Library 后原文件身份和状态保持。官方列出了这些主要支持格式。F-Droid"
+      ],
+      "expected": "返回 Library 后原文件身份和状态保持。官方列出了这些主要支持格式。F-Droid",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f02"
+    },
+    {
+      "name": "书库搜索与查询状态",
+      "steps": [
+        "在 Library 输入书名、作者、扩展名等条件",
+        "列表仅显示匹配项",
+        "点击作者可进一步定位同作者作品",
+        "清除搜索恢复完整书库",
+        "搜索不能复制或修改原 Book 数据。官方 Library 指南明确支持搜索、按扩展名和作者查找。Librera"
+      ],
+      "expected": "搜索不能复制或修改原 Book 数据。官方 Library 指南明确支持搜索、按扩展名和作者查找。Librera",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f03"
+    },
+    {
+      "name": "排序、布局与元数据视图",
+      "steps": [
+        "在时间/名称等排序间切换",
+        "再切换升降序",
+        "选择列表、简表、网格、封面等布局",
+        "进一步按作者、系列、关键词、语言、标签、出版社、出版时间等组织书库",
+        "所有视图指向同一批 Book 数据"
+      ],
+      "expected": "所有视图指向同一批 Book 数据",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f04"
+    },
+    {
+      "name": "文件夹浏览与“文件夹作为书籍”",
+      "steps": [
+        "从“文件夹”页进入真实存储目录",
+        "创建/进入文件夹",
+        "浏览其中可读文件",
+        "将图片目录等作为一本书打开",
+        "目录内容顺序形成阅读顺序",
+        "返回后仍处于正确目录上下文。官方明确支持应用内文件浏览器和“将图片文件夹作为书籍打开”。GitHub"
+      ],
+      "expected": "返回后仍处于正确目录上下文。官方明确支持应用内文件浏览器和“将图片文件夹作为书籍打开”。GitHub",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f05"
+    },
+    {
+      "name": "书库成员关系与真实文件操作",
+      "steps": [
+        "对某书执行“移出书库”",
+        "Library 不再索引它，但原文件继续存在；重新扫描后可重新加入",
+        "执行“复制”产生新文件",
+        "“移动”改变路径",
+        "“删除”才删除实际文件",
+        "文件夹页和 Library 同步反映变化"
+      ],
+      "expected": "文件夹页和 Library 同步反映变化",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f06"
+    },
+    {
+      "name": "Recent 与阅读进度持久化",
+      "steps": [
+        "打开 Book A",
+        "阅读到中间位置",
+        "退出",
+        "A 出现在“最近”中并带有进度",
+        "打开 Book B 后 Recent 顺序变化",
+        "重新打开 A 恢复原位置",
+        "重启应用后继续保持。官方明确将 Recent 与 reading progress 作为核心状态。Librera"
+      ],
+      "expected": "重启应用后继续保持。官方明确将 Recent 与 reading progress 作为核心状态。Librera",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f07"
+    },
+    {
+      "name": "阅读进度重置与跨页面同步",
+      "steps": [
+        "Book 已有阅读进度",
+        "从图书菜单执行“重置进度”",
+        "Recent/Library 中的进度指示归零",
+        "再次打开从起始位置进入",
+        "书籍文件、收藏和标签关系不因此删除"
+      ],
+      "expected": "书籍文件、收藏和标签关系不因此删除",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f08"
+    },
+    {
+      "name": "收藏生命周期",
+      "steps": [
+        "Library 点击星标收藏 A",
+        "收藏页出现 A",
+        "Library 中 A 仍是同一书且显示收藏状态",
+        "在收藏页取消收藏",
+        "Library 同步取消",
+        "Rename/Move 后收藏仍应对应同一本书"
+      ],
+      "expected": "Rename/Move 后收藏仍应对应同一本书",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f09"
+    },
+    {
+      "name": "自定义标签与书单",
+      "steps": [
+        "给 Book A/B 添加自定义标签“Testing books”",
+        "标签出现在收藏/标签组织中",
+        "按该标签打开时只显示 A/B",
+        "从 A 移除标签后集合重新计算",
+        "删除标签时应从所有绑定书籍解除，而不是删除这些书。官方文档明确说明自定义标签可以形成自定义书单，删除标签会从所有绑定图书移除。Librera"
+      ],
+      "expected": "删除标签时应从所有绑定书籍解除，而不是删除这些书。官方文档明确说明自定义标签可以形成自定义书单，删除标签会从所有绑定图书移除。Librera",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f10"
+    },
+    {
+      "name": "播放列表关系与顺序",
+      "steps": [
+        "从图书菜单将若干 Book 加入“播放列表”",
+        "Playlist 页面出现这些书",
+        "同一本书仍存在 Library/Favorites",
+        "调整 Playlist 顺序后消费/朗读顺序按新顺序执行",
+        "从 Playlist 移除不删除书籍文件"
+      ],
+      "expected": "从 Playlist 移除不删除书籍文件",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f11"
+    },
+    {
+      "name": "书签生命周期",
+      "steps": [
+        "阅读到某位置",
+        "新增 Bookmark",
+        "Bookmark 页出现并链接到对应 Book/位置",
+        "点击 Bookmark 深链回正确页",
+        "编辑书签文字/目标位置后保持",
+        "删除 Bookmark 只删除该定位记录。官方还支持普通和 floating bookmark 两种行为。Librera"
+      ],
+      "expected": "删除 Bookmark 只删除该定位记录。官方还支持普通和 floating bookmark 两种行为。Librera",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f12"
+    },
+    {
+      "name": "阅读模式切换与格式预设",
+      "steps": [
+        "打开文档",
+        "在 Scroll / Book / Musician 模式间切换",
+        "Scroll 使用纵向滚动，Book 使用翻页，Musician 支持自动滚动",
+        "为某格式设置默认模式",
+        "以后打开同格式图书自动采用该模式。官方明确支持三种模式及按格式配置默认模式。Librera"
+      ],
+      "expected": "以后打开同格式图书自动采用该模式。官方明确支持三种模式及按格式配置默认模式。Librera",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f13"
+    },
+    {
+      "name": "阅读导航与状态栏",
+      "steps": [
+        "在书中翻页/滚动",
+        "当前页或阅读百分比持续变化",
+        "进度条、剩余页数等信息同步更新",
+        "跳转章节/页面后状态重新计算",
+        "退出再进入恢复正确位置；状态栏和书签 Ribbon 的显隐配置只改变呈现，不修改阅读记录。Librera"
+      ],
+      "expected": "退出再进入恢复正确位置；状态栏和书签 Ribbon 的显隐配置只改变呈现，不修改阅读记录。Librera",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f14"
+    },
+    {
+      "name": "文内搜索与文本选择",
+      "steps": [
+        "在支持文本层的文档中搜索关键词",
+        "得到多个命中并逐项跳转",
+        "长按选择单词/段落",
+        "调整选择范围",
+        "可复制、创建书签或触发其他本地操作",
+        "返回阅读后位置保持。官方明确支持多词搜索及复杂文本选择。F-Droid"
+      ],
+      "expected": "返回阅读后位置保持。官方明确支持多词搜索及复杂文本选择。F-Droid",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f15"
+    },
+    {
+      "name": "TTS 朗读与阅读位置联动",
+      "steps": [
+        "打开支持文本的书",
+        "启动 TTS",
+        "从当前阅读位置开始朗读",
+        "Pause/Resume 保留位置",
+        "修改速度/音调后后续朗读采用新设置",
+        "手动跳转后 TTS 起点同步",
+        "退出后仍保持普通阅读进度。官方确认 Librera 支持可配置 TTS 和内置媒体控制。Librera"
+      ],
+      "expected": "退出后仍保持普通阅读进度。官方确认 Librera 支持可配置 TTS 和内置媒体控制。Librera",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f16"
+    },
+    {
+      "name": "PDF 注释与编辑保存",
+      "steps": [
+        "打开 PDF",
+        "切换到支持编辑的 Scroll 模式",
+        "添加高亮、下划线、删除线、手写或绘图",
+        "未保存退出时可以取消",
+        "确认保存后重新打开仍看到标注",
+        "选择另存为时产生新文件而不覆盖原件。官方说明 PDF 注释支持这些工具及保存/重命名输出。Librera"
+      ],
+      "expected": "选择另存为时产生新文件而不覆盖原件。官方说明 PDF 注释支持这些工具及保存/重命名输出。Librera",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f17"
+    },
+    {
+      "name": "配置 Profile 与阅读偏好",
+      "steps": [
+        "创建/切换不同配置 Profile",
+        "分别配置主题、字体、布局、阅读方式等",
+        "切换后界面和阅读行为立即变化",
+        "重启后仍保持当前 Profile",
+        "Reset Profile 恢复配置默认值而不误删关键用户数据。官方支持多个 Profile 和重置。Librera"
+      ],
+      "expected": "Reset Profile 恢复配置默认值而不误删关键用户数据。官方支持多个 Profile 和重置。Librera",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f18"
+    },
+    {
+      "name": "完整配置备份 → 导入恢复",
+      "steps": [
+        "已存在收藏/标签、Bookmark、阅读进度和应用设置",
+        "Export 生成备份 ZIP",
+        "修改这些状态",
+        "Import 旧备份",
+        "Settings、Bookmarks、Reading Progress、Tags 恢复",
+        "对应 Book 文件仍由本地存储提供。官方明确列出了这四类备份数据。Librera"
+      ],
+      "expected": "对应 Book 文件仍由本地存储提供。官方明确列出了这四类备份数据。Librera",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f19"
+    },
+    {
+      "name": "书库路径迁移",
+      "steps": [
+        "原书籍位于 /storage/Books/... 并已有进度/标签/书签",
+        "在文件系统将整批书移到新目录或 SD 卡",
+        "执行 Migrate，将旧路径映射为新路径",
+        "Library 重新关联新文件位置",
+        "原阅读进度、Bookmark、标签继续对应正确书，而不是把新路径的文件当成完全陌生的新书。官方迁移功能明确通过替换配置中的路径完成。Librera"
+      ],
+      "expected": "原阅读进度、Bookmark、标签继续对应正确书，而不是把新路径的文件当成完全陌生的新书。官方迁移功能明确通过替换配置中的路径完成。Librera",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f20"
+    }
+  ]
+}

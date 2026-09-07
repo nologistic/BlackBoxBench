@@ -1,0 +1,199 @@
+{
+  "checklist_id": "fossify_paint",
+  "platform": "android",
+  "features": [
+    {
+      "name": "自由手绘",
+      "steps": [
+        "在空白画布按下并拖动",
+        "连续生成笔迹",
+        "快速移动和慢速移动都形成连续曲线",
+        "松手结束当前 stroke",
+        "再次触摸创建新的独立 stroke。"
+      ],
+      "expected": "再次触摸创建新的独立 stroke。",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f01"
+    },
+    {
+      "name": "调整笔刷粗细",
+      "steps": [
+        "先画一条线",
+        "拖动画面底部粗细滑块",
+        "再画一条线",
+        "新线条宽度发生明显变化",
+        "已存在的旧线条保持原宽度。官方也明确支持不同 pen size。Simple Mobile Tools"
+      ],
+      "expected": "已存在的旧线条保持原宽度。官方也明确支持不同 pen size。Simple Mobile Tools",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f02"
+    },
+    {
+      "name": "颜色选择与自定义颜色",
+      "steps": [
+        "点击当前颜色块",
+        "打开颜色选择器",
+        "选择预设颜色或在二维色板/色相条中选择颜色",
+        "确认",
+        "当前颜色块改变",
+        "新绘制内容使用新颜色。官方同时支持直接选择颜色和输入十六进制颜色值。Simple Mobile Tools"
+      ],
+      "expected": "新绘制内容使用新颜色。官方同时支持直接选择颜色和输入十六进制颜色值。Simple Mobile Tools",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f03"
+    },
+    {
+      "name": "取色器 Eyedropper",
+      "steps": [
+        "画出至少两种颜色",
+        "切换取色器",
+        "点击画布中某种已有颜色",
+        "当前绘图颜色切换为被点击像素的颜色",
+        "再画线验证颜色一致。"
+      ],
+      "expected": "再画线验证颜色一致。",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f04"
+    },
+    {
+      "name": "橡皮擦",
+      "steps": [
+        "在已有笔迹上切换橡皮擦",
+        "拖动经过笔迹",
+        "被经过区域恢复成背景/透明状态",
+        "调整粗细后橡皮影响范围同步变化",
+        "再切回绘图工具继续作画。官方明确列出 eraser。Simple Mobile Tools"
+      ],
+      "expected": "再切回绘图工具继续作画。官方明确列出 eraser。Simple Mobile Tools",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f05"
+    },
+    {
+      "name": "区域填充",
+      "steps": [
+        "画一个闭合区域",
+        "切换油漆桶",
+        "选择颜色",
+        "点击闭合区域内部",
+        "仅与点击点连通的区域被整体填充",
+        "边界外保持不变",
+        "对未封闭区域点击时填充范围按连通区域变化。"
+      ],
+      "expected": "对未封闭区域点击时填充范围按连通区域变化。",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f06"
+    },
+    {
+      "name": "撤销与重做",
+      "steps": [
+        "连续执行多次画线、填充、擦除",
+        "点击撤销逐步回退操作",
+        "每次只恢复上一操作前状态",
+        "再执行重做",
+        "按原顺序恢复",
+        "撤销后产生新操作时清空不可再用的 redo 分支。"
+      ],
+      "expected": "撤销后产生新操作时清空不可再用的 redo 分支。",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f07"
+    },
+    {
+      "name": "更改画布背景颜色",
+      "steps": [
+        "已存在多条不同颜色笔迹",
+        "菜单选择“更改背景色”",
+        "设置另一背景色",
+        "画布背景立即变化",
+        "笔迹本身颜色不被重绘",
+        "后续擦除行为与当前背景保持一致。官方也明确支持改变背景颜色。Simple Mobile Tools"
+      ],
+      "expected": "后续擦除行为与当前背景保持一致。官方也明确支持改变背景颜色。Simple Mobile Tools",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f08"
+    },
+    {
+      "name": "打开已有图片继续编辑",
+      "steps": [
+        "通过“打开文件”选择 PNG/JPG 等已有图片",
+        "图片成为当前画布内容",
+        "可在其上继续绘制、擦除或取色",
+        "保存后生成包含新修改的结果",
+        "再次打开该文件能看到修改后的视觉结果。官方说明支持打开已有 artwork 并继续绘制。Simple Mobile Tools"
+      ],
+      "expected": "再次打开该文件能看到修改后的视觉结果。官方说明支持打开已有 artwork 并继续绘制。Simple Mobile Tools",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f09"
+    },
+    {
+      "name": "使用图片作为绘图背景",
+      "steps": [
+        "导入一张已有图片作为画布基础",
+        "图片保持在背景层",
+        "在其上增加笔迹",
+        "修改绘图颜色、粗细或擦除上层内容",
+        "背景图仍保持",
+        "导出时合成为最终图像。官方把“using an image ... as the background”列为正式功能。Simple Mobile Tools"
+      ],
+      "expected": "导出时合成为最终图像。官方把“using an image ... as the background”列为正式功能。Simple Mobile Tools",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f10"
+    },
+    {
+      "name": "保存与多格式导出",
+      "steps": [
+        "完成绘图",
+        "点击保存",
+        "输入文件名",
+        "在 .png / .svg / .jpg 中选择格式",
+        "确认",
+        "文件写入设备",
+        "PNG/JPG 可作为位图重新打开，SVG 按对应格式生成。截图与官方资料均支持这三类格式。Simple Mobile Tools"
+      ],
+      "expected": "PNG/JPG 可作为位图重新打开，SVG 按对应格式生成。截图与官方资料均支持这三类格式。Simple Mobile Tools",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f11"
+    },
+    {
+      "name": "保存—打开闭环",
+      "steps": [
+        "创建包含多颜色、多粗细笔迹的画面",
+        "保存为文件",
+        "清空/退出当前画面",
+        "使用“打开文件”重新打开",
+        "主要视觉内容与保存前一致",
+        "再编辑",
+        "再次保存",
+        "文件内容发生对应变化。"
+      ],
+      "expected": "文件内容发生对应变化。",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f12"
+    },
+    {
+      "name": "分享与打印",
+      "steps": [
+        "完成画面",
+        "点击分享",
+        "Android 分享面板获得当前图像文件",
+        "返回应用画布状态保持；或者菜单选择打印",
+        "将当前绘图作为可打印图像传给系统打印流程。官方资料也将 share 和 print 列为功能。Play Store Sales"
+      ],
+      "expected": "将当前绘图作为可打印图像传给系统打印流程。官方资料也将 share 和 print 列为功能。Play Store Sales",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f13"
+    }
+  ]
+}

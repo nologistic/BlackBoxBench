@@ -1,0 +1,21 @@
+{
+  "note": "虚构交易流水。type: expense/income/transfer；transfer 带 from/to。金额为账户原币种。",
+  "transactions": [
+    {"id": "tx001", "date": "2026-08-01", "type": "income", "account": "acc_salary", "amount": 18500.00, "currency": "CNY", "category": "cat_income_salary", "note": "8 月工资"},
+    {"id": "tx002", "date": "2026-08-02", "type": "expense", "account": "acc_salary", "amount": 4200.00, "currency": "CNY", "category": "cat_home_rent", "note": "8 月房租"},
+    {"id": "tx003", "date": "2026-08-03", "type": "expense", "account": "acc_salary", "amount": 186.50, "currency": "CNY", "category": "cat_food_grocery", "note": "一周食材"},
+    {"id": "tx004", "date": "2026-08-04", "type": "expense", "account": "acc_cash", "amount": 35.00, "currency": "CNY", "category": "cat_food_takeout", "note": "午餐外卖"},
+    {"id": "tx005", "date": "2026-08-05", "type": "expense", "account": "acc_salary", "amount": 210.00, "currency": "CNY", "category": "cat_transport_subway", "note": "地铁月卡充值"},
+    {"id": "tx006", "date": "2026-08-06", "type": "expense", "account": "acc_travel", "amount": 45.80, "currency": "USD", "category": "cat_shopping_daily", "note": "旅行日用品"},
+    {"id": "tx007", "date": "2026-08-08", "type": "transfer", "from": "acc_salary", "to": "acc_saving", "amount_from": 5400.00, "currency_from": "CNY", "amount_to": 692.31, "currency_to": "EUR", "note": "固定储蓄"},
+    {"id": "tx008", "date": "2026-08-10", "type": "expense", "account": "acc_cash", "amount": 58.00, "currency": "CNY", "category": "cat_fun_movie", "note": "两张电影票"},
+    {"id": "tx009", "date": "2026-08-12", "type": "income", "account": "acc_travel", "amount": 120.00, "currency": "USD", "category": "cat_income_refund", "note": "差旅报销"},
+    {"id": "tx010", "date": "2026-08-15", "type": "expense", "account": "acc_salary", "amount": 89.90, "currency": "CNY", "category": "cat_shopping_clothes", "note": "换季 T 恤"},
+    {"id": "tx011", "date": "2026-08-16", "type": "expense", "account": "acc_saving", "amount": 60.00, "currency": "EUR", "category": "cat_health_pharmacy", "note": "常备药"},
+    {"id": "tx012", "date": "2026-08-18", "type": "expense", "account": "acc_salary", "amount": 26.00, "currency": "CNY", "category": "cat_food_cafe", "note": "拿铁 ×2"},
+    {"id": "tx013", "date": "2026-08-20", "type": "income", "account": "acc_salary", "amount": 32.15, "currency": "CNY", "category": "cat_income_interest", "note": "货基收益"},
+    {"id": "tx014", "date": "2026-08-22", "type": "expense", "account": "acc_cash", "amount": 47.50, "currency": "CNY", "category": "cat_transport_taxi", "note": "雨夜打车"},
+    {"id": "tx015", "date": "2026-08-25", "type": "expense", "account": "acc_salary", "amount": 1299.00, "currency": "CNY", "category": "cat_shopping_electronics", "note": "降噪耳机"},
+    {"id": "tx016", "date": "2026-08-28", "type": "expense", "account": "acc_travel", "amount": 24.30, "currency": "USD", "category": "cat_fun_game", "note": "游戏充值"}
+  ]
+}

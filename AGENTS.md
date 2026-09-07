@@ -28,8 +28,16 @@
   封闭、不漏项、报告 schema 固定），契约见 `docs/evaluation_contract.md`。
 - 正式对照实验中每个 Agent 任务只应暴露一个条件的 MCP（our-method 安装器
   提供 `--exclusive` 互斥注册）；评测任务只启用 `app-review`。
-- 正式数据集与自写样例必须区分：`yuque_web`（网页首个数据集）与 `google_clock`
-  （Android 首个数据集）是数据集，`android_commerce_demo` 只用于冒烟测试。
+- 正式数据集与自写样例必须区分：`yuque_web`（网页首个数据集）与 Android 二十目标
+  数据集（`google_clock` + 19 个 F-Droid/snapseed 应用，注册于
+  `runs/android_targets/targets.json`）是数据集，`android_commerce_demo` 只用于
+  冒烟测试。
+- Android 数据集三件套已对齐 20 目标：目标注册（包名/启动 Activity 由持久模拟器
+  `bbb_manual_show` 的系统 resolver 解析）、`app_reproduction/materials/apps/`
+  每目标素材包、`review_specs/<app_id>.json` 逐条评测清单（共 420 条要求）。
+- **数据边界**：2026-09-07 环境改版（复现沙盒网络策略改为"开放 + Skill 纪律"、
+  per-app 素材包上线）之前的全部 Android 端探索/生成/评审产物已归档于 `cache/`，
+  与主线隔离；改版前后的样本不可混入同一数据集比较。
 
 ## 不可违反的约束
 
@@ -121,7 +129,13 @@
 - `web_evaluation/`：网页交接产物的四档评测会话（像素+类人输入+源码只读通道）。
 - `agents/web_review/`：网页评审 MCP、安装器与 Skill。
 - `app_output/`：Android 复现 Agent 唯一输出目录；`project/` 可写，`review/` 与
-  `artifacts/` 由可信侧管理。
+  `artifacts/` 由可信侧管理。`evaluations/` 存放 app-review 清单评测产物。
+- `app_reproduction/materials/apps/`：20 个 per-app 复现素材包
+  （CATALOG.md + SUPPLEMENT.md + 虚构实体素材）。
+- `review_specs/`：人工功能要求清单（web/android 各数据集，`Checklist` 校验；
+  app_id 与目标注册一一对应）。
+- `cache/`：2026-09-07 环境改版前的 Android 端历史产物归档（4 个复现交接、
+  4 份 checklist 评测、13 个探索会话），只读隔离，不参与任何聚合比较。
 
 ## Android 条件
 
@@ -158,21 +172,38 @@
   重试前先 wait-for-device。重试仍失败时按**设备/浏览器是否仍健康**分级：健康 →
   可恢复（HTTP 409，只损失这一步，会话存活）；不健康 → 会话 failed 并归还资源。
   环境噪声不得被记录成对 Agent 的观察。
+- **探测语义**：`_device_responsive()` 的探测与被探测对象共享同一宿主内存压力，
+  探测自身超时/OSError 必须保守读作**可恢复**（探测沉默 ≠ 设备死）；只有 adb 明确
+  回答非 device 状态且 qemu 进程仍存活才是终局。探测沉默误判终局曾在 2026-09-01
+  双开时丢掉 4 个会话（探测行为由回归测试守护）。`am start` 抖动的重试窗口同样
+  按内存压力实测加宽（5 次、平方退避）。
 - **失败消息绝不泄漏可信侧机制**。adb 原始错误含工具路径、命令行与 emulator
   serial，CDP 错误含方法名与 ws URL；它们只能进本地 trace。回传 Agent 的必须是
   中性句子（`DeviceError` / `_agent_safe_message`）。泄漏等于告诉 Agent ADB/CDP
   存在及其用途，违反 pixels-only 边界。
 - Android 内存准入必须在跨进程锁内完成"检查 + 预留"，并为**启动中**的模拟器扣除
-  预算（`BBB_ANDROID_EMULATOR_MB`）。否则两个并发启动会各自认为内存足够而共同超配，
-  正是 adb 随机丢命令的诱因。
+  预算（`BBB_ANDROID_EMULATOR_MB`，默认 4608，按 2026-09-01 双开实测 ~4.1GB/qemu
+  定标；此前 3072 的估值会让并发启动共同超配）。否则两个并发启动会各自认为内存
+  足够而共同超配，正是 adb 随机丢命令的诱因。
 - `type_text` 只能注入 ASCII。设备 KeyCharacterMap 无 CJK 映射，`input text` 对
   CJK 必然失败（任何引号或转义都无效）；非 ASCII 必须作为可恢复的无效动作拒绝
   （会话存活），并引导 Agent 用屏幕键盘点按。
 - Android 交接必须使用脱敏白名单副本。目标 APK、profile、原 App 私有数据、真实凭据
   与 protected strings/regions 不得进入 `/exploration`、`/input`、复现项目或 APK。
-- Android 构建容器固定 Kotlin + Jetpack Compose、`network=none`、离线依赖；只能挂载
-  本次 `project/`、脱敏交接和公共虚构素材。危险权限、私人值、接受后改写或缺少可安装
-  APK 都必须阻止完成。
+- Android 构建容器固定 Kotlin + Jetpack Compose、离线依赖（`gradle --offline`）；
+  隔离来自只读根、cap-drop 与 no-new-privileges。**网络开放但受 Skill 纪律约束**
+  （2026-09-07 起的基准环境）：优先使用 `/materials/app` 与公共素材，仅当补充材料
+  确实缺少必要公开资料（格式规范、API 文档）才联网查询，绝不上传探索截图、敏感
+  内容、工程文件或会话数据。只能挂载本次 `project/`、脱敏交接、公共虚构素材与
+  per-app 素材包。危险权限、私人值、接受后改写或缺少可安装 APK 都必须阻止完成。
+- **Per-app 素材包**：`app_reproduction/materials/apps/<app_id>/` 在目标有包时以
+  只读 `/materials/app` 挂载，含 `CATALOG.md`（实体素材清单）与 `SUPPLEMENT.md`
+  （非实体领域信息：格式规范、接口概念、行为规则），实体素材必须虚构且确定性。
+  包目录树纳入复现期间防篡改指纹（finish 时重算比对）。**白名单必须同步**：
+  `agents/android_our_method/mcp_server.py` 的 `_material_roots()` 需动态纳入
+  当前会话的 `app_materials_dir`（曾漏改导致 `input_read /materials/app` 被拒，
+  回归测试 `test_android_ours_input_read_accepts_per_app_materials` 守护）；
+  baseline 无 input 工具、走 `workspace_run` 容器内直读，不经宿主白名单。
 
 ## 常用命令
 
@@ -193,6 +224,8 @@ vendor/python/python.exe -m agents.web_review.install --cli codex
 vendor/python/python.exe scripts/android_launch_preflight.py --app google_clock --condition our-method --close
 vendor/python/python.exe scripts/android_parallel_check.py --app google_clock
 vendor/python/python.exe scripts/android_locks.py --reclaim
+vendor/python/python.exe scripts/android_target.py list
+vendor/python/python.exe scripts/android_target_smoke.py --app <app_id>
 ```
 
 ## Session 清理
@@ -203,7 +236,8 @@ mock Docker，不能实际创建 `runs/self_*`。清理 `runs/` 前先查询
 `GET /api/sessions` 并确认没有 running Session，再停止相关 Controller/MCP/Chrome
 进程。只清理 `runs/sess_*`；`runs/live_targets/` 是敏感登录资料，必须保留。
 Android 会话还要跑 `scripts/android_locks.py --reclaim` 回收 lease 与端口预留，
-必要时加 `--kill-emulators` 清掉孤儿 qemu。
+必要时加 `--kill-emulators` 清掉孤儿 qemu。`cache/` 是改版前的历史归档，
+**只读、永不清理**，不属于任何清理脚本的范围。
 
 PowerShell 会吞 `$` 变量并破坏中文，复杂脚本请写成文件再执行。
 
@@ -231,4 +265,8 @@ PowerShell 会吞 `$` 变量并破坏中文，复杂脚本请写成文件再执�
 - 修改 Runtime、Agent API、evidence 或网络边界后必须运行对应安全测试和完整测试。
 - 新 Reference App 按 `docs/adding_reference_app.md` 接入。
 - 素材必须是虚构、自包含、可离线重建的，不引入真实用户信息或不明版权内容。
+- 素材包（`materials/apps/*/SUPPLEMENT.md`）描述**目标应用应有的领域行为规范**
+  （如"定时器归零进入完成态"），对全部条件平等开放；它是公平信息源，不是答案。
+  被测条件未实现某功能属于测量结果，**不得**通过改素材、skill 或提示去引导
+  Agent 修复——那是被测能力的一部分（与"失败归属先判性质"同一原则）。
 - 公共素材和初始数据库不得被 Agent 原地修改；所有生成结果写入 `website_output/`。

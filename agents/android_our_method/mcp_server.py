@@ -479,8 +479,14 @@ def _exemption_conflict_error(review_summary: object) -> str | None:
 
 
 def _material_roots() -> dict[str, Path]:
-    return {"common": ensure_materials().resolve(),
-            "mobile": ensure_app_materials().resolve()}
+    roots = {"common": ensure_materials().resolve(),
+             "mobile": ensure_app_materials().resolve()}
+    # The per-app supplement pack is mounted at /materials/app when the
+    # current target ships one (see AppReproductionWorkspace.start).
+    if (_reproduction is not None
+            and _reproduction.app_materials_dir is not None):
+        roots["app"] = Path(_reproduction.app_materials_dir)
+    return roots
 
 
 def _resolve_input_host(path_value: object,
@@ -507,7 +513,8 @@ def _resolve_input_host(path_value: object,
             roots = _material_roots()
             root = roots.get(parts[1])
             if root is None:
-                raise ValueError("materials root must be common or mobile")
+                raise ValueError(
+                    "materials root must be common, mobile or app")
             host = root.joinpath(*parts[2:])
             host.resolve().relative_to(root)
             return host
@@ -621,7 +628,8 @@ def _t_finalize(_args: dict) -> dict:
             topology_path=topology,
             exploration_files=handoff_files,
             protected_strings=target.protected_strings,
-            protected_regions=target.protected_regions)
+            protected_regions=target.protected_regions,
+            target_id=target_id)
         available = sum(1 for name in handoff_files
                         if name.startswith("screenshots/"))
         _reset_asset_reads(_reproduction.handoff_id, available)

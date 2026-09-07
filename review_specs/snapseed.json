@@ -1,0 +1,431 @@
+{
+  "checklist_id": "snapseed",
+  "platform": "android",
+  "features": [
+    {
+      "name": "图片打开与基础编辑工作流",
+      "steps": [
+        "启动 Snapseed",
+        "选择本地图片",
+        "解码并进入编辑主页",
+        "双指缩放、放大后移动查看",
+        "长按可比较编辑前后的画面",
+        "从“样式 / 工具 / 导出”进入不同工作流",
+        "切换工具时当前图片状态保持。Snapseed 官方也明确采用“选择工具",
+        "实时调整",
+        "确认/取消”的非破坏式工作流。Google 帮助"
+      ],
+      "expected": "确认/取消”的非破坏式工作流。Google 帮助",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f01"
+    },
+    {
+      "name": "样式 Looks 预设",
+      "steps": [
+        "打开图片",
+        "横向浏览多个预设 Style",
+        "点击任一 Style 即时预览",
+        "改选另一 Style 时替换当前预览",
+        "✓ 后才正式加入编辑结果",
+        "× 恢复进入样式前的图片"
+      ],
+      "expected": "× 恢复进入样式前的图片",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f02"
+    },
+    {
+      "name": "调整图片 Tune Image",
+      "steps": [
+        "进入“调整图片”",
+        "上下滑在亮度、对比度、饱和度、氛围、高光、阴影、暖色调之间选择",
+        "左右滑连续改变数值",
+        "多参数共同作用于当前预览",
+        "确认后全部参数作为同一步编辑保存。官方经典版明确包含这 7 个参数。Google 帮助"
+      ],
+      "expected": "确认后全部参数作为同一步编辑保存。官方经典版明确包含这 7 个参数。Google 帮助",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f03"
+    },
+    {
+      "name": "突出细节 Details",
+      "steps": [
+        "进入“突出细节”",
+        "在“结构”和“锐化”之间切换",
+        "Structure 增强局部纹理，Sharpening 强化边缘清晰度",
+        "改变数值实时预览",
+        "旧的参数值在确认后固定于该编辑步骤，而不会继续影响随后新建的 Details 操作。Google 帮助"
+      ],
+      "expected": "旧的参数值在确认后固定于该编辑步骤，而不会继续影响随后新建的 Details 操作。Google 帮助",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f04"
+    },
+    {
+      "name": "曲线 Curves",
+      "steps": [
+        "进入曲线",
+        "编辑整体 RGB 曲线",
+        "添加/拖动多个控制点",
+        "图像明暗映射实时改变",
+        "切换 R/G/B 通道可产生独立色彩偏移",
+        "使用预设或自定义曲线",
+        "确认后控制点状态随编辑步骤保存"
+      ],
+      "expected": "确认后控制点状态随编辑步骤保存",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f05"
+    },
+    {
+      "name": "白平衡 White Balance",
+      "steps": [
+        "打开白平衡",
+        "调节色温使画面在蓝/黄之间变化",
+        "调节着色使画面在绿/品红之间变化",
+        "使用自动白平衡或吸管选择图片中的中性区域",
+        "根据采样结果重新计算色彩",
+        "确认保存"
+      ],
+      "expected": "确认保存",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f06"
+    },
+    {
+      "name": "剪裁 Crop",
+      "steps": [
+        "进入剪裁",
+        "在自由、原始比例、1:1、DIN、3:2、4:3、5:4、7:5、16:9 等比例间选择",
+        "拖动边/角改变区域",
+        "固定比例时保持约束",
+        "确认后真正改变后续编辑看到的图像区域。官方列出的比例与此一致。Google 帮助"
+      ],
+      "expected": "确认后真正改变后续编辑看到的图像区域。官方列出的比例与此一致。Google 帮助",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f07"
+    },
+    {
+      "name": "旋转与拉直 Rotate",
+      "steps": [
+        "打开旋转",
+        "执行 90° 旋转或通过滑动进行小角度拉直",
+        "参考网格随角度变化",
+        "旋转产生的边缘按工具规则处理",
+        "确认后后续文字、局部、裁剪等操作使用新的图像坐标"
+      ],
+      "expected": "确认后后续文字、局部、裁剪等操作使用新的图像坐标",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f08"
+    },
+    {
+      "name": "透视 Perspective",
+      "steps": [
+        "对建筑或倾斜照片进入透视工具",
+        "通过拖动/缩放改变水平或垂直透视",
+        "图像实时发生几何变换",
+        "开启边缘修复时自动补齐产生的空白；关闭时空白区域保留为黑色",
+        "确认后新的几何状态传递给后续工具。Google 帮助"
+      ],
+      "expected": "确认后新的几何状态传递给后续工具。Google 帮助",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f09"
+    },
+    {
+      "name": "展开 Expand",
+      "steps": [
+        "进入“展开”",
+        "分别向上/下/左/右拉大画布",
+        "选择智能填充、白色或黑色等补边方式",
+        "连续扩展多个方向",
+        "原图保持在正确位置",
+        "确认后真实画布尺寸增加，随后保存得到的新图片尺寸同步变化"
+      ],
+      "expected": "确认后真实画布尺寸增加，随后保存得到的新图片尺寸同步变化",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f10"
+    },
+    {
+      "name": "局部 Selective",
+      "steps": [
+        "点击图片建立 Control Point",
+        "拖动控制点到目标位置",
+        "双指改变作用范围",
+        "红色遮罩显示实际受影响区域",
+        "对该点独立调整亮度、对比度和饱和度",
+        "再创建多个控制点",
+        "复制、移动、删除某一点不会破坏其他点。官方经典 Selective 正是这种 U Point 交互。Google 帮助"
+      ],
+      "expected": "复制、移动、删除某一点不会破坏其他点。官方经典 Selective 正是这种 U Point 交互。Google 帮助",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f11"
+    },
+    {
+      "name": "画笔 Brush",
+      "steps": [
+        "进入画笔",
+        "在加光/减光、曝光、色温、饱和度之间选择",
+        "单指涂抹，仅笔迹覆盖范围改变",
+        "修改强度后新笔迹使用新强度",
+        "强度 0 擦除此前局部效果",
+        "打开遮罩预览后以橙色显示已涂区域。Google 帮助"
+      ],
+      "expected": "打开遮罩预览后以橙色显示已涂区域。Google 帮助",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f12"
+    },
+    {
+      "name": "修复 Healing",
+      "steps": [
+        "放大图片",
+        "点击或涂过污点、杂物、小物体区域",
+        "根据周围像素生成替代内容",
+        "连续修复多个位置",
+        "对错误修复执行 Undo",
+        "放大比例变化后屏幕触摸仍映射到正确原图区域",
+        "确认后修复结果进入最终图像"
+      ],
+      "expected": "确认后修复结果进入最终图像",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f13"
+    },
+    {
+      "name": "HDR 景观 HDR Scape",
+      "steps": [
+        "选择 HDR 风格",
+        "对单张图片执行 Tone Mapping",
+        "分别调节滤镜强度、亮度、饱和度、平滑等参数",
+        "阴影和高光细节同时变化",
+        "切换其他 HDR Style 后使用该 Style 的参数预览",
+        "确认后保存。Google 帮助"
+      ],
+      "expected": "确认后保存。Google 帮助",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f14"
+    },
+    {
+      "name": "魅力光晕 Glamour Glow",
+      "steps": [
+        "进入魅力光晕",
+        "选择不同柔光预设",
+        "调节光晕、饱和度、暖色调",
+        "高光产生柔和扩散且整体色调随参数变化",
+        "多个参数组合保持在同一滤镜步骤中。Google 帮助"
+      ],
+      "expected": "多个参数组合保持在同一滤镜步骤中。Google 帮助",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f15"
+    },
+    {
+      "name": "色调对比度 Tonal Contrast",
+      "steps": [
+        "进入色调对比度",
+        "独立调整高色调、中色调、低色调的局部对比",
+        "使用“保护阴影 / 保护高光”减少暗部或亮部细节损失",
+        "调整任一参数时其他参数保持",
+        "确认形成完整效果。Google 帮助"
+      ],
+      "expected": "确认形成完整效果。Google 帮助",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f16"
+    },
+    {
+      "name": "戏剧效果 Drama",
+      "steps": [
+        "选择不同 Drama Style",
+        "每种 Style 采用不同局部对比风格",
+        "调节 Strength 改变戏剧化程度",
+        "调节 Saturation 控制色彩",
+        "切换预设时实时替换当前 Drama 预览而不是叠加新的 Drama。Google 帮助"
+      ],
+      "expected": "切换预设时实时替换当前 Drama 预览而不是叠加新的 Drama。Google 帮助",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f17"
+    },
+    {
+      "name": "复古 Vintage",
+      "steps": [
+        "选择不同复古胶片 Style",
+        "调整亮度、饱和度、样式/纹理和晕影",
+        "移动/改变晕影作用区域",
+        "随机化纹理时产生另一种纹理位置",
+        "确认后该次随机结果应保持，而不是重新打开就再次随机。官方 Vintage 也包含 Style、Brightness、Saturation、Texture、Vignette 等控制。Google 帮助"
+      ],
+      "expected": "确认后该次随机结果应保持，而不是重新打开就再次随机。官方 Vintage 也包含 Style、Brightness、Saturation、Texture、Vignette 等控制。Google 帮助",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f18"
+    },
+    {
+      "name": "粗粒胶片 Grainy Film",
+      "steps": [
+        "浏览多个胶片预设",
+        "选择某一胶片色彩风格",
+        "独立调整颗粒强度和样式强度",
+        "颗粒变化不应简单等同于整体噪点亮度变化",
+        "确认后预设与参数共同组成滤镜状态"
+      ],
+      "expected": "确认后预设与参数共同组成滤镜状态",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f19"
+    },
+    {
+      "name": "怀旧 Retrolux",
+      "steps": [
+        "选择怀旧风格",
+        "调整亮度、饱和度、对比度、Style、划痕和漏光等效果",
+        "随机化可改变漏光/划痕位置",
+        "同一次确认后随机参数固定",
+        "再次重新生成才产生另一种结果"
+      ],
+      "expected": "再次重新生成才产生另一种结果",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f20"
+    },
+    {
+      "name": "斑驳 Grunge",
+      "steps": [
+        "进入 Grunge",
+        "调节 Style 改变整体色彩分布",
+        "调节亮度、对比度、饱和度、Texture Strength",
+        "随机改变纹理的位置与角度",
+        "当前随机纹理作为该编辑步骤的一部分保存。官方说明 Grunge 可以随机化纹理角度/位置，并提供这些参数。Google 帮助"
+      ],
+      "expected": "当前随机纹理作为该编辑步骤的一部分保存。官方说明 Grunge 可以随机化纹理角度/位置，并提供这些参数。Google 帮助",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f21"
+    },
+    {
+      "name": "黑白 Black & White",
+      "steps": [
+        "转换为黑白",
+        "选择多个黑白预设",
+        "调节亮度、对比度和颗粒",
+        "选择红/黄/绿/蓝等颜色滤镜时，不同原始颜色映射到不同灰阶",
+        "切换预设重新计算，但不删除原始彩色信息。Google 帮助"
+      ],
+      "expected": "切换预设重新计算，但不删除原始彩色信息。Google 帮助",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f22"
+    },
+    {
+      "name": "黑白电影 Noir",
+      "steps": [
+        "选择 Noir 风格",
+        "产生比普通黑白更重的暗房/电影风格",
+        "调节相关亮度、Wash/冲印感、颗粒等效果",
+        "从 Noir 切回普通黑白时两个工具保持独立参数和独立编辑步骤"
+      ],
+      "expected": "从 Noir 切回普通黑白时两个工具保持独立参数和独立编辑步骤",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f23"
+    },
+    {
+      "name": "美颜 / Face",
+      "steps": [
+        "在含人脸图片上启动美颜",
+        "自动检测人脸",
+        "选择预设打光或肤色效果",
+        "分别调整脸部提亮、柔肤、眼部清晰",
+        "改变只围绕检测到的人脸产生",
+        "无人脸图片不应假造固定脸部区域。官方经典 Face 提供这三个核心控制参数。Google 帮助"
+      ],
+      "expected": "无人脸图片不应假造固定脸部区域。官方经典 Face 提供这三个核心控制参数。Google 帮助",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f24"
+    },
+    {
+      "name": "头部姿势 Head Pose",
+      "steps": [
+        "在可识别人脸的照片上进入头部姿势",
+        "拖动改变人物左右/上下头部方向",
+        "调整微笑、瞳孔等可用人像参数",
+        "变形应以实际脸部特征为中心",
+        "确认后保持人像几何结果，Undo 可恢复原姿势"
+      ],
+      "expected": "确认后保持人像几何结果，Undo 可恢复原姿势",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f25"
+    },
+    {
+      "name": "镜头模糊 Lens Blur",
+      "steps": [
+        "进入镜头模糊",
+        "在线性和椭圆焦区间切换",
+        "拖动焦点",
+        "双指改变焦区大小、形状和旋转",
+        "调节模糊强度、过渡范围和晕影",
+        "只有焦区之外逐渐模糊。Google 帮助"
+      ],
+      "expected": "只有焦区之外逐渐模糊。Google 帮助",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f26"
+    },
+    {
+      "name": "晕影 Vignette",
+      "steps": [
+        "打开晕影",
+        "拖动蓝色中心点决定主题位置",
+        "双指改变中心区域大小",
+        "分别调整外部亮度和内部亮度",
+        "中心和边缘形成独立明暗效果",
+        "编辑后重新进入时中心位置与参数保持。Google 帮助"
+      ],
+      "expected": "编辑后重新进入时中心位置与参数保持。Google 帮助",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f27"
+    },
+    {
+      "name": "双重曝光 Double Exposure",
+      "steps": [
+        "在当前图片上选择第二张图片",
+        "第二图作为独立合成层加入",
+        "移动、缩放并重新定位",
+        "在不同混合模式间切换",
+        "调节透明度",
+        "确认后形成复合结果",
+        "Undo 后第一张原图仍保持完整"
+      ],
+      "expected": "Undo 后第一张原图仍保持完整",
+      "persistence": true,
+      "multi_user": false,
+      "id": "f28"
+    },
+    {
+      "name": "文字、相框与最终编辑生命周期",
+      "steps": [
+        "使用“文字”输入内容",
+        "选择不同排版模板",
+        "修改颜色并移动/缩放/旋转文字；再使用“相框”选择边框样式并调整宽度",
+        "两个效果按应用顺序叠加",
+        "随后可 Undo/Redo、查看此前修改，并通过保存/导出真正生成带全部视觉效果的最终图片。官方明确说明工具顺序会影响最终效果，例如相框在镜头模糊前后产生不同结果，而且编辑采用非破坏式工作流。Google 帮助"
+      ],
+      "expected": "随后可 Undo/Redo、查看此前修改，并通过保存/导出真正生成带全部视觉效果的最终图片。官方明确说明工具顺序会影响最终效果，例如相框在镜头模糊前后产生不同结果，而且编辑采用非破坏式工作流。Google 帮助",
+      "persistence": false,
+      "multi_user": false,
+      "id": "f29"
+    }
+  ]
+}
