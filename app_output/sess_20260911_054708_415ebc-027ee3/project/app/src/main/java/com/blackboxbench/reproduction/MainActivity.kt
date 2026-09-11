@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
@@ -70,6 +71,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
@@ -261,13 +263,13 @@ private fun ColumnScope.LibraryScreen(
     onSort: (String) -> Unit,
     onView: (Boolean) -> Unit
 ) {
-    val filtered = books.filter { search.isBlank() || it.title.contains(search, true) || it.author.contains(search, true) }
+    val filtered = books.filter { search.isBlank() || it.title.contains(search, true) || it.author.contains(search, true) || it.id.contains(search, true) || it.format.contains(search, true) }
     val shown = when (sortBy) {
         "标题" -> filtered.sortedBy { it.title }
         "作者" -> filtered.sortedBy { it.author }
         "格式" -> filtered.sortedBy { it.format }
         "页数" -> filtered.sortedByDescending { it.pages }
-        else -> filtered.sortedByDescending { it.progress }
+        else -> filtered
     }
     Column(Modifier.fillMaxWidth().weight(1f)) {
         Row(
@@ -275,39 +277,37 @@ private fun ColumnScope.LibraryScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             SquareTool("☰", onMenu, Modifier.width(42.dp))
-            OutlinedTextField(
-                value = search,
-                onValueChange = onSearch,
-                placeholder = { Text("搜索", color = LibreraBlue, fontSize = 20.sp, fontWeight = FontWeight.Bold) },
-                trailingIcon = { Text(shown.size.toString(), color = LibreraBlue, fontWeight = FontWeight.Bold) },
-                singleLine = true,
-                modifier = Modifier.weight(1f).height(52.dp)
+            Surface(
+                modifier = Modifier.weight(1f).height(50.dp).border(1.dp, LibreraBlue),
+                color = Color.White
+            ) {
+                Row(Modifier.fillMaxSize().padding(horizontal = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.weight(1f)) {
+                        if (search.isBlank()) Text("搜索", color = LibreraBlue, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                        BasicTextField(
+                            value = search,
+                            onValueChange = onSearch,
+                            singleLine = true,
+                            textStyle = androidx.compose.ui.text.TextStyle(color = LibreraBlue, fontSize = 18.sp),
+                            cursorBrush = SolidColor(LibreraTeal),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                    Text(shown.size.toString(), color = LibreraBlue, fontWeight = FontWeight.Bold, fontSize = 17.sp)
+                }
+            }
+            Text(
+                sortBy + " ▲",
+                color = Color.White,
+                fontSize = 18.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.width(100.dp).fillMaxHeight().clickable { setSortMenu(true) }.padding(top = 13.dp)
             )
-            Box {
-                TextButton(onClick = { setSortMenu(true) }, modifier = Modifier.height(52.dp)) {
-                    Text(sortBy + "  ▲", color = Color.White, fontSize = 18.sp)
-                }
-                DropdownMenu(expanded = sortMenu, onDismissRequest = { setSortMenu(false) }) {
-                    listOf("文件夹", "文件名", "文件大小", "时间", "标题", "作者", "丛书", "页数", "格式", "语言", "出版时间", "出版商", "最近").forEach {
-                        DropdownMenuItem(text = { Text(it, fontSize = 18.sp) }, onClick = { onSort(it) })
-                    }
-                }
-            }
             SquareTool("⟳", {}, Modifier.width(42.dp))
-            Box {
-                SquareTool(if (listView) "☷" else "▦", { setViewMenu(true) }, Modifier.width(42.dp))
-                DropdownMenu(expanded = viewMenu, onDismissRequest = { setViewMenu(false) }) {
-                    DropdownMenuItem(text = { Text("☷  列表", fontSize = 19.sp) }, onClick = { onView(true) })
-                    DropdownMenuItem(text = { Text("☰  简表", fontSize = 19.sp) }, onClick = { onView(true) })
-                    DropdownMenuItem(text = { Text("▦  网格", fontSize = 19.sp) }, onClick = { onView(false) })
-                    DropdownMenuItem(text = { Text("▥  封面", fontSize = 19.sp) }, onClick = { onView(false) })
-                    HorizontalDivider()
-                    listOf("作者", "流派", "丛书", "关键词", "语言", "标签", "出版商", "出版时间").forEach {
-                        DropdownMenuItem(text = { Text("#  " + it, fontSize = 18.sp) }, onClick = { setViewMenu(false) })
-                    }
-                }
-            }
+            SquareTool(if (listView) "☷" else "▦", { setViewMenu(true) }, Modifier.width(42.dp))
         }
+        if (sortMenu) LibrarySortDialog(onDismiss = { setSortMenu(false) }, onSort = onSort)
+        if (viewMenu) LibraryViewDialog(onDismiss = { setViewMenu(false) }, onView = onView)
         Row(
             Modifier.fillMaxWidth().height(42.dp).background(PermissionGreen).padding(horizontal = 10.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -330,6 +330,43 @@ private fun ColumnScope.LibraryScreen(
             ) {
                 items(shown, key = { it.id }) { book ->
                     BookCard(book, favorites.contains(book.id), { onFavorite(book.id) }, { onOpen(book) })
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun LibrarySortDialog(onDismiss: () -> Unit, onSort: (String) -> Unit) {
+    Dialog(onDismissRequest = onDismiss) {
+        Surface(color = Color.White, modifier = Modifier.fillMaxWidth()) {
+            Column {
+                BlueTitleBar("排序方式", listOf("×" to onDismiss))
+                LazyColumn(Modifier.height(520.dp)) {
+                    items(listOf("文件夹", "文件名", "文件大小", "时间", "标题", "作者", "丛书", "页数", "格式", "语言", "出版时间", "出版商", "最近")) { option ->
+                        Text(option, fontSize = 19.sp, modifier = Modifier.fillMaxWidth().clickable { onSort(option) }.padding(horizontal = 22.dp, vertical = 15.dp))
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun LibraryViewDialog(onDismiss: () -> Unit, onView: (Boolean) -> Unit) {
+    Dialog(onDismissRequest = onDismiss) {
+        Surface(color = Color.White, modifier = Modifier.fillMaxWidth()) {
+            Column {
+                BlueTitleBar("展示与分组", listOf("×" to onDismiss))
+                LazyColumn(Modifier.height(520.dp)) {
+                    item { Text("☷  列表", fontSize = 19.sp, modifier = Modifier.fillMaxWidth().clickable { onView(true) }.padding(18.dp)) }
+                    item { Text("☰  简表", fontSize = 19.sp, modifier = Modifier.fillMaxWidth().clickable { onView(true) }.padding(18.dp)) }
+                    item { Text("▦  网格", fontSize = 19.sp, modifier = Modifier.fillMaxWidth().clickable { onView(false) }.padding(18.dp)) }
+                    item { Text("▥  封面", fontSize = 19.sp, modifier = Modifier.fillMaxWidth().clickable { onView(false) }.padding(18.dp)) }
+                    item { HorizontalDivider() }
+                    items(listOf("作者", "流派", "丛书", "关键词", "语言", "标签", "出版商", "出版时间")) { option ->
+                        Text("#  " + option, fontSize = 18.sp, modifier = Modifier.fillMaxWidth().clickable(onClick = onDismiss).padding(horizontal = 20.dp, vertical = 15.dp))
+                    }
                 }
             }
         }
