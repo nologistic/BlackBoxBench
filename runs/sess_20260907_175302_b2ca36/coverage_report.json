@@ -1,0 +1,19 @@
+{
+  "app_id": "google_clock",
+  "session_id": "sess_20260907_175302_b2ca36",
+  "coverage": {
+    "states": 18,
+    "features": 15,
+    "data_entities": 5,
+    "edges": 26,
+    "confirmed_ratio": 1.0,
+    "actions_used": 70
+  },
+  "unresolved_questions": [],
+  "nodes_by_status": {
+    "confirmed": 38,
+    "hypothesized": 0,
+    "uncertain": 0,
+    "rejected": 0
+  }
+}

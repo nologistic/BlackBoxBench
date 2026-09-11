@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "6129fee2f956d0d99af735d343553670685cf0e4e786ada2c12ecfd08b2dc549",
+  "accepted_apk_hash": "f0966d6084a1e3fe0462ff385389291d735df6e14959895122574e0693dd8f57",
+  "revision_count": 2,
+  "max_revisions": 3,
+  "require_write_evidence": true,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "应用启动与相册首页",
+        "进入 BlackBoxBench 文件夹",
+        "打开图片全屏查看器"
+      ],
+      "findings": [
+        "首页及文件夹页顶部胶囊延伸到状态栏下方",
+        "文件夹搜索占位文字发生换行并被裁切",
+        "全屏查看器顶部操作栏也应避开状态栏"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "f0687b0c33deb01119eaa78a960f1c7d8394c6421a0327eb4788a478afa906fa",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "78e6a5cc164c6e0a7131edbb80caec877eef945215e6e0f451fdd97fb8c502e0",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "36eabd52d2d28be387582fd8ec078bf8eb43bd02da0fd94ad2648985e54560c2",
+          "path": "review/round_01/observation_003.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "应用启动与相册首页",
+        "进入 BlackBoxBench 两列媒体网格",
+        "打开视频全屏查看器",
+        "视频收藏前后星标变化",
+        "重启后收藏文件夹数量为 1",
+        "进入收藏页并看到实心星标"
+      ],
+      "findings": [
+        "全屏视频查看器顶部状态栏区域为白色，目标应为黑色沉浸背景",
+        "首页和文件夹页的状态栏内边距及单行搜索占位已修复",
+        "收藏状态写入与重启持久化均通过"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "1e0c463ffb3b3e4335e2006ddc09c37c66ad92b9e6e54946129d065c4a74aa78",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "6472e224790b3e4c5c3fee65fc8933dfaf1b2180a51ae497f4ee5a17415b2c3c",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "9612a6ec444393be810896d1a264ee6ce127b1b4e3deddb061b2b5465de4b7df",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "63e2343ebafdebe5129964df5c7bfee85fc1d0908fe412d82d77eca7bbf6dd47",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "f7d758f7a2e596776c2114363d923e99961b27157cdff47af864187b48e87724",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "ff9ea3f85e8fdcaad90cb287fd58cfd9fc9b896f1b4082b646efb8dd8cb0954e",
+          "path": "review/round_02/observation_006.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "accept",
+      "checked_flows": [
+        "启动应用并显示 BlackBoxBench 相册",
+        "进入文件夹两列媒体网格",
+        "打开视频全屏查看器并确认黑色沉浸式系统栏",
+        "视频收藏由空心星标切换为实心星标",
+        "重启后首页出现收藏聚合且数量为 1",
+        "进入收藏页后视频仍显示实心星标",
+        "长按媒体进入 1/1 多选模式"
+      ],
+      "findings": [
+        "最终版本未发现阻断性功能或布局缺陷",
+        "收藏状态在显式重启后保持，并同步到收藏聚合页",
+        "首页、媒体网格、全屏查看器和多选操作与探索证据一致"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "ac322e8cde17b3f4ccbb6d2a450694da2baaa2b911715d588c1ec7e6ba7e47b4",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "04aafda60345b60bd72c2f57bbba2cb400d9c01c053e0e4ea313c82d1841477d",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "4b53a99beab9d4bc7b8d875191b50034a79ad4ba9442ab0962f03da5d4b1872b",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "43f52f239fbf5f1cc5b64d9a54d4b9b1559dd03d49d7b3e8a50a5ee8d338fd70",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 5,
+          "sha256": "cf80c35c884a49ca1293df4ffc870803269432d2f096e31b5210f177f4900965",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 6,
+          "sha256": "bafa383a70f00b09345a17830d4313fd59dd5e4aa3e20bc5999ca71cdf2b28c3",
+          "path": "review/round_03/observation_006.png"
+        }
+      ],
+      "write_flow_evidence": [
+        {
+          "flow": "在视频查看器收藏媒体并重启验证持久化",
+          "before_observation": 2,
+          "after_observation": 3,
+          "persisted_observation": 4
+        }
+      ],
+      "write_flow_exemption": null
+    }
+  ]
+}

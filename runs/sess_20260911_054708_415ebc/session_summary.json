@@ -1,0 +1,19 @@
+{
+  "session_id": "sess_20260911_054708_415ebc",
+  "app_id": "librera",
+  "status": "closed",
+  "close_reason": "agent_finalized",
+  "actions_used": 136,
+  "observations_used": 93,
+  "steps": 136,
+  "frames": 227,
+  "coverage": {
+    "states": 20,
+    "features": 19,
+    "data_entities": 3,
+    "edges": 3,
+    "confirmed_ratio": 1.0,
+    "actions_used": 136
+  },
+  "elapsed_s": 2923
+}

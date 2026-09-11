@@ -1,0 +1,19 @@
+{
+  "session_id": "sess_20260826_092542_2f5657",
+  "app_id": "live_www_yuque_com",
+  "status": "closed",
+  "close_reason": "agent_finalized",
+  "actions_used": 167,
+  "observations_used": 132,
+  "steps": 167,
+  "frames": 300,
+  "coverage": {
+    "states": 94,
+    "features": 21,
+    "data_entities": 11,
+    "edges": 8,
+    "confirmed_ratio": 1.0,
+    "actions_used": 167
+  },
+  "elapsed_s": 2624
+}

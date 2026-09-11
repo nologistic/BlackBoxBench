@@ -3,9 +3,24 @@
 # ------------------------------------------------------------------
 
 # ---- 运行时产物 & 敏感数据(绝不上传) ----
-# runs/ 含每会话 artifacts(截图/视频)与 live_targets 的真实登录 profile,
-# 明确标注"敏感勿外传",必须完全排除。
-runs/
+# runs/live_targets 含真实登录 profile,明确标注"敏感勿外传",必须排除。
+# 2026-09-11 Linux 迁移改版:实验结果与会话证据上云(精确放行),
+# 登录态 / AVD 快照 / 运行时锁 / 可再生缓存仍然排除。
+runs/*
+!runs/android_targets
+!runs/sess_*
+runs/android_targets/manual_sessions/
+runs/android_targets/manual_show_saved/
+runs/android_targets/booting/
+runs/android_targets/port_locks/
+runs/android_targets/leases/
+runs/android_targets/network_guard/
+runs/android_targets/smoke/
+runs/android_targets/extract_work/
+runs/android_targets/profiles/
+runs/android_targets/profiles_tmp/
+runs/android_targets/apks/
+runs/android_targets/artifacts/
 vendor/
 
 # ---- Python ----
@@ -32,6 +47,8 @@ cache/
 # ---- Android APK 复现输出与可重建移动素材 ----
 app_output/*
 !app_output/.gitkeep
+!app_output/sess_*
+!app_output/evaluations
 reproduction/materials/generated/
 app_reproduction/materials/generated/
 sample_apps/android_commerce_demo/.gradle/

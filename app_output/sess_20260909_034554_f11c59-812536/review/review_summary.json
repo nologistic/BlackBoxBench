@@ -1,0 +1,456 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "099264013c286e0e181ab9ede765eee908164d2690a5018e7badc18ad087fd06",
+  "accepted_apk_hash": "3f1600dee99c9075da16a7ae72f94f6c3a54bcb2ca5894dc382619200a47978e",
+  "revision_count": 1,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "首次启动三页引导与完成",
+        "空列表与新建类型选择",
+        "创建完成与否习惯",
+        "完成与否日期弹窗打卡",
+        "完成与否详情统计与日历",
+        "创建可量化习惯",
+        "量化数值5.5录入",
+        "应用重启后的习惯与记录持久化",
+        "主界面筛选与更多菜单点击"
+      ],
+      "findings": [
+        "布尔与量化核心流程、统计日历、重启持久化均正常。",
+        "主界面筛选图标和更多图标在多次像素点击后未展开菜单；设置、深色主题、筛选与关于入口因此不可达，需要修正工具栏菜单触控实现。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "wait"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "d6e7156180bdb53f8ced6f79b156e2fe8e5a77ba7061ec1d02cb6602248a9b52",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "6adf4e93c37c3137858d424caf1b7c6fe41c610fdde448b73d93aa37338267d6",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "24e632ae5a044908d0ba6e9ddf4672e56277bb84a77b12670a13f77290623b72",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "20f44c6fe0e627fbf62ad3c610fbb62dd65f54c23f50e76f34ff1b4f24edd4bf",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "7a686eb8c32d51a4ace922830293e0ab2c7c8dcaefba28f5998f62fc14fba6ac",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "fa25ceca24858f2130e8c2a697053d42de663867ff775925ccfd60b64c3c4bef",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 8,
+          "sha256": "72f2b3699bc80acc172b2ab326172ea6fbeb3ed27677201353b5c33b37b37e9d",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 9,
+          "sha256": "4e75c34e8033174f0f436be414a735fff6271cdbf6136045600613341c12ae21",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 11,
+          "sha256": "2cdc48e19e4a947011dec4f4695eff92f7fcbdf063e786ae8a6eda59ddd20367",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 12,
+          "sha256": "d1c0e7c158e1273a2dca38e3482ef4baf6a7704f856c60eba3a2a7157af494a1",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 14,
+          "sha256": "49974d0a11697a51fde19c8e23fdc3628b1471094f28d7ed370f5dfa200cb64a",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 15,
+          "sha256": "49974d0a11697a51fde19c8e23fdc3628b1471094f28d7ed370f5dfa200cb64a",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 16,
+          "sha256": "49974d0a11697a51fde19c8e23fdc3628b1471094f28d7ed370f5dfa200cb64a",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 17,
+          "sha256": "d0f5c2bc56c80e1dcc7935be115fe7e8afe4ac98ebb00f1fda05721c8f2eea5a",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 18,
+          "sha256": "45a549395d74ac4cf3332ece218b059997cd0777063038426f9d3b3f18acb592",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 20,
+          "sha256": "a8eea0f9425d41f17e840e57adf67d0e4e3909efa923ec49e5525582d7a097c5",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 21,
+          "sha256": "a8eea0f9425d41f17e840e57adf67d0e4e3909efa923ec49e5525582d7a097c5",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 23,
+          "sha256": "2cfe2a291bef2e07eefb17dcdb13f48a933a64c03bd245e443075c84916a8acd",
+          "path": "review/round_01/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 28,
+          "sha256": "6d7b8f95a29610f627f1d7403b49c0ae0f7b221cb20710fccb5c920db2a59f0b",
+          "path": "review/round_01/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 29,
+          "sha256": "4563486a5819a174279bf2acf0eea2545ee3fd25a54a880bdf09d5b9633f1f47",
+          "path": "review/round_01/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 32,
+          "sha256": "e166786e244f2e87b4ee82c3808d1104c5c3ee431830a52470c9a69627734b53",
+          "path": "review/round_01/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 36,
+          "sha256": "a5e1755548e050571ccf06a1ca78a210c7a8a31f1b13438dfd156e1f2d118a73",
+          "path": "review/round_01/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 37,
+          "sha256": "469697dfed2576fa8bfb5558a3c34de7e77d62a5b424b19f0bb5cea2819b038a",
+          "path": "review/round_01/observation_023.png"
+        },
+        {
+          "number": 24,
+          "action_count": 39,
+          "sha256": "469697dfed2576fa8bfb5558a3c34de7e77d62a5b424b19f0bb5cea2819b038a",
+          "path": "review/round_01/observation_024.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "accept",
+      "checked_flows": [
+        "三页首次引导完成后进入空列表",
+        "筛选菜单可打开且包含隐藏已存档、隐藏已完成与排序",
+        "排序菜单包含手动、名称、颜色、分数、状态",
+        "更多菜单可打开且包含深色主题、设置、帮助、关于",
+        "深色主题切换并在重启后持久化",
+        "设置页完整显示界面高级选项",
+        "短按切换设置开启并在重启后持久化",
+        "深色主题下新建完成与否习惯",
+        "短按日期单元直接完成打卡",
+        "第一轮已验证的布尔详情统计、日历、量化创建、数值打卡与数据持久化回归"
+      ],
+      "findings": [
+        "第二轮返修已解决筛选和更多菜单不可达问题。",
+        "核心功能、统计展示、设置入口、主题与数据持久化均通过像素级复验。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "3f381ef36acdb5ba6c2d65fc8eeb29fcdf77a81fb71524345a89caa7df4ea8f6",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 3,
+          "sha256": "94c447174d3e29a19b9d74b5bc1f57f153c8dc4340ab1ee590883f79fcabfc22",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 4,
+          "sha256": "2f019af115210cfcdd81d65f070409d062020229711763bd3e3469472b5c7b48",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 5,
+          "sha256": "eb8713eae3c421668fa1a9b66e2a33fd7c39454f59645bcddc7e770fb23c8a8f",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 7,
+          "sha256": "3b2d5697cab2f2f525900fe1051e8ec479e4d78382c9ec3cf58e76c03296184e",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 8,
+          "sha256": "3b2d5697cab2f2f525900fe1051e8ec479e4d78382c9ec3cf58e76c03296184e",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 9,
+          "sha256": "3b2d5697cab2f2f525900fe1051e8ec479e4d78382c9ec3cf58e76c03296184e",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 10,
+          "sha256": "35effe4f06575d602b6ba248e17c2fbf70267dc458250d94befe023d69f00986",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 11,
+          "sha256": "708842e0e502a49ee26e3a552889f7112818b16e60da78ab4d70cbdf5f44a3e3",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 12,
+          "sha256": "958ddc40557375519959950dd0838cd06e9d13b131ada45b577cfc1125fa57a9",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 14,
+          "sha256": "ca3dc6a3db3fcba18637a9c193058ac446076c32d9c12950c464c3aecdac7694",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 20,
+          "sha256": "50a7650dfc0c9b78c8eeeb6a8f2c7adea8ac6e68ba96d0aab2aee13cf8fe40b9",
+          "path": "review/round_02/observation_012.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

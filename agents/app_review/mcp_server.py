@@ -100,13 +100,53 @@ def _resolve_apk(value: str) -> Path:
 
 
 def _resolve_checklist(value: str) -> Checklist:
-    raw = (value or _checklist_env or "").strip()
+    raw = (value or "").strip()
     if not raw:
-        raise ValueError("需要 checklist 路径")
+        # An absent checklist used to silently fall back to the environment
+        # default, which on 2026-09-08 evaluated a clock reproduction
+        # against the commerce-demo list: every item graded broken because
+        # the judge was looking for a shopping app. With a 20-app dataset a
+        # silent default is a wrong-object trap, so the checklist must be
+        # chosen explicitly and the caller is shown what exists.
+        available = sorted(p.stem for p in REVIEW_SPECS_ROOT.glob("*.json"))
+        raise ValueError(
+            "需要显式指定 checklist，例如 start_evaluation("
+            "checklist=\"google_clock\", handoff_id=\"...\")；"
+            f"可用清单: {', '.join(available)}")
     resolved = _resolve_under(REVIEW_SPECS_ROOT, raw, "checklist")
     checklist = Checklist.load(resolved)
     checklist.expect_platform("android")
     return checklist
+
+
+def _infer_checklist_from_handoff(handoff: str) -> str:
+    """Derive the checklist name from a handoff's exploration session.
+
+    A handoff id is ``<session_id>-<hex>``; that session's session.json
+    records the app it explored, and ``review_specs/<app_id>.json`` is the
+    per-app checklist (the 20-target dataset keeps them one-to-one). This
+    closes the gap where a judge task named only the handoff and could not
+    know which checklist to pass. Returns "" when nothing certain derives.
+    """
+    raw = (handoff or "").strip()
+    if not raw or raw.lower().endswith(".apk"):
+        return ""
+    if any(c not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNO"
+           "PQRSTUVWXYZ0123456789_-" for c in raw):
+        return ""
+    session_id = raw.rsplit("-", 1)[0] if "-" in raw else raw
+    meta = PROJECT_ROOT / "runs" / session_id / "session.json"
+    try:
+        data = json.loads(meta.read_text(encoding="utf-8"))
+        app_id = str(data.get("app_id") or "").strip()
+    except (OSError, ValueError):
+        return ""
+    if not app_id or any(c not in "abcdefghijklmnopqrstuvwxyz0123456789_-"
+                         for c in app_id):
+        return ""
+    if (REVIEW_SPECS_ROOT / f"{app_id}.json").is_file():
+        return app_id
+    return ""
 
 
 def _require_session() -> AppEvaluationSession:
@@ -152,8 +192,18 @@ def _t_start_evaluation(args: dict) -> dict:
     global _session
     if _session is not None and not _session.finished:
         return _err("已有进行中的评测；先 finish_evaluation 或 abort_evaluation")
-    checklist = _resolve_checklist(args.get("checklist", ""))
-    apk = _resolve_apk(args.get("apk", "") or args.get("handoff_id", ""))
+    checklist_arg = (args.get("checklist", "") or "").strip()
+    apk_arg = (args.get("apk", "") or args.get("handoff_id", "")).strip()
+    inferred = ""
+    if not checklist_arg:
+        # The judge task may name only the handoff; derive the checklist
+        # from the exploration session that produced it (one-to-one with
+        # the 20-target dataset). Still explicit-first: a passed checklist
+        # always wins, and an underivable one fails loudly.
+        inferred = _infer_checklist_from_handoff(apk_arg)
+    checklist = _resolve_checklist(
+        checklist_arg or (f"{inferred}.json" if inferred else ""))
+    apk = _resolve_apk(apk_arg)
     session = AppEvaluationSession(
         apk=apk, checklist=checklist,
         package_name=str(args.get("package_name")
@@ -164,6 +214,8 @@ def _t_start_evaluation(args: dict) -> dict:
     png, meta = session.observe()
     started.update(meta)
     started["checklist_id"] = checklist.checklist_id
+    started["checklist_inferred_from_handoff"] = bool(inferred) \
+        and not checklist_arg
     started["apk_name"] = apk.name
     return _ok([_image(png), _text(started)])
 

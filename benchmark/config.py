@@ -45,18 +45,25 @@ ANDROID_LOCALE = os.environ.get("BBB_ANDROID_LOCALE", "zh-CN").strip()
 # is really host exhaustion. Refusing up front turns that into a clear message
 # instead of a random crash tens of steps into an exploration.
 # Set to 0 to disable the admission check.
+# 4200 admits a 4th emulator on the 39.4 GB host (3 resident qemus hold
+# ~12.3 GB, leaving ~4.5 GB free > 4200), at the cost of a thin system
+# margin: when running 4 in parallel, keep heavyweight host applications
+# closed, and treat mid-exploration "environment failure" reports as the
+# signal to fall back to 3.
 ANDROID_MIN_FREE_MEMORY_MB = int(
-    os.environ.get("BBB_ANDROID_MIN_FREE_MB", "5120"))
+    os.environ.get("BBB_ANDROID_MIN_FREE_MB", "4200"))
 
 # Resident memory one booted emulator is expected to hold. Used only to reserve
 # headroom for emulators that are still booting: their memory is not yet
 # reflected in the host's "available" figure, so two sessions starting at the
 # same moment would each see enough room and then jointly overcommit.
 # Measured on the 2026-09-01 dual-emulator google_clock runs: one resident
-# qemu process holds ~4.1 GB, so the previous 3072 figure admitted parallel
-# boots too optimistically.
+# qemu process holds ~4.1 GB (2 GB guest RAM + ~2.1 GB qemu/swiftshader host
+# overhead), so the previous 3072 figure admitted parallel boots too
+# optimistically; 4100 tracks that measurement while still allowing four
+# concurrent boots to pass the reservation arithmetic.
 ANDROID_EMULATOR_MEMORY_MB = int(
-    os.environ.get("BBB_ANDROID_EMULATOR_MB", "4608"))
+    os.environ.get("BBB_ANDROID_EMULATOR_MB", "4100"))
 
 # ------------------------------------------------------------------ viewport
 VIEWPORT_WIDTH = int(os.environ.get("BBB_VIEWPORT_WIDTH", "1440"))

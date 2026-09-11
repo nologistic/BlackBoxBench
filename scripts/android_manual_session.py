@@ -118,6 +118,11 @@ def main() -> None:
                         default="target",
                         help="override the guest network for THIS session only "
                              "(default: use the registered target policy)")
+    parser.add_argument("--login", action="store_true",
+                        help="keep the AVD clone in the session folder after "
+                             "quit, so a golden profile can be saved from it "
+                             "(for apps that need operator pre-configuration, "
+                             "e.g. disabling a TOTP app's FLAG_SECURE screen)")
     parser.add_argument("--keep", action="store_true",
                         help="keep the session folder (screenshots) afterwards")
     args = parser.parse_args()
@@ -143,7 +148,8 @@ def main() -> None:
             os.environ["BBB_ANDROID_NETWORK_GUARD"] = str(GUARD_SCRIPT)
 
         runtime = AndroidEmulatorRuntime(
-            spec, session_dir / "runtime", headed=True, lease_mode="explore")
+            spec, session_dir / "runtime", headed=True,
+            lease_mode="login" if args.login else "explore")
 
         print(f"[manual] target        : {spec.app_id}")
         print(f"[manual] package       : {spec.package_name}")

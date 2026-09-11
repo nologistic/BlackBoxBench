@@ -1,0 +1,2000 @@
+{
+  "app_id": "fossify_gallery",
+  "graph_version": "1.0",
+  "session_id": "sess_20260909_034535_e4d491",
+  "generated_at": "2026-09-09T04:26:04.168759+00:00",
+  "nodes": [
+    {
+      "name": "媒体文件夹空状态",
+      "description": "主界面显示搜索栏、相机入口、媒体入口与更多菜单；当前没有找到媒体文件，可手动添加文件夹。",
+      "visual_evidence": [
+        1
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "搜索文件夹",
+        "相机图标",
+        "媒体图标",
+        "更多菜单",
+        "没有找到媒体文件",
+        "添加文件夹"
+      ],
+      "confidence": 1.0,
+      "id": "state_媒体文件夹空状态",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 0,
+      "updated_step": 0
+    },
+    {
+      "name": "文件夹搜索无结果",
+      "description": "搜索 test 时显示未找到任何项目，并提供将搜索范围切换到所有可见文件夹的入口。",
+      "visual_evidence": [
+        5
+      ],
+      "entry_conditions": [
+        "在主界面聚焦搜索并输入查询"
+      ],
+      "observed_elements": [
+        "返回箭头",
+        "查询文本",
+        "切换文件搜索范围到所有可见的文件夹",
+        "未找到任何项目"
+      ],
+      "confidence": 1.0,
+      "id": "state_文件夹搜索无结果",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 2,
+      "updated_step": 2
+    },
+    {
+      "name": "文件夹搜索",
+      "description": "输入查询后即时筛选；当前目录范围无结果时显示空结果并允许扩展搜索范围。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 2,
+          "before_frame": 3,
+          "action": "type_text(test)",
+          "after_frame": 4,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_文件夹搜索",
+      "type": "FEATURE",
+      "created_step": 2,
+      "updated_step": 2
+    },
+    {
+      "name": "所有可见文件媒体网格",
+      "description": "扩展搜索范围后显示按“今天”分组的两项媒体缩略图，一项视频带时长 00:03，一项图片；顶部提供文件搜索和视图切换。",
+      "visual_evidence": [
+        7
+      ],
+      "entry_conditions": [
+        "在文件夹搜索无结果页点击切换范围"
+      ],
+      "observed_elements": [
+        "搜索文件",
+        "视图切换图标",
+        "今天",
+        "视频缩略图 00:03",
+        "图片缩略图"
+      ],
+      "confidence": 1.0,
+      "id": "state_所有可见文件媒体网格",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 3,
+      "updated_step": 3
+    },
+    {
+      "name": "切换到所有可见文件搜索",
+      "description": "从文件夹搜索的空结果链接切换为所有可见媒体的文件级搜索视图，并展示全局媒体。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 3,
+          "before_frame": 5,
+          "action": "点击“切换文件搜索范围到所有可见的文件夹”",
+          "after_frame": 6,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_切换到所有可见文件搜索",
+      "type": "FEATURE",
+      "created_step": 3,
+      "updated_step": 3
+    },
+    {
+      "name": "图片查看器",
+      "description": "黑色背景全屏显示图片，顶部显示返回、文件名、旋转、信息与更多；底部显示收藏、编辑、分享与删除。",
+      "visual_evidence": [
+        9
+      ],
+      "entry_conditions": [
+        "点击图片缩略图"
+      ],
+      "observed_elements": [
+        "sample_photo.png",
+        "旋转",
+        "信息",
+        "更多",
+        "收藏",
+        "编辑",
+        "分享",
+        "删除"
+      ],
+      "confidence": 1.0,
+      "id": "state_图片查看器",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 4,
+      "updated_step": 4
+    },
+    {
+      "name": "打开图片查看器",
+      "description": "点击图片缩略图进入沉浸式查看器并显示文件名及操作栏。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 4,
+          "before_frame": 7,
+          "action": "点击图片缩略图",
+          "after_frame": 8,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_打开图片查看器",
+      "type": "FEATURE",
+      "created_step": 4,
+      "updated_step": 4
+    },
+    {
+      "name": "图片旋转菜单",
+      "description": "图片查看器的旋转菜单提供向右旋转、向左旋转和旋转 180°。",
+      "visual_evidence": [
+        11
+      ],
+      "entry_conditions": [
+        "点击查看器顶部旋转图标"
+      ],
+      "observed_elements": [
+        "向右旋转",
+        "向左旋转",
+        "旋转 180°"
+      ],
+      "confidence": 1.0,
+      "id": "state_图片旋转菜单",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 5,
+      "updated_step": 5
+    },
+    {
+      "name": "图片旋转选项",
+      "description": "顶部旋转菜单提供三种旋转方向。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 5,
+          "before_frame": 9,
+          "action": "点击旋转图标",
+          "after_frame": 10,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_图片旋转选项",
+      "type": "FEATURE",
+      "created_step": 5,
+      "updated_step": 5
+    },
+    {
+      "name": "旋转后另存为对话框",
+      "description": "应用旋转编辑后弹出“另存为”，显示目标路径、文件名和扩展名，可取消或确定。",
+      "visual_evidence": [
+        15
+      ],
+      "entry_conditions": [
+        "旋转图片后点击顶部勾选"
+      ],
+      "observed_elements": [
+        "另存为",
+        "路径",
+        "内部存储空间/Download/BlackBoxBench/",
+        "文件名 sample_photo",
+        "扩展名 png",
+        "取消",
+        "确定"
+      ],
+      "confidence": 1.0,
+      "id": "state_旋转后另存为对话框",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 7,
+      "updated_step": 7
+    },
+    {
+      "name": "旋转后另存为",
+      "description": "选择旋转方向后图片立即预览为旋转效果并出现勾选；点击勾选打开另存为对话框。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 6,
+          "before_frame": 11,
+          "action": "选择向右旋转",
+          "after_frame": 12,
+          "note": null
+        },
+        {
+          "step": 7,
+          "before_frame": 13,
+          "action": "点击勾选",
+          "after_frame": 14,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_旋转后另存为",
+      "type": "FEATURE",
+      "created_step": 7,
+      "updated_step": 7
+    },
+    {
+      "name": "媒体文件夹列表",
+      "description": "主界面可显示媒体文件夹卡片，卡片以缩略图、文件夹名 BlackBoxBench 和媒体数量 2 呈现；顶部仍有搜索、相机、所有媒体与更多。",
+      "visual_evidence": [
+        27
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "搜索文件夹",
+        "相机",
+        "所有媒体图标",
+        "更多菜单",
+        "BlackBoxBench",
+        "2"
+      ],
+      "confidence": 1.0,
+      "id": "state_媒体文件夹列表",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 13,
+      "updated_step": 13
+    },
+    {
+      "name": "主界面更多菜单",
+      "description": "媒体文件夹列表的更多菜单包含排序、过滤、视图类型、临时显示隐藏/已排除项目、新建文件夹、列数、设置与关于。",
+      "visual_evidence": [
+        29
+      ],
+      "entry_conditions": [
+        "点击主界面更多菜单"
+      ],
+      "observed_elements": [
+        "排序方式",
+        "过滤显示的文件",
+        "更改视图类型",
+        "临时显示隐藏项目",
+        "临时显示已排除项目",
+        "新建文件夹",
+        "列数",
+        "设置",
+        "关于"
+      ],
+      "confidence": 1.0,
+      "id": "state_主界面更多菜单",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 14,
+      "updated_step": 14
+    },
+    {
+      "name": "主界面更多操作",
+      "description": "更多菜单汇集排序、过滤、视图、隐藏/排除项目、新建文件夹、列数、设置和关于入口。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 14,
+          "before_frame": 27,
+          "action": "点击更多菜单",
+          "after_frame": 28,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_主界面更多操作",
+      "type": "FEATURE",
+      "created_step": 14,
+      "updated_step": 14
+    },
+    {
+      "name": "设置页顶部",
+      "description": "设置页分为外观、常规、视频等分组。顶部可自定义外观、选择语言/日期时间格式/文件加载优先级、管理包含与排除文件夹，并控制显示隐藏项目和全局搜索。",
+      "visual_evidence": [
+        31
+      ],
+      "entry_conditions": [
+        "主界面更多菜单选择设置"
+      ],
+      "observed_elements": [
+        "自定义外观",
+        "语言 中文",
+        "更改日期和时间格式",
+        "文件加载优先事项 速度",
+        "管理包含的文件夹",
+        "管理排除的文件夹",
+        "显示隐藏项目 开关关闭",
+        "搜索所有文件，而不仅限于主屏幕显示的文件夹 开关关闭",
+        "视频",
+        "自动播放视频 开关关闭"
+      ],
+      "confidence": 1.0,
+      "id": "state_设置页顶部",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 15,
+      "updated_step": 15
+    },
+    {
+      "name": "打开设置",
+      "description": "从主界面更多菜单进入分组设置页。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 15,
+          "before_frame": 29,
+          "action": "点击设置",
+          "after_frame": 30,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_打开设置",
+      "type": "FEATURE",
+      "created_step": 15,
+      "updated_step": 15
+    },
+    {
+      "name": "设置页视频与缩略图",
+      "description": "视频设置包含循环播放、横向手势独立播放、纵向滑动控制音量和亮度、点按视频时的动作；缩略图设置包含正方形裁剪、GIF 动画、文件/文件夹缩略图样式；滚动设置包含水平滚动和下拉刷新。",
+      "visual_evidence": [
+        33
+      ],
+      "entry_conditions": [
+        "在设置页向下滚动"
+      ],
+      "observed_elements": [
+        "循环播放视频 关闭",
+        "使用横向手势在独立屏幕上播放视频 关闭",
+        "使用纵向滑动手势控制视频音量和亮度 开启",
+        "点按视频时 打开默认播放器应用",
+        "裁剪缩略图为正方形 开启",
+        "GIF 动图的缩略图显示为动画 关闭",
+        "文件缩略图样式",
+        "文件夹缩略图样式 方形",
+        "缩略图水平滚动 关闭",
+        "应用顶部下拉刷新 开启"
+      ],
+      "confidence": 1.0,
+      "id": "state_设置页视频与缩略图",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 16,
+      "updated_step": 16
+    },
+    {
+      "name": "设置页全屏显示",
+      "description": "全屏显示设置可控制最大宽度适配、HDR、黑色背景、自动隐藏系统界面、边缘切换文件、保持屏幕开启、图像亮度手势、下滑退出、刘海显示和旋转方向。",
+      "visual_evidence": [
+        35
+      ],
+      "entry_conditions": [
+        "在设置页继续向下滚动"
+      ],
+      "observed_elements": [
+        "全屏时将屏幕调到最大宽度 关闭",
+        "以 HDR 模式显示 Ultra HDR 照片 开启",
+        "全屏时使用黑色背景 开启",
+        "全屏时自动隐藏系统界面 关闭",
+        "点击屏幕边缘切换文件 关闭",
+        "全屏查看照片时保持屏幕开启 开启",
+        "使用纵向滑动手势控制图像亮度 关闭",
+        "使用下滑手势退出全屏 开启",
+        "显示刘海（如果可用）开启",
+        "全屏时文件的旋转方向 跟随系统设置"
+      ],
+      "confidence": 1.0,
+      "id": "state_设置页全屏显示",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 17,
+      "updated_step": 17
+    },
+    {
+      "name": "设置页图像手势与安全",
+      "description": "大幅度缩放与详情设置包含手势旋转、最高画质、双指双击 1:1 缩放和全屏详细信息；安全性可分别对整个应用、隐藏项目、删除和移动启用密码；文件操作可删除空文件夹并保留原修改日期。",
+      "visual_evidence": [
+        37
+      ],
+      "entry_conditions": [
+        "设置页继续向下滚动"
+      ],
+      "observed_elements": [
+        "允许使用手势旋转图像 开启",
+        "使用最高画质显示图像 关闭",
+        "两指双击后 1:1 缩放图像 关闭",
+        "全屏时显示更多详细信息 关闭",
+        "用密码保护整个应用 关闭",
+        "用密码保护隐藏项目 关闭",
+        "用密码保护文件的删除和移动 关闭",
+        "删除文件夹的所有文件后也删除该空文件夹 关闭",
+        "文件操作后保留原有修改日期 开启"
+      ],
+      "confidence": 1.0,
+      "id": "state_设置页图像手势与安全",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 18,
+      "updated_step": 18
+    },
+    {
+      "name": "设置页底部按钮回收站与迁移",
+      "description": "可显示并管理底部按钮；回收站默认接收已删除项目并在文件夹界面显示，可选在主屏幕末尾显示，并提供清空操作；迁移分组提供清除缓存和收藏导入/导出。",
+      "visual_evidence": [
+        39
+      ],
+      "entry_conditions": [
+        "设置页继续向下滚动"
+      ],
+      "observed_elements": [
+        "不再显示删除确认对话框 关闭",
+        "显示底部按钮 开启",
+        "管理底部按钮",
+        "将已删除项目移至回收站 开启",
+        "在文件夹界面显示回收站 开启",
+        "在主屏幕末尾显示回收站 关闭",
+        "清空回收站 0 B",
+        "清除缓存 605.4 kB",
+        "导出收藏",
+        "导入收藏"
+      ],
+      "confidence": 1.0,
+      "id": "state_设置页底部按钮回收站与迁移",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 19,
+      "updated_step": 19
+    },
+    {
+      "name": "设置页迁移底部",
+      "description": "迁移工具包含清除缓存（当前 605.4 kB）、导出/导入收藏以及导出/导入设置。",
+      "visual_evidence": [
+        41
+      ],
+      "entry_conditions": [
+        "滚动至设置页底部"
+      ],
+      "observed_elements": [
+        "清除缓存 605.4 kB",
+        "导出收藏",
+        "导入收藏",
+        "导出设置",
+        "导入设置"
+      ],
+      "confidence": 1.0,
+      "id": "state_设置页迁移底部",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 20,
+      "updated_step": 20
+    },
+    {
+      "name": "关于页",
+      "description": "关于页提供支持、帮助项目、社交网络与法律信息入口。",
+      "visual_evidence": [
+        47
+      ],
+      "entry_conditions": [
+        "主界面更多菜单选择关于"
+      ],
+      "observed_elements": [
+        "常见问题",
+        "已知问题",
+        "hello@fossify.org",
+        "分享给好友",
+        "贡献者",
+        "向 Fossify 捐赠",
+        "GitHub",
+        "Reddit",
+        "Telegram",
+        "隐私政策",
+        "第三方许可"
+      ],
+      "confidence": 1.0,
+      "id": "state_关于页",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 23,
+      "updated_step": 23
+    },
+    {
+      "name": "打开关于页",
+      "description": "主界面更多菜单可打开关于页查看支持、社区与法律链接。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 23,
+          "before_frame": 45,
+          "action": "点击关于",
+          "after_frame": 46,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_打开关于页",
+      "type": "FEATURE",
+      "created_step": 23,
+      "updated_step": 23
+    },
+    {
+      "name": "文件夹排序对话框",
+      "description": "排序对话框可按名称、路径、大小、项数、修改日期、拍摄日期、随机或自定义排序，并选择升序/降序；默认当前为修改日期降序。",
+      "visual_evidence": [
+        54
+      ],
+      "entry_conditions": [
+        "主界面更多菜单选择排序方式"
+      ],
+      "observed_elements": [
+        "名称",
+        "路径",
+        "大小",
+        "项数",
+        "修改日期 已选",
+        "拍摄日期",
+        "随机",
+        "自定义",
+        "升序",
+        "降序 已选",
+        "取消",
+        "确定"
+      ],
+      "confidence": 1.0,
+      "id": "state_文件夹排序对话框",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 27,
+      "updated_step": 27
+    },
+    {
+      "name": "配置文件夹排序",
+      "description": "可选择八类排序键与升降序并确认应用。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 27,
+          "before_frame": 52,
+          "action": "点击排序方式",
+          "after_frame": 53,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_配置文件夹排序",
+      "type": "FEATURE",
+      "created_step": 27,
+      "updated_step": 27
+    },
+    {
+      "name": "媒体类型过滤对话框",
+      "description": "过滤显示的文件可独立勾选图片、视频、GIF、RAW 图像、SVG 和竖向内容；前五类默认启用，竖向默认未启用。",
+      "visual_evidence": [
+        59
+      ],
+      "entry_conditions": [
+        "主界面更多菜单选择过滤显示的文件"
+      ],
+      "observed_elements": [
+        "图片 已选",
+        "视频 已选",
+        "GIF 已选",
+        "RAW 图像 已选",
+        "SVG 已选",
+        "竖向 未选",
+        "取消",
+        "确定"
+      ],
+      "confidence": 1.0,
+      "id": "state_媒体类型过滤对话框",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 30,
+      "updated_step": 30
+    },
+    {
+      "name": "过滤媒体类型",
+      "description": "可按图片、视频、GIF、RAW、SVG 与竖向条件控制媒体显示。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 30,
+          "before_frame": 57,
+          "action": "点击过滤显示的文件",
+          "after_frame": 58,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_过滤媒体类型",
+      "type": "FEATURE",
+      "created_step": 30,
+      "updated_step": 30
+    },
+    {
+      "name": "文件夹视图类型对话框",
+      "description": "可在网格与列表之间切换，并可选按实际文件夹分组；当前为网格且未启用实际文件夹分组。",
+      "visual_evidence": [
+        64
+      ],
+      "entry_conditions": [
+        "主界面更多菜单选择更改视图类型"
+      ],
+      "observed_elements": [
+        "网格 已选",
+        "列表",
+        "按照实际文件夹分组 未选",
+        "取消",
+        "确定"
+      ],
+      "confidence": 1.0,
+      "id": "state_文件夹视图类型对话框",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 33,
+      "updated_step": 33
+    },
+    {
+      "name": "切换文件夹视图",
+      "description": "支持网格/列表两种视图及实际文件夹分组选项。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 33,
+          "before_frame": 62,
+          "action": "点击更改视图类型",
+          "after_frame": 63,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_切换文件夹视图",
+      "type": "FEATURE",
+      "created_step": 33,
+      "updated_step": 33
+    },
+    {
+      "name": "文件夹列表视图",
+      "description": "列表模式以左侧缩略图、右侧文件夹名、媒体数量和存储路径显示文件夹。",
+      "visual_evidence": [
+        67
+      ],
+      "entry_conditions": [
+        "将视图类型切换为列表并确认"
+      ],
+      "observed_elements": [
+        "BlackBoxBench",
+        "2",
+        "/storage/emulated/0/Download/"
+      ],
+      "confidence": 1.0,
+      "id": "state_文件夹列表视图",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 35,
+      "updated_step": 35
+    },
+    {
+      "name": "应用列表视图",
+      "description": "确认列表视图后主界面立即改为缩略图、名称、数量和路径的行式布局。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 35,
+          "before_frame": 65,
+          "action": "点击确定",
+          "after_frame": 66,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_应用列表视图",
+      "type": "FEATURE",
+      "created_step": 35,
+      "updated_step": 35
+    },
+    {
+      "name": "文件夹内容网格",
+      "description": "打开文件夹后顶部显示返回、在当前文件夹搜索、视图切换、排序/分组图标与更多菜单；内容为视频和图片双列网格。",
+      "visual_evidence": [
+        69
+      ],
+      "entry_conditions": [
+        "点击文件夹卡片"
+      ],
+      "observed_elements": [
+        "返回",
+        "在 BlackBoxBench... 搜索",
+        "视图切换",
+        "排序/分组",
+        "更多",
+        "视频 00:03",
+        "图片"
+      ],
+      "confidence": 1.0,
+      "id": "state_文件夹内容网格",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 36,
+      "updated_step": 36
+    },
+    {
+      "name": "浏览文件夹内容",
+      "description": "点击文件夹条目进入该文件夹的媒体网格。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 36,
+          "before_frame": 67,
+          "action": "点击 BlackBoxBench 文件夹",
+          "after_frame": 68,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_浏览文件夹内容",
+      "type": "FEATURE",
+      "created_step": 36,
+      "updated_step": 36
+    },
+    {
+      "name": "文件夹内容更多菜单",
+      "description": "文件夹内更多菜单包含过滤、视图类型、临时显示隐藏项目、打开回收站、分组方式、设为默认文件夹、新建文件夹、列数、幻灯片和设置。",
+      "visual_evidence": [
+        71
+      ],
+      "entry_conditions": [
+        "在文件夹内容页点击更多"
+      ],
+      "observed_elements": [
+        "过滤显示的文件",
+        "更改视图类型",
+        "临时显示隐藏项目",
+        "打开回收站",
+        "分组方式",
+        "设置为默认文件夹",
+        "新建文件夹",
+        "列数",
+        "幻灯片",
+        "设置"
+      ],
+      "confidence": 1.0,
+      "id": "state_文件夹内容更多菜单",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 37,
+      "updated_step": 37
+    },
+    {
+      "name": "文件夹内容更多操作",
+      "description": "文件夹内提供过滤、视图、隐藏项目、回收站、分组、默认文件夹、新建、列数、幻灯片和设置入口。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 37,
+          "before_frame": 69,
+          "action": "点击更多菜单",
+          "after_frame": 70,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_文件夹内容更多操作",
+      "type": "FEATURE",
+      "created_step": 37,
+      "updated_step": 37
+    },
+    {
+      "name": "回收站空状态",
+      "description": "回收站页保留搜索、视图、排序/分组与更多操作；当前显示“未找到任何项目”。",
+      "visual_evidence": [
+        73
+      ],
+      "entry_conditions": [
+        "文件夹内容更多菜单选择打开回收站"
+      ],
+      "observed_elements": [
+        "在回收站中搜索",
+        "视图切换",
+        "排序/分组",
+        "更多",
+        "未找到任何项目"
+      ],
+      "confidence": 1.0,
+      "id": "state_回收站空状态",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 38,
+      "updated_step": 38
+    },
+    {
+      "name": "打开回收站",
+      "description": "可从文件夹内容菜单进入回收站查看已删除项目；空时显示明确空状态。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 38,
+          "before_frame": 71,
+          "action": "点击打开回收站",
+          "after_frame": 72,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_打开回收站",
+      "type": "FEATURE",
+      "created_step": 38,
+      "updated_step": 38
+    },
+    {
+      "name": "文件夹媒体排序对话框",
+      "description": "文件夹内容可按名称、路径、大小、修改日期、拍摄日期或随机排序，并选择升降序；可仅应用于当前文件夹。提示分组与排序相互独立。",
+      "visual_evidence": [
+        77
+      ],
+      "entry_conditions": [
+        "点击文件夹内容页排序图标"
+      ],
+      "observed_elements": [
+        "名称",
+        "路径",
+        "大小",
+        "修改日期 已选",
+        "拍摄日期",
+        "随机",
+        "升序",
+        "降序 已选",
+        "仅应用于此文件夹 未选",
+        "分组和排序是两种相互独立的文件组织方式"
+      ],
+      "confidence": 1.0,
+      "id": "state_文件夹媒体排序对话框",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 40,
+      "updated_step": 40
+    },
+    {
+      "name": "配置文件夹媒体排序",
+      "description": "文件夹内可设置排序键、方向及是否仅应用于当前文件夹。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 40,
+          "before_frame": 75,
+          "action": "点击排序图标",
+          "after_frame": 76,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_配置文件夹媒体排序",
+      "type": "FEATURE",
+      "created_step": 40,
+      "updated_step": 40
+    },
+    {
+      "name": "文件夹媒体分组对话框",
+      "description": "分组方式可选不分组、按最后修改时间（日/月）、拍摄日期（日/月）、文件类型或扩展名；可选升降序、栏目标题显示文件数以及仅应用于当前文件夹。默认不分组且升序。",
+      "visual_evidence": [
+        82
+      ],
+      "entry_conditions": [
+        "文件夹内容更多菜单选择分组方式"
+      ],
+      "observed_elements": [
+        "不分组文件 已选",
+        "最后修改时间（按天）",
+        "最后修改时间（按月）",
+        "拍摄日期（按天）",
+        "拍摄日期（按月）",
+        "文件类型",
+        "扩展名",
+        "升序 已选",
+        "降序",
+        "在栏目标题上显示文件数 未选",
+        "仅应用于此文件夹 未选"
+      ],
+      "confidence": 1.0,
+      "id": "state_文件夹媒体分组对话框",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 43,
+      "updated_step": 43
+    },
+    {
+      "name": "配置媒体分组",
+      "description": "文件夹媒体可独立于排序按日期、类型或扩展名分组，并控制顺序和组标题计数。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 43,
+          "before_frame": 80,
+          "action": "点击分组方式",
+          "after_frame": 81,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_配置媒体分组",
+      "type": "FEATURE",
+      "created_step": 43,
+      "updated_step": 43
+    },
+    {
+      "name": "配置幻灯片",
+      "description": "幻灯片支持间隔、过渡动画、媒体类型、顺序与循环设置。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 46,
+          "before_frame": 85,
+          "action": "点击幻灯片",
+          "after_frame": 86,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_配置幻灯片",
+      "type": "FEATURE",
+      "created_step": 46,
+      "updated_step": 46
+    },
+    {
+      "name": "幻灯片配置对话框",
+      "description": "启动幻灯片前可设间隔秒数（默认 5 秒）、动画（默认滑动），并选择是否包含视频/GIF、随机顺序、倒序和循环。",
+      "visual_evidence": [
+        87
+      ],
+      "entry_conditions": [
+        "文件夹内容更多菜单选择幻灯片"
+      ],
+      "observed_elements": [
+        "间隔 5 秒",
+        "动画 滑动",
+        "包含视频 未选",
+        "包含 GIF 未选",
+        "随机顺序 未选",
+        "倒序播放 未选",
+        "循环播放幻灯片 未选",
+        "取消",
+        "确定"
+      ],
+      "confidence": 1.0,
+      "id": "state_幻灯片配置对话框",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 46,
+      "updated_step": 46
+    },
+    {
+      "name": "视频查看器与播放控件",
+      "description": "黑色背景视频查看器显示文件名、信息、隐藏界面与更多；视频区域可播放，底部含倍速、播放/暂停、静音、进度条、收藏、编辑、分享和删除。当前 3 秒视频已播放至结尾。",
+      "visual_evidence": [
+        92
+      ],
+      "entry_conditions": [
+        "打开视频并播放"
+      ],
+      "observed_elements": [
+        "sample_video.mp4",
+        "信息",
+        "隐藏界面",
+        "更多",
+        "1x",
+        "播放按钮",
+        "静音",
+        "00:03/00:03",
+        "收藏",
+        "编辑",
+        "分享",
+        "删除"
+      ],
+      "confidence": 1.0,
+      "id": "state_视频查看器与播放控件",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 49,
+      "updated_step": 49
+    },
+    {
+      "name": "视频内置播放",
+      "description": "点击视频中央播放按钮后在查看器内播放，进度条与时间更新，结束时停在结尾并恢复播放按钮。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 48,
+          "before_frame": 89,
+          "action": "点击视频播放按钮",
+          "after_frame": 90,
+          "note": null
+        }
+      ],
+      "confidence": 0.95,
+      "status": "confirmed",
+      "id": "feature_视频内置播放",
+      "type": "FEATURE",
+      "created_step": 49,
+      "updated_step": 49
+    },
+    {
+      "name": "收藏媒体",
+      "description": "点击查看器底部星标可在收藏/取消收藏间切换；收藏后星标由轮廓变为实心。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 53,
+          "before_frame": 98,
+          "action": "点击收藏星标",
+          "after_frame": 99,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_收藏媒体",
+      "type": "FEATURE",
+      "created_step": 53,
+      "updated_step": 53
+    },
+    {
+      "name": "收藏状态",
+      "description": "每个媒体项目可保存收藏/未收藏状态。",
+      "confidence": 1.0,
+      "id": "data_收藏状态",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 53,
+      "updated_step": 53
+    },
+    {
+      "name": "收藏虚拟文件夹",
+      "description": "收藏媒体后主界面顶部出现“收藏”虚拟文件夹，显示收藏数 1、路径 favorites/ 和固定图标；应用重启后仍存在。",
+      "visual_evidence": [
+        102
+      ],
+      "entry_conditions": [
+        "至少一个媒体被收藏并重启应用"
+      ],
+      "observed_elements": [
+        "收藏",
+        "1",
+        "favorites/",
+        "固定图标",
+        "BlackBoxBench 2"
+      ],
+      "confidence": 1.0,
+      "id": "state_收藏虚拟文件夹",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 54,
+      "updated_step": 54
+    },
+    {
+      "name": "收藏持久化与聚合",
+      "description": "收藏状态跨应用重启保留，并在主界面生成收藏虚拟文件夹聚合收藏媒体。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 54,
+          "before_frame": 100,
+          "action": "重启应用",
+          "after_frame": 101,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_收藏持久化与聚合",
+      "type": "FEATURE",
+      "created_step": 54,
+      "updated_step": 54
+    },
+    {
+      "name": "收藏内容网格",
+      "description": "收藏虚拟文件夹内显示已收藏媒体，缩略图右下叠加实心星标；顶部可搜索、切换视图、排序与更多。",
+      "visual_evidence": [
+        104
+      ],
+      "entry_conditions": [
+        "点击收藏虚拟文件夹"
+      ],
+      "observed_elements": [
+        "在收藏中搜索",
+        "视图切换",
+        "排序",
+        "更多",
+        "收藏图片缩略图",
+        "实心星标叠层"
+      ],
+      "confidence": 1.0,
+      "id": "state_收藏内容网格",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 55,
+      "updated_step": 55
+    },
+    {
+      "name": "浏览收藏内容",
+      "description": "点击收藏虚拟文件夹进入收藏媒体网格。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 55,
+          "before_frame": 102,
+          "action": "点击收藏文件夹",
+          "after_frame": 103,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_浏览收藏内容",
+      "type": "FEATURE",
+      "created_step": 55,
+      "updated_step": 55
+    },
+    {
+      "name": "媒体多选模式",
+      "description": "长按媒体进入蓝色多选工具栏，显示已选 1/总数 2，并提供删除、分享和更多；所选缩略图显示勾选圆形叠层。",
+      "visual_evidence": [
+        112
+      ],
+      "entry_conditions": [
+        "长按媒体缩略图"
+      ],
+      "observed_elements": [
+        "返回",
+        "1 / 2",
+        "删除",
+        "分享",
+        "更多",
+        "所选图片勾选叠层"
+      ],
+      "confidence": 1.0,
+      "id": "state_媒体多选模式",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 59,
+      "updated_step": 59
+    },
+    {
+      "name": "长按选择媒体",
+      "description": "长按媒体进入多选模式并显示选择计数与批量操作。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 59,
+          "before_frame": 110,
+          "action": "长按图片缩略图",
+          "after_frame": 111,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_长按选择媒体",
+      "type": "FEATURE",
+      "created_step": 59,
+      "updated_step": 59
+    },
+    {
+      "name": "媒体选择更多菜单",
+      "description": "选中媒体后的更多菜单包含旋转、属性、重命名、隐藏、复制到、移动到、创建快捷方式、打开方式、设置为、调整大小、编辑、取消收藏、修复拍摄日期和全选。",
+      "visual_evidence": [
+        114
+      ],
+      "entry_conditions": [
+        "多选模式点击更多"
+      ],
+      "observed_elements": [
+        "旋转",
+        "属性",
+        "重命名",
+        "隐藏",
+        "复制到",
+        "移动到",
+        "创建快捷方式",
+        "打开方式",
+        "设置为",
+        "调整大小",
+        "编辑",
+        "取消收藏",
+        "修复拍摄日期",
+        "全选"
+      ],
+      "confidence": 1.0,
+      "id": "state_媒体选择更多菜单",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 60,
+      "updated_step": 60
+    },
+    {
+      "name": "媒体批量更多操作",
+      "description": "选中媒体后可访问属性、重命名、隐藏、复制/移动、快捷方式、打开方式、设置为、缩放、编辑、收藏和日期修复等操作。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 60,
+          "before_frame": 112,
+          "action": "点击多选工具栏更多",
+          "after_frame": 113,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_媒体批量更多操作",
+      "type": "FEATURE",
+      "created_step": 60,
+      "updated_step": 60
+    },
+    {
+      "name": "重命名媒体对话框",
+      "description": "重命名对话框将标题与扩展名分开编辑，当前标题 sample_photo、扩展名 png，并提供取消/确定。",
+      "visual_evidence": [
+        123
+      ],
+      "entry_conditions": [
+        "选中单个媒体后从更多菜单选择重命名"
+      ],
+      "observed_elements": [
+        "重命名",
+        "标题 sample_photo",
+        "扩展名 png",
+        "取消",
+        "确定"
+      ],
+      "confidence": 1.0,
+      "id": "state_重命名媒体对话框",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 65,
+      "updated_step": 65
+    },
+    {
+      "name": "重命名媒体",
+      "description": "单选媒体后可分别修改文件标题与扩展名。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 65,
+          "before_frame": 121,
+          "action": "点击重命名",
+          "after_frame": 122,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_重命名媒体",
+      "type": "FEATURE",
+      "created_step": 65,
+      "updated_step": 65
+    },
+    {
+      "name": "调整图片大小对话框",
+      "description": "图片缩放对话框显示宽度和高度（当前 900×900）、比例联动标记、输出文件夹、文件名和扩展名，可取消或确定。",
+      "visual_evidence": [
+        128
+      ],
+      "entry_conditions": [
+        "选中图片后选择调整大小"
+      ],
+      "observed_elements": [
+        "宽度 900",
+        "高度 900",
+        "比例联动",
+        "内部存储空间/Download/BlackBoxBench/",
+        "文件名 sample_photo",
+        "扩展名 png",
+        "取消",
+        "确定"
+      ],
+      "confidence": 1.0,
+      "id": "state_调整图片大小对话框",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 68,
+      "updated_step": 68
+    },
+    {
+      "name": "调整图片大小",
+      "description": "可设置输出宽高、路径、文件名和格式后生成缩放版本。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 68,
+          "before_frame": 126,
+          "action": "点击调整大小",
+          "after_frame": 127,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_调整图片大小",
+      "type": "FEATURE",
+      "created_step": 68,
+      "updated_step": 68
+    },
+    {
+      "name": "移动到回收站确认",
+      "description": "删除媒体时显示文件名和大小，并询问是否移至回收站；可选本次会话不再询问或跳过回收站直接删除。",
+      "visual_evidence": [
+        132
+      ],
+      "entry_conditions": [
+        "选中媒体后点击删除"
+      ],
+      "observed_elements": [
+        "sample_photo.png",
+        "10.7 kB",
+        "移至回收站",
+        "本次会话不再询问",
+        "跳过回收站，直接删除文件",
+        "否",
+        "是"
+      ],
+      "confidence": 1.0,
+      "id": "state_移动到回收站确认",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 70,
+      "updated_step": 70
+    },
+    {
+      "name": "删除前确认",
+      "description": "删除操作默认先询问是否移至回收站，并提供本会话免询问和永久删除选项。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 70,
+          "before_frame": 130,
+          "action": "点击删除",
+          "after_frame": 131,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_删除前确认",
+      "type": "FEATURE",
+      "created_step": 70,
+      "updated_step": 70
+    },
+    {
+      "name": "移入回收站",
+      "description": "确认后媒体从当前文件夹消失并进入回收站。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 71,
+          "before_frame": 132,
+          "action": "点击“是”确认移至回收站",
+          "after_frame": 133,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_移入回收站",
+      "type": "FEATURE",
+      "created_step": 71,
+      "updated_step": 71
+    },
+    {
+      "name": "回收站项目",
+      "description": "被删除但未永久清除的媒体，保留原文件信息供恢复或永久删除。",
+      "confidence": 1.0,
+      "id": "data_回收站项目",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 71,
+      "updated_step": 71
+    },
+    {
+      "name": "回收站项目选择模式",
+      "description": "回收站中长按项目进入 1/1 选择模式；除了删除、分享和更多，还显示圆形返回箭头按钮用于恢复。",
+      "visual_evidence": [
+        139
+      ],
+      "entry_conditions": [
+        "长按回收站项目"
+      ],
+      "observed_elements": [
+        "1 / 1",
+        "删除",
+        "分享",
+        "更多",
+        "所选项目勾选叠层",
+        "恢复圆形箭头"
+      ],
+      "confidence": 1.0,
+      "id": "state_回收站项目选择模式",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 74,
+      "updated_step": 74
+    },
+    {
+      "name": "回收站选择更多菜单",
+      "description": "回收站项目的更多菜单提供旋转、属性、复制到、创建快捷方式、打开方式、设置为、调整大小、编辑、恢复所选文件和全选。",
+      "visual_evidence": [
+        145
+      ],
+      "entry_conditions": [
+        "回收站选择模式点击更多"
+      ],
+      "observed_elements": [
+        "旋转",
+        "属性",
+        "复制到",
+        "创建快捷方式",
+        "打开方式",
+        "设置为",
+        "调整大小",
+        "编辑",
+        "恢复所选文件",
+        "全选"
+      ],
+      "confidence": 1.0,
+      "id": "state_回收站选择更多菜单",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 77,
+      "updated_step": 77
+    },
+    {
+      "name": "恢复回收站媒体",
+      "description": "选择回收站项目后点击“恢复所选文件”，项目从回收站移除并返回原文件夹。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 78,
+          "before_frame": 145,
+          "action": "点击恢复所选文件",
+          "after_frame": 146,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_恢复回收站媒体",
+      "type": "FEATURE",
+      "created_step": 78,
+      "updated_step": 78
+    },
+    {
+      "name": "恢复保留收藏状态",
+      "description": "从回收站恢复媒体后，它重新出现在原文件夹，收藏星标仍保留。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 79,
+          "before_frame": 147,
+          "action": "返回原文件夹",
+          "after_frame": 148,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_恢复保留收藏状态",
+      "type": "FEATURE",
+      "created_step": 79,
+      "updated_step": 79
+    },
+    {
+      "name": "feature_图片查看器更多操作",
+      "description": "从图片查看器打开包含文件管理、显示、安全、编辑及幻灯片入口的更多操作菜单。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 81,
+          "before_frame": 150,
+          "action": "点击图片查看器右上角更多按钮",
+          "after_frame": 151,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_图片查看器更多操作",
+      "type": "FEATURE",
+      "created_step": 81,
+      "updated_step": 81
+    },
+    {
+      "name": "state_图片查看器更多菜单",
+      "description": "图片查看器右上角更多菜单，包含重命名、隐藏、复制、移动、快捷方式、打开方式、设置为、画面方向、打印、调整大小、地图、幻灯片和设置。",
+      "visual_evidence": [
+        152
+      ],
+      "entry_conditions": [
+        "打开图片查看器",
+        "点击右上角更多按钮"
+      ],
+      "observed_elements": [
+        "重命名",
+        "隐藏",
+        "复制到剪贴板",
+        "复制到",
+        "移动到",
+        "创建快捷方式",
+        "打开方式",
+        "设置为",
+        "更改画面方向",
+        "打印",
+        "调整大小",
+        "在地图上显示",
+        "幻灯片",
+        "设置"
+      ],
+      "confidence": 1.0,
+      "id": "state_图片查看器更多菜单",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 81,
+      "updated_step": 81
+    },
+    {
+      "name": "state_隐藏图片查看器",
+      "description": "隐藏操作后，图片文件名变为以点开头的 .sample_photo.png，查看器仍展示图片内容。",
+      "visual_evidence": [
+        154
+      ],
+      "entry_conditions": [
+        "打开图片查看器更多菜单",
+        "点击隐藏"
+      ],
+      "observed_elements": [
+        ".sample_photo.png",
+        "黑色查看器背景",
+        "图片内容",
+        "底部收藏、编辑、分享、删除按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_隐藏图片查看器",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 82,
+      "updated_step": 82
+    },
+    {
+      "name": "feature_隐藏媒体",
+      "description": "在图片查看器更多菜单点击隐藏后，文件名立即变为点开头的隐藏文件名。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 82,
+          "before_frame": 152,
+          "action": "点击隐藏",
+          "after_frame": 153,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_隐藏媒体",
+      "type": "FEATURE",
+      "created_step": 82,
+      "updated_step": 82
+    },
+    {
+      "name": "feature_取消隐藏媒体",
+      "description": "隐藏媒体的更多菜单将入口改为取消隐藏，点击后恢复原文件名与收藏状态。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 84,
+          "before_frame": 156,
+          "action": "点击取消隐藏",
+          "after_frame": 157,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_取消隐藏媒体",
+      "type": "FEATURE",
+      "created_step": 84,
+      "updated_step": 84
+    }
+  ],
+  "edges": [
+    {
+      "source": "feature_收藏媒体",
+      "target": "data_收藏状态",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 53,
+          "before_frame": 98,
+          "action": "点击收藏星标",
+          "after_frame": 99,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "点击星标更新媒体收藏状态",
+      "id": "edge_0001",
+      "created_step": 54
+    },
+    {
+      "source": "data_收藏状态",
+      "target": "state_收藏虚拟文件夹",
+      "type": "PERSISTS_TO",
+      "evidence": [
+        {
+          "step": 54,
+          "before_frame": 100,
+          "action": "重启应用",
+          "after_frame": 101,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "重启后收藏文件夹与计数仍显示",
+      "id": "edge_0002",
+      "created_step": 54
+    },
+    {
+      "source": "feature_移入回收站",
+      "target": "data_回收站项目",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 71,
+          "before_frame": 132,
+          "action": "确认移至回收站",
+          "after_frame": 133,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "确认删除会创建可恢复的回收站项目",
+      "id": "edge_0003",
+      "created_step": 71
+    },
+    {
+      "source": "feature_恢复回收站媒体",
+      "target": "data_回收站项目",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 78,
+          "before_frame": 145,
+          "action": "恢复所选文件",
+          "after_frame": 146,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "恢复后回收站变为空状态",
+      "id": "edge_0004",
+      "created_step": 78
+    }
+  ],
+  "unresolved_questions": [],
+  "coverage_summary": {
+    "states": 37,
+    "features": 33,
+    "data_entities": 2,
+    "edges": 4,
+    "confirmed_ratio": 1.0,
+    "actions_used": 84
+  }
+}

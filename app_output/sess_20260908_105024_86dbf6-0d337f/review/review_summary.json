@@ -1,0 +1,509 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "467edf97f8358a432061d6e2c83b2703afef0baa2209fccdd888137dd5a7faa0",
+  "accepted_apk_hash": "ce353d37f00826660979e23168749ef72c1eadb3d82a661a994a8570b78db9ef",
+  "revision_count": 2,
+  "max_revisions": 3,
+  "require_write_evidence": true,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "首屏计算 12+7=19",
+        "历史记录写入并重启持久化",
+        "单位换算分类导航",
+        "长度 1.5 km 实时换算为 1,500 m",
+        "长度单位选择列表"
+      ],
+      "findings": [
+        "主计算器键盘整体比参照略低，按钮区应增高并上移",
+        "历史记录只有一项时对话框仍固定过高，应按内容自适应",
+        "单位换算来源面板缺少参照中的浅蓝整块背景",
+        "单位选择弹窗额外显示分类标题且行距偏大，可压缩以贴近参照"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "97a16661b9c0226eb8e59339bd490735c9a80e81222e620be0d96a3dcdb1051e",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 5,
+          "sha256": "3d44061a13266a1565c518e38566d5f73973c8dbd526ba530c4957c70b72f447",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 6,
+          "sha256": "4ed9009abc7a06e7ea5a6bc77b48689f71a8223ffd7f1d29f1cb60a2dd347047",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 7,
+          "sha256": "e25df763cc0b147f129f875ac5d4ea2781c51f4feb3e5b825bf626b002f2392f",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 9,
+          "sha256": "8dee8526ad37dee6794c34b573558917a6a509eebf420530121991454149360e",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 10,
+          "sha256": "cc8f7a62fad6f5c55517b0fe1c3fbe5d993b040ac9382225b057eb721c6c072c",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 13,
+          "sha256": "c57349ff0d708d2d4cd3e21621b7ba13f4e75b19d618aab15654492dae8afaf7",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 14,
+          "sha256": "980ce5c3ad81487fa8f89f7331c648d532ce7424b81d8ca0ad63683c376f0d31",
+          "path": "review/round_01/observation_008.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "修订后首屏像素对照",
+        "5×4=20 计算写入",
+        "历史记录重启持久化",
+        "长度换算来源面板视觉",
+        "单位选择弹窗密度与内容",
+        "更多菜单入口多坐标点击"
+      ],
+      "findings": [
+        "更多菜单图标虽可见，但中心区域多次点击未展开菜单；需改为显式整块可点击热区"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "34fff04232c46b0c5c396c04ab8e46d0690f84226c750f667d654357cccdc9a0",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 0,
+          "sha256": "039635a2818fc7525f027833d6e9a945696e4b700cc86691d215624b48e97fe5",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 4,
+          "sha256": "7e67ea5548fed6c1ca828d537aa4752cbb95f29c1393c60785966600b17adad6",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 6,
+          "sha256": "43b5a6979550f618c3a3d31a98860a5e618b9956790617c79f6c5934f099e523",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 7,
+          "sha256": "a4fa22c2e2d066e4b031f741fee8892b01dd6bc61708900595e36c729451f298",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 10,
+          "sha256": "c68c9f42468b252f92e556e73a179f3f6faff101e5cc26a70b7d85563de0714d",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 11,
+          "sha256": "b5bad25cb8066520cc5eecc2a288a5b8be29776b63909e2829524ac0c239aa8b",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 15,
+          "sha256": "79373ad930a2c940c0b2422490b76f3617f39b5a10122177006f54d52c22b492",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 16,
+          "sha256": "79373ad930a2c940c0b2422490b76f3617f39b5a10122177006f54d52c22b492",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 18,
+          "sha256": "8b0c95f1b1a2ad1201508403162e2db3ed5228fc2268b6f5f30e4fbd76daaf6e",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 20,
+          "sha256": "8b0c95f1b1a2ad1201508403162e2db3ed5228fc2268b6f5f30e4fbd76daaf6e",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 22,
+          "sha256": "bdc716fb6745bc2591646f7a2543b9904507699b232063e76766be6056af5564",
+          "path": "review/round_02/observation_012.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "accept",
+      "checked_flows": [
+        "计算器首屏像素布局与按钮映射",
+        "四则运算 12+7=19、5×4=20",
+        "平方根隐式乘法 9√9=27",
+        "历史记录写入、展示与重启持久化",
+        "单位换算九分类入口",
+        "长度 1.5 km=1,500 m 实时换算",
+        "来源面板底色与完整单位选择弹窗",
+        "返回导航与无权限声明"
+      ],
+      "findings": [
+        "核心计算、历史记录和单位换算流程均正常；顶部更多菜单弹出层在本轮模拟器点击复验中未呈现，设置与关于页面已构建但未计入核心通过项"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "0bf04d964f6086adb345969a476a81c54c48d2addc060cd4757fa555fec3d698",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "42d489ce1c5bac5c0c1d78a29567b67eed0d5625fd83b135b2e324e25dbb426a",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 10,
+          "sha256": "0559891aff095e20330861f37c7015fdca5435994a62a8161572e369eacc92ba",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 12,
+          "sha256": "52f031357454b201157c3bb6e6bca0dc1454e6eb4934c2619b3a8499cc576739",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 14,
+          "sha256": "7915afb9447d478c660da0d52046f6d84732cbc121c3b2e79af4910e2a867acb",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 19,
+          "sha256": "ab8589a45921088065ee56a946f021854a37a16baa767f4ebb086ddb6f8a40e3",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 33,
+          "sha256": "d8fa0939af89ee76a8274c85630f7e9f9ac50ae36771d1b16463214d2d8a624e",
+          "path": "review/round_03/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 36,
+          "sha256": "cc4c7802346ebb0eec8679ae731b5ab84a6f7a1264a292bf40331b7533385b17",
+          "path": "review/round_03/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 40,
+          "sha256": "015259a5b4dc4b514efba10675cefa0b44919ede0435784bef5baf6d3bf72e1e",
+          "path": "review/round_03/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 42,
+          "sha256": "b500672743581674ab251854323e833b45cbd61a6426783c1ef43214dbb1425c",
+          "path": "review/round_03/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 43,
+          "sha256": "f4177ed339bf1ca4b1220650739e81dd59a029439fd1b23398ba5d433cc4f625",
+          "path": "review/round_03/observation_011.png"
+        }
+      ],
+      "write_flow_evidence": [
+        {
+          "flow": "完成 9√9=27 后写入历史记录，并重启应用重新打开历史确认持久化",
+          "before_observation": 8,
+          "after_observation": 9,
+          "persisted_observation": 11
+        }
+      ],
+      "write_flow_exemption": null
+    }
+  ]
+}

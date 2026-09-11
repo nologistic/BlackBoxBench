@@ -1,0 +1,20 @@
+{
+  "session_id": "sess_20260829_110614_bb60d4",
+  "app_id": "yuque_web",
+  "seed": "live",
+  "created_at": "2026-08-29T11:06:23.259492+00:00",
+  "viewport": {
+    "width": 1440,
+    "height": 900,
+    "device_scale_factor": 1.0,
+    "browser_zoom": 1.0,
+    "browser_chrome": "none (headless/kiosk)"
+  },
+  "budget": {
+    "max_actions": 1500,
+    "max_duration_s": 10800,
+    "max_observations": 2000
+  },
+  "status": "closed",
+  "close_reason": "agent_finalized"
+}

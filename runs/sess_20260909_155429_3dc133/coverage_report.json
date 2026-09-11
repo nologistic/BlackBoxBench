@@ -1,0 +1,19 @@
+{
+  "app_id": "antennapod",
+  "session_id": "sess_20260909_155429_3dc133",
+  "coverage": {
+    "states": 40,
+    "features": 32,
+    "data_entities": 7,
+    "edges": 39,
+    "confirmed_ratio": 1.0,
+    "actions_used": 103
+  },
+  "unresolved_questions": [],
+  "nodes_by_status": {
+    "confirmed": 79,
+    "hypothesized": 0,
+    "uncertain": 0,
+    "rejected": 0
+  }
+}

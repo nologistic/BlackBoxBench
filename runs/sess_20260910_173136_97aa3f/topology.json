@@ -1,0 +1,1965 @@
+{
+  "app_id": "vlc",
+  "graph_version": "1.0",
+  "session_id": "sess_20260910_173136_97aa3f",
+  "generated_at": "2026-09-10T18:20:46.860399+00:00",
+  "nodes": [
+    {
+      "name": "视频主页（未授权）与通知权限说明",
+      "description": "主页顶栏含 VLC 标识、搜索、布局/排序样式按钮、更多菜单；页签为视频与播放列表。未授予媒体权限时显示警告、功能限制、授予权限按钮。底部弹出通知权限说明，提示确认后由系统请求授权。",
+      "visual_evidence": [
+        3
+      ],
+      "entry_conditions": [
+        "欢迎页点击“跳过”"
+      ],
+      "observed_elements": [
+        "视频页签",
+        "播放列表页签",
+        "搜索",
+        "布局/排序样式",
+        "更多菜单",
+        "未授予权限",
+        "授予权限",
+        "通知权限说明",
+        "确定"
+      ],
+      "confidence": 1.0,
+      "id": "state_视频主页_未授权_与通知权限说明",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 1,
+      "updated_step": 1
+    },
+    {
+      "name": "跳过引导进入受限主页",
+      "description": "欢迎页点击“跳过”直接进入主页；媒体权限未授予时主页明确显示只能播放串流或网络媒体。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 1,
+          "before_frame": 1,
+          "action": "tap(650,2210) 欢迎页“跳过”",
+          "after_frame": 2,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_跳过引导进入受限主页",
+      "type": "FEATURE",
+      "created_step": 1,
+      "updated_step": 1
+    },
+    {
+      "name": "通知权限请求",
+      "description": "首次进入主页时先显示应用内用途说明；点击确定后进入系统通知许可弹窗，可允许或不允许；拒绝后仍可正常停留主页。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 2,
+          "before_frame": 3,
+          "action": "tap(955,2200) 应用内通知说明“确定”",
+          "after_frame": 4,
+          "note": null
+        },
+        {
+          "step": 3,
+          "before_frame": 5,
+          "action": "tap(540,1430) 系统通知权限“不允许”",
+          "after_frame": 6,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_通知权限请求",
+      "type": "FEATURE",
+      "created_step": 3,
+      "updated_step": 3
+    },
+    {
+      "name": "视频主页（未授予媒体权限）",
+      "description": "白色主页，顶部视频/播放列表页签和搜索、布局/排序、更多操作；中央显示未授予权限的限制说明与“授予权限/选择文件”；底部五栏导航为视频、音频、浏览、播放列表、更多。",
+      "visual_evidence": [
+        7
+      ],
+      "entry_conditions": [
+        "首次引导结束",
+        "通知权限弹窗关闭",
+        "媒体访问权限未授予"
+      ],
+      "observed_elements": [
+        "视频",
+        "播放列表",
+        "搜索",
+        "布局/排序",
+        "更多菜单",
+        "未授予权限",
+        "授予权限",
+        "选择文件",
+        "视频",
+        "音频",
+        "浏览",
+        "播放列表",
+        "更多"
+      ],
+      "confidence": 1.0,
+      "id": "state_视频主页_未授予媒体权限",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 3,
+      "updated_step": 3
+    },
+    {
+      "name": "权限选择面板",
+      "description": "从未授权主页点“授予权限”打开底部权限面板。通知权限显示状态；文件权限提供“没有文件权限”“只有常规媒体权限”“完整访问权限”三档单选，并配合说明卡。",
+      "visual_evidence": [
+        9
+      ],
+      "entry_conditions": [
+        "视频主页点击“授予权限”"
+      ],
+      "observed_elements": [
+        "权限",
+        "通知权限",
+        "文件权限",
+        "没有文件权限",
+        "只有常规媒体权限",
+        "完整访问权限",
+        "权限影响说明卡"
+      ],
+      "confidence": 1.0,
+      "id": "state_权限选择面板",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 4,
+      "updated_step": 4
+    },
+    {
+      "name": "媒体文件权限分级",
+      "description": "应用内提供无文件权限、常规媒体权限、完整访问权限三档选择；选项会影响自动扫描和字幕访问能力。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 4,
+          "before_frame": 7,
+          "action": "tap(540,1450) “授予权限”",
+          "after_frame": 8,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_媒体文件权限分级",
+      "type": "FEATURE",
+      "created_step": 4,
+      "updated_step": 4
+    },
+    {
+      "name": "VLC 3.7 新功能介绍",
+      "description": "首次进入后可见版本介绍面板，卡片列出均衡器、导出设置、Android Auto，每项有“在设置中显示”入口；底部可勾选以后永远不要展示新版本介绍。",
+      "visual_evidence": [
+        11
+      ],
+      "entry_conditions": [
+        "首次主页的权限面板关闭后"
+      ],
+      "observed_elements": [
+        "VLC for Android 3.7 版本的新功能",
+        "均衡器",
+        "导出设置",
+        "Android Auto",
+        "在设置中显示",
+        "以后永远不要展示新版本介绍"
+      ],
+      "confidence": 1.0,
+      "id": "state_vlc_3_7_新功能介绍",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 7,
+      "updated_step": 7
+    },
+    {
+      "name": "均衡器预设列表",
+      "description": "均衡器页列出带频响缩略图的预设，当前 Flat 带勾选；其他预设含 Classical、Club、Dance、Full bass、Full bass and treble、Full treble、Headphones、Large Hall、Live、Party、Pop 等，右侧眼睛图标用于显示状态。顶栏有关闭、调节、导入/导出和更多。",
+      "visual_evidence": [
+        13
+      ],
+      "entry_conditions": [
+        "新功能介绍点击均衡器“在设置中显示”"
+      ],
+      "observed_elements": [
+        "Flat 已选",
+        "预设列表",
+        "频响缩略图",
+        "眼睛图标",
+        "关闭",
+        "调节图标",
+        "导入/导出图标",
+        "更多菜单"
+      ],
+      "confidence": 1.0,
+      "id": "state_均衡器预设列表",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 8,
+      "updated_step": 8
+    },
+    {
+      "name": "从新功能介绍直达设置",
+      "description": "“在设置中显示”可直接打开对应功能页；均衡器链接进入预设管理界面。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 8,
+          "before_frame": 11,
+          "action": "tap(865,920) 均衡器卡片“在设置中显示”",
+          "after_frame": 12,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_从新功能介绍直达设置",
+      "type": "FEATURE",
+      "created_step": 8,
+      "updated_step": 8
+    },
+    {
+      "name": "选择均衡器预设",
+      "description": "点击预设行会立即切换选中高亮与勾选状态；Flat 可切换到 Classical。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 9,
+          "before_frame": 13,
+          "action": "tap(300,530) Classical 预设",
+          "after_frame": 14,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_选择均衡器预设",
+      "type": "FEATURE",
+      "created_step": 9,
+      "updated_step": 9
+    },
+    {
+      "name": "均衡器预设选择",
+      "description": "用户当前选中的均衡器预设；界面可在 Flat、Classical 等预设间切换。",
+      "confidence": 0.95,
+      "id": "data_均衡器预设选择",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 9,
+      "updated_step": 9
+    },
+    {
+      "name": "均衡器编辑器",
+      "description": "底部面板提供总启用开关、新建预设、横向预设芯片、当前预设重命名/删除、前置放大器和 31Hz 至 16kHz 的十段增益滑杆，以及“同时影响附近频段”开关。",
+      "visual_evidence": [
+        17
+      ],
+      "entry_conditions": [
+        "均衡器预设列表点击顶栏调节图标"
+      ],
+      "observed_elements": [
+        "启用开关",
+        "新建预设 +",
+        "预设芯片",
+        "Classical",
+        "重命名",
+        "删除",
+        "前置放大器",
+        "31Hz",
+        "63Hz",
+        "125Hz",
+        "250Hz",
+        "500Hz",
+        "1kHz",
+        "2kHz",
+        "4kHz",
+        "8kHz",
+        "16kHz",
+        "同时影响附近频段"
+      ],
+      "confidence": 1.0,
+      "id": "state_均衡器编辑器",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 10,
+      "updated_step": 10
+    },
+    {
+      "name": "均衡器十段编辑",
+      "description": "均衡器调节入口打开可编辑面板，支持总开关、前置放大、十段频率增益、联动相邻频段以及新增/重命名/删除预设。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 10,
+          "before_frame": 15,
+          "action": "tap(785,200) 顶栏调节图标",
+          "after_frame": 16,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_均衡器十段编辑",
+      "type": "FEATURE",
+      "created_step": 10,
+      "updated_step": 10
+    },
+    {
+      "name": "均衡器编辑器",
+      "description": "底部面板提供总启用开关、新建预设、横向预设芯片、当前预设重命名/删除、前置放大器和 31Hz 至 16kHz 的十段增益滑杆，以及“同时影响附近频段”开关。",
+      "visual_evidence": [
+        17
+      ],
+      "entry_conditions": [
+        "均衡器预设列表点击顶栏调节图标"
+      ],
+      "observed_elements": [
+        "启用开关",
+        "新建预设 +",
+        "预设芯片",
+        "Classical",
+        "重命名",
+        "删除",
+        "前置放大器",
+        "31Hz",
+        "63Hz",
+        "125Hz",
+        "250Hz",
+        "500Hz",
+        "1kHz",
+        "2kHz",
+        "4kHz",
+        "8kHz",
+        "16kHz",
+        "同时影响附近频段"
+      ],
+      "confidence": 1.0,
+      "id": "state_均衡器编辑器_2",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 10,
+      "updated_step": 10
+    },
+    {
+      "name": "均衡器十段编辑",
+      "description": "均衡器调节入口打开可编辑面板，支持总开关、前置放大、十段频率增益、联动相邻频段以及新增/重命名/删除预设。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 10,
+          "before_frame": 15,
+          "action": "tap(785,200) 顶栏调节图标",
+          "after_frame": 16,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_均衡器十段编辑_2",
+      "type": "FEATURE",
+      "created_step": 10,
+      "updated_step": 10
+    },
+    {
+      "name": "均衡器总开关",
+      "description": "均衡器编辑器的启用开关可由关闭灰色切换为启用橙色。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 11,
+          "before_frame": 17,
+          "action": "tap(980,1050) “启用”开关",
+          "after_frame": 18,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_均衡器总开关",
+      "type": "FEATURE",
+      "created_step": 12,
+      "updated_step": 12
+    },
+    {
+      "name": "均衡器批量操作菜单",
+      "description": "均衡器更多菜单包含全部显示、全部隐藏、全部导出、全部导入。",
+      "visual_evidence": [
+        25
+      ],
+      "entry_conditions": [
+        "均衡器预设列表点击更多菜单"
+      ],
+      "observed_elements": [
+        "全部显示",
+        "全部隐藏",
+        "全部导出",
+        "全部导入"
+      ],
+      "confidence": 1.0,
+      "id": "state_均衡器批量操作菜单",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 14,
+      "updated_step": 14
+    },
+    {
+      "name": "授予常规媒体权限",
+      "description": "选择“只有常规媒体权限”后依次请求音乐/音频与照片/视频系统许可；允许后返回主页并自动扫描标准媒体。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 18,
+          "before_frame": 31,
+          "action": "tap(350,1955) “只有常规媒体权限”",
+          "after_frame": 32,
+          "note": null
+        },
+        {
+          "step": 19,
+          "before_frame": 33,
+          "action": "tap(540,1320) 允许音乐和音频",
+          "after_frame": 34,
+          "note": null
+        },
+        {
+          "step": 20,
+          "before_frame": 35,
+          "action": "tap(540,1405) 照片和视频“全部允许”",
+          "after_frame": 36,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_授予常规媒体权限",
+      "type": "FEATURE",
+      "created_step": 23,
+      "updated_step": 23
+    },
+    {
+      "name": "视频空状态（已授予常规权限）",
+      "description": "扫描后未找到视频时显示幽灵占位图、提示“未找到媒体文件”，并提供“前往媒体库偏好设置”；底部 snackbar 提示无法访问所有文件并提供“更多”。",
+      "visual_evidence": [
+        41
+      ],
+      "entry_conditions": [
+        "常规媒体权限授予",
+        "设备中没有可扫描媒体"
+      ],
+      "observed_elements": [
+        "未找到媒体文件",
+        "前往媒体库偏好设置",
+        "VLC 无法访问您的所有文件",
+        "更多"
+      ],
+      "confidence": 1.0,
+      "id": "state_视频空状态_已授予常规权限",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 23,
+      "updated_step": 23
+    },
+    {
+      "name": "媒体访问级别",
+      "description": "无文件权限、仅常规媒体权限或完整访问权限之一；当前为仅常规媒体权限。",
+      "confidence": 1.0,
+      "id": "data_媒体访问级别",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 23,
+      "updated_step": 23
+    },
+    {
+      "name": "媒体权限级别互斥校验",
+      "description": "尝试从“只有常规媒体权限”直接切换到“完整访问权限”时被阻止，界面将当前常规权限行和错误提示标红，并要求先禁用常规媒体文件权限。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 25,
+          "before_frame": 43,
+          "action": "tap(350,2090) “完整访问权限”",
+          "after_frame": 44,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_媒体权限级别互斥校验",
+      "type": "FEATURE",
+      "created_step": 25,
+      "updated_step": 25
+    },
+    {
+      "name": "音频库空状态",
+      "description": "音频页顶部按艺术家、专辑、轨道、流派、播放列表分类；顶栏提供搜索、布局/排序和更多。未找到媒体时显示与视频页一致的媒体库偏好设置入口。",
+      "visual_evidence": [
+        50
+      ],
+      "entry_conditions": [
+        "底部导航点击音频",
+        "媒体库为空"
+      ],
+      "observed_elements": [
+        "艺术家",
+        "专辑",
+        "轨道",
+        "流派",
+        "播放列表",
+        "搜索",
+        "布局/排序",
+        "更多",
+        "未找到媒体文件",
+        "前往媒体库偏好设置"
+      ],
+      "confidence": 1.0,
+      "id": "state_音频库空状态",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 28,
+      "updated_step": 28
+    },
+    {
+      "name": "音频艺术家显示与排序设置",
+      "description": "显示设置面板提供列表显示、显示所有艺术家、只显示收藏复选框；“播放”动作下拉；排序条件为名称，方向 A→Z 或 Z→A。",
+      "visual_evidence": [
+        52
+      ],
+      "entry_conditions": [
+        "音频艺术家页点击布局/排序图标"
+      ],
+      "observed_elements": [
+        "显示设置",
+        "以列表形式显示",
+        "显示所有艺术家",
+        "只显示收藏",
+        "“播放”动作",
+        "播放",
+        "排序条件",
+        "名称",
+        "A→Z",
+        "Z→A"
+      ],
+      "confidence": 1.0,
+      "id": "state_音频艺术家显示与排序设置",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 29,
+      "updated_step": 29
+    },
+    {
+      "name": "配置音频条目播放动作",
+      "description": "音频显示设置中的“播放”动作可选播放、添加到播放队列、插入为下一项。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 30,
+          "before_frame": 52,
+          "action": "tap(610,1800) “播放”动作下拉",
+          "after_frame": 53,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_配置音频条目播放动作",
+      "type": "FEATURE",
+      "created_step": 30,
+      "updated_step": 30
+    },
+    {
+      "name": "更改音频条目默认动作",
+      "description": "选择“添加到播放队列”后，显示设置中的当前动作文字立即更新。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 31,
+          "before_frame": 54,
+          "action": "tap(650,1965) “添加到播放队列”",
+          "after_frame": 55,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_更改音频条目默认动作",
+      "type": "FEATURE",
+      "created_step": 31,
+      "updated_step": 31
+    },
+    {
+      "name": "音频库显示偏好",
+      "description": "包含布局、艺术家过滤、收藏过滤、点击动作、排序字段和排序方向；当前播放动作为“添加到播放队列”。",
+      "confidence": 1.0,
+      "id": "data_音频库显示偏好",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 31,
+      "updated_step": 31
+    },
+    {
+      "name": "浏览主页",
+      "description": "浏览页分为收藏、存储设备、本地网络。收藏以横向卡片展示 Download、Movies、Music 等文件夹并带三点菜单；存储设备含内部存储；离线时本地网络显示无连接。",
+      "visual_evidence": [
+        59
+      ],
+      "entry_conditions": [
+        "底部导航点击浏览"
+      ],
+      "observed_elements": [
+        "收藏",
+        "Download",
+        "Movies",
+        "Music",
+        "卡片更多菜单",
+        "存储设备",
+        "内部存储",
+        "本地网络",
+        "本地网络无连接",
+        "顶栏更多"
+      ],
+      "confidence": 1.0,
+      "id": "state_浏览主页",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 33,
+      "updated_step": 33
+    },
+    {
+      "name": "内部存储文件浏览器",
+      "description": "内部存储页显示面包屑、文件夹列表及子项数量，每行有更多菜单；顶栏有搜索、收藏心形和更多；右下有播放浮动按钮。可见 Alarms、Android、Audiobooks、DCIM、Documents、Download、Movies、Music、Notifications、Pictures、Podcasts、Recordings、Ringtones。",
+      "visual_evidence": [
+        61
+      ],
+      "entry_conditions": [
+        "浏览主页点击内部存储"
+      ],
+      "observed_elements": [
+        "浏览器 > 内部存储",
+        "文件夹列表",
+        "子项计数",
+        "每行更多",
+        "搜索",
+        "收藏",
+        "更多",
+        "播放浮动按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_内部存储文件浏览器",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 34,
+      "updated_step": 34
+    },
+    {
+      "name": "BlackBoxBench 样例媒体目录",
+      "description": "Download/BlackBoxBench 中包含 sample_audio.wav（30.91 kB）和 sample_video.mp4（21.59 kB），各自有音频图标/视频缩略图与更多菜单；右下有播放全部按钮。",
+      "visual_evidence": [
+        65
+      ],
+      "entry_conditions": [
+        "内部存储 > Download > BlackBoxBench"
+      ],
+      "observed_elements": [
+        "sample_audio.wav",
+        "30.91 kB",
+        "sample_video.mp4",
+        "21.59 kB",
+        "媒体行更多菜单",
+        "播放全部浮动按钮",
+        "收藏心形"
+      ],
+      "confidence": 1.0,
+      "id": "state_blackboxbench_样例媒体目录",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 36,
+      "updated_step": 36
+    },
+    {
+      "name": "视频播放器首次教程（全屏提示）",
+      "description": "打开样例视频进入沉浸式播放器；首次显示系统全屏手势提示（从顶部下滑退出、知道了）和 VLC 播放器控制按钮教程（继续）。背景可见视频标题画面与底部字幕、屏幕方向/锁定、播放、画面/全屏、更多等圆形控制。",
+      "visual_evidence": [
+        68
+      ],
+      "entry_conditions": [
+        "点击 sample_video.mp4",
+        "首次进入视频播放器"
+      ],
+      "observed_elements": [
+        "目前处于全屏模式",
+        "若要退出，请从屏幕顶部向下滑动",
+        "知道了",
+        "播放器控制按钮",
+        "继续",
+        "字幕按钮",
+        "方向/锁定按钮",
+        "播放按钮",
+        "画面/全屏按钮",
+        "更多按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_视频播放器首次教程_全屏提示",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 38,
+      "updated_step": 38
+    },
+    {
+      "name": "视频文件操作菜单",
+      "description": "sample_video 的行菜单显示缩略图和名称，并提供播放全部、作为音频播放、添加到播放队列、插入为下一项、下载字幕、信息、添加到播放列表、重命名、删除、标记为未播放。",
+      "visual_evidence": [
+        86
+      ],
+      "entry_conditions": [
+        "媒体文件行点击三点菜单"
+      ],
+      "observed_elements": [
+        "播放全部",
+        "作为音频播放",
+        "添加到播放队列",
+        "插入为下一项",
+        "下载字幕",
+        "信息",
+        "添加到播放列表",
+        "重命名",
+        "删除",
+        "标记为未播放"
+      ],
+      "confidence": 1.0,
+      "id": "state_视频文件操作菜单",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 47,
+      "updated_step": 47
+    },
+    {
+      "name": "视频文件信息页",
+      "description": "信息页显示大幅视频预览、文件名与完整面包屑；未扫描目录可点击“添加”；显示长度 3s、文件大小 21.59 kB、视频轨 H.264/MPEG-4 AVC、分辨率 640x360、帧率 15.000，并提供播放浮动按钮。",
+      "visual_evidence": [
+        88
+      ],
+      "entry_conditions": [
+        "视频文件操作菜单点击“信息”"
+      ],
+      "observed_elements": [
+        "sample_video",
+        "内部存储 > Download > BlackBoxBench > sample_video.mp4",
+        "此目录尚未扫描",
+        "添加",
+        "长度 3s",
+        "文件大小 21.59 kB",
+        "视频轨",
+        "H264 - MPEG-4 AVC (part 10)",
+        "640x360",
+        "15.000",
+        "播放浮动按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_视频文件信息页",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 48,
+      "updated_step": 48
+    },
+    {
+      "name": "将目录加入媒体扫描",
+      "description": "文件信息页显示“此目录尚未扫描”时可点击“添加”；点击后该提示与按钮消失，表示目录已加入媒体库扫描范围。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 49,
+          "before_frame": 88,
+          "action": "tap(915,965) “添加”",
+          "after_frame": 89,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_将目录加入媒体扫描",
+      "type": "FEATURE",
+      "created_step": 49,
+      "updated_step": 49
+    },
+    {
+      "name": "媒体库扫描目录",
+      "description": "用户添加到自动扫描范围的目录；已加入内部存储/Download/BlackBoxBench。",
+      "confidence": 1.0,
+      "id": "data_媒体库扫描目录",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 49,
+      "updated_step": 49
+    },
+    {
+      "name": "视频库含媒体",
+      "description": "添加扫描目录后，视频页由空状态变为网格卡片，显示 sample_video 缩略图、名称和时长 0:03；右下有播放浮动按钮。",
+      "visual_evidence": [
+        98
+      ],
+      "entry_conditions": [
+        "BlackBoxBench 目录加入扫描并完成扫描"
+      ],
+      "observed_elements": [
+        "sample_video",
+        "视频缩略图",
+        "0:03",
+        "播放浮动按钮",
+        "搜索",
+        "重新扫描/播放历史样式图标",
+        "更多"
+      ],
+      "confidence": 1.0,
+      "id": "state_视频库含媒体",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 54,
+      "updated_step": 54
+    },
+    {
+      "name": "音频库艺术家视图",
+      "description": "扫描目录后，艺术家页按首字母分组，显示“未知艺术家”卡片、1 张专辑、卡片内播放按钮与更多菜单。",
+      "visual_evidence": [
+        100
+      ],
+      "entry_conditions": [
+        "BlackBoxBench 目录加入扫描",
+        "底部导航进入音频",
+        "艺术家页签"
+      ],
+      "observed_elements": [
+        "# 分组",
+        "未知艺术家",
+        "1 张专辑",
+        "艺术家占位封面",
+        "播放按钮",
+        "更多菜单"
+      ],
+      "confidence": 1.0,
+      "id": "state_音频库艺术家视图",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 55,
+      "updated_step": 55
+    },
+    {
+      "name": "音频轨道列表",
+      "description": "轨道页按首字母分组显示 sample_audio.wav，行尾有更多菜单，右下浮动按钮为随机播放。",
+      "visual_evidence": [
+        102
+      ],
+      "entry_conditions": [
+        "音频页切换到轨道",
+        "扫描目录包含音频"
+      ],
+      "observed_elements": [
+        "S 分组",
+        "sample_audio.wav",
+        "音频图标",
+        "行更多菜单",
+        "随机播放浮动按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_音频轨道列表",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 56,
+      "updated_step": 56
+    },
+    {
+      "name": "音频播放器首次教程",
+      "description": "首次播放音频显示“音频播放器提示”；第一步说明左右滑切换上/下一曲。底部迷你播放器显示 sample_audio.wav、时间 0:00 和播放按钮。",
+      "visual_evidence": [
+        104
+      ],
+      "entry_conditions": [
+        "音频轨道列表点击 sample_audio.wav",
+        "首次进入音频播放器"
+      ],
+      "observed_elements": [
+        "音频播放器提示",
+        "上/下一曲",
+        "左滑或右滑",
+        "继续",
+        "sample_audio.wav",
+        "0:00",
+        "播放按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_音频播放器首次教程",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 57,
+      "updated_step": 57
+    },
+    {
+      "name": "音频轨道操作菜单",
+      "description": "sample_audio.wav 的菜单提供播放全部、添加到播放队列、插入为下一项、信息、转到专辑、转到艺人、添加到播放列表、设为铃声、添加到收藏夹、删除、分享、创建启动器快捷方式、浏览所在目录。",
+      "visual_evidence": [
+        112
+      ],
+      "entry_conditions": [
+        "音频轨道行点击三点菜单"
+      ],
+      "observed_elements": [
+        "播放全部",
+        "添加到播放队列",
+        "插入为下一项",
+        "信息",
+        "转到专辑",
+        "转到艺人",
+        "添加到播放列表",
+        "设为铃声",
+        "添加到收藏夹",
+        "删除",
+        "分享",
+        "创建启动器快捷方式",
+        "浏览所在目录"
+      ],
+      "confidence": 1.0,
+      "id": "state_音频轨道操作菜单",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 61,
+      "updated_step": 61
+    },
+    {
+      "name": "收藏音频轨道",
+      "description": "在轨道菜单点击“添加到收藏夹”后，sample_audio.wav 行出现实心心形图标。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 62,
+          "before_frame": 112,
+          "action": "tap(300,1770) “添加到收藏夹”",
+          "after_frame": 113,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_收藏音频轨道",
+      "type": "FEATURE",
+      "created_step": 62,
+      "updated_step": 62
+    },
+    {
+      "name": "收藏媒体",
+      "description": "用户收藏的媒体集合；当前包含 sample_audio.wav，轨道行显示实心心形。",
+      "confidence": 1.0,
+      "id": "data_收藏媒体",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 62,
+      "updated_step": 62
+    },
+    {
+      "name": "添加媒体到播放列表面板",
+      "description": "从轨道菜单进入播放列表面板，可输入新播放列表名称并点“新建”；也可从现有播放列表中选择，支持“替换播放列表”开关；底部有保存。",
+      "visual_evidence": [
+        117
+      ],
+      "entry_conditions": [
+        "音频轨道操作菜单点击“添加到播放列表”"
+      ],
+      "observed_elements": [
+        "新建播放列表",
+        "播放列表名称输入框",
+        "新建",
+        "添加到现有播放列表",
+        "1 个媒体",
+        "替换播放列表开关",
+        "未找到播放列表",
+        "保存"
+      ],
+      "confidence": 1.0,
+      "id": "state_添加媒体到播放列表面板",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 64,
+      "updated_step": 64
+    },
+    {
+      "name": "新建播放列表并添加轨道",
+      "description": "从轨道的“添加到播放列表”面板输入 Bench，点击新建后生成播放列表并默认勾选；点击保存完成将 1 个媒体加入。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 65,
+          "before_frame": 117,
+          "action": "type_text('Bench Playlist')，实际输入框保留 Bench",
+          "after_frame": 118,
+          "note": null
+        },
+        {
+          "step": 68,
+          "before_frame": 122,
+          "action": "tap(975,1745) “新建”",
+          "after_frame": 123,
+          "note": null
+        },
+        {
+          "step": 69,
+          "before_frame": 124,
+          "action": "tap(540,2280) “保存”",
+          "after_frame": 125,
+          "note": null
+        }
+      ],
+      "confidence": 0.98,
+      "status": "confirmed",
+      "id": "feature_新建播放列表并添加轨道",
+      "type": "FEATURE",
+      "created_step": 69,
+      "updated_step": 69
+    },
+    {
+      "name": "播放列表",
+      "description": "用户命名并持久化的媒体集合；已创建 Bench 并向其中保存 sample_audio.wav。",
+      "confidence": 0.98,
+      "id": "data_播放列表",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 69,
+      "updated_step": 69
+    },
+    {
+      "name": "播放列表库",
+      "description": "播放列表页按首字母分组显示 Bench 卡片，显示 1 条轨道、总时长 0:00，卡片内有播放按钮，行尾有更多菜单。",
+      "visual_evidence": [
+        128
+      ],
+      "entry_conditions": [
+        "底部导航点击播放列表",
+        "已创建 Bench"
+      ],
+      "observed_elements": [
+        "B 分组",
+        "Bench",
+        "1 条轨道 · 0:00",
+        "播放列表占位封面",
+        "播放按钮",
+        "更多菜单"
+      ],
+      "confidence": 1.0,
+      "id": "state_播放列表库",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 70,
+      "updated_step": 70
+    },
+    {
+      "name": "播放列表详情",
+      "description": "Bench 详情页包含播放、随机播放、添加轨道、收藏播放列表操作；轨道行支持拖拽排序，显示收藏状态与更多菜单。当前含 sample_audio.wav。",
+      "visual_evidence": [
+        130
+      ],
+      "entry_conditions": [
+        "播放列表库点击 Bench"
+      ],
+      "observed_elements": [
+        "Bench",
+        "播放",
+        "随机播放",
+        "添加轨道",
+        "收藏播放列表",
+        "拖拽手柄",
+        "sample_audio.wav",
+        "轨道收藏心形",
+        "轨道更多菜单"
+      ],
+      "confidence": 1.0,
+      "id": "state_播放列表详情",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 71,
+      "updated_step": 71
+    },
+    {
+      "name": "播放列表操作菜单",
+      "description": "Bench 的菜单提供播放、作为音频播放、加入播放队列、插入为下一项、信息、添加到播放列表、加入收藏、重命名、删除、创建启动器快捷方式。",
+      "visual_evidence": [
+        137
+      ],
+      "entry_conditions": [
+        "播放列表卡片点击更多菜单"
+      ],
+      "observed_elements": [
+        "播放",
+        "作为音频播放",
+        "添加到播放队列",
+        "插入为下一项",
+        "信息",
+        "添加到播放列表",
+        "添加到收藏夹",
+        "重命名",
+        "删除",
+        "创建启动器快捷方式"
+      ],
+      "confidence": 1.0,
+      "id": "state_播放列表操作菜单",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 75,
+      "updated_step": 75
+    },
+    {
+      "name": "更多主页",
+      "description": "更多页顶部提供设置与关于；串流区域可新建串流并进入详情；历史区域显示最近的 sample_audio.wav 与 sample_video 卡片并可进入完整历史。",
+      "visual_evidence": [
+        140
+      ],
+      "entry_conditions": [
+        "底部导航点击更多"
+      ],
+      "observed_elements": [
+        "设置",
+        "关于",
+        "串流",
+        "新建串流",
+        "串流详情箭头",
+        "历史",
+        "历史详情箭头",
+        "sample_audio.wav",
+        "sample_video",
+        "0:03"
+      ],
+      "confidence": 1.0,
+      "id": "state_更多主页",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 77,
+      "updated_step": 77
+    },
+    {
+      "name": "打开网络串流页",
+      "description": "串流页提供网络地址输入框，提示支持 http://、mms://、rtsp://，右侧箭头用于开始播放；顶栏有更多菜单。",
+      "visual_evidence": [
+        142
+      ],
+      "entry_conditions": [
+        "更多主页点击新建串流"
+      ],
+      "observed_elements": [
+        "串流",
+        "网络地址输入框",
+        "http://",
+        "mms://",
+        "rtsp://",
+        "开始箭头",
+        "更多菜单"
+      ],
+      "confidence": 1.0,
+      "id": "state_打开网络串流页",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 78,
+      "updated_step": 78
+    },
+    {
+      "name": "串流更多菜单",
+      "description": "串流页更多菜单提供无痕模式复选框和刷新操作。",
+      "visual_evidence": [
+        149
+      ],
+      "entry_conditions": [
+        "串流页点击更多菜单"
+      ],
+      "observed_elements": [
+        "无痕模式",
+        "复选框",
+        "刷新"
+      ],
+      "confidence": 1.0,
+      "id": "state_串流更多菜单",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 83,
+      "updated_step": 83
+    },
+    {
+      "name": "串流无痕模式",
+      "description": "打开串流页更多菜单可切换无痕模式；勾选后再次打开菜单仍显示选中，说明设置已生效。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 84,
+          "before_frame": 149,
+          "action": "tap(965,225) 点击无痕模式复选框",
+          "after_frame": 150,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_串流无痕模式",
+      "type": "FEATURE",
+      "created_step": 85,
+      "updated_step": 85
+    },
+    {
+      "name": "无痕播放偏好",
+      "description": "网络串流的无痕模式开关状态会被保留；当前为开启。",
+      "confidence": 0.5,
+      "id": "data_无痕播放偏好",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 85,
+      "updated_step": 85
+    },
+    {
+      "name": "历史记录列表",
+      "description": "历史页按最近使用顺序列出音频 sample_audio.wav 与视频 sample_video（0:03），顶部提供搜索、清空和更多菜单。",
+      "visual_evidence": [
+        158
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_历史记录列表",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 88,
+      "updated_step": 88
+    },
+    {
+      "name": "筛选当前媒体列表",
+      "description": "历史页搜索输入 audio 并确认后，只保留匹配的 sample_audio.wav，顶部仍可一键切换为全媒体库搜索。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 91,
+          "before_frame": 162,
+          "action": "press_enter() 确认搜索 audio",
+          "after_frame": 163,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_筛选当前媒体列表",
+      "type": "FEATURE",
+      "created_step": 91,
+      "updated_step": 91
+    },
+    {
+      "name": "播放历史",
+      "description": "最近播放记录同时保存音频与视频，支持当前列表搜索与清空。",
+      "confidence": 0.5,
+      "id": "data_播放历史",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 91,
+      "updated_step": 91
+    },
+    {
+      "name": "关于_VLC",
+      "description": "关于页展示 VLC 橙色交通锥标志、VLC for Android 介绍、版本 3.7.1（2026-05-09），以及官方网站、反馈、源代码、库、作者和 GPL v2 信息。",
+      "visual_evidence": [
+        173
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_关于_vlc",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 97,
+      "updated_step": 97
+    },
+    {
+      "name": "设置主页_媒体库与视频",
+      "description": "设置主页顶部包含媒体库文件夹、自动重新扫描（已开启）；视频项含背景/画中画模式、硬件加速和视频屏幕方向；另有按流量计费网络处理与权限入口。",
+      "visual_evidence": [
+        176
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_设置主页_媒体库与视频",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 99,
+      "updated_step": 99
+    },
+    {
+      "name": "设置主页_历史与附加设置",
+      "description": "设置中可控制播放历史及音视频队列历史；附加设置分类包括界面、视频、字幕、音频、均衡器、投屏、家长控制和远程访问。",
+      "visual_evidence": [
+        178
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_设置主页_历史与附加设置",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 100,
+      "updated_step": 100
+    },
+    {
+      "name": "设置主页_全部分类",
+      "description": "附加设置完整分类还包括 Android Auto 与高级；分类总览覆盖界面、视频、字幕、音频、均衡器、投屏、家长控制、远程访问、Android Auto 和高级。",
+      "visual_evidence": [
+        180
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_设置主页_全部分类",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 101,
+      "updated_step": 101
+    },
+    {
+      "name": "界面设置_常规与无痕",
+      "description": "界面设置含夜间模式（跟随系统）、Android TV 界面、语言、单行标题缩略、显示标题、显示缺失媒体、睡眠计时器；无痕模式及持续开启均已勾选，并可设置视频看过标记。",
+      "visual_evidence": [
+        182
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_界面设置_常规与无痕",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 102,
+      "updated_step": 102
+    },
+    {
+      "name": "界面设置_媒体呈现",
+      "description": "界面设置可显示视频看过标记和视频缩略图；音频可提示继续上次播放列表、使用媒体封面作锁屏背景，并可在通知中显示快退/快进按钮。",
+      "visual_evidence": [
+        184
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_界面设置_媒体呈现",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 103,
+      "updated_step": 103
+    },
+    {
+      "name": "视频设置_播放与显示",
+      "description": "视频设置含快速定位、自定义画中画弹窗、恢复后台视频、匹配显示器帧率、首选视频分辨率；外置显示器支持 HDMI/Chromecast 设置与克隆优先。",
+      "visual_evidence": [
+        190
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_视频设置_播放与显示",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 106,
+      "updated_step": 106
+    },
+    {
+      "name": "字幕设置_样式",
+      "description": "字幕设置支持预设、自动载入、文本编码、首选语言；字体可调大小/粗体/颜色/不透明度，并有背景和阴影开关。当前自动载入与阴影开启，编码为 Default (Windows-1252)，无语言偏好。",
+      "visual_evidence": [
+        195
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_字幕设置_样式",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 109,
+      "updated_step": 109
+    },
+    {
+      "name": "字幕设置_阴影与轮廓",
+      "description": "字幕阴影支持黑色与约半透明；轮廓已开启，可设尺寸、颜色（黑）和不透明度。",
+      "visual_evidence": [
+        197
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_字幕设置_阴影与轮廓",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 110,
+      "updated_step": 110
+    },
+    {
+      "name": "音频设置_播放与耳机",
+      "description": "音频设置含通话后继续播放、滑开应用时停止、数字音频输出、首选语言与继续播放策略；耳机检测开启，并可配置插入耳机继续播放及忽略耳机媒体键。",
+      "visual_evidence": [
+        200
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_音频设置_播放与耳机",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 112,
+      "updated_step": 112
+    },
+    {
+      "name": "音频设置_回放增益与_MIDI",
+      "description": "音频可启用回放增益；关闭时模式、前置放大（目标电平 89 dB）、默认增益与峰值保护为从属项。高级项可选择 MIDI 音色库 SoundFont 文件。",
+      "visual_evidence": [
+        202
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_音频设置_回放增益与_midi",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 113,
+      "updated_step": 113
+    },
+    {
+      "name": "投屏设置",
+      "description": "投屏设置中无线投屏已开启；可选择仅音频、音频直通，并配置投向远程屏幕时的转换质量。",
+      "visual_evidence": [
+        210
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_投屏设置",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 118,
+      "updated_step": 118
+    },
+    {
+      "name": "家长控制密码设置",
+      "description": "首次进入家长控制需先设置四位数字安全密码，界面提供四个密码框与数字键盘。",
+      "visual_evidence": [
+        213
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_家长控制密码设置",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 120,
+      "updated_step": 120
+    },
+    {
+      "name": "远程访问引导_欢迎",
+      "description": "远程访问首次引导采用深蓝背景，说明可从其他设备控制本设备播放并执行其他操作，底部有跳过和下一项。",
+      "visual_evidence": [
+        218
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_远程访问引导_欢迎",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 123,
+      "updated_step": 123
+    },
+    {
+      "name": "远程访问引导_权限范围",
+      "description": "远程访问可按内容控制媒体库内容权限、文件浏览器与播放控制；最后通过“完成”结束引导。",
+      "visual_evidence": [
+        226
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_远程访问引导_权限范围",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 127,
+      "updated_step": 127
+    },
+    {
+      "name": "远程访问设置",
+      "description": "远程访问默认关闭；开启后可查看服务器状态。内容权限包括媒体库（视频、音频、播放列表、搜索）、文件/网络浏览器、历史、播放控制和分享日志文件；当前媒体库与播放控制为允许。",
+      "visual_evidence": [
+        228
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_远程访问设置",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 128,
+      "updated_step": 128
+    },
+    {
+      "name": "完成远程访问引导",
+      "description": "首次进入远程访问时依次介绍跨设备控制、加密连接、一次性密码认证和内容权限控制，完成后进入远程访问设置。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 124,
+          "before_frame": 218,
+          "action": "tap(915,2245) 下一项",
+          "after_frame": 219,
+          "note": null
+        },
+        {
+          "step": 125,
+          "before_frame": 220,
+          "action": "tap(915,2245) 下一项",
+          "after_frame": 221,
+          "note": null
+        },
+        {
+          "step": 126,
+          "before_frame": 222,
+          "action": "tap(915,2245) 下一项",
+          "after_frame": 223,
+          "note": null
+        },
+        {
+          "step": 127,
+          "before_frame": 224,
+          "action": "tap(915,2245) 下一项",
+          "after_frame": 225,
+          "note": null
+        },
+        {
+          "step": 128,
+          "before_frame": 226,
+          "action": "tap(915,2245) 完成",
+          "after_frame": 227,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_完成远程访问引导",
+      "type": "FEATURE",
+      "created_step": 128,
+      "updated_step": 128
+    },
+    {
+      "name": "远程访问服务器状态",
+      "description": "启用后服务器状态显示“远程访问处于活动状态”，提供停止操作、访问链接 http://10.0.2.15:8080、二维码、分享和复制按钮。",
+      "visual_evidence": [
+        232
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_远程访问服务器状态",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 130,
+      "updated_step": 130
+    },
+    {
+      "name": "启用远程访问服务器",
+      "description": "勾选“启用远程访问”后服务器启动，状态页提供局域网访问链接及二维码/分享/复制操作。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 129,
+          "before_frame": 228,
+          "action": "tap(975,348) 勾选启用远程访问",
+          "after_frame": 229,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_启用远程访问服务器",
+      "type": "FEATURE",
+      "created_step": 130,
+      "updated_step": 130
+    },
+    {
+      "name": "远程访问服务配置",
+      "description": "远程控制服务启用并监听 http://10.0.2.15:8080；媒体库内容和播放控制获准。",
+      "confidence": 0.5,
+      "id": "data_远程访问服务配置",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 130,
+      "updated_step": 130
+    },
+    {
+      "name": "Android_Auto_设置",
+      "description": "Android Auto 可调整标题/字幕文字大小、队列信息位置与格式；控制按钮可启用全局播放速度、速度按钮与快退/快进定位按钮。",
+      "visual_evidence": [
+        236
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_android_auto_设置",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 133,
+      "updated_step": 133
+    },
+    {
+      "name": "高级设置_网络与数据维护",
+      "description": "高级页可设网络缓存值、优先 SMB v1、HTTP 用户代理并重启应用；应用数据支持转储媒体/应用数据库、清除媒体库、清除应用数据、清除播放历史与导出设置。",
+      "visual_evidence": [
+        243
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_高级设置_网络与数据维护",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 137,
+      "updated_step": 137
+    },
+    {
+      "name": "高级设置_性能",
+      "description": "高级页支持导出/恢复设置；性能项含音频时间伸缩（已开启）、OpenGL ES2 使用策略、音频输出、去块滤镜、跳帧、Dav1d 线程数和浏览器快速播放按钮。",
+      "visual_evidence": [
+        245
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_高级设置_性能",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 138,
+      "updated_step": 138
+    },
+    {
+      "name": "高级设置_开发人员",
+      "description": "开发人员区域含详尽模式（已开启）、调试日志、安装每日构建版和自定义 libVLC 选项；浏览器快速播放默认动作依赖快速播放按钮。",
+      "visual_evidence": [
+        247
+      ],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_高级设置_开发人员",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 139,
+      "updated_step": 139
+    },
+    {
+      "name": "应用重启后保留媒体状态",
+      "description": "从高级设置重启应用后直接返回主界面，不再出现引导；扫描出的音频/视频与历史记录仍可见。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 141,
+          "before_frame": 249,
+          "action": "restart_app()",
+          "after_frame": 250,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_应用重启后保留媒体状态",
+      "type": "FEATURE",
+      "created_step": 141,
+      "updated_step": 141
+    },
+    {
+      "name": "播放列表与收藏跨重启保留",
+      "description": "重启后播放列表 Bench 仍含 1 条轨道，音频 sample_audio.wav 仍显示收藏心形。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 142,
+          "before_frame": 251,
+          "action": "tap(760,2255) 打开播放列表",
+          "after_frame": 252,
+          "note": null
+        },
+        {
+          "step": 143,
+          "before_frame": 253,
+          "action": "tap(320,2255) 打开音频轨道",
+          "after_frame": 254,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_播放列表与收藏跨重启保留",
+      "type": "FEATURE",
+      "created_step": 143,
+      "updated_step": 143
+    },
+    {
+      "name": "无痕模式跨重启保留",
+      "description": "应用重启后主菜单中的无痕模式仍显示勾选，与“无痕模式持续开启”设置一致。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 145,
+          "before_frame": 256,
+          "action": "tap(1020,200) 打开主菜单",
+          "after_frame": 257,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_无痕模式跨重启保留",
+      "type": "FEATURE",
+      "created_step": 145,
+      "updated_step": 145
+    },
+    {
+      "name": "均衡器设置跨重启保留",
+      "description": "重启后均衡器仍选中 Classical，编辑器总开关保持开启并保留各频段值（高频约 -7/-9 dB）。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 149,
+          "before_frame": 262,
+          "action": "tap(240,1970) 打开均衡器",
+          "after_frame": 263,
+          "note": null
+        },
+        {
+          "step": 151,
+          "before_frame": 266,
+          "action": "tap(785,200) 打开当前预设编辑器",
+          "after_frame": 267,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_均衡器设置跨重启保留",
+      "type": "FEATURE",
+      "created_step": 151,
+      "updated_step": 151
+    }
+  ],
+  "edges": [
+    {
+      "source": "feature_将目录加入媒体扫描",
+      "target": "state_视频库含媒体",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 49,
+          "before_frame": 88,
+          "action": "添加扫描目录",
+          "after_frame": 89,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "等待扫描并切换到视频页后出现 sample_video 卡片（frame 98）。",
+      "id": "edge_0001",
+      "created_step": 54
+    }
+  ],
+  "unresolved_questions": [],
+  "coverage_summary": {
+    "states": 51,
+    "features": 23,
+    "data_entities": 9,
+    "edges": 1,
+    "confirmed_ratio": 1.0,
+    "actions_used": 151
+  }
+}

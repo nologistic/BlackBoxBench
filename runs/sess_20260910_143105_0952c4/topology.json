@@ -1,0 +1,3214 @@
+{
+  "app_id": "snapseed",
+  "graph_version": "1.0",
+  "session_id": "sess_20260910_143105_0952c4",
+  "generated_at": "2026-09-10T15:49:42.655295+00:00",
+  "nodes": [
+    {
+      "name": "启动页",
+      "description": "浅灰色空白工作区；顶部有“打开”、操作记录样式图标、信息与更多菜单；中央有大号加号和“点按任意位置即可打开照片”。",
+      "visual_evidence": [
+        1
+      ],
+      "entry_conditions": [
+        "冷启动且尚未载入照片"
+      ],
+      "observed_elements": [
+        "打开",
+        "中央加号",
+        "点按任意位置即可打开照片",
+        "顶部信息图标",
+        "更多菜单"
+      ],
+      "confidence": 1.0,
+      "id": "state_启动页",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 1,
+      "updated_step": 1
+    },
+    {
+      "name": "启动页更多菜单",
+      "description": "右上角浮层包含设置、教程、帮助和反馈三个入口。",
+      "visual_evidence": [
+        3
+      ],
+      "entry_conditions": [
+        "启动页点击右上角更多"
+      ],
+      "observed_elements": [
+        "设置",
+        "教程",
+        "帮助和反馈"
+      ],
+      "confidence": 1.0,
+      "id": "state_启动页更多菜单",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 1,
+      "updated_step": 1
+    },
+    {
+      "name": "打开启动页更多菜单",
+      "description": "点击启动页右上角三点显示设置、教程、帮助和反馈。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 1,
+          "before_frame": 1,
+          "action": "点击右上角三点",
+          "after_frame": 2,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_打开启动页更多菜单",
+      "type": "FEATURE",
+      "created_step": 1,
+      "updated_step": 1
+    },
+    {
+      "name": "设置页",
+      "description": "包含外观与导出/分享选项。可切换深色主题背景；调整图片大小；选择格式和画质。",
+      "visual_evidence": [
+        5,
+        7,
+        11,
+        15
+      ],
+      "entry_conditions": [
+        "启动页更多菜单选择设置"
+      ],
+      "observed_elements": [
+        "返回",
+        "深色主题背景开关",
+        "调整图片大小",
+        "格式和画质"
+      ],
+      "confidence": 1.0,
+      "id": "state_设置页",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 7,
+      "updated_step": 7
+    },
+    {
+      "name": "调整图片大小对话框",
+      "description": "单选项：不要调整大小、4000、2000、1920、1366、800 像素；含取消。",
+      "visual_evidence": [
+        9
+      ],
+      "entry_conditions": [
+        "设置页点击调整图片大小"
+      ],
+      "observed_elements": [
+        "6个单选项",
+        "取消"
+      ],
+      "confidence": 1.0,
+      "id": "state_调整图片大小对话框",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 7,
+      "updated_step": 7
+    },
+    {
+      "name": "格式和画质对话框",
+      "description": "单选项：JPG 100%、JPG 95%、JPG 80%、PNG；含取消。",
+      "visual_evidence": [
+        13
+      ],
+      "entry_conditions": [
+        "设置页点击格式和画质"
+      ],
+      "observed_elements": [
+        "4个单选项",
+        "取消"
+      ],
+      "confidence": 1.0,
+      "id": "state_格式和画质对话框",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 7,
+      "updated_step": 7
+    },
+    {
+      "name": "切换深色主题",
+      "description": "点击开关后整个设置页立即切换到深色背景，开关变为蓝色开启态。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 3,
+          "before_frame": 5,
+          "action": "点击深色主题开关",
+          "after_frame": 6,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_切换深色主题",
+      "type": "FEATURE",
+      "created_step": 7,
+      "updated_step": 7
+    },
+    {
+      "name": "设置导出最大图片尺寸",
+      "description": "调整图片大小对话框提供不调整及五档像素长边；选择后对话框关闭并在设置页显示当前值。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 5,
+          "before_frame": 9,
+          "action": "选择1920像素",
+          "after_frame": 10,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_设置导出最大图片尺寸",
+      "type": "FEATURE",
+      "created_step": 7,
+      "updated_step": 7
+    },
+    {
+      "name": "设置导出格式和画质",
+      "description": "对话框提供JPG三档质量和PNG；选择后对话框关闭并显示当前值。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 7,
+          "before_frame": 13,
+          "action": "选择PNG",
+          "after_frame": 14,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_设置导出格式和画质",
+      "type": "FEATURE",
+      "created_step": 7,
+      "updated_step": 7
+    },
+    {
+      "name": "用户设置",
+      "description": "深色主题开关、导出最大图片尺寸、导出格式和画质。",
+      "confidence": 1.0,
+      "id": "data_用户设置",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 7,
+      "updated_step": 7
+    },
+    {
+      "name": "教程加载页",
+      "description": "底部白色面板标题“教程”，内容区域仅显示绿色环形加载指示；离线等待3秒后仍未载入。",
+      "visual_evidence": [
+        22,
+        24
+      ],
+      "entry_conditions": [
+        "启动页更多菜单选择教程"
+      ],
+      "observed_elements": [
+        "教程标题",
+        "环形加载指示"
+      ],
+      "confidence": 1.0,
+      "id": "state_教程加载页",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 12,
+      "updated_step": 12
+    },
+    {
+      "name": "打开教程",
+      "description": "教程以底部上浮面板打开；离线环境下持续显示加载指示，等待后无内容。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 11,
+          "before_frame": 20,
+          "action": "点击教程菜单项",
+          "after_frame": 21,
+          "note": null
+        },
+        {
+          "step": 12,
+          "before_frame": 22,
+          "action": "等待3秒",
+          "after_frame": 23,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_打开教程",
+      "type": "FEATURE",
+      "created_step": 12,
+      "updated_step": 12
+    },
+    {
+      "name": "系统照片选择器-最近",
+      "description": "底部弹出的系统照片选择器，提示应用只能访问选中的照片；照片页显示最近项目缩略图，可切换至影集或关闭。",
+      "visual_evidence": [
+        32
+      ],
+      "entry_conditions": [
+        "启动页点按中央区域或打开"
+      ],
+      "observed_elements": [
+        "关闭",
+        "照片",
+        "影集",
+        "最近",
+        "图片缩略图"
+      ],
+      "confidence": 1.0,
+      "id": "state_系统照片选择器_最近",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 21,
+      "updated_step": 21
+    },
+    {
+      "name": "系统照片选择器-影集",
+      "description": "影集页显示可用相册封面与名称；进入相册后按日期展示照片缩略图。",
+      "visual_evidence": [
+        34,
+        36
+      ],
+      "entry_conditions": [
+        "照片选择器切换影集"
+      ],
+      "observed_elements": [
+        "照片",
+        "影集",
+        "下载内容相册"
+      ],
+      "confidence": 1.0,
+      "id": "state_系统照片选择器_影集",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 21,
+      "updated_step": 21
+    },
+    {
+      "name": "图片编辑器-样式",
+      "description": "载入图片后，中央显示大图预览；底部样式页横向展示滤镜缩略图，底部导航为样式、工具、导出。",
+      "visual_evidence": [
+        39
+      ],
+      "entry_conditions": [
+        "在系统照片选择器选中图片"
+      ],
+      "observed_elements": [
+        "打开",
+        "撤销/操作记录图标",
+        "信息",
+        "更多菜单",
+        "图片预览",
+        "样式缩略条",
+        "样式",
+        "工具",
+        "导出"
+      ],
+      "confidence": 1.0,
+      "id": "state_图片编辑器_样式",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 21,
+      "updated_step": 21
+    },
+    {
+      "name": "从系统照片选择器打开图片",
+      "description": "启动页点击中央区域打开系统选择器，选择相册中的图片后进入编辑器。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 17,
+          "before_frame": 30,
+          "action": "点击中央加号",
+          "after_frame": 31,
+          "note": null
+        },
+        {
+          "step": 20,
+          "before_frame": 36,
+          "action": "点击图片缩略图",
+          "after_frame": 37,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_从系统照片选择器打开图片",
+      "type": "FEATURE",
+      "created_step": 21,
+      "updated_step": 21
+    },
+    {
+      "name": "图片编辑器-工具",
+      "description": "深色工具面板以5列网格展示28项工具：调整图片、突出细节、曲线、白平衡、剪裁、旋转、视角、展开、局部、画笔、修复、HDR景观、魅力光晕、色调对比度、戏剧效果、复古、粗粒胶片、怀旧、斑驳、黑白、黑白电影、美颜、头部姿势、镜头模糊、晕影、双重曝光、文字、相框。",
+      "visual_evidence": [
+        50
+      ],
+      "entry_conditions": [
+        "编辑器底部点击工具"
+      ],
+      "observed_elements": [
+        "28项工具网格",
+        "底部样式/工具/导出导航"
+      ],
+      "confidence": 1.0,
+      "id": "state_图片编辑器_工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 27,
+      "updated_step": 27
+    },
+    {
+      "name": "套用预设样式",
+      "description": "样式横条可横向滚动；点选样式后即时预览并显示取消和确认，确认后返回主编辑器并保留效果。可见样式包括Portrait、Smooth、Pop、Accentuate、Faded Glow、Morning、Bright、Fine Art、Push、Structure、Silhouette。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 22,
+          "before_frame": 39,
+          "action": "点击Faded Glow",
+          "after_frame": 40,
+          "note": null
+        },
+        {
+          "step": 26,
+          "before_frame": 46,
+          "action": "点击确认",
+          "after_frame": 47,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_套用预设样式",
+      "type": "FEATURE",
+      "created_step": 27,
+      "updated_step": 27
+    },
+    {
+      "name": "浏览工具网格",
+      "description": "点击工具底部导航打开包含28项编辑工具的网格。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 27,
+          "before_frame": 48,
+          "action": "点击工具",
+          "after_frame": 49,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_浏览工具网格",
+      "type": "FEATURE",
+      "created_step": 27,
+      "updated_step": 27
+    },
+    {
+      "name": "调整图片工具",
+      "description": "顶部显示当前参数和值及横向刻度；中央图片预览；右上角前后对比按钮；下方有直方图、收藏/预设图标；底栏含取消、参数菜单、自动调整、确认。参数菜单含亮度、对比度、饱和度、氛围、高光、阴影、暖色调。",
+      "visual_evidence": [
+        52,
+        54,
+        57
+      ],
+      "entry_conditions": [
+        "工具网格点击调整图片"
+      ],
+      "observed_elements": [
+        "当前参数数值",
+        "横向刻度",
+        "前后对比",
+        "直方图",
+        "参数菜单",
+        "自动调整",
+        "取消",
+        "确认"
+      ],
+      "confidence": 1.0,
+      "id": "state_调整图片工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 31,
+      "updated_step": 31
+    },
+    {
+      "name": "手势调整图片参数",
+      "description": "在参数菜单选择一项后，左右滑动改变数值；实测对比度从0调整到+62并即时更新预览。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 30,
+          "before_frame": 54,
+          "action": "选择对比度",
+          "after_frame": 55,
+          "note": null
+        },
+        {
+          "step": 31,
+          "before_frame": 55,
+          "action": "在图片区域向右滑动",
+          "after_frame": 56,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_手势调整图片参数",
+      "type": "FEATURE",
+      "created_step": 31,
+      "updated_step": 31
+    },
+    {
+      "name": "修改内容堆栈",
+      "description": "右侧按顺序列出已应用的调整和原图。点击某个调整可展开删除、蒙版画笔、重新调节三个动作。",
+      "visual_evidence": [
+        63,
+        65
+      ],
+      "entry_conditions": [
+        "操作记录菜单选择查看修改内容"
+      ],
+      "observed_elements": [
+        "返回",
+        "编辑步骤列表",
+        "原图",
+        "所选步骤操作栏",
+        "删除",
+        "蒙版画笔",
+        "重新调节"
+      ],
+      "confidence": 1.0,
+      "id": "state_修改内容堆栈",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 40,
+      "updated_step": 40
+    },
+    {
+      "name": "查看并管理编辑堆栈",
+      "description": "操作记录菜单可进入修改内容，查看样式展开为多个编辑步骤及后续调整；每一步可删除、局部蒙版或重新调节。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 34,
+          "before_frame": 61,
+          "action": "点击查看修改内容",
+          "after_frame": 62,
+          "note": null
+        },
+        {
+          "step": 35,
+          "before_frame": 63,
+          "action": "点击所选步骤调节图标",
+          "after_frame": 64,
+          "note": null
+        },
+        {
+          "step": 36,
+          "before_frame": 65,
+          "action": "点击蒙版画笔",
+          "after_frame": 66,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_查看并管理编辑堆栈",
+      "type": "FEATURE",
+      "created_step": 40,
+      "updated_step": 40
+    },
+    {
+      "name": "编辑步骤蒙版画笔",
+      "description": "对已应用步骤进行局部蒙版编辑。底栏含取消、反相/填充样式图标、强度减小、当前强度与步骤名、强度增加、蒙版可视开关、确认。",
+      "visual_evidence": [
+        67,
+        72
+      ],
+      "entry_conditions": [
+        "修改内容堆栈选择步骤并点击蒙版画笔"
+      ],
+      "observed_elements": [
+        "强度0-100调节",
+        "画布涂抹",
+        "蒙版显示开关",
+        "取消",
+        "确认"
+      ],
+      "confidence": 1.0,
+      "id": "state_编辑步骤蒙版画笔",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 40,
+      "updated_step": 40
+    },
+    {
+      "name": "调整步骤蒙版强度并涂抹",
+      "description": "蒙版画笔中上下箭头改变强度（实测100降至50），可在图片上滑动涂抹并切换蒙版显示。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 37,
+          "before_frame": 67,
+          "action": "强度减小",
+          "after_frame": 68,
+          "note": null
+        },
+        {
+          "step": 38,
+          "before_frame": 68,
+          "action": "再次减小至50",
+          "after_frame": 69,
+          "note": null
+        },
+        {
+          "step": 39,
+          "before_frame": 69,
+          "action": "在图片上滑动涂抹",
+          "after_frame": 70,
+          "note": null
+        },
+        {
+          "step": 40,
+          "before_frame": 70,
+          "action": "切换蒙版显示",
+          "after_frame": 71,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_调整步骤蒙版强度并涂抹",
+      "type": "FEATURE",
+      "created_step": 40,
+      "updated_step": 40
+    },
+    {
+      "name": "操作记录菜单",
+      "description": "包含撤消、重做、还原、查看修改内容、QR样式；无可重做操作时重做为灰色。",
+      "visual_evidence": [
+        61
+      ],
+      "entry_conditions": [
+        "编辑器点击顶部操作记录图标"
+      ],
+      "observed_elements": [
+        "撤消",
+        "重做",
+        "还原",
+        "查看修改内容",
+        "QR样式"
+      ],
+      "confidence": 1.0,
+      "id": "state_操作记录菜单",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 46,
+      "updated_step": 46
+    },
+    {
+      "name": "撤消与重做编辑",
+      "description": "操作记录菜单可撤消最近一次已确认调整；撤消后重做变为可用，可恢复该调整。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 44,
+          "before_frame": 76,
+          "action": "点击撤消",
+          "after_frame": 77,
+          "note": null
+        },
+        {
+          "step": 46,
+          "before_frame": 79,
+          "action": "点击重做",
+          "after_frame": 80,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_撤消与重做编辑",
+      "type": "FEATURE",
+      "created_step": 46,
+      "updated_step": 46
+    },
+    {
+      "name": "图片详细信息",
+      "description": "显示所选图片的日期时间、文件名、像素尺寸、百万像素数与文件大小。",
+      "visual_evidence": [
+        83
+      ],
+      "entry_conditions": [
+        "编辑器点击顶部信息图标"
+      ],
+      "observed_elements": [
+        "返回",
+        "日期时间",
+        "文件名",
+        "百万像素",
+        "像素尺寸",
+        "文件大小"
+      ],
+      "confidence": 1.0,
+      "id": "state_图片详细信息",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 47,
+      "updated_step": 47
+    },
+    {
+      "name": "查看图片详细信息",
+      "description": "载入图片后点击信息图标可查看日期时间、文件名、分辨率和文件大小。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 47,
+          "before_frame": 81,
+          "action": "点击信息图标",
+          "after_frame": 82,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_查看图片详细信息",
+      "type": "FEATURE",
+      "created_step": 47,
+      "updated_step": 47
+    },
+    {
+      "name": "突出细节工具",
+      "description": "结构与锐化两个参数，采用参数菜单加水平滑动调值的通用界面，含取消、前后对比和确认。",
+      "visual_evidence": [
+        87,
+        89
+      ],
+      "entry_conditions": [
+        "工具网格点击突出细节"
+      ],
+      "observed_elements": [
+        "结构",
+        "锐化",
+        "取消",
+        "参数菜单",
+        "确认"
+      ],
+      "confidence": 1.0,
+      "id": "state_突出细节工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 57,
+      "updated_step": 57
+    },
+    {
+      "name": "曲线工具",
+      "description": "在图片上叠加直方图与从左下到右上的曲线。底栏提供取消、重置、曲线显示、预设、确认；预设横条含中性、柔和对比、强烈对比、调亮、调暗、淡出等。",
+      "visual_evidence": [
+        93,
+        95,
+        98
+      ],
+      "entry_conditions": [
+        "工具网格点击曲线"
+      ],
+      "observed_elements": [
+        "直方图",
+        "可编辑曲线",
+        "重置",
+        "曲线显示开关",
+        "预设横条",
+        "取消",
+        "确认"
+      ],
+      "confidence": 1.0,
+      "id": "state_曲线工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 57,
+      "updated_step": 57
+    },
+    {
+      "name": "编辑曲线控制点",
+      "description": "点击曲线可新增控制点，拖动控制点改变曲线形状并即时更新图片。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 56,
+          "before_frame": 95,
+          "action": "点击曲线中部新增控制点",
+          "after_frame": 96,
+          "note": null
+        },
+        {
+          "step": 57,
+          "before_frame": 96,
+          "action": "向上拖动控制点",
+          "after_frame": 97,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_编辑曲线控制点",
+      "type": "FEATURE",
+      "created_step": 57,
+      "updated_step": 57
+    },
+    {
+      "name": "白平衡工具",
+      "description": "顶部显示色温数值与刻度；底栏含取消、自动白平衡、参数菜单、取色器、确认。取色器激活时显示可拖动的放大取样镜和红色十字。",
+      "visual_evidence": [
+        102,
+        104,
+        106
+      ],
+      "entry_conditions": [
+        "工具网格点击白平衡"
+      ],
+      "observed_elements": [
+        "色温",
+        "自动白平衡",
+        "参数菜单",
+        "取色器",
+        "放大取样镜",
+        "取消",
+        "确认"
+      ],
+      "confidence": 1.0,
+      "id": "state_白平衡工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 62,
+      "updated_step": 62
+    },
+    {
+      "name": "白平衡取色",
+      "description": "点击取色器显示带红色十字的放大镜，可拖到图片区域的目标颜色位置取样。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 61,
+          "before_frame": 102,
+          "action": "点击取色器",
+          "after_frame": 103,
+          "note": null
+        },
+        {
+          "step": 62,
+          "before_frame": 104,
+          "action": "拖动取色器到亮色区域",
+          "after_frame": 105,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_白平衡取色",
+      "type": "FEATURE",
+      "created_step": 62,
+      "updated_step": 62
+    },
+    {
+      "name": "剪裁工具",
+      "description": "图片上叠加三分网格和可调节裁剪框；比例横条包含自由、原图、正方形、DIN、3:2、4:3、5:4、7:5、16:9；底栏含取消、重置、网格/比例控制和确认。",
+      "visual_evidence": [
+        110,
+        112,
+        114,
+        116
+      ],
+      "entry_conditions": [
+        "工具网格点击剪裁"
+      ],
+      "observed_elements": [
+        "可调裁剪框",
+        "三分网格",
+        "比例横条",
+        "重置",
+        "取消",
+        "确认"
+      ],
+      "confidence": 1.0,
+      "id": "state_剪裁工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 68,
+      "updated_step": 68
+    },
+    {
+      "name": "按比例剪裁图片",
+      "description": "可从横向比例列表选择预设比例，实测16:9后裁剪框即时变化；在画布拖动可进一步改变裁剪区域。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 67,
+          "before_frame": 112,
+          "action": "选择16:9",
+          "after_frame": 113,
+          "note": null
+        },
+        {
+          "step": 68,
+          "before_frame": 114,
+          "action": "拖动裁剪区域",
+          "after_frame": 115,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_按比例剪裁图片",
+      "type": "FEATURE",
+      "created_step": 68,
+      "updated_step": 68
+    },
+    {
+      "name": "旋转工具",
+      "description": "显示三分网格、校直角度与横向刻度；底栏含取消、镜像、90度旋转、确认。",
+      "visual_evidence": [
+        120,
+        123
+      ],
+      "entry_conditions": [
+        "工具网格点击旋转"
+      ],
+      "observed_elements": [
+        "校直角度",
+        "三分网格",
+        "镜像",
+        "90度旋转",
+        "取消",
+        "确认"
+      ],
+      "confidence": 1.0,
+      "id": "state_旋转工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 73,
+      "updated_step": 73
+    },
+    {
+      "name": "旋转与校直图片",
+      "description": "点击旋转按钮可作90度旋转；在图片上水平滑动可连续改变校直角度，实测显示-25.26度并实时旋转预览。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 72,
+          "before_frame": 120,
+          "action": "点击90度旋转",
+          "after_frame": 121,
+          "note": null
+        },
+        {
+          "step": 73,
+          "before_frame": 121,
+          "action": "水平滑动校直",
+          "after_frame": 122,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_旋转与校直图片",
+      "type": "FEATURE",
+      "created_step": 73,
+      "updated_step": 73
+    },
+    {
+      "name": "视角工具",
+      "description": "叠加三分网格，模式横条含倾斜、旋转、缩放、自由；选择模式后按提示手势变换透视。底栏另有边缘处理选项、自动按钮、取消和确认。",
+      "visual_evidence": [
+        127,
+        129
+      ],
+      "entry_conditions": [
+        "工具网格点击视角"
+      ],
+      "observed_elements": [
+        "倾斜",
+        "旋转",
+        "缩放",
+        "自由",
+        "方向手势提示",
+        "三分网格",
+        "取消",
+        "确认"
+      ],
+      "confidence": 1.0,
+      "id": "state_视角工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 77,
+      "updated_step": 77
+    },
+    {
+      "name": "手势变换图片视角",
+      "description": "选择倾斜模式后按横向或纵向手势改变透视，网格与图片边界实时变形。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 77,
+          "before_frame": 127,
+          "action": "横向滑动调整倾斜透视",
+          "after_frame": 128,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_手势变换图片视角",
+      "type": "FEATURE",
+      "created_step": 77,
+      "updated_step": 77
+    },
+    {
+      "name": "展开工具",
+      "description": "在图片四周显示可拖动边缘手柄和透明棋盘背景；填充方式含智能填色、白色、黑色；底栏含取消、方向/边缘控制和确认。",
+      "visual_evidence": [
+        133,
+        135
+      ],
+      "entry_conditions": [
+        "工具网格点击展开"
+      ],
+      "observed_elements": [
+        "四边手柄",
+        "棋盘背景",
+        "智能填色",
+        "白色",
+        "黑色",
+        "取消",
+        "确认"
+      ],
+      "confidence": 1.0,
+      "id": "state_展开工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 81,
+      "updated_step": 81
+    },
+    {
+      "name": "扩展画布并填充边缘",
+      "description": "拖动图片边缘手柄扩大画布；实测智能填色会在新增区域延展原图纹理。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 81,
+          "before_frame": 133,
+          "action": "向上拖动顶部边缘手柄",
+          "after_frame": 134,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_扩展画布并填充边缘",
+      "type": "FEATURE",
+      "created_step": 81,
+      "updated_step": 81
+    },
+    {
+      "name": "局部工具",
+      "description": "初始底栏有新增控制点、蒙版可视开关、取消与确认；点击图片添加局部控制点，顶部显示当前参数与数值。",
+      "visual_evidence": [
+        139,
+        141,
+        145,
+        147
+      ],
+      "entry_conditions": [
+        "工具网格点击局部"
+      ],
+      "observed_elements": [
+        "新增控制点",
+        "局部控制点",
+        "当前参数数值",
+        "蒙版显示",
+        "取消",
+        "确认"
+      ],
+      "confidence": 1.0,
+      "id": "state_局部工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 88,
+      "updated_step": 88
+    },
+    {
+      "name": "添加并调节局部控制点",
+      "description": "点击图片新增局部控制点；拖动点可重新定位。选中点时水平滑动调值，实测亮度到+88；垂直滑动切换参数，实测从亮度切到结构。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 85,
+          "before_frame": 139,
+          "action": "点击图片添加控制点",
+          "after_frame": 140,
+          "note": null
+        },
+        {
+          "step": 86,
+          "before_frame": 141,
+          "action": "拖动控制点",
+          "after_frame": 142,
+          "note": null
+        },
+        {
+          "step": 87,
+          "before_frame": 143,
+          "action": "水平滑动调整亮度",
+          "after_frame": 144,
+          "note": null
+        },
+        {
+          "step": 88,
+          "before_frame": 145,
+          "action": "垂直滑动切换参数",
+          "after_frame": 146,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_添加并调节局部控制点",
+      "type": "FEATURE",
+      "created_step": 88,
+      "updated_step": 88
+    },
+    {
+      "name": "画笔工具",
+      "description": "画笔类型横条含加光减光、曝光、色温、饱和度；底栏用上下箭头调强度并可显示红色蒙版，含取消和确认。",
+      "visual_evidence": [
+        151,
+        153,
+        156
+      ],
+      "entry_conditions": [
+        "工具网格点击画笔"
+      ],
+      "observed_elements": [
+        "画笔类型",
+        "强度减小",
+        "当前强度",
+        "强度增加",
+        "蒙版显示",
+        "取消",
+        "确认"
+      ],
+      "confidence": 1.0,
+      "id": "state_画笔工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 94,
+      "updated_step": 94
+    },
+    {
+      "name": "在图片上绘制局部画笔",
+      "description": "选择画笔类型后可在图片上拖动绘制；实测曝光0.7画笔绘制横向区域，开启蒙版显示后涂抹区域以红色覆盖呈现。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 92,
+          "before_frame": 151,
+          "action": "选择曝光画笔",
+          "after_frame": 152,
+          "note": null
+        },
+        {
+          "step": 93,
+          "before_frame": 153,
+          "action": "在图片上拖动绘制",
+          "after_frame": 154,
+          "note": null
+        },
+        {
+          "step": 94,
+          "before_frame": 154,
+          "action": "开启蒙版显示",
+          "after_frame": 155,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_在图片上绘制局部画笔",
+      "type": "FEATURE",
+      "created_step": 94,
+      "updated_step": 94
+    },
+    {
+      "name": "修复工具",
+      "description": "图片画布配合取消、撤消、重做和确认。开始时撤消/重做置灰；涂抹后撤消可用。",
+      "visual_evidence": [
+        160,
+        162
+      ],
+      "entry_conditions": [
+        "工具网格点击修复"
+      ],
+      "observed_elements": [
+        "涂抹画布",
+        "撤消",
+        "重做",
+        "取消",
+        "确认"
+      ],
+      "confidence": 1.0,
+      "id": "state_修复工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 99,
+      "updated_step": 99
+    },
+    {
+      "name": "涂抹修复图片区域",
+      "description": "在图片上拖动涂抹后，应用自动从邻近区域取样修复，画面立即更新；可点击撤消恢复。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 98,
+          "before_frame": 160,
+          "action": "在亮色对象上拖动涂抹",
+          "after_frame": 161,
+          "note": null
+        },
+        {
+          "step": 99,
+          "before_frame": 162,
+          "action": "点击撤消",
+          "after_frame": 163,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_涂抹修复图片区域",
+      "type": "FEATURE",
+      "created_step": 99,
+      "updated_step": 99
+    },
+    {
+      "name": "HDR景观工具",
+      "description": "样式横条含自然、人物、精细、强；顶部显示滤镜强度；参数菜单含滤镜强度、亮度、饱和度；底栏含取消、参数、样式预设、确认。",
+      "visual_evidence": [
+        167,
+        169
+      ],
+      "entry_conditions": [
+        "工具网格点击HDR景观"
+      ],
+      "observed_elements": [
+        "自然",
+        "人物",
+        "精细",
+        "强",
+        "滤镜强度",
+        "亮度",
+        "饱和度",
+        "取消",
+        "确认"
+      ],
+      "confidence": 1.0,
+      "id": "state_hdr景观工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 103,
+      "updated_step": 103
+    },
+    {
+      "name": "应用HDR景观预设并调节",
+      "description": "可选择自然、人物、精细或强HDR预设，并通过参数菜单和水平手势调整滤镜强度、亮度、饱和度。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 103,
+          "before_frame": 167,
+          "action": "打开参数菜单",
+          "after_frame": 168,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_应用hdr景观预设并调节",
+      "type": "FEATURE",
+      "created_step": 103,
+      "updated_step": 103
+    },
+    {
+      "name": "魅力光晕工具",
+      "description": "样式预设1至5；参数菜单含光晕、饱和度、暖色调；支持前后对比、取消和确认。",
+      "visual_evidence": [
+        173,
+        175
+      ],
+      "entry_conditions": [
+        "工具网格点击魅力光晕"
+      ],
+      "observed_elements": [
+        "预设1-5",
+        "光晕",
+        "饱和度",
+        "暖色调",
+        "取消",
+        "确认"
+      ],
+      "confidence": 1.0,
+      "id": "state_魅力光晕工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 107,
+      "updated_step": 107
+    },
+    {
+      "name": "应用魅力光晕",
+      "description": "可在5个预设间切换，并通过参数菜单和水平滑动调整光晕、饱和度、暖色调。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 107,
+          "before_frame": 173,
+          "action": "打开参数菜单",
+          "after_frame": 174,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_应用魅力光晕",
+      "type": "FEATURE",
+      "created_step": 107,
+      "updated_step": 107
+    },
+    {
+      "name": "色调对比度工具",
+      "description": "参数菜单含高色调、中色调、低色调、保护阴影、保护高光；采用水平滑动调值，含前后对比、取消和确认。",
+      "visual_evidence": [
+        179,
+        181
+      ],
+      "entry_conditions": [
+        "工具网格点击色调对比度"
+      ],
+      "observed_elements": [
+        "高色调",
+        "中色调",
+        "低色调",
+        "保护阴影",
+        "保护高光",
+        "取消",
+        "确认"
+      ],
+      "confidence": 1.0,
+      "id": "state_色调对比度工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 111,
+      "updated_step": 111
+    },
+    {
+      "name": "调节色调对比度",
+      "description": "通过参数菜单选择高、中、低色调或阴影/高光保护，再水平滑动改变数值和预览。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 111,
+          "before_frame": 179,
+          "action": "打开参数菜单",
+          "after_frame": 180,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_调节色调对比度",
+      "type": "FEATURE",
+      "created_step": 111,
+      "updated_step": 111
+    },
+    {
+      "name": "戏剧效果工具",
+      "description": "样式横条含戏剧1、戏剧2、明亮1、明亮2、昏暗1、昏暗2等；参数菜单含滤镜强度与饱和度，支持取消和确认。",
+      "visual_evidence": [
+        185,
+        187
+      ],
+      "entry_conditions": [
+        "工具网格点击戏剧效果"
+      ],
+      "observed_elements": [
+        "戏剧/明亮/昏暗预设",
+        "滤镜强度",
+        "饱和度",
+        "取消",
+        "确认"
+      ],
+      "confidence": 1.0,
+      "id": "state_戏剧效果工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 115,
+      "updated_step": 115
+    },
+    {
+      "name": "应用戏剧效果",
+      "description": "可在戏剧、明亮、昏暗系列预设间切换，并调整滤镜强度和饱和度。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 115,
+          "before_frame": 185,
+          "action": "打开参数菜单",
+          "after_frame": 186,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_应用戏剧效果",
+      "type": "FEATURE",
+      "created_step": 115,
+      "updated_step": 115
+    },
+    {
+      "name": "帮助和反馈页",
+      "description": "深色列表页，分为反馈、帮助、法律信息与应用信息分区；提供反馈、帮助中心、YouTube频道、Facebook页面、许可、服务条款、隐私权政策、Google地图附加服务条款，并在底部显示 Snapseed 版本信息。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_帮助和反馈页",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 115,
+      "updated_step": 115
+    },
+    {
+      "name": "打开帮助和反馈",
+      "description": "从启动页更多菜单打开帮助和反馈列表；反馈入口会尝试交给外部反馈处理流程。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 15,
+          "before_frame": 26,
+          "action": "点击更多菜单中的“帮助和反馈”",
+          "after_frame": 27,
+          "note": null
+        },
+        {
+          "step": 16,
+          "before_frame": 28,
+          "action": "点击“反馈”入口",
+          "after_frame": 29,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_打开帮助和反馈",
+      "type": "FEATURE",
+      "created_step": 115,
+      "updated_step": 115
+    },
+    {
+      "name": "复古工具",
+      "description": "复古滤镜提供编号样式横向列表、随机纹理按钮、参数按钮与样式按钮；参数菜单包含亮度、饱和度、样式强度和晕影强度。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_复古工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 119,
+      "updated_step": 119
+    },
+    {
+      "name": "应用复古滤镜",
+      "description": "选择编号复古样式，并可调亮度、饱和度、样式强度和晕影强度。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 118,
+          "before_frame": 189,
+          "action": "在工具网格选择“复古”",
+          "after_frame": 190,
+          "note": null
+        },
+        {
+          "step": 119,
+          "before_frame": 191,
+          "action": "打开复古参数菜单",
+          "after_frame": 192,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_应用复古滤镜",
+      "type": "FEATURE",
+      "created_step": 119,
+      "updated_step": 119
+    },
+    {
+      "name": "粗粒胶片工具",
+      "description": "粗粒胶片提供 A01、A02、A03、A04、B01、B02 等胶片样式，并可调整粒度与样式强度。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_粗粒胶片工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 123,
+      "updated_step": 123
+    },
+    {
+      "name": "应用粗粒胶片",
+      "description": "选择胶片编号样式并调节粒度与样式强度。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 122,
+          "before_frame": 195,
+          "action": "在工具网格选择“粗粒胶片”",
+          "after_frame": 196,
+          "note": null
+        },
+        {
+          "step": 123,
+          "before_frame": 197,
+          "action": "打开粗粒胶片参数菜单",
+          "after_frame": 198,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_应用粗粒胶片",
+      "type": "FEATURE",
+      "created_step": 123,
+      "updated_step": 123
+    },
+    {
+      "name": "怀旧工具",
+      "description": "怀旧滤镜提供编号样式、随机纹理以及亮度、对比度、饱和度、样式强度、刮痕、漏光参数。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_怀旧工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 127,
+      "updated_step": 127
+    },
+    {
+      "name": "应用怀旧滤镜",
+      "description": "选择怀旧样式，可随机化纹理并调节色调、刮痕与漏光。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 126,
+          "before_frame": 201,
+          "action": "在工具网格选择“怀旧”",
+          "after_frame": 202,
+          "note": null
+        },
+        {
+          "step": 127,
+          "before_frame": 203,
+          "action": "打开怀旧参数菜单",
+          "after_frame": 204,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_应用怀旧滤镜",
+      "type": "FEATURE",
+      "created_step": 127,
+      "updated_step": 127
+    },
+    {
+      "name": "斑驳工具",
+      "description": "斑驳滤镜叠加可定位的纹理中心，提供随机组合、参数与纹理选择；参数包括样式、亮度、对比度、饱和度和纹理强度。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_斑驳工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 131,
+      "updated_step": 131
+    },
+    {
+      "name": "应用并定位斑驳纹理",
+      "description": "随机或手动选择斑驳纹理，移动纹理中心并调节样式与色调参数。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 130,
+          "before_frame": 207,
+          "action": "在工具网格选择“斑驳”",
+          "after_frame": 208,
+          "note": null
+        },
+        {
+          "step": 131,
+          "before_frame": 209,
+          "action": "打开斑驳参数菜单",
+          "after_frame": 210,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_应用并定位斑驳纹理",
+      "type": "FEATURE",
+      "created_step": 131,
+      "updated_step": 131
+    },
+    {
+      "name": "黑白工具",
+      "description": "黑白工具提供中性、对比、明亮、昏暗、胶片、暗化天空等预设，带中性/红/橙/黄/绿/蓝色彩滤镜，并可调亮度、对比度和粒度。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_黑白工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 136,
+      "updated_step": 136
+    },
+    {
+      "name": "黑白转换与色彩滤镜",
+      "description": "从多种黑白预设中选择，叠加彩色滤镜并调节亮度、对比度、粒度。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 134,
+          "before_frame": 213,
+          "action": "在工具网格选择“黑白”",
+          "after_frame": 214,
+          "note": null
+        },
+        {
+          "step": 135,
+          "before_frame": 215,
+          "action": "打开黑白色彩滤镜",
+          "after_frame": 216,
+          "note": null
+        },
+        {
+          "step": 136,
+          "before_frame": 217,
+          "action": "打开黑白参数菜单",
+          "after_frame": 218,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_黑白转换与色彩滤镜",
+      "type": "FEATURE",
+      "created_step": 136,
+      "updated_step": 136
+    },
+    {
+      "name": "黑白电影工具",
+      "description": "黑白电影使用 S01、S02、S03、S04、C01、C02 等电影风格，并可调亮度、柔化、粒度和滤镜强度。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_黑白电影工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 140,
+      "updated_step": 140
+    },
+    {
+      "name": "应用黑白电影风格",
+      "description": "选择编号电影黑白风格，并调节亮度、柔化、粒度和滤镜强度。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 139,
+          "before_frame": 221,
+          "action": "在工具网格选择“黑白电影”",
+          "after_frame": 222,
+          "note": null
+        },
+        {
+          "step": 140,
+          "before_frame": 223,
+          "action": "打开黑白电影参数菜单",
+          "after_frame": 224,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_应用黑白电影风格",
+      "type": "FEATURE",
+      "created_step": 140,
+      "updated_step": 140
+    },
+    {
+      "name": "美颜无面孔提示",
+      "description": "进入美颜后若图片中检测不到面孔，会显示阻塞对话框“此照片中找不到任何面孔。”并提供“取消滤镜”和“再试一下”。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_美颜无面孔提示",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 143,
+      "updated_step": 143
+    },
+    {
+      "name": "美颜面孔检测",
+      "description": "进入美颜时先检测照片中的面孔；无面孔时明确提示并允许取消或重试。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 143,
+          "before_frame": 227,
+          "action": "在工具网格选择“美颜”",
+          "after_frame": 228,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_美颜面孔检测",
+      "type": "FEATURE",
+      "created_step": 143,
+      "updated_step": 143
+    },
+    {
+      "name": "头部姿势无面孔提示",
+      "description": "进入头部姿势后若未检测到明显面孔，会提示“此照片中找不到任何明显的面孔。”并提供取消滤镜与重试。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_头部姿势无面孔提示",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 146,
+      "updated_step": 146
+    },
+    {
+      "name": "头部姿势面孔检测",
+      "description": "头部姿势依赖明显面孔检测；无可用面孔时提示取消或重试。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 146,
+          "before_frame": 231,
+          "action": "在工具网格选择“头部姿势”",
+          "after_frame": 232,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_头部姿势面孔检测",
+      "type": "FEATURE",
+      "created_step": 146,
+      "updated_step": 146
+    },
+    {
+      "name": "镜头模糊工具",
+      "description": "镜头模糊在图片上显示可移动/缩放的焦点区域，可在圆形与线性焦点之间切换；参数含模糊强度、过渡和晕影强度。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_镜头模糊工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 152,
+      "updated_step": 152
+    },
+    {
+      "name": "创建可调焦点镜头模糊",
+      "description": "切换圆形/线性焦点区域并通过手势调节模糊强度，另可调过渡与晕影。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 149,
+          "before_frame": 235,
+          "action": "在工具网格选择“镜头模糊”",
+          "after_frame": 236,
+          "note": null
+        },
+        {
+          "step": 150,
+          "before_frame": 237,
+          "action": "切换为线性焦点区域",
+          "after_frame": 238,
+          "note": null
+        },
+        {
+          "step": 151,
+          "before_frame": 238,
+          "action": "打开镜头模糊参数菜单",
+          "after_frame": 239,
+          "note": null
+        },
+        {
+          "step": 152,
+          "before_frame": 240,
+          "action": "横向滑动调节当前模糊强度",
+          "after_frame": 241,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_创建可调焦点镜头模糊",
+      "type": "FEATURE",
+      "created_step": 152,
+      "updated_step": 152
+    },
+    {
+      "name": "晕影工具",
+      "description": "晕影工具显示可移动的中心控制点，分别调节中心内侧与外围亮度。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_晕影工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 158,
+      "updated_step": 158
+    },
+    {
+      "name": "创建可定位晕影",
+      "description": "定位晕影中心，并通过手势与参数菜单独立调整外部和内部亮度。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 155,
+          "before_frame": 244,
+          "action": "在工具网格选择“晕影”",
+          "after_frame": 245,
+          "note": null
+        },
+        {
+          "step": 156,
+          "before_frame": 246,
+          "action": "打开晕影参数菜单",
+          "after_frame": 247,
+          "note": null
+        },
+        {
+          "step": 157,
+          "before_frame": 247,
+          "action": "横向滑动调节外部亮度",
+          "after_frame": 248,
+          "note": null
+        },
+        {
+          "step": 158,
+          "before_frame": 249,
+          "action": "再次打开参数菜单查看内外亮度",
+          "after_frame": 250,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_创建可定位晕影",
+      "type": "FEATURE",
+      "created_step": 158,
+      "updated_step": 158
+    },
+    {
+      "name": "双重曝光工具",
+      "description": "双重曝光先通过系统照片选择器添加第二张图片，随后可选默认、调亮、调暗、加、减、重叠等混合模式，并用滑杆调整不透明度。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_双重曝光工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 169,
+      "updated_step": 169
+    },
+    {
+      "name": "创建双重曝光",
+      "description": "选择第二张图片，切换混合模式并调节叠加层不透明度。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 161,
+          "before_frame": 253,
+          "action": "在工具网格选择“双重曝光”",
+          "after_frame": 254,
+          "note": null
+        },
+        {
+          "step": 162,
+          "before_frame": 255,
+          "action": "点击添加图片打开系统照片选择器",
+          "after_frame": 256,
+          "note": null
+        },
+        {
+          "step": 165,
+          "before_frame": 260,
+          "action": "选择第二张图片",
+          "after_frame": 261,
+          "note": null
+        },
+        {
+          "step": 167,
+          "before_frame": 263,
+          "action": "打开混合模式列表",
+          "after_frame": 264,
+          "note": null
+        },
+        {
+          "step": 168,
+          "before_frame": 265,
+          "action": "选择“重叠”混合模式",
+          "after_frame": 266,
+          "note": null
+        },
+        {
+          "step": 169,
+          "before_frame": 266,
+          "action": "打开不透明度滑杆",
+          "after_frame": 267,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_创建双重曝光",
+      "type": "FEATURE",
+      "created_step": 169,
+      "updated_step": 169
+    },
+    {
+      "name": "文字工具",
+      "description": "文字工具在图片上放置可样式化文本，明确提示双击编辑；提供多种编号排版样式、颜色调色板、不透明度滑杆与倒置切换。部分样式在字符不兼容时会被停用并弹出说明。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_文字工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 181,
+      "updated_step": 181
+    },
+    {
+      "name": "添加并样式化文字",
+      "description": "为图片添加文本，选择排版样式和颜色，调节不透明度，并可倒置文字外观；不兼容字符会禁用部分样式。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 172,
+          "before_frame": 270,
+          "action": "在工具网格选择“文字”",
+          "after_frame": 271,
+          "note": null
+        },
+        {
+          "step": 173,
+          "before_frame": 272,
+          "action": "关闭字符兼容性提示",
+          "after_frame": 273,
+          "note": null
+        },
+        {
+          "step": 179,
+          "before_frame": 281,
+          "action": "打开文字颜色调色板",
+          "after_frame": 282,
+          "note": null
+        },
+        {
+          "step": 180,
+          "before_frame": 283,
+          "action": "打开文字排版样式列表",
+          "after_frame": 284,
+          "note": null
+        },
+        {
+          "step": 181,
+          "before_frame": 285,
+          "action": "打开不透明度与倒置设置",
+          "after_frame": 286,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_添加并样式化文字",
+      "type": "FEATURE",
+      "created_step": 181,
+      "updated_step": 181
+    },
+    {
+      "name": "相框工具",
+      "description": "相框工具提供编号边框缩略图，切换样式后可通过横向手势调节相框宽度。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_相框工具",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 186,
+      "updated_step": 186
+    },
+    {
+      "name": "添加并调节相框",
+      "description": "从编号相框中选择样式，并通过横向手势调节相框宽度。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 184,
+          "before_frame": 289,
+          "action": "在工具网格选择“相框”",
+          "after_frame": 290,
+          "note": null
+        },
+        {
+          "step": 185,
+          "before_frame": 291,
+          "action": "选择相框样式 4",
+          "after_frame": 292,
+          "note": null
+        },
+        {
+          "step": 186,
+          "before_frame": 292,
+          "action": "横向滑动增加相框宽度",
+          "after_frame": 293,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_添加并调节相框",
+      "type": "FEATURE",
+      "created_step": 186,
+      "updated_step": 186
+    },
+    {
+      "name": "导出菜单",
+      "description": "编辑器底部“导出”打开深色操作面板：分享、保存、导出、导出为。保存创建副本；导出创建副本并采用设置中的大小、格式和画质；导出为允许选择文件夹。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_导出菜单",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 188,
+      "updated_step": 188
+    },
+    {
+      "name": "打开导出操作",
+      "description": "从编辑器打开分享、保存、按设置导出与指定文件夹导出四种操作。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 188,
+          "before_frame": 295,
+          "action": "点击编辑器底部“导出”",
+          "after_frame": 296,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_打开导出操作",
+      "type": "FEATURE",
+      "created_step": 188,
+      "updated_step": 188
+    },
+    {
+      "name": "导出的图片副本",
+      "description": "通过保存/导出操作生成的图片副本；按导出路径时采用用户设置的最大尺寸、格式与画质。",
+      "confidence": 0.5,
+      "id": "data_导出的图片副本",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 192,
+      "updated_step": 192
+    },
+    {
+      "name": "按设置导出图片副本",
+      "description": "执行“导出”后生成图片副本，并在底部提示“照片已保存”，提供“查看”操作。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 189,
+          "before_frame": 297,
+          "action": "选择“导出”",
+          "after_frame": 298,
+          "note": null
+        },
+        {
+          "step": 191,
+          "before_frame": 300,
+          "action": "再次打开导出菜单",
+          "after_frame": 301,
+          "note": null
+        },
+        {
+          "step": 192,
+          "before_frame": 301,
+          "action": "选择“导出”并观察完成提示",
+          "after_frame": 302,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_按设置导出图片副本",
+      "type": "FEATURE",
+      "created_step": 192,
+      "updated_step": 192
+    },
+    {
+      "name": "导出为文件选择器",
+      "description": "“导出为”打开系统文件选择器，显示当前位置面包屑、文件列表、可编辑文件名与“保存”按钮；可进入目标文件夹后保存。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_导出为文件选择器",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 195,
+      "updated_step": 195
+    },
+    {
+      "name": "导出到指定文件夹",
+      "description": "打开系统文件选择器，进入目标文件夹，确认文件名后保存导出的图片。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 193,
+          "before_frame": 303,
+          "action": "打开导出菜单",
+          "after_frame": 304,
+          "note": null
+        },
+        {
+          "step": 194,
+          "before_frame": 304,
+          "action": "选择“导出为”",
+          "after_frame": 305,
+          "note": null
+        },
+        {
+          "step": 195,
+          "before_frame": 306,
+          "action": "进入目标文件夹",
+          "after_frame": 307,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_导出到指定文件夹",
+      "type": "FEATURE",
+      "created_step": 195,
+      "updated_step": 195
+    },
+    {
+      "name": "设置页",
+      "description": "重新启动应用后设置页仍显示深色主题开启、最大图片尺寸为 1920 像素、导出格式为 PNG，证明偏好被持久保存。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_设置页_2",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 209,
+      "updated_step": 209
+    },
+    {
+      "name": "持久保存用户设置",
+      "description": "应用重启后仍保留主题、最大导出尺寸与格式/画质选择。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 206,
+          "before_frame": 321,
+          "action": "重启应用",
+          "after_frame": 322,
+          "note": null
+        },
+        {
+          "step": 208,
+          "before_frame": 324,
+          "action": "打开更多菜单",
+          "after_frame": 325,
+          "note": null
+        },
+        {
+          "step": 209,
+          "before_frame": 325,
+          "action": "重新进入设置验证保存值",
+          "after_frame": 326,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_持久保存用户设置",
+      "type": "FEATURE",
+      "created_step": 209,
+      "updated_step": 209
+    },
+    {
+      "name": "QR样式菜单",
+      "description": "QR 样式面板提供“创建 QR 样式”和“扫描 QR 样式”。当前图片没有可导出的编辑步骤时创建操作置灰，扫描操作保持可用。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_qr样式菜单",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 217,
+      "updated_step": 217
+    },
+    {
+      "name": "通过QR样式交换编辑配方",
+      "description": "操作记录菜单可打开 QR 样式面板；有编辑步骤时可创建配方二维码，也可扫描二维码应用配方。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 216,
+          "before_frame": 336,
+          "action": "打开操作记录菜单",
+          "after_frame": 337,
+          "note": null
+        },
+        {
+          "step": 217,
+          "before_frame": 338,
+          "action": "点击“QR 样式…”",
+          "after_frame": 339,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_通过qr样式交换编辑配方",
+      "type": "FEATURE",
+      "created_step": 217,
+      "updated_step": 217
+    },
+    {
+      "name": "QR扫描相机权限",
+      "description": "首次扫描 QR 样式时请求相机权限，提供仅使用应用时允许、仅限这一次、不允许三种系统选择。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_qr扫描相机权限",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 219,
+      "updated_step": 219
+    },
+    {
+      "name": "QR样式扫描器",
+      "description": "允许相机权限后进入全屏扫码器，中央显示正方形取景框并提示将 QR 码对准矩形框。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_qr样式扫描器",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 221,
+      "updated_step": 221
+    },
+    {
+      "name": "扫描QR样式",
+      "description": "请求相机权限后显示 QR 样式扫描框，可扫描并应用他人分享的编辑配方。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 218,
+          "before_frame": 340,
+          "action": "选择“扫描 QR 样式”",
+          "after_frame": 341,
+          "note": null
+        },
+        {
+          "step": 220,
+          "before_frame": 343,
+          "action": "仅限这一次允许相机权限",
+          "after_frame": 344,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_扫描qr样式",
+      "type": "FEATURE",
+      "created_step": 221,
+      "updated_step": 221
+    },
+    {
+      "name": "创建QR样式对话框",
+      "description": "有编辑步骤时，“创建 QR 样式”生成包含编辑配方的二维码，标题为“创建 QR 样式”，副标题提示与好友分享自己的样式，底部提供取消和分享。",
+      "visual_evidence": [],
+      "entry_conditions": [],
+      "observed_elements": [],
+      "confidence": 0.5,
+      "id": "state_创建qr样式对话框",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 229,
+      "updated_step": 229
+    },
+    {
+      "name": "创建QR编辑样式",
+      "description": "当编辑堆栈非空时，把当前编辑配方生成二维码，并可通过系统分享给他人。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 228,
+          "before_frame": 353,
+          "action": "打开 QR 样式面板",
+          "after_frame": 354,
+          "note": null
+        },
+        {
+          "step": 229,
+          "before_frame": 355,
+          "action": "选择“创建 QR 样式”",
+          "after_frame": 356,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "status": "confirmed",
+      "id": "feature_创建qr编辑样式",
+      "type": "FEATURE",
+      "created_step": 229,
+      "updated_step": 229
+    },
+    {
+      "name": "QR编辑样式",
+      "description": "由当前非破坏性编辑步骤编码生成、可供其他设备扫描应用的编辑配方二维码。",
+      "confidence": 0.5,
+      "id": "data_qr编辑样式",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 229,
+      "updated_step": 229
+    },
+    {
+      "name": "非破坏性编辑堆栈",
+      "description": "当前打开图片的可回溯编辑步骤集合；预设会展开为多个编辑步骤，用户可撤销/重做、还原、查看步骤、删除步骤、重新调参或绘制局部蒙版。",
+      "confidence": 0.5,
+      "id": "data_非破坏性编辑堆栈",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 229,
+      "updated_step": 229
+    }
+  ],
+  "edges": [
+    {
+      "source": "state_启动页",
+      "target": "feature_打开启动页更多菜单",
+      "type": "ENABLES",
+      "evidence": [
+        {
+          "step": 1,
+          "before_frame": 1,
+          "action": "点击更多",
+          "after_frame": 2,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "启动页右上更多按钮可打开入口菜单",
+      "id": "edge_0001",
+      "created_step": 229
+    },
+    {
+      "source": "feature_打开启动页更多菜单",
+      "target": "state_启动页更多菜单",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 1,
+          "before_frame": 1,
+          "action": "点击更多",
+          "after_frame": 2,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0002",
+      "created_step": 229
+    },
+    {
+      "source": "state_启动页更多菜单",
+      "target": "state_设置页",
+      "type": "REVEALS",
+      "evidence": [
+        {
+          "step": 2,
+          "before_frame": 3,
+          "action": "点击设置",
+          "after_frame": 4,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "菜单中的设置入口打开设置页",
+      "id": "edge_0003",
+      "created_step": 229
+    },
+    {
+      "source": "feature_切换深色主题",
+      "target": "data_用户设置",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 3,
+          "before_frame": 5,
+          "action": "切换深色主题",
+          "after_frame": 6,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0004",
+      "created_step": 229
+    },
+    {
+      "source": "feature_设置导出最大图片尺寸",
+      "target": "data_用户设置",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 5,
+          "before_frame": 9,
+          "action": "选择1920像素",
+          "after_frame": 10,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0005",
+      "created_step": 229
+    },
+    {
+      "source": "feature_设置导出格式和画质",
+      "target": "data_用户设置",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 7,
+          "before_frame": 13,
+          "action": "选择PNG",
+          "after_frame": 14,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0006",
+      "created_step": 229
+    },
+    {
+      "source": "data_用户设置",
+      "target": "state_设置页_2",
+      "type": "PERSISTS_TO",
+      "evidence": [
+        {
+          "step": 206,
+          "before_frame": 321,
+          "action": "重启应用",
+          "after_frame": 322,
+          "note": null
+        },
+        {
+          "step": 209,
+          "before_frame": 325,
+          "action": "重新进入设置",
+          "after_frame": 326,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "重启后仍保留深色、1920像素和PNG",
+      "id": "edge_0007",
+      "created_step": 229
+    },
+    {
+      "source": "state_启动页",
+      "target": "feature_从系统照片选择器打开图片",
+      "type": "ENABLES",
+      "evidence": [
+        {
+          "step": 17,
+          "before_frame": 30,
+          "action": "点击打开照片",
+          "after_frame": 31,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0008",
+      "created_step": 229
+    },
+    {
+      "source": "feature_从系统照片选择器打开图片",
+      "target": "state_图片编辑器_样式",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 20,
+          "before_frame": 36,
+          "action": "选择图片",
+          "after_frame": 37,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0009",
+      "created_step": 229
+    },
+    {
+      "source": "state_图片编辑器_样式",
+      "target": "feature_套用预设样式",
+      "type": "ENABLES",
+      "evidence": [
+        {
+          "step": 22,
+          "before_frame": 39,
+          "action": "选择Faded Glow",
+          "after_frame": 40,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0010",
+      "created_step": 229
+    },
+    {
+      "source": "feature_套用预设样式",
+      "target": "data_非破坏性编辑堆栈",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 26,
+          "before_frame": 46,
+          "action": "确认预设",
+          "after_frame": 47,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "预设被展开记录为多个可管理编辑步骤",
+      "id": "edge_0011",
+      "created_step": 229
+    },
+    {
+      "source": "state_图片编辑器_样式",
+      "target": "feature_浏览工具网格",
+      "type": "ENABLES",
+      "evidence": [
+        {
+          "step": 27,
+          "before_frame": 48,
+          "action": "点击工具",
+          "after_frame": 49,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0012",
+      "created_step": 229
+    },
+    {
+      "source": "feature_浏览工具网格",
+      "target": "state_图片编辑器_工具",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 27,
+          "before_frame": 48,
+          "action": "点击工具",
+          "after_frame": 49,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0013",
+      "created_step": 229
+    },
+    {
+      "source": "feature_手势调整图片参数",
+      "target": "data_非破坏性编辑堆栈",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 31,
+          "before_frame": 55,
+          "action": "横向滑动调整对比度",
+          "after_frame": 56,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0014",
+      "created_step": 229
+    },
+    {
+      "source": "feature_查看并管理编辑堆栈",
+      "target": "data_非破坏性编辑堆栈",
+      "type": "REVEALS",
+      "evidence": [
+        {
+          "step": 34,
+          "before_frame": 61,
+          "action": "查看修改内容",
+          "after_frame": 62,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0015",
+      "created_step": 229
+    },
+    {
+      "source": "feature_调整步骤蒙版强度并涂抹",
+      "target": "data_非破坏性编辑堆栈",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 39,
+          "before_frame": 69,
+          "action": "涂抹步骤蒙版",
+          "after_frame": 70,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0016",
+      "created_step": 229
+    },
+    {
+      "source": "feature_撤消与重做编辑",
+      "target": "data_非破坏性编辑堆栈",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 44,
+          "before_frame": 76,
+          "action": "撤消",
+          "after_frame": 77,
+          "note": null
+        },
+        {
+          "step": 46,
+          "before_frame": 79,
+          "action": "重做",
+          "after_frame": 80,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0017",
+      "created_step": 229
+    },
+    {
+      "source": "feature_按设置导出图片副本",
+      "target": "data_导出的图片副本",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 192,
+          "before_frame": 301,
+          "action": "执行导出",
+          "after_frame": 302,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0018",
+      "created_step": 229
+    },
+    {
+      "source": "feature_导出到指定文件夹",
+      "target": "data_导出的图片副本",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 194,
+          "before_frame": 304,
+          "action": "选择导出为",
+          "after_frame": 305,
+          "note": null
+        },
+        {
+          "step": 195,
+          "before_frame": 306,
+          "action": "进入目标文件夹",
+          "after_frame": 307,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0019",
+      "created_step": 229
+    },
+    {
+      "source": "data_非破坏性编辑堆栈",
+      "target": "feature_创建qr编辑样式",
+      "type": "ENABLES",
+      "evidence": [
+        {
+          "step": 228,
+          "before_frame": 353,
+          "action": "打开QR样式面板",
+          "after_frame": 354,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "非空编辑堆栈使创建QR样式操作可用",
+      "id": "edge_0020",
+      "created_step": 229
+    },
+    {
+      "source": "feature_创建qr编辑样式",
+      "target": "data_qr编辑样式",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 229,
+          "before_frame": 355,
+          "action": "创建QR样式",
+          "after_frame": 356,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0021",
+      "created_step": 229
+    },
+    {
+      "source": "feature_扫描qr样式",
+      "target": "state_qr扫描相机权限",
+      "type": "DEPENDS_ON",
+      "evidence": [
+        {
+          "step": 218,
+          "before_frame": 340,
+          "action": "扫描QR样式",
+          "after_frame": 341,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "首次扫描前需要系统相机权限",
+      "id": "edge_0022",
+      "created_step": 229
+    },
+    {
+      "source": "state_qr扫描相机权限",
+      "target": "state_qr样式扫描器",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 220,
+          "before_frame": 343,
+          "action": "仅限这一次允许相机",
+          "after_frame": 344,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0023",
+      "created_step": 229
+    },
+    {
+      "source": "data_用户设置",
+      "target": "feature_按设置导出图片副本",
+      "type": "ENABLES",
+      "evidence": [
+        {
+          "step": 189,
+          "before_frame": 297,
+          "action": "从导出菜单执行按设置导出",
+          "after_frame": 298,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "导出项明确说明采用设置中的大小、格式和画质。",
+      "id": "edge_0024",
+      "created_step": 229
+    }
+  ],
+  "unresolved_questions": [],
+  "coverage_summary": {
+    "states": 50,
+    "features": 47,
+    "data_entities": 4,
+    "edges": 24,
+    "confirmed_ratio": 1.0,
+    "actions_used": 229
+  }
+}

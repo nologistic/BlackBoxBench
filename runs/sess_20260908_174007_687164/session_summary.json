@@ -1,0 +1,19 @@
+{
+  "session_id": "sess_20260908_174007_687164",
+  "app_id": "loop_habit_tracker",
+  "status": "closed",
+  "close_reason": "agent_finalized",
+  "actions_used": 93,
+  "observations_used": 58,
+  "steps": 93,
+  "frames": 152,
+  "coverage": {
+    "states": 28,
+    "features": 22,
+    "data_entities": 4,
+    "edges": 8,
+    "confirmed_ratio": 1.0,
+    "actions_used": 93
+  },
+  "elapsed_s": 2090
+}

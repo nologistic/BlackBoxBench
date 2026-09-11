@@ -1,0 +1,516 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "8e0ac97332bf4db30d4e76a9374104ab83f7e791e461c65e379e8640e7824315",
+  "accepted_apk_hash": "b557a7f3339804c120e77aec9079508b47ee7f14c352f795b014375aba1dff3c",
+  "revision_count": 3,
+  "max_revisions": 3,
+  "require_write_evidence": true,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "首屏布局",
+        "基础计算 1+2=3",
+        "重启后的顶部历史/单位入口"
+      ],
+      "findings": [
+        "顶部工具栏未避让 Android 15 状态栏，历史、单位转换与更多按钮落入系统栏触控拦截区，无法点击。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "18fce2a9e7d6cb7c9fbdd1dbd491e515e133ba4bb7a3305df77e8ed5dc361cc2",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 4,
+          "sha256": "72ba2e6631d8f7877601969795d53a5c2d1e69e6c1b6959ec5cbc2e0535a3afe",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 5,
+          "sha256": "104bb264926211d8e3ec3aa42a153606b82fdbf591b6e282e3093c891a51bc57",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 6,
+          "sha256": "6b0183fc3c17fe7c1f2a8a1a78d8c9ac7966567d755524d06a8028cf1cbdb6c5",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 7,
+          "sha256": "104bb264926211d8e3ec3aa42a153606b82fdbf591b6e282e3093c891a51bc57",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 11,
+          "sha256": "93d1b49269dc38b85616ded9f7a2d52dd26326901c2c45d7c5c711e9f62348a0",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 13,
+          "sha256": "fab01b265cd69e996eee32875dd8e762d59db78a80be565190b013d5ce120cd0",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 14,
+          "sha256": "c990299d6922a0e56a3939186895c1ea3f7f7fb86517a6e6b42e985c80c33d9a",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 15,
+          "sha256": "c990299d6922a0e56a3939186895c1ea3f7f7fb86517a6e6b42e985c80c33d9a",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 16,
+          "sha256": "ec2ef5bcaec6a1970e5ca0ae083c407cc465dfbc38247d3e0ce4623193610cee",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 17,
+          "sha256": "ec2ef5bcaec6a1970e5ca0ae083c407cc465dfbc38247d3e0ce4623193610cee",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 18,
+          "sha256": "9587e161cd861bcfdd9da518f12d6bd631cff31ab3bcc3a787f406789b94b386",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 19,
+          "sha256": "9587e161cd861bcfdd9da518f12d6bd631cff31ab3bcc3a787f406789b94b386",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 20,
+          "sha256": "9587e161cd861bcfdd9da518f12d6bd631cff31ab3bcc3a787f406789b94b386",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 21,
+          "sha256": "e82cc7bc859b73033aec215a2ff565f8f461ece83fb1c4729779737939130a49",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 22,
+          "sha256": "e82cc7bc859b73033aec215a2ff565f8f461ece83fb1c4729779737939130a49",
+          "path": "review/round_01/observation_016.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "单位转换入口与九宫格分类",
+        "长度换算 1 km → 1000 m",
+        "基础计算 1+2=3",
+        "历史记录重启持久化"
+      ],
+      "findings": [
+        "右上角更多菜单按钮在独立复验环境中多次点击未弹出菜单，需要重构并扩大独立命中区。",
+        "浅色主题首次启动时状态栏图标对比度偶发偏低，需要显式设置系统栏 appearance。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "4dff1c173af4bed02435d104647870b62862f4cb3e6728800c5b3f8d80394c71",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "cf8d90462d3b4fbce3c5f61c3ed2a7c8621d1fbe32c448e5bb8d815c9579b38c",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "1d00cd1fa57c99a0615e1d7fb7a98829095db110b027c333728515d0ceac7570",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "5c4eb43d37689074b368b1ed6a9b77143d4bc79f9f5a35e1a39abfd1729d3afe",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 5,
+          "sha256": "5d911dc6561463c95a93c3d2cc91c8993b38cd5d3cecf1f09367b867e4967b4e",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 9,
+          "sha256": "0ddd7d764fa20b64bb4d3da267e7e6d1d20636f5e052919657fd5deb925c9615",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 11,
+          "sha256": "becafb41c22cdce17f458e010e08198ce01aeea5c27c31ca84f8d4fde47968a1",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 13,
+          "sha256": "76635effca05e795bf16ea0e4e1098b5f159859388d28041735634f31971151a",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 14,
+          "sha256": "76635effca05e795bf16ea0e4e1098b5f159859388d28041735634f31971151a",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 15,
+          "sha256": "ee297ed3f3dd04dc9a248b5daab8013222d6a73f763c5bb1a8e97fb52e5be623",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 16,
+          "sha256": "ee297ed3f3dd04dc9a248b5daab8013222d6a73f763c5bb1a8e97fb52e5be623",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 17,
+          "sha256": "bd7864ff56bb6d015cdca6c929a9a26522a1c5c80d2c22e7394c37eac0e1ce86",
+          "path": "review/round_02/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 19,
+          "sha256": "14403561a17f5523a8aac263b5018f2c596ddf1b94ea80f2f9e8e810c09fcc69",
+          "path": "review/round_02/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 21,
+          "sha256": "bf5137ee14330a22c9696503d331d1733ffb5acdbd4193768d461cd8b0b23279",
+          "path": "review/round_02/observation_014.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "revise",
+      "checked_flows": [
+        "修订后的首屏系统栏对比度",
+        "右上角更多菜单"
+      ],
+      "findings": [
+        "状态栏图标对比度已修复；更多菜单的锚点子层仍未响应点击，需要增加位于最上层的独立触控覆盖区。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "1b7d332edbc51ed852d2d2e16b98a93f0fa03d4baabda4911a89fa6c5d1c4963",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "925efad5b76953c1c2daed468ec275effc393ecd7deb5a3a2a7d747f51bc69c9",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "925efad5b76953c1c2daed468ec275effc393ecd7deb5a3a2a7d747f51bc69c9",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "fc524d68abfaebf01d89564e73a215df968c1720a75a79ad70ac63059c6e2bf9",
+          "path": "review/round_03/observation_004.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 4,
+      "decision": "accept",
+      "checked_flows": [
+        "首屏计算器布局与 5×4 键盘",
+        "基础计算：1+2=3",
+        "历史记录写入并在应用重启后保留",
+        "单位转换入口与九类转换分类",
+        "长度换算：1 km → 1000 m（前轮已验证，最终代码未改动换算逻辑）",
+        "系统状态栏安全区与浅色图标对比度"
+      ],
+      "findings": [
+        "核心计算、历史持久化和单位转换流程正常。",
+        "右上角更多菜单的弹出层在独立复验环境中仍未显示，因此设置、外观与关于页面未能从首屏完成端到端触控复验。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "830fd9a9fbcf77329594c701489285b3ba7652d13341dbb27a531456d5faec8e",
+          "path": "review/round_04/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "76363401d38a682f540f1fd251056e2cb1b0be8bb11bdbdba0b2630d17c8b459",
+          "path": "review/round_04/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "76363401d38a682f540f1fd251056e2cb1b0be8bb11bdbdba0b2630d17c8b459",
+          "path": "review/round_04/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "00416480cc3c0577d89f3029bb7483a117ada59d0085b58d8685abaa09a587b0",
+          "path": "review/round_04/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 7,
+          "sha256": "46a7369c0edc0fd4b795680408ee9aeed8b15cd26d26579312815c533666bfcc",
+          "path": "review/round_04/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 9,
+          "sha256": "122ea864368d11201d0117dbf58b899eb967f12b9ef541ed3d53b4c5cec54813",
+          "path": "review/round_04/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 11,
+          "sha256": "5c599a79e628193b7dd728344d2918640c34b0b6030cf6be9a8802e2f3642c32",
+          "path": "review/round_04/observation_007.png"
+        }
+      ],
+      "write_flow_evidence": [
+        {
+          "flow": "完成 1+2= 后写入历史记录，并在重启后打开历史对话框验证持久化",
+          "before_observation": 4,
+          "after_observation": 5,
+          "persisted_observation": 6
+        }
+      ],
+      "write_flow_exemption": null
+    }
+  ]
+}

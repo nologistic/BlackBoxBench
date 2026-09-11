@@ -15,6 +15,10 @@ description: 使用 Android our-method 的像素触控黑盒探索、索引化�
 - 用户指定目标时调用 `start_session(app_id=...)`；否则用 `list_targets` 的默认目标。
 - `observe` 的可见截图是唯一观察渠道。不得读取 APK、源码、控件树、Accessibility、
   selector、ADB、日志、网络数据或反编译结果，也不得根据训练记忆捏造目标功能。
+- 模拟器经受控代理接入公网（仅 80/443）：App 自身的联网行为（地图或内容下载、
+  在线同步、联网校验）属于正常可探索面，照常探索、记录与留证；App 内的网络
+  错误提示同样是行为证据。"不得读取网络数据"指你自身不得抓包或调用宿主网络
+  工具，不限制模拟器内 App 的联网行为。
 - 通过 `tap`、`long_press`、`swipe`、`type_text`、`press_back`、`press_enter`、
   `restart_app` 和 `wait` 做类人探索。先覆盖主要状态，再验证输入边界、错误、写入和重启持久化。
 - 用真实 frame/step 持续记录 state、feature、data 和 edge。Feature 要包含前置条件、

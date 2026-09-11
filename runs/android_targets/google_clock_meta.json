@@ -1,0 +1,4 @@
+{
+  "brief": "这是一个时钟 App，包含闹钟、世界时钟、计时器和秒表四个部分。设备处于离线状态。请只通过可见屏幕和坐标级触控探索它的功能，不要依赖任何控件树、日志或源码信息。",
+  "description": "Google Desk Clock: alarms, world clock, timer and stopwatch."
+}

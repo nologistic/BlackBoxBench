@@ -1,0 +1,19 @@
+{
+  "session_id": "sess_20260910_043115_3847bd",
+  "app_id": "aegis",
+  "status": "closed",
+  "close_reason": "operator_closed",
+  "actions_used": 77,
+  "observations_used": 8,
+  "steps": 77,
+  "frames": 86,
+  "coverage": {
+    "states": 0,
+    "features": 0,
+    "data_entities": 0,
+    "edges": 0,
+    "confirmed_ratio": 0.0,
+    "actions_used": 77
+  },
+  "elapsed_s": 2130
+}

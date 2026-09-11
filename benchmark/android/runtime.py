@@ -427,13 +427,21 @@ class AndroidEmulatorRuntime(Runtime):
         counts as terminal. A probe that never answers is conservatively
         read as recoverable: the worst outcome is a retryable failure the
         Agent can see, not the loss of an exploration dozens of steps in.
+
+        The poll ladder spans about a minute. An emulator whose framework
+        is wedged under memory pressure answers ``offline`` for tens of
+        seconds before settling back to ``device`` — the 2026-09-08
+        our-method session was killed at step 51 because the old ~6s
+        window saw only the offline phase. Waiting out that phase costs a
+        minute on a genuinely dead device, which is far cheaper than
+        discarding an exploration that is dozens of steps in.
         """
         if self.process is not None and self.process.poll() is not None:
             return False
         if not self.serial:
             return False
         answered = False
-        for delay in (0.0, 2.0, 4.0):
+        for delay in (0.0, 2.0, 4.0, 8.0, 16.0, 30.0):
             if delay:
                 time.sleep(delay)
             try:
@@ -540,18 +548,29 @@ class AndroidEmulatorRuntime(Runtime):
                        "1.1.1.1,8.8.8.8"]
             if not self.headed:
                 command.append("-no-window")
-            self.process = subprocess.Popen(
-                command, cwd=self.work_dir,
-                env=self.toolchain.environment(self._avd_home),
-                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
-            self._wait_until_booted()
-            self._configure_network()
-            self._apply_locale()
-            self._run("install", "-r", "-t", str(apk), timeout=120)
-            self._seed_file_picker()
-            self._set_orientation()
-            self.restart_app()
+            # Boot serialization: concurrent qemu bring-ups saturate host
+            # CPU/IO and adb, so simultaneous boots each time out and every
+            # caller hangs in an "environment init failed" retry loop
+            # (observed with 4 parallel evaluation runs on 2026-09-09). The
+            # clone above is per-session scratch and safe to overlap; the
+            # emulator bring-up below — boot, the framework restart behind
+            # locale pinning, APK install — is not. Sessions submitted
+            # together queue here instead of racing each other to death.
+            with lock_for("android:boot-serial", timeout=1800):
+                self.process = subprocess.Popen(
+                    command, cwd=self.work_dir,
+                    env=self.toolchain.environment(self._avd_home),
+                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                    creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+                self._wait_until_booted()
+                self._configure_network()
+                self._apply_locale()
+                self._run("install", "-r", "-t", str(apk), timeout=120)
+                self._pregrant()
+                self._restore_app_data_profile()
+                self._seed_file_picker()
+                self._set_orientation()
+                self.restart_app()
             self._last_info = self._capture_info()
         except Exception:
             self.stop()
@@ -578,8 +597,16 @@ class AndroidEmulatorRuntime(Runtime):
         raise TimeoutError("Android emulator boot timed out")
 
     def _configure_network(self) -> None:
-        guard = os.environ.get("BBB_ANDROID_NETWORK_GUARD", "").strip()
-        proxy = os.environ.get("BBB_ANDROID_PUBLIC_PROXY", "").strip()
+        # Defaults keep public sessions working in every process that creates
+        # an emulator (controller, reproduction review MCP, evaluation
+        # scripts): each has its own environment, so the operator-set
+        # variables cannot reach all of them. The canonical proxy listens on
+        # a fixed loopback port; the guard ships with the repository.
+        guard = (os.environ.get("BBB_ANDROID_NETWORK_GUARD", "").strip()
+                 or str(config.PROJECT_ROOT / "scripts"
+                        / "android_network_guard.py"))
+        proxy = (os.environ.get("BBB_ANDROID_PUBLIC_PROXY", "").strip()
+                 or "http://127.0.0.1:8899")
         guest_proxy: tuple[str, int] | None = None
         if self.spec.network_policy == "public":
             if not proxy or not guard:
@@ -741,6 +768,67 @@ class AndroidEmulatorRuntime(Runtime):
         if activity.startswith("."):
             activity = self.spec.package_name + activity
         return f"{self.spec.package_name}/{activity}"
+
+    def _restore_app_data_profile(self) -> None:
+        """Restore operator-preconfigured app data from a golden profile.
+
+        File-level userdata profiles do not survive this emulator's data
+        partition management (disk.dataPartition.path=<temp> rebuilds the
+        partition every boot, so copying userdata-qemu.img* into the clone is
+        ignored). The profile therefore carries a tarball of
+        /data/data/<package> instead: extracted after the APK install, with
+        the package's freshly assigned uid/gid and SELinux contexts fixed
+        up. Used for apps needing operator pre-configuration, e.g. a TOTP
+        app whose FLAG_SECURE screen must be disabled before pixel
+        exploration (observed on aegis, 2026-09-10).
+        """
+        profile = Path(getattr(self.spec, "profile_snapshot", "") or ".")
+        tarball = profile / "app_data.tar.gz"
+        if str(profile) == "." or not tarball.is_file():
+            return
+        pkg = self.spec.package_name
+        # The fresh install has already created /data/data/<pkg>; capture its
+        # uid/gid before replacing the directory so ownership matches this
+        # boot's assignment (uids are re-assigned on every clean data boot).
+        stat_uid = self._run("shell", "stat", "-c", "%u", f"/data/data/{pkg}",
+                             timeout=15, check=False)
+        stat_gid = self._run("shell", "stat", "-c", "%g", f"/data/data/{pkg}",
+                             timeout=15, check=False)
+        uid = (stat_uid.stdout or "").strip() or "0"
+        gid = (stat_gid.stdout or "").strip() or "0"
+        self._run("root", check=False)
+        self._run("wait-for-device", timeout=30, check=False)
+        self._run("shell", "rm", "-rf", f"/data/data/{pkg}", check=False)
+        self._run("push", str(tarball), "/data/local/tmp/.profile.tar.gz",
+                  timeout=120)
+        self._run("shell", "tar", "-xzf", "/data/local/tmp/.profile.tar.gz",
+                  "-C", "/data/data/", timeout=120, check=False)
+        self._run("shell", "chown", "-R", f"{uid}:{gid}", f"/data/data/{pkg}",
+                  timeout=60, check=False)
+        self._run("shell", "restorecon", "-R", f"/data/data/{pkg}",
+                  timeout=60, check=False)
+        self._run("shell", "rm", "-f", "/data/local/tmp/.profile.tar.gz",
+                  check=False)
+
+    def _pregrant(self) -> None:
+        """Apply special-access grants right after the APK install.
+
+        Permission gates such as MANAGE_EXTERNAL_STORAGE route the target to
+        the system All-files-access settings page, where the per-step
+        foreground-restore guard fails repeatedly and exploration dead-ends
+        at the gate ("target App could not be restored to foreground",
+        observed on the 2026-09-08 fossify_gallery baseline run). Granting
+        before the first launch keeps the whole exploration inside the app.
+        Failures are non-fatal: an ungrantable entry simply falls back to the
+        app's own permission flow.
+        """
+        for permission in (getattr(self.spec, "pregrant_permissions", None)
+                           or []):
+            self._run("shell", "pm", "grant", self.spec.package_name,
+                      permission, timeout=15, check=False)
+        for appop in (getattr(self.spec, "pregrant_appops", None) or []):
+            self._run("shell", "appops", "set", self.spec.package_name,
+                      appop, "allow", timeout=15, check=False)
 
     def restart_app(self) -> None:
         self._run("shell", "am", "force-stop", self.spec.package_name,

@@ -59,6 +59,7 @@ class AppEvaluationSession:
                  package_name: str = "com.blackboxbench.reproduction",
                  launch_activity: str = ".MainActivity",
                  output_root: Path | None = None,
+                 network_policy: str = "public",
                  runtime_factory: Callable | None = None):
         apk_path = Path(apk).resolve()
         if not apk_path.is_file() or apk_path.suffix.lower() != ".apk":
@@ -67,6 +68,16 @@ class AppEvaluationSession:
         self.checklist = checklist
         self.package_name = str(package_name)
         self.launch_activity = str(launch_activity)
+        if network_policy not in ("offline", "public"):
+            raise ValueError("network_policy must be offline or public")
+        # The evaluation emulator must match the exploration environment:
+        # network-dependent reproductions (feed subscriptions, map tiles,
+        # podcast downloads) are unverifiable on an offline judge. The
+        # hardcoded "offline" here silently zeroed every network feature of
+        # the feeder/organic_maps evaluations on 2026-09-10 while the
+        # explorations themselves had already moved to controlled public
+        # networking.
+        self.network_policy = network_policy
         root = Path(output_root) if output_root is not None else (
             config.APP_OUTPUT_DIR / "evaluations")
         self.run_id = "eval_" + hashlib.sha256(
@@ -91,7 +102,7 @@ class AppEvaluationSession:
             app_id=f"evaluation_{self.run_id}", apk_path=str(self.apk),
             package_name=self.package_name,
             launch_activity=self.launch_activity, orientation="portrait",
-            reset_strategy="clear_data", network_policy="offline",
+            reset_strategy="clear_data", network_policy=self.network_policy,
             profile_snapshot="", platform="android", kind="android",
             source_type="generated")
 

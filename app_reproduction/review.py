@@ -28,10 +28,18 @@ class AndroidReproductionReview:
     def __init__(self, workspace: AppReproductionWorkspace,
                  *, max_revisions: int = 3,
                  require_write_evidence: bool = False,
+                 network_policy: str = "public",
                  runtime_factory: Callable | None = None):
         self.workspace = workspace
         self.max_revisions = max(0, min(5, int(max_revisions)))
         self.require_write_evidence = require_write_evidence
+        if network_policy not in ("offline", "public"):
+            raise ValueError("network_policy must be offline or public")
+        # The reproduction-review emulator must match the exploration
+        # environment: network-dependent reproductions cannot be verified on
+        # an offline judge (see the app_evaluation/session.py fix of
+        # 2026-09-10 for the identical issue on the judge side).
+        self.network_policy = network_policy
         self.runtime_factory = runtime_factory or (
             lambda spec, directory: AndroidEmulatorRuntime(spec, directory))
         self.runtime = None
@@ -50,7 +58,7 @@ class AndroidReproductionReview:
             apk_path=str(self.workspace.artifacts_dir / "app-debug.apk"),
             package_name="com.blackboxbench.reproduction",
             launch_activity=".MainActivity", orientation="portrait",
-            reset_strategy="clear_data", network_policy="offline",
+            reset_strategy="clear_data", network_policy=self.network_policy,
             profile_snapshot="", platform="android", kind="android",
             source_type="generated")
 

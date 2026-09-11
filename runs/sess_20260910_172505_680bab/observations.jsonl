@@ -1,0 +1,6 @@
+{"step":0,"frame_id":0,"timestamp":"2026-09-10T17:29:00.812313+00:00","path":"frames/frame_000000.png","cursor":{"x":0,"y":0},"diff_score":1.0,"settle_ms":4766.0,"settle_reason":"still"}
+{"step":0,"frame_id":1,"timestamp":"2026-09-10T17:29:07.489508+00:00","path":"frames/frame_000001.png","cursor":{"x":0,"y":0},"diff_score":0.0001,"settle_ms":0.0,"settle_reason":"none"}
+{"step":1,"frame_id":2,"timestamp":"2026-09-10T17:29:35.476256+00:00","path":"frames/frame_000002.png","cursor":{"x":330,"y":1362},"diff_score":0.17341,"settle_ms":2781.0,"settle_reason":"still"}
+{"step":1,"frame_id":3,"timestamp":"2026-09-10T17:29:41.229470+00:00","path":"frames/frame_000003.png","cursor":{"x":330,"y":1362},"diff_score":0.0,"settle_ms":0.0,"settle_reason":"none"}
+{"step":2,"frame_id":4,"timestamp":"2026-09-10T17:29:52.122472+00:00","path":"frames/frame_000004.png","cursor":{"x":920,"y":2210},"diff_score":0.076,"settle_ms":2734.0,"settle_reason":"still"}
+{"step":2,"frame_id":5,"timestamp":"2026-09-10T17:29:57.847383+00:00","path":"frames/frame_000005.png","cursor":{"x":920,"y":2210},"diff_score":0.0,"settle_ms":0.0,"settle_reason":"none"}

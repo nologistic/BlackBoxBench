@@ -23,6 +23,10 @@ description: 仅通过 Android App 可见截图和坐标级触控进行黑盒功
   工具。
 - `observe` 返回的可见像素是唯一观察渠道。不得使用宿主文件、Shell、网络、ADB、
   控件树、Accessibility、selector、日志、APK 分析、反编译或先验实现知识。
+- 模拟器经受控代理接入公网（仅 80/443）：App 自身的联网行为（地图或内容下载、
+  在线同步、联网校验）属于正常可探索面，照常探索并以 `observe` 留证；App 内的
+  网络错误提示同样是行为证据。上一条"不得使用网络"指你自身不得调用宿主网络
+  工具，不限制模拟器内 App 的联网行为。
 - 像首次使用该 App 的人一样先广后深探索导航、输入、错误路径、空状态、权限弹窗和
   写入后的持久化。每次动作后用 `observe` 核对真实结果。
 - 只记录亲眼验证的行为。使用真实 frame/step 调用 `record_state`、
@@ -36,10 +40,10 @@ description: 仅通过 Android App 可见截图和坐标级触控进行黑盒功
 
 - 复现工作区已经包含中立 Kotlin + Jetpack Compose 工程。只能通过 MCP 的
   `workspace_*` 工具修改它，不能访问宿主项目。
-- 使用 `/exploration` 中的允许交接截图和拓扑理解布局与行为；优先使用
-  `/materials/app` 的目标专属补充素材与非实体信息（先读其中的 CATALOG.md 与
-  SUPPLEMENT.md），再使用 `/materials/common` 和 `/materials/mobile` 的虚构内容、
-  图片、音视频和数据库。
+- 基于你探索阶段的记忆与已记录拓扑理解布局与行为（本条件不提供探索截图证据的
+  读取通道）；优先用 `input_list`/`input_read` 读取 `/materials/app` 的目标专属
+  补充素材与非实体信息（先读其中的 CATALOG.md 与 SUPPLEMENT.md），再使用
+  `/materials/common` 和 `/materials/mobile` 的虚构内容、图片、音视频和数据库。
 - 探索画面可能包含私人信息。不得在代码、APK、日志、说明或复测记录中复制或转述；
   人物、账号、文章、消息、商品和订单必须替换为公共虚构素材。
 - 沙盒可以联网，但非必要不联网：素材和补充信息能解决的绝不上网；仅当补充材料

@@ -1,0 +1,19 @@
+{
+  "app_id": "feeder",
+  "session_id": "sess_20260909_162609_923933",
+  "coverage": {
+    "states": 9,
+    "features": 10,
+    "data_entities": 2,
+    "edges": 10,
+    "confirmed_ratio": 1.0,
+    "actions_used": 70
+  },
+  "unresolved_questions": [],
+  "nodes_by_status": {
+    "confirmed": 21,
+    "hypothesized": 0,
+    "uncertain": 0,
+    "rejected": 0
+  }
+}

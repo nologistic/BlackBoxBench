@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "25d23fdf3ed06ba66570952882f27cedd2443ad6c12422a1e7f221e92bf87ef4",
+  "accepted_apk_hash": "15aff36b24c2f22eef3da13c1f3b1db5b633153c8cc28353f89ea67d8765a0bd",
+  "revision_count": 1,
+  "max_revisions": 3,
+  "require_write_evidence": true,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "世界时钟首屏与底部导航",
+        "新建闹钟并重启持久化",
+        "10秒定时器输入与运行",
+        "秒表开始与计次",
+        "就寝时间首次引导"
+      ],
+      "findings": [
+        "底部定时器与秒表使用了会被系统彩色渲染的 emoji，与目标单色线性图标不一致。",
+        "就寝时间引导主标题字号过大导致换行拥挤，底部开始按钮文字出现裁切。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "c48277dad5d2727ad3d84095d6fe87f463142dcf4544a5ef621cd8ed79538cb1",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "8b4327136e638d4f140ed559cd3e1ab94b546d826ac0f1a5c1a7aedf681bf286",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "916c9b919151ee5530182807cc909b48ae0a579d03d825d1650b425b953978bb",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "eccd845adaf8477a3a811d0d4eae4f3b8b42fedf7a349ff108a115822f3acb18",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "41c08ecb8b7464ffa383cbd1ecd2ed20b5fd912cf34f9fc61888f6cdba71ae6e",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "5e5e92b842fc77935b6d6622450d033f0392d673f7f180d692e545ffef9d12ba",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 6,
+          "sha256": "3b2b6013c00d09ab892e543b1c9e0c656577e6262ec5d284f47dd0280d85b875",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 8,
+          "sha256": "7bdf135316f2d6414946ea43285fa228e4f3115299392ab85bbdd5c6bbd33b99",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 10,
+          "sha256": "6cf296c4fc12be4c64d9cd181a1ecf6be5d8856826da42bd61a3db2cb1f27423",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 11,
+          "sha256": "fc0a7b3e889c26134c52075b38f3a0bab3e77ed1f1b3c6803337d0ff5ee61803",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 14,
+          "sha256": "b3275cdfa42f94bcf04e783ed3c6b263da7f08eab79340e6685bed7656060467",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 15,
+          "sha256": "c41ce9f5996a7ccfba93d7a5eef54faffc771041ad04acbbdde37731d20e389f",
+          "path": "review/round_01/observation_012.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "accept",
+      "checked_flows": [
+        "第二轮首屏像素核对与单色底部导航",
+        "就寝时间引导排版与开始按钮",
+        "闹钟列表、新建时间对话框和新增卡片",
+        "新建闹钟跨应用重启持久化",
+        "首轮已验证的定时器运行和秒表计次"
+      ],
+      "findings": [
+        "第二轮未发现阻断性功能或持久化问题；导航图标与就寝引导的首轮视觉问题已修正。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "12431f7fc4cbda8dfc278444e933c7c45889a035f958b8419a0815569b34e022",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "fc2595818928e55e09c8e222a4153724be28e8ff73c207beb7fc8b58df821303",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "143404dcda9ff4d523138ea9a53d53424fc050a23bde510c12001a8d7d02d394",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "d5ef573918cc919604c2236c9e1f8216a3794889f983b97f2a81ffd508d9786a",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 6,
+          "sha256": "bc973949e43d7daa48beb163d8fb51914347b9aec615f910819b55302760fd32",
+          "path": "review/round_02/observation_005.png"
+        }
+      ],
+      "write_flow_evidence": [
+        {
+          "flow": "新建 20:00 闹钟并在应用重启后验证仍存在且启用",
+          "before_observation": 3,
+          "after_observation": 4,
+          "persisted_observation": 5
+        }
+      ],
+      "write_flow_exemption": null
+    }
+  ]
+}

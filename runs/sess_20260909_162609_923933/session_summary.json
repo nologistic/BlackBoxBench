@@ -1,0 +1,19 @@
+{
+  "session_id": "sess_20260909_162609_923933",
+  "app_id": "feeder",
+  "status": "closed",
+  "close_reason": "agent_finalized",
+  "actions_used": 70,
+  "observations_used": 70,
+  "steps": 70,
+  "frames": 141,
+  "coverage": {
+    "states": 9,
+    "features": 10,
+    "data_entities": 2,
+    "edges": 10,
+    "confirmed_ratio": 1.0,
+    "actions_used": 70
+  },
+  "elapsed_s": 1872
+}

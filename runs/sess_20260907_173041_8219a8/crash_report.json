@@ -1,0 +1,6 @@
+{
+  "error": "DeviceError('the target App could not be relaunched')",
+  "at": "2026-09-07T17:48:57.709604+00:00",
+  "step": 40,
+  "last_frame": 74
+}

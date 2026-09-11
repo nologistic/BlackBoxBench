@@ -23,12 +23,14 @@ import subprocess
 import sys
 import threading
 import time
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 import httpx
+from app_reproduction.materials.build import ensure_app_materials
 from app_reproduction.review import AndroidReproductionReview
 from app_reproduction.workspace import (
     AppReproductionWorkspace, DockerUnavailableError)
+from reproduction.materials.build import ensure_materials
 from benchmark import config as benchmark_config
 from benchmark.android.targets import get_android_target
 from benchmark.orchestrator.controller_process import (
@@ -307,6 +309,91 @@ def _require_reproduction() -> AppReproductionWorkspace:
     if _reproduction is None:
         raise ValueError("available only after finalize starts reproduction")
     return _reproduction
+
+
+# Material read channel for the baseline reproduction stage. The per-app
+# supplement packs are mounted for BOTH conditions (AppReproductionWorkspace
+# mounts /materials/app by target_id, not by source_mode), but the baseline
+# MCP historically offered no tool that could reach them — workspace_read is
+# anchored to /workspace, so every /materials/* request was path-rejected
+# (observed on the 2026-09-10 organic_maps reproduction: the agent had to
+# draw the map from prior knowledge instead of reading the POI pack). This
+# restores the intended fairness: materials are a shared baseline, while the
+# exploration evidence (/exploration, topology) stays our-method-only — that
+# difference IS the experimental condition.
+_INPUT_MAX_READ = 2 * 1024 * 1024
+
+
+def _material_roots() -> dict[str, Path]:
+    roots = {"common": ensure_materials().resolve(),
+             "mobile": ensure_app_materials().resolve()}
+    # The per-app supplement pack is mounted at /materials/app when the
+    # current target ships one (see AppReproductionWorkspace.start).
+    if (_reproduction is not None
+            and _reproduction.app_materials_dir is not None):
+        roots["app"] = Path(_reproduction.app_materials_dir)
+    return roots
+
+
+def _resolve_input_host(path_value: object,
+                        rep: AppReproductionWorkspace) -> Path:
+    """Map a whitelisted sandbox materials path to its host-side file.
+
+    Baseline may read /materials only: /exploration and the finalized
+    topology are the our-method evidence channel and stay closed here.
+    """
+    raw = str(path_value or "").replace("\\", "/")
+    candidate = PurePosixPath(raw)
+    if candidate.is_absolute() and ".." not in candidate.parts:
+        parts = candidate.parts[1:]
+        if parts[:1] == ("materials",) and len(parts) >= 2:
+            roots = _material_roots()
+            root = roots.get(parts[1])
+            if root is None:
+                raise ValueError(
+                    "materials root must be common, mobile or app")
+            host = root.joinpath(*parts[2:])
+            host.resolve().relative_to(root)
+            return host
+    raise ValueError("input path must be under /materials/")
+
+
+def _t_input_list(args: dict) -> dict:
+    rep = _require_reproduction()
+    raw = str(args.get("path", "/materials")).replace("\\", "/")
+    if raw.rstrip("/") == "/materials":
+        entries = [{"name": name, "dir": True, "bytes": None}
+                   for name in sorted(_material_roots())]
+        return _ok([_text({"path": raw, "entries": entries})])
+    target = _resolve_input_host(raw, rep)
+    if not target.is_dir():
+        raise ValueError("not a directory")
+    entries = []
+    for child in sorted(target.iterdir()):
+        entries.append({"name": child.name, "dir": child.is_dir(),
+                        "bytes": child.stat().st_size if child.is_file() else None})
+    return _ok([_text({"path": raw, "entries": entries})])
+
+
+def _t_input_read(args: dict) -> dict:
+    rep = _require_reproduction()
+    host = _resolve_input_host(args.get("path"), rep)
+    if not host.is_file():
+        raise ValueError("not a file")
+    size = host.stat().st_size
+    if size > _INPUT_MAX_READ:
+        raise ValueError(f"file exceeds {_INPUT_MAX_READ} bytes")
+    suffix = host.suffix.lower()
+    if suffix in (".png", ".jpg", ".jpeg"):
+        mime = "image/png" if suffix == ".png" else "image/jpeg"
+        return _ok([
+            {"type": "image",
+             "data": base64.b64encode(host.read_bytes()).decode("ascii"),
+             "mimeType": mime},
+            _text({"path": str(args.get("path")), "bytes": size}),
+        ])
+    content = host.read_text(encoding="utf-8")
+    return _ok([_text(content)])
 
 
 def _t_workspace_list(args: dict) -> dict:
@@ -647,6 +734,25 @@ def _revise(a: dict) -> dict:
 _register({"name": "finalize",
            "description": "完成真实 Android 探索、定稿功能拓扑并立即启动隔离 APK 复现阶段。",
            "inputSchema": {"type": "object", "properties": {}}}, _t_finalize)
+
+_register({"name": "input_list",
+           "description": "仅在 finalize 后列出 /materials 下的公共素材"
+                          "（common/mobile/app，含目标专属补充素材包）。",
+           "inputSchema": {"type": "object", "properties": {
+               "path": {"type": "string",
+                        "description": "如 /materials、/materials/app"}}}},
+          _t_input_list)
+
+_register({"name": "input_read",
+           "description": "仅在 finalize 后读取 /materials 素材中的文件"
+                          "（PNG 返回图像，其余返回文本）。"
+                          "路径必须在 /materials/ 之下。",
+           "inputSchema": {"type": "object", "properties": {
+               "path": {"type": "string",
+                        "description": "如 /materials/app/CATALOG.md、"
+                                       "/materials/app/data.json"}},
+               "required": ["path"]}},
+          _t_input_read)
 
 _register({"name": "workspace_list",
            "description": "仅在 finalize 后列出复现输出工作区中的文件。",

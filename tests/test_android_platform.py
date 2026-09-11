@@ -330,7 +330,28 @@ def test_android_probe_recovering_to_device_is_healthy(tmp_path, monkeypatch):
     monkeypatch.setattr(
         "benchmark.android.runtime.subprocess.run",
         lambda command, **kwargs: SimpleNamespace(
-            stdout=next(answers), stderr="", returncode=0))
+            stdout=next(answers, "device"), stderr="", returncode=0))
+    assert runtime._device_responsive() is True
+
+
+def test_android_probe_offline_longer_than_old_window_recovers(
+        tmp_path, monkeypatch):
+    """A device stuck offline past the old ~6s window but recovering inside
+    the widened ~60s ladder is healthy.
+
+    Regression for the 2026-09-08 our-method session: a wedged framework
+    answered ``offline`` for longer than the old probe ladder (0/2/4s), the
+    probe read it as terminal and the session died at step 51 even though
+    the emulator came back.
+    """
+    runtime = _responsive_runtime(tmp_path)
+    monkeypatch.setattr("benchmark.android.runtime.time.sleep", lambda _s: None)
+    answers = iter(["offline", "offline", "offline", "offline",
+                    "offline", "device"])
+    monkeypatch.setattr(
+        "benchmark.android.runtime.subprocess.run",
+        lambda command, **kwargs: SimpleNamespace(
+            stdout=next(answers, "device"), stderr="", returncode=0))
     assert runtime._device_responsive() is True
 
 

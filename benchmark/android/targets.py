@@ -44,6 +44,14 @@ class AndroidTargetSpec:
     kind: str = "android"
     seed: str = "seed_001"
     precheck: str = ""
+    # Special-access grants applied right after the APK install (before the
+    # first launch). MANAGE_EXTERNAL_STORAGE-style gates send the target to
+    # the system All-files-access settings page, where the per-step
+    # foreground-restore guard keeps failing and exploration dead-ends at the
+    # permission gate (observed on the 2026-09-08 fossify_gallery baseline:
+    # "target App could not be restored to foreground" until finalize).
+    pregrant_permissions: list[str] = field(default_factory=list)
+    pregrant_appops: list[str] = field(default_factory=list)
 
     @property
     def apk(self) -> Path:
@@ -130,6 +138,12 @@ def _validate_spec(spec: AndroidTargetSpec) -> None:
             raise ValueError("invalid protected screenshot region") from exc
         if x < 0 or y < 0 or width <= 0 or height <= 0:
             raise ValueError("invalid protected screenshot region")
+    for field_name in ("pregrant_permissions", "pregrant_appops"):
+        for value in getattr(spec, field_name):
+            if (not isinstance(value, str) or not value.strip() or
+                    any(c in value for c in " \t\r\n\0")):
+                raise ValueError(
+                    f"{field_name} entries must be non-empty single-line tokens")
 
 
 def _extract_metadata(apk: Path) -> tuple[str, str]:
@@ -185,6 +199,8 @@ def register_android_target(*, target_id: str, apk: Path,
                             profile_snapshot: Path | None = None,
                             protected_strings: list[str] | None = None,
                             protected_regions: list[dict] | None = None,
+                            pregrant_permissions: list[str] | None = None,
+                            pregrant_appops: list[str] | None = None,
                             replace: bool = False) -> AndroidTargetSpec:
     if not SAFE_ID.fullmatch(target_id):
         raise ValueError("target_id must use lowercase letters, digits, _ or -")
@@ -214,7 +230,10 @@ def register_android_target(*, target_id: str, apk: Path,
         orientation=orientation, reset_strategy=reset_strategy,
         network_policy=network_policy, profile_snapshot=profile_value,
         protected_strings=list(protected_strings or []),
-        protected_regions=list(protected_regions or []), seed=digest[:16])
+        protected_regions=list(protected_regions or []),
+        seed=digest[:16],
+        pregrant_permissions=list(pregrant_permissions or []),
+        pregrant_appops=list(pregrant_appops or []))
     _validate_spec(spec)
     target_root.mkdir(parents=True, exist_ok=True)
     if not destination.exists():
@@ -276,7 +295,9 @@ def rename_android_target(old_id: str, new_id: str) -> AndroidTargetSpec:
         reset_strategy=old.reset_strategy, network_policy=old.network_policy,
         profile_snapshot=profile if profile and profile.is_dir() else None,
         protected_strings=old.protected_strings,
-        protected_regions=old.protected_regions)
+        protected_regions=old.protected_regions,
+        pregrant_permissions=old.pregrant_permissions,
+        pregrant_appops=old.pregrant_appops)
     unregister_android_target(old_id)
     return spec
 

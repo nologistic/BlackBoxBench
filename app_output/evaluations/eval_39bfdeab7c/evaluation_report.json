@@ -1,0 +1,1976 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "run_id": "eval_39bfdeab7c",
+  "checklist_id": "fossify_gallery",
+  "checklist_sha256": "eddd86ab598857fe9cdd65796d5e77532d49193ad52b29a8ea0581d8562ed250",
+  "apk_sha256": "703444de1d3a25d17fe3ff63027cedd7d51993fb145f68fd45356b46d982353c",
+  "package_name": "com.blackboxbench.reproduction",
+  "counts": {
+    "full": 0,
+    "partial": 7,
+    "placeholder": 15,
+    "broken": 0
+  },
+  "requirements": [
+    {
+      "requirement_id": "f01",
+      "name": "媒体扫描与文件夹首页",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "首页和 BlackBoxBench 文件夹可显示 1 张 PNG 与 1 个 MP4，图片删除后普通列表减少为 1 项，恢复并重启后数量回到 2，恢复图片可再次打开。但隐藏/删除图片后首页封面仍包含该图片，未随当前成员重新计算；新建、复制、移动及编辑保存未形成新媒体或新目录，无法完成新增后刷新和移动后索引同步的闭环。",
+      "evidence_observations": [
+        38,
+        39,
+        58,
+        59,
+        66,
+        68,
+        106,
+        112,
+        115,
+        121,
+        122,
+        124
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "仅允许待测 App 的像素级操作，无法在 App 外新增测试文件或直接核对真实文件系统；不能仅凭已有两项媒体证明通用扫描器已实现。"
+    },
+    {
+      "requirement_id": "f02",
+      "name": "文件与文件夹搜索",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "首页搜索 Black 未返回可见的 BlackBoxBench 文件夹；切换搜索范围后，无论输入 lake 还是不存在的 zz7391，均显示同样的两个媒体，查询没有按名称过滤。清空及返回入口存在，核心搜索结果为固定集合。",
+      "evidence_observations": [
+        14,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f03",
+      "name": "多字段排序",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "排序对话框列出名称、路径、大小、修改日期、拍摄日期、随机等字段及升降序。两次选择名称+升序并确认后，网格顺序不变，再开对话框恢复修改日期+降序；未见仅此文件夹作用域控制，无法形成真实排序状态。",
+      "evidence_observations": [
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f04",
+      "name": "多维媒体分组",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "分组对话框显示不分组、日期日/月、类型与扩展名；选择文件类型并勾选分区数量后确认，图片和视频仍混在原来的“今天”分区，没有类型标题或计数，所选分组没有作用。",
+      "evidence_observations": [
+        25,
+        26,
+        27
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f05",
+      "name": "文件类型过滤与视图布局",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "类型过滤、网格/列表、列数均有入口。取消视频过滤后视频仍在；选择列表确认后仍是两列网格，再打开仍选网格；点击列数只关闭菜单，未出现1–15列选择或布局变化。",
+      "evidence_observations": [
+        25,
+        28,
+        29,
+        30,
+        31,
+        32,
+        48
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f06",
+      "name": "包含 / 排除文件夹",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "设置页有“包含的文件夹”和“排除的文件夹”入口，但分别点击行内容及箭头后均停留在原设置页，没有目录选择器、规则列表或增删规则反馈。重启后重试包含入口仍无响应，未能执行扫描范围变化、重新纳入及规则持久化流程。",
+      "evidence_observations": [
+        3,
+        4,
+        80,
+        81
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f07",
+      "name": "隐藏媒体生命周期",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "图片执行隐藏后 Viewer 文件名前出现点号，普通文件夹仅剩视频，重启后图片仍不可见，证明隐藏状态的可见效果能够保留。但文件夹菜单“临时显示隐藏项目”没有让图片出现；设置中开启“显示隐藏项目”后返回文件夹也仍只有视频，因而无法找到并取消隐藏。首页封面仍显示被隐藏图片。包含/排除管理入口同时无响应，未完成两种语义及文件夹隐藏验证。",
+      "evidence_observations": [
+        71,
+        75,
+        76,
+        77,
+        78,
+        79,
+        82,
+        83,
+        84
+      ],
+      "persistence_evidence": {
+        "requirement_id": "f07",
+        "before_observation": 71,
+        "after_observation": 77,
+        "persisted_observation": 78
+      },
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f08",
+      "name": "收藏生命周期",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "图片点击星标后变为已收藏，首页新增含 1 项的收藏集合；重启后集合仍存在，可从收藏页打开同一张图片。取消收藏后收藏集合消失，再从原文件夹打开时星标为空，基本收藏/取消及跨页面同步有效。但在已收藏状态下尝试重命名、复制/移动未改变名称或位置，无法验证移动及重命名后收藏关系仍正确。",
+      "evidence_observations": [
+        55,
+        56,
+        58,
+        59,
+        62,
+        67,
+        68,
+        69,
+        70,
+        71
+      ],
+      "persistence_evidence": {
+        "requirement_id": "f08",
+        "before_observation": 55,
+        "after_observation": 56,
+        "persisted_observation": 69
+      },
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f09",
+      "name": "文件夹与文件操作",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "新建文件夹可输入 ReviewBox 并确认，但返回首页无新目录。图片“复制到”“移动到”点击后仅关闭菜单，无目标目录选择或成员变化；重命名可打开输入框并输入新名称，确认后仍显示 sample_photo.png，重启后名称也未改变。未观察到新副本、路径变化或数量更新，主要操作停留在菜单/对话框层。",
+      "evidence_observations": [
+        37,
+        38,
+        39,
+        57,
+        58,
+        59,
+        62,
+        68,
+        71
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f10",
+      "name": "多选与批量操作",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "普通文件夹长按进入选择样式，但顶栏显示字面模板“1 / ${if (imageVisible) 2 else 1}”，没有正确总数；存在两项时点击另一项直接进入视频 Viewer，没有扩展选中集合。再次长按视频后执行“全选”和“收藏”均未形成可见选择/收藏结果，顶栏删除按钮也无反馈；选中视频的属性甚至指向 sample_photo.png。回收站单项长按能显示 1/1 和勾选，不足以完成普通媒体多选及仅影响选中集合的批量操作。",
+      "evidence_observations": [
+        40,
+        41,
+        95,
+        96,
+        97,
+        98,
+        99,
+        101,
+        102,
+        118
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f11",
+      "name": "回收站完整生命周期",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "图片删除确认后从普通文件夹消失并出现在回收站；重启后该状态保留。长按回收站图片执行“恢复所选文件”后回收站为空，重启后首页数量恢复为 2，原图片可重新打开。但视频 Viewer 删除无响应；第二次移入图片后设置页回收站容量仍为 0 B，“清空回收站”无效果。再从回收站选择“永久删除”并确认，图片仍留在回收站，重启后仍可见，永久清除闭环失败。",
+      "evidence_observations": [
+        102,
+        103,
+        105,
+        110,
+        111,
+        112,
+        114,
+        115,
+        116,
+        119,
+        120,
+        121,
+        122,
+        123,
+        127,
+        128,
+        131,
+        132,
+        133,
+        135
+      ],
+      "persistence_evidence": {
+        "requirement_id": "f11",
+        "before_observation": 110,
+        "after_observation": 114,
+        "persisted_observation": 116
+      },
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f12",
+      "name": "文件属性与媒体元数据",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "图片信息弹窗显示 sample_photo.png、900×900、PNG 和 10.7 kB；但普通文件夹中唯一可见并长按选中的项目是 MP4 视频，打开“属性”却仍显示 sample_photo.png、900×900、10.7 kB 及图片目录，信息未绑定当前媒体。属性未提供修改/拍摄时间，点击“修复拍摄日期”也仅关闭菜单，没有日期变化或重新分组结果。",
+      "evidence_observations": [
+        46,
+        50,
+        95,
+        96,
+        99,
+        100
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "现有图片未提供可确认的 EXIF/GPS 测试信息，地图和拍摄日期修复的真实数据效果无法完整验证；该限制不用于推断其必然失效。"
+    },
+    {
+      "requirement_id": "f13",
+      "name": "图片全屏查看",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "从网格可以打开完整 PNG 图片，图片恢复后也能再次打开；删除图片时退出 Viewer 并回到仅剩视频的文件夹。但对图片进行横向滑动未切换到同集合另一媒体，多次按返回直接到文件夹首页，未保留进入 Viewer 前所在的 BlackBoxBench/收藏集合上下文，连续浏览流程不完整。",
+      "evidence_observations": [
+        49,
+        51,
+        66,
+        67,
+        69,
+        70,
+        71,
+        110,
+        112,
+        122
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f14",
+      "name": "图片缩放、旋转与全屏手势",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "设置页具备自动隐藏系统 UI、边缘切换、下滑退出、手势旋转等开关，能够切换开关外观；但开启自动隐藏/边缘切换后后续图片 Viewer 仍显示系统栏及固定工具栏。默认开启“下滑退出”时对图片从上向下滑动，仍停留在同一图片且无退出效果，未观察到新手势规则驱动实际 Viewer 行为。",
+      "evidence_observations": [
+        7,
+        8,
+        49,
+        51,
+        107,
+        138
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "当前坐标工具只提供单点 tap/long_press/swipe，无法发送同步双指捏合、旋转或可靠的短间隔双击，因此不将这些未能直接执行的动作计为已验证失败；屏幕常亮也未作长时间熄屏对照。"
+    },
+    {
+      "requirement_id": "f15",
+      "name": "高质量与特殊图像显示",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "现有 PNG 可从缩略图打开为完整图片，信息页标注 PNG、900×900；可见“使用最高图片质量”和“GIF 缩略图动画”等设置项，最高质量开关可改变勾选外观。但在现有图片上没有可证明解码质量或显示方式改变的对照证据，无法认定多格式解码和质量/HDR 配置已完整实现。",
+      "evidence_observations": [
+        5,
+        7,
+        8,
+        49,
+        50,
+        71,
+        107,
+        138
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "该测试环境通过 App 可见的素材只有 1 张 PNG 和 1 个 MP4，没有 JPEG、RAW、SVG、GIF、Ultra HDR 等样本，也无合法的外部素材注入通道；其他格式及原文件字节是否保持不变未能验证，不将缺少样本直接判为格式失效。"
+    },
+    {
+      "requirement_id": "f16",
+      "name": "视频播放状态机",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "视频有 Play/Pause 和进度控件，播放时计时推进到 0:02/0:03 并显示暂停图标，到结尾进入停止状态；点击进度条可把位置调整到约 0:02。但在设置开启循环后，播放结束仍停止在 0:03，未自动重播；定位到 0:02 后离开并重新打开，位置回到 0:00。未形成记住位置和循环的完整状态机。",
+      "evidence_observations": [
+        41,
+        43,
+        44,
+        83,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "可见素材只有一个 3 秒视频，无法验证多个视频进度独立；未找到可成功启用的“记住上次播放位置”流程，因此重新进入归零仅证明当前流程未恢复进度，不冒充已开启该开关的对照。单帧截图无法进一步证明底层视频解码或音轨播放质量。"
+    },
+    {
+      "requirement_id": "f17",
+      "name": "视频手势与播放配置",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "设置页显示自动播放、循环、独立播放相关横向选项、竖向手势调节音量/亮度及点击视频后的默认播放器选项。开启自动播放及相关播放选项后返回再打开视频，仍是竖屏、暂停在 0:00；默认启用竖向音量/亮度手势时在视频右侧竖滑，没有可见控制反馈或亮度变化。“点击视频时”的播放器选择行也无响应，未完成配置驱动后续播放行为。",
+      "evidence_observations": [
+        5,
+        6,
+        45,
+        82,
+        83,
+        84,
+        85,
+        90
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f18",
+      "name": "幻灯片",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "文件夹菜单可打开幻灯片配置，间隔为 5 秒；勾选包含视频和循环后点击开始，只回到静止网格，等待超过 5 秒仍未进入播放或切换媒体。从图片 Viewer 的幻灯片入口重试，勾选包含视频并开始，等待超过一个间隔仍停留在原图片，没有切换到同文件夹视频。存在配置界面但未产生幻灯片播放效果。",
+      "evidence_observations": [
+        33,
+        34,
+        35,
+        36,
+        109,
+        110
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f19",
+      "name": "内置图片编辑完整流程",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "点击编辑打开一个带图片预览及裁剪、旋转90°、翻转按钮的弹窗。点击裁剪未进入裁剪框或比例选择；旋转和翻转未改变可见预览，没有参数、滤镜或绘制流程。点击“保存副本”仅关闭弹窗，原图保持相同方向及内容，返回首页并重启仍只有原来的两项媒体，没有可重新加载的编辑结果。",
+      "evidence_observations": [
+        63,
+        64,
+        65,
+        66,
+        67,
+        68
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f20",
+      "name": "编辑提交与文件状态同步",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "编辑弹窗声称保存会生成新文件并保留原图，但连续尝试裁剪、旋转、翻转后预览不变，确认保存副本后未出现新文件或新缩略图，重启后仍只有两项。另从 Viewer 旋转入口选择旋转并确认“另存为”，仍显示原方向图片。尚无可提交的组合编辑结果，不能成立 Confirm 输出、缩略图/全屏图及元数据重新索引的流程；也无法验证保留原修改日期对真实编辑文件的处理。",
+      "evidence_observations": [
+        52,
+        53,
+        55,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "编辑操作本身没有形成可见的待提交变化，无法对 Cancel 是否正确回滚与 Confirm 是否写出不同结果作有效对照；属性页也没有可用于对照的修改时间。"
+    },
+    {
+      "requirement_id": "f21",
+      "name": "系统级媒体操作",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "图片分享按钮仅弹出 App 内说明“可通过系统分享功能发送这张图片”，确认后未打开 Android 分享面板；“打开方式”“打印”“设置为”点击后仅关闭菜单并停留在同一 Viewer，没有 chooser、外部应用、打印预览或壁纸/联系人设置流程。可见菜单不能证明已传递正确 URI/媒体类型，系统操作及返回状态的闭环未建立。",
+      "evidence_observations": [
+        57,
+        71,
+        72,
+        73,
+        74,
+        108
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "断网环境及现有 PNG 未提供可确认的 GPS 信息，外部地图服务和具体第三方应用接收结果无法完整验证；未出现系统选择器的实际行为与这些环境限制分别记录。"
+    },
+    {
+      "requirement_id": "f22",
+      "name": "安全、迁移与持久化设置",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "整个 App、隐藏项目、删除/移动保护三个开关均可由关变开，但没有 PIN、图案或生物识别配置流程；重启直接进入首页无认证，再进入设置时三个开关均恢复关闭。导出设置、导入设置、导出/导入收藏入口点击后无文件选择、导出结果或恢复反馈。清除缓存后数值仍为 605.4 kB，未观察到派生缓存被清理的效果。安全和迁移设置主要表现为本页开关或无响应的行。",
+      "evidence_observations": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        125,
+        126,
+        127,
+        129,
+        130,
+        132,
+        137
+      ],
+      "persistence_evidence": {
+        "requirement_id": "f22",
+        "before_observation": 125,
+        "after_observation": 126,
+        "persisted_observation": 137
+      },
+      "not_verifiable_reason": "没有可导出的配置文件且工具没有第二个独立安装环境，跨新环境迁移无法验证；不存在可见密码配置后，不能将开关变色当作已设定凭据。"
+    }
+  ],
+  "actions": [
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "reset_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    }
+  ],
+  "observations": [
+    {
+      "number": 1,
+      "action_count": 0,
+      "sha256": "759418c23b1554493d19fcfa9cc332dea472743480a985513a84027703e47ddc",
+      "path": "frames/observation_001.png"
+    },
+    {
+      "number": 2,
+      "action_count": 1,
+      "sha256": "45cf92f9f0eedef534fca1e46e929e25fc7b3634270b53ce57656c863383746a",
+      "path": "frames/observation_002.png"
+    },
+    {
+      "number": 3,
+      "action_count": 2,
+      "sha256": "c938a50e3c0cdbaf85d4877bef69cf4552a9305aecdce0cc692c3b10515ed7ac",
+      "path": "frames/observation_003.png"
+    },
+    {
+      "number": 4,
+      "action_count": 3,
+      "sha256": "c938a50e3c0cdbaf85d4877bef69cf4552a9305aecdce0cc692c3b10515ed7ac",
+      "path": "frames/observation_004.png"
+    },
+    {
+      "number": 5,
+      "action_count": 7,
+      "sha256": "7d96042f2b71d6341e1ce3f0172f9e4ab284758320a592071953aaec5586dda7",
+      "path": "frames/observation_005.png"
+    },
+    {
+      "number": 6,
+      "action_count": 8,
+      "sha256": "7d96042f2b71d6341e1ce3f0172f9e4ab284758320a592071953aaec5586dda7",
+      "path": "frames/observation_006.png"
+    },
+    {
+      "number": 7,
+      "action_count": 9,
+      "sha256": "757fa2855a8685d90f78fd7abbae301a6df6f5b1d6b3df6fb210c951d4648171",
+      "path": "frames/observation_007.png"
+    },
+    {
+      "number": 8,
+      "action_count": 12,
+      "sha256": "4e527ed535d1a6a9a3690bf3059e7ad5e5f0c0665d6408779ebce1b91c5201f9",
+      "path": "frames/observation_008.png"
+    },
+    {
+      "number": 9,
+      "action_count": 13,
+      "sha256": "724066e98153e7d7051dc7893093f28deab688714bbb672b1a5345d93560a06a",
+      "path": "frames/observation_009.png"
+    },
+    {
+      "number": 10,
+      "action_count": 14,
+      "sha256": "613decb5894a6166e7eeee0bb328cfeabbe7da52c6f332b26346b4429489a0cc",
+      "path": "frames/observation_010.png"
+    },
+    {
+      "number": 11,
+      "action_count": 15,
+      "sha256": "b1110528d2c28e67037d8236a4e2704598829b691babe1c84dd53c0eebb6ac0c",
+      "path": "frames/observation_011.png"
+    },
+    {
+      "number": 12,
+      "action_count": 16,
+      "sha256": "ab295198bba0dc89224eaddda4bfd274361340eddf53349944ba2341841d71c4",
+      "path": "frames/observation_012.png"
+    },
+    {
+      "number": 13,
+      "action_count": 17,
+      "sha256": "ab295198bba0dc89224eaddda4bfd274361340eddf53349944ba2341841d71c4",
+      "path": "frames/observation_013.png"
+    },
+    {
+      "number": 14,
+      "action_count": 18,
+      "sha256": "456e951b9537e476c6ea1d4fd89ef2b5a2adbc9898d9c655cd53fa6230252176",
+      "path": "frames/observation_014.png"
+    },
+    {
+      "number": 15,
+      "action_count": 20,
+      "sha256": "8399b3b672fb24b28b0207ede09e8219fb88a102a21a51ba54f28b49a2aad7dd",
+      "path": "frames/observation_015.png"
+    },
+    {
+      "number": 16,
+      "action_count": 22,
+      "sha256": "cfd463a2bd4d95353a150f51edca4901f2415ccd77feb9de84b8e90c9565e890",
+      "path": "frames/observation_016.png"
+    },
+    {
+      "number": 17,
+      "action_count": 23,
+      "sha256": "51a2e75287242b3cba8a9d7ea55c1ff861cf96877dd68fcbbf479bd3ee2a835e",
+      "path": "frames/observation_017.png"
+    },
+    {
+      "number": 18,
+      "action_count": 26,
+      "sha256": "5e57e903773cce75331d34a5222432db934e5aa9ac75047e8880fc0a4d90189e",
+      "path": "frames/observation_018.png"
+    },
+    {
+      "number": 19,
+      "action_count": 30,
+      "sha256": "e7644ba0b9edc847dd4c4c300ddf9e04ab118c22eb0d19e9e7fa7071d6e4e35c",
+      "path": "frames/observation_019.png"
+    },
+    {
+      "number": 20,
+      "action_count": 32,
+      "sha256": "2e238e9740aa4b9789e74c3702da128382967cf023308a652ee53f38792b6c37",
+      "path": "frames/observation_020.png"
+    },
+    {
+      "number": 21,
+      "action_count": 33,
+      "sha256": "f3487845de53a87262365c99f871e8d65598ef3e07ddd4abf96a23f2246c5a4f",
+      "path": "frames/observation_021.png"
+    },
+    {
+      "number": 22,
+      "action_count": 36,
+      "sha256": "4c278a692cce734bc5b3d37a9ac954b49a1e659afab4e8670f1d29659288041a",
+      "path": "frames/observation_022.png"
+    },
+    {
+      "number": 23,
+      "action_count": 37,
+      "sha256": "78a08522ce7722aee7f468f27590d93e0dab00219b1efdcf14ca8143b3445509",
+      "path": "frames/observation_023.png"
+    },
+    {
+      "number": 24,
+      "action_count": 39,
+      "sha256": "8fa4c1319b030472a23c49418e358745cb7e94dddeddf97faae0948cc5cd99ec",
+      "path": "frames/observation_024.png"
+    },
+    {
+      "number": 25,
+      "action_count": 41,
+      "sha256": "33815c93bc5859c9a786de3cd920a04ea819d3ce056ccf6f2be332e96540c39c",
+      "path": "frames/observation_025.png"
+    },
+    {
+      "number": 26,
+      "action_count": 42,
+      "sha256": "753ca989efd89123f1de0c30c6972bd78600d09fd875337e8935b63d5816246d",
+      "path": "frames/observation_026.png"
+    },
+    {
+      "number": 27,
+      "action_count": 45,
+      "sha256": "4c278a692cce734bc5b3d37a9ac954b49a1e659afab4e8670f1d29659288041a",
+      "path": "frames/observation_027.png"
+    },
+    {
+      "number": 28,
+      "action_count": 47,
+      "sha256": "cfbdf4e2026440c41c1535e3ab1958307213346a3211e7eb021f1014d6114abb",
+      "path": "frames/observation_028.png"
+    },
+    {
+      "number": 29,
+      "action_count": 49,
+      "sha256": "f9a22cb05fa9c3070813c5d789da4564f41d6804ebfbf8882a2c92baaba35dc2",
+      "path": "frames/observation_029.png"
+    },
+    {
+      "number": 30,
+      "action_count": 50,
+      "sha256": "5eb3685a341d763e79485eecc7e17859be5c0d227bf37d4810013a84447b96ac",
+      "path": "frames/observation_030.png"
+    },
+    {
+      "number": 31,
+      "action_count": 52,
+      "sha256": "f9a22cb05fa9c3070813c5d789da4564f41d6804ebfbf8882a2c92baaba35dc2",
+      "path": "frames/observation_031.png"
+    },
+    {
+      "number": 32,
+      "action_count": 54,
+      "sha256": "f9a22cb05fa9c3070813c5d789da4564f41d6804ebfbf8882a2c92baaba35dc2",
+      "path": "frames/observation_032.png"
+    },
+    {
+      "number": 33,
+      "action_count": 56,
+      "sha256": "969e7d5240c2b04e7aedb522263c119c8a249bc1f8af12fdd1b9892aac0e3c67",
+      "path": "frames/observation_033.png"
+    },
+    {
+      "number": 34,
+      "action_count": 57,
+      "sha256": "4750adaf136a3df8f8e0ae4a1e2c4fbde96bb68767aa3501d205a5dc70b0041e",
+      "path": "frames/observation_034.png"
+    },
+    {
+      "number": 35,
+      "action_count": 60,
+      "sha256": "697f87639b3029b1dd4209af21c23324ec9af8037f32953dbc5547aae004f9a6",
+      "path": "frames/observation_035.png"
+    },
+    {
+      "number": 36,
+      "action_count": 61,
+      "sha256": "697f87639b3029b1dd4209af21c23324ec9af8037f32953dbc5547aae004f9a6",
+      "path": "frames/observation_036.png"
+    },
+    {
+      "number": 37,
+      "action_count": 63,
+      "sha256": "15358c0a5bad332a4eb79b7e4c25e906f1b66c2eaadaa61a33aa39b451c7d2e3",
+      "path": "frames/observation_037.png"
+    },
+    {
+      "number": 38,
+      "action_count": 66,
+      "sha256": "1d9ba9b352e5d8317bc63d5d632757e1c3033e3bfc2f9627b3ef5ebc31c01451",
+      "path": "frames/observation_038.png"
+    },
+    {
+      "number": 39,
+      "action_count": 68,
+      "sha256": "3995ce44306b0fbfa047203392fa90dbfb6848bdd19a18c26f53a549a55f5045",
+      "path": "frames/observation_039.png"
+    },
+    {
+      "number": 40,
+      "action_count": 70,
+      "sha256": "7c6abd33e1d05fe1de85a19d5bdd43fb360630f9af3bea26ce94e38630bf7f41",
+      "path": "frames/observation_040.png"
+    },
+    {
+      "number": 41,
+      "action_count": 71,
+      "sha256": "803bcb318d9c664951541ec2cb60584205a9100f914640875891be131531e626",
+      "path": "frames/observation_041.png"
+    },
+    {
+      "number": 42,
+      "action_count": 73,
+      "sha256": "94d33a83ca9a2b23fa316664d1a41c4f282a74d6852cab1016085d07d97177f8",
+      "path": "frames/observation_042.png"
+    },
+    {
+      "number": 43,
+      "action_count": 75,
+      "sha256": "94d33a83ca9a2b23fa316664d1a41c4f282a74d6852cab1016085d07d97177f8",
+      "path": "frames/observation_043.png"
+    },
+    {
+      "number": 44,
+      "action_count": 76,
+      "sha256": "803bcb318d9c664951541ec2cb60584205a9100f914640875891be131531e626",
+      "path": "frames/observation_044.png"
+    },
+    {
+      "number": 45,
+      "action_count": 77,
+      "sha256": "79bbe1e9059110b6c79905ba18298deb37a70217c419d490b3b7e0f31be611cf",
+      "path": "frames/observation_045.png"
+    },
+    {
+      "number": 46,
+      "action_count": 78,
+      "sha256": "79bbe1e9059110b6c79905ba18298deb37a70217c419d490b3b7e0f31be611cf",
+      "path": "frames/observation_046.png"
+    },
+    {
+      "number": 47,
+      "action_count": 80,
+      "sha256": "c1f7be0d72168a0ffd7fde58e65b00bf39c4aed62e392148830061550448056a",
+      "path": "frames/observation_047.png"
+    },
+    {
+      "number": 48,
+      "action_count": 81,
+      "sha256": "82b82eafbedf98d9d6948cf176689fcef62448b1131403bd2f7c9a696bc8ffba",
+      "path": "frames/observation_048.png"
+    },
+    {
+      "number": 49,
+      "action_count": 83,
+      "sha256": "d307be87b9a45610cde41ec06a43c7fd8bde26aa67c5646b5526cd52e481d8f3",
+      "path": "frames/observation_049.png"
+    },
+    {
+      "number": 50,
+      "action_count": 84,
+      "sha256": "bcf73702e6a941aff9d6d0c4fa36795515e6b9a1d033da906fb9017dd175c074",
+      "path": "frames/observation_050.png"
+    },
+    {
+      "number": 51,
+      "action_count": 86,
+      "sha256": "382d32a448ce3af3cf958bf231969ee95abfdac08a2bb11741da58e4afb6dbe8",
+      "path": "frames/observation_051.png"
+    },
+    {
+      "number": 52,
+      "action_count": 87,
+      "sha256": "5fd9884f7ba5286721dbc114851beb94ac28639687e4f34c5e02f236df903197",
+      "path": "frames/observation_052.png"
+    },
+    {
+      "number": 53,
+      "action_count": 88,
+      "sha256": "743a11ba8aa0eb0b0c86f73a5b8de1e0e6a84de6702e308f8ffeb6da840233dc",
+      "path": "frames/observation_053.png"
+    },
+    {
+      "number": 54,
+      "action_count": 89,
+      "sha256": "382d32a448ce3af3cf958bf231969ee95abfdac08a2bb11741da58e4afb6dbe8",
+      "path": "frames/observation_054.png"
+    },
+    {
+      "number": 55,
+      "action_count": 92,
+      "sha256": "382d32a448ce3af3cf958bf231969ee95abfdac08a2bb11741da58e4afb6dbe8",
+      "path": "frames/observation_055.png"
+    },
+    {
+      "number": 56,
+      "action_count": 93,
+      "sha256": "b529d005fd424da4ccc070d4dbf0aa6dd1b904f71107bf0dfead3ebf63e796ce",
+      "path": "frames/observation_056.png"
+    },
+    {
+      "number": 57,
+      "action_count": 94,
+      "sha256": "9ea8ee0bba91b599a1b65f049a3105e48bdea29fe3e4a580ad9ea4ff17b776c1",
+      "path": "frames/observation_057.png"
+    },
+    {
+      "number": 58,
+      "action_count": 95,
+      "sha256": "ed2a2bbee569a0e98fc079735ce761bf8e8440ee02e72fa1380e7e875f2ba6a2",
+      "path": "frames/observation_058.png"
+    },
+    {
+      "number": 59,
+      "action_count": 97,
+      "sha256": "ed2a2bbee569a0e98fc079735ce761bf8e8440ee02e72fa1380e7e875f2ba6a2",
+      "path": "frames/observation_059.png"
+    },
+    {
+      "number": 60,
+      "action_count": 99,
+      "sha256": "cf23d11df99e50fc2d4385d8a3a79ee1b97b2d98602e36f9f12b163ab57d1982",
+      "path": "frames/observation_060.png"
+    },
+    {
+      "number": 61,
+      "action_count": 102,
+      "sha256": "89cb1d2a5d887590d1f1d192440cbc86a90abbcbb8b4dd0d6fe4e67babd8c59c",
+      "path": "frames/observation_061.png"
+    },
+    {
+      "number": 62,
+      "action_count": 103,
+      "sha256": "ed2a2bbee569a0e98fc079735ce761bf8e8440ee02e72fa1380e7e875f2ba6a2",
+      "path": "frames/observation_062.png"
+    },
+    {
+      "number": 63,
+      "action_count": 104,
+      "sha256": "d185c718b83e76e52546a9b33b7c30f20b61b36addd62d4fabac8e61b4ad9e10",
+      "path": "frames/observation_063.png"
+    },
+    {
+      "number": 64,
+      "action_count": 105,
+      "sha256": "d185c718b83e76e52546a9b33b7c30f20b61b36addd62d4fabac8e61b4ad9e10",
+      "path": "frames/observation_064.png"
+    },
+    {
+      "number": 65,
+      "action_count": 106,
+      "sha256": "d185c718b83e76e52546a9b33b7c30f20b61b36addd62d4fabac8e61b4ad9e10",
+      "path": "frames/observation_065.png"
+    },
+    {
+      "number": 66,
+      "action_count": 108,
+      "sha256": "c427cb1ac35cedbac0841d4cd36e26ebfd3b401606ef1c675665b21463b0260d",
+      "path": "frames/observation_066.png"
+    },
+    {
+      "number": 67,
+      "action_count": 109,
+      "sha256": "1a07eeb61bdc170b0a4af66b5bd24ee66da45fe3d88e4d1dc2323a67bf805a02",
+      "path": "frames/observation_067.png"
+    },
+    {
+      "number": 68,
+      "action_count": 110,
+      "sha256": "1a07eeb61bdc170b0a4af66b5bd24ee66da45fe3d88e4d1dc2323a67bf805a02",
+      "path": "frames/observation_068.png"
+    },
+    {
+      "number": 69,
+      "action_count": 111,
+      "sha256": "1a4a122d7b430278592e876c011bc4e0b70a1a17082067e17779b7c049942679",
+      "path": "frames/observation_069.png"
+    },
+    {
+      "number": 70,
+      "action_count": 114,
+      "sha256": "0f65f3f51abe82d47952569ed8b4ebb9045437fe915d74e3c0acc95e882fe12c",
+      "path": "frames/observation_070.png"
+    },
+    {
+      "number": 71,
+      "action_count": 116,
+      "sha256": "4febe670e7f6e9658af844f10402ab232a34217b7234a62e9b976e88dd9b3b04",
+      "path": "frames/observation_071.png"
+    },
+    {
+      "number": 72,
+      "action_count": 117,
+      "sha256": "ad7de7ccdc48b7b9e7543084f447706fb3c34e02dc0bad817f1c8035b5ce20eb",
+      "path": "frames/observation_072.png"
+    },
+    {
+      "number": 73,
+      "action_count": 120,
+      "sha256": "4febe670e7f6e9658af844f10402ab232a34217b7234a62e9b976e88dd9b3b04",
+      "path": "frames/observation_073.png"
+    },
+    {
+      "number": 74,
+      "action_count": 122,
+      "sha256": "4febe670e7f6e9658af844f10402ab232a34217b7234a62e9b976e88dd9b3b04",
+      "path": "frames/observation_074.png"
+    },
+    {
+      "number": 75,
+      "action_count": 124,
+      "sha256": "3d411ae93ccc1b80afbb4f8d4db4a3a75a2fb2837cd4e004e86d8484a0fc547f",
+      "path": "frames/observation_075.png"
+    },
+    {
+      "number": 76,
+      "action_count": 125,
+      "sha256": "5921402fd759188ce6523f3fc9aaa99c3e4fe519b51a793eb63140b7e330d01e",
+      "path": "frames/observation_076.png"
+    },
+    {
+      "number": 77,
+      "action_count": 126,
+      "sha256": "6f8eabc3c319095aa572f678e01fb34f7b77651289a93dc927d480c9e4388d4b",
+      "path": "frames/observation_077.png"
+    },
+    {
+      "number": 78,
+      "action_count": 128,
+      "sha256": "6f8eabc3c319095aa572f678e01fb34f7b77651289a93dc927d480c9e4388d4b",
+      "path": "frames/observation_078.png"
+    },
+    {
+      "number": 79,
+      "action_count": 130,
+      "sha256": "6f8eabc3c319095aa572f678e01fb34f7b77651289a93dc927d480c9e4388d4b",
+      "path": "frames/observation_079.png"
+    },
+    {
+      "number": 80,
+      "action_count": 132,
+      "sha256": "d0a58a0a7022f63921517e2527b04108246fd7919ba93f1122cc5fa5b3c3d9d0",
+      "path": "frames/observation_080.png"
+    },
+    {
+      "number": 81,
+      "action_count": 133,
+      "sha256": "5ab6d14f236772cf604de6dfa942347f6b13ff1a01410a1130272fb00edb475d",
+      "path": "frames/observation_081.png"
+    },
+    {
+      "number": 82,
+      "action_count": 136,
+      "sha256": "2a5ce7832bab60a460f32410e807db1f7684c3db0189b60a801715a986aec63d",
+      "path": "frames/observation_082.png"
+    },
+    {
+      "number": 83,
+      "action_count": 138,
+      "sha256": "fd6e3786f2274088993912e5cd32944d1984b5536d3e803ec451d2a7e07459df",
+      "path": "frames/observation_083.png"
+    },
+    {
+      "number": 84,
+      "action_count": 140,
+      "sha256": "e159d3cedec30c2f3994d714de8a4fe4c9eaa99d3a577b48c6810de7cf4e221c",
+      "path": "frames/observation_084.png"
+    },
+    {
+      "number": 85,
+      "action_count": 141,
+      "sha256": "dfc5b247ddfb8c1ae61d244288de0ccb98de575dfac08c750ca3e038c961c7f9",
+      "path": "frames/observation_085.png"
+    },
+    {
+      "number": 86,
+      "action_count": 142,
+      "sha256": "3c59eb4d1d664642fd0521798a43917b5082fdd3dda5a9052f8ff1b320be1d5e",
+      "path": "frames/observation_086.png"
+    },
+    {
+      "number": 87,
+      "action_count": 143,
+      "sha256": "208db9b86bbb43f5453bc8353da99416926162df916b36df2b305e9b2290445d",
+      "path": "frames/observation_087.png"
+    },
+    {
+      "number": 88,
+      "action_count": 144,
+      "sha256": "17055ad95391d59f47ae38450f97d90bca4e8e4c398c2a9a309a7baf39307a86",
+      "path": "frames/observation_088.png"
+    },
+    {
+      "number": 89,
+      "action_count": 146,
+      "sha256": "9c9a729e69d376f27469378df7f46ce58bc9b2198e2dccc05a04368bbae60af6",
+      "path": "frames/observation_089.png"
+    },
+    {
+      "number": 90,
+      "action_count": 147,
+      "sha256": "c96caf1cbc95b8134b6cf2a123c4c17976ef098cdf09775f253012bcc17de64f",
+      "path": "frames/observation_090.png"
+    },
+    {
+      "number": 91,
+      "action_count": 148,
+      "sha256": "23b64b1358fac396e03bc3c1cad6554245bc1543c03e00a7b0a2aa729943a539",
+      "path": "frames/observation_091.png"
+    },
+    {
+      "number": 92,
+      "action_count": 149,
+      "sha256": "d393525118af81ca19916b1ef2ec660b04078cff0ba98ae4702364f97d8442fc",
+      "path": "frames/observation_092.png"
+    },
+    {
+      "number": 93,
+      "action_count": 151,
+      "sha256": "be80c2b232a2e44eb533434662c5cc98ed1b66a1e5661f25f33f79d5f4226c97",
+      "path": "frames/observation_093.png"
+    },
+    {
+      "number": 94,
+      "action_count": 152,
+      "sha256": "23b64b1358fac396e03bc3c1cad6554245bc1543c03e00a7b0a2aa729943a539",
+      "path": "frames/observation_094.png"
+    },
+    {
+      "number": 95,
+      "action_count": 154,
+      "sha256": "bc536eb8d0394f91ca0aad0b30a3b85160dfd17d2b56e40d32f2208ff4eebe74",
+      "path": "frames/observation_095.png"
+    },
+    {
+      "number": 96,
+      "action_count": 155,
+      "sha256": "2a1242054ec0c1f487aa7c270ac02d839349ae8bc41fee4ae991e59a2467b4e6",
+      "path": "frames/observation_096.png"
+    },
+    {
+      "number": 97,
+      "action_count": 156,
+      "sha256": "0ddc34411770be028bd3d2bfc601dd8b0398f91533289cd16e7bb3994eed44c7",
+      "path": "frames/observation_097.png"
+    },
+    {
+      "number": 98,
+      "action_count": 158,
+      "sha256": "0ddc34411770be028bd3d2bfc601dd8b0398f91533289cd16e7bb3994eed44c7",
+      "path": "frames/observation_098.png"
+    },
+    {
+      "number": 99,
+      "action_count": 160,
+      "sha256": "4305560c48ad76c5b54f41b2ad40d9ff44cd2d6fea35adb8b918ddefb92d6c1b",
+      "path": "frames/observation_099.png"
+    },
+    {
+      "number": 100,
+      "action_count": 163,
+      "sha256": "0ddc34411770be028bd3d2bfc601dd8b0398f91533289cd16e7bb3994eed44c7",
+      "path": "frames/observation_100.png"
+    },
+    {
+      "number": 101,
+      "action_count": 164,
+      "sha256": "67c2642c02903b805828570fea1c47333afc474213984ed164e23792caec54f9",
+      "path": "frames/observation_101.png"
+    },
+    {
+      "number": 102,
+      "action_count": 166,
+      "sha256": "5c5ea4a5ffab145058bdfb9f8b9d531bd3a71b4a987c5645c0ecd61cc4bd9c25",
+      "path": "frames/observation_102.png"
+    },
+    {
+      "number": 103,
+      "action_count": 167,
+      "sha256": "5c5ea4a5ffab145058bdfb9f8b9d531bd3a71b4a987c5645c0ecd61cc4bd9c25",
+      "path": "frames/observation_103.png"
+    },
+    {
+      "number": 104,
+      "action_count": 168,
+      "sha256": "e8bd4eb8bda749f4563aac6e6f30120e9c514531f3680ecdf449905cb8a36311",
+      "path": "frames/observation_104.png"
+    },
+    {
+      "number": 105,
+      "action_count": 169,
+      "sha256": "673ee8e7b032d75da2728b0c585ea7f7235691a2f54521e20de30ccf42fa631a",
+      "path": "frames/observation_105.png"
+    },
+    {
+      "number": 106,
+      "action_count": 170,
+      "sha256": "129819bc255306f55d0996e1c23657226d27abb4c49d4f68c40addd96ae16aec",
+      "path": "frames/observation_106.png"
+    },
+    {
+      "number": 107,
+      "action_count": 173,
+      "sha256": "875fbdc26ab756fdf0b0594231fcf9ae20927f7a8082b4bf56057f3924694781",
+      "path": "frames/observation_107.png"
+    },
+    {
+      "number": 108,
+      "action_count": 175,
+      "sha256": "875fbdc26ab756fdf0b0594231fcf9ae20927f7a8082b4bf56057f3924694781",
+      "path": "frames/observation_108.png"
+    },
+    {
+      "number": 109,
+      "action_count": 177,
+      "sha256": "3a1efbd026b5618f578befb854ce19426093ce71049a257e42c71e18b251e9f7",
+      "path": "frames/observation_109.png"
+    },
+    {
+      "number": 110,
+      "action_count": 180,
+      "sha256": "5eda729a47eb60ddaf848a2d2e76f1e948caaffb9c024408052441d7464d96d0",
+      "path": "frames/observation_110.png"
+    },
+    {
+      "number": 111,
+      "action_count": 181,
+      "sha256": "72f0a502f9b56f087cb8a20f31be2e43caf1ef50c2a92e1ec96a83c5cdf3ae71",
+      "path": "frames/observation_111.png"
+    },
+    {
+      "number": 112,
+      "action_count": 182,
+      "sha256": "95ac81f77e8c9ac28e369cd12ed72499b60beb7ffdb715d4d4b1aeb45c6de717",
+      "path": "frames/observation_112.png"
+    },
+    {
+      "number": 113,
+      "action_count": 183,
+      "sha256": "95ac81f77e8c9ac28e369cd12ed72499b60beb7ffdb715d4d4b1aeb45c6de717",
+      "path": "frames/observation_113.png"
+    },
+    {
+      "number": 114,
+      "action_count": 185,
+      "sha256": "a9cb7ce4bd02ac92811c82fe0c9434b271ea4da59bf9a155475466c88aa55104",
+      "path": "frames/observation_114.png"
+    },
+    {
+      "number": 115,
+      "action_count": 186,
+      "sha256": "74be68596a54bbda5fe09bf9d423d15ae53a76c9d078e0690cc1a271da25ffd4",
+      "path": "frames/observation_115.png"
+    },
+    {
+      "number": 116,
+      "action_count": 187,
+      "sha256": "a9cb7ce4bd02ac92811c82fe0c9434b271ea4da59bf9a155475466c88aa55104",
+      "path": "frames/observation_116.png"
+    },
+    {
+      "number": 117,
+      "action_count": 188,
+      "sha256": "a9cb7ce4bd02ac92811c82fe0c9434b271ea4da59bf9a155475466c88aa55104",
+      "path": "frames/observation_117.png"
+    },
+    {
+      "number": 118,
+      "action_count": 189,
+      "sha256": "f625a353f90ae2bfee858c5e54a2be5b60c9268380e307a42960215740a6eba2",
+      "path": "frames/observation_118.png"
+    },
+    {
+      "number": 119,
+      "action_count": 190,
+      "sha256": "be32357719c2bf85cd2ca08f3678b97925f11fe5379b39319678332a344323cc",
+      "path": "frames/observation_119.png"
+    },
+    {
+      "number": 120,
+      "action_count": 191,
+      "sha256": "b454635cb88cf37cb036c4ed158a79ae3b2de67fcd6c4a7c8801b25dad45c6e7",
+      "path": "frames/observation_120.png"
+    },
+    {
+      "number": 121,
+      "action_count": 192,
+      "sha256": "5d5961259fa2db1cc8a47ec396e840d49ca18d1ce25187ba4b11564a6d898361",
+      "path": "frames/observation_121.png"
+    },
+    {
+      "number": 122,
+      "action_count": 194,
+      "sha256": "33d7cd3ad13338afdf33ed13686b894acb0364152090bef380ca2817dbc3b171",
+      "path": "frames/observation_122.png"
+    },
+    {
+      "number": 123,
+      "action_count": 199,
+      "sha256": "6837ac75fafc0ea211a1291367151f4add71cfbc867c271e2ecbe31351ee7d0d",
+      "path": "frames/observation_123.png"
+    },
+    {
+      "number": 124,
+      "action_count": 200,
+      "sha256": "5524d283e4bac0c696efb847177fb1121322c0ec22d4fe46dadfd8d8cae4d49b",
+      "path": "frames/observation_124.png"
+    },
+    {
+      "number": 125,
+      "action_count": 205,
+      "sha256": "0526ff0f6d2887977555249025bb90f1f8f18b32ab02294a2ac62f1cfa2ec2fd",
+      "path": "frames/observation_125.png"
+    },
+    {
+      "number": 126,
+      "action_count": 208,
+      "sha256": "097e1540676ff6b23ff5a670583b4d09ef0d11851be64f8000578e7d8e881526",
+      "path": "frames/observation_126.png"
+    },
+    {
+      "number": 127,
+      "action_count": 209,
+      "sha256": "f5f45aaafe36d8d12f1dcffe4862ffcccac531c7a8ca5c3ee9f918fae7b7e62d",
+      "path": "frames/observation_127.png"
+    },
+    {
+      "number": 128,
+      "action_count": 210,
+      "sha256": "f5f45aaafe36d8d12f1dcffe4862ffcccac531c7a8ca5c3ee9f918fae7b7e62d",
+      "path": "frames/observation_128.png"
+    },
+    {
+      "number": 129,
+      "action_count": 213,
+      "sha256": "67a17e4ec5edc5f3b6d81d2b2a24247549adc64dd572b88f13db4e462b432302",
+      "path": "frames/observation_129.png"
+    },
+    {
+      "number": 130,
+      "action_count": 214,
+      "sha256": "2e21e6a111752a20203e52ffbc7090a83490d29d27c60953a631a538c7e57236",
+      "path": "frames/observation_130.png"
+    },
+    {
+      "number": 131,
+      "action_count": 215,
+      "sha256": "b6f3e3a6739fad15879b334eaf883a712d072455b418df056ea0bba1ce462ee1",
+      "path": "frames/observation_131.png"
+    },
+    {
+      "number": 132,
+      "action_count": 217,
+      "sha256": "3fd48773fce31421179f63c3220195ac1c0646ec3688296e8e4e9b7314cdef42",
+      "path": "frames/observation_132.png"
+    },
+    {
+      "number": 133,
+      "action_count": 218,
+      "sha256": "44a4003e9f1203c9e312c80e832913d82d74d001edd0a0e585de0f951dc2ec90",
+      "path": "frames/observation_133.png"
+    },
+    {
+      "number": 134,
+      "action_count": 219,
+      "sha256": "2e21e6a111752a20203e52ffbc7090a83490d29d27c60953a631a538c7e57236",
+      "path": "frames/observation_134.png"
+    },
+    {
+      "number": 135,
+      "action_count": 220,
+      "sha256": "b6f3e3a6739fad15879b334eaf883a712d072455b418df056ea0bba1ce462ee1",
+      "path": "frames/observation_135.png"
+    },
+    {
+      "number": 136,
+      "action_count": 221,
+      "sha256": "4da03dd4fd3f0d29eb37e0a17a25a27da07409a75921ef4ce3edfb15c14d35ba",
+      "path": "frames/observation_136.png"
+    },
+    {
+      "number": 137,
+      "action_count": 226,
+      "sha256": "8004eaf0825dcba37be4bf5abcf48ea053c8bc3e03cd08aeb710e06204cc5a97",
+      "path": "frames/observation_137.png"
+    },
+    {
+      "number": 138,
+      "action_count": 227,
+      "sha256": "9a4bbd917d377fdfe763cd3009352fd4e4f3eec1b4bd9415200b549d7783c925",
+      "path": "frames/observation_138.png"
+    }
+  ]
+}

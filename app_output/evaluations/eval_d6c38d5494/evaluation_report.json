@@ -1,0 +1,1504 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "run_id": "eval_d6c38d5494",
+  "checklist_id": "loop_habit_tracker",
+  "checklist_sha256": "7d0fdfd5b4ea32e5595ef098441a28fa148d3eab0f6976c2e9b3911037c60e90",
+  "apk_sha256": "59f1ed88c4c35c9794e0fd63907a669a2067a91836f246f3804cf889d0688484",
+  "package_name": "com.blackboxbench.reproduction",
+  "counts": {
+    "full": 5,
+    "partial": 9,
+    "placeholder": 0,
+    "broken": 6
+  },
+  "requirements": [
+    {
+      "requirement_id": "f01",
+      "name": "习惯列表与日期矩阵",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "初始空状态、新建行、当天勾和成绩圆环即时变化均可见。横向滑动日期表头到9/6～9/1后，记录行仍固定显示原9/9～9/7的三个勾，日期与格子未同步；在记录行横滑也没有显示更早历史。",
+      "evidence_observations": [
+        4,
+        12,
+        16,
+        28,
+        30,
+        31,
+        32
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f02",
+      "name": "创建“完成与否”习惯",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "新建绿色 Read，问题 Read today?、频率每周3次、提醒08:00每天、备注 Audit note。保存后主列表出现，重启后详情及编辑表单恢复全部设置。",
+      "evidence_observations": [
+        4,
+        11,
+        12,
+        13,
+        14
+      ],
+      "persistence_evidence": {
+        "requirement_id": "f02",
+        "before_observation": 4,
+        "after_observation": 12,
+        "persisted_observation": 14
+      },
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f03",
+      "name": "创建可量化习惯",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "成功创建Jog，保存问题、km单位、10目标、至少/至多、每天及独立提醒，主页显示数值km。详情只有通用总览、曲线、历史柱，未显示目标统计区。",
+      "evidence_observations": [
+        38,
+        39,
+        43,
+        44,
+        46,
+        51
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f04",
+      "name": "灵活频率与计划规则",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "频率提供每天、每3天、每周3次、每月10次等固定选项，每周3次改每3天后文字保存；没有可编辑的隔天或自定义N次输入。完成历史及修改频率后，列表仍只有勾叉，未见按频率推导的不需执行日期或未来计划。",
+      "evidence_observations": [
+        9,
+        28,
+        35,
+        36,
+        37
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f05",
+      "name": "二值习惯打卡状态机",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "9/9由叉变为绿色勾，成绩由0%变11%、总计0变1且历史柱与曲线改变；选择叉可撤销，再设完成后重启仍为勾。",
+      "evidence_observations": [
+        12,
+        13,
+        16,
+        17,
+        19,
+        20,
+        21,
+        22
+      ],
+      "persistence_evidence": {
+        "requirement_id": "f05",
+        "before_observation": 19,
+        "after_observation": 20,
+        "persisted_observation": 21
+      },
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f06",
+      "name": "可量化习惯数值记录",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "当天输入5km后主页保存5且曲线/历史柱上升；将同日改12km后仅该格变12，至少10目标下由未达标变达标，成绩及本月/今年0%变11%、成功总计0变1。再改5后保留一个当天记录并重算，未累加成17或产生第二条。",
+      "evidence_observations": [
+        43,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        55,
+        58
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f07",
+      "name": "可量化目标方向",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "至少10时5km灰色且成功总计0、12km彩色且总计1；改为至多10后同一12km变灰、成绩归0，再将数值改5后成绩11%且总计1。目标方向与实际数值共同决定达标及详情成绩。",
+      "evidence_observations": [
+        47,
+        49,
+        50,
+        51,
+        52,
+        53,
+        55
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f08",
+      "name": "Skip Day / 跳过日期",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "今天点击和历史格长按都只打开备注、完成勾、失败叉，未见Skip选项。主页三点多次点击/长按不展开菜单，左边缘滑动、标题点击也没有设置入口；无法开启跳过天数及产生独立跳过状态。",
+      "evidence_observations": [
+        15,
+        59,
+        69,
+        70,
+        71,
+        80
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f09",
+      "name": "无数据 / 未完成 / Skip 的区分",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "成功为勾、明确失败为叉，历史可回填并重算；但未录入的9/5与已明确失败9/8都显示相同叉，数值未录入为0。未找到问号开关，记录对话框没有Skip，四种状态未区分。",
+      "evidence_observations": [
+        27,
+        28,
+        34,
+        66,
+        69,
+        80
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f10",
+      "name": "跨午夜的逻辑日期",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "主页三点点击及长按未展开设置，左右入口查找及习惯编辑、详情中均未见延长一天或日界线选项，不能开启该功能。",
+      "evidence_observations": [
+        14,
+        51,
+        58,
+        59,
+        60,
+        69,
+        70,
+        71
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "当前模拟器为白天；唯一允许工具没有直接调时功能，且应用日界线设置入口不可达，未能进行凌晨边界实测。"
+    },
+    {
+      "requirement_id": "f11",
+      "name": "归档与恢复习惯",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "筛选存在隐藏已归档开关且可取消，但未找到可用归档/恢复操作。详情三点点击直接回主页；长按Read进入选择模式后三点点击也退出至主页，不展示操作菜单。取消隐藏已归档后仍只有原来两项，无法执行归档及恢复闭环。",
+      "evidence_observations": [
+        25,
+        26,
+        60,
+        67,
+        68,
+        78
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f12",
+      "name": "完成状态过滤",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "开启隐藏已完成后Jog消失、未完成Read保留；过滤期间将Read今天设完成后列表变空。关闭过滤两项和全部历史重新出现；撤销Read今天后再次过滤只显示Read，重启后数据仍保留。",
+      "evidence_observations": [
+        58,
+        60,
+        62,
+        63,
+        64,
+        65,
+        66
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f13",
+      "name": "多规则排序与手工顺序",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "Read/Jog具有不同名称颜色、22%/11%成绩和未完成/达标状态；名称排序Jog在前、颜色和得分Read在前、状态Jog在前，手动回到Read在前。手动模式慢拖、长按后拖动均未改变顺序；长按仅进入选择模式，未走通用户维护自定义顺序。",
+      "evidence_observations": [
+        60,
+        66,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        79
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f14",
+      "name": "Habit Score 派生计算",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "完成总数从1到3时成绩11%到33%，取消过去9/8后变22%，存在重算。但把9/9完成移到9/6后，同为3次的成绩仍33%，近期与较早记录没有产生可见权重差异；曲线直接显示每日0/1平台，未呈现清单要求的逐步平滑成绩。",
+      "evidence_observations": [
+        17,
+        29,
+        33,
+        34
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f15",
+      "name": "习惯详情与多时间尺度统计",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "详情显示总览、成绩曲线及历史柱；补录两天后成绩11%变33%、总数1变3且曲线更新。点击“月”粒度入口在页面顶部和滚动后均直接回主页；滚动到底仅有历史柱，未找到日历和更多粒度。",
+      "evidence_observations": [
+        13,
+        17,
+        18,
+        22,
+        23,
+        24,
+        25,
+        29
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f16",
+      "name": "可量化 Habit 的周期目标统计",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "目标10的可量化习惯详情上下浏览只有总览、成绩和历史，未找到今日/周/月/季度/年衍生目标区；把基础目标改20后重入并滚动到底仍没有周期目标。",
+      "evidence_observations": [
+        44,
+        46,
+        50,
+        56,
+        57
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f17",
+      "name": "历史回填与修正",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "主页9/8、9/7格子可打开对应日期并补为完成，三个勾、总计3和曲线同步更新。详情底部历史柱点击无响应，未提供可操作日历或streak统计，完整历史编辑和全部统计联动未达成。",
+      "evidence_observations": [
+        24,
+        25,
+        27,
+        28,
+        29
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f18",
+      "name": "每 Habit Reminder 与通知行为",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "每习惯提醒可独立保存：Read原08:00、Jog单独设置其他时间，Read再改11:01每天并在11:00详情确认。Read当天明确未完成，11:01到点及稍后展开通知栏均只见Android系统通知，没有Read提醒，不能从通知完成/忽略；提前完成抑制分支也未形成可验证闭环。",
+      "evidence_observations": [
+        14,
+        44,
+        51,
+        86,
+        87,
+        88,
+        89,
+        90
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "可确认提醒字段保存及到点时可见通知栏结果；未能进入系统通知配置确认权限/渠道状态，无法分离未通知的具体原因，也未验证通知操作和提前完成后的抑制。"
+    },
+    {
+      "requirement_id": "f19",
+      "name": "通知全局配置",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "主页三点点击/长按未展开设置菜单，详情与选中模式三点均返回主页，未找到常驻、默认/静音、提示音、振动、圆点、勿扰覆盖或通知总开关。尝试系统快捷面板设置后观察仍回到习惯主页，未进入通知配置页，无法修改全局通知规则。",
+      "evidence_observations": [
+        58,
+        59,
+        60,
+        67,
+        68,
+        69,
+        82,
+        83
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "本次可用观察只有截图，无法确认声音或振动输出；应用通知配置入口未能进入，未验证后续提醒遵循全局设置。"
+    },
+    {
+      "requirement_id": "f20",
+      "name": "完整备份、恢复与数据迁移",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "已创建Read/Jog并保存二值历史及数值记录；主页三点多次点击/长按无法打开菜单，详情三点返回主页，筛选仅含过滤和排序。检查编辑页、详情底部和左右入口后，未找到完整备份、CSV导出或导入操作，无法生成备份及恢复数据。",
+      "evidence_observations": [
+        26,
+        51,
+        57,
+        58,
+        59,
+        60,
+        66,
+        69,
+        70,
+        71
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    }
+  ],
+  "actions": [
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "swipe"
+    }
+  ],
+  "observations": [
+    {
+      "number": 1,
+      "action_count": 0,
+      "sha256": "8e7d2ad03dddc4a7d594aa503df01eb77d294c07920bba50c0a249f6ead27a1d",
+      "path": "frames/observation_001.png"
+    },
+    {
+      "number": 2,
+      "action_count": 1,
+      "sha256": "771f29bd9711437d4072111a6a6ba9bd203ac108d721f7e22e16b4b54d583f58",
+      "path": "frames/observation_002.png"
+    },
+    {
+      "number": 3,
+      "action_count": 2,
+      "sha256": "e2d10e666c230359ef41a07f3158f614e04e5b90cb7460b8392edc00a2b722cf",
+      "path": "frames/observation_003.png"
+    },
+    {
+      "number": 4,
+      "action_count": 3,
+      "sha256": "77ad5ecbecf5068e095d4b2f66515f9fdaf74e8e1a78e072396983167917d417",
+      "path": "frames/observation_004.png"
+    },
+    {
+      "number": 5,
+      "action_count": 4,
+      "sha256": "425f05c157ce474deef06c7a0d0a82a80d0a39fbfed5934985ba7b2fde9894ed",
+      "path": "frames/observation_005.png"
+    },
+    {
+      "number": 6,
+      "action_count": 5,
+      "sha256": "585c560d83727302fc48671783e04e2c0c717a646382c3537caf89ff21fed3ae",
+      "path": "frames/observation_006.png"
+    },
+    {
+      "number": 7,
+      "action_count": 10,
+      "sha256": "63da5cb61ba582c0d368da0c164b6aef728331b9c941c42e34b6d2e11f809087",
+      "path": "frames/observation_007.png"
+    },
+    {
+      "number": 8,
+      "action_count": 11,
+      "sha256": "c7d33e723234780161f27d47fc570210c359f124c57e2ed24dc5ac8b9ada2b9b",
+      "path": "frames/observation_008.png"
+    },
+    {
+      "number": 9,
+      "action_count": 13,
+      "sha256": "78a1acdd6dc52d289bedd370044df34d98a4d3044ffb82af4ca0ced15797782d",
+      "path": "frames/observation_009.png"
+    },
+    {
+      "number": 10,
+      "action_count": 16,
+      "sha256": "bba4814ca57a75d111a643f5435c9153503e639e6f5440b11193a04f66607cfa",
+      "path": "frames/observation_010.png"
+    },
+    {
+      "number": 11,
+      "action_count": 20,
+      "sha256": "b6e351ae80de2e1e048506e763c4faa768768810fd227557c25a6c74d6b729d9",
+      "path": "frames/observation_011.png"
+    },
+    {
+      "number": 12,
+      "action_count": 21,
+      "sha256": "06aa07b5535fa3f0e6fe863917aafc0cc5aaaf15457b3206c01efd5f01605fb8",
+      "path": "frames/observation_012.png"
+    },
+    {
+      "number": 13,
+      "action_count": 23,
+      "sha256": "3274021745e8bfa989f181fb024d0d8b97d1c3900c1dea441fc185701deed044",
+      "path": "frames/observation_013.png"
+    },
+    {
+      "number": 14,
+      "action_count": 24,
+      "sha256": "101b09de8427288ef295c34d92621506ac8b88d80b65eb6b97b23ff27ce3019b",
+      "path": "frames/observation_014.png"
+    },
+    {
+      "number": 15,
+      "action_count": 27,
+      "sha256": "c5e20f78e7aa4be023e8619f7df47c3b69b84ab27b29c6f6b48101b113dcf352",
+      "path": "frames/observation_015.png"
+    },
+    {
+      "number": 16,
+      "action_count": 28,
+      "sha256": "cea7a5534afe4d079ab353a580c5f64cf392ded4679043fce19a79252b261641",
+      "path": "frames/observation_016.png"
+    },
+    {
+      "number": 17,
+      "action_count": 29,
+      "sha256": "ad981e54398ee64af0a1922f16ab94a45a2ec72f82718bfd20ff9b025f025ac1",
+      "path": "frames/observation_017.png"
+    },
+    {
+      "number": 18,
+      "action_count": 30,
+      "sha256": "cea7a5534afe4d079ab353a580c5f64cf392ded4679043fce19a79252b261641",
+      "path": "frames/observation_018.png"
+    },
+    {
+      "number": 19,
+      "action_count": 32,
+      "sha256": "e408098ce5ea697e878323b44918df0ee9a3596f2806947d83805d0966bb9ba0",
+      "path": "frames/observation_019.png"
+    },
+    {
+      "number": 20,
+      "action_count": 34,
+      "sha256": "79c1f3374e4117739f824b6a5592b41ec8289eb0290dfbf8cd8186a51f3df7e6",
+      "path": "frames/observation_020.png"
+    },
+    {
+      "number": 21,
+      "action_count": 35,
+      "sha256": "79c1f3374e4117739f824b6a5592b41ec8289eb0290dfbf8cd8186a51f3df7e6",
+      "path": "frames/observation_021.png"
+    },
+    {
+      "number": 22,
+      "action_count": 37,
+      "sha256": "e4caa8230025a48deecb2191d6422d066072d932c3ac15c3d8184f5411b521f4",
+      "path": "frames/observation_022.png"
+    },
+    {
+      "number": 23,
+      "action_count": 38,
+      "sha256": "79c1f3374e4117739f824b6a5592b41ec8289eb0290dfbf8cd8186a51f3df7e6",
+      "path": "frames/observation_023.png"
+    },
+    {
+      "number": 24,
+      "action_count": 41,
+      "sha256": "cd83ab5eb14039e02227c3512cce8c0f108a520254c1f11a104b0ae075d18af1",
+      "path": "frames/observation_024.png"
+    },
+    {
+      "number": 25,
+      "action_count": 42,
+      "sha256": "cd83ab5eb14039e02227c3512cce8c0f108a520254c1f11a104b0ae075d18af1",
+      "path": "frames/observation_025.png"
+    },
+    {
+      "number": 26,
+      "action_count": 43,
+      "sha256": "b84fbcb2729b193325489565e193a636de6bebda67e5ae9519d76fbd1fbb684a",
+      "path": "frames/observation_026.png"
+    },
+    {
+      "number": 27,
+      "action_count": 44,
+      "sha256": "a82365fe418692ffaee87c735372925a0934d0e5c0081b161571c5396c0e029e",
+      "path": "frames/observation_027.png"
+    },
+    {
+      "number": 28,
+      "action_count": 47,
+      "sha256": "16eeb3e79ececfd8ebfba1572c503956eea288618725ad1dac99ce274160c4c1",
+      "path": "frames/observation_028.png"
+    },
+    {
+      "number": 29,
+      "action_count": 48,
+      "sha256": "d7513221dd4939fcafa475a3985b92800eb36a066b05de76a9533af662ce7b83",
+      "path": "frames/observation_029.png"
+    },
+    {
+      "number": 30,
+      "action_count": 50,
+      "sha256": "3a65cfd3dc4f75db06543b1bb0ce09a94eb87e2c14fdc0684137d52a6f478466",
+      "path": "frames/observation_030.png"
+    },
+    {
+      "number": 31,
+      "action_count": 51,
+      "sha256": "ba2d76696c60de5b99230e465085555efb472851fd1654adf5421590629080ec",
+      "path": "frames/observation_031.png"
+    },
+    {
+      "number": 32,
+      "action_count": 52,
+      "sha256": "7cd3db07bbc4f9678931455af9860ed4ac509332116a36657c213e958d028f67",
+      "path": "frames/observation_032.png"
+    },
+    {
+      "number": 33,
+      "action_count": 57,
+      "sha256": "4bb2385a6ef266e37a6b40d946be701b1cb362e6fa1be8712d0138cc8eb8f15f",
+      "path": "frames/observation_033.png"
+    },
+    {
+      "number": 34,
+      "action_count": 61,
+      "sha256": "9a77696536f9d4a29f1a20a497b058516cc0d52125c1c4a6ee8002e36fd11221",
+      "path": "frames/observation_034.png"
+    },
+    {
+      "number": 35,
+      "action_count": 63,
+      "sha256": "989942e69e82ff695fac0debef0e56124a7861a47b8cac871a1e88fee7e2d9ca",
+      "path": "frames/observation_035.png"
+    },
+    {
+      "number": 36,
+      "action_count": 66,
+      "sha256": "a29e269b7c446c26dbebca91556026f3a09e8e8151b931bd5f80ae78b435a68c",
+      "path": "frames/observation_036.png"
+    },
+    {
+      "number": 37,
+      "action_count": 67,
+      "sha256": "39d4c98c1725b36ae450e4b04f2f21423ebf51459ccf139a311d189cb9c3fce2",
+      "path": "frames/observation_037.png"
+    },
+    {
+      "number": 38,
+      "action_count": 69,
+      "sha256": "7f8db0cf1640583bebe4b567669b9e3a612b6eaae33267579bc5b5045e87281d",
+      "path": "frames/observation_038.png"
+    },
+    {
+      "number": 39,
+      "action_count": 79,
+      "sha256": "f135d266a4ddd5f86df6c282e87b5d87f957481537ae861b20930184073549a5",
+      "path": "frames/observation_039.png"
+    },
+    {
+      "number": 40,
+      "action_count": 81,
+      "sha256": "d65fad078da378a565d3627b1509ff6847f6aeb4f42834cd8f8ec24e16bca0cf",
+      "path": "frames/observation_040.png"
+    },
+    {
+      "number": 41,
+      "action_count": 82,
+      "sha256": "85813648f4df78aa20758ca654ecce3f8f260e682d235d9ef569ca0a816b2ded",
+      "path": "frames/observation_041.png"
+    },
+    {
+      "number": 42,
+      "action_count": 85,
+      "sha256": "32036ae7a4a2d948fca98d97d259e392d29bf2952e5b08839a80aa618022993e",
+      "path": "frames/observation_042.png"
+    },
+    {
+      "number": 43,
+      "action_count": 87,
+      "sha256": "7e569a6901b1b9c53d57f9dd1a6810c4bfd9c7b858cdbdd7976144b49edfc62e",
+      "path": "frames/observation_043.png"
+    },
+    {
+      "number": 44,
+      "action_count": 88,
+      "sha256": "564b0e49330e89b0fb4909dd2b7abf37d81d1b35a2916ba16dea67d5e7b2fc5f",
+      "path": "frames/observation_044.png"
+    },
+    {
+      "number": 45,
+      "action_count": 90,
+      "sha256": "b08c1bbc1ddccda464698ec3ca3f6c88b90a017e66462a35d2a46ac54b8ec22f",
+      "path": "frames/observation_045.png"
+    },
+    {
+      "number": 46,
+      "action_count": 96,
+      "sha256": "75018faab9207520e8d41581abbcec964837641a6582597b128feac16614cb79",
+      "path": "frames/observation_046.png"
+    },
+    {
+      "number": 47,
+      "action_count": 97,
+      "sha256": "a9f090ec6fd15decd8184d094139d88274f65fa0584e66f7008edcbb1144bd4d",
+      "path": "frames/observation_047.png"
+    },
+    {
+      "number": 48,
+      "action_count": 99,
+      "sha256": "b5a45b0a7e136206e51135384685db0125f9ba59064fbf240e328f01a41dea08",
+      "path": "frames/observation_048.png"
+    },
+    {
+      "number": 49,
+      "action_count": 102,
+      "sha256": "095e794edd6b2783c8caef16fc7677197ec3831955f96e931259e91636f6ce2f",
+      "path": "frames/observation_049.png"
+    },
+    {
+      "number": 50,
+      "action_count": 103,
+      "sha256": "213aff02d609e0f72c9d91819da1f425edfdd1305d88be4b71dbb15af1a0bf87",
+      "path": "frames/observation_050.png"
+    },
+    {
+      "number": 51,
+      "action_count": 105,
+      "sha256": "3375ade974a7165ab8d9c7c4dd949dd43854a3c9d324e35f3c947dfa48304afc",
+      "path": "frames/observation_051.png"
+    },
+    {
+      "number": 52,
+      "action_count": 106,
+      "sha256": "108a209f729aec38fea2993f1b1822692aa3585569c5b935afabc336a2e9bb5e",
+      "path": "frames/observation_052.png"
+    },
+    {
+      "number": 53,
+      "action_count": 107,
+      "sha256": "f2abd942e8994ff55299470b2252b4b1b74a062273f67820e6ffac1177d26411",
+      "path": "frames/observation_053.png"
+    },
+    {
+      "number": 54,
+      "action_count": 108,
+      "sha256": "efd4a71c159f7805c24bc9a53edfd43604bc6ab8197c054b9887ce1558f1fa8f",
+      "path": "frames/observation_054.png"
+    },
+    {
+      "number": 55,
+      "action_count": 115,
+      "sha256": "6b50c095752b57aec70d58132c6079db586d3e88724fb54949268f7bb940cede",
+      "path": "frames/observation_055.png"
+    },
+    {
+      "number": 56,
+      "action_count": 117,
+      "sha256": "07dcf206e3904d3b8045fa35dee70b602d49adc695b58456c04de36d6633a569",
+      "path": "frames/observation_056.png"
+    },
+    {
+      "number": 57,
+      "action_count": 121,
+      "sha256": "8d3eedd517a32b6ebabf429c28ddcdcda3582a0ecf711a3e436d3b6a1a202b9f",
+      "path": "frames/observation_057.png"
+    },
+    {
+      "number": 58,
+      "action_count": 123,
+      "sha256": "ff99a6ec26f8fe7389d28373b2ce12723226a4b9640df044fbe3ff8fb00f4c50",
+      "path": "frames/observation_058.png"
+    },
+    {
+      "number": 59,
+      "action_count": 124,
+      "sha256": "027d358098437b4f595ff3bca9a97be6c9db85aec2a778cc65c24b6bd4e63b03",
+      "path": "frames/observation_059.png"
+    },
+    {
+      "number": 60,
+      "action_count": 125,
+      "sha256": "6927a232a61baaf80289160ff536ea8661df90b9495d0a5f6119c7d45bbf0018",
+      "path": "frames/observation_060.png"
+    },
+    {
+      "number": 61,
+      "action_count": 126,
+      "sha256": "6927a232a61baaf80289160ff536ea8661df90b9495d0a5f6119c7d45bbf0018",
+      "path": "frames/observation_061.png"
+    },
+    {
+      "number": 62,
+      "action_count": 128,
+      "sha256": "a31f1ae40ecd34b434ad4a0684c364c970f06c78ceade77c67703b73252141dd",
+      "path": "frames/observation_062.png"
+    },
+    {
+      "number": 63,
+      "action_count": 130,
+      "sha256": "cfc778c3cbb1a8b5d1ac95bcf87851919f5c35d70194e55bd2be30e063058ccc",
+      "path": "frames/observation_063.png"
+    },
+    {
+      "number": 64,
+      "action_count": 133,
+      "sha256": "06df46a456fa9df7518aa25eefa7dd49abea6667c906d6e6e47f22d6c84ee025",
+      "path": "frames/observation_064.png"
+    },
+    {
+      "number": 65,
+      "action_count": 138,
+      "sha256": "969108c9ba1ebb68662c38f16318f9aad0818bb902e5c4d24082498f2b27ad80",
+      "path": "frames/observation_065.png"
+    },
+    {
+      "number": 66,
+      "action_count": 142,
+      "sha256": "bc0532a5bd7cb682f06631329650ddef1b53e622ee110d0de1f23e0bae168b87",
+      "path": "frames/observation_066.png"
+    },
+    {
+      "number": 67,
+      "action_count": 143,
+      "sha256": "7c107da156498185781ce3c3c969e1066b7d128eb9aefdc8baff9965963d7864",
+      "path": "frames/observation_067.png"
+    },
+    {
+      "number": 68,
+      "action_count": 144,
+      "sha256": "3672ccdb71a563c96539833d1491ce73f202300e452522c46f9b9683b9fc8eea",
+      "path": "frames/observation_068.png"
+    },
+    {
+      "number": 69,
+      "action_count": 145,
+      "sha256": "3672ccdb71a563c96539833d1491ce73f202300e452522c46f9b9683b9fc8eea",
+      "path": "frames/observation_069.png"
+    },
+    {
+      "number": 70,
+      "action_count": 146,
+      "sha256": "3672ccdb71a563c96539833d1491ce73f202300e452522c46f9b9683b9fc8eea",
+      "path": "frames/observation_070.png"
+    },
+    {
+      "number": 71,
+      "action_count": 147,
+      "sha256": "3672ccdb71a563c96539833d1491ce73f202300e452522c46f9b9683b9fc8eea",
+      "path": "frames/observation_071.png"
+    },
+    {
+      "number": 72,
+      "action_count": 150,
+      "sha256": "28c11e500853c690a333c22c5eb799855fa2b1abf47f7b8f53a2577ba67afacc",
+      "path": "frames/observation_072.png"
+    },
+    {
+      "number": 73,
+      "action_count": 153,
+      "sha256": "78b22d1bac25fd40bfb41278447c78a6bc0b2b6e855988122f744a9820f8db1e",
+      "path": "frames/observation_073.png"
+    },
+    {
+      "number": 74,
+      "action_count": 156,
+      "sha256": "78b22d1bac25fd40bfb41278447c78a6bc0b2b6e855988122f744a9820f8db1e",
+      "path": "frames/observation_074.png"
+    },
+    {
+      "number": 75,
+      "action_count": 159,
+      "sha256": "28c11e500853c690a333c22c5eb799855fa2b1abf47f7b8f53a2577ba67afacc",
+      "path": "frames/observation_075.png"
+    },
+    {
+      "number": 76,
+      "action_count": 162,
+      "sha256": "78b22d1bac25fd40bfb41278447c78a6bc0b2b6e855988122f744a9820f8db1e",
+      "path": "frames/observation_076.png"
+    },
+    {
+      "number": 77,
+      "action_count": 163,
+      "sha256": "78b22d1bac25fd40bfb41278447c78a6bc0b2b6e855988122f744a9820f8db1e",
+      "path": "frames/observation_077.png"
+    },
+    {
+      "number": 78,
+      "action_count": 166,
+      "sha256": "8080c36ca961db5a7fb7ed57651e9a097f2596a34d58311934bef7a46c6d8a36",
+      "path": "frames/observation_078.png"
+    },
+    {
+      "number": 79,
+      "action_count": 168,
+      "sha256": "2ed2ee3830831895e921b0f136de5fd0fa875c099a0f0a4489f1ae061b10f6b3",
+      "path": "frames/observation_079.png"
+    },
+    {
+      "number": 80,
+      "action_count": 170,
+      "sha256": "ccbda1e863e3a2b8ddc0782c68fd3a1e519fe6126cb0b557c2c03d907887fca9",
+      "path": "frames/observation_080.png"
+    },
+    {
+      "number": 81,
+      "action_count": 172,
+      "sha256": "415607b05218c51b6b6ac063d2098c7bb31351b3e253766eeb48f90afd2da25d",
+      "path": "frames/observation_081.png"
+    },
+    {
+      "number": 82,
+      "action_count": 174,
+      "sha256": "1f915085acfb5b3fa204e782f07f0cdaac3f72aca3da843dbd4a761046fd3227",
+      "path": "frames/observation_082.png"
+    },
+    {
+      "number": 83,
+      "action_count": 175,
+      "sha256": "8e646f4cd112baf16e1f703f08751812faf5f368d3cab43ebe2d362563c5e821",
+      "path": "frames/observation_083.png"
+    },
+    {
+      "number": 84,
+      "action_count": 179,
+      "sha256": "61993d4d91f388954117cc0e4e7b50f20818c090f86fdb349d85e9dbc8504ed2",
+      "path": "frames/observation_084.png"
+    },
+    {
+      "number": 85,
+      "action_count": 181,
+      "sha256": "3a53e7c7e18a5cd2d7e86713364e04eb26f0d5384fba58770d409029add87a22",
+      "path": "frames/observation_085.png"
+    },
+    {
+      "number": 86,
+      "action_count": 183,
+      "sha256": "8fba2e65d4edd4a245f103586617f887d5de05abebc371fd925908c20172f866",
+      "path": "frames/observation_086.png"
+    },
+    {
+      "number": 87,
+      "action_count": 186,
+      "sha256": "fd449eedc4c13c7499fba28f508d2104c2d18d39bcb3f7d2fd6295fa96360cbe",
+      "path": "frames/observation_087.png"
+    },
+    {
+      "number": 88,
+      "action_count": 187,
+      "sha256": "b0f86107ef0b92bb8748c9a79c3455b129808abfe9b03830b4ca3066454b4c08",
+      "path": "frames/observation_088.png"
+    },
+    {
+      "number": 89,
+      "action_count": 189,
+      "sha256": "3f030f361e57af17c454f6846c0133a57633811bb1297d2897ff843398d1abeb",
+      "path": "frames/observation_089.png"
+    },
+    {
+      "number": 90,
+      "action_count": 192,
+      "sha256": "3f030f361e57af17c454f6846c0133a57633811bb1297d2897ff843398d1abeb",
+      "path": "frames/observation_090.png"
+    }
+  ]
+}

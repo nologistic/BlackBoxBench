@@ -1,0 +1,1373 @@
+{
+  "app_id": "librera",
+  "graph_version": "1.0",
+  "session_id": "sess_20260911_054708_415ebc",
+  "generated_at": "2026-09-11T06:38:19.197619+00:00",
+  "nodes": [
+    {
+      "name": "书库网格首页",
+      "description": "顶部含侧边菜单、搜索框、数量、按时间排序、刷新与网格切换；中部显示三本示例书卡片；有绿色权限提示；底部五个导航标签。",
+      "visual_evidence": [
+        1
+      ],
+      "entry_conditions": [
+        "应用首次启动或选择底部“书库”"
+      ],
+      "observed_elements": [
+        "三列书籍封面卡片",
+        "书名、作者、EPUB 类型",
+        "每本书的收藏星标与更多按钮",
+        "权限提示条及“是”按钮",
+        "底部书库/文件夹/最近/收藏/书签"
+      ],
+      "confidence": 1.0,
+      "id": "state_书库网格首页",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 0,
+      "updated_step": 0
+    },
+    {
+      "name": "首次打开书籍的翻页模式选择",
+      "description": "首次打开示例书前出现模态框，可选上下翻页、左右翻页或演奏模式，并可勾选记住选择。",
+      "visual_evidence": [
+        8
+      ],
+      "entry_conditions": [
+        "在书库点击一本尚未打开的书"
+      ],
+      "observed_elements": [
+        "标题“翻页模式”",
+        "上下翻页",
+        "左右翻页",
+        "演奏模式",
+        "记住选择复选框",
+        "禁用状态的编辑"
+      ],
+      "confidence": 1.0,
+      "id": "state_首次打开书籍的翻页模式选择",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 8,
+      "updated_step": 8
+    },
+    {
+      "name": "阅读器控制层（封面页）",
+      "description": "阅读页顶部显示书名、章节进度、时间、电量与工具按钮；中间为页面内容；底部显示最近缩略图、搜索/目录/文档/书签/列表、页序、进度滑杆、播放/听读/更多/锁定等控件。",
+      "visual_evidence": [
+        10
+      ],
+      "entry_conditions": [
+        "在翻页模式选择中点击一种模式",
+        "阅读时显示控制层"
+      ],
+      "observed_elements": [
+        "封面页面",
+        "顶部工具条",
+        "底部最近与进度控制面板",
+        "1/2920 页",
+        "上下翻页模式",
+        "拖动锁定提示"
+      ],
+      "confidence": 1.0,
+      "id": "state_阅读器控制层_封面页",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 8,
+      "updated_step": 8
+    },
+    {
+      "name": "选择翻页模式并进入阅读",
+      "description": "首次打开书籍要求选择翻页方向；选择“上下翻页”后进入封面阅读页并显示阅读控制层。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 8,
+          "before_frame": 8,
+          "action": "点击“上下翻页”",
+          "after_frame": 9,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_选择翻页模式并进入阅读",
+      "type": "FEATURE",
+      "created_step": 8,
+      "updated_step": 8
+    },
+    {
+      "name": "夜间阅读模式",
+      "description": "阅读控制层的月亮按钮可将浅色纸张背景与深色正文切换为深棕纸张背景与浅色正文，图标随之变为太阳。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 17,
+          "before_frame": 23,
+          "action": "点击阅读工具栏月亮图标",
+          "after_frame": 24,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_夜间阅读模式",
+      "type": "FEATURE",
+      "created_step": 17,
+      "updated_step": 17
+    },
+    {
+      "name": "阅读偏好设置",
+      "description": "模态偏好面板提供阅读设置、高级设置和状态栏入口；阅读设置可调整屏幕方向、字体大小/名称、日夜文本与背景、亮度、音量键翻页、键位反转、词典与蓝光滤镜。",
+      "visual_evidence": [
+        27
+      ],
+      "entry_conditions": [
+        "阅读控制层点击齿轮"
+      ],
+      "observed_elements": [
+        "三入口导航",
+        "字体大小20与滑杆",
+        "Charis SIL",
+        "白天/夜晚配色",
+        "系统亮度",
+        "音量键翻页",
+        "Google Translate",
+        "蓝光滤镜"
+      ],
+      "confidence": 1.0,
+      "id": "state_阅读偏好设置",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 22,
+      "updated_step": 22
+    },
+    {
+      "name": "高级阅读设置",
+      "description": "高级设置包含阅读方向、点按区域、休息提醒、中央双击、滚动速度、自动熄屏、抗锯齿、首字母突出、镜像、文本选择、边缘亮度、零亮度、图片背景替换、AMOLED夜间增强与循环翻页。",
+      "visual_evidence": [
+        31
+      ],
+      "entry_conditions": [
+        "偏好面板点击高级设置"
+      ],
+      "observed_elements": [
+        "从左至右",
+        "边缘25%/自定义",
+        "休息提醒从不",
+        "双击适应页面",
+        "滚动速度70",
+        "自动熄屏5分钟",
+        "抗锯齿8",
+        "允许选取文本已选"
+      ],
+      "confidence": 1.0,
+      "id": "state_高级阅读设置",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 22,
+      "updated_step": 22
+    },
+    {
+      "name": "阅读状态栏设置",
+      "description": "可配置夜间状态栏颜色，并开关状态栏、书名、进度滑块/条、章节/子章节进度、时间、电量、滑动进度导航和不同模式的书签栏。",
+      "visual_evidence": [
+        35
+      ],
+      "entry_conditions": [
+        "偏好面板点击状态栏"
+      ],
+      "observed_elements": [
+        "夜间颜色#888888",
+        "显示状态栏",
+        "顶部显示书名",
+        "显示进度滑块",
+        "显示进度条",
+        "章节/子章节进度条",
+        "时间",
+        "电量",
+        "滑动进度条以导航"
+      ],
+      "confidence": 1.0,
+      "id": "state_阅读状态栏设置",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 22,
+      "updated_step": 22
+    },
+    {
+      "name": "可配置阅读外观与交互",
+      "description": "阅读器通过齿轮打开多页偏好面板，可调整字体、配色、亮度、翻页方式、高级交互和状态栏内容。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 18,
+          "before_frame": 25,
+          "action": "点击阅读工具栏齿轮",
+          "after_frame": 26,
+          "note": null
+        },
+        {
+          "step": 20,
+          "before_frame": 29,
+          "action": "点击高级设置",
+          "after_frame": 30,
+          "note": null
+        },
+        {
+          "step": 22,
+          "before_frame": 33,
+          "action": "点击状态栏",
+          "after_frame": 34,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_可配置阅读外观与交互",
+      "type": "FEATURE",
+      "created_step": 22,
+      "updated_step": 22
+    },
+    {
+      "name": "替换文本规则面板",
+      "description": "铅笔入口打开替换文本面板，可启用功能、添加原文本到替换文本的规则，并保存；无规则时保存不可用。",
+      "visual_evidence": [
+        38,
+        40
+      ],
+      "entry_conditions": [
+        "阅读控制层点击铅笔"
+      ],
+      "observed_elements": [
+        "启用复选框",
+        "添加链接",
+        "原文与替换文本输入线",
+        "保存按钮",
+        "关闭按钮"
+      ],
+      "confidence": 0.95,
+      "id": "state_替换文本规则面板",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 31,
+      "updated_step": 31
+    },
+    {
+      "name": "配置文本替换",
+      "description": "阅读器提供文本替换规则面板；点击添加后自动启用并出现一对规则输入框。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 24,
+          "before_frame": 36,
+          "action": "点击铅笔图标",
+          "after_frame": 37,
+          "note": null
+        },
+        {
+          "step": 25,
+          "before_frame": 38,
+          "action": "点击“添加”",
+          "after_frame": 39,
+          "note": null
+        }
+      ],
+      "confidence": 0.95,
+      "status": "confirmed",
+      "id": "feature_配置文本替换",
+      "type": "FEATURE",
+      "created_step": 31,
+      "updated_step": 31
+    },
+    {
+      "name": "书内搜索面板",
+      "description": "阅读控制层的放大镜打开搜索面板，包含输入框、清除、搜索和关闭；执行后追加搜索范围标记并显示逐页扫描进度及结果页码入口。",
+      "visual_evidence": [
+        50,
+        60
+      ],
+      "entry_conditions": [
+        "阅读控制层点击放大镜"
+      ],
+      "observed_elements": [
+        "搜索输入框",
+        "清除X",
+        "搜索按钮",
+        "搜索中…当前页/总页数",
+        "结果页码链接"
+      ],
+      "confidence": 1.0,
+      "id": "state_书内搜索面板",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 40,
+      "updated_step": 40
+    },
+    {
+      "name": "书内全文搜索",
+      "description": "输入关键词并点击搜索后，应用按总页数扫描全文，实时显示搜索进度并列出命中页码。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 32,
+          "before_frame": 48,
+          "action": "点击阅读面板放大镜",
+          "after_frame": 49,
+          "note": null
+        },
+        {
+          "step": 37,
+          "before_frame": 56,
+          "action": "点击搜索图标",
+          "after_frame": 57,
+          "note": null
+        },
+        {
+          "step": 39,
+          "before_frame": 60,
+          "action": "等待搜索推进",
+          "after_frame": 61,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_书内全文搜索",
+      "type": "FEATURE",
+      "created_step": 40,
+      "updated_step": 40
+    },
+    {
+      "name": "阅读器内书库面板",
+      "description": "阅读时可覆盖打开书库面板，提供书库、文件夹、最近、收藏四个标签，并保留书籍搜索、排序、刷新与布局切换；文件夹页显示路径栏及新增、排序、视图按钮。",
+      "visual_evidence": [
+        67,
+        69
+      ],
+      "entry_conditions": [
+        "阅读控制层点击书库图标"
+      ],
+      "observed_elements": [
+        "四个书库标签",
+        "三本书网格",
+        "文件夹路径Download (1)",
+        "新增按钮",
+        "BlackBoxBench文件夹",
+        "权限提示"
+      ],
+      "confidence": 1.0,
+      "id": "state_阅读器内书库面板",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 44,
+      "updated_step": 44
+    },
+    {
+      "name": "阅读中切换其他书籍",
+      "description": "阅读面板内可直接浏览书库或文件夹，无需退出阅读器。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 42,
+          "before_frame": 65,
+          "action": "点击底部书库图标",
+          "after_frame": 66,
+          "note": null
+        },
+        {
+          "step": 43,
+          "before_frame": 67,
+          "action": "点击文件夹标签",
+          "after_frame": 68,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_阅读中切换其他书籍",
+      "type": "FEATURE",
+      "created_step": 44,
+      "updated_step": 44
+    },
+    {
+      "name": "文件夹浏览页",
+      "description": "文件夹标签显示当前路径、条目数量及返回、新建、排序、路径下拉、文件夹/列表视图按钮；条目卡可收藏。",
+      "visual_evidence": [
+        74,
+        76
+      ],
+      "entry_conditions": [
+        "底部点击文件夹"
+      ],
+      "observed_elements": [
+        "/emulated/0/Download路径",
+        "BlackBoxBench文件夹",
+        "新增按钮",
+        "排序按钮",
+        "权限提示",
+        "收藏星标"
+      ],
+      "confidence": 1.0,
+      "id": "state_文件夹浏览页",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 58,
+      "updated_step": 58
+    },
+    {
+      "name": "新建TXT文本",
+      "description": "文件夹页的新增菜单可新建.txt文件；编辑器要求名称与正文，保存后目录数量增加并生成带封面、时间、格式与大小的文件卡。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 47,
+          "before_frame": 74,
+          "action": "点击新增",
+          "after_frame": 75,
+          "note": null
+        },
+        {
+          "step": 48,
+          "before_frame": 76,
+          "action": "选择新文件(.txt)",
+          "after_frame": 77,
+          "note": null
+        },
+        {
+          "step": 58,
+          "before_frame": 90,
+          "action": "点击保存",
+          "after_frame": 91,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_新建txt文本",
+      "type": "FEATURE",
+      "created_step": 58,
+      "updated_step": 58
+    },
+    {
+      "name": "本地TXT文档",
+      "description": "用户创建的文本文件，包含名称、正文、时间、格式、大小及收藏状态。",
+      "confidence": 1.0,
+      "id": "data_本地txt文档",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 58,
+      "updated_step": 58
+    },
+    {
+      "name": "收藏列表",
+      "description": "收藏标签仅显示星标条目，顶部提供筛选、标签、播放列表、排序和布局控制；收藏卡保留星标与更多入口。",
+      "visual_evidence": [
+        96
+      ],
+      "entry_conditions": [
+        "点击条目星标后打开底部收藏"
+      ],
+      "observed_elements": [
+        "收藏标题",
+        "筛选图标",
+        "标签",
+        "播放列表",
+        "排序",
+        "收藏卡片"
+      ],
+      "confidence": 1.0,
+      "id": "state_收藏列表",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 72,
+      "updated_step": 72
+    },
+    {
+      "name": "条目更多操作",
+      "description": "条目更多菜单提供编辑、打开方式、发送文件、删除、复制、移出书库、添加标签、加入播放列表、重置进度与文件信息。",
+      "visual_evidence": [
+        111
+      ],
+      "entry_conditions": [
+        "点击条目三点"
+      ],
+      "observed_elements": [
+        "编辑",
+        "打开方式",
+        "发送文件",
+        "删除",
+        "复制",
+        "移出书库",
+        "添加标签",
+        "加入播放列表",
+        "重置进度",
+        "文件信息"
+      ],
+      "confidence": 1.0,
+      "id": "state_条目更多操作",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 72,
+      "updated_step": 72
+    },
+    {
+      "name": "收藏与标签",
+      "description": "书籍或文件的收藏状态，以及可新建并绑定到条目的标签集合。",
+      "confidence": 1.0,
+      "id": "data_收藏与标签",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 72,
+      "updated_step": 72
+    },
+    {
+      "name": "收藏与标签管理",
+      "description": "星标条目会进入收藏页；可创建标签并在条目更多菜单中勾选后应用。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 59,
+          "before_frame": 92,
+          "action": "点击文件星标",
+          "after_frame": 93,
+          "note": null
+        },
+        {
+          "step": 60,
+          "before_frame": 94,
+          "action": "点击底部收藏",
+          "after_frame": 95,
+          "note": null
+        },
+        {
+          "step": 66,
+          "before_frame": 104,
+          "action": "点击添加新标签",
+          "after_frame": 105,
+          "note": null
+        },
+        {
+          "step": 70,
+          "before_frame": 111,
+          "action": "点击添加标签",
+          "after_frame": 112,
+          "note": null
+        },
+        {
+          "step": 71,
+          "before_frame": 113,
+          "action": "勾选#ToRead",
+          "after_frame": 114,
+          "note": null
+        },
+        {
+          "step": 72,
+          "before_frame": 114,
+          "action": "点击应用",
+          "after_frame": 115,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_收藏与标签管理",
+      "type": "FEATURE",
+      "created_step": 72,
+      "updated_step": 72
+    },
+    {
+      "name": "书签面板与添加对话框",
+      "description": "书签面板支持搜索、普通添加与快速书签；普通添加弹出当前页码标题、备注输入与浮动书签选项，添加后列表显示“页码:备注”并可删除。",
+      "visual_evidence": [
+        133,
+        135,
+        141
+      ],
+      "entry_conditions": [
+        "阅读控制层点击书签图标"
+      ],
+      "observed_elements": [
+        "搜索",
+        "添加",
+        "快速书签",
+        "添加书签4",
+        "备注输入",
+        "浮动书签",
+        "4: Opening",
+        "删除X"
+      ],
+      "confidence": 1.0,
+      "id": "state_书签面板与添加对话框",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 102,
+      "updated_step": 102
+    },
+    {
+      "name": "创建带备注书签",
+      "description": "可在当前页创建带说明的书签，保存后立即出现在书签面板。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 83,
+          "before_frame": 131,
+          "action": "点击书签图标",
+          "after_frame": 132,
+          "note": null
+        },
+        {
+          "step": 84,
+          "before_frame": 133,
+          "action": "点击添加",
+          "after_frame": 134,
+          "note": null
+        },
+        {
+          "step": 88,
+          "before_frame": 139,
+          "action": "点击添加确认",
+          "after_frame": 140,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_创建带备注书签",
+      "type": "FEATURE",
+      "created_step": 102,
+      "updated_step": 102
+    },
+    {
+      "name": "目录导航面板",
+      "description": "目录以层级列表显示书名、Contents、卷与章节及页码；卷可展开/折叠，当前条目蓝色高亮。",
+      "visual_evidence": [
+        144,
+        148,
+        150
+      ],
+      "entry_conditions": [
+        "阅读控制层点击列表图标"
+      ],
+      "observed_elements": [
+        "目录标题",
+        "卷级加号/减号",
+        "章节名称",
+        "页码",
+        "当前章节高亮"
+      ],
+      "confidence": 1.0,
+      "id": "state_目录导航面板",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 102,
+      "updated_step": 102
+    },
+    {
+      "name": "按目录和缩略图跳页",
+      "description": "可展开卷目录并点章节跳到起始页，也可打开前往页面缩略图网格并点选页码。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 92,
+          "before_frame": 146,
+          "action": "展开VOLUME ONE",
+          "after_frame": 147,
+          "note": null
+        },
+        {
+          "step": 93,
+          "before_frame": 148,
+          "action": "点击Chapter 1",
+          "after_frame": 149,
+          "note": null
+        },
+        {
+          "step": 95,
+          "before_frame": 151,
+          "action": "点击前往页面",
+          "after_frame": 152,
+          "note": null
+        },
+        {
+          "step": 96,
+          "before_frame": 153,
+          "action": "点击17页缩略图",
+          "after_frame": 154,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_按目录和缩略图跳页",
+      "type": "FEATURE",
+      "created_step": 102,
+      "updated_step": 102
+    },
+    {
+      "name": "快速阅读RSVP",
+      "description": "快速阅读面板可调语速、字体大小和最小行长度；点击开始后居中逐词显示正文并将控制变为重置。",
+      "visual_evidence": [
+        160,
+        162,
+        164
+      ],
+      "entry_conditions": [
+        "阅读更多菜单点击快速阅读(RSVP)"
+      ],
+      "observed_elements": [
+        "语速200",
+        "字体大小32",
+        "最小行长度2",
+        "左右箭头",
+        "开始/重置",
+        "居中单词",
+        "关闭"
+      ],
+      "confidence": 1.0,
+      "id": "state_快速阅读rsvp",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 102,
+      "updated_step": 102
+    },
+    {
+      "name": "快速阅读播放",
+      "description": "RSVP模式按设定速度在面板中央逐词播放当前正文，可重置或关闭。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 99,
+          "before_frame": 158,
+          "action": "点击快速阅读(RSVP)",
+          "after_frame": 159,
+          "note": null
+        },
+        {
+          "step": 100,
+          "before_frame": 160,
+          "action": "点击开始",
+          "after_frame": 161,
+          "note": null
+        },
+        {
+          "step": 101,
+          "before_frame": 162,
+          "action": "等待1.2秒",
+          "after_frame": 163,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_快速阅读播放",
+      "type": "FEATURE",
+      "created_step": 102,
+      "updated_step": 102
+    },
+    {
+      "name": "书签",
+      "description": "绑定书籍与页码的备注记录，可选浮动书签，可从列表删除。",
+      "confidence": 1.0,
+      "id": "data_书签",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 102,
+      "updated_step": 102
+    },
+    {
+      "name": "全局偏好抽屉",
+      "description": "侧边抽屉包含配置文件、重置、书库扫描范围与格式过滤、常规显示/交互、封面样式、底部标签可见性与顺序、小部件、备份迁移和版本支持信息。",
+      "visual_evidence": [
+        173,
+        175,
+        177,
+        179
+      ],
+      "entry_conditions": [
+        "书库页点击左上菜单"
+      ],
+      "observed_elements": [
+        "Demo配置",
+        "包含的文件夹",
+        "多种格式复选框",
+        "语言/字体/主题",
+        "单击与长按行为",
+        "启动与返回选项",
+        "封面尺寸和列数",
+        "标签显示与上下排序",
+        "导入/导出/迁移"
+      ],
+      "confidence": 1.0,
+      "id": "state_全局偏好抽屉",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 111,
+      "updated_step": 111
+    },
+    {
+      "name": "全局配置与书库定制",
+      "description": "用户可选择参与书库扫描的文件格式和目录，定制主题、交互与封面网格，并显示/隐藏及重排底部标签；还提供配置导入、导出与迁移。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 107,
+          "before_frame": 171,
+          "action": "点击左上菜单",
+          "after_frame": 172,
+          "note": null
+        },
+        {
+          "step": 108,
+          "before_frame": 173,
+          "action": "向上滑动偏好抽屉",
+          "after_frame": 174,
+          "note": null
+        },
+        {
+          "step": 109,
+          "before_frame": 175,
+          "action": "继续向上滑动",
+          "after_frame": 176,
+          "note": null
+        },
+        {
+          "step": 110,
+          "before_frame": 177,
+          "action": "继续向上滑动到底部",
+          "after_frame": 178,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_全局配置与书库定制",
+      "type": "FEATURE",
+      "created_step": 111,
+      "updated_step": 111
+    },
+    {
+      "name": "feature_书库搜索与排序",
+      "description": "书库支持标题搜索过滤，并可从文件夹、文件名、文件大小、时间、标题、作者、丛书、丛书编号、页数、格式、语言、出版时间、出版商、最近等字段切换排序；选择标题后卡片顺序立即重排。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 118,
+          "before_frame": 190,
+          "action": "在排序菜单选择 标题",
+          "after_frame": 191,
+          "note": null
+        }
+      ],
+      "confidence": 0.95,
+      "status": "confirmed",
+      "id": "feature_书库搜索与排序",
+      "type": "FEATURE",
+      "created_step": 118,
+      "updated_step": 118
+    },
+    {
+      "name": "state_书库列表视图",
+      "description": "书库切换为高密度纵向列表，每项显示封面、作者、标题、文件名、日期、格式、大小/页数/进度、收藏星标和更多菜单；标签作为青绿色前缀展示。",
+      "visual_evidence": [
+        196
+      ],
+      "entry_conditions": [
+        "在书库视图菜单选择 列表"
+      ],
+      "observed_elements": [
+        "顶部搜索和计数",
+        "当前排序字段 标题",
+        "刷新",
+        "视图菜单",
+        "权限提示条",
+        "四条书籍/文本列表项",
+        "底部五标签导航"
+      ],
+      "confidence": 0.99,
+      "id": "state_书库列表视图",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 120,
+      "updated_step": 120
+    },
+    {
+      "name": "feature_书库展示与分组模式",
+      "description": "书库可切换列表、简表、网格、封面四种展示方式，也可按作者、流派、丛书、关键词、语言、标签、出版商、出版时间分组。列表模式显示更完整的文件元数据和阅读进度。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 119,
+          "before_frame": 192,
+          "action": "点击视图图标打开展示与分组选项",
+          "after_frame": 193,
+          "note": null
+        },
+        {
+          "step": 120,
+          "before_frame": 194,
+          "action": "选择 列表",
+          "after_frame": 195,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_书库展示与分组模式",
+      "type": "FEATURE",
+      "created_step": 120,
+      "updated_step": 120
+    },
+    {
+      "name": "state_书签总览",
+      "description": "主导航书签页汇总所有书籍的书签。条目显示书封缩略图、页码角标、源文件名、备注文本与删除按钮；顶部提供设置、搜索和列表样式。",
+      "visual_evidence": [
+        198
+      ],
+      "entry_conditions": [
+        "底部导航选择 书签",
+        "至少创建一个书签"
+      ],
+      "observed_elements": [
+        "标题 书签",
+        "设置按钮",
+        "搜索按钮",
+        "列表样式按钮",
+        "montecristo.epub 书签",
+        "页码4",
+        "备注 Opening",
+        "删除按钮",
+        "底部五标签导航"
+      ],
+      "confidence": 0.99,
+      "id": "state_书签总览",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 121,
+      "updated_step": 121
+    },
+    {
+      "name": "feature_跨书籍书签汇总",
+      "description": "在阅读器中创建的带页码与备注书签会出现在主导航书签页，可按源文件识别、点击回到对应位置、搜索或删除。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 121,
+          "before_frame": 196,
+          "action": "底部导航选择 书签",
+          "after_frame": 197,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_跨书籍书签汇总",
+      "type": "FEATURE",
+      "created_step": 121,
+      "updated_step": 121
+    },
+    {
+      "name": "feature_本地数据重启持久化",
+      "description": "重启应用后，新建的 TXT 文档、收藏状态、标签分组和带备注书签仍保留；显示方式与排序恢复为默认的网格/时间。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 122,
+          "before_frame": 198,
+          "action": "重启应用",
+          "after_frame": 199,
+          "note": null
+        },
+        {
+          "step": 123,
+          "before_frame": 200,
+          "action": "打开收藏页检查收藏与标签",
+          "after_frame": 201,
+          "note": null
+        },
+        {
+          "step": 124,
+          "before_frame": 202,
+          "action": "打开书签页检查书签",
+          "after_frame": 203,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_本地数据重启持久化",
+      "type": "FEATURE",
+      "created_step": 124,
+      "updated_step": 124
+    },
+    {
+      "name": "feature_左右翻页模式",
+      "description": "首次打开书籍可选择左右翻页。读者界面显示模式标签“左右翻页”，向左滑动后由第1页进入第2页，控制层自动隐藏，仅保留底部时间、章节页码和进度。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 127,
+          "before_frame": 207,
+          "action": "在翻页模式对话框选择 左右翻页",
+          "after_frame": 208,
+          "note": null
+        },
+        {
+          "step": 128,
+          "before_frame": 209,
+          "action": "在正文区域向左滑动",
+          "after_frame": 210,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_左右翻页模式",
+      "type": "FEATURE",
+      "created_step": 128,
+      "updated_step": 128
+    },
+    {
+      "name": "state_文字转语音设置",
+      "description": "阅读器的文字转语音弹窗覆盖正文，包含语音/语言选择、语速、音调、音量、重置、上一段/播放/下一段/停止、播放音频文件、停顿时长、朗读定时器和标点停顿选项。",
+      "visual_evidence": [
+        215
+      ],
+      "entry_conditions": [
+        "在阅读器控制层点击耳机图标"
+      ],
+      "observed_elements": [
+        "文字转语音",
+        "Google 语音识别 / 中文",
+        "语速 100",
+        "音调 100",
+        "音量 5",
+        "重置",
+        "上一段、播放、下一段、停止",
+        "播放音频文件",
+        "停顿持续时间 50 ms",
+        "停止朗读 240 分钟",
+        "标点符号后短暂停顿"
+      ],
+      "confidence": 0.99,
+      "id": "state_文字转语音设置",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 131,
+      "updated_step": 131
+    },
+    {
+      "name": "feature_文字转语音控制",
+      "description": "阅读器提供文字转语音控制，可选择语音/语言，调整语速、音调与音量，按段前后移动或播放/停止，并配置停顿、定时停止与标点停顿。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 130,
+          "before_frame": 213,
+          "action": "点击阅读器底部耳机图标",
+          "after_frame": 214,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_文字转语音控制",
+      "type": "FEATURE",
+      "created_step": 131,
+      "updated_step": 131
+    },
+    {
+      "name": "state_演奏阅读模式",
+      "description": "演奏模式使用固定的窄顶栏和大面积阅读区，顶部显示模式、书名、页码、时间、电量和快捷图标；正文覆盖虚线分隔的左/中/右触控区域，右上角独立书签热区。",
+      "visual_evidence": [
+        224
+      ],
+      "entry_conditions": [
+        "首次打开书籍时选择 演奏模式"
+      ],
+      "observed_elements": [
+        "演奏 模式标题",
+        "书名与页码 1/4",
+        "时间与电量",
+        "后退/锁定/固定/关闭快捷图标",
+        "左右与中央虚线触控区",
+        "右上书签热区",
+        "复古纸张背景与封面"
+      ],
+      "confidence": 0.99,
+      "id": "state_演奏阅读模式",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 136,
+      "updated_step": 136
+    },
+    {
+      "name": "feature_演奏模式触控翻页",
+      "description": "演奏模式为免手势阅读提供大号分区热区。点击右侧虚线区域后页码由1/4进入2/4，固定顶栏和书签热区保持可见。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 135,
+          "before_frame": 222,
+          "action": "在翻页模式对话框选择 演奏模式",
+          "after_frame": 223,
+          "note": null
+        },
+        {
+          "step": 136,
+          "before_frame": 224,
+          "action": "点击右侧虚线翻页区域",
+          "after_frame": 225,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_演奏模式触控翻页",
+      "type": "FEATURE",
+      "created_step": 136,
+      "updated_step": 136
+    }
+  ],
+  "edges": [
+    {
+      "source": "state_书库网格首页",
+      "target": "state_演奏阅读模式",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 134,
+          "before_frame": 220,
+          "action": "点击 Alice 书籍封面",
+          "after_frame": 221,
+          "note": null
+        },
+        {
+          "step": 135,
+          "before_frame": 222,
+          "action": "选择 演奏模式",
+          "after_frame": 223,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "点击书籍先出现翻页模式选择，再选择演奏模式进入专用阅读界面。",
+      "id": "edge_0001",
+      "created_step": 136
+    },
+    {
+      "source": "feature_创建带备注书签",
+      "target": "state_书签总览",
+      "type": "PERSISTS_TO",
+      "evidence": [
+        {
+          "step": 121,
+          "before_frame": 196,
+          "action": "打开主书签页",
+          "after_frame": 197,
+          "note": null
+        },
+        {
+          "step": 124,
+          "before_frame": 202,
+          "action": "重启后再次打开主书签页",
+          "after_frame": 203,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "阅读器内保存的页码4、备注 Opening 的书签，在主书签页及应用重启后仍显示。",
+      "id": "edge_0002",
+      "created_step": 136
+    },
+    {
+      "source": "feature_新建txt文本",
+      "target": "feature_本地数据重启持久化",
+      "type": "PERSISTS_TO",
+      "evidence": [
+        {
+          "step": 122,
+          "before_frame": 198,
+          "action": "重启应用",
+          "after_frame": 199,
+          "note": null
+        },
+        {
+          "step": 123,
+          "before_frame": 200,
+          "action": "打开收藏页检查 TXT 与标签",
+          "after_frame": 201,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "创建的 BaselineNote.txt 在重启后的书库中仍存在，并保留收藏和标签。",
+      "id": "edge_0003",
+      "created_step": 136
+    }
+  ],
+  "unresolved_questions": [],
+  "coverage_summary": {
+    "states": 20,
+    "features": 19,
+    "data_entities": 3,
+    "edges": 3,
+    "confirmed_ratio": 1.0,
+    "actions_used": 136
+  }
+}

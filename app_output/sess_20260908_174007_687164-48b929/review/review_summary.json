@@ -1,0 +1,478 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "ee89ae513393eda68078fc2876283e78b9178a91dcc57fd8f633c4fc4b906e6d",
+  "accepted_apk_hash": "59f1ed88c4c35c9794e0fd63907a669a2067a91836f246f3804cf889d0688484",
+  "revision_count": 3,
+  "max_revisions": 3,
+  "require_write_evidence": true,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "三页首次启动引导与完成进入主列表",
+        "空列表与新增类型选择",
+        "布尔习惯创建并保存",
+        "创建结果重启后持久化",
+        "当天完成/未完成打卡",
+        "详情页概览、成绩与历史统计"
+      ],
+      "findings": [
+        "主列表左侧习惯名称列略窄，英文 Morning Stretch 被拆成 Mornin / g，需调整环形进度与标题宽度，使单词按自然边界换行。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "b8a02eb4c1a138bfaf001398e650237077573aba056f19330126aa08f89f2b11",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "e220dfae928bed1871ccedd810c0ca224a300626e461cd3869ec282e31eae7ab",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "e3b0d4104a5d163ed3a20d746c9496b7991337acdfea1ae3bf0d9698266a4713",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "a5564cc12137371cc3061e6293d80edb832796d03cef1ff2c52ebb76a2f856c1",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "449ff73fc90cf771e2e44728932b94dcd05c6af32e0b52807929206ac82b5772",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "a27aeae71d6482f620258b73ad76fe8587b5c7b86d0fc642e1791e71945cbf46",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 7,
+          "sha256": "e454b82d93ae90f005418fc7e09ac4a0532958332a788714a76d785fe89c03af",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 10,
+          "sha256": "0a2f422023a01ef6db26d4f7011c993c7b2f559d77ecea84a8772c24ce5a9a65",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 11,
+          "sha256": "55c3a902c939b8566f225a824fcbbe852ba097b08eb8a410693e2b055283766b",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 12,
+          "sha256": "ad78c40abb87b30f524a4a7e426adb24b405af8fd45367e38d14b30a0f3551cb",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 13,
+          "sha256": "fa22a45f4be80e077dda09d0bd6cdb75e08cdd8acd17ae223f7f7efd6ae644c5",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 14,
+          "sha256": "eeb2fecc0a08a10c5f44e348342383fc4d60e893f33ce218d96c8d8bb82c46ea",
+          "path": "review/round_01/observation_012.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "首屏引导与空列表",
+        "新增布尔习惯并保存",
+        "习惯名称自然换行",
+        "重启后保存结果持久化",
+        "主工具栏新增与溢出菜单触控"
+      ],
+      "findings": [
+        "名称列修正已生效，Morning Stretch 按单词自然分为两行。",
+        "主工具栏最右侧溢出菜单图标可见但点击无响应；三个 TextButton 的默认最小宽度导致末项触控区被挤出，需要改为固定 48dp IconButton。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "ed8aa7a5844c60bd7cc5a0e4a5baae5be3751c5b548f0324e369eb13fe433c05",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 3,
+          "sha256": "048db8a61f0ab850ea6158d6559d5ddf339f0e58f0e6bb502f9aa239bb2fb6ff",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 8,
+          "sha256": "e7fa4716f580216ebd8f7e69c08ebe0404247bd52d6c7676280fe5bbb05e93f0",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 9,
+          "sha256": "e7fa4716f580216ebd8f7e69c08ebe0404247bd52d6c7676280fe5bbb05e93f0",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 10,
+          "sha256": "4a5c97a4473981d8f3a3a5532114109e8f25b4cb9c941ff67a3d118b536ef9bd",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 11,
+          "sha256": "4a5c97a4473981d8f3a3a5532114109e8f25b4cb9c941ff67a3d118b536ef9bd",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 12,
+          "sha256": "4a5c97a4473981d8f3a3a5532114109e8f25b4cb9c941ff67a3d118b536ef9bd",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 13,
+          "sha256": "f5d90c605d7a7d106ca9028165a5e4685bd1143b3eb7efcdf40d8daa8f323b0a",
+          "path": "review/round_02/observation_008.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "revise",
+      "checked_flows": [
+        "首屏引导与空列表",
+        "新增/筛选工具栏按钮",
+        "右侧溢出菜单触控区域"
+      ],
+      "findings": [
+        "新增与筛选按钮均可点击；筛选对话框可正常打开并显示归档/完成过滤与五种排序。",
+        "最右侧溢出图标仍位于边缘不可点击区，需要在动作组末尾增加 24dp 安全间距，并改用稳定的模态菜单承载深色主题、设置、帮助与关于。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "0fa75f543fd7692f30f3bffb1b1449b4c9892366fa56a853fcea1000bd30639e",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 3,
+          "sha256": "6b380b101c7a90ed4a4d5f5b5479f215d4a43213c9b6324e7f31ef60a4cfc2f5",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 4,
+          "sha256": "c2252a11b9d8c9dd6135ee4160be53c575b62e46ba37d3037329c4ae113b4cc2",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 5,
+          "sha256": "91e0c09e046522b10a8008397de1ad4f03fa6bdd9fe2a28181ad2120fceaff75",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 6,
+          "sha256": "0e90e209528f58f1c417e501e3e237c9e5408cbea54b0f3ef10e92a6df5d91eb",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 7,
+          "sha256": "0e90e209528f58f1c417e501e3e237c9e5408cbea54b0f3ef10e92a6df5d91eb",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 8,
+          "sha256": "0e90e209528f58f1c417e501e3e237c9e5408cbea54b0f3ef10e92a6df5d91eb",
+          "path": "review/round_03/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 9,
+          "sha256": "10812dc40115e9ca4cd7ad76c75b1c711d1424cc31877975ce6f876e76a79e54",
+          "path": "review/round_03/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 10,
+          "sha256": "10812dc40115e9ca4cd7ad76c75b1c711d1424cc31877975ce6f876e76a79e54",
+          "path": "review/round_03/observation_009.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 4,
+      "decision": "accept",
+      "checked_flows": [
+        "三页首次启动引导及完成后不再重复",
+        "空习惯列表、日期标题与空状态",
+        "新增类型选择与布尔习惯创建表单",
+        "必填字段输入、保存并返回主列表",
+        "习惯名称按单词自然换行",
+        "新建习惯跨应用重启持久化",
+        "筛选对话框、归档/完成过滤与排序选项",
+        "布尔打卡对话框及完成状态更新",
+        "详情页概览、成绩折线与历史柱状统计",
+        "编辑、归档、删除、深色主题、设置与关于页面代码路径",
+        "可量化习惯的单位、目标与数值打卡路径"
+      ],
+      "findings": [
+        "核心用户路径和写入持久化正常，界面未包含私人信息；最终 APK 使用虚构测试内容。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "c43f783d4ab3ffaf7c71c19b1dd912026a253126139c5088640c491b4d4b4d70",
+          "path": "review/round_04/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 3,
+          "sha256": "d57804107eba6b431a5e562272e812fa00903c1ad537e58d525e10ac3f2d9720",
+          "path": "review/round_04/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 4,
+          "sha256": "6beb177bd9ff1bf6bf3a4efc1333506a20884d1032ad1aeeaadb4443b1f4498a",
+          "path": "review/round_04/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 5,
+          "sha256": "707d919007994697b436fc03767623230e655c662235350710bc8e91678007ef",
+          "path": "review/round_04/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 7,
+          "sha256": "c307f7f3c7b20ae555385fd5c273fd7a9554ef00d032cde371038e09a91aa174",
+          "path": "review/round_04/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 8,
+          "sha256": "d803a3773b4df1255bc8315a21996b4cc81f9a836e00f7ab8bf477456ff83fbd",
+          "path": "review/round_04/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 12,
+          "sha256": "12b8835571443d5680adca719ecad4912e00f4178dd7ea4f3ea291923105d915",
+          "path": "review/round_04/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 13,
+          "sha256": "b12e024c67b611b40b94244eb1f57873cf7329daaced9709d5203daea852700f",
+          "path": "review/round_04/observation_008.png"
+        }
+      ],
+      "write_flow_evidence": [
+        {
+          "flow": "从空列表新建布尔习惯 Daily Walk，保存后重启应用验证持久化",
+          "before_observation": 2,
+          "after_observation": 7,
+          "persisted_observation": 8
+        }
+      ],
+      "write_flow_exemption": null
+    }
+  ]
+}

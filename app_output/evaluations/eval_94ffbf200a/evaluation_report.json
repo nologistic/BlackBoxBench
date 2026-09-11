@@ -1,0 +1,974 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "run_id": "eval_94ffbf200a",
+  "checklist_id": "feeder",
+  "checklist_sha256": "74e27dfd041e9ec4032dbbdd4d85f95da79c7d91e56fc72d1212d71f186b5f36",
+  "apk_sha256": "e1688a566f953a716176fdd499df8d2d4de91532cd2b5a7af935fdc05af82104",
+  "package_name": "com.blackboxbench.reproduction",
+  "counts": {
+    "full": 0,
+    "partial": 14,
+    "placeholder": 0,
+    "broken": 6
+  },
+  "requirements": [
+    {
+      "requirement_id": "f01",
+      "name": "订阅源列表与空状态",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "初始及清空数据后，“所有订阅源”显示没有可阅读内容；添加 Review RSS 后抽屉出现 Comics 分组和该源，重启仍保留。连续从“添加更多订阅源”添加其他地址后，抽屉只剩最后添加的地址和 Feeder News，原有 Review RSS 与 Comics 消失，重启仍未恢复。检查并滚动抽屉、点击更多菜单及长按源均未进入删除流程，无法完成删除最后一个 Feed 的闭环。",
+      "evidence_observations": [
+        1,
+        12,
+        19,
+        34,
+        42,
+        43,
+        45,
+        46
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "断网且各源均无文章，非零未读计数无法验证；清空数据仅用于初始态复核，没有用它替代删除功能。"
+    },
+    {
+      "requirement_id": "f02",
+      "name": "通过 URL 添加订阅源",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "URL 输入、搜索、错误显示及“仍要添加”后的配置提交可操作，保存后源出现在抽屉。RSS、Atom、JSON 地址搜索均显示无法下载和域名解析错误。输入 not-a-feed 后被补成 http://not-a-feed，报错后仍可确认保存，抽屉及重启后的抽屉均显示此无效地址，不满足无效源不创建的要求。",
+      "evidence_observations": [
+        2,
+        6,
+        7,
+        11,
+        12,
+        30,
+        32,
+        33,
+        34,
+        42
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "评审模拟器断网，无法确认有效 Feed 请求、解析结果和首批文章同步。"
+    },
+    {
+      "requirement_id": "f03",
+      "name": "RSS / Atom / JSON Feed 多格式解析",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "分别实际提交 xkcd RSS 地址、xkcd Atom 地址和 jsonfeed.org 的 JSON Feed 地址；三次均显示对应域名无法解析，随后可走“仍要添加”并确认。未观察到任何文章，无法核验三种格式统一后的标题、链接、日期、正文或图片表现。本项仅确认添加入口可接收三类候选 URL。",
+      "evidence_observations": [
+        6,
+        30,
+        31,
+        32,
+        34
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "断网导致候选地址均未下载到 Feed 内容；本次不能验证其返回格式、解析能力或跨格式字段一致性。partial 表示验证不完整，不代表多格式解析已证实可用。"
+    },
+    {
+      "requirement_id": "f04",
+      "name": "订阅源编辑与独立配置",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "通过添加流程进入“编辑订阅源”，将标题改为 Review RSS、标签设为 Comics，并开启完整文章、摘要、缩略图增强、通知、跳过重复和附加唯一 ID，确认后标题及分组可见且重启保留。新建另一个源时开关显示关闭。已建源长按仅回到其列表，更多菜单无可见反馈，未能重新打开旧源编辑页复核开关；后续添加又使旧源从抽屉消失，独立编辑与保持未形成完整闭环。",
+      "evidence_observations": [
+        7,
+        9,
+        10,
+        11,
+        12,
+        19,
+        20,
+        21,
+        31,
+        34
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "标题和标签有重启后的可见证据；既有源全部配置的持久化、独立生效及重编辑没有得到验证，未提交 full 的三段持久化证据。"
+    },
+    {
+      "requirement_id": "f05",
+      "name": "Feed 同步与增量更新",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "在 Feeder News、所有订阅源页面实际点击更多菜单，并在所有订阅源下拉，均未出现同步菜单、同步进度或文章变化；检查及滚动抽屉未找到其他同步入口。无法进入清单要求的“同步订阅源”操作链。",
+      "evidence_observations": [
+        27,
+        28,
+        29,
+        36,
+        37,
+        38,
+        43,
+        44,
+        45,
+        46
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "无文章且环境断网，增量新增、重复插入及保留已读/保存状态也无法验证；broken 的依据为同步操作入口不可达，不是域名解析失败本身。"
+    },
+    {
+      "requirement_id": "f06",
+      "name": "重复文章识别策略",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "编辑表单中“跳过重复的文章”和“生成附加的唯一 ID”初始关闭，点击后都显示开启并可提交；新源表单显示各自关闭状态。未获得文章，且手动同步入口未能打开，因此没有观察到相同 GUID、URL、标题的去重或改变策略后的结果。",
+      "evidence_observations": [
+        7,
+        9,
+        10,
+        11,
+        31,
+        38
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "断网及缺少可同步文章，使重复数据输入与后续同步不可构造；仅验证了策略控件的可见切换，没有确认去重算法或策略落地。"
+    },
+    {
+      "requirement_id": "f07",
+      "name": "多 Feed 汇总与未读计数",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "抽屉可选择 Review RSS、Feeder News 和所有订阅源，进入后标题对应变化。继续添加 Atom、JSON 及测试无效源后，抽屉只显示最后一个自建源和 Feeder News，旧自建源不再出现，重启后相同。各范围都没有文章和非零未读数量，未形成多源汇总及联动计数闭环。",
+      "evidence_observations": [
+        12,
+        19,
+        27,
+        34,
+        35,
+        36,
+        42
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "断网环境未取得文章，阅读后的单源/全局计数变化无法验证；旧订阅在连续添加后从导航消失是本次直接观察到的问题。"
+    },
+    {
+      "requirement_id": "f08",
+      "name": "已读 / 未读生命周期",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "实际进入自建源、Feeder News、所有订阅源并尝试搜索、筛选、下拉与源长按，均未得到可打开或可标记的 Article，页面显示没有可阅读内容。重启后能回到相应源，但没有已读/未读状态变化的证据，因此不能判完整。",
+      "evidence_observations": [
+        6,
+        11,
+        19,
+        20,
+        25,
+        26,
+        27,
+        36,
+        38,
+        39
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "断网及空文章集合阻断已读、重标未读及持久化的前置数据。partial 为保守的不可完整验证结论，不代表已读生命周期已经实现；没有用空列表不变作为假保存证据。"
+    },
+    {
+      "requirement_id": "f09",
+      "name": "全部标记为已读",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "在单个源、所有订阅源和已保存文章页面尝试更多菜单，均无可见反馈；长按源、检查并滚动抽屉后仍没有找到“全部标记为已读”或等效入口，无法进入该操作。",
+      "evidence_observations": [
+        20,
+        21,
+        27,
+        28,
+        29,
+        36,
+        37,
+        39,
+        40,
+        44,
+        45,
+        46
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "没有 Article，无法验证保留文章、归零未读数和 Saved 关系不变；本项失效依据是操作入口不可达，未将无文章等同于状态保存失败。"
+    },
+    {
+      "requirement_id": "f10",
+      "name": "滚动自动标记已读",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "实际检查并点击筛选、更多菜单，遍历和滚动抽屉及文章区域后，没有找到设置页或“滚动时自动标记为已读”开关。无法开启及关闭该功能，滚动后的页面仍是空状态。",
+      "evidence_observations": [
+        25,
+        26,
+        36,
+        37,
+        38,
+        41,
+        43,
+        44,
+        45,
+        46
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "文章集合为空，阅读阈值和未浏览项目保留未读无法验证；判失效基于设置入口不可达，而非空列表滚动没有变化。"
+    },
+    {
+      "requirement_id": "f11",
+      "name": "保存文章生命周期",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "从抽屉点击“已保存文章”可进入对应标题页面，页面显示没有可阅读内容；点击其更多菜单及滚动后没有新增入口。自建源、Feeder News 和汇总列表也没有 Article，因此本次只确认 Saved 视图可达，未走通保存、取消保存、跨页面状态联动或删除 Feed 后的处理。",
+      "evidence_observations": [
+        11,
+        27,
+        34,
+        36,
+        39,
+        40,
+        41
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "断网且没有可供保存的文章；无法验证保存关系或其持久化，不能仅凭空的 Saved 页面判占位或完整。"
+    },
+    {
+      "requirement_id": "f12",
+      "name": "文章搜索、筛选与排序",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "点击搜索图标后出现输入框和键盘，输入 review 后查询文本可见，点击关闭后恢复原列表标题。切换源能改变页面标题；但点击筛选按钮反复没有可见反馈，未打开未读筛选或排序选项，无法完成搜索、筛选、排序组合。",
+      "evidence_observations": [
+        20,
+        23,
+        24,
+        25,
+        26,
+        27,
+        36
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "各列表无文章，标题/正文匹配准确性、排序结果和清除查询后的数据恢复无法验证；输入框响应不等于搜索算法已验证。"
+    },
+    {
+      "requirement_id": "f13",
+      "name": "标签与 Feed 组织",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "添加时输入 Comics 标签，保存后抽屉出现 Comics 分组，Review RSS 位于其下，重启后仍可见。既有源长按仅进入列表，更多菜单无响应，未能重新编辑标签；继续添加其他地址后旧源及 Comics 分组消失，不能保持多个 Feed 的独立组织关系。",
+      "evidence_observations": [
+        7,
+        9,
+        12,
+        19,
+        20,
+        31,
+        34,
+        35,
+        42
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "无文章，标签变更后文章归属及不复制 Article 无法验证；本项仅证实初次标签分组和该显示的重启保持。"
+    },
+    {
+      "requirement_id": "f14",
+      "name": "后台同步策略",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "检查源配置表单、单源及汇总页面的更多按钮和整个可见抽屉，并滚动查找，没有进入后台同步设置；未找到每小时、应用启动时、仅 Wi-Fi 或仅充电时等条件入口，因此无法配置清单所述策略。",
+      "evidence_observations": [
+        10,
+        27,
+        28,
+        29,
+        36,
+        37,
+        43,
+        44,
+        45,
+        46
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "环境断网且不控制后台调度/服务端新文章，实际满足条件刷新、跳过和恢复执行无法验证；入口不可达是本次失效依据。"
+    },
+    {
+      "requirement_id": "f15",
+      "name": "新内容通知",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "在源配置表单中实际点击“新内容通知”，开关由关闭变为开启并可确认；新建另一个源时该开关仍显示关闭。各源搜索均报下载失败且列表无文章，没有观察到新文章通知、去重通知或关闭后继续同步的行为。",
+      "evidence_observations": [
+        7,
+        9,
+        10,
+        11,
+        31,
+        38
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "断网和没有新 Article，无法触发通知及验证不重复通知。开关的可见变化仅证明配置界面可操作，不证明通知已经生成。"
+    },
+    {
+      "requirement_id": "f16",
+      "name": "离线文章与内容缓存",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "在断网环境中添加的源标题和标签可以在页面/抽屉浏览，重启仍可见；下载不同地址时显示相应域名解析错误。进入自建源、Feeder News 和所有订阅源都为空，没有可离线阅读的 Article、正文或图片，未验证内容缓存及恢复网络补全。",
+      "evidence_observations": [
+        6,
+        11,
+        12,
+        19,
+        27,
+        30,
+        32,
+        36,
+        38,
+        42
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "评审从全新断网环境开始，没有成功同步过的文章；无法建立“先缓存、再断网、后恢复网络”的条件。partial 仅代表验证不完整，不代表离线正文缓存已确认实现。"
+    },
+    {
+      "requirement_id": "f17",
+      "name": "完整文章、摘要与图片增强",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "实际开启默认获取完整文章、打开时生成摘要及元数据缩略图增强，三个开关均发生可见变化，表单可确认。确认后列表仍无可阅读内容，没有文章可比较开启前后的正文长度、摘要或缩略图来源。",
+      "evidence_observations": [
+        7,
+        9,
+        10,
+        11,
+        31,
+        38
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "断网且没有 Article，无法触发完整正文抓取、阅读阶段摘要及缩略图补全，也无法核验原始 Feed 数据保留；仅配置层操作得到确认。"
+    },
+    {
+      "requirement_id": "f18",
+      "name": "阅读器与内容打开方式",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "源配置底部列出应用默认值、阅读器、自定义标签页和默认浏览器选项，实际点击阅读器并提交后返回源列表。各内容列表均无文章可打开；更多菜单及抽屉检查也未找到分页模式或播放器入口，因此未走通阅读器、外部链接、音频和分页阅读。",
+      "evidence_observations": [
+        10,
+        11,
+        20,
+        27,
+        36,
+        39,
+        43,
+        44,
+        45,
+        46
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "断网且无正文、外链或音频 enclosure 样本，内容打开行为无法实际验证；可选的打开方式界面不等于各处理器已实现。"
+    },
+    {
+      "requirement_id": "f19",
+      "name": "OPML 导入 / 导出 Round Trip",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "实际打开并滚动抽屉，在已有自建源、Feeder News、所有订阅源和已保存文章页面点击更多菜单；均未出现 OPML 导入、导出或等效迁移入口。清空数据后再次尝试更多菜单仍无可见反馈，无法产生导出文件或进入导入流程。",
+      "evidence_observations": [
+        12,
+        19,
+        34,
+        35,
+        36,
+        37,
+        39,
+        40,
+        43,
+        44,
+        45,
+        46
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "无法到达导入导出入口，因此没有执行跨环境 round trip、分组恢复及已有订阅合并；不能对文件内容或合并正确性作判断。"
+    },
+    {
+      "requirement_id": "f20",
+      "name": "已保存文章导入 / 导出与显示配置",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "已保存文章页面可以进入，但更多按钮点击后没有反馈；检查和滚动抽屉、汇总页面及重置后的菜单后，没有找到 Saved 导入/导出，也没有进入主题、动态色彩、字体缩放、卡片、缩略图、行数或列数配置。无法执行清单要求的迁移与显示配置持久化流程。",
+      "evidence_observations": [
+        34,
+        35,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "Saved 集合为空且迁移/显示配置入口不可达，没有可提交的显示配置写入前、写入后与重启后证据；未把仅有 Saved 页面视为导入导出实现。"
+    }
+  ],
+  "actions": [
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "reset_app"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    }
+  ],
+  "observations": [
+    {
+      "number": 1,
+      "action_count": 0,
+      "sha256": "dd842f473842eacad463a2459af78e2fe09750dadf9ca8940d71312c92c184f7",
+      "path": "frames/observation_001.png"
+    },
+    {
+      "number": 2,
+      "action_count": 1,
+      "sha256": "50430f16926bb044679262112711a2bc376e34f2683911f609402ef68774bdec",
+      "path": "frames/observation_002.png"
+    },
+    {
+      "number": 3,
+      "action_count": 5,
+      "sha256": "97801ee5213f8d9462520c0f444a199989cbe971460d91982d0c9a0cf1d3e209",
+      "path": "frames/observation_003.png"
+    },
+    {
+      "number": 4,
+      "action_count": 6,
+      "sha256": "e4840c6593c98435b3b7243a4f4ccafcc6ebef1be406a07135452640a25d9104",
+      "path": "frames/observation_004.png"
+    },
+    {
+      "number": 5,
+      "action_count": 8,
+      "sha256": "8472ddd684f83fefa7fd3ffd4fabaebca396ad52625c1e4c91a3b11a3ae8c0ed",
+      "path": "frames/observation_005.png"
+    },
+    {
+      "number": 6,
+      "action_count": 12,
+      "sha256": "350a243b93da7edbca3b59e99c518d32a2566ddab4457140e6a222b8a2506989",
+      "path": "frames/observation_006.png"
+    },
+    {
+      "number": 7,
+      "action_count": 13,
+      "sha256": "26ed5431172d65d098991cf643fc99c9e7156f1247e09e343977ae9e05aa3344",
+      "path": "frames/observation_007.png"
+    },
+    {
+      "number": 8,
+      "action_count": 14,
+      "sha256": "8ce9d1b61234b4ab623cf8b2d852915a1ecccf9892296c53563c3bf66e512bb5",
+      "path": "frames/observation_008.png"
+    },
+    {
+      "number": 9,
+      "action_count": 25,
+      "sha256": "a35d2cd36acb61cd154912257c8d621d013a91f6cd934f3092c2c0bff647b774",
+      "path": "frames/observation_009.png"
+    },
+    {
+      "number": 10,
+      "action_count": 26,
+      "sha256": "41f5160dc2cc9028704477a951ce7506d94c3217239c641c457387b68acead08",
+      "path": "frames/observation_010.png"
+    },
+    {
+      "number": 11,
+      "action_count": 28,
+      "sha256": "57f968a370beac8a5d21351aa684c39e90d98cc5dd65facdb21f95fa16824c18",
+      "path": "frames/observation_011.png"
+    },
+    {
+      "number": 12,
+      "action_count": 29,
+      "sha256": "44bc94112faeb192029b99c8049667276394ab2f7ea916ee3de666b5fa07b8f3",
+      "path": "frames/observation_012.png"
+    },
+    {
+      "number": 13,
+      "action_count": 31,
+      "sha256": "57f968a370beac8a5d21351aa684c39e90d98cc5dd65facdb21f95fa16824c18",
+      "path": "frames/observation_013.png"
+    },
+    {
+      "number": 14,
+      "action_count": 32,
+      "sha256": "57f968a370beac8a5d21351aa684c39e90d98cc5dd65facdb21f95fa16824c18",
+      "path": "frames/observation_014.png"
+    },
+    {
+      "number": 15,
+      "action_count": 33,
+      "sha256": "034eac909cd05ee179b92b146478e6dab6b1045b0d6c2c4be65fc2c7fb577a0c",
+      "path": "frames/observation_015.png"
+    },
+    {
+      "number": 16,
+      "action_count": 34,
+      "sha256": "034eac909cd05ee179b92b146478e6dab6b1045b0d6c2c4be65fc2c7fb577a0c",
+      "path": "frames/observation_016.png"
+    },
+    {
+      "number": 17,
+      "action_count": 36,
+      "sha256": "034eac909cd05ee179b92b146478e6dab6b1045b0d6c2c4be65fc2c7fb577a0c",
+      "path": "frames/observation_017.png"
+    },
+    {
+      "number": 18,
+      "action_count": 37,
+      "sha256": "034eac909cd05ee179b92b146478e6dab6b1045b0d6c2c4be65fc2c7fb577a0c",
+      "path": "frames/observation_018.png"
+    },
+    {
+      "number": 19,
+      "action_count": 40,
+      "sha256": "c7e2050ecf4bebadccd76208495fbf07155b8f68cd7561491351236cb7b126f6",
+      "path": "frames/observation_019.png"
+    },
+    {
+      "number": 20,
+      "action_count": 41,
+      "sha256": "80affcc4a9c845f110647e2eab37a38b8d696dd53f53f15cade2cf1b73335465",
+      "path": "frames/observation_020.png"
+    },
+    {
+      "number": 21,
+      "action_count": 42,
+      "sha256": "80affcc4a9c845f110647e2eab37a38b8d696dd53f53f15cade2cf1b73335465",
+      "path": "frames/observation_021.png"
+    },
+    {
+      "number": 22,
+      "action_count": 43,
+      "sha256": "80affcc4a9c845f110647e2eab37a38b8d696dd53f53f15cade2cf1b73335465",
+      "path": "frames/observation_022.png"
+    },
+    {
+      "number": 23,
+      "action_count": 44,
+      "sha256": "a8841ac94349fdd9509a969f9e0e831695680e89eab767297d6bba5981f4924a",
+      "path": "frames/observation_023.png"
+    },
+    {
+      "number": 24,
+      "action_count": 46,
+      "sha256": "24a1dcf5f5379cd1b3d6160e5ae8ca6e545e2609a4c8063d8285e4e9ac7592b6",
+      "path": "frames/observation_024.png"
+    },
+    {
+      "number": 25,
+      "action_count": 48,
+      "sha256": "bab9242b373279ef77ca0fbd3a2533b81d65cf89b712fd6c868552110b19326d",
+      "path": "frames/observation_025.png"
+    },
+    {
+      "number": 26,
+      "action_count": 49,
+      "sha256": "3b5dab941a4d042c4eed853cbe7a5d8574e200145ffe03d5ff6e00910dc47bb4",
+      "path": "frames/observation_026.png"
+    },
+    {
+      "number": 27,
+      "action_count": 51,
+      "sha256": "855dee54f6b533b2eed7fb8e6f9a19d72c237b8704d5d5fe58e366199897b31e",
+      "path": "frames/observation_027.png"
+    },
+    {
+      "number": 28,
+      "action_count": 52,
+      "sha256": "855dee54f6b533b2eed7fb8e6f9a19d72c237b8704d5d5fe58e366199897b31e",
+      "path": "frames/observation_028.png"
+    },
+    {
+      "number": 29,
+      "action_count": 53,
+      "sha256": "855dee54f6b533b2eed7fb8e6f9a19d72c237b8704d5d5fe58e366199897b31e",
+      "path": "frames/observation_029.png"
+    },
+    {
+      "number": 30,
+      "action_count": 58,
+      "sha256": "034580577a85a2fe452640844bc4f570801c85debd9e82e5e15069e4ba989cf0",
+      "path": "frames/observation_030.png"
+    },
+    {
+      "number": 31,
+      "action_count": 59,
+      "sha256": "8f03fabe81e73f65d19b69c953dab393bda208e4b769e27ef162aa97c967d0b2",
+      "path": "frames/observation_031.png"
+    },
+    {
+      "number": 32,
+      "action_count": 66,
+      "sha256": "ceaa14024f6ad2de5db28aa5dad6b51b1179ccb762519613467e963448e6e565",
+      "path": "frames/observation_032.png"
+    },
+    {
+      "number": 33,
+      "action_count": 74,
+      "sha256": "0fd5cf37a2bdb465bfc286628237b2b8b23a71578a5aef10aaedc7039bdd0bfb",
+      "path": "frames/observation_033.png"
+    },
+    {
+      "number": 34,
+      "action_count": 78,
+      "sha256": "c9b18100a6e4ecff83bc9e3302d8e6ffe377e6ac5f7a9c06ff121adacf2b6d7f",
+      "path": "frames/observation_034.png"
+    },
+    {
+      "number": 35,
+      "action_count": 79,
+      "sha256": "c9b18100a6e4ecff83bc9e3302d8e6ffe377e6ac5f7a9c06ff121adacf2b6d7f",
+      "path": "frames/observation_035.png"
+    },
+    {
+      "number": 36,
+      "action_count": 80,
+      "sha256": "b62b7705b63d5a84b77a08c977592f9864e7d959054150becdf8f8e67056e1ff",
+      "path": "frames/observation_036.png"
+    },
+    {
+      "number": 37,
+      "action_count": 81,
+      "sha256": "b62b7705b63d5a84b77a08c977592f9864e7d959054150becdf8f8e67056e1ff",
+      "path": "frames/observation_037.png"
+    },
+    {
+      "number": 38,
+      "action_count": 82,
+      "sha256": "b62b7705b63d5a84b77a08c977592f9864e7d959054150becdf8f8e67056e1ff",
+      "path": "frames/observation_038.png"
+    },
+    {
+      "number": 39,
+      "action_count": 84,
+      "sha256": "fe188ad01128441445732633c5db0723bc57036583ac36a881358c93c37f0d6b",
+      "path": "frames/observation_039.png"
+    },
+    {
+      "number": 40,
+      "action_count": 85,
+      "sha256": "fe188ad01128441445732633c5db0723bc57036583ac36a881358c93c37f0d6b",
+      "path": "frames/observation_040.png"
+    },
+    {
+      "number": 41,
+      "action_count": 86,
+      "sha256": "fe188ad01128441445732633c5db0723bc57036583ac36a881358c93c37f0d6b",
+      "path": "frames/observation_041.png"
+    },
+    {
+      "number": 42,
+      "action_count": 89,
+      "sha256": "b622a2adab914901c6fcd4cfd5436510df2c9e55f49d4b261aef4b11c178fb75",
+      "path": "frames/observation_042.png"
+    },
+    {
+      "number": 43,
+      "action_count": 91,
+      "sha256": "72bad3dbdf4b1e7d4ea81a616c1a6806d2653d0372559d5fdd997db251a69832",
+      "path": "frames/observation_043.png"
+    },
+    {
+      "number": 44,
+      "action_count": 92,
+      "sha256": "72bad3dbdf4b1e7d4ea81a616c1a6806d2653d0372559d5fdd997db251a69832",
+      "path": "frames/observation_044.png"
+    },
+    {
+      "number": 45,
+      "action_count": 93,
+      "sha256": "f4cb5b35c069c63d4924e864ea930c5bbc06ab5c1d3d442181bbde543e249337",
+      "path": "frames/observation_045.png"
+    },
+    {
+      "number": 46,
+      "action_count": 94,
+      "sha256": "f4cb5b35c069c63d4924e864ea930c5bbc06ab5c1d3d442181bbde543e249337",
+      "path": "frames/observation_046.png"
+    }
+  ]
+}

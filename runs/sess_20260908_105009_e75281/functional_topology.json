@@ -1,0 +1,1274 @@
+{
+  "app_id": "fossify_calculator",
+  "graph_version": "1.0",
+  "session_id": "sess_20260908_105009_e75281",
+  "generated_at": "2026-09-08T11:19:03.711932+00:00",
+  "nodes": [
+    {
+      "name": "计算器主界面·初始",
+      "description": "浅色竖屏计算器。顶部右侧依次为历史、单位换算、更多菜单；右对齐结果区显示 0；下方 5×4 圆角按键网格，含百分比、幂、平方根、四则运算、数字、小数点、清除与等号。",
+      "visual_evidence": [
+        1
+      ],
+      "entry_conditions": [
+        "应用冷启动",
+        "从其他页面返回计算器"
+      ],
+      "observed_elements": [
+        "状态栏",
+        "历史图标",
+        "单位换算图标",
+        "更多菜单",
+        "右对齐结果 0",
+        "5×4 计算键盘"
+      ],
+      "confidence": 1.0,
+      "id": "state_计算器主界面_初始",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 0,
+      "updated_step": 0
+    },
+    {
+      "name": "计算器主界面·求值结果",
+      "description": "等号求值后，原表达式以较小字号显示在结果上方，计算结果以大字号右对齐显示；键盘布局不变。",
+      "visual_evidence": [
+        7
+      ],
+      "entry_conditions": [
+        "在合法表达式后点击等号"
+      ],
+      "observed_elements": [
+        "上方小字号表达式 1+2",
+        "大字号结果 3",
+        "完整计算键盘"
+      ],
+      "confidence": 1.0,
+      "id": "state_计算器主界面_求值结果",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 4,
+      "updated_step": 4
+    },
+    {
+      "name": "基础算术表达式输入与求值",
+      "description": "依次点击数字和运算符会在结果区组成中缀表达式；点击等号保留表达式并显示计算结果。",
+      "behavior": {
+        "preconditions": [
+          "计算器主界面"
+        ],
+        "trigger": {
+          "type": "tap_sequence",
+          "target_description": "数字键、四则运算键和等号键"
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 1,
+          "before_frame": 1,
+          "action": "点击数字键 1",
+          "after_frame": 2,
+          "note": null
+        },
+        {
+          "step": 4,
+          "before_frame": 5,
+          "action": "点击等号",
+          "after_frame": 6,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_基础算术表达式输入与求值",
+      "type": "FEATURE",
+      "created_step": 4,
+      "updated_step": 4
+    },
+    {
+      "name": "历史记录对话框·有记录",
+      "description": "半透明遮罩上的居中大圆角对话框，蓝色标题“历史记录”，列表项分两行显示表达式与结果；底部左侧“清除”、右侧“确定”。",
+      "visual_evidence": [
+        9
+      ],
+      "entry_conditions": [
+        "完成至少一次求值",
+        "点击顶部历史图标"
+      ],
+      "observed_elements": [
+        "标题 历史记录",
+        "历史项 1+2 / 3",
+        "清除按钮",
+        "确定按钮",
+        "背景遮罩"
+      ],
+      "confidence": 1.0,
+      "id": "state_历史记录对话框_有记录",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 5,
+      "updated_step": 5
+    },
+    {
+      "name": "查看计算历史",
+      "description": "点击时钟图标弹出历史记录对话框，按表达式和结果两行展示已求值记录。",
+      "behavior": {
+        "preconditions": [
+          "至少完成一条合法计算"
+        ],
+        "trigger": {
+          "type": "tap",
+          "target_description": "顶部时钟形历史图标"
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 5,
+          "before_frame": 7,
+          "action": "点击历史图标",
+          "after_frame": 8,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_查看计算历史",
+      "type": "FEATURE",
+      "created_step": 5,
+      "updated_step": 5
+    },
+    {
+      "name": "计算历史条目",
+      "description": "每条记录包含原始表达式与求值结果，例如 1+2 与 3。",
+      "confidence": 1.0,
+      "id": "data_计算历史条目",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 5,
+      "updated_step": 5
+    },
+    {
+      "name": "计算历史跨重启持久化",
+      "description": "完成计算后关闭历史对话框并重启应用，主界面清空为 0，但再次打开历史仍保留先前条目。",
+      "behavior": {
+        "preconditions": [
+          "已有历史条目"
+        ],
+        "trigger": {
+          "type": "restart_and_tap",
+          "target_description": "重启应用后点击历史图标"
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 7,
+          "before_frame": 10,
+          "action": "重启应用",
+          "after_frame": 11,
+          "note": null
+        },
+        {
+          "step": 8,
+          "before_frame": 12,
+          "action": "重启后点击历史图标",
+          "after_frame": 13,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_计算历史跨重启持久化",
+      "type": "FEATURE",
+      "created_step": 8,
+      "updated_step": 8
+    },
+    {
+      "name": "清除全部计算历史",
+      "description": "历史对话框左下“清除”会立即删除全部条目并关闭对话框；历史为空时点击顶部历史图标不弹出任何界面。",
+      "behavior": {
+        "preconditions": [
+          "历史对话框至少包含一条记录"
+        ],
+        "trigger": {
+          "type": "tap",
+          "target_description": "历史记录对话框左下角“清除”"
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 9,
+          "before_frame": 14,
+          "action": "点击清除",
+          "after_frame": 15,
+          "note": null
+        },
+        {
+          "step": 10,
+          "before_frame": 16,
+          "action": "历史为空时点击历史图标",
+          "after_frame": 17,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_清除全部计算历史",
+      "type": "FEATURE",
+      "created_step": 10,
+      "updated_step": 10
+    },
+    {
+      "name": "计算器主界面·历史为空",
+      "description": "清除历史后返回主界面；点击历史图标不弹出对话框，界面保持不变。",
+      "visual_evidence": [
+        18
+      ],
+      "entry_conditions": [
+        "在历史对话框点击清除"
+      ],
+      "observed_elements": [
+        "结果 0",
+        "完整计算键盘",
+        "顶部历史图标"
+      ],
+      "confidence": 1.0,
+      "id": "state_计算器主界面_历史为空",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 10,
+      "updated_step": 10
+    },
+    {
+      "name": "单位换算·类别选择",
+      "description": "标题栏含返回箭头与“单位换算”。主体为 3×3 描边大卡片网格，淡紫底与蓝色图标，类别依次为长度、面积、体积、质量、温度、时间、速度、压强、能量。",
+      "visual_evidence": [
+        20
+      ],
+      "entry_conditions": [
+        "点击计算器顶部单位换算图标"
+      ],
+      "observed_elements": [
+        "返回箭头",
+        "标题 单位换算",
+        "长度",
+        "面积",
+        "体积",
+        "质量",
+        "温度",
+        "时间",
+        "速度",
+        "压强",
+        "能量"
+      ],
+      "confidence": 1.0,
+      "id": "state_单位换算_类别选择",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 11,
+      "updated_step": 11
+    },
+    {
+      "name": "进入单位换算类别页",
+      "description": "点击计算器顶部尺规图标进入单位换算类别选择页，共九类。",
+      "behavior": {
+        "preconditions": [
+          "计算器主界面"
+        ],
+        "trigger": {
+          "type": "tap",
+          "target_description": "顶部尺规形单位换算图标"
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 11,
+          "before_frame": 18,
+          "action": "点击单位换算图标",
+          "after_frame": 19,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_进入单位换算类别页",
+      "type": "FEATURE",
+      "created_step": 11,
+      "updated_step": 11
+    },
+    {
+      "name": "长度换算·默认千米到米",
+      "description": "标题为“长度”，上下两块数值区。上方淡蓝色输入区默认千米/km，下方输出区默认米/m，中间有上下交换图标；底部为 3 列数字键盘，含小数点和清除。",
+      "visual_evidence": [
+        22
+      ],
+      "entry_conditions": [
+        "在单位换算类别页点击长度"
+      ],
+      "observed_elements": [
+        "返回箭头",
+        "标题 长度",
+        "源单位 千米/km",
+        "源值 0",
+        "交换图标",
+        "目标单位 米/m",
+        "目标值 0",
+        "数字键盘"
+      ],
+      "confidence": 1.0,
+      "id": "state_长度换算_默认千米到米",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 17,
+      "updated_step": 17
+    },
+    {
+      "name": "长度单位选择对话框",
+      "description": "居中高圆角单选列表，背景遮罩。当前单位使用蓝色选中圆环；列表可滚动，包含千米、米、厘米、毫米、微米、纳米、埃、英里、码、英尺、英寸、英寻、海里、天文单位、秒差距、光年。",
+      "visual_evidence": [
+        28,
+        30
+      ],
+      "entry_conditions": [
+        "在长度换算页点击源或目标单位名称"
+      ],
+      "observed_elements": [
+        "单选圆圈",
+        "米(m)已选",
+        "公制长度单位",
+        "英制长度单位",
+        "天文长度单位",
+        "可滚动列表"
+      ],
+      "confidence": 1.0,
+      "id": "state_长度单位选择对话框",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 17,
+      "updated_step": 17
+    },
+    {
+      "name": "长度数值即时换算",
+      "description": "在源值数字键盘输入时，目标值即时更新并按千位分组显示。",
+      "behavior": {
+        "preconditions": [
+          "长度换算页默认千米到米"
+        ],
+        "trigger": {
+          "type": "tap",
+          "target_description": "数字键盘数字 1"
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 13,
+          "before_frame": 22,
+          "action": "点击数字 1",
+          "after_frame": 23,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_长度数值即时换算",
+      "type": "FEATURE",
+      "created_step": 17,
+      "updated_step": 17
+    },
+    {
+      "name": "交换换算方向",
+      "description": "点击中间上下箭头交换源和目标单位，保留源数值并按新方向重新计算。",
+      "behavior": {
+        "preconditions": [
+          "长度换算页，源 1 km、目标 1000 m"
+        ],
+        "trigger": {
+          "type": "tap",
+          "target_description": "两数值区之间的上下箭头"
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 14,
+          "before_frame": 24,
+          "action": "点击交换箭头",
+          "after_frame": 25,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_交换换算方向",
+      "type": "FEATURE",
+      "created_step": 17,
+      "updated_step": 17
+    },
+    {
+      "name": "选择换算单位",
+      "description": "点击单位名打开可滚动单选列表，选择后立即关闭并按新单位重新计算。",
+      "behavior": {
+        "preconditions": [
+          "长度换算页"
+        ],
+        "trigger": {
+          "type": "tap_and_select",
+          "target_description": "点击源单位下拉并选择厘米(cm)"
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 15,
+          "before_frame": 26,
+          "action": "点击源单位下拉",
+          "after_frame": 27,
+          "note": null
+        },
+        {
+          "step": 17,
+          "before_frame": 30,
+          "action": "选择厘米(cm)",
+          "after_frame": 31,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_选择换算单位",
+      "type": "FEATURE",
+      "created_step": 17,
+      "updated_step": 17
+    },
+    {
+      "name": "温度换算·摄氏到开尔文",
+      "description": "温度换算沿用上下数值区与交换图标，默认摄氏度(°C)到开尔文(K)，0°C 显示 273.15K。数字键盘底部额外有全宽“+/−”符号切换键。",
+      "visual_evidence": [
+        36
+      ],
+      "entry_conditions": [
+        "单位换算类别页点击温度"
+      ],
+      "observed_elements": [
+        "标题 温度",
+        "摄氏度 °C",
+        "0",
+        "开尔文 K",
+        "273.15",
+        "数字键盘",
+        "全宽 +/− 键"
+      ],
+      "confidence": 1.0,
+      "id": "state_温度换算_摄氏到开尔文",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 23,
+      "updated_step": 23
+    },
+    {
+      "name": "温度单位选择对话框",
+      "description": "温度单位单选列表包含摄氏度(°C)、华氏度(°F)、兰金度(°R)、开尔文(K)，当前摄氏度以蓝色单选圆环标识。",
+      "visual_evidence": [
+        42
+      ],
+      "entry_conditions": [
+        "在温度换算页点击单位名"
+      ],
+      "observed_elements": [
+        "摄氏度",
+        "华氏度",
+        "兰金度",
+        "开尔文",
+        "单选圆圈",
+        "遮罩"
+      ],
+      "confidence": 1.0,
+      "id": "state_温度单位选择对话框",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 23,
+      "updated_step": 23
+    },
+    {
+      "name": "温度负数输入与换算",
+      "description": "温度换算专属 +/− 键可切换输入正负；输入 40 后切换为负数，正确得到 -40°C = 233.15K。",
+      "behavior": {
+        "preconditions": [
+          "温度换算页默认摄氏到开尔文"
+        ],
+        "trigger": {
+          "type": "tap_sequence",
+          "target_description": "依次点击 4、0、+/−"
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 20,
+          "before_frame": 36,
+          "action": "点击 4",
+          "after_frame": 37,
+          "note": null
+        },
+        {
+          "step": 22,
+          "before_frame": 38,
+          "action": "点击 +/−",
+          "after_frame": 39,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_温度负数输入与换算",
+      "type": "FEATURE",
+      "created_step": 23,
+      "updated_step": 23
+    },
+    {
+      "name": "面积换算与单位列表",
+      "description": "面积默认平方千米(km²)到平方米(m²)，数字换算布局与长度一致。单位列表：平方千米、平方米、平方厘米、平方毫米、平方英里、平方码、平方英尺、平方英寸、英亩、公顷。",
+      "visual_evidence": [
+        47,
+        49
+      ],
+      "entry_conditions": [
+        "类别页点击面积",
+        "点击单位名称可见列表"
+      ],
+      "observed_elements": [
+        "标题 面积",
+        "平方千米",
+        "平方米",
+        "10项面积单位单选列表"
+      ],
+      "confidence": 1.0,
+      "id": "state_面积换算与单位列表",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 52,
+      "updated_step": 52
+    },
+    {
+      "name": "体积换算与单位列表",
+      "description": "体积默认升(L)到立方米(m³)。单位列表含立方米、立方分米、立方厘米、立方毫米、升、厘升、分升、毫升、英亩-英尺、立方英尺、立方英寸，以及美制/英制桶、加仑、夸脱、品脱、杯、吉耳、液量盎司等。",
+      "visual_evidence": [
+        53,
+        55,
+        57
+      ],
+      "entry_conditions": [
+        "类别页点击体积",
+        "点击单位名称并滚动列表"
+      ],
+      "observed_elements": [
+        "标题 体积",
+        "升 L",
+        "立方米 m³",
+        "公制体积单位",
+        "美制体积单位",
+        "英制体积单位"
+      ],
+      "confidence": 1.0,
+      "id": "state_体积换算与单位列表",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 52,
+      "updated_step": 52
+    },
+    {
+      "name": "质量换算与单位列表",
+      "description": "质量默认磅(lb)到千克(kg)。单位列表含克、千克、毫克、微克、公吨、磅、盎司、格令、打兰、英石、长吨、短吨、克拉等。",
+      "visual_evidence": [
+        61,
+        63
+      ],
+      "entry_conditions": [
+        "类别页点击质量",
+        "点击单位名称"
+      ],
+      "observed_elements": [
+        "标题 质量",
+        "磅 lb",
+        "千克 kg",
+        "质量单位单选列表"
+      ],
+      "confidence": 1.0,
+      "id": "state_质量换算与单位列表",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 52,
+      "updated_step": 52
+    },
+    {
+      "name": "时间换算与单位列表",
+      "description": "时间默认小时(h)到秒(s)。单位选择包含小时、分钟、秒、毫秒、天、周、年。",
+      "visual_evidence": [
+        67,
+        69
+      ],
+      "entry_conditions": [
+        "类别页点击时间",
+        "点击单位名称"
+      ],
+      "observed_elements": [
+        "标题 时间",
+        "小时 h",
+        "秒 s",
+        "7项时间单位单选列表"
+      ],
+      "confidence": 1.0,
+      "id": "state_时间换算与单位列表",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 52,
+      "updated_step": 52
+    },
+    {
+      "name": "速度换算与单位列表",
+      "description": "速度默认千米/时(km/h)到英里/时(mph)。单位选择包含米/秒、千米/秒、千米/时、英里/时、节、英尺/秒、马赫、光速。",
+      "visual_evidence": [
+        73,
+        75
+      ],
+      "entry_conditions": [
+        "类别页点击速度",
+        "点击单位名称"
+      ],
+      "observed_elements": [
+        "标题 速度",
+        "千米/时 km/h",
+        "英里/时 mph",
+        "8项速度单位单选列表"
+      ],
+      "confidence": 1.0,
+      "id": "state_速度换算与单位列表",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 52,
+      "updated_step": 52
+    },
+    {
+      "name": "压强换算与单位列表",
+      "description": "压强默认巴(bar)到磅/平方英寸(psi)。单位选择包含帕斯卡、千帕、兆帕、巴、毫巴、气压、psi、托尔、毫米汞柱、英寸汞柱。",
+      "visual_evidence": [
+        79,
+        81
+      ],
+      "entry_conditions": [
+        "类别页点击压强",
+        "点击单位名称"
+      ],
+      "observed_elements": [
+        "标题 压强",
+        "巴 bar",
+        "psi",
+        "10项压强单位单选列表"
+      ],
+      "confidence": 1.0,
+      "id": "state_压强换算与单位列表",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 52,
+      "updated_step": 52
+    },
+    {
+      "name": "能量换算与单位列表",
+      "description": "能量默认千卡(kcal)到千焦(kJ)。单位选择含焦耳、千焦、兆焦、吉焦、卡路里、千卡、瓦时、千瓦时、兆瓦时、电子伏特、BTU、热单位、英尺磅、尔格。",
+      "visual_evidence": [
+        85,
+        87
+      ],
+      "entry_conditions": [
+        "类别页点击能量",
+        "点击单位名称"
+      ],
+      "observed_elements": [
+        "标题 能量",
+        "千卡 kcal",
+        "千焦 kJ",
+        "14项能量单位单选列表"
+      ],
+      "confidence": 1.0,
+      "id": "state_能量换算与单位列表",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 52,
+      "updated_step": 52
+    },
+    {
+      "name": "单位类别与单位定义",
+      "description": "九类单位换算各自维护可选单位名称、符号与换算系数；温度单位使用带偏移的转换。",
+      "confidence": 1.0,
+      "id": "data_单位类别与单位定义",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 52,
+      "updated_step": 52
+    },
+    {
+      "name": "更多菜单",
+      "description": "计算器右上溢出菜单展开为靠右浅色圆角浮层，含“设置”和“关于”两项。",
+      "visual_evidence": [
+        93
+      ],
+      "entry_conditions": [
+        "计算器主界面点击右上三点"
+      ],
+      "observed_elements": [
+        "浮层",
+        "设置",
+        "关于"
+      ],
+      "confidence": 1.0,
+      "id": "state_更多菜单",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 65,
+      "updated_step": 65
+    },
+    {
+      "name": "设置页·浅色",
+      "description": "设置页含“外观”分区的自定义外观、定义微件颜色；“常规”分区含购买 Fossify Thank You、语言（中文）、按下按钮时振动开关、前台运行时阻止设备自动休眠开关。两个开关默认均开启。",
+      "visual_evidence": [
+        95
+      ],
+      "entry_conditions": [
+        "更多菜单点击设置"
+      ],
+      "observed_elements": [
+        "返回箭头",
+        "标题 设置",
+        "外观",
+        "自定义外观",
+        "定义微件颜色",
+        "购买 Fossify Thank You",
+        "语言 中文",
+        "振动开关开启",
+        "阻止休眠开关开启"
+      ],
+      "confidence": 1.0,
+      "id": "state_设置页_浅色",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 65,
+      "updated_step": 65
+    },
+    {
+      "name": "自定义外观页·主题选择",
+      "description": "自定义外观页可配置应用主题、应用图标颜色和应用字体。主题弹窗选项包含系统默认、浅色主题、深色主题、深红色、白色、黑白两色、自定义。",
+      "visual_evidence": [
+        97,
+        104
+      ],
+      "entry_conditions": [
+        "设置页点击自定义外观",
+        "点击应用主题"
+      ],
+      "observed_elements": [
+        "主题和颜色",
+        "应用主题 系统默认",
+        "绿色应用图标颜色圆点",
+        "应用字体 系统默认",
+        "7项主题单选列表"
+      ],
+      "confidence": 1.0,
+      "id": "state_自定义外观页_主题选择",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 65,
+      "updated_step": 65
+    },
+    {
+      "name": "深色主题外观预览",
+      "description": "选择深色主题后进入可保存的预览配置页：黑色背景、白色文字、绿色顶栏与主色调，右上角勾选保存；额外显示文字颜色、背景色、主色调、应用图标颜色。",
+      "visual_evidence": [
+        106
+      ],
+      "entry_conditions": [
+        "主题选择中点击深色主题"
+      ],
+      "observed_elements": [
+        "绿色工具栏",
+        "黑色背景",
+        "白色文字",
+        "深色主题",
+        "文字颜色",
+        "背景色",
+        "主色调",
+        "应用图标颜色",
+        "右上勾选"
+      ],
+      "confidence": 1.0,
+      "id": "state_深色主题外观预览",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 65,
+      "updated_step": 65
+    },
+    {
+      "name": "选择并保存应用主题",
+      "description": "在自定义外观中选择深色主题会即时预览；点击右上勾选保存并返回设置页，整个应用切换为深色绿调。",
+      "behavior": {
+        "preconditions": [
+          "自定义外观页",
+          "主题选择弹窗"
+        ],
+        "trigger": {
+          "type": "tap_and_confirm",
+          "target_description": "选择深色主题后点击右上勾选"
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 63,
+          "before_frame": 104,
+          "action": "选择深色主题",
+          "after_frame": 105,
+          "note": null
+        },
+        {
+          "step": 64,
+          "before_frame": 106,
+          "action": "点击右上勾选保存",
+          "after_frame": 107,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_选择并保存应用主题",
+      "type": "FEATURE",
+      "created_step": 65,
+      "updated_step": 65
+    },
+    {
+      "name": "应用主题跨重启持久化",
+      "description": "保存深色主题后重启应用，计算器主界面仍以黑底、白字、深绿色按键显示。",
+      "behavior": {
+        "preconditions": [
+          "已保存深色主题"
+        ],
+        "trigger": {
+          "type": "restart",
+          "target_description": "重启应用"
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 65,
+          "before_frame": 108,
+          "action": "重启应用",
+          "after_frame": 109,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_应用主题跨重启持久化",
+      "type": "FEATURE",
+      "created_step": 65,
+      "updated_step": 65
+    },
+    {
+      "name": "外观与常规偏好",
+      "description": "保存应用主题、颜色、字体、振动与阻止休眠等偏好，并在重启后恢复。",
+      "confidence": 1.0,
+      "id": "data_外观与常规偏好",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 65,
+      "updated_step": 65
+    },
+    {
+      "name": "关于页",
+      "description": "分组滚动列表。支持：常见问题、已知问题、hello@fossify.org；帮助我们：分享给好友、贡献者、向 Fossify 捐赠；社交网络：GitHub、Reddit、Telegram；其他：隐私政策、第三方许可；底部显示版本 1.4.0 与包名 org.fossify.math。",
+      "visual_evidence": [
+        114,
+        116
+      ],
+      "entry_conditions": [
+        "更多菜单点击关于"
+      ],
+      "observed_elements": [
+        "标题 关于",
+        "支持分组",
+        "帮助我们分组",
+        "社交网络分组",
+        "其他分组",
+        "版本 1.4.0",
+        "org.fossify.math"
+      ],
+      "confidence": 1.0,
+      "id": "state_关于页",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 68,
+      "updated_step": 68
+    },
+    {
+      "name": "查看关于与版本信息",
+      "description": "更多菜单可进入可滚动关于页，提供支持、分享、社区、政策和版本信息入口。",
+      "behavior": {
+        "preconditions": [
+          "计算器主界面"
+        ],
+        "trigger": {
+          "type": "tap",
+          "target_description": "更多菜单中的“关于”"
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 67,
+          "before_frame": 112,
+          "action": "点击关于",
+          "after_frame": 113,
+          "note": null
+        },
+        {
+          "step": 68,
+          "before_frame": 114,
+          "action": "向上滑动列表",
+          "after_frame": 115,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_查看关于与版本信息",
+      "type": "FEATURE",
+      "created_step": 68,
+      "updated_step": 68
+    },
+    {
+      "name": "百分比参与表达式",
+      "description": "百分号不能单独把 200% 求值为 2；它可作为乘除等表达式的一部分，例如 100×20% 求值为 20。",
+      "behavior": {
+        "preconditions": [
+          "计算器主界面"
+        ],
+        "trigger": {
+          "type": "tap_sequence",
+          "target_description": "输入 100×20% 并点击等号"
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 100,
+          "before_frame": 155,
+          "action": "点击等号求值 100×20%",
+          "after_frame": 156,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_百分比参与表达式",
+      "type": "FEATURE",
+      "created_step": 109,
+      "updated_step": 109
+    },
+    {
+      "name": "清除键短按退格与长按清空",
+      "description": "短按 C 删除表达式最后一个字符；长按 C 清空整个表达式并恢复 0。",
+      "behavior": {
+        "preconditions": [
+          "表达式非空"
+        ],
+        "trigger": {
+          "type": "tap_or_long_press",
+          "target_description": "C 键"
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 106,
+          "before_frame": 163,
+          "action": "短按 C 删除末尾 0",
+          "after_frame": 164,
+          "note": null
+        },
+        {
+          "step": 107,
+          "before_frame": 165,
+          "action": "长按 C 清空表达式",
+          "after_frame": 166,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_清除键短按退格与长按清空",
+      "type": "FEATURE",
+      "created_step": 109,
+      "updated_step": 109
+    },
+    {
+      "name": "非法除零表达式保持可编辑",
+      "description": "输入 1÷0 后点击等号不弹出错误且不产生结果，表达式原样保留；可用 C 退格修改。",
+      "behavior": {
+        "preconditions": [
+          "计算器主界面"
+        ],
+        "trigger": {
+          "type": "tap_sequence",
+          "target_description": "输入 1÷0 并点击等号"
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 105,
+          "before_frame": 161,
+          "action": "点击等号尝试除零",
+          "after_frame": 162,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_非法除零表达式保持可编辑",
+      "type": "FEATURE",
+      "created_step": 109,
+      "updated_step": 109
+    },
+    {
+      "name": "小数前导零规范化",
+      "description": "空表达式点击小数点会显示 0.，继续输入 5 得到 0.5。",
+      "behavior": {
+        "preconditions": [
+          "表达式为空"
+        ],
+        "trigger": {
+          "type": "tap_sequence",
+          "target_description": "点击小数点后点击 5"
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 108,
+          "before_frame": 166,
+          "action": "点击小数点",
+          "after_frame": 167,
+          "note": null
+        },
+        {
+          "step": 109,
+          "before_frame": 167,
+          "action": "点击 5",
+          "after_frame": 168,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_小数前导零规范化",
+      "type": "FEATURE",
+      "created_step": 109,
+      "updated_step": 109
+    },
+    {
+      "name": "幂与平方根运算",
+      "description": "幂键作为中缀运算符，例如 2^3 求值为 8；平方根键在空表达式自动插入“1√”，例如 1√9 求值为 3。",
+      "behavior": {
+        "preconditions": [
+          "计算器主界面"
+        ],
+        "trigger": {
+          "type": "tap_sequence",
+          "target_description": "输入 2^3= 或在空表达式点击 √、9、="
+        },
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 80,
+          "before_frame": 132,
+          "action": "点击等号求值 1√9",
+          "after_frame": 133,
+          "note": null
+        },
+        {
+          "step": 85,
+          "before_frame": 138,
+          "action": "点击等号求值 2^3",
+          "after_frame": 139,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_幂与平方根运算",
+      "type": "FEATURE",
+      "created_step": 109,
+      "updated_step": 109
+    }
+  ],
+  "edges": [
+    {
+      "source": "data_计算历史条目",
+      "target": "state_历史记录对话框_有记录",
+      "type": "PERSISTS_TO",
+      "evidence": [
+        {
+          "step": 8,
+          "before_frame": 12,
+          "action": "重启后点击历史图标",
+          "after_frame": 13,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "重启后再次进入历史，1+2=3 仍存在",
+      "id": "edge_0001",
+      "created_step": 8
+    },
+    {
+      "source": "feature_清除全部计算历史",
+      "target": "data_计算历史条目",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 9,
+          "before_frame": 14,
+          "action": "点击清除",
+          "after_frame": 15,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "清除删除全部历史条目",
+      "id": "edge_0002",
+      "created_step": 10
+    },
+    {
+      "source": "feature_选择并保存应用主题",
+      "target": "data_外观与常规偏好",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 64,
+          "before_frame": 106,
+          "action": "保存主题",
+          "after_frame": 107,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "保存深色主题写入偏好",
+      "id": "edge_0003",
+      "created_step": 65
+    },
+    {
+      "source": "data_外观与常规偏好",
+      "target": "state_深色主题外观预览",
+      "type": "PERSISTS_TO",
+      "evidence": [
+        {
+          "step": 65,
+          "before_frame": 108,
+          "action": "重启应用",
+          "after_frame": 109,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "重启后计算器仍使用深色绿调",
+      "id": "edge_0004",
+      "created_step": 65
+    }
+  ],
+  "unresolved_questions": [],
+  "coverage_summary": {
+    "states": 21,
+    "features": 17,
+    "data_entities": 3,
+    "edges": 4,
+    "confirmed_ratio": 1.0,
+    "actions_used": 113
+  }
+}

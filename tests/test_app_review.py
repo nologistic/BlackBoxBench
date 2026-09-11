@@ -172,6 +172,46 @@ def test_app_review_rejects_paths_outside_whitelisted_roots(review_mcp,
         module._resolve_apk("../outside")
     assert module._resolve_apk("handoff").name == "app-debug.apk"
     assert module._resolve_checklist("demo.json").checklist_id == "demo"
+    # A silent default checklist once graded a clock reproduction against
+    # the commerce-demo list; an absent checklist must now fail loudly.
+    with pytest.raises(ValueError, match="显式指定 checklist"):
+        module._resolve_checklist("")
+
+
+def test_app_review_infers_checklist_from_handoff(review_mcp, monkeypatch,
+                                                  tmp_path):
+    """A judge task naming only the handoff gets the checklist derived from
+    the exploration session's app_id (one-to-one with the dataset targets)."""
+    module, app_output, review_specs = review_mcp
+    (review_specs / "google_clock.json").write_text(json.dumps({
+        "checklist_id": "google_clock", "platform": "android",
+        "features": [{"id": "f01", "name": "n", "steps": [],
+                      "expected": "e"}],
+    }), encoding="utf-8")
+    session = tmp_path / "runs" / "sess_20260907_175302_b2ca36"
+    session.mkdir(parents=True)
+    (session / "session.json").write_text(json.dumps({
+        "session_id": "sess_20260907_175302_b2ca36",
+        "app_id": "google_clock"}), encoding="utf-8")
+    monkeypatch.setattr(module, "PROJECT_ROOT", tmp_path)
+
+    # unit level: derivation and its refusals
+    assert module._infer_checklist_from_handoff(
+        "sess_20260907_175302_b2ca36-60a134") == "google_clock"
+    assert module._infer_checklist_from_handoff("") == ""
+    assert module._infer_checklist_from_handoff("no-such-session-abcdef") == ""
+    assert module._infer_checklist_from_handoff("../escape") == ""
+
+    # integration level: start_evaluation with only a handoff id
+    handoff = "sess_20260907_175302_b2ca36-60a134"
+    artifacts = app_output / handoff / "artifacts"
+    artifacts.mkdir(parents=True)
+    (artifacts / "app-debug.apk").write_bytes(b"apk")
+    result = module._t_start_evaluation({"handoff_id": handoff})
+    payload = json.loads(result["content"][1]["text"])
+    assert payload["checklist_id"] == "google_clock"
+    assert payload["checklist_inferred_from_handoff"] is True
+    module._shutdown()
 
 
 def test_app_review_stream_auth_and_disconnect_cleanup(review_mcp):
