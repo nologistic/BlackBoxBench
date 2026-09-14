@@ -162,6 +162,12 @@ def find_browser() -> Path:
     vendored = config.VENDOR_DIR / "chromium" / "chrome-win64" / "chrome.exe"
     if vendored.exists():
         return vendored
+    # Linux counterpart of the vendored Chrome for Testing layout produced by
+    # scripts/bootstrap.py (and by a manual download on this platform): the
+    # linux64 zip extracts to chrome-linux64/chrome.
+    vendored_linux = config.VENDOR_DIR / "chromium" / "chrome-linux64" / "chrome"
+    if vendored_linux.exists():
+        return vendored_linux
     for candidate in (
         r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
         r"C:\Program Files\Google\Chrome\Application\chrome.exe",
@@ -234,6 +240,17 @@ class LocalChromiumRuntime(Runtime):
                 self._gateway_server.shutdown()
             except Exception:
                 pass
+            # shutdown() only stops the serve_forever loop; the listening
+            # socket stays open until server_close(). reset() restarts the
+            # gateway on the SAME _gw_port, and while Windows SO_REUSEADDR
+            # permits re-binding over a live listener, Linux returns
+            # EADDRINUSE — release the socket explicitly.
+            try:
+                self._gateway_server.server_close()
+            except Exception:
+                pass
+            self._gateway_server = None
+            self._gateway = None
 
     def reset(self) -> None:
         # cold browser (fresh profile dir) — app data reset is the caller's job
