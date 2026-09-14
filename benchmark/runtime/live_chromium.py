@@ -19,6 +19,7 @@ Differences from LocalChromiumRuntime (see docs/security_model.md, live targets)
 """
 from __future__ import annotations
 
+import os
 import shutil
 import subprocess
 import time
@@ -143,12 +144,17 @@ class LiveChromiumRuntime(LocalChromiumRuntime):
             "--autoplay-policy=user-gesture-required",
             "--disable-blink-features=AutomationControlled",
             "--lang=zh-CN",
-            # Avoid inheriting a host proxy. Unlike deterministic local apps,
-            # live targets retain normal public DNS/navigation so site-owned
-            # redirects, authentication, and cross-domain assets keep working.
-            "--no-proxy-server",
-            "about:blank",
         ]
+        # Avoid inheriting a host proxy by default: live targets keep normal
+        # public DNS/navigation so site-owned redirects, authentication, and
+        # cross-domain assets keep working. BBB_LIVE_PROXY opts the live
+        # browser into one explicit proxy instead — for a host that cannot
+        # reach overseas targets directly (e.g. a CN server exploring
+        # google/youtube/reddit targets through a local proxy).
+        live_proxy = os.environ.get("BBB_LIVE_PROXY", "").strip()
+        args.append(f"--proxy-server={live_proxy}" if live_proxy
+                    else "--no-proxy-server")
+        args.append("about:blank")
         self._browser = subprocess.Popen(
             args, stdout=log, stderr=subprocess.STDOUT)
         self._attach(self._await_debugger())
