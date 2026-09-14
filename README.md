@@ -202,12 +202,22 @@ Session 时只删除 `runs/sess_*`，不能删除 `live_targets/`。
 
 ## Reference targets
 
-- `ecommerce_demo`：种子化电商应用，支持登录、搜索、购物车、优惠券、下单、订单、
-  持久化和确定性 reset。
-- `douyin_web` / `bilibili_web` / `yuque_web`：人工维护登录态的真实只读目标。
-- 任意公网 URL：临时 live target，自动生成 app ID 和站点 profile。
+**Web 数据集（28 个 live 目标）**：语雀、YouTube、淘宝、知乎、小红书、微博、豆瓣、
+大众点评、携程、Reddit、Quora、Notion、Trello、Todoist、Airtable、Google
+Calendar、Dropbox、Google Forms、Excalidraw、diagrams.net、Spotify、Desmos
+（图形/几何/3D）、Google Maps、Kleki、JS Paint、Squoosh——全部人工维护登录态、
+只读探索，注册于 `benchmark/orchestrator/apps.py`。
 
-新目标接入见 [adding reference app](docs/adding_reference_app.md)。
+**Android 数据集（26 个目标）**：Google 时钟、AnkiDroid、AntennaPod、Fossify
+日历/相册/绘图/计算器、cashew、feeder、Loop Habit Tracker、Librera、Organic
+Maps、Snapseed、VLC、Joplin、Tasks、Material Files、Vinyl、MJ PDF、节拍器、
+Markor、Nonogram、Minesweeper、2048、Futoshiki、RTTT——注册于
+`runs/android_targets/targets.json`。
+
+另有 `ecommerce_demo` 确定性种子应用与任意公网 URL 临时 live target（自动生成
+app ID 和站点 profile）。每个数据集目标配套 `review_specs/<app_id>.json` 人工
+评测清单与功能排除边界（见下）。新目标接入见
+[adding reference app](docs/adding_reference_app.md)。
 
 ## 目录
 
@@ -227,8 +237,10 @@ reproduction/materials/  公共只读素材、SQLite 和后端模板
 website_output/          Agent 生成网页的固定目录（内容被 Git 忽略）
 benchmark/android/       Android 目标注册、工具链发现与可信 Emulator Runtime
 app_reproduction/        Compose 脚手架、移动素材、离线构建与 APK 复测
-app_evaluation/          Android 功能清单四档评测
+app_evaluation/          人工清单加载校验与四档评级（两平台共享）
 app_output/              Agent 生成 Android 工程、复测证据和最终 APK
+web_evaluation/          网页交接产物的四档评测会话（像素+类人输入+源码只读）
+review_specs/            人工功能要求清单与排除边界（web 28 / android 26 数据集）
 ```
 
 ## 探索后自动复现
@@ -250,6 +262,26 @@ Session 目录暴露给 Agent。
 
 详细说明见 [reproduction kit](reproduction/README.md)。
 
+## 功能排除边界（exclusions）
+
+每个 web 数据集目标配套一张人工维护的**排除清单**——多人协作、账户/支付、实时
+数据、AI 生成、外部服务等刻意不复现的功能面——与功能清单同文件存放
+（`review_specs/<app_id>.json` 的 `exclusions` 键，28 组共 438 条），由
+`Checklist` 严格校验：损坏条目直接报错，防止边界被静默扩大。
+
+边界在四个时刻自动随回执下发，Agent 不需要额外工具调用：
+
+| 环节 | 下发点 |
+|---|---|
+| 探索（blackboxbench） | `start_session` 回执 + `finalize` 回执（复现开始时重申） |
+| 评测（web-review） | `start_evaluation` 回执 + `evaluation_status` 回执 |
+
+- **探索侧**：Agent 不在排除面上花预算、不写入拓扑，复现阶段不补做。
+- **评测侧**：排除面不参与四档判定——产物缺失不算缺陷，实现了也不加分。
+- 探索与评测读同一份清单文件，边界定义唯一，口径不会分叉。
+
+排除清单的源数据维护在数据集主表的"功能排除"工作表中，随清单一并演进。
+
 ## 验证
 
 ```powershell
@@ -267,7 +299,8 @@ vendor/python/python.exe scripts/e2e_smoke.py
 其中证据轨迹与功能拓扑只属于托管探索条件。评测由 LLM judge 在 Skill 内做语义判断，
 代码只做薄护栏（证据引用真实截图、四档封闭、不漏项、报告 schema 固定），见
 `docs/evaluation_contract.md`。Android 侧为 `agents/app_review/` +
-`app_evaluation/`；网页侧的 `web-review` Skill 尚未收编入仓库。
+`app_evaluation/`；网页侧为 `agents/web_review/` + `web_evaluation/`，两侧
+护栏完全对齐，报告可横向比较。
 
 以下内容暂不包含：
 

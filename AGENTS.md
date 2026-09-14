@@ -28,13 +28,26 @@
   封闭、不漏项、报告 schema 固定），契约见 `docs/evaluation_contract.md`。
 - 正式对照实验中每个 Agent 任务只应暴露一个条件的 MCP（our-method 安装器
   提供 `--exclusive` 互斥注册）；评测任务只启用 `app-review`。
-- 正式数据集与自写样例必须区分：`yuque_web`（网页首个数据集）与 Android 二十目标
-  数据集（`google_clock` + 19 个 F-Droid/snapseed 应用，注册于
-  `runs/android_targets/targets.json`）是数据集，`android_commerce_demo` 只用于
-  冒烟测试。
-- Android 数据集三件套已对齐 20 目标：目标注册（包名/启动 Activity 由持久模拟器
+- 正式数据集与自写样例必须区分：**web 28 目标数据集**（语雀、YouTube、淘宝、知乎、
+  小红书、微博、豆瓣、大众点评、携程、Reddit、Quora、Notion、Trello、Todoist、
+  Airtable、Google Calendar、Dropbox、Google Forms、Excalidraw、diagrams.net、
+  Spotify、Desmos×3、Google Maps、Kleki、JS Paint、Squoosh，注册于
+  `benchmark/orchestrator/apps.py`，共 848 条清单要求）与 **Android 26 目标数据集**
+  （`google_clock` + 25 个应用，注册于 `runs/android_targets/targets.json`）是
+  数据集；`ecommerce_demo` 与 `android_commerce_demo` 只用于冒烟测试。
+- Android 数据集三件套已对齐 26 目标：目标注册（包名/启动 Activity 由持久模拟器
   `bbb_manual_show` 的系统 resolver 解析）、`app_reproduction/materials/apps/`
-  每目标素材包、`review_specs/<app_id>.json` 逐条评测清单（共 420 条要求）。
+  每目标素材包、`review_specs/<app_id>.json` 逐条评测清单（598 条要求，
+  features 含标题/流程/验收标准三段式）。
+- **功能排除边界（exclusions，2026-09-15 上线）**：web 28 目标各配套排除清单
+  （28 组共 438 条：多人协作、账户/支付、实时数据、AI 生成、外部服务等刻意
+  不复现的功能面），嵌在 `review_specs/<app_id>.json` 的 `exclusions` 键，
+  `Checklist` 严格校验（非数组/条目非对象/缺 feature 直接报错——损坏条目等于
+  静默扩大评分范围，必须失败）。边界在四个回执点自动下发：探索侧
+  `start_session` + `finalize`（blackboxbench），评测侧 `start_evaluation` +
+  `evaluation_status`（web-review）；探索 Agent 不测不记不复现，评测 Agent
+  不评分（产物缺失排除面不算缺陷）。两侧读同一份清单文件，定义唯一。
+  源数据维护在数据集主表（url.xlsx）的"功能排除"工作表。
 - **数据边界**：2026-09-07 环境改版（复现沙盒网络策略改为"开放 + Skill 纪律"、
   per-app 素材包上线）之前的全部 Android 端探索/生成/评审产物已归档于 `cache/`，
   与主线隔离；改版前后的样本不可混入同一数据集比较。
