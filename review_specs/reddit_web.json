@@ -1,0 +1,595 @@
+{
+  "checklist_id": "reddit_web",
+  "platform": "web",
+  "features": [
+    {
+      "id": "f01",
+      "name": "Home",
+      "steps": [
+        "Open Home",
+        "Load a mixed feed containing posts from joined communities and suggested communities (preloaded fixture)",
+        "Interact with posts through voting or hiding",
+        "Refresh or revisit Home",
+        "Feed composition and interaction states persist"
+      ],
+      "expected": "Feed must contain posts from joined and suggested communities (preloaded); voting and hiding update interaction states; refreshing preserves feed composition and states.",
+      "persistence": false
+    },
+    {
+      "id": "f02",
+      "name": "Card / Compact",
+      "steps": [
+        "Open Home or Popular",
+        "Switch the feed view between Card and Compact",
+        "Preserve current sorting, loaded posts, vote states, and scroll position",
+        "Navigate away and return without losing the selected presentation mode"
+      ],
+      "expected": "Switching view mode must preserve sorting, loaded posts, vote states, and scroll position; navigating away and returning keeps the selected mode.",
+      "persistence": false
+    },
+    {
+      "id": "f03",
+      "name": "Best / Hot / New / Top / Rising",
+      "steps": [
+        "Open a feed",
+        "Switch between New, Top, and other ranking modes",
+        "Reorder posts using the selected deterministic ranking rule",
+        "Preserve the current feed scope and other active filters"
+      ],
+      "expected": "Switching ranking modes must reorder posts by the selected deterministic rule; feed scope and other active filters remain unchanged.",
+      "persistence": false
+    },
+    {
+      "id": "f04",
+      "name": "Popular",
+      "steps": [
+        "Open Popular",
+        "Select a ranking mode such as New or Top",
+        "Change geographic scope such as Everywhere, United States, or Canada",
+        "Rebuild the feed using both ranking and geographic filters (preloaded data)",
+        "Preserve selected state across navigation"
+      ],
+      "expected": "Ranking mode and geographic scope must both apply to rebuild the feed; selected state persists across navigation; results match the preloaded data.",
+      "persistence": false
+    },
+    {
+      "id": "f05",
+      "name": "Recent Posts",
+      "steps": [
+        "Open several posts from a feed",
+        "Return to the feed",
+        "Recently viewed posts appear in Recent Posts",
+        "Reopen a post from the recent history",
+        "Use Clear",
+        "Recent Posts becomes empty while the original posts remain available elsewhere"
+      ],
+      "expected": "Recently viewed posts must appear in Recent Posts; reopening works; Clear empties the list while original posts remain accessible elsewhere.",
+      "persistence": false
+    },
+    {
+      "id": "f06",
+      "name": "Search Reddit / Search in r/",
+      "steps": [
+        "Enter a keyword in the global search bar",
+        "Search across Reddit",
+        "Open a community",
+        "Search again within r/... scope",
+        "Receive only results from that community",
+        "Navigate back while preserving the keyword and search scope"
+      ],
+      "expected": "Global search returns cross-community results; scoped search returns only that community's results; returning preserves keyword and search scope.",
+      "persistence": false
+    },
+    {
+      "id": "f07",
+      "name": "Explore Communities",
+      "steps": [
+        "Open Explore",
+        "Switch among All, Most Visited, Games, Technology, Sports, and other topics",
+        "Load communities matching the selected taxonomy",
+        "Use Show more to reveal additional communities",
+        "Open or join a discovered community"
+      ],
+      "expected": "Topic switching must load matching communities; Show more reveals additional ones; opening or joining a discovered community works correctly.",
+      "persistence": false
+    },
+    {
+      "id": "f08",
+      "name": "Join / Joined",
+      "steps": [
+        "Find a community from Feed, Explore, or Community Page",
+        "Click Join",
+        "Create a user-community membership relation",
+        "Button changes to Joined",
+        "Community appears in the user’s Communities section",
+        "Leave the community",
+        "Membership state disappears across all entry points"
+      ],
+      "expected": "Joining must create membership, change the button to Joined, and add the community to the user's Communities section; leaving removes membership state across all entry points.",
+      "persistence": false
+    },
+    {
+      "id": "f09",
+      "name": "Community Page",
+      "steps": [
+        "Open a subreddit",
+        "Load community name, description, rules, moderators, visitor/contribution metrics, and post feed",
+        "Open a post",
+        "Return to the subreddit",
+        "Preserve the original community context, feed state, and membership state"
+      ],
+      "expected": "Community name, description, rules, moderators, metrics, and post feed must load correctly; opening a post and returning preserves community context, feed state, and membership state.",
+      "persistence": false
+    },
+    {
+      "id": "f10",
+      "name": "Start a community",
+      "steps": [
+        "Click Start a community",
+        "Select a topic",
+        "Select community type",
+        "Enter a unique community name and description",
+        "Create the community",
+        "Redirect to the new subreddit",
+        "Automatically assign the creator as a moderator"
+      ],
+      "expected": "Creation flow must produce a new subreddit with the selected topic and type; creator is automatically assigned as moderator; redirect lands on the new community.",
+      "persistence": false
+    },
+    {
+      "id": "f11",
+      "name": "What will your community be about?",
+      "steps": [
+        "Start community creation",
+        "Select one of the available topics such as Games, Technology, or Business & Finance",
+        "Save the topic as community metadata",
+        "Continue creation",
+        "The new community becomes discoverable under the relevant topic taxonomy"
+      ],
+      "expected": "Selected topic must be saved as community metadata; the new community becomes discoverable under the relevant topic taxonomy.",
+      "persistence": false
+    },
+    {
+      "id": "f12",
+      "name": "What kind of community is this?",
+      "steps": [
+        "Select Public, Restricted, or Private",
+        "Optionally enable Mature (18+)",
+        "Finish community creation",
+        "Community type is saved and displayed correctly on the community page",
+        "Configuration persists after refresh"
+      ],
+      "expected": "Community type is saved and displayed correctly; configuration persists after refresh; Mature flag applies as configured.",
+      "persistence": false
+    },
+    {
+      "id": "f13",
+      "name": "Tell us about your community",
+      "steps": [
+        "Enter a community name and description",
+        "Validate character limits and name availability in real time",
+        "Enter an already-taken name",
+        "Show an error and disable creation",
+        "Enter an available name",
+        "Enable Create Community",
+        "Create successfully"
+      ],
+      "expected": "Name and description must validate in real time; taken names show an error and disable creation; available names enable Create Community and creation succeeds.",
+      "persistence": false
+    },
+    {
+      "id": "f14",
+      "name": "Get ready for visitors",
+      "steps": [
+        "Create a new community",
+        "Display onboarding tasks such as Customize your look and Make 3 posts",
+        "Complete each task",
+        "Update completion indicators and counters",
+        "Persist onboarding progress after refresh"
+      ],
+      "expected": "Onboarding tasks must display with completion indicators; completing tasks updates counters; progress persists after refresh.",
+      "persistence": false
+    },
+    {
+      "id": "f15",
+      "name": "Community Appearance",
+      "steps": [
+        "Open community appearance settings as a moderator",
+        "Change icon, banner, colors, or visual style",
+        "Preview the result",
+        "Save changes",
+        "Community Page updates immediately",
+        "Settings persist after refresh"
+      ],
+      "expected": "Appearance changes must preview before save; saving updates the Community Page immediately; settings persist after refresh.",
+      "persistence": false
+    },
+    {
+      "id": "f16",
+      "name": "Community Guide / Mod Guide / R/... Rules",
+      "steps": [
+        "Configure or edit community rules and guidance",
+        "Publish changes",
+        "Open the community page",
+        "Updated rules appear in the sidebar or guide",
+        "Posting context references the same rule set"
+      ],
+      "expected": "Configured rules must appear in the sidebar or guide after publishing; posting context references the same rule set.",
+      "persistence": false
+    },
+    {
+      "id": "f17",
+      "name": "Create Post",
+      "steps": [
+        "Open a subreddit",
+        "Click Create Post",
+        "Preserve target community",
+        "Enter title and body",
+        "Submit the post",
+        "New post appears in the community feed",
+        "Author, community, timestamps, and interaction state are correctly linked"
+      ],
+      "expected": "Submitted post must appear in the target community feed with correct author, community, timestamp, and interaction state.",
+      "persistence": false
+    },
+    {
+      "id": "f18",
+      "name": "Add tags",
+      "steps": [
+        "Create or edit a post",
+        "Add text, links, images, or other rich content",
+        "Select Add tags",
+        "Apply one or more valid post tags",
+        "Publish",
+        "Tags remain attached to the post across Feed and Post Detail"
+      ],
+      "expected": "Applied tags must remain attached to the post across Feed and Post Detail; invalid tags cannot be applied.",
+      "persistence": false
+    },
+    {
+      "id": "f19",
+      "name": "Save Draft / Drafts",
+      "steps": [
+        "Start writing a post or comment",
+        "Save as Draft",
+        "Leave the editor",
+        "Draft counter updates in the profile menu",
+        "Open Drafts",
+        "Resume the saved content",
+        "Publish or delete it",
+        "Draft count and draft list update correctly"
+      ],
+      "expected": "Saving as draft must update the draft counter and list; reopening resumes the saved content; publishing or deleting updates counts correctly.",
+      "persistence": false
+    },
+    {
+      "id": "f20",
+      "name": "Post Detail",
+      "steps": [
+        "Open a post from Feed",
+        "Load media, title, body, author, subreddit, vote score, comments, and community sidebar",
+        "Interact with the post",
+        "Navigate back",
+        "Restore the original feed position and post interaction state"
+      ],
+      "expected": "Post media, title, body, author, community, score, comments, and sidebar must load correctly; navigating back restores the original feed position and interaction state.",
+      "persistence": false
+    },
+    {
+      "id": "f21",
+      "name": "Upvote / Downvote",
+      "steps": [
+        "Start with an unvoted post or comment",
+        "Upvote",
+        "User vote state and score update",
+        "Open the same content from another page",
+        "Vote remains active",
+        "Switch to Downvote",
+        "Previous upvote is removed and score is recalculated correctly"
+      ],
+      "expected": "Vote state and score must update immediately and persist across pages; switching vote direction recalculates the score correctly.",
+      "persistence": false
+    },
+    {
+      "id": "f22",
+      "name": "Comments",
+      "steps": [
+        "Open Post Detail",
+        "Enter a comment",
+        "Submit",
+        "New comment appears in the current post",
+        "Comment count increases",
+        "Refresh",
+        "Comment persists with correct author, timestamp, vote state, and post relation"
+      ],
+      "expected": "Submitted comment must appear with correct author, timestamp, vote state, and post relation; count increases; refresh keeps the comment.",
+      "persistence": false
+    },
+    {
+      "id": "f23",
+      "name": "Reply",
+      "steps": [
+        "Reply to top-level Comment A",
+        "Create Reply B linked to A",
+        "Reply to B",
+        "Create Reply C linked to B",
+        "Render the nested thread recursively",
+        "Collapse, refresh, or reopen the post",
+        "Parent-child hierarchy remains intact"
+      ],
+      "expected": "Nested replies must link to the correct parents; hierarchy remains intact after collapse, refresh, or reopen.",
+      "persistence": false
+    },
+    {
+      "id": "f24",
+      "name": "Sort by / Search Comments",
+      "steps": [
+        "Open a large comment thread",
+        "Change comment sorting mode (New, Top, and other deterministic modes)",
+        "Reorder top-level comments without breaking nested replies",
+        "Search for a keyword",
+        "Return matching comments while preserving the surrounding reply hierarchy"
+      ],
+      "expected": "Changing sort mode must reorder top-level comments without breaking nested replies; keyword search returns matching comments with surrounding hierarchy preserved.",
+      "persistence": false
+    },
+    {
+      "id": "f25",
+      "name": "Award",
+      "steps": [
+        "Click Award on a post or comment",
+        "Open the award selector",
+        "Choose a free award",
+        "Optionally enable anonymous delivery and add a message",
+        "Submit the award",
+        "Target content displays the award",
+        "Award state persists after refresh"
+      ],
+      "expected": "Submitting a free award must display it on the target content; award state persists after refresh; anonymous delivery and message apply as configured.",
+      "persistence": false
+    },
+    {
+      "id": "f26",
+      "name": "Repost",
+      "steps": [
+        "Open a post",
+        "Click Repost",
+        "Select a target community or repost context",
+        "Publish the repost",
+        "Create a new post referencing the original content",
+        "Opening the repost preserves attribution and source relationship"
+      ],
+      "expected": "Repost must create a new post referencing the original; opening it preserves attribution and the source relationship.",
+      "persistence": false
+    },
+    {
+      "id": "f27",
+      "name": "Share",
+      "steps": [
+        "Click Share on a post or comment",
+        "Generate a shareable reference",
+        "Open that reference from a new navigation context",
+        "Resolve the correct post or specific comment",
+        "Preserve target context and scroll/anchor state when applicable"
+      ],
+      "expected": "Share reference must resolve to the correct post or comment from a new navigation context; target context and anchor state are preserved when applicable.",
+      "persistence": false
+    },
+    {
+      "id": "f28",
+      "name": "Save",
+      "steps": [
+        "Save a post from Feed or Post Detail",
+        "Persist the user-post saved relation",
+        "Open the same post elsewhere",
+        "Saved state remains active",
+        "Unsave it",
+        "Saved state updates across all visible instances"
+      ],
+      "expected": "Saved state must persist across all visible instances; unsaving updates every instance consistently.",
+      "persistence": false
+    },
+    {
+      "id": "f29",
+      "name": "Hide / Show fewer posts like this",
+      "steps": [
+        "Hide a post",
+        "Remove it from the current feed while keeping the original post intact",
+        "Hidden state persists across refresh",
+        "Unhide or access the original post from the author page or direct link"
+      ],
+      "expected": "Hiding must remove the post from the current feed while the original remains intact; hidden state persists across refresh; the post stays accessible via author page or direct link.",
+      "persistence": false
+    },
+    {
+      "id": "f30",
+      "name": "Report",
+      "steps": [
+        "Open Report for a post or comment",
+        "Select a valid report reason",
+        "Submit",
+        "Report record is created and linked to the target content",
+        "User can view their own report history",
+        "Report state persists"
+      ],
+      "expected": "Submitted report must create a record linked to the target content; the user can view their own report history; report state persists.",
+      "persistence": false
+    },
+    {
+      "id": "f31",
+      "name": "Notifications / Mark all as read",
+      "steps": [
+        "Preloaded notifications (moderation, comment, reply, system events)",
+        "Bell badge shows unread count",
+        "Open Notifications",
+        "Read or follow a notification to its related object",
+        "Mark all as read",
+        "Unread count becomes zero while notification history remains available"
+      ],
+      "expected": "Preloaded notifications must show the unread count on the bell; opening or following a notification works; Mark all as read zeroes the count while history remains.",
+      "persistence": false
+    },
+    {
+      "id": "f32",
+      "name": "Chats / Threads / Start new chat",
+      "steps": [
+        "Open Chats",
+        "Start new chat",
+        "Select one or more users (preloaded contacts)",
+        "Create a direct or group conversation",
+        "Send messages",
+        "Conversation appears in Threads",
+        "Unread states update correctly across the chat UI"
+      ],
+      "expected": "Creating a direct or group conversation must add it to Threads; sending messages works; unread states update correctly across the chat UI.",
+      "persistence": false
+    },
+    {
+      "id": "f33",
+      "name": "View Profile / Edit Avatar",
+      "steps": [
+        "Open profile menu",
+        "Select Edit Avatar",
+        "Switch among Outfits, Tops, Hair, Face, Eyes, Backgrounds, Colors, and other categories",
+        "Apply individual items or Wear All",
+        "Preview the composite avatar",
+        "Save",
+        "Global profile avatar updates"
+      ],
+      "expected": "Avatar items must apply per category or via Wear All; preview reflects the composite; saving updates the global profile avatar.",
+      "persistence": false
+    },
+    {
+      "id": "f34",
+      "name": "Achievements",
+      "steps": [
+        "Perform qualifying actions such as joining Reddit, securing the account, exploring communities, or becoming a moderator",
+        "Evaluate achievement rules",
+        "Unlock matching achievements",
+        "Update category progress",
+        "Persist unlock dates and progress"
+      ],
+      "expected": "Qualifying actions must unlock matching achievements and update category progress; unlock dates and progress persist.",
+      "persistence": false
+    },
+    {
+      "id": "f35",
+      "name": "Create Custom Feed",
+      "steps": [
+        "Click Create Custom Feed",
+        "Enter name and description",
+        "Configure Make private and Show on profile",
+        "Submit",
+        "Add multiple communities",
+        "Open the custom feed",
+        "Aggregate posts from the selected communities under the configured visibility rules"
+      ],
+      "expected": "Custom feed must aggregate posts from the selected communities under the configured visibility rules; name, description, and privacy settings are saved.",
+      "persistence": false
+    },
+    {
+      "id": "f36",
+      "name": "Mod Tools",
+      "steps": [
+        "Enter a community as a moderator",
+        "Enable moderation context",
+        "Approve, Remove, Mark as Spam, Lock comments, or Add to highlights on a post",
+        "Update moderation state",
+        "Moderation actions and states persist",
+        "Community feed reflects the resulting visibility or interaction restrictions"
+      ],
+      "expected": "Moderation actions (Approve, Remove, Mark as Spam, Lock comments, highlights) must update moderation state and persist; the community feed reflects the resulting visibility or restrictions.",
+      "persistence": false
+    },
+    {
+      "id": "f37",
+      "name": "Mod Queue / Mod Mail / r/Mod / Manage",
+      "steps": [
+        "Preloaded pending items in Mod Queue (fixture reports)",
+        "Review them",
+        "Take moderation action",
+        "Communicate through Mod Mail (preloaded conversations)",
+        "Modify community configuration through Manage",
+        "All tools operate under the same moderator permissions"
+      ],
+      "expected": "Preloaded queue items must be reviewable with moderation actions; Mod Mail communication works; Manage updates community configuration; all tools operate under moderator permissions.",
+      "persistence": false
+    },
+    {
+      "id": "f38",
+      "name": "Newsroom",
+      "steps": [
+        "Open Newsroom",
+        "Filter articles by categories such as Announcements, Product and Community, Policy and Safety, or Community Insights",
+        "Navigate pages",
+        "Search articles",
+        "Open an article",
+        "Follow Related articles while preserving content navigation context"
+      ],
+      "expected": "Category filters and article search must return matching articles; opening an article works; following related articles preserves content navigation context.",
+      "persistence": false
+    }
+  ],
+  "exclusions": [
+    {
+      "feature": "Personalized recommendation engine\nInterest-based recommendations, feed composition driven by user signals",
+      "treatment": "Hard Exclude",
+      "reason": "Requires recommendation models and behavioral data (cf. Spotify \"Recommendation engine\"); feed structure testable with preloaded fixture"
+    },
+    {
+      "feature": "Algorithmic ranking modes\nBest / Hot / Rising ranking algorithms",
+      "treatment": "Conditional Exclude",
+      "reason": "Ranking switch interactions and deterministic modes (New/Top) preserved; algorithmic ordering replaced with preloaded rules"
+    },
+    {
+      "feature": "Paid awards and payments\nPriced awards, purchase flows, payment methods",
+      "treatment": "Hard Exclude",
+      "reason": "Commerce infrastructure (cf. Spotify \"Premium / Billing\"); free award flow preserved"
+    },
+    {
+      "feature": "Earn on Reddit\nEarnings, eligible products, payout",
+      "treatment": "Hard Exclude",
+      "reason": "Monetization system with external payout infrastructure"
+    },
+    {
+      "feature": "Cross-user moderator invitation\nInvite → accept → permission propagation",
+      "treatment": "Hard Exclude",
+      "reason": "Requires second user and role acceptance flow (cf. Calendar \"Guest permissions\")"
+    },
+    {
+      "feature": "Community type access verification across users\nTesting viewing/posting permissions as different users",
+      "treatment": "Conditional Exclude",
+      "reason": "Type selection and display preserved; cross-user access verification excluded"
+    },
+    {
+      "feature": "Moderator vs regular user dual views\nRegular users immediately seeing moderation results",
+      "treatment": "Conditional Exclude",
+      "reason": "Moderation actions and states testable in own community; other-user views excluded"
+    },
+    {
+      "feature": "Real-time chat counterpart\nReal users receiving and replying in chats",
+      "treatment": "Conditional Exclude",
+      "reason": "Chat UI, threads, and unread states testable with preloaded conversations; real counterpart excluded"
+    },
+    {
+      "feature": "Notification real event sources\nModeration/comment/system events actually occurring",
+      "treatment": "Conditional Include",
+      "reason": "Notification state machine (badge/read/mark-all) testable with preloaded notifications"
+    },
+    {
+      "feature": "Mod Queue real report sources\nReports from real users and automated signals",
+      "treatment": "Conditional Exclude",
+      "reason": "Queue review and moderation actions testable with fixture reports"
+    },
+    {
+      "feature": "Negative recommendation signals\n\"Show fewer posts like this\" affecting future feed generation",
+      "treatment": "Hard Exclude",
+      "reason": "Recommendation feedback loop; hide/unhide state itself preserved"
+    },
+    {
+      "feature": "Real content and community assets\nReal subreddit content, awards catalog, newsroom articles",
+      "treatment": "Default Exclude",
+      "reason": "Use synthetic fixture content (cf. Spotify \"Real catalog\")"
+    }
+  ]
+}

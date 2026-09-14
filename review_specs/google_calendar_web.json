@@ -1,0 +1,408 @@
+{
+  "checklist_id": "google_calendar_web",
+  "platform": "web",
+  "features": [
+    {
+      "id": "f01",
+      "name": "Create event",
+      "steps": [
+        "Create an event named Project Planning on September 15, 2026 from 10:00 AM to 11:30 AM on the primary calendar, then verify that it appears at the correct time in Week view."
+      ],
+      "expected": "Event must appear at the correct time (10:00-11:30 AM, Sep 15, 2026) in Week view.",
+      "persistence": false
+    },
+    {
+      "id": "f02",
+      "name": "Create event",
+      "steps": [
+        "Create an all-day event named Company Offsite on September 18, 2026 and verify that it appears in the all-day section instead of an hourly time slot."
+      ],
+      "expected": "All-day event must appear in the all-day section, not in an hourly slot.",
+      "persistence": false
+    },
+    {
+      "id": "f03",
+      "name": "Event details",
+      "steps": [
+        "Create an event named Client Review with a specific start time, end time, location, and description. Reopen the saved event and verify that all four values were preserved."
+      ],
+      "expected": "Title, start, end, location, and description must all be preserved after reopening.",
+      "persistence": false
+    },
+    {
+      "id": "f04",
+      "name": "Event details",
+      "steps": [
+        "Edit an existing event by changing its title, start time, end time, and location without creating a second event. Verify that only the original event remains."
+      ],
+      "expected": "Edits must update the original event without creating a second one.",
+      "persistence": false
+    },
+    {
+      "id": "f05",
+      "name": "Event details",
+      "steps": [
+        "Move an existing event from its original date and time to a different day and time, then verify that the original slot is empty and the event appears only at the new time."
+      ],
+      "expected": "Original slot must be empty; the event appears only at the new date and time.",
+      "persistence": false
+    },
+    {
+      "id": "f06",
+      "name": "Delete event",
+      "steps": [
+        "Delete a specified non-recurring event and verify that it no longer appears on the calendar while unrelated events remain unchanged."
+      ],
+      "expected": "Deleted event must no longer appear; unrelated events remain unchanged.",
+      "persistence": false
+    },
+    {
+      "id": "f07",
+      "name": "Repeat",
+      "steps": [
+        "Create an event named Weekly Review that repeats every Monday at 9:00 AM for one hour. Verify that multiple future occurrences appear on Mondays."
+      ],
+      "expected": "Weekly recurrence must produce multiple future Monday occurrences at 9:00 AM.",
+      "persistence": false
+    },
+    {
+      "id": "f08",
+      "name": "Custom recurrence",
+      "steps": [
+        "Create a recurring event named Training Session that repeats every two weeks on Tuesday and Thursday and ends on a specified date. Verify both the weekday pattern and the recurrence end boundary."
+      ],
+      "expected": "Bi-weekly Tuesday/Thursday recurrence must show the correct weekday pattern and end at the specified boundary.",
+      "persistence": false
+    },
+    {
+      "id": "f09",
+      "name": "Recurring event",
+      "steps": [
+        "Modify only one occurrence of an existing recurring event by moving it two hours later. Verify that the selected occurrence changes while the rest of the series keeps its original time."
+      ],
+      "expected": "Moving one occurrence must change only that occurrence; the rest of the series keeps its original time.",
+      "persistence": false
+    },
+    {
+      "id": "f10",
+      "name": "Recurring event",
+      "steps": [
+        "Edit an occurrence in the middle of a recurring series and apply the new start time to that occurrence and all following events without changing earlier occurrences. Verify both sides of the boundary."
+      ],
+      "expected": "Editing a middle occurrence must apply to it and following occurrences only; earlier ones unchanged.",
+      "persistence": false
+    },
+    {
+      "id": "f11",
+      "name": "Recurring event",
+      "steps": [
+        "Change the title and duration of an entire recurring series and verify that all occurrences in the series reflect the update."
+      ],
+      "expected": "Series-wide title and duration changes must reflect in all occurrences.",
+      "persistence": false
+    },
+    {
+      "id": "f12",
+      "name": "Notifications",
+      "steps": [
+        "Add two notifications to an event: one 30 minutes before the event and another one day before it. Save the event, reopen it, and verify that both notification rules remain configured."
+      ],
+      "expected": "Both notification rules (30 minutes before, 1 day before) must remain configured after reopening.",
+      "persistence": false
+    },
+    {
+      "id": "f13",
+      "name": "Event visibility",
+      "steps": [
+        "Create an event and set its visibility to Private while keeping the event marked as Busy. Reopen it and verify both settings."
+      ],
+      "expected": "Private visibility and Busy status must both be saved and shown after reopening.",
+      "persistence": false
+    },
+    {
+      "id": "f14",
+      "name": "Event visibility",
+      "steps": [
+        "Change an existing event from Busy to Free without changing its title, date, or time, and verify that the event retains all unrelated properties."
+      ],
+      "expected": "Changing Busy to Free must not alter title, date, or time.",
+      "persistence": false
+    },
+    {
+      "id": "f15",
+      "name": "Event color",
+      "steps": [
+        "Assign a distinct event color to a specified event without changing the color of the calendar itself, then verify that another event on the same calendar keeps its previous appearance."
+      ],
+      "expected": "Event color change must not affect the calendar color or other events' appearance.",
+      "persistence": false
+    },
+    {
+      "id": "f16",
+      "name": "Create new calendar",
+      "steps": [
+        "Create a new calendar named Product Launch with a description and the specified time zone. Verify that it appears under the user's calendar list."
+      ],
+      "expected": "New calendar must appear under the user's calendar list with the specified description and time zone.",
+      "persistence": false
+    },
+    {
+      "id": "f17",
+      "name": "Calendar settings",
+      "steps": [
+        "Rename the Product Launch calendar to Launch Program, change its description, and verify that existing events in that calendar remain intact."
+      ],
+      "expected": "Renaming and description changes must not affect existing events in the calendar.",
+      "persistence": false
+    },
+    {
+      "id": "f18",
+      "name": "Calendar",
+      "steps": [
+        "Create one event in the primary calendar and another event in Launch Program at different times. Toggle the visibility of Launch Program and verify that only its event disappears from the current view."
+      ],
+      "expected": "Toggling visibility must hide/show only that calendar's event; others remain visible.",
+      "persistence": false
+    },
+    {
+      "id": "f19",
+      "name": "Calendar",
+      "steps": [
+        "Move an existing event from the primary calendar to Launch Program without duplicating it. Verify that the event belongs to the destination calendar and no duplicate remains in the source calendar."
+      ],
+      "expected": "Moved event must belong to the destination calendar with no duplicate in the source.",
+      "persistence": false
+    },
+    {
+      "id": "f20",
+      "name": "Time zone",
+      "steps": [
+        "Configure a secondary time zone in Calendar settings while retaining the existing primary time zone. Return to the calendar and verify that the secondary time scale is displayed without changing event timestamps."
+      ],
+      "expected": "Secondary time zone must display without changing event timestamps.",
+      "persistence": false
+    },
+    {
+      "id": "f21",
+      "name": "Event details / Time zone",
+      "steps": [
+        "Create an event using a time zone different from the calendar's primary time zone, save it, and verify that Calendar displays the corresponding local time correctly in the primary calendar view."
+      ],
+      "expected": "Event created in a different time zone must display the correct local time in the primary calendar view.",
+      "persistence": false
+    },
+    {
+      "id": "f22",
+      "name": "Calendar settings / Notifications",
+      "steps": [
+        "Configure the selected calendar so timed events receive a default notification 30 minutes before the event, then create a new event and verify that the default notification is inherited."
+      ],
+      "expected": "New timed events must inherit the 30-minute default notification.",
+      "persistence": false
+    },
+    {
+      "id": "f23",
+      "name": "Calendar settings / Notifications",
+      "steps": [
+        "Configure a separate default notification rule for all-day events and verify that a newly created all-day event inherits that rule without affecting timed-event notification defaults."
+      ],
+      "expected": "All-day events must inherit their own default rule without affecting timed-event defaults.",
+      "persistence": false
+    },
+    {
+      "id": "f24",
+      "name": "Appointment schedule",
+      "steps": [
+        "Create an appointment schedule named Consultation with a 30-minute appointment duration and recurring availability from 9:00 AM to 5:00 PM Monday through Friday. Verify the generated availability blocks before saving."
+      ],
+      "expected": "Availability blocks (9:00-5:00, Mon-Fri, 30-min) must generate correctly before saving.",
+      "persistence": false
+    },
+    {
+      "id": "f25",
+      "name": "Appointment schedule",
+      "steps": [
+        "Create an appointment schedule with different availability periods on different weekdays, including one weekday with two separate availability windows and another weekday marked unavailable."
+      ],
+      "expected": "Different weekday availability, including a two-window day and an unavailable day, must save correctly.",
+      "persistence": false
+    },
+    {
+      "id": "f26",
+      "name": "Scheduling window",
+      "steps": [
+        "Configure an appointment schedule so appointments can only be booked within a limited future scheduling window and require a minimum lead time before the appointment. Verify both constraints in the saved schedule configuration."
+      ],
+      "expected": "Scheduling window and minimum lead time must both be saved and reflected in the configuration.",
+      "persistence": false
+    },
+    {
+      "id": "f27",
+      "name": "Adjusted availability",
+      "steps": [
+        "Start with a recurring weekday appointment schedule, then override one specific date so that only a shortened availability window is offered on that date while the normal weekly schedule remains unchanged."
+      ],
+      "expected": "Adjusted availability must apply only to the overridden date; the normal weekly schedule remains unchanged.",
+      "persistence": false
+    },
+    {
+      "id": "f28",
+      "name": "Check calendars for availability",
+      "steps": [
+        "Configure an appointment schedule to check selected calendars for conflicts. Create a conflicting calendar event inside an otherwise available period and verify that the conflicting time is excluded from appointment availability."
+      ],
+      "expected": "Conflicting calendar events must be excluded from appointment availability.",
+      "persistence": false
+    },
+    {
+      "id": "f29",
+      "name": "Appointment schedule",
+      "steps": [
+        "Change an existing appointment schedule from 60-minute appointments to 30-minute appointments and modify its weekly availability. Verify that both duration and availability are updated without creating a second schedule."
+      ],
+      "expected": "Duration change (60 to 30 minutes) and availability updates must apply to the same schedule, not create a second one.",
+      "persistence": false
+    },
+    {
+      "id": "f30",
+      "name": "Appointment schedule",
+      "steps": [
+        "Configure an appointment schedule with recurring weekly availability, an adjusted availability exception, a scheduling window, and calendar conflict checking. Save it, reopen the schedule, and verify that all four layers of configuration were preserved correctly."
+      ],
+      "expected": "All four layers (weekly availability, exception, window, conflict checking) must persist after reopening.",
+      "persistence": false
+    }
+  ],
+  "exclusions": [
+    {
+      "feature": "Tasks / My Tasks / Task lists",
+      "treatment": "Hard Exclude",
+      "reason": "属于 Google Tasks 的任务管理能力，只是嵌入 Calendar UI，并不是 Calendar 的核心事件模型。"
+    },
+    {
+      "feature": "Google Keep",
+      "treatment": "Hard Exclude",
+      "reason": "独立产品侧边栏集成，与日历核心能力无关。"
+    },
+    {
+      "feature": "Google Contacts",
+      "treatment": "Hard Exclude",
+      "reason": "独立联系人产品，不应把联系人管理能力混入 Calendar benchmark。"
+    },
+    {
+      "feature": "Google Maps side panel",
+      "treatment": "Hard Exclude",
+      "reason": "外部地图产品能力；Calendar 中简单填写 Location 可以测试，但不要测试地图搜索、路线或地点详情。"
+    },
+    {
+      "feature": "Google Meet video conferencing",
+      "treatment": "Hard Exclude",
+      "reason": "会引入 Meet、会议链接生成和外部会议系统，无法单纯反映 Calendar Agent 能力。"
+    },
+    {
+      "feature": "Add guests / guest invitations / RSVP",
+      "treatment": "Hard Exclude",
+      "reason": "需要第二真实用户和邮件邀请链路才能端到端验证。"
+    },
+    {
+      "feature": "Guest permissions",
+      "treatment": "Hard Exclude",
+      "reason": "Modify event、Invite others、See guest list 等需要多用户场景，单 Agent benchmark 难稳定验证。"
+    },
+    {
+      "feature": "Share calendar with people or groups",
+      "treatment": "Hard Exclude",
+      "reason": "依赖第二账户、权限和邀请状态。Calendar 权限本身有多层访问级别，但这更适合作为多人协同 benchmark。Google 帮助"
+    },
+    {
+      "feature": "Public calendar / public sharing link",
+      "treatment": "Hard Exclude",
+      "reason": "会引入公开互联网访问和外部浏览会话，不利于隔离 Agent 本身能力。"
+    },
+    {
+      "feature": "Google Drive attachments",
+      "treatment": "Hard Exclude",
+      "reason": "依赖 Drive 文件、文件权限和外部资源。"
+    },
+    {
+      "feature": "Booking page external booking",
+      "treatment": "Hard Exclude",
+      "reason": "Appointment schedule 的配置可以测，但不要让“第二个人真正预约”成为成功条件。"
+    },
+    {
+      "feature": "Appointment schedule co-hosts",
+      "treatment": "Hard Exclude",
+      "reason": "需要第二账户并涉及其他人的可用时间。"
+    },
+    {
+      "feature": "Paid appointments",
+      "treatment": "Hard Exclude",
+      "reason": "涉及支付系统和付费套餐。"
+    },
+    {
+      "feature": "Booking-page email reminders",
+      "treatment": "Hard Exclude",
+      "reason": "依赖邮件送达，而且部分功能受付费套餐限制。"
+    },
+    {
+      "feature": "Focus time",
+      "treatment": "Default Exclude",
+      "reason": "属于特定 Workspace 账户功能，并且涉及 Chat 通知、自动拒绝会议等跨产品行为。Google 帮助"
+    },
+    {
+      "feature": "Out of office",
+      "treatment": "Default Exclude",
+      "reason": "Workspace/组织账户环境差异较大，而且自动拒绝邀请又引入邀请系统。"
+    },
+    {
+      "feature": "Working location",
+      "treatment": "Default Exclude",
+      "reason": "更偏 Workspace 协同场景，账号权限和组织设置差异较明显。"
+    },
+    {
+      "feature": "Browse calendars of interest",
+      "treatment": "Exclude",
+      "reason": "宗教节日、体育赛事、月相等属于 Google 提供的外部数据源，不考察用户数据操作能力。"
+    },
+    {
+      "feature": "Holiday calendars",
+      "treatment": "Exclude",
+      "reason": "与上一项相同，属于外部预置数据，不适合作为 Agent 构建能力 benchmark。"
+    },
+    {
+      "feature": "Subscribe to calendar",
+      "treatment": "Default Exclude",
+      "reason": "需要外部 Calendar ID / 第三方 calendar。"
+    },
+    {
+      "feature": "Add calendar by URL",
+      "treatment": "Default Exclude",
+      "reason": "依赖外部 URL 和网络源。"
+    },
+    {
+      "feature": "Import / Export",
+      "treatment": "Conditional Exclude",
+      "reason": "只有 benchmark 显式提供固定 .ics / .csv fixture 时才允许，否则依赖外部文件。"
+    },
+    {
+      "feature": "Notification delivery",
+      "treatment": "Hard Exclude",
+      "reason": "可以测试“notification configuration”，但不要以桌面通知或邮件是否真实送达作为成功条件。"
+    },
+    {
+      "feature": "Google Workspace smart features",
+      "treatment": "Hard Exclude",
+      "reason": "智能功能具有账号、组织或模型依赖，不属于确定性的 Calendar UI benchmark。"
+    },
+    {
+      "feature": "Appearance / theme / density",
+      "treatment": "Exclude",
+      "reason": "虽然 Calendar 官方支持 appearance 和信息密度调整，但它们不体现核心日历任务能力。Google 帮助"
+    },
+    {
+      "feature": "Language / region formatting",
+      "treatment": "Usually Exclude",
+      "reason": "可作为环境初始化设置，但不值得占用主要 benchmark task 配额。"
+    }
+  ]
+}

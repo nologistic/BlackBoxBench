@@ -114,13 +114,25 @@ def test_managed_finalize_immediately_enters_reproduction(monkeypatch, tmp_path)
     monkeypatch.setattr(managed, "_session", sid)
     monkeypatch.setattr(managed, "_reproduction", None)
     monkeypatch.setattr(managed, "_review", None)
+    monkeypatch.setattr(managed, "_bound_target", "app:miniapp")
     monkeypatch.setattr(managed, "ReproductionWorkspace", FakeReproduction)
     monkeypatch.delenv("BBB_REPRODUCTION_AUTOSTART", raising=False)
+    specs = tmp_path / "review_specs"
+    specs.mkdir()
+    (specs / "miniapp.json").write_text(json.dumps({
+        "checklist_id": "miniapp", "platform": "web",
+        "features": [{"id": "f1", "name": "F1", "steps": [], "expected": ""}],
+        "exclusions": [{"feature": "实时协作", "treatment": "排除",
+                        "reason": "需要第二客户端"}],
+    }, ensure_ascii=False), encoding="utf-8")
 
     result = managed._t_finalize({})
     payload = json.loads(result["content"][0]["text"])
     assert payload["exploration_finished"] is True
     assert payload["stage"] == "reproduction"
+    # The exclusion boundary reaches the reproduction agent at the moment
+    # generation starts, not only during exploration.
+    assert payload["exclusions"][0]["feature"] == "实时协作"
     assert captured["source_mode"] == "managed-tools"
     assert captured["source_id"] == sid
     assert captured["topology_path"] == topology

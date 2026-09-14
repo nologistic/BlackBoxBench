@@ -1,0 +1,410 @@
+{
+  "checklist_id": "dropbox_web",
+  "platform": "web",
+  "features": [
+    {
+      "id": "f01",
+      "name": "Upload",
+      "steps": [
+        "Upload the provided bird.png file to the root of Dropbox and verify that it appears exactly once in All files."
+      ],
+      "expected": "File must appear exactly once in All files after upload.",
+      "persistence": false
+    },
+    {
+      "id": "f02",
+      "name": "Upload",
+      "steps": [
+        "Upload the provided bird.png, report.pdf, and notes.txt files in one operation and verify that all three files appear with the correct filenames."
+      ],
+      "expected": "All three files must appear with correct filenames after a single operation.",
+      "persistence": false
+    },
+    {
+      "id": "f03",
+      "name": "New folder",
+      "steps": [
+        "Create a private folder named Project Alpha and verify that it appears in All files."
+      ],
+      "expected": "New folder must appear in All files.",
+      "persistence": false
+    },
+    {
+      "id": "f04",
+      "name": "New folder",
+      "steps": [
+        "Create the hierarchy Projects / Alpha / Assets and verify that each folder exists at the correct nesting level."
+      ],
+      "expected": "Nested folders must exist at the correct levels (Projects / Alpha / Assets).",
+      "persistence": false
+    },
+    {
+      "id": "f05",
+      "name": "Move",
+      "steps": [
+        "Move report.pdf from the root into Projects / Alpha and verify that it no longer appears at the root."
+      ],
+      "expected": "Moved file must no longer appear at the root.",
+      "persistence": false
+    },
+    {
+      "id": "f06",
+      "name": "Move",
+      "steps": [
+        "Select four specified files and move all of them into Projects / Alpha / Assets in one operation. Verify that all four files changed location and no unrelated files moved."
+      ],
+      "expected": "All four files must move in one operation; no unrelated files move.",
+      "persistence": false
+    },
+    {
+      "id": "f07",
+      "name": "Copy",
+      "steps": [
+        "Copy notes.txt into Projects / Alpha while preserving the original file at the root. Verify that both copies exist."
+      ],
+      "expected": "Both the original and copied file must exist after copy.",
+      "persistence": false
+    },
+    {
+      "id": "f08",
+      "name": "Rename",
+      "steps": [
+        "Rename notes.txt to meeting-notes.txt and rename Project Alpha to Project Phoenix. Verify that the renamed file remains inside the renamed folder structure."
+      ],
+      "expected": "Renames must apply correctly; the renamed file stays inside the renamed folder structure.",
+      "persistence": false
+    },
+    {
+      "id": "f09",
+      "name": "Download",
+      "steps": [
+        "Download report.pdf and verify that the downloaded file retains the original filename."
+      ],
+      "expected": "Downloaded file must retain the original filename.",
+      "persistence": false
+    },
+    {
+      "id": "f10",
+      "name": "Search",
+      "steps": [
+        "Search for meeting-notes and use the available file-type filter so that the intended text file is the only matching result."
+      ],
+      "expected": "Search with type filter must return only the intended text file.",
+      "persistence": false
+    },
+    {
+      "id": "f11",
+      "name": "Search",
+      "steps": [
+        "Search only within Project Phoenix for files with the .png extension and verify that files outside that folder are excluded from the results."
+      ],
+      "expected": "Folder-scoped search must exclude files outside the folder.",
+      "persistence": false
+    },
+    {
+      "id": "f12",
+      "name": "Recent",
+      "steps": [
+        "Open bird.png, return to All files, activate Recent, and verify that the recently opened image is surfaced without changing the file itself."
+      ],
+      "expected": "Recently opened image must surface in Recent without changing the file.",
+      "persistence": false
+    },
+    {
+      "id": "f13",
+      "name": "Star",
+      "steps": [
+        "Star bird.png and the Project Phoenix folder, then use the Starred filter and verify that both objects are shown."
+      ],
+      "expected": "Both starred objects must appear in the Starred filter.",
+      "persistence": false
+    },
+    {
+      "id": "f14",
+      "name": "Star",
+      "steps": [
+        "Remove the star from bird.png while keeping Project Phoenix starred. Verify that only the folder remains in the Starred view."
+      ],
+      "expected": "Only the folder remains starred after removing the star from the file.",
+      "persistence": false
+    },
+    {
+      "id": "f15",
+      "name": "Type / Extension",
+      "steps": [
+        "Use the Type and Extension filters to show only PNG image files from a mixed collection of images, documents, and folders."
+      ],
+      "expected": "Type/Extension filters must show only PNG files from a mixed collection.",
+      "persistence": false
+    },
+    {
+      "id": "f16",
+      "name": "Photos",
+      "steps": [
+        "Open Photos, display only photos from the target month, and verify that non-image documents from the same month do not appear."
+      ],
+      "expected": "Photos view must show only target-month photos; non-image documents do not appear.",
+      "persistence": false
+    },
+    {
+      "id": "f17",
+      "name": "Photos / Starred",
+      "steps": [
+        "Star a specified photo from Photos, switch to the Starred photo filter, and verify that the selected photo appears there without being moved from its original folder."
+      ],
+      "expected": "Starred photo must appear in the Starred photo filter without being moved.",
+      "persistence": false
+    },
+    {
+      "id": "f18",
+      "name": "Delete / Deleted files",
+      "steps": [
+        "Delete report.pdf, confirm that it disappears from its folder, restore it from Deleted files, and verify that it returns to its original location."
+      ],
+      "expected": "Deleted file must disappear, then restore to its original location from Deleted files.",
+      "persistence": false
+    },
+    {
+      "id": "f19",
+      "name": "Delete / Deleted files",
+      "steps": [
+        "Delete the folder Project Phoenix containing multiple nested files, restore the folder from Deleted files, and verify that its hierarchy and contents are restored."
+      ],
+      "expected": "Deleted folder must restore with its full hierarchy and contents.",
+      "persistence": false
+    },
+    {
+      "id": "f20",
+      "name": "Set naming convention",
+      "steps": [
+        "Configure a naming convention for a folder that includes the upload date, then verify that files in the folder follow the configured date-based naming structure."
+      ],
+      "expected": "Files must follow the configured date-based naming structure.",
+      "persistence": false
+    },
+    {
+      "id": "f21",
+      "name": "Set naming convention",
+      "steps": [
+        "Configure a folder naming convention that combines an upload-date component with the keyword ARCHIVE, and verify that the resulting filenames follow the configured component order."
+      ],
+      "expected": "Filenames must follow the configured component order (date + ARCHIVE).",
+      "persistence": false
+    },
+    {
+      "id": "f22",
+      "name": "Add automation",
+      "steps": [
+        "Create an automated folder named Processed that applies a deterministic rename rule to newly added files. Add a fixture file and verify that the resulting filename follows the automation rule."
+      ],
+      "expected": "Newly added files must follow the automation's rename rule.",
+      "persistence": false
+    },
+    {
+      "id": "f23",
+      "name": "Add automation",
+      "steps": [
+        "Add an automation to an existing folder that converts supported uploaded documents to PDF. Add the provided invoice.docx fixture and verify that the resulting PDF is created in the expected folder."
+      ],
+      "expected": "Uploaded document must be converted to PDF in the expected folder.",
+      "persistence": false
+    },
+    {
+      "id": "f24",
+      "name": "Add automation",
+      "steps": [
+        "Create an automated folder with two sequential steps: apply a filename rule containing ARCHIVE, then convert supported documents to PDF. Add invoice.docx and verify that both transformations are reflected in the final result."
+      ],
+      "expected": "Both sequential steps (rename with ARCHIVE, convert to PDF) must be reflected in the final result.",
+      "persistence": false
+    },
+    {
+      "id": "f25",
+      "name": "Add automation",
+      "steps": [
+        "Configure an automation on a parent folder, create a new subfolder inside it, add a compatible fixture file to the subfolder, and verify that the inherited automation is applied."
+      ],
+      "expected": "Inherited automation must apply to files added in the subfolder.",
+      "persistence": false
+    },
+    {
+      "id": "f26",
+      "name": "Crop",
+      "steps": [
+        "Open bird.png, use Crop with explicit custom dimensions, save the edited image as a new copy named bird-cropped.png, and verify that the original remains unchanged."
+      ],
+      "expected": "Cropped copy must be saved as bird-cropped.png; the original remains unchanged.",
+      "persistence": false
+    },
+    {
+      "id": "f27",
+      "name": "Rotate left / Save a copy",
+      "steps": [
+        "Open bird.png, rotate it 90 degrees to the left, save the result as bird-rotated.png, and verify that both the original and rotated copy exist."
+      ],
+      "expected": "Both original and rotated copy (bird-rotated.png) must exist after rotation.",
+      "persistence": false
+    },
+    {
+      "id": "f28",
+      "name": "All files / Organize",
+      "steps": [
+        "Build Archive / 2026 / Images, move three specified images into the final folder, rename one file, star another, delete and restore the third, then verify the final hierarchy and the state of all three files."
+      ],
+      "expected": "Final hierarchy must match the target structure; the renamed, starred, and restored files must all be in the correct states.",
+      "persistence": false
+    }
+  ],
+  "exclusions": [
+    {
+      "feature": "Shared",
+      "treatment": "Hard Exclude",
+      "reason": "依赖第二用户、邀请接受状态及权限传播，不适合单 Agent 确定性测评。"
+    },
+    {
+      "feature": "Share",
+      "treatment": "Hard Exclude",
+      "reason": "同上，核心变成跨账户协作而不是文件管理。"
+    },
+    {
+      "feature": "Manage permissions",
+      "treatment": "Hard Exclude",
+      "reason": "需要额外账号验证 viewer/editor 等权限状态。"
+    },
+    {
+      "feature": "Invite members",
+      "treatment": "Hard Exclude",
+      "reason": "团队成员邀请属于多人协作和账户体系。"
+    },
+    {
+      "feature": "Copy link / Shared links",
+      "treatment": "Default Exclude",
+      "reason": "虽可生成链接，但真正验证访问权限需要独立浏览会话或第二身份。"
+    },
+    {
+      "feature": "File requests",
+      "treatment": "Hard Exclude",
+      "reason": "Dropbox File requests 设计上就是让其他人上传文件；完整验证需要外部提交者。Dropbox帮助中心"
+    },
+    {
+      "feature": "Import from Google Drive",
+      "treatment": "Hard Exclude",
+      "reason": "需要连接 Google 账户和外部数据源。"
+    },
+    {
+      "feature": "Import from OneDrive",
+      "treatment": "Hard Exclude",
+      "reason": "需要 Microsoft 账户和外部数据源。"
+    },
+    {
+      "feature": "Integrations",
+      "treatment": "Hard Exclude",
+      "reason": "第三方应用连接产生不可控依赖。"
+    },
+    {
+      "feature": "Email to Dropbox",
+      "treatment": "Hard Exclude",
+      "reason": "依赖外部邮件发送和收件处理。"
+    },
+    {
+      "feature": "Dropbox AI / Ask Dash",
+      "treatment": "Hard Exclude",
+      "reason": "模型输出存在非确定性，也可能具有套餐、区域和服务依赖。"
+    },
+    {
+      "feature": "Dynamic filters",
+      "treatment": "Hard Exclude",
+      "reason": "当前该功能由 Dropbox 内部 AI 生成，而且存在套餐、地区和语言限制，不适合统一 benchmark。Dropbox帮助中心"
+    },
+    {
+      "feature": "Full-text search / OCR",
+      "treatment": "Conditional Exclude",
+      "reason": "文件内容搜索和 OCR 存在套餐及语言限制；benchmark 默认只测试 filename、folder、type、extension 等确定性搜索。Dropbox帮助中心"
+    },
+    {
+      "feature": "Content suggestions / Recommended",
+      "treatment": "Hard Exclude",
+      "reason": "推荐结果由用户历史行为决定，不具备确定性。"
+    },
+    {
+      "feature": "Dropbox Transfer",
+      "treatment": "Default Exclude",
+      "reason": "更偏文件交付产品，且涉及链接、邮箱接收方及部分套餐配置。"
+    },
+    {
+      "feature": "Dropbox Sign",
+      "treatment": "Hard Exclude",
+      "reason": "属于相邻产品，不是 Dropbox 文件系统核心。"
+    },
+    {
+      "feature": "Dropbox Paper",
+      "treatment": "Default Exclude",
+      "reason": "文档协作编辑属于另一功能体系，会显著扩大 benchmark 范围。"
+    },
+    {
+      "feature": "Desktop app installation",
+      "treatment": "Hard Exclude",
+      "reason": "依赖操作系统、安装权限及本地客户端。"
+    },
+    {
+      "feature": "Desktop sync",
+      "treatment": "Hard Exclude",
+      "reason": "涉及本地 filesystem、同步进程和网络状态，不再是纯网页 Agent benchmark。"
+    },
+    {
+      "feature": "Online-only / Offline files",
+      "treatment": "Hard Exclude",
+      "reason": "依赖 desktop client 和设备本地状态。"
+    },
+    {
+      "feature": "Rewind",
+      "treatment": "Hard Exclude",
+      "reason": "套餐受限，而且会一次性回滚大量账户状态，容易破坏 benchmark fixture。"
+    },
+    {
+      "feature": "Permanent delete",
+      "treatment": "Hard Exclude",
+      "reason": "不可逆；普通 Delete → Restore 足够测试生命周期理解。"
+    },
+    {
+      "feature": "Delete account",
+      "treatment": "Hard Exclude",
+      "reason": "高破坏性且与核心文件管理无关。"
+    },
+    {
+      "feature": "Subscription / Upgrade",
+      "treatment": "Hard Exclude",
+      "reason": "商业套餐流程，不测。"
+    },
+    {
+      "feature": "Account / Security / Notification preferences",
+      "treatment": "Exclude",
+      "reason": "属于账户设置而不是文件管理能力。"
+    },
+    {
+      "feature": "Language / Theme / Appearance",
+      "treatment": "Exclude",
+      "reason": "UI 偏好，不体现文件系统推理能力。"
+    },
+    {
+      "feature": "Watermark",
+      "treatment": "Default Exclude",
+      "reason": "存在套餐限制；不是基础媒体编辑核心。"
+    },
+    {
+      "feature": "Enhance / Upscale / Auto-straighten / Color correct",
+      "treatment": "Hard Exclude",
+      "reason": "包含 ML 图像处理，不适合要求严格复现输出。Dropbox 官方也明确说明其中部分 Enhance 功能使用 machine learning。Dropbox帮助中心"
+    },
+    {
+      "feature": "Video / audio transcription",
+      "treatment": "Hard Exclude",
+      "reason": "涉及媒体编码和生成式/语音处理组件。"
+    },
+    {
+      "feature": "Team account management",
+      "treatment": "Hard Exclude",
+      "reason": "多人、角色、组织权限与单 Agent 文件管理 benchmark 无关。"
+    }
+  ]
+}

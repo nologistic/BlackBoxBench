@@ -79,6 +79,31 @@ Agent 中）和**薄校验层**共同完成：
 | `persistence` | 该功能需数据落地 | 判 `full` 时必须提交三段持久化证据 |
 | `multi_user` | 涉及第二账号/外部访问者 | 必须填写 `not_verifiable_reason` |
 
+### 4.1 排除边界 `exclusions`（可选，web 数据集）
+
+与上述标记不同，`exclusions` 不是"怎么判"的元数据，而是**什么根本不在评分
+范围**——操作员划定的排除面（多人协作、账户/支付、实时数据、AI 生成、外部
+服务等刻意不复现的功能）：
+
+```json
+"exclusions": [
+  {"feature": "实时协作", "treatment": "Hard Exclude",
+   "reason": "需要多客户端、网络同步、presence、冲突解决。"}
+]
+```
+
+- `treatment` 保留操作员原文（`Hard Exclude` / `Conditional Exclude` /
+  `Default Exclude` / `Exclude` 等）；对 judge 的行为约束一致：**不探索、不评分**。
+- 产物缺失排除面**不构成任何档位的降级理由**；恰好实现了也不加分。`rationale`
+  无需逐条提及排除面，正常覆盖清单内条目即可。
+- 校验层对 `exclusions` 采用与 `features` 相同的严格性：非数组、条目非对象、缺
+  `feature` 直接报错——损坏的边界条目等于静默扩大评分范围，必须失败。
+- 下发点：评测回执（`start_evaluation` / `evaluation_status`）与探索回执
+  （`start_session` / `finalize`）自动携带；两侧读同一份
+  `review_specs/<app_id>.json`，边界定义唯一。
+- 清单内 `multi_user: true` 条目是"要验证、单机只能保守判"；`exclusions` 是
+  "根本不在评分范围"——两者语义不同，不得混淆。
+
 ## 5. 证据规则
 
 ### 通用

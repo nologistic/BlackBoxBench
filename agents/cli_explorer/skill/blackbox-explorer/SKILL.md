@@ -16,6 +16,12 @@ description: 黑盒 App 功能拓扑探索 —— 仅通过 GUI 截图与坐标�
   scripts/live_login.py(--app 或 --url 对应目标) --capture 完成登录后再继续。
 - 一个对话绑定一个目标;想换目标,先 finalize 当前会话或请用户新开对话。
 
+# 排除清单(探索边界)
+- start_session 与 finalize 的回执若带 exclusions,那是该目标被基准测试刻意
+  排除的功能面(多人协作、账户体系、支付计费、实时数据、AI 生成、外部服务等)。
+- 它们是设计边界,不是"遗漏":不探索、不记录(不写进 state/feature/data/edge/
+  hypothesis)、不复现;不要记为功能缺口,复现阶段也不要补做。
+
 # 严格规则
 - 当前任务只属于托管 baseline 条件。不得寻找、列举、读取、调用、比较或借鉴任何
   其他探索条件的 Skill、MCP、提示词、工具源码、安装目录或历史产物；即使客户端

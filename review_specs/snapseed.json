@@ -3,6 +3,7 @@
   "platform": "android",
   "features": [
     {
+      "id": "f01",
       "name": "图片打开与基础编辑工作流",
       "steps": [
         "启动 Snapseed",
@@ -15,12 +16,11 @@
         "实时调整",
         "确认/取消”的非破坏式工作流。Google 帮助"
       ],
-      "expected": "确认/取消”的非破坏式工作流。Google 帮助",
-      "persistence": true,
-      "multi_user": false,
-      "id": "f01"
+      "expected": "图片必须被正确解码显示；缩放与平移只影响查看而不修改图片；长按必须显示编辑前原图对比；切换工具或进入导出时当前编辑结果不能丢失。",
+      "persistence": true
     },
     {
+      "id": "f02",
       "name": "样式 Looks 预设",
       "steps": [
         "打开图片",
@@ -30,12 +30,11 @@
         "✓ 后才正式加入编辑结果",
         "× 恢复进入样式前的图片"
       ],
-      "expected": "× 恢复进入样式前的图片",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f02"
+      "expected": "点击 Style 必须即时预览对应效果；改选必须替换而不是叠加；✓ 后效果才进入编辑栈；× 必须恢复到进入样式前的状态。",
+      "persistence": false
     },
     {
+      "id": "f03",
       "name": "调整图片 Tune Image",
       "steps": [
         "进入“调整图片”",
@@ -44,12 +43,11 @@
         "多参数共同作用于当前预览",
         "确认后全部参数作为同一步编辑保存。官方经典版明确包含这 7 个参数。Google 帮助"
       ],
-      "expected": "确认后全部参数作为同一步编辑保存。官方经典版明确包含这 7 个参数。Google 帮助",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f03"
+      "expected": "7 个参数必须独立作用于预览且互不覆盖；左右滑数值连续变化；确认后所有参数作为同一步编辑保存，重新进入该步骤显示当前值。",
+      "persistence": false
     },
     {
+      "id": "f04",
       "name": "突出细节 Details",
       "steps": [
         "进入“突出细节”",
@@ -58,12 +56,11 @@
         "改变数值实时预览",
         "旧的参数值在确认后固定于该编辑步骤，而不会继续影响随后新建的 Details 操作。Google 帮助"
       ],
-      "expected": "旧的参数值在确认后固定于该编辑步骤，而不会继续影响随后新建的 Details 操作。Google 帮助",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f04"
+      "expected": "结构必须增强局部纹理、锐化必须强化边缘，两者可辨别；参数实时作用于预览；确认后固定于当前步骤，重新进入显示已保存值且新操作独立。",
+      "persistence": false
     },
     {
+      "id": "f05",
       "name": "曲线 Curves",
       "steps": [
         "进入曲线",
@@ -74,12 +71,11 @@
         "使用预设或自定义曲线",
         "确认后控制点状态随编辑步骤保存"
       ],
-      "expected": "确认后控制点状态随编辑步骤保存",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f05"
+      "expected": "曲线控制点必须实时改变图像明暗映射；RGB 与单通道曲线相互独立；确认后控制点状态随该编辑步骤保存，重新进入可继续调整。",
+      "persistence": false
     },
     {
+      "id": "f06",
       "name": "白平衡 White Balance",
       "steps": [
         "打开白平衡",
@@ -89,12 +85,11 @@
         "根据采样结果重新计算色彩",
         "确认保存"
       ],
-      "expected": "确认保存",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f06"
+      "expected": "色温必须沿蓝黄轴变化、着色沿绿品红轴变化；吸管必须基于所选像素重新计算白平衡；自动与手动结果一致作用于预览并可保存。",
+      "persistence": false
     },
     {
+      "id": "f07",
       "name": "剪裁 Crop",
       "steps": [
         "进入剪裁",
@@ -103,12 +98,11 @@
         "固定比例时保持约束",
         "确认后真正改变后续编辑看到的图像区域。官方列出的比例与此一致。Google 帮助"
       ],
-      "expected": "确认后真正改变后续编辑看到的图像区域。官方列出的比例与此一致。Google 帮助",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f07"
+      "expected": "选择比例后拖动必须保持该比例约束，自由模式不受限；确认后图像区域真实改变并影响后续工具；旋转拉直后比例仍正确。",
+      "persistence": false
     },
     {
+      "id": "f08",
       "name": "旋转与拉直 Rotate",
       "steps": [
         "打开旋转",
@@ -117,12 +111,11 @@
         "旋转产生的边缘按工具规则处理",
         "确认后后续文字、局部、裁剪等操作使用新的图像坐标"
       ],
-      "expected": "确认后后续文字、局部、裁剪等操作使用新的图像坐标",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f08"
+      "expected": "旋转与拉直必须实时作用于预览；参考网格随角度更新；确认后图像坐标真实改变，后续文字、局部、裁剪等工具使用新坐标。",
+      "persistence": false
     },
     {
+      "id": "f09",
       "name": "透视 Perspective",
       "steps": [
         "对建筑或倾斜照片进入透视工具",
@@ -131,12 +124,11 @@
         "开启边缘修复时自动补齐产生的空白；关闭时空白区域保留为黑色",
         "确认后新的几何状态传递给后续工具。Google 帮助"
       ],
-      "expected": "确认后新的几何状态传递给后续工具。Google 帮助",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f09"
+      "expected": "透视变换必须实时作用并改变图像几何；开启边缘修复自动补齐空白，关闭时空白保留为黑色；确认后几何状态传递给后续工具。",
+      "persistence": false
     },
     {
+      "id": "f10",
       "name": "展开 Expand",
       "steps": [
         "进入“展开”",
@@ -146,12 +138,11 @@
         "原图保持在正确位置",
         "确认后真实画布尺寸增加，随后保存得到的新图片尺寸同步变化"
       ],
-      "expected": "确认后真实画布尺寸增加，随后保存得到的新图片尺寸同步变化",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f10"
+      "expected": "扩展后原图必须保持在正确位置；补边方式按所选智能填充、白或黑生效；确认后画布尺寸真实增加，保存输出的图片尺寸同步变化。",
+      "persistence": false
     },
     {
+      "id": "f11",
       "name": "局部 Selective",
       "steps": [
         "点击图片建立 Control Point",
@@ -162,12 +153,11 @@
         "再创建多个控制点",
         "复制、移动、删除某一点不会破坏其他点。官方经典 Selective 正是这种 U Point 交互。Google 帮助"
       ],
-      "expected": "复制、移动、删除某一点不会破坏其他点。官方经典 Selective 正是这种 U Point 交互。Google 帮助",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f11"
+      "expected": "控制点作用范围必须由红色遮罩可视化且与实际影响一致；每个点的参数相互独立；复制、移动、删除某点不能破坏其他点的效果。",
+      "persistence": false
     },
     {
+      "id": "f12",
       "name": "画笔 Brush",
       "steps": [
         "进入画笔",
@@ -177,12 +167,11 @@
         "强度 0 擦除此前局部效果",
         "打开遮罩预览后以橙色显示已涂区域。Google 帮助"
       ],
-      "expected": "打开遮罩预览后以橙色显示已涂区域。Google 帮助",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f12"
+      "expected": "只有笔迹覆盖区域受影响，未涂区域保持原样；修改强度后新笔迹使用新强度；强度为 0 时必须擦除已有局部效果；遮罩预览准确反映已涂区域。",
+      "persistence": false
     },
     {
+      "id": "f13",
       "name": "修复 Healing",
       "steps": [
         "放大图片",
@@ -193,12 +182,11 @@
         "放大比例变化后屏幕触摸仍映射到正确原图区域",
         "确认后修复结果进入最终图像"
       ],
-      "expected": "确认后修复结果进入最终图像",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f13"
+      "expected": "修复必须基于周围像素生成替代内容且无明显接缝；支持连续修复与 Undo；缩放或平移后触摸仍映射到正确原图区域；确认后结果保留在最终图像中。",
+      "persistence": false
     },
     {
+      "id": "f14",
       "name": "HDR 景观 HDR Scape",
       "steps": [
         "选择 HDR 风格",
@@ -208,12 +196,11 @@
         "切换其他 HDR Style 后使用该 Style 的参数预览",
         "确认后保存。Google 帮助"
       ],
-      "expected": "确认后保存。Google 帮助",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f14"
+      "expected": "不同 HDR Style 必须产生可辨别的色调映射差异；参数实时作用于预览；切换 Style 后使用该 Style 的参数，确认后组成完整滤镜步骤。",
+      "persistence": false
     },
     {
+      "id": "f15",
       "name": "魅力光晕 Glamour Glow",
       "steps": [
         "进入魅力光晕",
@@ -222,12 +209,11 @@
         "高光产生柔和扩散且整体色调随参数变化",
         "多个参数组合保持在同一滤镜步骤中。Google 帮助"
       ],
-      "expected": "多个参数组合保持在同一滤镜步骤中。Google 帮助",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f15"
+      "expected": "光晕必须产生高光柔和扩散效果；饱和度与暖色调独立作用；切换预设替换当前参数；确认后所有参数保存在同一滤镜步骤中。",
+      "persistence": false
     },
     {
+      "id": "f16",
       "name": "色调对比度 Tonal Contrast",
       "steps": [
         "进入色调对比度",
@@ -236,12 +222,11 @@
         "调整任一参数时其他参数保持",
         "确认形成完整效果。Google 帮助"
       ],
-      "expected": "确认形成完整效果。Google 帮助",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f16"
+      "expected": "高、中、低色调调整必须分别作用于对应亮度范围；保护阴影与高光必须减少对应区域细节损失；任一参数改变时其他参数保持；确认后整体保存。",
+      "persistence": false
     },
     {
+      "id": "f17",
       "name": "戏剧效果 Drama",
       "steps": [
         "选择不同 Drama Style",
@@ -250,12 +235,11 @@
         "调节 Saturation 控制色彩",
         "切换预设时实时替换当前 Drama 预览而不是叠加新的 Drama。Google 帮助"
       ],
-      "expected": "切换预设时实时替换当前 Drama 预览而不是叠加新的 Drama。Google 帮助",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f17"
+      "expected": "不同 Style 必须采用不同局部对比风格；Strength 改变戏剧化程度、Saturation 控制色彩；切换预设必须替换当前预览而不是叠加新的效果。",
+      "persistence": false
     },
     {
+      "id": "f18",
       "name": "复古 Vintage",
       "steps": [
         "选择不同复古胶片 Style",
@@ -264,12 +248,11 @@
         "随机化纹理时产生另一种纹理位置",
         "确认后该次随机结果应保持，而不是重新打开就再次随机。官方 Vintage 也包含 Style、Brightness、Saturation、Texture、Vignette 等控制。Google 帮助"
       ],
-      "expected": "确认后该次随机结果应保持，而不是重新打开就再次随机。官方 Vintage 也包含 Style、Brightness、Saturation、Texture、Vignette 等控制。Google 帮助",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f18"
+      "expected": "不同 Style 产生不同胶片色调；晕影区域可移动并作用于对应位置；随机化产生另一种纹理位置并在确认后固定，重新打开不能再次随机。",
+      "persistence": false
     },
     {
+      "id": "f19",
       "name": "粗粒胶片 Grainy Film",
       "steps": [
         "浏览多个胶片预设",
@@ -278,12 +261,11 @@
         "颗粒变化不应简单等同于整体噪点亮度变化",
         "确认后预设与参数共同组成滤镜状态"
       ],
-      "expected": "确认后预设与参数共同组成滤镜状态",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f19"
+      "expected": "颗粒强度必须只增加颗粒效果，不能等同于整体变亮或噪点变化；样式强度独立控制胶片色调；确认后预设与参数共同组成滤镜状态。",
+      "persistence": false
     },
     {
+      "id": "f20",
       "name": "怀旧 Retrolux",
       "steps": [
         "选择怀旧风格",
@@ -292,12 +274,11 @@
         "同一次确认后随机参数固定",
         "再次重新生成才产生另一种结果"
       ],
-      "expected": "再次重新生成才产生另一种结果",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f20"
+      "expected": "划痕与漏光位置由随机化改变且确认后固定；再次打开不能重新随机；各参数独立作用于预览；切换 Style 时替换当前效果而不是叠加。",
+      "persistence": false
     },
     {
+      "id": "f21",
       "name": "斑驳 Grunge",
       "steps": [
         "进入 Grunge",
@@ -306,12 +287,11 @@
         "随机改变纹理的位置与角度",
         "当前随机纹理作为该编辑步骤的一部分保存。官方说明 Grunge 可以随机化纹理角度/位置，并提供这些参数。Google 帮助"
       ],
-      "expected": "当前随机纹理作为该编辑步骤的一部分保存。官方说明 Grunge 可以随机化纹理角度/位置，并提供这些参数。Google 帮助",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f21"
+      "expected": "Style 必须改变整体色彩分布；Texture Strength 控制纹理强度；随机化改变纹理位置与角度且确认后固定；参数组合随该编辑步骤保存。",
+      "persistence": false
     },
     {
+      "id": "f22",
       "name": "黑白 Black & White",
       "steps": [
         "转换为黑白",
@@ -320,12 +300,11 @@
         "选择红/黄/绿/蓝等颜色滤镜时，不同原始颜色映射到不同灰阶",
         "切换预设重新计算，但不删除原始彩色信息。Google 帮助"
       ],
-      "expected": "切换预设重新计算，但不删除原始彩色信息。Google 帮助",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f22"
+      "expected": "不同颜色滤镜必须使不同原始颜色映射为不同灰阶；亮度、对比度、颗粒独立作用；工具为非破坏式，原始彩色信息必须保留以便撤销。",
+      "persistence": false
     },
     {
+      "id": "f23",
       "name": "黑白电影 Noir",
       "steps": [
         "选择 Noir 风格",
@@ -333,12 +312,11 @@
         "调节相关亮度、Wash/冲印感、颗粒等效果",
         "从 Noir 切回普通黑白时两个工具保持独立参数和独立编辑步骤"
       ],
-      "expected": "从 Noir 切回普通黑白时两个工具保持独立参数和独立编辑步骤",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f23"
+      "expected": "Noir 必须比普通黑白产生更重的暗房电影风格；其亮度、Wash、颗粒参数独立保存；与普通黑白作为不同编辑步骤存在，切换不互相覆盖。",
+      "persistence": false
     },
     {
+      "id": "f24",
       "name": "美颜 / Face",
       "steps": [
         "在含人脸图片上启动美颜",
@@ -348,12 +326,11 @@
         "改变只围绕检测到的人脸产生",
         "无人脸图片不应假造固定脸部区域。官方经典 Face 提供这三个核心控制参数。Google 帮助"
       ],
-      "expected": "无人脸图片不应假造固定脸部区域。官方经典 Face 提供这三个核心控制参数。Google 帮助",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f24"
+      "expected": "人脸检测结果必须决定作用范围，效果只出现在检测到的人脸区域；无人脸图片不能出现固定区域效果或崩溃；提亮、柔肤、眼部清晰三个参数独立并保存。",
+      "persistence": false
     },
     {
+      "id": "f25",
       "name": "头部姿势 Head Pose",
       "steps": [
         "在可识别人脸的照片上进入头部姿势",
@@ -362,12 +339,11 @@
         "变形应以实际脸部特征为中心",
         "确认后保持人像几何结果，Undo 可恢复原姿势"
       ],
-      "expected": "确认后保持人像几何结果，Undo 可恢复原姿势",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f25"
+      "expected": "变形必须围绕检测到的脸部特征进行，拖动方向与头部转向对应；确认后几何结果保留且可被 Undo 恢复；无有效人脸时应给出合理反馈。",
+      "persistence": false
     },
     {
+      "id": "f26",
       "name": "镜头模糊 Lens Blur",
       "steps": [
         "进入镜头模糊",
@@ -377,12 +353,11 @@
         "调节模糊强度、过渡范围和晕影",
         "只有焦区之外逐渐模糊。Google 帮助"
       ],
-      "expected": "只有焦区之外逐渐模糊。Google 帮助",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f26"
+      "expected": "只有焦区之外的区域逐渐模糊，焦区内保持清晰；焦区大小、形状与旋转随双指手势变化；强度、过渡范围与晕影独立作用并可保存。",
+      "persistence": false
     },
     {
+      "id": "f27",
       "name": "晕影 Vignette",
       "steps": [
         "打开晕影",
@@ -392,12 +367,11 @@
         "中心和边缘形成独立明暗效果",
         "编辑后重新进入时中心位置与参数保持。Google 帮助"
       ],
-      "expected": "编辑后重新进入时中心位置与参数保持。Google 帮助",
-      "persistence": true,
-      "multi_user": false,
-      "id": "f27"
+      "expected": "中心点位置决定晕影中心，双指改变中心区域大小；外部与内部亮度独立作用；确认后重新进入时中心位置与参数保持。",
+      "persistence": true
     },
     {
+      "id": "f28",
       "name": "双重曝光 Double Exposure",
       "steps": [
         "在当前图片上选择第二张图片",
@@ -408,12 +382,11 @@
         "确认后形成复合结果",
         "Undo 后第一张原图仍保持完整"
       ],
-      "expected": "Undo 后第一张原图仍保持完整",
-      "persistence": true,
-      "multi_user": false,
-      "id": "f28"
+      "expected": "第二张图必须作为独立层叠加并可移动、缩放定位；混合模式与透明度实时作用于合成结果；Undo 后第一张原图必须完整恢复。",
+      "persistence": true
     },
     {
+      "id": "f29",
       "name": "文字、相框与最终编辑生命周期",
       "steps": [
         "使用“文字”输入内容",
@@ -422,10 +395,8 @@
         "两个效果按应用顺序叠加",
         "随后可 Undo/Redo、查看此前修改，并通过保存/导出真正生成带全部视觉效果的最终图片。官方明确说明工具顺序会影响最终效果，例如相框在镜头模糊前后产生不同结果，而且编辑采用非破坏式工作流。Google 帮助"
       ],
-      "expected": "随后可 Undo/Redo、查看此前修改，并通过保存/导出真正生成带全部视觉效果的最终图片。官方明确说明工具顺序会影响最终效果，例如相框在镜头模糊前后产生不同结果，而且编辑采用非破坏式工作流。Google 帮助",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f29"
+      "expected": "文字与相框必须按应用顺序叠加，顺序不同最终效果应不同；Undo 与 Redo 正确回退与恢复；导出必须真正生成包含全部视觉效果的最终图片。",
+      "persistence": false
     }
   ]
 }

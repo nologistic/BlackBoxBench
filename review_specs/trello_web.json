@@ -1,0 +1,392 @@
+{
+  "checklist_id": "trello_web",
+  "platform": "web",
+  "features": [
+    {
+      "id": "f01",
+      "name": "Board / List / Card Workflow",
+      "steps": [
+        "Create a new board, add three lists named \"Backlog\", \"In Progress\", and \"Done\", create a card named \"Prepare release notes\" in \"Backlog\", and move it to \"In Progress\"."
+      ],
+      "expected": "Board must contain the three specified lists; the card must be created in \"Backlog\" and moved to \"In Progress\" with correct state.",
+      "persistence": false
+    },
+    {
+      "id": "f02",
+      "name": "Board / List / Card Workflow",
+      "steps": [
+        "Set up a simple Kanban workflow with \"To Do\", \"Doing\", and \"Done\", create three cards in \"To Do\", and move one card through the workflow until it reaches \"Done\"."
+      ],
+      "expected": "Kanban workflow must be set up with three lists and three cards; a card must move through the workflow to \"Done\" successfully.",
+      "persistence": false
+    },
+    {
+      "id": "f03",
+      "name": "Board / List / Card Workflow",
+      "steps": [
+        "Create a card in a specified list, add a description, move the card to another list, then confirm that the description remains unchanged after the move."
+      ],
+      "expected": "Card description must remain unchanged after moving the card between lists.",
+      "persistence": false
+    },
+    {
+      "id": "f04",
+      "name": "Board / List / Card Workflow",
+      "steps": [
+        "Archive a completed card, locate it from the board's archived items, restore it, and return it to the specified list."
+      ],
+      "expected": "Archived card must be locatable in archived items, restorable, and returned to the specified list.",
+      "persistence": false
+    },
+    {
+      "id": "f05",
+      "name": "Card Task Management",
+      "steps": [
+        "Create a task card, add a colored priority label, set a due date, add a three-item checklist, and complete one checklist item."
+      ],
+      "expected": "Priority label, due date, and checklist must apply correctly; completing one item updates checklist progress.",
+      "persistence": false
+    },
+    {
+      "id": "f06",
+      "name": "Card Task Management",
+      "steps": [
+        "Configure a card with a start date and due date, add a checklist, complete all checklist items, and mark the card as complete."
+      ],
+      "expected": "Start/due dates and checklist must save; completing all items and marking complete updates card state correctly.",
+      "persistence": false
+    },
+    {
+      "id": "f07",
+      "name": "Card Task Management",
+      "steps": [
+        "Create a new label with a specified name and color, apply it to a card, then filter the board so that only cards with that label are visible."
+      ],
+      "expected": "Label must be created with the specified name and color; applying it and filtering must show only matching cards.",
+      "persistence": false
+    },
+    {
+      "id": "f08",
+      "name": "Card Task Management",
+      "steps": [
+        "Attach a URL to a card, add display text for the attachment, close the card, reopen it, and verify that the attachment is still present."
+      ],
+      "expected": "Attachment URL and display text must persist after closing and reopening the card.",
+      "persistence": false
+    },
+    {
+      "id": "f09",
+      "name": "Card Task Management",
+      "steps": [
+        "Create a custom field for priority, assign a value to a card, and use the board interface to identify cards matching that priority value."
+      ],
+      "expected": "Custom field value must save; the board interface must identify cards matching that priority value.",
+      "persistence": false
+    },
+    {
+      "id": "f10",
+      "name": "Card Task Management",
+      "steps": [
+        "Add a checklist with multiple items, complete selected items, verify the progress percentage, then hide completed checklist items."
+      ],
+      "expected": "Checklist progress percentage must be accurate; hiding completed items must not affect completion state.",
+      "persistence": false
+    },
+    {
+      "id": "f11",
+      "name": "Rules",
+      "steps": [
+        "Create a rule that automatically moves a card to the \"Done\" list when the card is marked complete, then create a test card and verify that the rule runs."
+      ],
+      "expected": "Rule must trigger when the card is marked complete and move it to \"Done\"; test card verifies the automation runs.",
+      "persistence": false
+    },
+    {
+      "id": "f12",
+      "name": "Rules",
+      "steps": [
+        "Create a rule that adds an \"Urgent\" label and moves a card to the top of \"In Progress\" whenever the card enters a specified list."
+      ],
+      "expected": "Rule must add the \"Urgent\" label and move the card to the top of \"In Progress\" when it enters the specified list.",
+      "persistence": false
+    },
+    {
+      "id": "f13",
+      "name": "Rules",
+      "steps": [
+        "Create a rule that automatically adds a checklist named \"Review\" when a card receives a specified label."
+      ],
+      "expected": "Rule must add the \"Review\" checklist automatically when the card receives the specified label.",
+      "persistence": false
+    },
+    {
+      "id": "f14",
+      "name": "Rules",
+      "steps": [
+        "Create a rule that moves a card to \"Ready for Review\" when all items in a specified checklist are completed."
+      ],
+      "expected": "Rule must move the card to \"Ready for Review\" when all checklist items are completed.",
+      "persistence": false
+    },
+    {
+      "id": "f15",
+      "name": "Rules",
+      "steps": [
+        "Create a rule that detects cards whose title starts with \"[Bug]\", adds a bug label, and moves those cards into the \"Triage\" list."
+      ],
+      "expected": "Rule must detect \"[Bug]\" titles, add the bug label, and move those cards to \"Triage\".",
+      "persistence": false
+    },
+    {
+      "id": "f16",
+      "name": "Rules",
+      "steps": [
+        "Create a rule that reacts when a due date is added to a card and automatically adds a specified label and checklist."
+      ],
+      "expected": "Rule must react to an added due date by adding the specified label and checklist.",
+      "persistence": false
+    },
+    {
+      "id": "f17",
+      "name": "Rules",
+      "steps": [
+        "Create a multi-action rule that, when a card is added to \"Incoming\", assigns a label, creates a checklist, sets a due date, and moves the card to the top of \"To Do\"."
+      ],
+      "expected": "Multi-action rule must assign label, create checklist, set due date, and move the card to the top of \"To Do\" in one trigger.",
+      "persistence": false
+    },
+    {
+      "id": "f18",
+      "name": "Rules",
+      "steps": [
+        "Create a rule that renames a card by preserving its existing card name and appending a specified status suffix using Trello's automation variables."
+      ],
+      "expected": "Rule must rename the card by preserving the original name and appending the status suffix via automation variables.",
+      "persistence": false
+    },
+    {
+      "id": "f19",
+      "name": "Rules",
+      "steps": [
+        "Create an automation rule, save it, disable it, verify that it no longer runs, re-enable it, and confirm that the same trigger works again."
+      ],
+      "expected": "Disabling the rule stops it from running; re-enabling restores the same trigger behavior.",
+      "persistence": false
+    },
+    {
+      "id": "f20",
+      "name": "Rules",
+      "steps": [
+        "Create a rule, trigger it with a test card, then inspect the automation activity or log to determine whether the automation executed successfully."
+      ],
+      "expected": "Automation activity or log must correctly show whether the rule executed successfully.",
+      "persistence": false
+    },
+    {
+      "id": "f21",
+      "name": "Scheduled Automation",
+      "steps": [
+        "Create a scheduled automation that creates a new recurring card in a specified list every day at the configured schedule."
+      ],
+      "expected": "Scheduled automation must create the recurring card in the specified list on schedule.",
+      "persistence": false
+    },
+    {
+      "id": "f22",
+      "name": "Scheduled Automation",
+      "steps": [
+        "Create a weekly automation that moves all cards from \"Next Week\" into \"To Do\" and then sorts \"To Do\" by due date."
+      ],
+      "expected": "Weekly automation must move all cards from \"Next Week\" to \"To Do\" and sort \"To Do\" by due date.",
+      "persistence": false
+    },
+    {
+      "id": "f23",
+      "name": "Scheduled Automation",
+      "steps": [
+        "Create a monthly automation that creates a new planning list with a specified name on the first day of every month."
+      ],
+      "expected": "Monthly automation must create the planning list with the specified name on the first day of each month.",
+      "persistence": false
+    },
+    {
+      "id": "f24",
+      "name": "Scheduled Automation",
+      "steps": [
+        "Create a recurring cleanup automation that archives completed cards from a specified list on a weekly schedule."
+      ],
+      "expected": "Recurring cleanup must archive completed cards from the specified list weekly.",
+      "persistence": false
+    },
+    {
+      "id": "f25",
+      "name": "Scheduled Automation",
+      "steps": [
+        "Create a scheduled automation that moves cards older than a specified number of days from one list into an archive or cleanup list."
+      ],
+      "expected": "Scheduled automation must move cards older than the specified days into the archive/cleanup list.",
+      "persistence": false
+    },
+    {
+      "id": "f26",
+      "name": "Due Date Automation",
+      "steps": [
+        "Create a due-date automation that moves a card into \"Overdue\" and adds a red label at the moment the card becomes due."
+      ],
+      "expected": "Due-date automation must move the card to \"Overdue\" and add the red label at the due moment.",
+      "persistence": false
+    },
+    {
+      "id": "f27",
+      "name": "Due Date Automation",
+      "steps": [
+        "Create an automation that adds an \"Urgent\" label and moves the card to \"Due Soon\" two days before the card's due date."
+      ],
+      "expected": "Automation must add the \"Urgent\" label and move the card to \"Due Soon\" two days before the due date.",
+      "persistence": false
+    },
+    {
+      "id": "f28",
+      "name": "Due Date Automation",
+      "steps": [
+        "Create an automation that performs a specified workflow on the Monday before a card becomes due and verify that the relative-date trigger is configured correctly."
+      ],
+      "expected": "Relative-date trigger must fire on the Monday before the due date and perform the specified workflow.",
+      "persistence": false
+    },
+    {
+      "id": "f29",
+      "name": "Due Date Automation",
+      "steps": [
+        "Build a recurring-task workflow that, when a card becomes due, moves its due date to the same day next week and resets its checklist for the next cycle."
+      ],
+      "expected": "Recurring workflow must move the due date to the same day next week and reset the checklist for the next cycle.",
+      "persistence": false
+    },
+    {
+      "id": "f30",
+      "name": "Card Button",
+      "steps": [
+        "Create a card button named \"Start Work\" that moves the current card to \"In Progress\", adds a status label, and sets an appropriate due date."
+      ],
+      "expected": "Card button must move the card to \"In Progress\", add the status label, and set an appropriate due date.",
+      "persistence": false
+    },
+    {
+      "id": "f31",
+      "name": "Card Button",
+      "steps": [
+        "Create a card button named \"Complete Task\" that marks the card complete, moves it to \"Done\", and removes its due date."
+      ],
+      "expected": "Card button must mark the card complete, move it to \"Done\", and remove the due date.",
+      "persistence": false
+    },
+    {
+      "id": "f32",
+      "name": "Board Button",
+      "steps": [
+        "Create a board button that performs a weekly cleanup by archiving completed cards and moving outstanding cards into a specified active list."
+      ],
+      "expected": "Board button must archive completed cards and move outstanding cards into the specified active list.",
+      "persistence": false
+    },
+    {
+      "id": "f33",
+      "name": "Board Button",
+      "steps": [
+        "Create a board button that moves a selected set of cards into another list and then sorts that destination list by due date."
+      ],
+      "expected": "Board button must move the selected cards into another list and sort the destination list by due date.",
+      "persistence": false
+    },
+    {
+      "id": "f34",
+      "name": "Cascade",
+      "steps": [
+        "Create a rule that finds the first Trello card linked in the triggering card's attachments and applies a specified change to the linked card."
+      ],
+      "expected": "Rule must find the first linked card in attachments and apply the specified change to it.",
+      "persistence": false
+    },
+    {
+      "id": "f35",
+      "name": "Cascade",
+      "steps": [
+        "Create an automation that converts checklist items into linked cards while preserving links between the original card and the generated cards."
+      ],
+      "expected": "Automation must convert checklist items into linked cards while preserving links to the original card.",
+      "persistence": false
+    },
+    {
+      "id": "f36",
+      "name": "Cascade",
+      "steps": [
+        "Create an automation that iterates through cards linked from a checklist or attachment and applies the same follow-up action to each linked card."
+      ],
+      "expected": "Automation must iterate linked cards and apply the same follow-up action to each.",
+      "persistence": false
+    }
+  ],
+  "exclusions": [
+    {
+      "feature": "Team board collaboration\nMulti-user editing, member assignment, mention notifications",
+      "treatment": "Hard Exclude",
+      "reason": "Real-time collaboration and multi-user infrastructure (cf. excalidraw \"Real-time collaboration\")"
+    },
+    {
+      "feature": "Workspace member management\nTeam creation, member roles, invitations",
+      "treatment": "Hard Exclude",
+      "reason": "Multi-user administration (cf. notion \"Members and Workspace Invitations\")"
+    },
+    {
+      "feature": "Power-Ups and integrations\nThird-party Power-Ups, external service connections",
+      "treatment": "Hard Exclude",
+      "reason": "External plugins and OAuth (cf. diagrams.net \"External Plugins\")"
+    },
+    {
+      "feature": "Real-time sync across clients\nPresence, multi-device live sync",
+      "treatment": "Hard Exclude",
+      "reason": "Real-time infrastructure; local board state persistence is testable"
+    },
+    {
+      "feature": "Premium automation quotas\nButler command limits per plan",
+      "treatment": "Hard Exclude",
+      "reason": "Plan-gated features (cf. Spotify \"Premium / Billing\")"
+    },
+    {
+      "feature": "Board sharing and guest access\nPublic boards, guest invitations, cross-user access verification",
+      "treatment": "Conditional Exclude",
+      "reason": "Board visibility settings testable; cross-user access verification excluded"
+    },
+    {
+      "feature": "Email-to-board and notification delivery\nEmail integration, push notification delivery",
+      "treatment": "Conditional Exclude",
+      "reason": "In-app notification states testable; external delivery excluded (cf. Spotify \"Notifications\")"
+    },
+    {
+      "feature": "Butler natural-language commands\nNatural-language command interpretation",
+      "treatment": "Conditional Exclude",
+      "reason": "Rule builder and automation flows testable; NL command parsing excluded"
+    },
+    {
+      "feature": "Calendar / map view external sync\nExternal calendar integration, map data",
+      "treatment": "Conditional Exclude",
+      "reason": "In-app views testable; external sync and map data excluded (cf. Google Maps)"
+    },
+    {
+      "feature": "Template gallery content\nOfficial template marketplace content",
+      "treatment": "Default Exclude",
+      "reason": "Content dataset; template creation flow itself preserved"
+    },
+    {
+      "feature": "Visual cosmetic parity\nPixel-perfect card covers, board styling replication",
+      "treatment": "Default Exclude",
+      "reason": "Functional equivalence over pixel parity (cf. Desmos \"pixel-level rendering\")"
+    },
+    {
+      "feature": "Real board content assets\nReal boards/cards from production workspaces",
+      "treatment": "Default Exclude",
+      "reason": "Use synthetic fixture content (cf. Spotify \"Real catalog\")"
+    }
+  ]
+}

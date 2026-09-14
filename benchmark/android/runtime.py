@@ -302,7 +302,7 @@ class AndroidEmulatorRuntime(Runtime):
 
     def __init__(self, spec, work_dir: Path,
                  toolchain: AndroidToolchain | None = None,
-                 boot_timeout: int = 180, *, headed: bool = False,
+                 boot_timeout: int = 300, *, headed: bool = False,
                  lease_mode: str = "explore"):
         self.spec = spec
         self.work_dir = Path(work_dir)

@@ -1,0 +1,1638 @@
+{
+  "app_id": "cashew",
+  "graph_version": "1.0",
+  "session_id": "sess_20260911_170308_b40b50",
+  "generated_at": "2026-09-11T18:06:47.948955+00:00",
+  "nodes": [
+    {
+      "name": "Onboarding_SpendingHabits",
+      "description": "首次启动引导第 1 页，展示消费习惯追踪说明、三页进度点、灰色 Preview Demo 按钮与右下角前进箭头。",
+      "visual_evidence": [
+        1
+      ],
+      "entry_conditions": [
+        "首次启动应用"
+      ],
+      "observed_elements": [
+        "标题 Track your spending habits with Cashew!",
+        "说明文字",
+        "Preview Demo 按钮（视觉上灰色）",
+        "3 个分页点，第 1 个激活",
+        "右下角前进箭头"
+      ],
+      "confidence": 1.0,
+      "id": "state_onboarding_spendinghabits",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 0,
+      "updated_step": 0
+    },
+    {
+      "name": "Onboarding_CreateBudget",
+      "description": "引导第 2 页，可创建初始预算：金额、周期、起始日期与货币可调整。",
+      "visual_evidence": [
+        3
+      ],
+      "entry_conditions": [
+        "在引导第 1 页点击前进"
+      ],
+      "observed_elements": [
+        "Create a budget",
+        "金额 ¥0",
+        "周期 1 month",
+        "beginning September 1",
+        "Change Currency 按钮",
+        "返回与前进箭头",
+        "第 2 个分页点激活"
+      ],
+      "confidence": 1.0,
+      "id": "state_onboarding_createbudget",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 1,
+      "updated_step": 1
+    },
+    {
+      "name": "Onboarding_Navigation",
+      "description": "引导页可通过左右箭头前进与后退；点击第 1 页右下角箭头后切换至预算设置页。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 1,
+          "before_frame": 1,
+          "action": "点击右下角前进箭头",
+          "after_frame": 2,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_onboarding_navigation",
+      "type": "FEATURE",
+      "created_step": 1,
+      "updated_step": 1
+    },
+    {
+      "name": "CurrencyPicker",
+      "description": "底部货币选择面板，顶部有可搜索输入框，下面显示美元、欧元、日元、英镑、澳元、加元、瑞士法郎、人民币和瑞典克朗；人民币项以深色边框显示为当前选择。",
+      "visual_evidence": [
+        5
+      ],
+      "entry_conditions": [
+        "在预算引导页点击更改货币"
+      ],
+      "observed_elements": [
+        "货币选择标题",
+        "搜索输入框",
+        "九个可见货币选项",
+        "人民币项有选中边框"
+      ],
+      "confidence": 1.0,
+      "id": "state_currencypicker",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 2,
+      "updated_step": 2
+    },
+    {
+      "name": "AmountCalculator",
+      "description": "金额输入以底部计算器面板呈现，显示当前金额；提供数字、小数点、四则运算、退格键和设置金额按钮，零金额时按钮为灰色。",
+      "visual_evidence": [
+        9
+      ],
+      "entry_conditions": [
+        "点击预算金额"
+      ],
+      "observed_elements": [
+        "金额输入标题",
+        "当前金额显示",
+        "数字键盘",
+        "四则运算键",
+        "退格键",
+        "设置金额按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_amountcalculator",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 4,
+      "updated_step": 4
+    },
+    {
+      "name": "PeriodLengthInput",
+      "description": "点击预算周期数字打开底部数字面板，可输入正整数周期长度并通过设置周期长度按钮确认。",
+      "visual_evidence": [
+        21
+      ],
+      "entry_conditions": [
+        "点击预算周期数字"
+      ],
+      "observed_elements": [
+        "周期长度输入标题",
+        "当前数字",
+        "数字键盘",
+        "退格键",
+        "确认设置按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_periodlengthinput",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 10,
+      "updated_step": 10
+    },
+    {
+      "name": "PeriodPicker",
+      "description": "底部周期选择面板，提供自定义、每日、每周、每月、每年五种单选；当前每月被选中并有浅蓝底。",
+      "visual_evidence": [
+        25
+      ],
+      "entry_conditions": [
+        "点击预算周期单位"
+      ],
+      "observed_elements": [
+        "周期选择标题",
+        "五个单选项",
+        "每月当前选中"
+      ],
+      "confidence": 1.0,
+      "id": "state_periodpicker",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 12,
+      "updated_step": 12
+    },
+    {
+      "name": "BudgetStartDatePicker",
+      "description": "系统风格日期选择对话框，顶部显示所选日期，月历支持前后月切换；当前预算起始日为 2026 年 9 月 1 日，当前日 11 日以空心圆标记，底部有取消和确认。",
+      "visual_evidence": [
+        29
+      ],
+      "entry_conditions": [
+        "点击预算起始日期"
+      ],
+      "observed_elements": [
+        "所选日期标题",
+        "月份标题与前后箭头",
+        "月历",
+        "取消按钮",
+        "确认按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_budgetstartdatepicker",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 14,
+      "updated_step": 14
+    },
+    {
+      "name": "Onboarding_SignIn",
+      "description": "引导第 3 页欢迎页，提供 Google 登录以备份同步，也可不登录继续；左下角仍可返回。",
+      "visual_evidence": [
+        33
+      ],
+      "entry_conditions": [
+        "从预算页点击前进"
+      ],
+      "observed_elements": [
+        "Welcome to Cashew 标题",
+        "Google 登录按钮",
+        "备份同步说明",
+        "不登录继续按钮",
+        "第 3 个分页点激活",
+        "返回箭头"
+      ],
+      "confidence": 1.0,
+      "id": "state_onboarding_signin",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 16,
+      "updated_step": 16
+    },
+    {
+      "name": "NotificationPermission",
+      "description": "首次进入主界面时出现系统通知权限弹窗，询问是否允许发送通知，提供允许与不允许两个选项。",
+      "visual_evidence": [
+        35
+      ],
+      "entry_conditions": [
+        "在欢迎页选择不登录继续"
+      ],
+      "observed_elements": [
+        "通知铃铛图标",
+        "通知权限提问",
+        "允许按钮",
+        "不允许按钮",
+        "背景为主界面"
+      ],
+      "confidence": 1.0,
+      "id": "state_notificationpermission",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 17,
+      "updated_step": 17
+    },
+    {
+      "name": "Home_Empty",
+      "description": "离线主界面空状态。顶部账户卡显示 Bank、余额 0 美元、0 笔交易，旁边可新增账户；预算卡显示 1,000 美元剩余、月度进度和每日可用金额；下方为空图表与全部/支出/收入切换，右下有新增按钮，底部有首页、交易、预算、更多四个导航。",
+      "visual_evidence": [
+        37
+      ],
+      "entry_conditions": [
+        "完成引导且拒绝通知权限"
+      ],
+      "observed_elements": [
+        "Home 标题",
+        "更多操作按钮",
+        "Bank 账户卡",
+        "新增账户卡",
+        "Budget 预算卡",
+        "空图表",
+        "全部/支出/收入切换",
+        "新增浮动按钮",
+        "四项底部导航"
+      ],
+      "confidence": 1.0,
+      "id": "state_home_empty",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 18,
+      "updated_step": 18
+    },
+    {
+      "name": "Account",
+      "description": "账户保存名称、货币、余额与交易数量；引导完成后自动创建 Bank 美元账户。",
+      "confidence": 1.0,
+      "id": "data_account",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 18,
+      "updated_step": 18
+    },
+    {
+      "name": "Budget",
+      "description": "预算保存金额、周期、起始日与已用/剩余进度；引导设置 1,000 美元月预算。",
+      "confidence": 1.0,
+      "id": "data_budget",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 18,
+      "updated_step": 18
+    },
+    {
+      "name": "AddTransaction_Title",
+      "description": "新增交易页默认处于支出类型，页面显示返回、支出/收入切换和当前金额；进入后自动打开标题输入面板与系统键盘，面板含日期图标、标题输入框及选择分类按钮。",
+      "visual_evidence": [
+        39
+      ],
+      "entry_conditions": [
+        "点击主界面右下新增按钮"
+      ],
+      "observed_elements": [
+        "Add Transaction 标题",
+        "支出与收入切换",
+        "金额显示",
+        "标题输入面板",
+        "日期图标",
+        "标题输入框",
+        "选择分类按钮",
+        "系统键盘"
+      ],
+      "confidence": 1.0,
+      "id": "state_addtransaction_title",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 19,
+      "updated_step": 19
+    },
+    {
+      "name": "Transaction",
+      "description": "交易包含支出或收入类型、金额、标题、分类、日期，并关联账户。",
+      "confidence": 0.9,
+      "id": "data_transaction",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 19,
+      "updated_step": 19
+    },
+    {
+      "name": "TransactionCategoryPicker",
+      "description": "新增交易的分类选择面板。顶部可切换支出或收入，支出分类以彩色方形插图四列排列，包含餐饮、杂货、购物、交通、娱乐、账单费用、礼物、美容、工作、旅行、收入以及新增分类按钮。",
+      "visual_evidence": [
+        43
+      ],
+      "entry_conditions": [
+        "在交易标题面板点击选择分类"
+      ],
+      "observed_elements": [
+        "支出与收入类别切换",
+        "12 个可见分类/新增项",
+        "交易页日期与时间在背景显示"
+      ],
+      "confidence": 1.0,
+      "id": "state_transactioncategorypicker",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 21,
+      "updated_step": 21
+    },
+    {
+      "name": "Home_WithExpense",
+      "description": "保存一笔 25.50 美元杂货支出后，首页 Bank 余额变为 -25.50 美元且显示 1 笔交易；预算剩余变为 974.50 美元、进度 3%、每日可用约 48.73 美元，图表出现向下趋势线。",
+      "visual_evidence": [
+        57
+      ],
+      "entry_conditions": [
+        "保存第一笔支出交易"
+      ],
+      "observed_elements": [
+        "账户余额与交易数更新",
+        "预算剩余、百分比和每日可用金额更新",
+        "图表由空状态变为支出趋势"
+      ],
+      "confidence": 1.0,
+      "id": "state_home_withexpense",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 28,
+      "updated_step": 28
+    },
+    {
+      "name": "Transactions_MonthList",
+      "description": "交易列表页按月份横向切换，顶部有筛选和搜索；月度汇总条分别显示支出、收入与净额，交易按日期分组并显示分类图标、标题、金额，底部显示总现金流与交易数量，右下可新增。",
+      "visual_evidence": [
+        59
+      ],
+      "entry_conditions": [
+        "点击底部交易导航"
+      ],
+      "observed_elements": [
+        "Transactions 标题",
+        "筛选按钮",
+        "搜索按钮",
+        "月份横向切换",
+        "支出/收入/净额汇总",
+        "按日期分组的交易行",
+        "总现金流与数量",
+        "新增按钮",
+        "四项底部导航"
+      ],
+      "confidence": 1.0,
+      "id": "state_transactions_monthlist",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 29,
+      "updated_step": 29
+    },
+    {
+      "name": "EditTransaction",
+      "description": "点击交易进入编辑页。可删除、切换支出/收入、修改分类与金额、日期和时间；可设置默认/即将发生/订阅等状态，填写标题与备注，添加附件，展开更多选项并保存更改。",
+      "visual_evidence": [
+        61
+      ],
+      "entry_conditions": [
+        "点击交易列表中的交易行"
+      ],
+      "observed_elements": [
+        "返回与删除",
+        "Edit Transaction 标题",
+        "支出/收入切换",
+        "分类与金额区",
+        "日期和时间",
+        "状态选项",
+        "标题输入框",
+        "备注输入框",
+        "添加附件",
+        "更多选项",
+        "保存更改按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_edittransaction",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 30,
+      "updated_step": 30
+    },
+    {
+      "name": "CreateExpenseTransaction",
+      "description": "用户选择支出分类并输入正数金额后可保存；保存会扣减账户余额和预算剩余、增加交易计数并更新首页图表。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 28,
+          "before_frame": 55,
+          "action": "点击新增交易按钮确认保存 25.50 美元杂货支出",
+          "after_frame": 56,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_createexpensetransaction",
+      "type": "FEATURE",
+      "created_step": 33,
+      "updated_step": 33
+    },
+    {
+      "name": "ExcludeTransactionAmount",
+      "description": "编辑交易展开更多选项后可关闭计入金额；保存后交易仍保留但金额置灰，月度支出、净额与总现金流均不再计入该交易。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 33,
+          "before_frame": 65,
+          "action": "关闭计入金额后点击保存更改",
+          "after_frame": 66,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_excludetransactionamount",
+      "type": "FEATURE",
+      "created_step": 33,
+      "updated_step": 33
+    },
+    {
+      "name": "EditTransactionDetails",
+      "description": "编辑交易可修改自定义标题并切换是否计入金额；保存后列表立即显示新标题并重算月度汇总。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 40,
+          "before_frame": 79,
+          "action": "启用计入金额并保存标题 Weekly groceries",
+          "after_frame": 80,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_edittransactiondetails",
+      "type": "FEATURE",
+      "created_step": 40,
+      "updated_step": 40
+    },
+    {
+      "name": "TransactionSearch",
+      "description": "交易搜索页进入后自动聚焦搜索框并弹出键盘；可结合日期按钮和筛选按钮缩小范围，默认展示所有时间的匹配交易及总现金流和数量。",
+      "visual_evidence": [
+        83
+      ],
+      "entry_conditions": [
+        "点击交易页搜索按钮"
+      ],
+      "observed_elements": [
+        "返回按钮",
+        "Search 标题",
+        "搜索输入框",
+        "日期按钮",
+        "筛选按钮",
+        "当前匹配交易",
+        "总现金流、数量与 All Time 范围",
+        "系统键盘"
+      ],
+      "confidence": 1.0,
+      "id": "state_transactionsearch",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 41,
+      "updated_step": 41
+    },
+    {
+      "name": "TransactionSearch_Empty",
+      "description": "输入无匹配关键词后，交易列表替换为空状态插图和 No transactions found 提示，搜索词仍保留。",
+      "visual_evidence": [
+        87
+      ],
+      "entry_conditions": [
+        "在交易搜索框输入不匹配的关键词"
+      ],
+      "observed_elements": [
+        "搜索词 Coffee",
+        "空状态插图",
+        "No transactions found 提示"
+      ],
+      "confidence": 1.0,
+      "id": "state_transactionsearch_empty",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 43,
+      "updated_step": 43
+    },
+    {
+      "name": "SearchTransactions",
+      "description": "搜索框会按标题筛选交易；无匹配时显示专用空状态。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 42,
+          "before_frame": 83,
+          "action": "在搜索框输入 Coffee",
+          "after_frame": 84,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_searchtransactions",
+      "type": "FEATURE",
+      "created_step": 43,
+      "updated_step": 43
+    },
+    {
+      "name": "TransactionFilters",
+      "description": "筛选面板可按分类、金额范围、收入/支出、默认/即将发生/订阅/重复、已支付/未支付/已跳过，以及标题和备注包含文本组合过滤；底部支持重置和应用。",
+      "visual_evidence": [
+        91
+      ],
+      "entry_conditions": [
+        "在交易搜索或列表页点击筛选"
+      ],
+      "observed_elements": [
+        "分类横向列表",
+        "双端金额范围",
+        "收入与支出选项",
+        "状态与支付状态选项",
+        "标题包含输入框",
+        "备注包含输入框",
+        "重置与应用按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_transactionfilters",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 45,
+      "updated_step": 45
+    },
+    {
+      "name": "Budgets_List",
+      "description": "预算页展示预算卡列表。已有卡显示剩余金额、总额、周期日期、进度百分比和每日可用金额；空白加号卡可新增预算。右上有编辑按钮，右下仍有全局新增按钮。",
+      "visual_evidence": [
+        97
+      ],
+      "entry_conditions": [
+        "点击底部预算导航"
+      ],
+      "observed_elements": [
+        "Budgets 标题",
+        "编辑按钮",
+        "预算卡",
+        "历史/周期图标",
+        "新增预算空白卡",
+        "全局新增按钮",
+        "四项底部导航"
+      ],
+      "confidence": 1.0,
+      "id": "state_budgets_list",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 48,
+      "updated_step": 48
+    },
+    {
+      "name": "BudgetDetail",
+      "description": "预算详情页显示剩余金额、总额、当前周期进度与每日可用金额；下方以环形图和分类行展示各分类支出占比、金额与交易数量，并有趋势图。顶部可编辑或查看历史，右下可新增交易。",
+      "visual_evidence": [
+        99
+      ],
+      "entry_conditions": [
+        "点击预算卡"
+      ],
+      "observed_elements": [
+        "返回按钮",
+        "编辑与历史按钮",
+        "预算概览",
+        "进度条",
+        "环形分类图",
+        "分类支出明细",
+        "趋势图",
+        "新增按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_budgetdetail",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 49,
+      "updated_step": 49
+    },
+    {
+      "name": "EditBudget",
+      "description": "预算编辑页可删除并在支出预算与储蓄预算间切换；可修改名称、金额、周期和起始日，设置分类花费目标，选择颜色，选择要计入的交易类型与账户，并保存更改。",
+      "visual_evidence": [
+        101
+      ],
+      "entry_conditions": [
+        "在预算详情点击编辑"
+      ],
+      "observed_elements": [
+        "返回与删除",
+        "Edit Budget 标题",
+        "支出预算/储蓄预算切换",
+        "名称",
+        "金额、周期与起始日",
+        "当前周期",
+        "设置分类花费目标",
+        "颜色选择",
+        "计入交易类型",
+        "选择账户",
+        "保存更改按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_editbudget",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 50,
+      "updated_step": 50
+    },
+    {
+      "name": "CategorySpendingGoals",
+      "description": "分类花费目标页默认以百分比模式列出预算分类，每行显示分类图标、分类名、已分配预算值与可编辑百分比；顶部汇总已分配/总百分比，并可切换限额类型。",
+      "visual_evidence": [
+        105
+      ],
+      "entry_conditions": [
+        "在预算编辑页点击设置分类花费目标"
+      ],
+      "observed_elements": [
+        "返回按钮",
+        "Spending Goals 标题",
+        "限额类型下拉框",
+        "百分比分配汇总",
+        "分类列表",
+        "每行百分比输入"
+      ],
+      "confidence": 1.0,
+      "id": "state_categoryspendinggoals",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 52,
+      "updated_step": 52
+    },
+    {
+      "name": "BudgetHistory",
+      "description": "预算历史页以月份趋势图和周期卡列表展示当前与过去预算周期的剩余金额、总额与使用百分比；当前周期单独标记。顶部可返回、切换分类视角并编辑预算。",
+      "visual_evidence": [
+        115
+      ],
+      "entry_conditions": [
+        "在预算详情点击历史图标"
+      ],
+      "observed_elements": [
+        "History 与预算名称",
+        "趋势图",
+        "当前周期卡",
+        "多个历史月份卡",
+        "每卡使用百分比环",
+        "分类视角按钮",
+        "编辑按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_budgethistory",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 57,
+      "updated_step": 57
+    },
+    {
+      "name": "BudgetTypePicker",
+      "description": "新增预算先弹出类型选择：一种仅统计用户手动加入的交易，适合一次性自定义周期预算；另一种自动统计符合分类与过滤条件的全部交易，适合跨周期长期预算。背景可见支出/储蓄预算切换及名称、金额、周期表单。",
+      "visual_evidence": [
+        121
+      ],
+      "entry_conditions": [
+        "点击预算列表的空白加号卡"
+      ],
+      "observed_elements": [
+        "预算类型标题",
+        "两个大卡片选项",
+        "每项包含用途说明",
+        "背景新增预算表单"
+      ],
+      "confidence": 1.0,
+      "id": "state_budgettypepicker",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 60,
+      "updated_step": 60
+    },
+    {
+      "name": "BudgetDirectionPicker",
+      "description": "选择预算统计范围后继续选择预算方向：储蓄预算用于跟踪收入与储蓄，支出预算用于跟踪支出与消费。",
+      "visual_evidence": [
+        123
+      ],
+      "entry_conditions": [
+        "在新增预算类型第一步选择一种统计范围"
+      ],
+      "observed_elements": [
+        "预算类型标题",
+        "储蓄预算卡与说明",
+        "支出预算卡与说明"
+      ],
+      "confidence": 1.0,
+      "id": "state_budgetdirectionpicker",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 61,
+      "updated_step": 61
+    },
+    {
+      "name": "CreateBudget",
+      "description": "可新建命名预算并选择支出/储蓄方向、手动加入/全部交易范围、金额、周期、起始日与颜色；保存后与现有预算并列显示独立进度。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 72,
+          "before_frame": 143,
+          "action": "点击 Add Budget 保存名为 Trip 的 200 美元手动加入型月度支出预算",
+          "after_frame": 144,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "id": "feature_createbudget",
+      "type": "FEATURE",
+      "created_step": 72,
+      "updated_step": 72
+    },
+    {
+      "name": "ExtrasTop",
+      "description": "更多操作页以卡片网格集中入口：专业版、设置与自定义、全部支出汇总、关于、反馈、通知、登录、订阅、计划交易、目标与贷款；右上有帮助入口。",
+      "visual_evidence": [
+        147
+      ],
+      "entry_conditions": [
+        "点击底部更多导航"
+      ],
+      "observed_elements": [
+        "更多操作标题",
+        "帮助按钮",
+        "专业版推广卡",
+        "设置与自定义",
+        "全部支出汇总",
+        "关于与反馈",
+        "通知与登录",
+        "订阅与计划",
+        "目标与贷款",
+        "底部更多导航选中"
+      ],
+      "confidence": 1.0,
+      "id": "state_extrastop",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 73,
+      "updated_step": 73
+    },
+    {
+      "name": "SettingsTop",
+      "description": "设置页顶部含主题与偏好：强调色、Material You 开关、主题模式；可编辑首页、配置通知、启用生物识别锁、选择语言、进入更多样式/交易/账户/格式选项；工具区含账单拆分器。",
+      "visual_evidence": [
+        151
+      ],
+      "entry_conditions": [
+        "从更多页进入设置与自定义"
+      ],
+      "observed_elements": [
+        "返回与 Settings 标题",
+        "主题分组",
+        "强调色",
+        "Material You 开关",
+        "主题模式下拉框",
+        "编辑首页",
+        "通知",
+        "生物识别锁",
+        "语言",
+        "更多选项",
+        "账单拆分器"
+      ],
+      "confidence": 1.0,
+      "id": "state_settingstop",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 75,
+      "updated_step": 75
+    },
+    {
+      "name": "SettingsLower",
+      "description": "设置页下半部提供账单拆分器与交易活动日志；导入导出区可导出 CSV、导入 CSV 并获取模板、导入 Google Sheet 并打开模板；备份区可导出/导入数据文件及使用 Google Drive。",
+      "visual_evidence": [
+        153
+      ],
+      "entry_conditions": [
+        "在设置页向上滑动"
+      ],
+      "observed_elements": [
+        "账单拆分器",
+        "交易活动日志",
+        "导出 CSV",
+        "导入 CSV 与模板",
+        "导入 Google Sheet 与模板",
+        "导出数据文件",
+        "导入数据文件",
+        "Google Drive"
+      ],
+      "confidence": 1.0,
+      "id": "state_settingslower",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 76,
+      "updated_step": 76
+    },
+    {
+      "name": "AdvancedSettingsTop",
+      "description": "更多设置页按分组配置样式与交易行为。样式包括标题高度、图标风格、字体、应用动画、数字动画和高对比文本；交易包括自动支付逾期交易、已支付日期策略和日期横幅汇总方式。",
+      "visual_evidence": [
+        155
+      ],
+      "entry_conditions": [
+        "在设置页点击更多选项"
+      ],
+      "observed_elements": [
+        "标题高度下拉框",
+        "图标样式下拉框",
+        "字体",
+        "应用动画",
+        "数字动画",
+        "高对比文本开关",
+        "自动支付交易",
+        "已支付日期下拉框",
+        "日期横幅汇总下拉框"
+      ],
+      "confidence": 1.0,
+      "id": "state_advancedsettingstop",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 77,
+      "updated_step": 77
+    },
+    {
+      "name": "AdvancedSettingsMiddle",
+      "description": "更多设置中段含月度支出汇总开关；账户分组含账户标签、汇率和主货币；预算与目标可配置总计方式；标题分组可控制新增交易时是否询问标题及同时询问备注。",
+      "visual_evidence": [
+        157
+      ],
+      "entry_conditions": [
+        "在更多设置页向上滑动"
+      ],
+      "observed_elements": [
+        "月度支出汇总开关",
+        "账户标签开关",
+        "汇率入口",
+        "主货币",
+        "预算总计类型",
+        "目标总计类型",
+        "询问交易标题开关",
+        "随标题询问备注开关"
+      ],
+      "confidence": 1.0,
+      "id": "state_advancedsettingsmiddle",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 78,
+      "updated_step": 78
+    },
+    {
+      "name": "AdvancedSettingsLower",
+      "description": "更多设置下段可自动将交易标题加入标题库；可配置总额小组件的账户与周期、主题和背景透明度；格式化选项包括数字格式、百分比精度、时钟格式与数字键盘布局。",
+      "visual_evidence": [
+        161
+      ],
+      "entry_conditions": [
+        "继续向上滑动更多设置"
+      ],
+      "observed_elements": [
+        "自动加入标题开关",
+        "总额小组件配置",
+        "小组件主题",
+        "背景透明度滑杆",
+        "数字格式",
+        "百分比精度",
+        "时钟格式",
+        "数字键盘格式"
+      ],
+      "confidence": 1.0,
+      "id": "state_advancedsettingslower",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 80,
+      "updated_step": 80
+    },
+    {
+      "name": "AllSpendingSummary",
+      "description": "全部支出汇总页可在当前与历史间切换，选择时间范围并筛选；显示净额、支出/收入次数与金额，支持流出/流入切换，并用环形图展示分类构成，右下可新增交易。",
+      "visual_evidence": [
+        167
+      ],
+      "entry_conditions": [
+        "从更多页进入全部支出汇总"
+      ],
+      "observed_elements": [
+        "返回与 All Spending 标题",
+        "Current/History 切换",
+        "All Time 范围",
+        "筛选按钮",
+        "净总额卡",
+        "支出和收入汇总",
+        "流出/流入切换",
+        "分类环形图",
+        "新增按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_allspendingsummary",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 83,
+      "updated_step": 83
+    },
+    {
+      "name": "AccountList",
+      "description": "账户管理页支持返回、新增、搜索、账户标签与汇率配置；账户卡显示名称、余额、货币、主账户标记、交易数量，并带拖动排序把手，右下也可新增。",
+      "visual_evidence": [
+        173
+      ],
+      "entry_conditions": [
+        "从更多页点击账户"
+      ],
+      "observed_elements": [
+        "Edit Accounts 标题",
+        "顶部新增按钮",
+        "搜索账户输入框",
+        "账户标签开关",
+        "汇率入口",
+        "Bank 账户卡",
+        "主账户星标",
+        "拖动把手",
+        "右下新增按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_accountlist",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 86,
+      "updated_step": 86
+    },
+    {
+      "name": "EditAccount",
+      "description": "账户编辑页可修改名称和颜色，合并账户，校正总余额，设置小数精度，搜索并选择账户货币；货币以卡片网格展示，保存按钮在无更改时为灰色。",
+      "visual_evidence": [
+        175
+      ],
+      "entry_conditions": [
+        "点击账户卡"
+      ],
+      "observed_elements": [
+        "返回与 Edit Account 标题",
+        "账户名称",
+        "颜色选择",
+        "合并账户",
+        "校正总余额",
+        "小数精度",
+        "货币搜索",
+        "货币卡片网格",
+        "保存更改"
+      ],
+      "confidence": 1.0,
+      "id": "state_editaccount",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 87,
+      "updated_step": 87
+    },
+    {
+      "name": "CorrectAccountBalance",
+      "description": "校正账户总余额使用底部计算器面板：显示账户名、当前余额到目标余额的变化及差额；可切换负数金额，支持四则运算，底部确认更新总余额。",
+      "visual_evidence": [
+        177
+      ],
+      "entry_conditions": [
+        "在账户编辑页点击校正总余额"
+      ],
+      "observed_elements": [
+        "Correct Balance 标题",
+        "账户名",
+        "当前到目标余额",
+        "差额",
+        "负数金额开关",
+        "计算器",
+        "更新总余额按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_correctaccountbalance",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 88,
+      "updated_step": 88
+    },
+    {
+      "name": "AddAccount",
+      "description": "新增账户页包含名称、颜色、期初余额、小数精度、货币搜索和货币卡片网格；底部按钮会提示先设置名称，名称完成后可继续保存。",
+      "visual_evidence": [
+        183
+      ],
+      "entry_conditions": [
+        "在账户列表点击新增"
+      ],
+      "observed_elements": [
+        "返回与 Add Account 标题",
+        "名称输入",
+        "颜色选择",
+        "期初余额",
+        "小数精度",
+        "货币搜索",
+        "货币网格",
+        "底部步骤按钮"
+      ],
+      "confidence": 1.0,
+      "id": "state_addaccount",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 91,
+      "updated_step": 91
+    },
+    {
+      "name": "CreateAccount",
+      "description": "Users can add a named account with a color, starting balance, decimal precision, and currency. The new account appears in the account list and its starting balance counts as a transaction.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 102,
+          "before_frame": 202,
+          "action": "Tap Add Account after entering Cash, choosing a starting amount, and selecting the dollar currency",
+          "after_frame": 203,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_createaccount",
+      "type": "FEATURE",
+      "created_step": 102,
+      "updated_step": 102
+    },
+    {
+      "name": "AccountsMultiple",
+      "description": "The account management page shows a primary Bank account and a second Cash account. Cards display native balance, transaction count, favorite, delete and reorder controls.",
+      "visual_evidence": [],
+      "entry_conditions": [
+        "Open More",
+        "Tap Accounts",
+        "Add a second account"
+      ],
+      "observed_elements": [
+        "Search field",
+        "Account Label toggle",
+        "Exchange Rates row",
+        "Bank primary card",
+        "Cash card with starting balance",
+        "Add account controls"
+      ],
+      "confidence": 0.99,
+      "id": "state_accountsmultiple",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 102,
+      "updated_step": 102
+    },
+    {
+      "name": "CategoryManagement",
+      "description": "A tall card list of expense categories shows colorful illustrated icons, category name, type, usage count, delete button, and drag handle. Search and add controls are available.",
+      "visual_evidence": [],
+      "entry_conditions": [
+        "Open More",
+        "Tap Categories"
+      ],
+      "observed_elements": [
+        "Search categories field",
+        "Add category controls",
+        "Dining card",
+        "Groceries card with one transaction",
+        "Shopping card",
+        "Transit card",
+        "Entertainment card",
+        "Bills and Fees card"
+      ],
+      "confidence": 0.99,
+      "id": "state_categorymanagement",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 104,
+      "updated_step": 104
+    },
+    {
+      "name": "EditCategory",
+      "description": "The category editor supports expense or income type, illustrated icon and name, color selection, merging, subcategory conversion, child subcategories, associated title phrases, deletion, and saving.",
+      "visual_evidence": [],
+      "entry_conditions": [
+        "Open category management",
+        "Tap Groceries"
+      ],
+      "observed_elements": [
+        "Expense and Income segmented control",
+        "Category illustration and name",
+        "Color palette",
+        "Merge Category",
+        "Convert Into Subcategory",
+        "Subcategories area",
+        "Associated Titles explanation",
+        "Save Changes"
+      ],
+      "confidence": 0.99,
+      "id": "state_editcategory",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 105,
+      "updated_step": 105
+    },
+    {
+      "name": "TitleManagement",
+      "description": "Title management offers search, switches controlling title prompts, note prompting, and automatic title creation, plus a list of remembered titles associated with categories.",
+      "visual_evidence": [],
+      "entry_conditions": [
+        "Open More",
+        "Tap Titles"
+      ],
+      "observed_elements": [
+        "Search titles field",
+        "Ask For Transaction Title enabled",
+        "Ask For Note With Title disabled",
+        "Automatically Add Titles enabled",
+        "Weekly groceries title linked to groceries",
+        "Add title controls"
+      ],
+      "confidence": 0.99,
+      "id": "state_titlemanagement",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 108,
+      "updated_step": 108
+    },
+    {
+      "name": "ScheduledEmpty",
+      "description": "The Scheduled page summarizes averaged monthly upcoming amount, offers Monthly, Yearly and Total ranges, filters for All, Upcoming and Overdue, search, settings, and an empty illustration with add control.",
+      "visual_evidence": [],
+      "entry_conditions": [
+        "Open More",
+        "Tap Scheduled"
+      ],
+      "observed_elements": [
+        "Scheduled title",
+        "Average upcoming amount",
+        "Monthly Yearly Total selector",
+        "All Upcoming Overdue filter",
+        "Search button",
+        "Empty illustration",
+        "Add control"
+      ],
+      "confidence": 0.99,
+      "id": "state_scheduledempty",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 110,
+      "updated_step": 110
+    },
+    {
+      "name": "SubscriptionsEmpty",
+      "description": "The Subscriptions page shows monthly subscription total, Monthly, Yearly and Total ranges, settings, an empty illustration, and an add control.",
+      "visual_evidence": [],
+      "entry_conditions": [
+        "Open More",
+        "Tap Subscriptions"
+      ],
+      "observed_elements": [
+        "Subscriptions title",
+        "Monthly subscriptions total",
+        "Monthly Yearly Total selector",
+        "Empty illustration",
+        "Add control"
+      ],
+      "confidence": 0.99,
+      "id": "state_subscriptionsempty",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 117,
+      "updated_step": 117
+    },
+    {
+      "name": "GoalsEmpty",
+      "description": "The Goals page presents a large add card and faded sample goal cards demonstrating names, target dates, transaction counts, progress bars and saved versus target amounts.",
+      "visual_evidence": [],
+      "entry_conditions": [
+        "Open More",
+        "Tap Goals"
+      ],
+      "observed_elements": [
+        "Goals title",
+        "Edit control",
+        "Large add goal card",
+        "Example Goals label",
+        "Trip Savings Jar sample",
+        "Car Loan Payment sample"
+      ],
+      "confidence": 0.99,
+      "id": "state_goalsempty",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 119,
+      "updated_step": 119
+    },
+    {
+      "name": "GoalTypePicker",
+      "description": "A bottom sheet distinguishes Savings goals that collect income toward a target from Expense goals that track spending or repayment installments.",
+      "visual_evidence": [],
+      "entry_conditions": [
+        "Open Goals",
+        "Tap add goal"
+      ],
+      "observed_elements": [
+        "Savings goal explanation",
+        "Expense goal explanation",
+        "Dimmed Add Goal form behind sheet"
+      ],
+      "confidence": 0.99,
+      "id": "state_goaltypepicker",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 120,
+      "updated_step": 120
+    },
+    {
+      "name": "AddGoal",
+      "description": "The goal form has expense and savings modes, image, name, color, target amount, start date and optional end date, with a progressive bottom action.",
+      "visual_evidence": [],
+      "entry_conditions": [
+        "Open Goals",
+        "Tap add",
+        "Choose a goal type"
+      ],
+      "observed_elements": [
+        "Expense goal and Savings goal selector",
+        "Goal image",
+        "Name field",
+        "Color palette",
+        "Goal amount",
+        "Today start date",
+        "Until Forever end date",
+        "Set Name action"
+      ],
+      "confidence": 0.99,
+      "id": "state_addgoal",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 121,
+      "updated_step": 121
+    },
+    {
+      "name": "LoansEmpty",
+      "description": "The Loans page summarizes total and transaction count, filters All, Lent and Borrowed, provides search, and shows an empty illustration plus add control.",
+      "visual_evidence": [],
+      "entry_conditions": [
+        "Open More",
+        "Tap Loans"
+      ],
+      "observed_elements": [
+        "Loans title",
+        "Total amount and transaction count",
+        "All Lent Borrowed selector",
+        "Search",
+        "Empty illustration",
+        "Add control"
+      ],
+      "confidence": 0.99,
+      "id": "state_loansempty",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 124,
+      "updated_step": 124
+    },
+    {
+      "name": "LoanTypePicker",
+      "description": "Adding a loan opens a sheet for Long Term Loan paid or collected in installments, or One Time Loan paid or collected once.",
+      "visual_evidence": [],
+      "entry_conditions": [
+        "Open Loans",
+        "Tap add"
+      ],
+      "observed_elements": [
+        "Long Term Loan choice",
+        "One Time Loan choice"
+      ],
+      "confidence": 0.99,
+      "id": "state_loantypepicker",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 125,
+      "updated_step": 125
+    },
+    {
+      "name": "HomeMultipleAccounts",
+      "description": "Home horizontally lists Bank and Cash account cards with independent balances and transaction counts, plus an add-account card. The primary Bank card is selected and a budget summary and trend chart appear below.",
+      "visual_evidence": [],
+      "entry_conditions": [
+        "Complete onboarding",
+        "Create another account",
+        "Open Home"
+      ],
+      "observed_elements": [
+        "Bank card negative balance",
+        "Cash card positive balance",
+        "Add account card",
+        "Budget progress card",
+        "Trend chart",
+        "Bottom navigation",
+        "Floating add button"
+      ],
+      "confidence": 0.99,
+      "id": "state_homemultipleaccounts",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 128,
+      "updated_step": 128
+    },
+    {
+      "name": "CreateIncomeTransaction",
+      "description": "Users can switch the transaction type to Income, choose the income category and target account, enter an amount, and save it. The account balance and transaction count update while an expense budget remains unchanged.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 140,
+          "before_frame": 263,
+          "action": "Tap Add Transaction for a Salary income of one thousand dollars into Cash",
+          "after_frame": 264,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_createincometransaction",
+      "type": "FEATURE",
+      "created_step": 140,
+      "updated_step": 140
+    },
+    {
+      "name": "TransactionsMixed",
+      "description": "The monthly transaction list displays an expense, an income, and a balance correction together. Summary separates expense and income, while total cash flow includes all three transactions.",
+      "visual_evidence": [],
+      "entry_conditions": [
+        "Create an expense",
+        "Add a second account with starting balance",
+        "Create an income",
+        "Open Transactions"
+      ],
+      "observed_elements": [
+        "Month strip",
+        "Expense summary",
+        "Income summary",
+        "Net summary",
+        "Salary income row",
+        "Balance Correction row",
+        "Weekly groceries expense row",
+        "Total cash flow and transaction count"
+      ],
+      "confidence": 0.99,
+      "id": "state_transactionsmixed",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 141,
+      "updated_step": 141
+    },
+    {
+      "name": "BalanceTransfer",
+      "description": "The balance transfer sheet includes a title, date and time, an origin account, a receiving account, amount, arithmetic keypad and a bottom action. Tapping the receiving side opens a list showing account balances.",
+      "visual_evidence": [],
+      "entry_conditions": [
+        "Open Add Transaction",
+        "Choose Transfer"
+      ],
+      "observed_elements": [
+        "Transfer Balance heading",
+        "Title entry",
+        "Date and time",
+        "Cash origin card",
+        "Receiving account field",
+        "Amount display",
+        "Arithmetic keypad",
+        "Bank and Cash account choices"
+      ],
+      "confidence": 0.99,
+      "id": "state_balancetransfer",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 146,
+      "updated_step": 146
+    },
+    {
+      "name": "TransferBetweenAccounts",
+      "description": "A transfer moves value between two accounts, creates linked incoming and outgoing rows, and leaves the expense, income and net summary unchanged.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 150,
+          "before_frame": 280,
+          "action": "Transfer fifty dollars from Cash to Bank",
+          "after_frame": 281,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_transferbetweenaccounts",
+      "type": "FEATURE",
+      "created_step": 150,
+      "updated_step": 150
+    },
+    {
+      "name": "EditHome",
+      "description": "The Home editor lets the user enable, disable and reorder dashboard sections. Visible options include the banner, account cards, account list, budgets, goals, income and expenses, net worth, overdue and upcoming, loans, and long term loans.",
+      "visual_evidence": [],
+      "entry_conditions": [
+        "Open Home",
+        "Tap the top-right menu"
+      ],
+      "observed_elements": [
+        "Dashboard section cards",
+        "On and off switches",
+        "Drag handles",
+        "Homepage Banner enabled",
+        "Accounts enabled",
+        "Budgets enabled",
+        "Optional financial modules disabled"
+      ],
+      "confidence": 0.99,
+      "id": "state_edithome",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 152,
+      "updated_step": 152
+    },
+    {
+      "name": "PersistFinanceData",
+      "description": "After restarting, onboarding stays completed and the two accounts, balances, transactions, budgets and selected Home account remain present. The denied notification prompt is requested again.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 154,
+          "before_frame": 287,
+          "action": "Restart the application",
+          "after_frame": 288,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_persistfinancedata",
+      "type": "FEATURE",
+      "created_step": 155,
+      "updated_step": 155
+    }
+  ],
+  "edges": [
+    {
+      "source": "state_onboarding_spendinghabits",
+      "target": "state_onboarding_createbudget",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 1,
+          "before_frame": 1,
+          "action": "点击右下角前进箭头",
+          "after_frame": 2,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0001",
+      "created_step": 1
+    },
+    {
+      "source": "data_transaction",
+      "target": "data_account",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 28,
+          "before_frame": 55,
+          "action": "点击新增交易按钮确认保存 25.50 美元杂货支出",
+          "after_frame": 56,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "支出使账户余额减少并增加交易数",
+      "id": "edge_0002",
+      "created_step": 33
+    },
+    {
+      "source": "data_transaction",
+      "target": "data_budget",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 28,
+          "before_frame": 55,
+          "action": "点击新增交易按钮确认保存 25.50 美元杂货支出",
+          "after_frame": 56,
+          "note": null
+        }
+      ],
+      "confidence": 1.0,
+      "status": "confirmed",
+      "note": "支出扣减预算剩余并更新进度",
+      "id": "edge_0003",
+      "created_step": 33
+    }
+  ],
+  "unresolved_questions": [],
+  "coverage_summary": {
+    "states": 51,
+    "features": 10,
+    "data_entities": 3,
+    "edges": 3,
+    "confirmed_ratio": 1.0,
+    "actions_used": 155
+  }
+}
