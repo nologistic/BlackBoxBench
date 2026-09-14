@@ -122,6 +122,15 @@
 
 ## 核心目录
 
+**工作区布局（2026-09-15 起）**：仓库位于 `d:\llm\benchmark app\repo\`，其上级
+`d:\llm\benchmark app\` 是运行工作区：`scratch/`（易失运行态，见下）与 `tmp/`
+（进程级 TMP/TEMP 重定向目标）与仓库平级。`benchmark/config.py` 在 import 时把
+`TMP`/`TEMP` 重定向到工作区 `tmp/`（显式环境变量优先；`BBB_KEEP_SYSTEM_TMP=1`
+可退出），使 `tempfile.mkdtemp()` 创建的全部临时目录（复现工作区 `bbb-repro-*`、
+复测 `bbb-review-*`、构建 `bbb-app-repro-*` 等）收拢到工作区、不散落系统 temp。
+IDE/客户端的项目根应打开 `repo/` 而不是工作区根——批量删除保护等 IDE 机制
+只应覆盖仓库，不应覆盖 scratch/tmp 的会话清理。
+
 - `benchmark/orchestrator/`：Session、预算、生命周期、目标注册和 live precheck。
 - `benchmark/runtime/`：Local、Live、Docker pixels+HID Runtime。
 - `benchmark/scratch.py`：仓库外易失运行态（浏览器 profile、AVD clone）与按 owner
@@ -145,6 +154,10 @@
   `artifacts/` 由可信侧管理。`evaluations/` 存放 app-review 清单评测产物。
 - `app_reproduction/materials/apps/`：20 个 per-app 复现素材包
   （CATALOG.md + SUPPLEMENT.md + 虚构实体素材）。
+- `android_apks/`：Android 数据集 26 目标的原始 APK 分发副本（718MB，
+  sha256 与 `runs/android_targets/artifacts/` 一致；`NOTICE.md` 非盈利学术
+  声明、`APK_MANIFEST.md` 许可证清单、`scripts/restore_android_apks.py`
+  一键恢复到运行位置；joplin 超 100MB 拆双卷）。
 - `review_specs/`：人工功能要求清单（web/android 各数据集，`Checklist` 校验；
   app_id 与目标注册一一对应）。
 - `cache/`：2026-09-07 环境改版前的 Android 端历史产物归档（4 个复现交接、
@@ -171,7 +184,7 @@
 - Android 模拟器启动前必须做内存准入（`BBB_ANDROID_MIN_FREE_MB`，默认 5120）。
   宿主内存不足时 adb 不会干净失败，而是随机丢单条命令；必须明确拒绝而非放行。
 - 每个会话的 AVD clone 数 GB、浏览器 profile 数百文件，都是易失运行态，必须建在
-  **仓库之外**的 scratch（`BBB_SCRATCH_DIR`，默认 `%TEMP%/blackboxbench-scratch`，
+  **仓库之外**的 scratch（`BBB_SCRATCH_DIR`，默认为仓库上级工作区的 `scratch/`，
   见 `benchmark/scratch.py`）。`runs/` 只存证据（帧、轨迹、拓扑）与诊断日志。
   scratch 目录名带 owner PID，崩溃遗留在下次启动前自动回收，无需登记表。唯一例外
   是 Android login 维护：其 clone 保留在 `runs/android_targets/login_work/` 固定
@@ -244,7 +257,10 @@ vendor/python/python.exe scripts/android_target_smoke.py --app <app_id>
 ## Session 清理
 
 测试必须使用 pytest 临时目录，不得写正式 `runs/`。跑 pytest 必须带
-`--basetemp=.test-tmp/<name>`，否则 IDE 的批量删除保护会中断清理。自建工具测试必须
+`--basetemp=.test-tmp/<name>`，否则 IDE 的批量删除保护会中断清理。
+`.test-tmp/` 目录必须预先存在——pytest 的 given basetemp 不会创建父目录，
+目录被删后直接跑 pytest 会全量 setup 报 `WinError 3`（先 `mkdir .test-tmp`）。
+自建工具测试必须
 mock Docker，不能实际创建 `runs/self_*`。清理 `runs/` 前先查询
 `GET /api/sessions` 并确认没有 running Session，再停止相关 Controller/MCP/Chrome
 进程。只清理 `runs/sess_*`；`runs/live_targets/` 是敏感登录资料，必须保留。
