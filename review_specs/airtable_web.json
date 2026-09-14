@@ -1,0 +1,335 @@
+{
+  "checklist_id": "airtable_web",
+  "platform": "web",
+  "features": [
+    {
+      "id": "f01",
+      "name": "Tables",
+      "steps": [
+        "Create two tables named Projects and Tasks. Set the primary fields to Project Name and Task Name, then add three project records and five task records with clearly distinguishable names."
+      ],
+      "expected": "Two tables must be created with correct primary fields; three project and five task records must exist with distinguishable names.",
+      "persistence": false
+    },
+    {
+      "id": "f02",
+      "name": "Fields",
+      "steps": [
+        "In the Tasks table, create fields named Notes, Priority, Status, Due Date, Completed, and Cost using appropriate field types. Configure Priority with High, Medium, and Low, and configure Status with Todo, In progress, and Done."
+      ],
+      "expected": "All six fields must be created with appropriate types; Priority and Status single-selects must contain the specified options.",
+      "persistence": false
+    },
+    {
+      "id": "f03",
+      "name": "Records",
+      "steps": [
+        "Populate five task records with different priorities, statuses, due dates, completion states, and costs. Update one existing record without creating a duplicate and verify that the original record reflects all requested values."
+      ],
+      "expected": "Five records must reflect the specified values; updating one record must not create a duplicate and the original record reflects all requested values.",
+      "persistence": false
+    },
+    {
+      "id": "f04",
+      "name": "Link to another record",
+      "steps": [
+        "Add a Project field to the Tasks table that links to Projects. Link multiple tasks to the correct projects and verify that the reciprocal task links appear in the Projects table."
+      ],
+      "expected": "Links must connect tasks to the correct projects; reciprocal links appear in the Projects table.",
+      "persistence": false
+    },
+    {
+      "id": "f05",
+      "name": "Lookup",
+      "steps": [
+        "Add a Project Owner field to Tasks that looks up the Owner value from each linked project. Change an owner's value in Projects and verify that the lookup value updates automatically in Tasks."
+      ],
+      "expected": "Lookup must return the linked project's Owner; changing the owner value updates the lookup automatically.",
+      "persistence": false
+    },
+    {
+      "id": "f06",
+      "name": "Count",
+      "steps": [
+        "Add a Task Count field to Projects that automatically counts the number of linked task records. Add one more task to a project and verify that its count increases without manually editing the count field."
+      ],
+      "expected": "Count must reflect linked tasks automatically; adding a task increases the count without manual editing.",
+      "persistence": false
+    },
+    {
+      "id": "f07",
+      "name": "Rollup",
+      "steps": [
+        "Add a Total Task Cost field to Projects that sums the Cost values of all linked tasks. Verify the total against the underlying task records."
+      ],
+      "expected": "Rollup must sum linked task costs correctly, matching the underlying records.",
+      "persistence": false
+    },
+    {
+      "id": "f08",
+      "name": "Rollup",
+      "steps": [
+        "Create a conditional rollup named Open Task Cost that sums only linked tasks whose Status is not Done, and verify that changing a task to Done changes the project total."
+      ],
+      "expected": "Conditional rollup must include only non-Done tasks; changing a task to Done updates the project total.",
+      "persistence": false
+    },
+    {
+      "id": "f09",
+      "name": "Formula",
+      "steps": [
+        "Add a formula field named Task Health that returns Overdue when the due date is before today and the task is not done, and returns On track otherwise. Verify the result using records with different dates and statuses."
+      ],
+      "expected": "Formula must return Overdue/On track correctly for different dates and statuses.",
+      "persistence": false
+    },
+    {
+      "id": "f10",
+      "name": "Link to another record / Lookup / Formula / Rollup",
+      "steps": [
+        "Create an Order Line Items junction table between existing Orders and Products tables. Add a Quantity field, look up the product unit price, calculate each line total, and roll the line totals up into a Total field on each order."
+      ],
+      "expected": "Junction table must link Orders and Products; line totals must compute correctly and roll up into the order Total.",
+      "persistence": false
+    },
+    {
+      "id": "f11",
+      "name": "Grid view",
+      "steps": [
+        "Create a view named Open Work that contains the existing task data but only exposes fields useful for active task execution. Make sure editing a record in this view updates the same underlying record in the original view."
+      ],
+      "expected": "Open Work view must expose only useful fields; editing a record there updates the same underlying record.",
+      "persistence": false
+    },
+    {
+      "id": "f12",
+      "name": "Filter",
+      "steps": [
+        "Configure Open Work to show only records where Status is not Done. Verify that changing a displayed record to Done removes it from this view without deleting the record."
+      ],
+      "expected": "Filter must show only non-Done records; changing a record to Done removes it from the view without deleting it.",
+      "persistence": false
+    },
+    {
+      "id": "f13",
+      "name": "Filter",
+      "steps": [
+        "Create a view named Critical Work that shows records where Priority is High and where Status is either Todo or In progress. Use a condition group rather than creating duplicate records."
+      ],
+      "expected": "Critical Work view must show High priority Todo/In progress records using a condition group, not duplicate records.",
+      "persistence": false
+    },
+    {
+      "id": "f14",
+      "name": "Group",
+      "steps": [
+        "Create a view named Work by Status, group the records by Status, and verify that records appear under the correct groups after changing one record's status."
+      ],
+      "expected": "Grouping must place records under the correct groups; changing a record's status updates its group.",
+      "persistence": false
+    },
+    {
+      "id": "f15",
+      "name": "Sort",
+      "steps": [
+        "In Work by Status, sort records first by Priority and then by Due Date so higher-priority and earlier-due work is ordered consistently within the view."
+      ],
+      "expected": "Sorting by Priority then Due Date must order records consistently within the view.",
+      "persistence": false
+    },
+    {
+      "id": "f16",
+      "name": "Hide fields",
+      "steps": [
+        "Configure an execution-focused view so that only Task Name, Project, Assignee, Priority, Status, and Due Date are visible, while preserving all hidden field data in the underlying table."
+      ],
+      "expected": "Only the specified fields are visible; hidden field data remains intact in the underlying table.",
+      "persistence": false
+    },
+    {
+      "id": "f17",
+      "name": "Color",
+      "steps": [
+        "Configure a task view to color records using the Status single-select field and verify that changing a record's status also changes its record color."
+      ],
+      "expected": "Record colors must follow the Status field; changing status changes the color.",
+      "persistence": false
+    },
+    {
+      "id": "f18",
+      "name": "Color",
+      "steps": [
+        "Configure record coloring with conditions so that overdue unfinished tasks are visually distinguished from tasks that are not overdue. Do not change the underlying status values to achieve the coloring."
+      ],
+      "expected": "Conditional coloring must visually distinguish overdue unfinished tasks without changing status values.",
+      "persistence": false
+    },
+    {
+      "id": "f19",
+      "name": "Automations / When record matches conditions / Update record",
+      "steps": [
+        "Create an automation that triggers when a task's Status becomes Done and automatically checks its Completed field. Test the trigger and action, turn the automation on, then change a qualifying record and verify the result."
+      ],
+      "expected": "Automation must trigger on Status = Done and check Completed; enabling and testing verify the action runs.",
+      "persistence": false
+    },
+    {
+      "id": "f20",
+      "name": "Automations / When record is created / Create record",
+      "steps": [
+        "Create an automation that adds a new record to an Activity Log table whenever a task is created. Copy the triggering task name and its record identifier into the new log record using dynamic values rather than fixed text."
+      ],
+      "expected": "Automation must create a log record when a task is created, copying dynamic values (task name and record ID) rather than fixed text.",
+      "persistence": false
+    },
+    {
+      "id": "f21",
+      "name": "Automations / When record is updated / Create record",
+      "steps": [
+        "Create an automation that monitors only the Status field in Tasks. When the field changes, create a history record containing the task name and the new status. Verify that editing an unrelated field does not create the same history event."
+      ],
+      "expected": "Automation must monitor only the Status field; status changes create history records; unrelated edits do not.",
+      "persistence": false
+    },
+    {
+      "id": "f22",
+      "name": "Automations / When record matches conditions / Create record / Update record",
+      "steps": [
+        "When a project reaches Approved, automatically create a linked follow-up task named after the project and update a Follow-up Created checkbox on the triggering project. Use values from the trigger record instead of manually entering a project name."
+      ],
+      "expected": "Automation must create a linked follow-up task named after the project and update the Follow-up checkbox using trigger values.",
+      "persistence": false
+    },
+    {
+      "id": "f23",
+      "name": "Find records / Sort list",
+      "steps": [
+        "When a project enters review, find all incomplete tasks linked to that project, sort the result by Due Date ascending, and use the sorted output in a later automation step. Test the search and ordering with multiple matching records."
+      ],
+      "expected": "Find records must return all incomplete linked tasks sorted by Due Date ascending for later steps.",
+      "persistence": false
+    },
+    {
+      "id": "f24",
+      "name": "Find records / Update record",
+      "steps": [
+        "Build an automation that finds an existing record in another table using a unique project code and updates that exact record using the record ID returned by Find records. Do not hard-code a record ID."
+      ],
+      "expected": "Find records must locate the record by unique project code and update exactly that record using the returned ID (no hard-coding).",
+      "persistence": false
+    },
+    {
+      "id": "f25",
+      "name": "Conditional logic",
+      "steps": [
+        "Build an automation with conditional action groups so that a High priority task is assigned an Escalated routing value, while lower-priority tasks receive Standard. Test records that exercise both branches and verify that only the appropriate branch runs."
+      ],
+      "expected": "Conditional action groups must route High priority tasks to Escalated and others to Standard; only the appropriate branch runs.",
+      "persistence": false
+    },
+    {
+      "id": "f26",
+      "name": "Repeating group",
+      "steps": [
+        "When a project's Status becomes Archived, find all tasks linked to that project and use a repeating group to update every matching task to Archived. Verify the workflow with a project containing multiple task records."
+      ],
+      "expected": "Repeating group must update every matching linked task to Archived when a project is archived.",
+      "persistence": false
+    },
+    {
+      "id": "f27",
+      "name": "When record enters a view / Update record",
+      "steps": [
+        "Create a Ready for QA view and an automation that triggers when a record enters that view. Update a QA Entered field on the triggering record, then modify a task so that it enters the view and verify the automation result."
+      ],
+      "expected": "Automation must trigger when a record enters the view and update the QA Entered field; task entering the view verifies the result.",
+      "persistence": false
+    },
+    {
+      "id": "f28",
+      "name": "Automations",
+      "steps": [
+        "Diagnose an automation containing an incomplete trigger or action mapping, repair all required configurations, test each step successfully, turn the automation on, trigger it with a record change, and verify the final record state."
+      ],
+      "expected": "All incomplete trigger/action mappings must be repaired; each step tests successfully; the enabled automation produces the correct final record state.",
+      "persistence": false
+    }
+  ],
+  "exclusions": [
+    {
+      "feature": "Start with Omni / Build with Omni",
+      "treatment": "排除",
+      "reason": "任务本身由另一套 AI Agent 完成，结果具有生成式不确定性，测到的是 Omni，而不是被测 Agent。"
+    },
+    {
+      "feature": "Analyze attachment / Research companies / Find image from web / Generate image / Deep match / Generate content / Create custom agent",
+      "treatment": "排除",
+      "reason": "都属于 AI field agents / generative features，依赖模型、网络、额度和非确定性输出。"
+    },
+    {
+      "feature": "AI-assisted Filter / natural-language view generation",
+      "treatment": "排除",
+      "reason": "截图里的 Describe what you want to see 属于 AI 辅助入口；benchmark 应要求 Agent 手动配置 Filter conditions。"
+    },
+    {
+      "feature": "Shared / Share / Manage groups / Invite collaborators",
+      "treatment": "排除",
+      "reason": "需要额外真实用户、邀请状态和协作者权限，难以在单 Agent benchmark 中稳定复现。"
+    },
+    {
+      "feature": "Real-time collaboration / comments / mentions",
+      "treatment": "排除",
+      "reason": "需要第二参与者才能验证同步、通知、mention 等端到端行为。"
+    },
+    {
+      "feature": "Share and sync / synced tables / cross-base live sync",
+      "treatment": "排除",
+      "reason": "涉及第二 Base、权限、同步延迟以及可能的其他账户，不适合作为默认 fixture。"
+    },
+    {
+      "feature": "Google Calendar / Google Sheets / Gmail / Outlook / Slack / Microsoft Teams / Salesforce integrations",
+      "treatment": "排除",
+      "reason": "需要 OAuth、第三方账户和外部系统状态。"
+    },
+    {
+      "feature": "When webhook is received",
+      "treatment": "排除",
+      "reason": "需要外部 HTTP sender 和可访问 endpoint。"
+    },
+    {
+      "feature": "When email is received",
+      "treatment": "排除",
+      "reason": "需要真实邮箱系统和外部邮件事件。"
+    },
+    {
+      "feature": "Send email / external notification delivery",
+      "treatment": "排除",
+      "reason": "会产生真实外部副作用，同时受邮件服务、额度和送达状态影响。"
+    },
+    {
+      "feature": "Run script",
+      "treatment": "默认排除",
+      "reason": "会把任务从网页 UI Agent benchmark 变成 JavaScript coding/runtime benchmark；除非之后单独设计 scripting 子集。"
+    },
+    {
+      "feature": "Public form sharing / anonymous external form submission",
+      "treatment": "排除",
+      "reason": "需要第二浏览会话或外部用户环境才能完整验证。"
+    },
+    {
+      "feature": "Interface sharing / interface-only collaborators",
+      "treatment": "排除",
+      "reason": "权限和外部用户依赖较强；Interface Designer 本身可探索，但不测试多人发布链路。"
+    },
+    {
+      "feature": "Marketplace / Integrations / Builder hub",
+      "treatment": "排除",
+      "reason": "属于扩展生态与发现入口，而不是 Base 数据工作流核心。"
+    },
+    {
+      "feature": "Upgrade / Trial / Billing / Account / Notification preferences / Appearance",
+      "treatment": "排除",
+      "reason": "属于账户和商业设置，不能有效测试 Airtable 数据工作流能力。"
+    }
+  ]
+}

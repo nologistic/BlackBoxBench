@@ -1,0 +1,423 @@
+{
+  "checklist_id": "google_forms_web",
+  "platform": "web",
+  "features": [
+    {
+      "id": "f01",
+      "name": "Form creation",
+      "steps": [
+        "Create a blank form named Customer Feedback with the description Quarterly product feedback survey."
+      ],
+      "expected": "Blank form must be created with the specified name and description.",
+      "persistence": false
+    },
+    {
+      "id": "f02",
+      "name": "Basic questions",
+      "steps": [
+        "Add a required short-answer question named Full name and a paragraph question named Additional comments."
+      ],
+      "expected": "Both questions must be added with correct types; the short-answer question is required.",
+      "persistence": false
+    },
+    {
+      "id": "f03",
+      "name": "Multiple choice",
+      "steps": [
+        "Add a required multiple-choice question named Overall experience with exactly Excellent, Good, Fair, and Poor as options."
+      ],
+      "expected": "Multiple-choice must be required with exactly the four specified options in order.",
+      "persistence": false
+    },
+    {
+      "id": "f04",
+      "name": "Checkboxes",
+      "steps": [
+        "Add a checkbox question named Features used with Dashboard, Reports, Automation, and Integrations as options."
+      ],
+      "expected": "Checkbox question must include all four specified options.",
+      "persistence": false
+    },
+    {
+      "id": "f05",
+      "name": "Dropdown",
+      "steps": [
+        "Add a dropdown question named Department with Engineering, Sales, Marketing, and Support, preserving that order."
+      ],
+      "expected": "Dropdown must contain the four options in the specified order.",
+      "persistence": false
+    },
+    {
+      "id": "f06",
+      "name": "Linear scale",
+      "steps": [
+        "Add a linear-scale question named Satisfaction using a 1-to-5 scale, label the low end Very dissatisfied, and label the high end Very satisfied."
+      ],
+      "expected": "Linear scale must be 1-to-5 with the specified end labels.",
+      "persistence": false
+    },
+    {
+      "id": "f07",
+      "name": "Date and time",
+      "steps": [
+        "Add a date question named Preferred date and a time question named Preferred time."
+      ],
+      "expected": "Date and time questions must both be added with correct types.",
+      "persistence": false
+    },
+    {
+      "id": "f08",
+      "name": "Question transformation",
+      "steps": [
+        "Create a multiple-choice question with four options, convert it to a checkbox question without changing the question title or option texts, and make it required."
+      ],
+      "expected": "Question type must convert to checkbox while preserving title and option texts; required state applies.",
+      "persistence": false
+    },
+    {
+      "id": "f09",
+      "name": "Duplicate and edit",
+      "steps": [
+        "Duplicate the Overall experience question, rename the duplicate to Support experience, change one option, and verify that the original question remains unchanged."
+      ],
+      "expected": "Duplicate must be independent; editing the duplicate leaves the original unchanged.",
+      "persistence": false
+    },
+    {
+      "id": "f10",
+      "name": "Reorder questions",
+      "steps": [
+        "Create four questions named Q1, Q2, Q3, and Q4, then reorder them so that the final sequence is Q3, Q1, Q4, Q2."
+      ],
+      "expected": "Final order must be exactly Q3, Q1, Q4, Q2.",
+      "persistence": false
+    },
+    {
+      "id": "f11",
+      "name": "Delete and recover editing state",
+      "steps": [
+        "Create three questions, delete the middle question, use Undo to restore it, and verify that the original three-question order is restored."
+      ],
+      "expected": "Undo must restore the deleted question and the original three-question order.",
+      "persistence": false
+    },
+    {
+      "id": "f12",
+      "name": "Response validation",
+      "steps": [
+        "Add a required short-answer question named Contact email, configure response validation so that only email-formatted input is accepted, and set the custom error text to Enter a valid email address."
+      ],
+      "expected": "Only email-formatted input is accepted; invalid input shows the custom error text.",
+      "persistence": false
+    },
+    {
+      "id": "f13",
+      "name": "Numeric validation",
+      "steps": [
+        "Add a short-answer question named Age, require a numeric value between 18 and 65, and set a custom validation error message."
+      ],
+      "expected": "Numeric validation must accept 18-65 only; custom error message applies.",
+      "persistence": false
+    },
+    {
+      "id": "f14",
+      "name": "Checkbox validation",
+      "steps": [
+        "Add a checkbox question named Select interests with five options and configure it so that respondents must select at least two options."
+      ],
+      "expected": "Respondents must select at least two options to submit.",
+      "persistence": false
+    },
+    {
+      "id": "f15",
+      "name": "Sections",
+      "steps": [
+        "Create three sections named Profile, Product Usage, and Final Feedback, then place the appropriate questions into each section."
+      ],
+      "expected": "Three sections must be created with appropriate questions placed in each.",
+      "persistence": false
+    },
+    {
+      "id": "f16",
+      "name": "Section reordering",
+      "steps": [
+        "Create sections A, B, and C, then reorder them so the final sequence is C, A, B without recreating any section."
+      ],
+      "expected": "Section order must become C, A, B without recreating sections.",
+      "persistence": false
+    },
+    {
+      "id": "f17",
+      "name": "Conditional routing",
+      "steps": [
+        "Create a required multiple-choice question named Do you use the product? with Yes and No. Route Yes to the Product Usage section and route No directly to the Final Feedback section."
+      ],
+      "expected": "Yes must route to Product Usage; No must route directly to Final Feedback.",
+      "persistence": false
+    },
+    {
+      "id": "f18",
+      "name": "Conditional end-to-end flow",
+      "steps": [
+        "Build a three-section form where Business respondents are routed to a business-details section and Personal respondents skip it. Preview the form twice and verify that each answer follows the correct path."
+      ],
+      "expected": "Business and Personal answers must each follow the correct path in preview.",
+      "persistence": false
+    },
+    {
+      "id": "f19",
+      "name": "Conditional submission",
+      "steps": [
+        "Create a routing question where one answer continues to another section and another answer submits the form immediately. Verify both paths in preview mode."
+      ],
+      "expected": "One answer continues to another section; another submits immediately; both paths work in preview.",
+      "persistence": false
+    },
+    {
+      "id": "f20",
+      "name": "Theme customization",
+      "steps": [
+        "Change the form theme color, background color, title font, question font, and body-text font while preserving all form content."
+      ],
+      "expected": "Theme changes (color, background, fonts) must apply without altering form content.",
+      "persistence": false
+    },
+    {
+      "id": "f21",
+      "name": "Presentation settings",
+      "steps": [
+        "Configure the form to show a custom confirmation message Thank you for your feedback, display the link to submit another response, and keep question shuffling disabled."
+      ],
+      "expected": "Confirmation message and submit-another link must apply; shuffling stays disabled.",
+      "persistence": false
+    },
+    {
+      "id": "f22",
+      "name": "Default question behavior",
+      "steps": [
+        "Configure question defaults so that newly created questions are required by default, add a new question, and verify that it inherits the required setting."
+      ],
+      "expected": "New questions must inherit the required-by-default setting.",
+      "persistence": false
+    },
+    {
+      "id": "f23",
+      "name": "Publish",
+      "steps": [
+        "Publish the completed form, allow responder access through the published form, and verify through Preview that the responder-facing version contains all expected questions and sections."
+      ],
+      "expected": "Published form must expose all expected questions and sections to responders via Preview.",
+      "persistence": false
+    },
+    {
+      "id": "f24",
+      "name": "Response lifecycle",
+      "steps": [
+        "Publish a form, submit one deterministic response through the responder view, return to the editor, and verify that the response count increases by one and the submitted values appear under Responses."
+      ],
+      "expected": "Submitted response must increase the count by one and appear under Responses with correct values.",
+      "persistence": false
+    },
+    {
+      "id": "f25",
+      "name": "Multiple response verification",
+      "steps": [
+        "Submit three predefined responses with different multiple-choice and checkbox answers, then verify that the Responses summary reflects exactly three submissions and the expected answer distribution."
+      ],
+      "expected": "Responses summary must show exactly three submissions with the expected answer distribution.",
+      "persistence": false
+    },
+    {
+      "id": "f26",
+      "name": "Stop accepting responses",
+      "steps": [
+        "Publish a form and submit one response, then disable accepting responses and verify that a new responder session can no longer submit another response."
+      ],
+      "expected": "After disabling acceptance, new responder sessions cannot submit.",
+      "persistence": false
+    },
+    {
+      "id": "f27",
+      "name": "Import questions",
+      "steps": [
+        "Create a source form containing three questions, create a separate target form, import exactly two specified questions from the source form, and verify that the third question is not imported."
+      ],
+      "expected": "Exactly the two specified questions must be imported; the third is not.",
+      "persistence": false
+    },
+    {
+      "id": "f28",
+      "name": "Quiz configuration",
+      "steps": [
+        "Convert a normal form into a quiz, create a four-option multiple-choice question, mark one answer as correct, assign 5 points, and add answer feedback."
+      ],
+      "expected": "Quiz conversion must work with a correct answer key and 5-point assignment; feedback applies.",
+      "persistence": false
+    },
+    {
+      "id": "f29",
+      "name": "Quiz end-to-end",
+      "steps": [
+        "Create a three-question quiz worth 10 total points, configure answer keys, publish it, submit a predefined answer set, and verify that the resulting score matches the configured answer keys."
+      ],
+      "expected": "Submitted answer set must produce a score matching the configured keys (10 total).",
+      "persistence": false
+    },
+    {
+      "id": "f30",
+      "name": "Full survey workflow",
+      "steps": [
+        "Build Product Evaluation with four sections, six mixed question types, two validated fields, one conditional branch, required-question rules, a custom confirmation message, and a customized theme; publish it, submit one valid response through each branch, and verify both responses in the editor."
+      ],
+      "expected": "Full form must publish with all configured elements; one valid response per branch must be verifiable in the editor.",
+      "persistence": false
+    }
+  ],
+  "exclusions": [
+    {
+      "feature": "Gemini – Help me create a form",
+      "treatment": "Hard Exclude",
+      "reason": "AI 生成结果非确定性，同时依赖特定 Workspace / Google AI 套餐。Google 官方明确把它作为 Gemini 功能。Google 帮助"
+    },
+    {
+      "feature": "Gemini – Suggest questions",
+      "treatment": "Hard Exclude",
+      "reason": "同样属于生成式 AI；输入相同也不适合要求严格 UI/output equivalence。Google 帮助"
+    },
+    {
+      "feature": "Collaborator editing",
+      "treatment": "Hard Exclude",
+      "reason": "需要第二 Google 账号、权限传播和实时协作状态。"
+    },
+    {
+      "feature": "Add collaborators / editor permissions",
+      "treatment": "Hard Exclude",
+      "reason": "benchmark 会变成账户和权限系统测评，而不是 Forms 编辑器测评。"
+    },
+    {
+      "feature": "Real-time concurrent editing",
+      "treatment": "Hard Exclude",
+      "reason": "需要至少两个活动客户端，状态竞争难以做稳定复现。"
+    },
+    {
+      "feature": "Link responses to Google Sheets",
+      "treatment": "Hard Exclude",
+      "reason": "跨到 Google Sheets 产品，会引入 spreadsheet 创建、权限和同步组件。"
+    },
+    {
+      "feature": "Response sync with Sheets",
+      "treatment": "Hard Exclude",
+      "reason": "同上，不属于 Forms 自身核心。"
+    },
+    {
+      "feature": "Apps Script",
+      "treatment": "Hard Exclude",
+      "reason": "已进入可编程扩展平台，不应要求 Forms replica 实现。"
+    },
+    {
+      "feature": "Add-ons / Plugins",
+      "treatment": "Hard Exclude",
+      "reason": "第三方代码和商店依赖不可控。"
+    },
+    {
+      "feature": "Email form invitations",
+      "treatment": "Hard Exclude",
+      "reason": "需要外部邮件发送和收件验证。"
+    },
+    {
+      "feature": "Response receipts by email",
+      "treatment": "Hard Exclude",
+      "reason": "需要真实邮箱投递；官方也指出实际收件可能受到反垃圾系统影响。Google 帮助"
+    },
+    {
+      "feature": "Verified email collection",
+      "treatment": "Conditional Exclude",
+      "reason": "配置项本身可以展示，但完整行为验证要求 responder 登录 Google Account。"
+    },
+    {
+      "feature": "Limit to 1 response",
+      "treatment": "Conditional Exclude",
+      "reason": "设置可以实现，但真正验证需要账户身份和重复提交状态。官方明确要求 responder 登录。Google 帮助"
+    },
+    {
+      "feature": "File upload question",
+      "treatment": "Hard Exclude",
+      "reason": "涉及 responder 文件选择、Google Drive 存储和账户认证，缺少稳定 fixture 时不适合 benchmark。"
+    },
+    {
+      "feature": "Header image upload",
+      "treatment": "Conditional Exclude",
+      "reason": "如果 benchmark 提供固定本地图片 fixture 可测试；否则涉及系统文件选择器和外部图片源。"
+    },
+    {
+      "feature": "Question image upload",
+      "treatment": "Conditional Exclude",
+      "reason": "同上；核心是表单 schema，而不是媒体管理。"
+    },
+    {
+      "feature": "YouTube video insertion",
+      "treatment": "Hard Exclude",
+      "reason": "需要 YouTube 网络内容和外部资源可用性。"
+    },
+    {
+      "feature": "Google Drive image selection",
+      "treatment": "Hard Exclude",
+      "reason": "跨产品文件选择器和 Drive 权限依赖。"
+    },
+    {
+      "feature": "Template gallery content",
+      "treatment": "Default Exclude",
+      "reason": "模板内容可能随地区、语言和时间变化；不是 Forms 编辑器核心。"
+    },
+    {
+      "feature": "Organization-branded themes",
+      "treatment": "Hard Exclude",
+      "reason": "Workspace 管理员配置决定可用性。"
+    },
+    {
+      "feature": "Share via social media",
+      "treatment": "Hard Exclude",
+      "reason": "外部平台行为，不属于 Forms。"
+    },
+    {
+      "feature": "Embed HTML execution",
+      "treatment": "Default Exclude",
+      "reason": "可以保留“获取 embed code”的静态 UI，但无需验证第三方网页中的真实运行。"
+    },
+    {
+      "feature": "Print",
+      "treatment": "Default Exclude",
+      "reason": "浏览器/系统打印对话框不属于核心 Web app 状态。"
+    },
+    {
+      "feature": "Search across forms",
+      "treatment": "Default Exclude",
+      "reason": "首页便利功能，对表单创建和逻辑执行没有决定性影响。"
+    },
+    {
+      "feature": "Folder organization in Drive",
+      "treatment": "Hard Exclude",
+      "reason": "本质属于 Google Drive 文件组织，而不是 Forms。"
+    },
+    {
+      "feature": "Account / language settings",
+      "treatment": "Hard Exclude",
+      "reason": "Google Account 全局功能，不应纳入 Forms benchmark。"
+    },
+    {
+      "feature": "External respondent permissions",
+      "treatment": "Hard Exclude",
+      "reason": "若涉及特定人员、群组或 Workspace 域，则需要外部身份环境。"
+    },
+    {
+      "feature": "AI-generated quiz answers / feedback",
+      "treatment": "Hard Exclude",
+      "reason": "生成式 AI，结果不确定。"
+    },
+    {
+      "feature": "High-volume response behavior",
+      "treatment": "Hard Exclude",
+      "reason": "没必要模拟数万条真实 responses；Google 本身对大规模响应还有不同功能限制。"
+    }
+  ]
+}

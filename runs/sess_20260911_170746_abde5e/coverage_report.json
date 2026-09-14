@@ -1,0 +1,19 @@
+{
+  "app_id": "fossify_paint",
+  "session_id": "sess_20260911_170746_abde5e",
+  "coverage": {
+    "states": 15,
+    "features": 21,
+    "data_entities": 2,
+    "edges": 16,
+    "confirmed_ratio": 1.0,
+    "actions_used": 98
+  },
+  "unresolved_questions": [],
+  "nodes_by_status": {
+    "confirmed": 38,
+    "hypothesized": 0,
+    "uncertain": 0,
+    "rejected": 0
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "app_id": "cashew",
+  "session_id": "sess_20260911_170308_b40b50",
+  "coverage": {
+    "states": 51,
+    "features": 10,
+    "data_entities": 3,
+    "edges": 3,
+    "confirmed_ratio": 1.0,
+    "actions_used": 155
+  },
+  "unresolved_questions": [],
+  "nodes_by_status": {
+    "confirmed": 64,
+    "hypothesized": 0,
+    "uncertain": 0,
+    "rejected": 0
+  }
+}

@@ -1,0 +1,350 @@
+{
+  "checklist_id": "notion_web",
+  "platform": "web",
+  "features": [
+    {
+      "id": "f01",
+      "name": "Workspace Switching and Data Isolation",
+      "steps": [
+        "Start in Workspace A",
+        "Create or switch to Workspace B",
+        "Sidebar, private pages, teamspaces, library content, and member context all switch to Workspace B",
+        "Switch back to Workspace A",
+        "Restore A's original content and state without leaking data between workspaces"
+      ],
+      "expected": "Switching workspaces must swap sidebar, private pages, teamspaces, library, and member context; switching back restores the original state without leaking data between workspaces.",
+      "persistence": false
+    },
+    {
+      "id": "f02",
+      "name": "Teamspace Management",
+      "steps": [
+        "Create a teamspace",
+        "Configure default teamspace and access rules",
+        "Teamspace appears in sidebar and library",
+        "Change teamspace settings",
+        "Resource visibility configuration and available actions update consistently",
+        "Configuration persists"
+      ],
+      "expected": "Teamspace must appear in sidebar and library; settings changes update visibility configuration and available actions; configuration persists.",
+      "persistence": false
+    },
+    {
+      "id": "f03",
+      "name": "Create Page / Create Database with Destination Context",
+      "steps": [
+        "Click New",
+        "Select Private or a Teamspace as the destination",
+        "Choose an existing data source, create a new page, or create a blank database",
+        "Finish creation",
+        "The new resource appears in the correct sidebar, library, or database context"
+      ],
+      "expected": "New resource must appear in the correct sidebar, library, or database context matching the selected destination.",
+      "persistence": false
+    },
+    {
+      "id": "f04",
+      "name": "Page Editing and Autosave",
+      "steps": [
+        "Create a page",
+        "Edit title and body content",
+        "Page enters a saving state",
+        "Save completes automatically",
+        "Navigate away",
+        "Reopen the page",
+        "Latest content remains available",
+        "Refresh the browser",
+        "Content still persists"
+      ],
+      "expected": "Saving completes automatically; reopening shows the latest content; refreshing the browser keeps the content.",
+      "persistence": false
+    },
+    {
+      "id": "f05",
+      "name": "Move Page Across Locations",
+      "steps": [
+        "Start with a private page",
+        "Use Move to",
+        "Select Notes, Documents, Meetings, Projects, Tasks, or a Teamspace",
+        "Page disappears from the original location and appears in the destination",
+        "Sidebar position, library source, and access scope update consistently"
+      ],
+      "expected": "Page must disappear from the original location and appear in the destination; sidebar position, library source, and access scope update consistently.",
+      "persistence": false
+    },
+    {
+      "id": "f06",
+      "name": "Page Sharing Settings",
+      "steps": [
+        "Start with a private or team page",
+        "Open share settings",
+        "Configure sharing options",
+        "Shared state is displayed on the page",
+        "Revoke access in settings",
+        "Shared-state projections update",
+        "Settings persist"
+      ],
+      "expected": "Share settings save and display the shared state; revoking updates projections; settings persist.",
+      "persistence": false
+    },
+    {
+      "id": "f07",
+      "name": "Favorites",
+      "steps": [
+        "Open Page A in an unfavorited state",
+        "Add it to Favorites",
+        "Page A appears in Library",
+        "Favorites",
+        "Open the same page from another location",
+        "Favorite state remains active",
+        "Remove it from Favorites",
+        "Page disappears from Favorites without deleting the page"
+      ],
+      "expected": "Favorite state persists across all locations; removing from Favorites does not delete the page.",
+      "persistence": false
+    },
+    {
+      "id": "f08",
+      "name": "Recent Pages and Visit Activity",
+      "steps": [
+        "Open multiple private and team pages",
+        "Record visit timestamps",
+        "Open Library",
+        "Recent",
+        "Pages are ordered by recent activity",
+        "Reopen an older page",
+        "Its last-visited timestamp and ranking update automatically"
+      ],
+      "expected": "Recent list must order pages by activity; reopening a page updates its last-visited timestamp and ranking.",
+      "persistence": false
+    },
+    {
+      "id": "f09",
+      "name": "Trash Lifecycle",
+      "steps": [
+        "Move a normal page to Trash",
+        "Page disappears from its original location and standard database views",
+        "Open Trash",
+        "Find the page using search or filters such as last editor, page type, or teamspace",
+        "Keep the deleted page isolated during the retention period",
+        "Apply permanent deletion when retention expires"
+      ],
+      "expected": "Deleted page disappears from its original location and standard views; Trash search and filters find it; retention keeps it isolated; permanent deletion applies when retention expires.",
+      "persistence": false
+    },
+    {
+      "id": "f10",
+      "name": "Version History and Page Restore",
+      "steps": [
+        "Edit the same page multiple times",
+        "Open Version History",
+        "Browse previous versions",
+        "Select an earlier version",
+        "Restore it",
+        "Current page content changes to the selected version while preserving page identity, URL, location, and permissions"
+      ],
+      "expected": "Restoring a version must change content to the selected version while preserving page identity, URL, location, and permissions.",
+      "persistence": false
+    },
+    {
+      "id": "f11",
+      "name": "Library Aggregation",
+      "steps": [
+        "Maintain resources across Private pages and Teamspaces",
+        "Open Library",
+        "Switch among Teamspaces, Recent, Favorites, Shared, and Private",
+        "The same underlying page appears in the correct derived collections based on location, access, favorite state, and activity without creating duplicate resources"
+      ],
+      "expected": "The same page must appear in correct derived collections based on location, access, favorite state, and activity without duplicates.",
+      "persistence": false
+    },
+    {
+      "id": "f12",
+      "name": "Database Creation and Data Sources",
+      "steps": [
+        "Create a database from the unified creation flow",
+        "Choose Private or a Teamspace as the destination",
+        "Initialize the database",
+        "Add records",
+        "Database appears in the selected location and Library",
+        "Later creation flows can reuse it as an existing data source"
+      ],
+      "expected": "Database must appear in the selected location and Library; it becomes reusable as a data source in later creation flows.",
+      "persistence": false
+    },
+    {
+      "id": "f13",
+      "name": "Database Views over Shared Records",
+      "steps": [
+        "Open one database",
+        "Create or switch between views such as All Tasks / By Status or Card / Table",
+        "Keep the same underlying records",
+        "Each view maintains independent layout and visible properties",
+        "Edit a record",
+        "All views immediately reflect the updated record"
+      ],
+      "expected": "Views must share the same underlying records; each view keeps independent layout and properties; edits reflect immediately in all views.",
+      "persistence": false
+    },
+    {
+      "id": "f14",
+      "name": "Database Filtering, Sorting, and Search",
+      "steps": [
+        "Open a database with multiple records",
+        "Apply one or more filters",
+        "Apply sorting",
+        "Search within the current result set",
+        "Recompute the visible records from the combined query state",
+        "Open a record",
+        "Navigate back",
+        "Restore the original view, filters, sorting, and search context"
+      ],
+      "expected": "Visible records must recompute from the combined query state; navigating back restores the original view, filters, sorting, and search context.",
+      "persistence": false
+    },
+    {
+      "id": "f15",
+      "name": "Database Properties and Record Editing",
+      "steps": [
+        "Edit a record property such as Status, Date, Person, Tag, or Relation",
+        "Update the current row",
+        "Open another view of the same database",
+        "Updated value is preserved",
+        "Filters, grouping, sorting, and other derived views recompute from the new property value"
+      ],
+      "expected": "Edited property values persist; derived views recompute from the new values.",
+      "persistence": false
+    },
+    {
+      "id": "f16",
+      "name": "Project–Task–Meeting–Document Relations",
+      "steps": [
+        "Open a Project",
+        "Link Tasks, Meetings, and Documents to the project",
+        "Project record displays related objects",
+        "Navigate from the project to a related record",
+        "Edit or remove the relation",
+        "Both sides of the relation update consistently without duplicating records"
+      ],
+      "expected": "Linked objects must display on the project record; navigating to related records works; edits or removals update both sides without duplicating records.",
+      "persistence": false
+    },
+    {
+      "id": "f17",
+      "name": "Task Status Workflow and Status Views",
+      "steps": [
+        "Create a Task",
+        "Assign a status such as Next or Done and set a due date",
+        "Task appears in All Tasks and the appropriate status-based view",
+        "Change task status",
+        "Task automatically moves into the corresponding derived group while retaining its other properties"
+      ],
+      "expected": "Tasks must appear in All Tasks and status-based views; changing status moves the task to the corresponding group while retaining other properties.",
+      "persistence": false
+    },
+    {
+      "id": "f18",
+      "name": "Meeting Participants and Personalized Views",
+      "steps": [
+        "Create a Meeting",
+        "Set creation time, participants, and related Project",
+        "Meeting appears in All Meetings",
+        "If the current user is a participant, it also appears in My Meetings",
+        "Change participants or project relation",
+        "Personalized and project-linked views update automatically"
+      ],
+      "expected": "Meetings must appear in All Meetings; participant-based views include the current user when applicable; changing participants or relations updates views automatically.",
+      "persistence": false
+    },
+    {
+      "id": "f19",
+      "name": "Document Metadata and Multi-view Consistency",
+      "steps": [
+        "Create a Document record",
+        "Add metadata such as tags or type",
+        "Display it in a card-based document view",
+        "Switch to Table view",
+        "Both views reference the same underlying record",
+        "Edit metadata or content",
+        "All views and related Projects update consistently"
+      ],
+      "expected": "Both card and table views must reference the same record; metadata or content edits update all views and related Projects consistently.",
+      "persistence": false
+    },
+    {
+      "id": "f20",
+      "name": "Workspace Settings and Global Configuration",
+      "steps": [
+        "Change workspace name, icon, or default landing page",
+        "Save settings",
+        "Workspace selector and related UI update globally",
+        "Refresh or reopen the workspace",
+        "Configuration remains active"
+      ],
+      "expected": "Settings changes update the workspace selector and related UI globally; configuration remains active after refresh or reopen.",
+      "persistence": false
+    }
+  ],
+  "exclusions": [
+    {
+      "feature": "Workspace member invitations\nInvite links, member joining, role-based access grants",
+      "treatment": "Hard Exclude",
+      "reason": "Requires second user and invitation acceptance flow (cf. Calendar \"Members/Invitations\")"
+    },
+    {
+      "feature": "Cross-user permission policies\nDifferent users attempting actions per workspace policy",
+      "treatment": "Hard Exclude",
+      "reason": "Multi-user permission verification; policy configuration itself can be preserved"
+    },
+    {
+      "feature": "Guest access and sharing delivery\nRecipients gaining/losing access to shared pages",
+      "treatment": "Conditional Exclude",
+      "reason": "Share settings and shared-state display testable; recipient-side access verification excluded (cf. diagrams.net \"Publish/Public Link\")"
+    },
+    {
+      "feature": "Teamspace member visibility\nMembers seeing pages per access rules",
+      "treatment": "Conditional Exclude",
+      "reason": "Teamspace creation and access-rule configuration testable; member-side views excluded"
+    },
+    {
+      "feature": "Real-time collaboration\nMulti-user editing, presence, comments sync",
+      "treatment": "Hard Exclude",
+      "reason": "Real-time collaboration infrastructure (cf. excalidraw \"Real-time collaboration\")"
+    },
+    {
+      "feature": "Version history backend infrastructure\nCloud revision storage and sync",
+      "treatment": "Conditional Exclude",
+      "reason": "Version browse and restore testable with local history; cloud backend excluded (cf. Desmos \"cloud backend\")"
+    },
+    {
+      "feature": "Permanent deletion retention engine\nServer-side retention enforcement",
+      "treatment": "Conditional Exclude",
+      "reason": "Trash lifecycle and restore testable; retention expiry simulated with fixture"
+    },
+    {
+      "feature": "New member onboarding flows\nNewly joined members entering via landing page",
+      "treatment": "Conditional Exclude",
+      "reason": "Landing page configuration testable; member-side entry excluded"
+    },
+    {
+      "feature": "API integrations and connections\nThird-party service connections, API keys",
+      "treatment": "Hard Exclude",
+      "reason": "External OAuth and integration infrastructure (cf. diagrams.net \"External Plugins\")"
+    },
+    {
+      "feature": "Notion AI features\nAI writing blocks, Q&A, autofill",
+      "treatment": "Hard Exclude",
+      "reason": "Generative non-determinism (cf. Google Forms \"Gemini\" exclusion)"
+    },
+    {
+      "feature": "Paid plan gating\nTeam/enterprise plan features, billing",
+      "treatment": "Hard Exclude",
+      "reason": "Commerce infrastructure (cf. Spotify \"Premium / Billing\")"
+    },
+    {
+      "feature": "Real content assets\nReal templates, workspace content",
+      "treatment": "Default Exclude",
+      "reason": "Use synthetic fixture content (cf. Spotify \"Real catalog\")"
+    }
+  ]
+}

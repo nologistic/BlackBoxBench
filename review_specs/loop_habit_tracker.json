@@ -3,6 +3,7 @@
   "platform": "android",
   "features": [
     {
+      "id": "f01",
       "name": "习惯列表与日期矩阵",
       "steps": [
         "首次无习惯时显示空状态",
@@ -11,12 +12,11 @@
         "日期向过去滚动时显示历史状态",
         "新增当天记录后对应格子和习惯统计立即变化"
       ],
-      "expected": "新增当天记录后对应格子和习惯统计立即变化",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f01"
+      "expected": "空状态与有数据状态必须区分；日期列与实际日期一一对应并可回溯历史；打卡后对应格子与统计即时更新；所有记录持久化，重启后保持一致。",
+      "persistence": false
     },
     {
+      "id": "f02",
       "name": "创建“完成与否”习惯",
       "steps": [
         "点击 +",
@@ -26,12 +26,11 @@
         "新 Habit 出现在主页",
         "重新进入编辑页仍恢复全部设置"
       ],
-      "expected": "重新进入编辑页仍恢复全部设置",
-      "persistence": true,
-      "multi_user": false,
-      "id": "f02"
+      "expected": "保存后新 Habit 必须出现在列表；标题、问题、颜色、频率、提醒、备注等字段持久化，重新进入编辑页恢复原值；必填缺失时应阻止保存或给出反馈。",
+      "persistence": true
     },
     {
+      "id": "f03",
       "name": "创建可量化习惯",
       "steps": [
         "+",
@@ -41,12 +40,11 @@
         "主列表改为显示数值进度而不是普通 Yes/No 状态",
         "详情页出现目标统计"
       ],
-      "expected": "详情页出现目标统计",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f03"
+      "expected": "可量化 Habit 主列表必须显示数值进度而非 Yes/No；目标值、单位等设置持久化；详情统计必须由实际记录与目标推导，修改目标后所有相关统计重新计算。",
+      "persistence": false
     },
     {
+      "id": "f04",
       "name": "灵活频率与计划规则",
       "steps": [
         "创建每天、隔天或每周 N 次等习惯",
@@ -54,12 +52,11 @@
         "非每日习惯在达到所需频率后，其余日期可以表现为“不需要完成”状态",
         "修改频率后未来日期规则重新计算。Loop 官方明确支持每日、隔日、每周多次等灵活计划。GitHub"
       ],
-      "expected": "修改频率后未来日期规则重新计算。Loop 官方明确支持每日、隔日、每周多次等灵活计划。GitHub",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f04"
+      "expected": "频率规则必须实际影响哪些日期需要完成；每周 N 次习惯达标后其余日期显示为“不需要完成”且不扣分；修改频率后未来日期计划重算，历史记录不被破坏。",
+      "persistence": false
     },
     {
+      "id": "f05",
       "name": "二值习惯打卡状态机",
       "steps": [
         "对今天的 Yes/No Habit 点击记录",
@@ -68,12 +65,11 @@
         "历史、得分、主页格子和详情统计同时更新",
         "重启后记录保持"
       ],
-      "expected": "重启后记录保持",
-      "persistence": true,
-      "multi_user": false,
-      "id": "f05"
+      "expected": "打卡是状态切换而非累加，重复点击可撤销；主页格子、详情统计与得分必须使用同一记录保持一致；重启后记录保持。",
+      "persistence": true
     },
     {
+      "id": "f06",
       "name": "可量化习惯数值记录",
       "steps": [
         "对“跑步”类 Habit 输入当天数值",
@@ -82,12 +78,11 @@
         "当天及周期统计更新",
         "修改当天数值后所有相关统计重新计算，而不是创建另一条独立记录"
       ],
-      "expected": "修改当天数值后所有相关统计重新计算，而不是创建另一条独立记录",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f06"
+      "expected": "同一天修改数值必须更新原记录而不是创建第二条；数值与单位成对保存；达标判定由数值与目标比较得出；所有统计随修改即时重算。",
+      "persistence": false
     },
     {
+      "id": "f07",
       "name": "可量化目标方向",
       "steps": [
         "将目标设置为“至少”等目标类型",
@@ -95,12 +90,11 @@
         "不同目标方向使用对应比较逻辑",
         "详情中的目标和成绩由实际数值推导"
       ],
-      "expected": "详情中的目标和成绩由实际数值推导",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f07"
+      "expected": "“至少”型目标在数值达到或超过目标时显示达标，“至多”型相反；达标状态必须由实际记录与目标推导；改变目标值或目标类型后历史达标状态重新计算。",
+      "persistence": false
     },
     {
+      "id": "f08",
       "name": "Skip Day / 跳过日期",
       "steps": [
         "开启“跳过天数”",
@@ -109,12 +103,11 @@
         "Skip 不作为成功或失败处理，并保持 Habit Score / streak 的对应语义",
         "再次切换可恢复正常记录。官方 FAQ 明确 Skip Day 不改变 Score 且不会打断 streak。GitHub"
       ],
-      "expected": "再次切换可恢复正常记录。官方 FAQ 明确 Skip Day 不改变 Score 且不会打断 streak。GitHub",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f08"
+      "expected": "Skip 必须是独立于完成与失败的状态；按官方语义 Skip 不改变 Score 且不打断 streak；切换 Skip 后统计立即更新；重启后状态保持。",
+      "persistence": false
     },
     {
+      "id": "f09",
       "name": "无数据 / 未完成 / Skip 的区分",
       "steps": [
         "开启“对丢失的数据显示问号”",
@@ -122,12 +115,11 @@
         "回填过去日期时从“未知”转换为明确记录",
         "统计随之重新计算"
       ],
-      "expected": "统计随之重新计算",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f09"
+      "expected": "未输入、失败、成功、Skip 四种状态在界面上必须可区分；“未知”数据不能按失败计算；回填历史后状态转换且统计重新计算；开关只改变显示不修改已有记录。",
+      "persistence": false
     },
     {
+      "id": "f10",
       "name": "跨午夜的逻辑日期",
       "steps": [
         "开启“将一天延长到午夜后的几个小时”",
@@ -135,12 +127,11 @@
         "超过应用设定的日界线后才进入新一天",
         "日期列、提醒和历史使用统一的逻辑日期"
       ],
-      "expected": "日期列、提醒和历史使用统一的逻辑日期",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f10"
+      "expected": "开启后凌晨记录必须归入前一天，超过设定日界线才进入新一天；日期列、提醒与统计必须使用同一逻辑日期，同一记录不能同时出现在两个日期。",
+      "persistence": false
     },
     {
+      "id": "f11",
       "name": "归档与恢复习惯",
       "steps": [
         "将不再跟踪的 Habit 归档",
@@ -148,12 +139,11 @@
         "关闭“隐藏已存档”后重新出现",
         "Unarchive 恢复为活动 Habit 而不是创建副本。官方 FAQ/讨论确认已归档 Habit 可以再次恢复。GitHub"
       ],
-      "expected": "Unarchive 恢复为活动 Habit 而不是创建副本。官方 FAQ/讨论确认已归档 Habit 可以再次恢复。GitHub",
-      "persistence": true,
-      "multi_user": false,
-      "id": "f11"
+      "expected": "归档只改变显示状态，历史数据必须保留；取消归档必须恢复同一 Habit 而不是创建副本；“隐藏已存档”开关即时影响列表；重启后保持。",
+      "persistence": true
     },
     {
+      "id": "f12",
       "name": "完成状态过滤",
       "steps": [
         "开启“隐藏已完成”",
@@ -162,12 +152,11 @@
         "改变当天状态后 Habit 可以动态进入/离开过滤结果",
         "数据本身不会因隐藏而被删除"
       ],
-      "expected": "数据本身不会因隐藏而被删除",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f12"
+      "expected": "过滤必须由当前周期的完成状态动态决定；状态改变后 Habit 立即进入或离开列表；过滤只影响显示，不能删除或修改任何习惯数据。",
+      "persistence": false
     },
     {
+      "id": "f13",
       "name": "多规则排序与手工顺序",
       "steps": [
         "创建多个不同名称、颜色、得分和状态的 Habit",
@@ -175,12 +164,11 @@
         "每种方式重新计算顺序",
         "切回手动时恢复用户维护的自定义顺序"
       ],
-      "expected": "切回手动时恢复用户维护的自定义顺序",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f13"
+      "expected": "每种排序必须按对应字段真实重排列表；切回手动必须恢复用户维护的自定义顺序；手工顺序与排序方式设置持久化；排序不改变任何习惯数据。",
+      "persistence": false
     },
     {
+      "id": "f14",
       "name": "Habit Score 派生计算",
       "steps": [
         "连续完成 Habit",
@@ -189,12 +177,11 @@
         "修改过去某天的记录后当前 Score 重算",
         "Score 不是直接保存的静态百分比。官方说明 Score 基于全部历史的指数平滑计算，近期记录权重更高。GitHub"
       ],
-      "expected": "Score 不是直接保存的静态百分比。官方说明 Score 基于全部历史的指数平滑计算，近期记录权重更高。GitHub",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f14"
+      "expected": "Score 必须由全部历史推导且近期记录权重更高，不能是手工保存的静态值；修改过去记录后当前 Score 必须重新计算；连续完成上升、漏做下降。",
+      "persistence": false
     },
     {
+      "id": "f15",
       "name": "习惯详情与多时间尺度统计",
       "steps": [
         "点击 Habit 名称",
@@ -203,24 +190,22 @@
         "在日/周/月等粒度切换",
         "新增记录后成功率、月/年变化、总数及图表同步变化"
       ],
-      "expected": "新增记录后成功率、月/年变化、总数及图表同步变化",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f15"
+      "expected": "详情页总览、成绩图、历史、日历的数值必须来自同一批记录且互相一致；新增或修改记录后所有统计与图表同步更新；日、周、月切换使用同一数据源。",
+      "persistence": false
     },
     {
+      "id": "f16",
       "name": "可量化 Habit 的周期目标统计",
       "steps": [
         "例如每日目标 10",
         "详情页根据频率显示“今日 10 / 周 70 / 月约 300 / 季度约 910 / 年约 3.7k”等衍生目标",
         "修改基础目标或频率后所有周期目标重新计算"
       ],
-      "expected": "修改基础目标或频率后所有周期目标重新计算",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f16"
+      "expected": "周期目标必须由每日目标与频率推算，例如每日 10 对应约 70/周、300/月；修改基础目标或频率后所有周期数值同步重算并保持比例一致。",
+      "persistence": false
     },
     {
+      "id": "f17",
       "name": "历史回填与修正",
       "steps": [
         "从 Habit 详情进入历史/日历",
@@ -229,12 +214,11 @@
         "当天历史改变",
         "当前 Score、图表、总数、streak 等统计重新计算。官方 FAQ 明确允许在详情日历中补录过去日期。GitHub"
       ],
-      "expected": "当前 Score、图表、总数、streak 等统计重新计算。官方 FAQ 明确允许在详情日历中补录过去日期。GitHub",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f17"
+      "expected": "回填必须写入真实历史记录；修改某天后 Score、streak、图表与总数等派生统计全部重新计算；不同日期记录互不污染，重启后保持。",
+      "persistence": false
     },
     {
+      "id": "f18",
       "name": "每 Habit Reminder 与通知行为",
       "steps": [
         "为 Habit 设置提醒时间",
@@ -243,24 +227,22 @@
         "如果提醒前已经完成，则该次提醒不再出现",
         "不同 Habit 拥有独立提醒。官方明确每个 Habit 可配置自己的 reminder，并可直接从通知操作。GitHub"
       ],
-      "expected": "不同 Habit 拥有独立提醒。官方明确每个 Habit 可配置自己的 reminder，并可直接从通知操作。GitHub",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f18"
+      "expected": "提醒必须只在当天尚未完成时触发；已完成后到点不能重复通知；从通知完成的记录必须与 App 内状态一致；不同 Habit 的提醒时间相互独立。",
+      "persistence": false
     },
     {
+      "id": "f19",
       "name": "通知全局配置",
       "steps": [
         "配置通知常驻、默认/静音、提示音、振动、通知圆点、“勿扰”覆盖等",
         "后续 Habit 提醒按照全局规则呈现",
         "关闭通知则不再产生视觉提醒，但 Habit 数据和计划本身保持"
       ],
-      "expected": "关闭通知则不再产生视觉提醒，但 Habit 数据和计划本身保持",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f19"
+      "expected": "全局通知设置必须真实影响提醒的呈现方式；关闭通知后不再产生提醒，但 Habit 计划、记录与统计不受影响；设置跨重启持久化。",
+      "persistence": false
     },
     {
+      "id": "f20",
       "name": "完整备份、恢复与数据迁移",
       "steps": [
         "创建多个 Habit 并积累历史",
@@ -268,10 +250,8 @@
         "修改/删除数据后导入备份",
         "Habit 定义、历史和统计恢复到备份状态；CSV 导出用于电子表格分析，而 Import Data 还支持应用自身备份以及截图中列出的 Tickmate / HabitBull / Rewire 等迁移来源。官方明确区分 Full Backup 与 CSV Export"
       ],
-      "expected": "Habit 定义、历史和统计恢复到备份状态；CSV 导出用于电子表格分析，而 Import Data 还支持应用自身备份以及截图中列出的 Tickmate / HabitBull / Rewire 等迁移来源。官方明确区分 Full Backup 与 CSV Export",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f20"
+      "expected": "导出的完整备份必须可重新导入并恢复 Habit 定义、历史与统计；导入需校验文件格式，异常文件不能破坏现有数据；CSV 导出仅用于分析，不能作为恢复来源。",
+      "persistence": false
     }
   ]
 }

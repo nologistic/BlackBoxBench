@@ -1,0 +1,534 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "512cc43758a9655b2b20141f3d217bf435e0ecd60299a8a2920fcaced3d39950",
+  "accepted_apk_hash": "69480d3e064b60046d3ac3206b28f7d6627ffab89d93b9acee115236162da1fd",
+  "revision_count": 3,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "首屏工具栏、画布和画笔大小工具显示",
+        "默认绿色自由绘制",
+        "拖动画笔大小滑块后下一笔变粗且既有笔画不变",
+        "绘制后撤销入口出现",
+        "点击当前颜色打开颜色选择器"
+      ],
+      "findings": [
+        "绘制、粗细调整与画布渲染正常。",
+        "工具栏弹层在 ACTION_DOWN 打开后，会被同一次点击的 ACTION_UP 立刻关闭；颜色、更多、保存等弹层因此无法停留，需要改为 ACTION_UP 触发。"
+      ],
+      "actions": [
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "82e65a2fbd263a44a4c4492236b7f15c711a43a8b6ee016dadf2c1c58f255f38",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "934774ba4d4acd80947351c5354a656a5a66a41b960fa982821245da8dccc66f",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "9b15088f00213a170ef53a6fad6ad4562c9812c7117c82bb5ce83c0ad652b324",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "e98b313ed8a3d84e7b9075de63c8427613ee38731db2293ecb8f11fc0409767a",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 6,
+          "sha256": "3f2f787b39913aefc5388db23d9bb3d5d30cb64eec6372477b2e386cd30a1963",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 7,
+          "sha256": "3f2f787b39913aefc5388db23d9bb3d5d30cb64eec6372477b2e386cd30a1963",
+          "path": "review/round_01/observation_006.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "颜色预设选择并确认后画笔颜色持久化",
+        "红色自由绘制、橡皮擦恢复背景、撤销与重做",
+        "清除画板确认",
+        "PNG 私有目录保存并在打开文件面板中恢复",
+        "更改背景颜色且前景内容不变",
+        "重启后活动画布清空、背景颜色和画笔颜色偏好保留",
+        "设置页切换画笔大小工具可见性"
+      ],
+      "findings": [
+        "核心绘画与数据闭环均正常。",
+        "Android 15 边到边布局导致自绘工具栏进入状态栏安全区，设置标题与系统时间重叠；需关闭边到边强制或对内容应用状态栏内边距。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "9d2ce4ccbec959489ff70013edd2fef5037f442b3fcbf9102aa948eb1edc6dc7",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "ec400786f1aa062e92fd1352e8da40d924b767e881c0baace120498092304dca",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "cbdd7e1236364a4320f6e1db4802bdfb2a79bd4ac725fc7cd8fa3933889ef25e",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 6,
+          "sha256": "a26596fe9fe395dab93eda4a213e7c5629124dff3c6c2830a948aba104244ba2",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 7,
+          "sha256": "e10345a4ae153068eb6af1f99150bbfce68400ee0242ebb2d1b5c9bd86698739",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 8,
+          "sha256": "40af4f3feab9cd3bc2b4cd479ca79476229036caa8746c6a1c0dff1bad1ac0a2",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 10,
+          "sha256": "e10345a4ae153068eb6af1f99150bbfce68400ee0242ebb2d1b5c9bd86698739",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 11,
+          "sha256": "4c42f66fb09a3f1e4829038d0d12c18a557c7acd71bb46f46b281eab9a0029cb",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 12,
+          "sha256": "4c42f66fb09a3f1e4829038d0d12c18a557c7acd71bb46f46b281eab9a0029cb",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 13,
+          "sha256": "8100e392496f3d51ead983fb9e513e8d5cf337cb5e45466d6a6ffadfa949fd4c",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 14,
+          "sha256": "624cfa8ae18e68f5f6157ddac12ecd1ac8de500e0f6fd17623ed2a8f42dbe514",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 15,
+          "sha256": "d6c18e1ab4d931a8a93899eae6a3e21c79067b0c66bee097915c3cc6faa464cc",
+          "path": "review/round_02/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 17,
+          "sha256": "9ae60d73756b6e30e28a5d1db3b51f2468aa9c92053c831a199005c277701b18",
+          "path": "review/round_02/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 18,
+          "sha256": "9ae60d73756b6e30e28a5d1db3b51f2468aa9c92053c831a199005c277701b18",
+          "path": "review/round_02/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 19,
+          "sha256": "f01c0f9555fd201af94be4b251014b75bfd739185f65687699def979c137792e",
+          "path": "review/round_02/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 20,
+          "sha256": "7425cb19f41f4d72ea5b7abddbc3fc3940944d421d0b994baa1237866b7517c5",
+          "path": "review/round_02/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 23,
+          "sha256": "0c657000ada76a0d21ad1c92466e59f443ac6b7cc522b706abf60c48467376d9",
+          "path": "review/round_02/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 24,
+          "sha256": "d351d5cf30577a71833b28e45e5dc49d51e947c147ace42cbb675e25cde2cd06",
+          "path": "review/round_02/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 26,
+          "sha256": "0d4e1d701f63025a22804964177dbdc6d1f2d851ffd7d25052264f77a7ca1f48",
+          "path": "review/round_02/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 28,
+          "sha256": "032b3f0da88df86557fd72ab856adaa9d5e86557d1c75dd006ae15a6d2c31a50",
+          "path": "review/round_02/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 29,
+          "sha256": "7e64ef58d0a98fb055bf711180b10b7dea5e8083811d903a5e0e11fc24aa4f28",
+          "path": "review/round_02/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 31,
+          "sha256": "f550d675dafdee035c5f3595bb669c01b8b5ea6001935d079a336ca6e16bb7ad",
+          "path": "review/round_02/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 33,
+          "sha256": "ad207eccf3aebb37c16ca22b87400660c34bcc748a8e94c9dea6b139460086d9",
+          "path": "review/round_02/observation_023.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "revise",
+      "checked_flows": [
+        "状态栏安全区与首屏工具栏布局",
+        "自由绘制回归",
+        "更多菜单与设置页面布局",
+        "外观页主题选择与未保存更改保护",
+        "关于页面内容与第三方许可入口可达性"
+      ],
+      "findings": [
+        "状态栏重叠已修复，绘制与菜单回归正常，外观保存保护正常。",
+        "关于页内容高度超过可视区域但未实现滚动，第三方许可入口被裁切不可达；需支持纵向滚动并按滚动偏移处理点击。"
+      ],
+      "actions": [
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "1a7e66c60bedce20c25d267a36282aec9b1406d52747086c89ac3760d6600e5f",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "6aedf7b47a674f8923f57dc41372710bcd5ee67f32a53aa5721b092db6e5f4cd",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "186b67fc2638696f6271bd2ca7a1c440ea799b69fa7051c7cca1b1a487f40b94",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "900dacca0415fe9d025a5a16edcde739f98717ef86fa454d6363f140ace17902",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 5,
+          "sha256": "d89a122bec90684739024d680acf4400bf33dd0c8ae25db635f257e509664e2b",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 7,
+          "sha256": "dbf1bfe8c1d21f57b3e273e639a81e12f2131c85b12f349d2a40410fd6dbb296",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 12,
+          "sha256": "9474e4757cdade753738e77be498452f859f1a43dc19b6aa42f3aa7c13543665",
+          "path": "review/round_03/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 13,
+          "sha256": "f8f95bf4216e583a947f1d88d7fc076d2ba4571a7159ac5551c22a17361c9b76",
+          "path": "review/round_03/observation_008.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 4,
+      "decision": "accept",
+      "checked_flows": [
+        "首屏画布、双层工具栏、默认颜色和画笔大小工具",
+        "自由绘制以及画笔大小滑块即时影响下一笔、旧笔画不变",
+        "颜色预设与色板确认、红色笔画、颜色偏好持久化",
+        "橡皮擦恢复底层背景、撤销和重做",
+        "填充工具、取色器与清除确认的交互入口",
+        "PNG 私有目录保存、清空后从图片面板重新打开保存绘画",
+        "导入公共示例图片为背景的可用入口",
+        "背景颜色更改保留前景，重启后背景和工具偏好保留而活动笔画清空",
+        "分享面板、打印反馈和更多菜单",
+        "设置开关，关闭画笔大小工具后底栏消失",
+        "外观主题与字体选择、未保存更改保护",
+        "关于页面滚动、第三方许可入口与许可正文滚动",
+        "状态栏和导航栏安全区、无私人信息、无声明权限"
+      ],
+      "findings": [
+        "所有核心流程均可由可见界面完成，绘画与导入导出写闭环正常。",
+        "持久化边界符合观察结果：颜色、背景和工具偏好保留，活动画布在重启后清空。",
+        "系统栏安全区正确；关于与许可长页面可滚动并保持标题栏固定。",
+        "APK 签名验证通过，声明权限为空，界面与素材中未发现私人信息。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "73285a18975b6cd959fdcd791e501219365c373da4a612d6a448102ac7cfa23b",
+          "path": "review/round_04/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "e3acef73d284694d96a2694e80dcb0c518f363b528f217d3ca4dd1dfe71fa380",
+          "path": "review/round_04/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "14323dcc485a57c730fa0c70655dcf3152b1913e30133db0f46a06307ba0ed4e",
+          "path": "review/round_04/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "528a63e683b070667dcc6f92aecf5c5a103ccf12ad8d3634ed34b2a6e84b9a2c",
+          "path": "review/round_04/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 5,
+          "sha256": "59cc5184cd6580179da670a3f9bd5b44c35717ee18ce5ea0613e4c723fd3e124",
+          "path": "review/round_04/observation_005.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

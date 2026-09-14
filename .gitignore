@@ -68,3 +68,7 @@ sample_apps/android_commerce_demo/app/src/main/res/raw/
 .idea/
 .DS_Store
 Thumbs.db
+
+# ---- local backups (never upload) ----
+review_specs_backup_exclusions/
+*.bak-*

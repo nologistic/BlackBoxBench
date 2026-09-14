@@ -3,6 +3,7 @@
   "platform": "android",
   "features": [
     {
+      "id": "f01",
       "name": "自由手绘",
       "steps": [
         "在空白画布按下并拖动",
@@ -11,12 +12,11 @@
         "松手结束当前 stroke",
         "再次触摸创建新的独立 stroke。"
       ],
-      "expected": "再次触摸创建新的独立 stroke。",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f01"
+      "expected": "拖动必须生成连续笔迹，快速移动不能断线或跳点；每个 stroke 独立记录；松手立即结束，再次触摸创建新 stroke 而不是连接旧笔迹。",
+      "persistence": false
     },
     {
+      "id": "f02",
       "name": "调整笔刷粗细",
       "steps": [
         "先画一条线",
@@ -25,12 +25,11 @@
         "新线条宽度发生明显变化",
         "已存在的旧线条保持原宽度。官方也明确支持不同 pen size。Simple Mobile Tools"
       ],
-      "expected": "已存在的旧线条保持原宽度。官方也明确支持不同 pen size。Simple Mobile Tools",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f02"
+      "expected": "滑块必须双向反映当前笔刷粗细；新笔迹使用新宽度；已有笔迹宽度不能被追溯修改；粗细取值限制在有效范围内。",
+      "persistence": false
     },
     {
+      "id": "f03",
       "name": "颜色选择与自定义颜色",
       "steps": [
         "点击当前颜色块",
@@ -40,12 +39,11 @@
         "当前颜色块改变",
         "新绘制内容使用新颜色。官方同时支持直接选择颜色和输入十六进制颜色值。Simple Mobile Tools"
       ],
-      "expected": "新绘制内容使用新颜色。官方同时支持直接选择颜色和输入十六进制颜色值。Simple Mobile Tools",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f03"
+      "expected": "所选颜色必须立即反映在当前颜色指示上，新笔迹使用新颜色；已有笔迹颜色不变；支持十六进制输入时非法值应被拒绝或校正。",
+      "persistence": false
     },
     {
+      "id": "f04",
       "name": "取色器 Eyedropper",
       "steps": [
         "画出至少两种颜色",
@@ -54,12 +52,11 @@
         "当前绘图颜色切换为被点击像素的颜色",
         "再画线验证颜色一致。"
       ],
-      "expected": "再画线验证颜色一致。",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f04"
+      "expected": "取色必须命中被点击像素的真实颜色而不是预设近似色；取色后当前颜色指示更新；取色操作不能修改画布内容。",
+      "persistence": false
     },
     {
+      "id": "f05",
       "name": "橡皮擦",
       "steps": [
         "在已有笔迹上切换橡皮擦",
@@ -68,12 +65,11 @@
         "调整粗细后橡皮影响范围同步变化",
         "再切回绘图工具继续作画。官方明确列出 eraser。Simple Mobile Tools"
       ],
-      "expected": "再切回绘图工具继续作画。官方明确列出 eraser。Simple Mobile Tools",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f05"
+      "expected": "橡皮擦必须将经过区域恢复为背景或透明而不是绘制白色；影响范围随粗细同步变化；擦除结果可被撤销；擦除后仍可继续正常绘制。",
+      "persistence": false
     },
     {
+      "id": "f06",
       "name": "区域填充",
       "steps": [
         "画一个闭合区域",
@@ -84,12 +80,11 @@
         "边界外保持不变",
         "对未封闭区域点击时填充范围按连通区域变化。"
       ],
-      "expected": "对未封闭区域点击时填充范围按连通区域变化。",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f06"
+      "expected": "填充必须作用于点击点所在的连通区域，不能越过闭合边界；边界外内容保持不变；填充颜色与所选颜色一致；对未封闭区域不能崩溃或污染整个画布。",
+      "persistence": false
     },
     {
+      "id": "f07",
       "name": "撤销与重做",
       "steps": [
         "连续执行多次画线、填充、擦除",
@@ -99,12 +94,11 @@
         "按原顺序恢复",
         "撤销后产生新操作时清空不可再用的 redo 分支。"
       ],
-      "expected": "撤销后产生新操作时清空不可再用的 redo 分支。",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f07"
+      "expected": "撤销必须按操作历史逆序回退且每次只回退一步；重做按原顺序恢复；撤销后产生新操作时必须清空不可再用的 redo 分支；对画线、填充、擦除均一致有效。",
+      "persistence": false
     },
     {
+      "id": "f08",
       "name": "更改画布背景颜色",
       "steps": [
         "已存在多条不同颜色笔迹",
@@ -114,12 +108,11 @@
         "笔迹本身颜色不被重绘",
         "后续擦除行为与当前背景保持一致。官方也明确支持改变背景颜色。Simple Mobile Tools"
       ],
-      "expected": "后续擦除行为与当前背景保持一致。官方也明确支持改变背景颜色。Simple Mobile Tools",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f08"
+      "expected": "更改背景色不能重绘或改变已有笔迹；擦除后露出的必须是当前背景色；背景色变化可被撤销；保存时背景色体现在输出文件中。",
+      "persistence": false
     },
     {
+      "id": "f09",
       "name": "打开已有图片继续编辑",
       "steps": [
         "通过“打开文件”选择 PNG/JPG 等已有图片",
@@ -128,12 +121,11 @@
         "保存后生成包含新修改的结果",
         "再次打开该文件能看到修改后的视觉结果。官方说明支持打开已有 artwork 并继续绘制。Simple Mobile Tools"
       ],
-      "expected": "再次打开该文件能看到修改后的视觉结果。官方说明支持打开已有 artwork 并继续绘制。Simple Mobile Tools",
-      "persistence": true,
-      "multi_user": false,
-      "id": "f09"
+      "expected": "打开的图片必须作为当前画布内容；在其上的绘制与擦除必须与图片合成保存；重新打开能看到修改后的结果，不能只保存空白或原图。",
+      "persistence": true
     },
     {
+      "id": "f10",
       "name": "使用图片作为绘图背景",
       "steps": [
         "导入一张已有图片作为画布基础",
@@ -143,12 +135,11 @@
         "背景图仍保持",
         "导出时合成为最终图像。官方把“using an image ... as the background”列为正式功能。Simple Mobile Tools"
       ],
-      "expected": "导出时合成为最终图像。官方把“using an image ... as the background”列为正式功能。Simple Mobile Tools",
-      "persistence": true,
-      "multi_user": false,
-      "id": "f10"
+      "expected": "背景图必须独立于笔迹层，修改笔迹或擦除不能破坏背景；导出时必须合成为包含背景的最终图像；背景层可被替换或移除。",
+      "persistence": true
     },
     {
+      "id": "f11",
       "name": "保存与多格式导出",
       "steps": [
         "完成绘图",
@@ -159,12 +150,11 @@
         "文件写入设备",
         "PNG/JPG 可作为位图重新打开，SVG 按对应格式生成。截图与官方资料均支持这三类格式。Simple Mobile Tools"
       ],
-      "expected": "PNG/JPG 可作为位图重新打开，SVG 按对应格式生成。截图与官方资料均支持这三类格式。Simple Mobile Tools",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f11"
+      "expected": "三种格式都必须真实写入设备；PNG 与 JPG 可作为位图重新打开；SVG 必须按矢量格式生成且能正确显示画面内容；扩展名与实际格式一致。",
+      "persistence": false
     },
     {
+      "id": "f12",
       "name": "保存—打开闭环",
       "steps": [
         "创建包含多颜色、多粗细笔迹的画面",
@@ -176,12 +166,11 @@
         "再次保存",
         "文件内容发生对应变化。"
       ],
-      "expected": "文件内容发生对应变化。",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f12"
+      "expected": "保存后重新打开的画面必须与保存前视觉一致；再次编辑保存后文件内容发生对应变化；不能丢失笔迹或只保存空白画布。",
+      "persistence": false
     },
     {
+      "id": "f13",
       "name": "分享与打印",
       "steps": [
         "完成画面",
@@ -190,10 +179,8 @@
         "返回应用画布状态保持；或者菜单选择打印",
         "将当前绘图作为可打印图像传给系统打印流程。官方资料也将 share 和 print 列为功能。Play Store Sales"
       ],
-      "expected": "将当前绘图作为可打印图像传给系统打印流程。官方资料也将 share 和 print 列为功能。Play Store Sales",
-      "persistence": true,
-      "multi_user": false,
-      "id": "f13"
+      "expected": "分享必须向系统提供当前画布的真实图像文件与正确 MIME 类型；取消分享后画布状态不变；打印流程必须接收当前绘图内容而不是空白或其他图片。",
+      "persistence": true
     }
   ]
 }

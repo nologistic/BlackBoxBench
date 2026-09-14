@@ -156,6 +156,12 @@ def _t_start_evaluation(args: dict) -> dict:
     started.update(meta)
     started["checklist_id"] = checklist.checklist_id
     started["handoff_id"] = handoff.name
+    # The boundary travels with the first payload: the judge must see the
+    # out-of-scope surfaces before planning probes, not one status call
+    # later.
+    exclusions = checklist.exclusions()
+    if exclusions:
+        started["exclusions"] = exclusions
     return _ok([_image(png), _text(started)])
 
 
@@ -198,6 +204,9 @@ def _t_evaluation_status(_args: dict) -> dict:
     session = _require_session()
     payload = session.status_payload()
     payload["requirements"] = session.checklist.requirements()
+    exclusions = session.checklist.exclusions()
+    if exclusions:
+        payload["exclusions"] = exclusions
     return _ok([_text(payload)])
 
 

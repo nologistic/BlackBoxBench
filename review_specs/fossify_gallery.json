@@ -3,6 +3,7 @@
   "platform": "android",
   "features": [
     {
+      "id": "f01",
       "name": "媒体扫描与文件夹首页",
       "steps": [
         "启动 Gallery",
@@ -12,12 +13,11 @@
         "删除或移动文件后原位置同步消失",
         "文件数量和封面重新计算"
       ],
-      "expected": "文件数量和封面重新计算",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f01"
+      "expected": "列表必须由真实文件系统扫描生成，不能使用静态样例；文件增删后刷新结果同步变化；文件夹封面与数量按实际内容计算，同一媒体不能重复出现在多个文件夹。",
+      "persistence": false
     },
     {
+      "id": "f02",
       "name": "文件与文件夹搜索",
       "steps": [
         "输入文件名或文件夹名",
@@ -25,12 +25,11 @@
         "清空查询恢复原视图",
         "开启“搜索所有文件，而不仅限于主屏幕显示的文件夹”后搜索范围扩大到被主页组织规则隐藏但允许搜索的内容"
       ],
-      "expected": "开启“搜索所有文件，而不仅限于主屏幕显示的文件夹”后搜索范围扩大到被主页组织规则隐藏但允许搜索的内容",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f02"
+      "expected": "匹配必须基于真实文件名或目录名，部分关键字也应命中；无结果时显示空状态；清空查询恢复原视图；开启“搜索所有文件”后范围扩大到被主页规则隐藏的内容，关闭后恢复。",
+      "persistence": false
     },
     {
+      "id": "f03",
       "name": "多字段排序",
       "steps": [
         "在名称、路径、大小、修改日期、拍摄日期、随机等排序之间切换",
@@ -38,12 +37,11 @@
         "切换升序/降序立即逆转规则",
         "“仅应用于此文件夹”控制排序是局部还是全局配置"
       ],
-      "expected": "“仅应用于此文件夹”控制排序是局部还是全局配置",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f03"
+      "expected": "排序结果必须由媒体真实元数据计算，切换排序方式后顺序立即变化；升降序严格互为逆序；“仅应用于此文件夹”只影响当前文件夹，其余文件夹保持全局排序；配置持久化。",
+      "persistence": false
     },
     {
+      "id": "f04",
       "name": "多维媒体分组",
       "steps": [
         "选择“不分组 / 修改时间按天或月 / 拍摄日期按天或月 / 文件类型 / 扩展名 / 文件夹”等方式",
@@ -51,12 +49,11 @@
         "分组标题与成员随元数据变化",
         "排序与分组可以独立组合"
       ],
-      "expected": "排序与分组可以独立组合",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f04"
+      "expected": "分组必须由元数据动态计算，同一媒体在每种分组方式下进入正确 Section 且标题与成员一致；排序与分组可独立组合、互不覆盖；修改拍摄日期后分组结果重新计算。",
+      "persistence": false
     },
     {
+      "id": "f05",
       "name": "文件类型过滤与视图布局",
       "steps": [
         "勾选图片、视频、GIF、RAW、SVG、竖向等过滤条件",
@@ -65,12 +62,11 @@
         "修改 1–15 列数量",
         "过滤条件不因布局变化而丢失"
       ],
-      "expected": "过滤条件不因布局变化而丢失",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f05"
+      "expected": "过滤条件必须实际作用于媒体集合，仅显示勾选类型；切换网格或列表、修改列数不能重置过滤；列数限制在 1–15 并立即影响布局；过滤与布局配置需持久化。",
+      "persistence": false
     },
     {
+      "id": "f06",
       "name": "包含 / 排除文件夹",
       "steps": [
         "将目录加入“排除的文件夹”后，该目录及相应媒体不再进入普通 Gallery 列表",
@@ -78,12 +74,11 @@
         "管理“包含的文件夹”改变媒体扫描范围",
         "文件本身仍然存在于存储中"
       ],
-      "expected": "文件本身仍然存在于存储中",
-      "persistence": true,
-      "multi_user": false,
-      "id": "f06"
+      "expected": "包含与排除只改变 Gallery 浏览范围，不能删除或移动真实文件；被排除目录及其子目录媒体不出现在普通列表，移除规则后重新出现；两份名单配置需要持久化。",
+      "persistence": true
     },
     {
+      "id": "f07",
       "name": "隐藏媒体生命周期",
       "steps": [
         "对图片/文件夹执行“隐藏”",
@@ -92,12 +87,11 @@
         "取消隐藏恢复普通状态",
         "Hidden 与 Excluded 保持不同语义：前者是媒体隐藏状态，后者是 Gallery 浏览范围规则"
       ],
-      "expected": "Hidden 与 Excluded 保持不同语义：前者是媒体隐藏状态，后者是 Gallery 浏览范围规则",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f07"
+      "expected": "隐藏与排除必须是两种独立状态；隐藏后普通视图不可见但文件仍在存储；开启“显示隐藏项目”后恢复可见；取消隐藏回到普通状态且不丢失其他元数据，重启后保持。",
+      "persistence": false
     },
     {
+      "id": "f08",
       "name": "收藏生命周期",
       "steps": [
         "对媒体点击收藏",
@@ -106,12 +100,11 @@
         "在收藏页取消收藏后原页面同步",
         "移动/重命名媒体时收藏关系继续指向正确对象；官方 Gallery 将 Favorites 作为核心媒体组织功能。F-Droid"
       ],
-      "expected": "移动/重命名媒体时收藏关系继续指向正确对象；官方 Gallery 将 Favorites 作为核心媒体组织功能。F-Droid",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f08"
+      "expected": "收藏是持久状态，同一媒体在收藏页与原文件夹中必须一致；取消收藏双向同步；移动或重命名后收藏关系必须跟随文件而不是失效；重启后保持。",
+      "persistence": false
     },
     {
+      "id": "f09",
       "name": "文件夹与文件操作",
       "steps": [
         "新建文件夹",
@@ -121,12 +114,11 @@
         "Copy 创建第二份文件",
         "Move 只改变位置而不产生逻辑重复"
       ],
-      "expected": "Move 只改变位置而不产生逻辑重复",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f09"
+      "expected": "操作必须作用于真实文件系统：Copy 产生独立第二份文件，Move 后原路径不再存在且不产生重复索引；Rename 只改名称不改内容；失败时不能留下半完成状态。",
+      "persistence": false
     },
     {
+      "id": "f10",
       "name": "多选与批量操作",
       "steps": [
         "长按进入选择模式",
@@ -136,12 +128,11 @@
         "操作只影响被选择集合",
         "“全选”动态选择当前范围全部项目"
       ],
-      "expected": "“全选”动态选择当前范围全部项目",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f10"
+      "expected": "选择计数必须与当前选中集合一致；批量操作只影响被选项目；“全选”动态选择当前范围全部项目；操作后列表、数量与收藏等派生状态同步更新。",
+      "persistence": false
     },
     {
+      "id": "f11",
       "name": "回收站完整生命周期",
       "steps": [
         "删除媒体",
@@ -151,12 +142,11 @@
         "Empty Recycle Bin 后永久移除",
         "回收站占用大小同步变化"
       ],
-      "expected": "回收站占用大小同步变化",
-      "persistence": true,
-      "multi_user": false,
-      "id": "f11"
+      "expected": "启用回收站时删除必须可恢复，原路径不再作为正常媒体显示；恢复必须回到原位置并重新进入索引；清空后永久移除；回收站占用大小随内容实时变化。",
+      "persistence": true
     },
     {
+      "id": "f12",
       "name": "文件属性与媒体元数据",
       "steps": [
         "打开“属性”",
@@ -164,12 +154,11 @@
         "对带 EXIF/GPS 数据的照片可以使用地图等相关能力",
         "“修复拍摄日期”改变用于日期分组/排序的元数据后，相应列表重新组织"
       ],
-      "expected": "“修复拍摄日期”改变用于日期分组/排序的元数据后，相应列表重新组织",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f12"
+      "expected": "属性必须与当前文件真实元数据一致，不同文件动态变化；“修复拍摄日期”必须写入实际元数据并使按日期分组或排序重新组织，而不是只改界面显示。",
+      "persistence": false
     },
     {
+      "id": "f13",
       "name": "图片全屏查看",
       "steps": [
         "从网格打开图片",
@@ -178,12 +167,11 @@
         "返回后仍位于原文件夹和大致浏览上下文",
         "文件被移动/删除后 Viewer 集合同步调整"
       ],
-      "expected": "文件被移动/删除后 Viewer 集合同步调整",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f13"
+      "expected": "Viewer 集合必须来自当前浏览上下文且顺序一致，左右切换正确；返回后仍位于原文件夹与浏览位置；文件被移动或删除后 Viewer 集合同步调整，不能显示失效媒体。",
+      "persistence": false
     },
     {
+      "id": "f14",
       "name": "图片缩放、旋转与全屏手势",
       "steps": [
         "全屏查看",
@@ -192,12 +180,11 @@
         "根据设置控制亮度、下滑退出、边缘切换、屏幕常亮、系统 UI 隐藏等",
         "切换设置后 Viewer 使用新的交互规则"
       ],
-      "expected": "切换设置后 Viewer 使用新的交互规则",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f14"
+      "expected": "缩放与旋转必须实时作用于当前图片且不修改源文件；各手势与显示开关需真实改变交互行为；设置持久化；关闭“下滑退出”后该手势不能意外退出 Viewer。",
+      "persistence": false
     },
     {
+      "id": "f15",
       "name": "高质量与特殊图像显示",
       "steps": [
         "JPEG/PNG/RAW/SVG/GIF/Ultra HDR 等媒体按格式进入 Gallery",
@@ -205,12 +192,11 @@
         "“使用最高画质”“HDR 显示”“GIF 缩略图动画”等配置改变呈现方式",
         "文件本身不被修改。Fossify 当前公开资料明确支持 RAW、SVG、GIF、AVIF/JPEG XL 等多种格式以及 Ultra HDR。GitHub"
       ],
-      "expected": "文件本身不被修改。Fossify 当前公开资料明确支持 RAW、SVG、GIF、AVIF/JPEG XL 等多种格式以及 Ultra HDR。GitHub",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f15"
+      "expected": "各格式必须使用对应解码方式且不修改源文件；“最高画质”“HDR 显示”“GIF 缩略图动画”等开关必须改变呈现方式；不支持的格式应有合理反馈。",
+      "persistence": false
     },
     {
+      "id": "f16",
       "name": "视频播放状态机",
       "steps": [
         "打开视频",
@@ -221,24 +207,22 @@
         "关闭后结束进入停止状态",
         "多个视频的进度相互独立"
       ],
-      "expected": "多个视频的进度相互独立",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f16"
+      "expected": "播放、暂停、Seek 状态必须正确；开启“记住上次播放位置”后退出重进必须从保存位置继续；Loop 开启时结束后重播、关闭时停止；不同视频的进度相互独立。",
+      "persistence": false
     },
     {
+      "id": "f17",
       "name": "视频手势与播放配置",
       "steps": [
         "配置自动播放、横向全屏、纵向手势控制音量/亮度、点击视频后的播放器行为",
         "在 Viewer 中执行对应操作",
         "设置改变后后续视频遵循新规则"
       ],
-      "expected": "设置改变后后续视频遵循新规则",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f17"
+      "expected": "手势方向必须与所配置功能对应；配置改变后后续视频立即采用新规则；自动播放只影响进入方式，不能覆盖用户主动暂停。",
+      "persistence": false
     },
     {
+      "id": "f18",
       "name": "幻灯片",
       "steps": [
         "选择文件夹/一组媒体",
@@ -247,12 +231,11 @@
         "播放到下一项而非重复当前项",
         "退出后返回原 Gallery 上下文；当前 Fossify changelog 也持续维护 Slideshow 行为。GitHub"
       ],
-      "expected": "退出后返回原 Gallery 上下文；当前 Fossify changelog 也持续维护 Slideshow 行为。GitHub",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f18"
+      "expected": "幻灯片必须按当前集合顺序推进，每次都切换到下一项而不是重复当前项；播放到末尾按应用规则循环或结束；退出后返回原 Gallery 上下文，不修改媒体文件。",
+      "persistence": false
     },
     {
+      "id": "f19",
       "name": "内置图片编辑完整流程",
       "steps": [
         "打开图片",
@@ -265,12 +248,11 @@
         "Confirm 保存结果",
         "Gallery 重新加载编辑后的文件。官方 Gallery 明确支持 crop、resize、rotate、flip、draw、filters。GitHub"
       ],
-      "expected": "Gallery 重新加载编辑后的文件。官方 Gallery 明确支持 crop、resize、rotate、flip、draw、filters。GitHub",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f19"
+      "expected": "所有编辑操作必须实际改变图像结果；Confirm 后 Gallery 必须重新加载编辑后的文件并更新缩略图与尺寸；结果需保存为图像文件而非仅内存预览。",
+      "persistence": false
     },
     {
+      "id": "f20",
       "name": "编辑提交与文件状态同步",
       "steps": [
         "编辑过程中改变多个参数",
@@ -279,24 +261,22 @@
         "保存后缩略图、全屏图、尺寸/修改时间等元数据重新索引",
         "开启“文件操作后保留原有修改日期”时相关日期按设置处理"
       ],
-      "expected": "开启“文件操作后保留原有修改日期”时相关日期按设置处理",
-      "persistence": false,
-      "multi_user": false,
-      "id": "f20"
+      "expected": "Cancel 必须不改变原文件，Confirm 才提交输出；保存后缩略图、全屏图与尺寸、修改时间等元数据重新索引；开启“保留原有修改日期”时日期按设置处理。",
+      "persistence": false
     },
     {
+      "id": "f21",
       "name": "系统级媒体操作",
       "steps": [
         "对媒体可执行 Share、Open with、Set as、Copy to clipboard、Print、Create shortcut、Show on map 或交给其他编辑器",
         "Android chooser 使用正确文件 URI/媒体类型",
         "外部操作返回后 Gallery 状态保持。当前 Fossify 也已经加入图片复制到剪贴板等能力。GitHub"
       ],
-      "expected": "外部操作返回后 Gallery 状态保持。当前 Fossify 也已经加入图片复制到剪贴板等能力。GitHub",
-      "persistence": true,
-      "multi_user": false,
-      "id": "f21"
+      "expected": "必须通过系统 Intent 传递正确文件 URI 与 MIME 类型；分享、打开、打印等由对应系统组件处理；取消后 Gallery 状态不变；剪贴板、快捷方式等产生对应可观察结果。",
+      "persistence": true
     },
     {
+      "id": "f22",
       "name": "安全、迁移与持久化设置",
       "steps": [
         "可分别为整个 App、隐藏内容、删除/移动操作配置 PIN/图案/生物识别保护",
@@ -304,10 +284,8 @@
         "导出/导入 Favorites 与 Settings 后在新环境恢复应用级状态",
         "缓存清理只清派生缓存，不删除源媒体。官方资料确认 Gallery 支持 PIN、Pattern、Fingerprint 对媒体或整个应用进行保护。GitHub"
       ],
-      "expected": "缓存清理只清派生缓存，不删除源媒体。官方资料确认 Gallery 支持 PIN、Pattern、Fingerprint 对媒体或整个应用进行保护。GitHub",
-      "persistence": true,
-      "multi_user": false,
-      "id": "f22"
+      "expected": "保护开启后未认证必须阻止对应操作或隐藏内容；导出的设置与收藏文件必须能导入恢复应用级状态；缓存清理只清派生缓存，不能删除源媒体与用户数据。",
+      "persistence": true
     }
   ]
 }

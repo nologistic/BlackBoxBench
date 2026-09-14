@@ -1,0 +1,1534 @@
+{
+  "app_id": "fossify_paint",
+  "graph_version": "1.0",
+  "session_id": "sess_20260911_170746_abde5e",
+  "generated_at": "2026-09-11T18:02:57.854104+00:00",
+  "nodes": [
+    {
+      "name": "Blank drawing canvas",
+      "description": "Cold-start drawing workspace with a large white canvas, top actions for save/delete/share/more, a secondary tool row (fill, eraser, eyedropper, current color), and a bottom brush-size preview plus slider.",
+      "visual_evidence": [
+        3
+      ],
+      "entry_conditions": [
+        "App launch after dismissing transient system wait dialog"
+      ],
+      "observed_elements": [
+        "white drawing canvas",
+        "save icon",
+        "delete icon",
+        "share icon",
+        "overflow menu",
+        "fill tool",
+        "eraser tool",
+        "eyedropper tool",
+        "dark-green color swatch",
+        "brush-size preview dot",
+        "horizontal size slider"
+      ],
+      "confidence": 0.99,
+      "id": "state_blank_drawing_canvas",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 1,
+      "updated_step": 1
+    },
+    {
+      "name": "Overflow menu",
+      "description": "Popup menu anchored at the top-right of the drawing workspace.",
+      "visual_evidence": [
+        5
+      ],
+      "entry_conditions": [
+        "Tap overflow icon from drawing canvas"
+      ],
+      "observed_elements": [
+        "打开文件",
+        "更改背景色",
+        "打印",
+        "设置",
+        "关于"
+      ],
+      "confidence": 0.99,
+      "id": "state_overflow_menu",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 2,
+      "updated_step": 2
+    },
+    {
+      "name": "Settings screen",
+      "description": "Settings page with appearance/language preferences and five drawing behavior toggles.",
+      "visual_evidence": [
+        7
+      ],
+      "entry_conditions": [
+        "Overflow menu → 设置"
+      ],
+      "observed_elements": [
+        "back arrow",
+        "外观 section",
+        "自定义外观 row",
+        "常规 section",
+        "语言: 中文",
+        "prevent sleep switch on",
+        "show brush size tools switch on",
+        "gesture zoom/pan switch on",
+        "adjust brush size by zoom switch on",
+        "force portrait switch off"
+      ],
+      "confidence": 0.99,
+      "id": "state_settings_screen",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 3,
+      "updated_step": 3
+    },
+    {
+      "name": "Custom appearance settings",
+      "description": "Appearance page for choosing app theme, icon accent color, and app font.",
+      "visual_evidence": [
+        11
+      ],
+      "entry_conditions": [
+        "Settings → 自定义外观"
+      ],
+      "observed_elements": [
+        "应用主题: 系统默认",
+        "应用图标颜色: green swatch",
+        "应用字体: 系统默认"
+      ],
+      "confidence": 0.99,
+      "id": "state_custom_appearance_settings",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 5,
+      "updated_step": 5
+    },
+    {
+      "name": "Theme customization preview",
+      "description": "Selecting a concrete theme opens an editable preview with a green app bar and checkmark confirmation. It exposes text color, background color, primary color, and app icon color swatches before the font section.",
+      "visual_evidence": [
+        17
+      ],
+      "entry_conditions": [
+        "Custom appearance → 应用主题 → choose 浅色主题"
+      ],
+      "observed_elements": [
+        "back arrow",
+        "confirmation checkmark",
+        "应用主题: 浅色主题",
+        "文字颜色 dark swatch",
+        "背景色 white swatch",
+        "主色调 green swatch",
+        "应用图标颜色 green swatch",
+        "应用字体: 系统默认"
+      ],
+      "confidence": 0.99,
+      "id": "state_theme_customization_preview",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 8,
+      "updated_step": 8
+    },
+    {
+      "name": "Appearance editor save guard",
+      "description": "Pressing back after changing the application theme opens a confirmation dialog with 丢弃 and 保存 actions; the edited theme remains previewed behind the modal.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 9,
+          "before_frame": 17,
+          "action": "press_back",
+          "after_frame": 18,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_appearance_editor_save_guard",
+      "type": "FEATURE",
+      "created_step": 9,
+      "updated_step": 9
+    },
+    {
+      "name": "Open settings from drawing workspace",
+      "description": "The overflow menu exposes a 设置 item that transitions from the drawing canvas to the settings page.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 3,
+          "before_frame": 5,
+          "action": "tap 设置",
+          "after_frame": 6,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_open_settings_from_drawing_workspace",
+      "type": "FEATURE",
+      "created_step": 12,
+      "updated_step": 12
+    },
+    {
+      "name": "Application theme selection",
+      "description": "The app theme chooser lists system default, light, dark, dark red, white, black-and-white, and custom options. Selecting a concrete theme immediately previews editable text/background/primary/icon colors and requires confirmation.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 8,
+          "before_frame": 15,
+          "action": "tap 浅色主题",
+          "after_frame": 16,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_application_theme_selection",
+      "type": "FEATURE",
+      "created_step": 12,
+      "updated_step": 12
+    },
+    {
+      "name": "Freehand drawing",
+      "description": "Dragging across the white canvas paints a rounded stroke in the current color; after the first stroke an undo control appears.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 14,
+          "before_frame": 23,
+          "action": "swipe across canvas",
+          "after_frame": 24,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_freehand_drawing",
+      "type": "FEATURE",
+      "created_step": 18,
+      "updated_step": 18
+    },
+    {
+      "name": "Brush size adjustment",
+      "description": "Tapping along the bottom horizontal slider moves its thumb, enlarges the circular brush preview, and subsequent strokes become much thicker.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 15,
+          "before_frame": 25,
+          "action": "tap near right end of brush-size slider",
+          "after_frame": 26,
+          "note": null
+        },
+        {
+          "step": 16,
+          "before_frame": 27,
+          "action": "draw another stroke",
+          "after_frame": 28,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_brush_size_adjustment",
+      "type": "FEATURE",
+      "created_step": 18,
+      "updated_step": 18
+    },
+    {
+      "name": "Undo and redo drawing edits",
+      "description": "Undo removes the most recent stroke and reveals a redo control; tapping redo restores that stroke.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 17,
+          "before_frame": 29,
+          "action": "tap undo",
+          "after_frame": 30,
+          "note": null
+        },
+        {
+          "step": 18,
+          "before_frame": 31,
+          "action": "tap redo",
+          "after_frame": 32,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_undo_and_redo_drawing_edits",
+      "type": "FEATURE",
+      "created_step": 18,
+      "updated_step": 18
+    },
+    {
+      "name": "Color picker dialog",
+      "description": "Modal color chooser with five preset swatches, a two-dimensional saturation/value field, a vertical rainbow hue strip, old-to-new hex values and color previews, plus Cancel and Confirm.",
+      "visual_evidence": [
+        35,
+        37
+      ],
+      "entry_conditions": [
+        "Tap current-color swatch in drawing workspace"
+      ],
+      "observed_elements": [
+        "red/blue/green/yellow/orange presets",
+        "saturation/value square",
+        "hue strip",
+        "current hex #106D1F",
+        "new hex field",
+        "old and new color previews",
+        "取消",
+        "确定"
+      ],
+      "confidence": 0.99,
+      "id": "state_color_picker_dialog",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 29,
+      "updated_step": 29
+    },
+    {
+      "name": "Change drawing color",
+      "description": "Selecting a preset in the color picker previews its new hex value and color, and confirming updates both the toolbar swatch and brush preview; new strokes use the chosen color while existing strokes remain unchanged.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 19,
+          "before_frame": 33,
+          "action": "tap current color swatch",
+          "after_frame": 34,
+          "note": null
+        },
+        {
+          "step": 20,
+          "before_frame": 35,
+          "action": "tap red preset",
+          "after_frame": 36,
+          "note": null
+        },
+        {
+          "step": 21,
+          "before_frame": 37,
+          "action": "tap 确定",
+          "after_frame": 38,
+          "note": null
+        },
+        {
+          "step": 22,
+          "before_frame": 39,
+          "action": "draw on canvas",
+          "after_frame": 40,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_change_drawing_color",
+      "type": "FEATURE",
+      "created_step": 29,
+      "updated_step": 29
+    },
+    {
+      "name": "Flood fill connected canvas area",
+      "description": "Selecting the fill bucket hides brush-size controls; tapping the white canvas fills its connected background with the current red color while differently colored strokes remain visible. Undo restores the prior background.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 23,
+          "before_frame": 41,
+          "action": "tap fill bucket",
+          "after_frame": 42,
+          "note": null
+        },
+        {
+          "step": 24,
+          "before_frame": 43,
+          "action": "tap blank canvas area",
+          "after_frame": 44,
+          "note": null
+        },
+        {
+          "step": 25,
+          "before_frame": 45,
+          "action": "tap undo",
+          "after_frame": 46,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_flood_fill_connected_canvas_area",
+      "type": "FEATURE",
+      "created_step": 29,
+      "updated_step": 29
+    },
+    {
+      "name": "Erase with adjustable width",
+      "description": "Selecting the eraser highlights it and retains the size preview/slider; dragging across a colored stroke removes pixels along a wide rounded path, revealing the white canvas.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 26,
+          "before_frame": 47,
+          "action": "tap eraser",
+          "after_frame": 48,
+          "note": null
+        },
+        {
+          "step": 27,
+          "before_frame": 49,
+          "action": "drag across red stroke",
+          "after_frame": 50,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_erase_with_adjustable_width",
+      "type": "FEATURE",
+      "created_step": 29,
+      "updated_step": 29
+    },
+    {
+      "name": "Pick color from canvas",
+      "description": "Selecting the eyedropper hides size controls; tapping a green painted area changes the current-color swatch from red to that sampled green while the eyedropper stays active.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 28,
+          "before_frame": 51,
+          "action": "tap eyedropper",
+          "after_frame": 52,
+          "note": null
+        },
+        {
+          "step": 29,
+          "before_frame": 53,
+          "action": "tap green stroke",
+          "after_frame": 54,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_pick_color_from_canvas",
+      "type": "FEATURE",
+      "created_step": 29,
+      "updated_step": 29
+    },
+    {
+      "name": "Clear-canvas confirmation",
+      "description": "Modal confirmation shown by the trash action, asking 确定要清除画板吗? with 否 and 是 choices over the dimmed drawing.",
+      "visual_evidence": [
+        57
+      ],
+      "entry_conditions": [
+        "Tap trash icon"
+      ],
+      "observed_elements": [
+        "clear-canvas prompt",
+        "否",
+        "是"
+      ],
+      "confidence": 0.99,
+      "id": "state_clear_canvas_confirmation",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 45,
+      "updated_step": 45
+    },
+    {
+      "name": "Save As dialog",
+      "description": "Export dialog with an editable timestamped filename, PNG/SVG/JPG radio choices, Cancel and Confirm. PNG is selected by default and the keyboard opens with filename focus.",
+      "visual_evidence": [
+        66
+      ],
+      "entry_conditions": [
+        "Tap save icon"
+      ],
+      "observed_elements": [
+        "另存为",
+        "文件名",
+        "timestamped image filename",
+        ".png selected",
+        ".svg",
+        ".jpg",
+        "取消",
+        "确定",
+        "software keyboard"
+      ],
+      "confidence": 0.99,
+      "id": "state_save_as_dialog",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 45,
+      "updated_step": 45
+    },
+    {
+      "name": "System export file picker",
+      "description": "Android document picker opened after confirming export format; shows Downloads, a BlackBoxBench folder, bottom filename field ending in .png, and 保存.",
+      "visual_evidence": [
+        68
+      ],
+      "entry_conditions": [
+        "Save As → 确定"
+      ],
+      "observed_elements": [
+        "下载 location",
+        "BlackBoxBench folder",
+        "new folder icon",
+        "filename field",
+        ".png suffix",
+        "保存 button"
+      ],
+      "confidence": 0.99,
+      "id": "state_system_export_file_picker",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 45,
+      "updated_step": 45
+    },
+    {
+      "name": "System photo picker",
+      "description": "Bottom-sheet photo picker used to open a drawing image, with Photos/Albums tabs, Recent section, and visible thumbnails.",
+      "visual_evidence": [
+        73,
+        81
+      ],
+      "entry_conditions": [
+        "Overflow menu → 打开文件"
+      ],
+      "observed_elements": [
+        "privacy note",
+        "照片 tab",
+        "影集 tab",
+        "最近",
+        "close icon",
+        "overflow",
+        "recent image thumbnails"
+      ],
+      "confidence": 0.99,
+      "id": "state_system_photo_picker",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 45,
+      "updated_step": 45
+    },
+    {
+      "name": "Clear canvas with confirmation",
+      "description": "Trash first asks for confirmation. Choosing No keeps the drawing. Choosing Yes blanks the canvas, and the resulting clear action itself can be undone to restore the drawing.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 30,
+          "before_frame": 55,
+          "action": "tap trash",
+          "after_frame": 56,
+          "note": null
+        },
+        {
+          "step": 31,
+          "before_frame": 57,
+          "action": "tap 否",
+          "after_frame": 58,
+          "note": null
+        },
+        {
+          "step": 32,
+          "before_frame": 59,
+          "action": "tap trash again",
+          "after_frame": 60,
+          "note": null
+        },
+        {
+          "step": 33,
+          "before_frame": 60,
+          "action": "tap 是",
+          "after_frame": 61,
+          "note": null
+        },
+        {
+          "step": 34,
+          "before_frame": 62,
+          "action": "tap undo",
+          "after_frame": 63,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_clear_canvas_with_confirmation",
+      "type": "FEATURE",
+      "created_step": 45,
+      "updated_step": 45
+    },
+    {
+      "name": "Export drawing as PNG",
+      "description": "Save opens a naming/format dialog supporting PNG, SVG, and JPG. Confirming PNG opens the Android document picker; tapping its Save button writes the timestamped PNG and returns to the unchanged canvas.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 35,
+          "before_frame": 64,
+          "action": "tap save",
+          "after_frame": 65,
+          "note": null
+        },
+        {
+          "step": 36,
+          "before_frame": 66,
+          "action": "tap 确定 with PNG selected",
+          "after_frame": 67,
+          "note": null
+        },
+        {
+          "step": 37,
+          "before_frame": 68,
+          "action": "tap system 保存",
+          "after_frame": 69,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_export_drawing_as_png",
+      "type": "FEATURE",
+      "created_step": 45,
+      "updated_step": 45
+    },
+    {
+      "name": "Exported drawing image",
+      "description": "User-named drawing export persisted through the system document picker and later surfaced as a selectable Recent thumbnail in the system photo picker.",
+      "confidence": 0.99,
+      "id": "data_exported_drawing_image",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 45,
+      "updated_step": 45
+    },
+    {
+      "name": "Open an image as canvas",
+      "description": "Open File invokes the Android photo picker. Choosing the recently saved drawing loads it onto the canvas; after clearing the live canvas, choosing the same saved preview restores the saved green/red/erased picture.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 39,
+          "before_frame": 71,
+          "action": "tap 打开文件",
+          "after_frame": 72,
+          "note": null
+        },
+        {
+          "step": 40,
+          "before_frame": 73,
+          "action": "tap left preview under 最近",
+          "after_frame": 74,
+          "note": null
+        },
+        {
+          "step": 44,
+          "before_frame": 79,
+          "action": "tap 打开文件 after clearing canvas",
+          "after_frame": 80,
+          "note": null
+        },
+        {
+          "step": 45,
+          "before_frame": 81,
+          "action": "tap left preview under 最近",
+          "after_frame": 82,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_open_an_image_as_canvas",
+      "type": "FEATURE",
+      "created_step": 45,
+      "updated_step": 45
+    },
+    {
+      "name": "Share action device behavior",
+      "description": "On this registered device, tapping Share with a drawn stroke visible returned to the drawing workspace with a blank canvas and no share destination UI left on screen. This happened twice.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 49,
+          "before_frame": 89,
+          "action": "tap Share",
+          "after_frame": 90,
+          "note": null
+        },
+        {
+          "step": 51,
+          "before_frame": 93,
+          "action": "tap Share again",
+          "after_frame": 94,
+          "note": null
+        }
+      ],
+      "confidence": 0.95,
+      "status": "confirmed",
+      "id": "feature_share_action_device_behavior",
+      "type": "FEATURE",
+      "created_step": 69,
+      "updated_step": 69
+    },
+    {
+      "name": "Print action device behavior",
+      "description": "Choosing 打印 from the overflow menu returned directly to the unchanged blue drawing workspace; no print dialog remained visible on this registered device.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 57,
+          "before_frame": 103,
+          "action": "tap 打印",
+          "after_frame": 104,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_print_action_device_behavior",
+      "type": "FEATURE",
+      "created_step": 69,
+      "updated_step": 69
+    },
+    {
+      "name": "About screen",
+      "description": "Scrollable About page grouped into Support, Help Us, Social Networks, and Other. It includes known issues, contact email, share with friends, contributors, donate, three social links, privacy policy, third-party licenses, and version 1.4.0.",
+      "visual_evidence": [
+        108
+      ],
+      "entry_conditions": [
+        "Overflow menu → 关于"
+      ],
+      "observed_elements": [
+        "back arrow",
+        "支持",
+        "已知问题",
+        "contact email",
+        "帮助我们",
+        "分享给好友",
+        "贡献者",
+        "向 Fossify 捐赠",
+        "社交网络",
+        "GitHub",
+        "Reddit",
+        "Telegram",
+        "其他",
+        "隐私政策",
+        "第三方许可",
+        "版本 1.4.0"
+      ],
+      "confidence": 0.99,
+      "id": "state_about_screen",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 69,
+      "updated_step": 69
+    },
+    {
+      "name": "Third-party licenses screen",
+      "description": "A scrollable third-party licenses page with a back arrow and long blocks of dependency copyright/license text separated into sections.",
+      "visual_evidence": [
+        110
+      ],
+      "entry_conditions": [
+        "About → 第三方许可"
+      ],
+      "observed_elements": [
+        "back arrow",
+        "第三方许可 title",
+        "multiple license sections",
+        "scrollable long-form text"
+      ],
+      "confidence": 0.99,
+      "id": "state_third_party_licenses_screen",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 69,
+      "updated_step": 69
+    },
+    {
+      "name": "Open About and license information",
+      "description": "The overflow menu opens the About page, and its 第三方许可 row opens a separate long, scrollable license text screen. Back returns through About to the canvas.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 59,
+          "before_frame": 106,
+          "action": "tap 关于",
+          "after_frame": 107,
+          "note": null
+        },
+        {
+          "step": 60,
+          "before_frame": 108,
+          "action": "tap 第三方许可",
+          "after_frame": 109,
+          "note": null
+        },
+        {
+          "step": 61,
+          "before_frame": 110,
+          "action": "press back",
+          "after_frame": 111,
+          "note": null
+        },
+        {
+          "step": 62,
+          "before_frame": 111,
+          "action": "press back",
+          "after_frame": 112,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_open_about_and_license_information",
+      "type": "FEATURE",
+      "created_step": 69,
+      "updated_step": 69
+    },
+    {
+      "name": "Drawing preferences",
+      "description": "Current brush color, selected brush size, and chosen canvas background color remain observable after app restart, while active drawing pixels do not.",
+      "confidence": 0.99,
+      "id": "data_drawing_preferences",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 69,
+      "updated_step": 69
+    },
+    {
+      "name": "Live canvas resets but tool preferences persist on restart",
+      "description": "Restarting after loading/drawing clears the active painted pixels and removes undo history. The chosen green color and maximum brush size persist; after changing the background to blue, a later restart also preserves the blue background.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 46,
+          "before_frame": 83,
+          "action": "restart app with loaded drawing visible",
+          "after_frame": 84,
+          "note": null
+        },
+        {
+          "step": 69,
+          "before_frame": 122,
+          "action": "restart app after leaving settings",
+          "after_frame": 123,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_live_canvas_resets_but_tool_preferences_persist_on_restart",
+      "type": "FEATURE",
+      "created_step": 69,
+      "updated_step": 69
+    },
+    {
+      "name": "Change persistent canvas background color",
+      "description": "Change Background Color opens the color chooser initialized from white. Selecting blue previews #1976D2; confirming recolors the full canvas blue, changes tool icons to white for contrast, does not create undo history, and the blue background survives app restart.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 53,
+          "before_frame": 96,
+          "action": "tap 更改背景色",
+          "after_frame": 97,
+          "note": null
+        },
+        {
+          "step": 54,
+          "before_frame": 98,
+          "action": "tap blue preset",
+          "after_frame": 99,
+          "note": null
+        },
+        {
+          "step": 55,
+          "before_frame": 100,
+          "action": "tap 确定",
+          "after_frame": 101,
+          "note": null
+        },
+        {
+          "step": 69,
+          "before_frame": 122,
+          "action": "restart app",
+          "after_frame": 123,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_change_persistent_canvas_background_color",
+      "type": "FEATURE",
+      "created_step": 69,
+      "updated_step": 69
+    },
+    {
+      "name": "Painted canvas with mixed edits",
+      "description": "White canvas containing green and red rounded strokes at different widths; part of the red stroke is erased to white. Undo is visible and the current color swatch is green.",
+      "visual_evidence": [
+        51,
+        55,
+        83
+      ],
+      "entry_conditions": [
+        "Draw with multiple colors and widths, then erase part of a stroke"
+      ],
+      "observed_elements": [
+        "thin green stroke",
+        "thick green stroke",
+        "thick red stroke",
+        "wide white erased path",
+        "undo control",
+        "green current-color swatch"
+      ],
+      "confidence": 0.99,
+      "id": "state_painted_canvas_with_mixed_edits",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 83,
+      "updated_step": 83
+    },
+    {
+      "name": "Blue background canvas",
+      "description": "Blank canvas recolored to blue, with white fill/eraser/eyedropper icons for contrast and a green current-color swatch; brush-size preview and slider are visible when enabled.",
+      "visual_evidence": [
+        102,
+        124
+      ],
+      "entry_conditions": [
+        "Overflow menu → 更改背景色 → choose blue → 确定"
+      ],
+      "observed_elements": [
+        "solid blue canvas",
+        "white tool icons",
+        "green color swatch",
+        "large green brush preview",
+        "size slider"
+      ],
+      "confidence": 0.99,
+      "id": "state_blue_background_canvas",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 83,
+      "updated_step": 83
+    },
+    {
+      "name": "Toggle brush-size tool visibility",
+      "description": "Turning off 显示画笔大小工具 changes its switch to off. Returning to the canvas removes the bottom brush preview and size slider entirely. Turning the switch back on restores the enabled setting.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 74,
+          "before_frame": 129,
+          "action": "tap 显示画笔大小工具 switch",
+          "after_frame": 130,
+          "note": null
+        },
+        {
+          "step": 75,
+          "before_frame": 131,
+          "action": "press back",
+          "after_frame": 132,
+          "note": null
+        },
+        {
+          "step": 80,
+          "before_frame": 137,
+          "action": "tap the same switch to turn it back on",
+          "after_frame": 138,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_toggle_brush_size_tool_visibility",
+      "type": "FEATURE",
+      "created_step": 83,
+      "updated_step": 83
+    },
+    {
+      "name": "Toggle keep-awake preference",
+      "description": "The prevent-auto-sleep switch can be turned off and back on from Settings; its visual switch state updates immediately.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 73,
+          "before_frame": 127,
+          "action": "tap prevent-auto-sleep switch",
+          "after_frame": 128,
+          "note": null
+        },
+        {
+          "step": 79,
+          "before_frame": 136,
+          "action": "tap switch to turn it back on",
+          "after_frame": 137,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_toggle_keep_awake_preference",
+      "type": "FEATURE",
+      "created_step": 83,
+      "updated_step": 83
+    },
+    {
+      "name": "Application font chooser",
+      "description": "Modal font choice list with three radio options: system default, monospaced font, and choose a font file.",
+      "visual_evidence": [
+        149
+      ],
+      "entry_conditions": [
+        "Custom appearance → 应用字体"
+      ],
+      "observed_elements": [
+        "系统默认 selected",
+        "等宽字体",
+        "选择字体文件..."
+      ],
+      "confidence": 0.99,
+      "id": "state_application_font_chooser",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 93,
+      "updated_step": 93
+    },
+    {
+      "name": "Preview application font choice",
+      "description": "Choosing 等宽字体 closes the chooser, updates the displayed application-font value, previews the different lettering, and reveals a top checkmark for saving. Leaving by Back invokes the existing discard-or-save guard.",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 89,
+          "before_frame": 147,
+          "action": "tap 应用字体",
+          "after_frame": 148,
+          "note": null
+        },
+        {
+          "step": 90,
+          "before_frame": 149,
+          "action": "tap 等宽字体",
+          "after_frame": 150,
+          "note": null
+        },
+        {
+          "step": 91,
+          "before_frame": 151,
+          "action": "press back",
+          "after_frame": 152,
+          "note": null
+        },
+        {
+          "step": 92,
+          "before_frame": 152,
+          "action": "tap 丢弃",
+          "after_frame": 153,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "id": "feature_preview_application_font_choice",
+      "type": "FEATURE",
+      "created_step": 93,
+      "updated_step": 93
+    }
+  ],
+  "edges": [
+    {
+      "source": "state_blank_drawing_canvas",
+      "target": "state_overflow_menu",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 2,
+          "before_frame": 3,
+          "action": "tap overflow",
+          "after_frame": 4,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "Overflow icon opens the main menu.",
+      "id": "edge_0001",
+      "created_step": 98
+    },
+    {
+      "source": "state_overflow_menu",
+      "target": "state_settings_screen",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 3,
+          "before_frame": 5,
+          "action": "tap 设置",
+          "after_frame": 6,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "设置 opens Settings.",
+      "id": "edge_0002",
+      "created_step": 98
+    },
+    {
+      "source": "state_settings_screen",
+      "target": "state_custom_appearance_settings",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 5,
+          "before_frame": 9,
+          "action": "tap 自定义外观",
+          "after_frame": 10,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "自定义外观 opens the appearance editor.",
+      "id": "edge_0003",
+      "created_step": 98
+    },
+    {
+      "source": "state_custom_appearance_settings",
+      "target": "state_theme_customization_preview",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 8,
+          "before_frame": 15,
+          "action": "tap 浅色主题",
+          "after_frame": 16,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "Choosing a theme enters live customization preview.",
+      "id": "edge_0004",
+      "created_step": 98
+    },
+    {
+      "source": "state_blank_drawing_canvas",
+      "target": "state_color_picker_dialog",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 19,
+          "before_frame": 33,
+          "action": "tap color swatch",
+          "after_frame": 34,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "Current-color swatch opens the color picker.",
+      "id": "edge_0005",
+      "created_step": 98
+    },
+    {
+      "source": "state_blank_drawing_canvas",
+      "target": "state_clear_canvas_confirmation",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 30,
+          "before_frame": 55,
+          "action": "tap trash",
+          "after_frame": 56,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "Trash opens clear confirmation.",
+      "id": "edge_0006",
+      "created_step": 98
+    },
+    {
+      "source": "state_blank_drawing_canvas",
+      "target": "state_save_as_dialog",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 35,
+          "before_frame": 64,
+          "action": "tap save",
+          "after_frame": 65,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "Save opens export naming and format dialog.",
+      "id": "edge_0007",
+      "created_step": 98
+    },
+    {
+      "source": "state_save_as_dialog",
+      "target": "state_system_export_file_picker",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 36,
+          "before_frame": 66,
+          "action": "tap 确定",
+          "after_frame": 67,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "Confirming export proceeds to a system destination chooser.",
+      "id": "edge_0008",
+      "created_step": 98
+    },
+    {
+      "source": "state_overflow_menu",
+      "target": "state_system_photo_picker",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 39,
+          "before_frame": 71,
+          "action": "tap 打开文件",
+          "after_frame": 72,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "打开文件 opens the system photo chooser.",
+      "id": "edge_0009",
+      "created_step": 98
+    },
+    {
+      "source": "state_system_photo_picker",
+      "target": "state_painted_canvas_with_mixed_edits",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 45,
+          "before_frame": 81,
+          "action": "tap left preview under 最近",
+          "after_frame": 82,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "Choosing the saved preview loads its pixels into the canvas.",
+      "id": "edge_0010",
+      "created_step": 98
+    },
+    {
+      "source": "state_overflow_menu",
+      "target": "state_about_screen",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 59,
+          "before_frame": 106,
+          "action": "tap 关于",
+          "after_frame": 107,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "关于 opens About.",
+      "id": "edge_0011",
+      "created_step": 98
+    },
+    {
+      "source": "state_about_screen",
+      "target": "state_third_party_licenses_screen",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 60,
+          "before_frame": 108,
+          "action": "tap 第三方许可",
+          "after_frame": 109,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "第三方许可 opens the license text.",
+      "id": "edge_0012",
+      "created_step": 98
+    },
+    {
+      "source": "feature_export_drawing_as_png",
+      "target": "data_exported_drawing_image",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 37,
+          "before_frame": 68,
+          "action": "tap system 保存",
+          "after_frame": 69,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "Successful export creates a persisted drawing image.",
+      "id": "edge_0013",
+      "created_step": 98
+    },
+    {
+      "source": "feature_open_an_image_as_canvas",
+      "target": "data_exported_drawing_image",
+      "type": "DEPENDS_ON",
+      "evidence": [
+        {
+          "step": 45,
+          "before_frame": 81,
+          "action": "tap left preview under 最近",
+          "after_frame": 82,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "The reopen flow uses the persisted drawing image.",
+      "id": "edge_0014",
+      "created_step": 98
+    },
+    {
+      "source": "feature_change_persistent_canvas_background_color",
+      "target": "data_drawing_preferences",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 55,
+          "before_frame": 100,
+          "action": "tap 确定",
+          "after_frame": 101,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "Background selection updates persisted drawing preferences.",
+      "id": "edge_0015",
+      "created_step": 98
+    },
+    {
+      "source": "feature_toggle_brush_size_tool_visibility",
+      "target": "data_drawing_preferences",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 74,
+          "before_frame": 129,
+          "action": "tap brush-size visibility switch",
+          "after_frame": 130,
+          "note": null
+        }
+      ],
+      "confidence": 0.99,
+      "status": "confirmed",
+      "note": "Visibility switch updates a drawing preference.",
+      "id": "edge_0016",
+      "created_step": 98
+    }
+  ],
+  "unresolved_questions": [],
+  "coverage_summary": {
+    "states": 15,
+    "features": 21,
+    "data_entities": 2,
+    "edges": 16,
+    "confirmed_ratio": 1.0,
+    "actions_used": 98
+  }
+}

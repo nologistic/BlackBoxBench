@@ -1,0 +1,385 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "b4901d47baf005616aa0e053a76fce38ca0a92368918a7ac9b93c071eb44d24e",
+  "accepted_apk_hash": "a43db8e797d8959e9f6f95dc291fb635e606487307edf89377a86981cbcd4752",
+  "revision_count": 1,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "首次启动并选择离线使用",
+        "浏览含虚构清单与任务的主列表",
+        "新建任务并设置明天13:00后保存",
+        "搜索新任务、切换完成状态",
+        "隐藏已完成与列表分组",
+        "打开自定义过滤器及条件菜单",
+        "打开设置与外观设置",
+        "重启后验证首启状态、任务和完成状态持久化"
+      ],
+      "findings": [
+        "逾期重复任务完成时，下一次截止日期需要从完成日顺延；当前实现从旧截止日顺延一个周期。",
+        "其余已检查核心流程与主要截图布局正常。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "5b9306a36d8321cf796ecf52796319cc9e6524c9b121bd96252b02cd799f678b",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "55d4e9c0ec2ef28b25e6bbb424475d0852743efe9714f6979b400362c3c133fb",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "d8a747d7cf1d293d14c97f523a2015a700aff24c417db14d8671ca1000176703",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "ded6f359d42b72945c34db7bac765547b1abea19746e2414a2b73bd7923e3792",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 8,
+          "sha256": "ca448fb814661e335873b018bf1606f3a5be5a65dbab7492c541ecd0c1987a28",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 10,
+          "sha256": "9db1288e59c9e30471f2db13b95d242f635da893fd2845bd4da65e2e46927a01",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 13,
+          "sha256": "49b6cd6a562a4398b6442a75c51490b638352caa5b41175d566be125abb52dea",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 14,
+          "sha256": "4515a2055b9d4ecbc63c42fd5febedecaf1402ad996089be856d1e1912f1f536",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 16,
+          "sha256": "6b54014e1a9c091f7a8ebd27acce704abf0e3ac148bc22954b9dcecf6a9a86b6",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 18,
+          "sha256": "e6ade22125a7199c2ea7109cb6c80e63fd8e09eb28164ef43820899dc8237383",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 21,
+          "sha256": "ac0f7adf2653ae75e2608eee3400ab7da73f7e3b2e0b0ed31587c362ba86fdf8",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 22,
+          "sha256": "b18fc2b9414830a4848397f1139e4b2efed7ba86f2cf97f89ac6064ff879f7c9",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 23,
+          "sha256": "d71f14d48f9c534a9a16a0bdfb0a4d7d42080ebd49141bf1d9dc86c5150a6fc5",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 25,
+          "sha256": "095bb81a18318f8b4609ac17dda1d515184707a15a59c2c99262494170403590",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 26,
+          "sha256": "b963885a13c5dd7a219cba0e36a4be299f20945967549dd33c51cc057a4c38ec",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 27,
+          "sha256": "fea090de9eed5f686e0c74cfb09572cd283a67650a01ff6822a7caaa07478a40",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 30,
+          "sha256": "4d018727bd3456deabb57e45b8cb02843078d65d1fe688b8a6b05f19962e9959",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 34,
+          "sha256": "93a5b7d9452d17474764f2e9846b33287f5ecb2339a20c357a5f1e73710ae625",
+          "path": "review/round_01/observation_018.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "accept",
+      "checked_flows": [
+        "第二轮首次启动与离线进入",
+        "创建标题为 Repeat 的任务",
+        "设置截止日期为今天",
+        "设置每天重复并保存",
+        "搜索 Repeat 任务",
+        "完成重复任务后同一条目保持未完成并将截止日顺延为明天",
+        "重启后再次搜索并确认明天截止日期仍持久化",
+        "首轮已验证的新建编辑、搜索、完成、隐藏已完成、清单分组、筛选条件、设置与持久化"
+      ],
+      "findings": [
+        "逾期重复规则修订后通过：每日重复任务由今天完成后立即显示下一实例，截止日期为明天。",
+        "重启后下一实例与截止日期保持。",
+        "主要界面布局、中文文案、颜色层级与探索截图一致，无私人信息。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "press_back"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "39ade4c17814e5eb1e97b801977e9bb889f0ed080b1d04d29f1e1b74b72de840",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 12,
+          "sha256": "d242cd55bdde72261e5be413374997434e878ae69f85a1e684bf34b360ba4a20",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 19,
+          "sha256": "1c49279c1cc985e3a1e3b7c739037606f78a8dccc7ff02e0d65acef76ba18170",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 20,
+          "sha256": "bca643561ed0645c783a8b1e152f4f349f3dd538a1919c8074d5159b2454d448",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 21,
+          "sha256": "8276f9989e4c7ee03192710c2d17811ec1e0b8d794d49b04403948321f151963",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 26,
+          "sha256": "eebe80ceab71b8094017fa3082d391224c2a577445f6d1126688faddfdfb86d8",
+          "path": "review/round_02/observation_006.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

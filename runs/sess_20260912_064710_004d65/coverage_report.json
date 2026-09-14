@@ -1,0 +1,19 @@
+{
+  "app_id": "tasks",
+  "session_id": "sess_20260912_064710_004d65",
+  "coverage": {
+    "states": 20,
+    "features": 18,
+    "data_entities": 4,
+    "edges": 15,
+    "confirmed_ratio": 1.0,
+    "actions_used": 101
+  },
+  "unresolved_questions": [],
+  "nodes_by_status": {
+    "confirmed": 42,
+    "hypothesized": 0,
+    "uncertain": 0,
+    "rejected": 0
+  }
+}

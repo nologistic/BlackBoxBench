@@ -1,0 +1,803 @@
+{
+  "checklist_id": "jspaint_web",
+  "platform": "web",
+  "features": [
+    {
+      "id": "f01",
+      "name": "新建与画布初始化",
+      "steps": [
+        "打开 File",
+        "New",
+        "在当前存在未保存内容时处理保存确认",
+        "创建新的空白画布",
+        "工具、颜色和画布恢复到可继续编辑的状态"
+      ],
+      "expected": "New 后画布为空白且可继续编辑；未保存内容的确认流程正确触发；工具 / 颜色恢复初始可用状态。",
+      "persistence": false
+    },
+    {
+      "id": "f02",
+      "name": "打开本地图像",
+      "steps": [
+        "打开 File",
+        "Open",
+        "从本地选择 PNG/JPEG/BMP/GIF/WebP 等受支持图片",
+        "将图片载入画布",
+        "画布尺寸适配图片并可继续使用全部绘图工具编辑；JS Paint 官方还支持多种位图及部分 TIFF/PDF/SVG/ICO 输入格式。 GitHub"
+      ],
+      "expected": "载入的图片必须适配画布且可用全部绘图工具编辑；画布尺寸与图片匹配。",
+      "persistence": false
+    },
+    {
+      "id": "f03",
+      "name": "保存与另存为",
+      "steps": [
+        "绘制或修改图像",
+        "File",
+        "Save / Save As",
+        "选择文件名和图像格式",
+        "下载生成文件",
+        "再次打开导出的文件",
+        "图像内容与保存时一致"
+      ],
+      "expected": "保存后再次打开导出文件，图像内容与保存时一致；文件名与格式正确。",
+      "persistence": true
+    },
+    {
+      "id": "f04",
+      "name": "自动备份 / Manage Storage",
+      "steps": [
+        "编辑图像后让页面保留自动备份",
+        "File",
+        "Manage Storage",
+        "查看可恢复记录",
+        "重新载入备份",
+        "恢复之前的画面；JS Paint 官方说明会自动保留当前图像备份并通过 Manage Storage 管理。 GitHub"
+      ],
+      "expected": "Manage Storage 必须列出可恢复记录；重新载入后恢复之前的画面。",
+      "persistence": false
+    },
+    {
+      "id": "f05",
+      "name": "撤销 / 重做",
+      "steps": [
+        "连续绘制、填色、创建形状或执行图像变换",
+        "Edit",
+        "Undo 连续回退多个操作",
+        "Redo 恢复",
+        "每一步画面按历史正确变化"
+      ],
+      "expected": "撤销按历史逆序回退多步；重做恢复；每步画面按历史正确变化。",
+      "persistence": false
+    },
+    {
+      "id": "f06",
+      "name": "历史记录",
+      "steps": [
+        "连续执行多次不同操作",
+        "Edit",
+        "History",
+        "查看操作历史",
+        "跳转到较早状态",
+        "再跳转到后续或不同分支",
+        "画布恢复对应状态；JS Paint 支持非线性、近乎不限次数的撤销历史。 GitHub"
+      ],
+      "expected": "History 必须展示操作历史；跳转到较早状态或分支后画布恢复对应状态。",
+      "persistence": false
+    },
+    {
+      "id": "f07",
+      "name": "剪切 / 复制 / 粘贴",
+      "steps": [
+        "建立矩形或自由形状选区",
+        "Edit",
+        "Cut / Copy",
+        "Paste",
+        "生成可移动的粘贴选区",
+        "将其放置到新的位置",
+        "画布内容按剪切或复制语义更新"
+      ],
+      "expected": "剪切 / 复制 / 粘贴语义正确；粘贴选区可移动并放置到新位置。",
+      "persistence": false
+    },
+    {
+      "id": "f08",
+      "name": "Copy To / Paste From",
+      "steps": [
+        "建立选区",
+        "Edit",
+        "Copy To 将选区保存为独立图片",
+        "Edit",
+        "Paste From 选择另一张本地图像",
+        "图像作为浮动选区进入当前画布",
+        "定位后合并到图像中。 GitHub"
+      ],
+      "expected": "Copy To 必须将选区保存为独立图片；Paste From 将图片作为浮动选区载入并可合并。",
+      "persistence": false
+    },
+    {
+      "id": "f09",
+      "name": "全选与删除选区",
+      "steps": [
+        "Edit",
+        "Select All",
+        "整张画布成为选区",
+        "移动或删除",
+        "取消选区",
+        "未被选中的状态与操作结果正确保留"
+      ],
+      "expected": "全选后整张画布成为选区；移动 / 删除后取消选区，结果正确保留。",
+      "persistence": false
+    },
+    {
+      "id": "f10",
+      "name": "自由形状选择",
+      "steps": [
+        "选择 Free-Form Select",
+        "沿任意轮廓圈选图像区域",
+        "完成闭合选区",
+        "拖动选中内容",
+        "选区只包含手绘轮廓内的像素"
+      ],
+      "expected": "自由形状选区必须只包含手绘轮廓内的像素；拖动后仅选中内容移动。",
+      "persistence": false
+    },
+    {
+      "id": "f11",
+      "name": "矩形选择",
+      "steps": [
+        "选择 Select",
+        "在画布拖出矩形",
+        "移动选区",
+        "调整位置",
+        "支持透明/不透明选区模式",
+        "放下选区后内容合并到目标位置"
+      ],
+      "expected": "矩形选区正确创建与移动；透明 / 不透明模式生效；放下后合并到目标位置。",
+      "persistence": false
+    },
+    {
+      "id": "f12",
+      "name": "选区复制拖拽与印章式复制",
+      "steps": [
+        "建立选区",
+        "复制并移动",
+        "多次放置相同内容",
+        "原图保持或移动语义正确；JS Paint 还支持经典 Paint 的 Shift 拖动涂抹和 Shift 点击“盖章”等行为。 GitHub"
+      ],
+      "expected": "复制拖拽可多次放置相同内容；原图按移动 / 复制语义正确变化；Shift 行为符合经典 Paint。",
+      "persistence": true
+    },
+    {
+      "id": "f13",
+      "name": "裁剪到选区",
+      "steps": [
+        "建立矩形或自由选区",
+        "执行裁剪操作",
+        "画布尺寸缩小到选区范围",
+        "选区之外的像素被移除；JS Paint 也支持按住 Ctrl 创建选区进行裁剪。 GitHub"
+      ],
+      "expected": "裁剪后画布尺寸缩小到选区范围；选区外像素被移除。",
+      "persistence": false
+    },
+    {
+      "id": "f14",
+      "name": "橡皮擦",
+      "steps": [
+        "先建立多色图像",
+        "选择 Eraser",
+        "选择不同橡皮尺寸",
+        "在画面拖动",
+        "对经过区域擦除为背景色",
+        "改变尺寸后擦除宽度同步变化"
+      ],
+      "expected": "橡皮擦只擦除经过区域为背景色；尺寸变化后擦除宽度同步变化。",
+      "persistence": false
+    },
+    {
+      "id": "f15",
+      "name": "颜色替换橡皮擦",
+      "steps": [
+        "设置前景色与背景色",
+        "使用橡皮擦并以右键拖动指定颜色区域",
+        "仅将匹配前景色的像素替换为背景色",
+        "其他颜色保持不变，这是经典 Paint 行为并由 JS Paint 支持。 GitHub"
+      ],
+      "expected": "右键颜色替换橡皮只把匹配前景色的像素替换为背景色；其他颜色保持不变。",
+      "persistence": true
+    },
+    {
+      "id": "f16",
+      "name": "油漆桶填充",
+      "steps": [
+        "选择 Fill With Color",
+        "设置前景色",
+        "点击封闭区域",
+        "整个连通区域被颜色填满",
+        "点击不同区域只影响对应连通范围"
+      ],
+      "expected": "油漆桶只填满点击的连通区域；不同区域互不影响。",
+      "persistence": false
+    },
+    {
+      "id": "f17",
+      "name": "全图颜色替换填充",
+      "steps": [
+        "选择填充工具",
+        "设置目标颜色与替换颜色",
+        "按住 Shift 点击",
+        "将图像中所有匹配颜色的非连续区域一并替换，而不是只处理一个连通区域。 GitHub"
+      ],
+      "expected": "Shift 点击必须替换全图所有匹配颜色的非连续区域。",
+      "persistence": false
+    },
+    {
+      "id": "f18",
+      "name": "吸管取色",
+      "steps": [
+        "选择 Color Picker",
+        "点击画布中的现有颜色",
+        "当前前景色更新",
+        "再使用铅笔、画笔或填充工具",
+        "新内容使用采样到的颜色"
+      ],
+      "expected": "吸管取色后前景色更新；后续绘制使用采样颜色。",
+      "persistence": false
+    },
+    {
+      "id": "f19",
+      "name": "放大镜",
+      "steps": [
+        "选择 Magnifier",
+        "在工具选项中选择 1×、2×、6×、8× 等倍率",
+        "点击画面放大",
+        "切换倍率或缩小",
+        "编辑内容保持不变，仅视图比例变化"
+      ],
+      "expected": "放大镜各倍率正确切换；仅视图比例变化，编辑内容不变。",
+      "persistence": true
+    },
+    {
+      "id": "f20",
+      "name": "铅笔",
+      "steps": [
+        "选择 Pencil",
+        "从底部调色板选择前景色",
+        "在画布拖动",
+        "生成单像素风格连续线条",
+        "切换颜色后继续绘制",
+        "已有笔迹保持原色"
+      ],
+      "expected": "铅笔生成连续单像素风格线条；切换颜色后新笔迹用新色、旧笔迹保持。",
+      "persistence": true
+    },
+    {
+      "id": "f21",
+      "name": "画笔",
+      "steps": [
+        "选择 Brush",
+        "从工具选项选择不同画笔粗细或笔尖",
+        "在画布拖动",
+        "生成对应宽度笔迹",
+        "更换颜色和笔尖后继续绘制"
+      ],
+      "expected": "画笔不同粗细 / 笔尖正确应用；更换后继续绘制正确。",
+      "persistence": false
+    },
+    {
+      "id": "f22",
+      "name": "喷枪 / Airbrush",
+      "steps": [
+        "选择 Airbrush",
+        "选择不同喷枪尺寸/密度",
+        "按住鼠标并移动",
+        "产生随机颗粒式喷涂",
+        "停留时间越长的区域颜色密度越高"
+      ],
+      "expected": "喷枪产生随机颗粒喷涂；停留时间越长密度越高。",
+      "persistence": false
+    },
+    {
+      "id": "f23",
+      "name": "文本工具",
+      "steps": [
+        "选择 Text",
+        "在画布拖出文本框",
+        "输入文字",
+        "在字体工具栏选择字体、字号、粗体、斜体、下划线等",
+        "切换透明/不透明背景",
+        "完成后文本栅格化到图像中"
+      ],
+      "expected": "文本样式（字体 / 字号 / 粗斜下划线 / 透明背景）正确应用；完成后栅格化到图像。",
+      "persistence": false
+    },
+    {
+      "id": "f24",
+      "name": "直线工具",
+      "steps": [
+        "选择 Line",
+        "选择线宽",
+        "从起点拖到终点",
+        "创建直线",
+        "改变粗细和颜色再次绘制",
+        "新直线使用对应设置"
+      ],
+      "expected": "直线工具线宽与颜色正确应用。",
+      "persistence": true
+    },
+    {
+      "id": "f25",
+      "name": "曲线工具",
+      "steps": [
+        "选择 Curve",
+        "拖出基础直线",
+        "再拖动线段控制曲率",
+        "完成一段或两段弯曲",
+        "曲线颜色与线宽沿用当前设置"
+      ],
+      "expected": "曲线工具控制曲率正确；颜色与线宽沿用当前设置。",
+      "persistence": false
+    },
+    {
+      "id": "f26",
+      "name": "矩形工具",
+      "steps": [
+        "选择 Rectangle",
+        "设置轮廓/填充组合和线宽",
+        "拖出矩形",
+        "分别测试仅轮廓、轮廓+填充、仅填充",
+        "图形样式与选择一致"
+      ],
+      "expected": "矩形轮廓 / 填充组合正确（仅轮廓 / 轮廓+填充 / 仅填充）。",
+      "persistence": false
+    },
+    {
+      "id": "f27",
+      "name": "多边形工具",
+      "steps": [
+        "选择 Polygon",
+        "依次点击多个顶点",
+        "回到起点或双击完成",
+        "生成闭合多边形",
+        "按当前轮廓和填充模式渲染"
+      ],
+      "expected": "多边形按顶点依次创建并闭合；按当前轮廓 / 填充模式渲染。",
+      "persistence": false
+    },
+    {
+      "id": "f28",
+      "name": "椭圆工具",
+      "steps": [
+        "选择 Ellipse",
+        "拖出椭圆",
+        "切换轮廓和填充模式",
+        "再绘制",
+        "支持不同颜色组合和线宽"
+      ],
+      "expected": "椭圆正确创建；轮廓 / 填充模式与颜色正确。",
+      "persistence": false
+    },
+    {
+      "id": "f29",
+      "name": "圆角矩形工具",
+      "steps": [
+        "选择 Rounded Rectangle",
+        "拖动定义大小",
+        "生成圆角矩形",
+        "切换填充/轮廓样式与颜色",
+        "新图形同步使用当前样式"
+      ],
+      "expected": "圆角矩形正确创建；样式与颜色同步应用。",
+      "persistence": false
+    },
+    {
+      "id": "f30",
+      "name": "前景色 / 背景色",
+      "steps": [
+        "在底部 Color Box 左键点击颜色设置前景色",
+        "右键点击设置背景色",
+        "使用绘图或形状工具验证两种颜色",
+        "当前双颜色框同步显示选择结果"
+      ],
+      "expected": "左键设前景色、右键设背景色；双颜色框同步显示；绘图验证正确。",
+      "persistence": false
+    },
+    {
+      "id": "f31",
+      "name": "第三颜色槽",
+      "steps": [
+        "设置普通前景/背景色",
+        "按住 Ctrl 选择第三种颜色",
+        "绘画过程中按下或释放 Ctrl",
+        "在当前笔迹中即时切换第三颜色与普通颜色。 GitHub"
+      ],
+      "expected": "Ctrl 第三颜色必须在笔迹中即时切换生效。",
+      "persistence": false
+    },
+    {
+      "id": "f32",
+      "name": "编辑自定义颜色",
+      "steps": [
+        "Colors",
+        "Edit Colors",
+        "从颜色选择器定义自定义 RGB/HSL 颜色",
+        "添加到自定义调色板",
+        "使用该颜色绘图",
+        "自定义颜色可继续选择"
+      ],
+      "expected": "自定义颜色必须添加到调色板并可继续使用。",
+      "persistence": false
+    },
+    {
+      "id": "f33",
+      "name": "调色板导入 / 导出",
+      "steps": [
+        "Colors",
+        "Get Colors 加载调色板文件",
+        "Color Box 更新为导入颜色",
+        "Colors",
+        "Save Colors 导出当前调色板；官方支持 PAL、GPL、ACO、ASE 等多种调色板格式。 GitHub"
+      ],
+      "expected": "调色板导入 / 导出正确（PAL/GPL/ACO/ASE）；导入后 Color Box 更新。",
+      "persistence": false
+    },
+    {
+      "id": "f34",
+      "name": "Flip / Rotate",
+      "steps": [
+        "建立选区或直接作用整图",
+        "Image",
+        "Flip/Rotate",
+        "选择水平翻转、垂直翻转或旋转角度",
+        "确认",
+        "当前选区或整个图像按设置变换；JS Paint 还允许任意旋转角度。 GitHub"
+      ],
+      "expected": "翻转 / 旋转按设置作用于选区或整图；任意角度旋转生效。",
+      "persistence": false
+    },
+    {
+      "id": "f35",
+      "name": "Stretch / Skew",
+      "steps": [
+        "Image",
+        "Stretch/Skew",
+        "输入水平/垂直缩放百分比与水平/垂直倾斜角度",
+        "应用",
+        "当前选区或整图按照参数缩放和斜切。 GitHub"
+      ],
+      "expected": "Stretch/Skew 按输入的百分比与角度正确缩放 / 斜切。",
+      "persistence": false
+    },
+    {
+      "id": "f36",
+      "name": "Invert Colors",
+      "steps": [
+        "对整图或选区执行 Image",
+        "Invert Colors",
+        "每个像素转换为反色",
+        "Undo",
+        "恢复原始颜色；官方明确支持对选区或整图应用反色。 GitHub"
+      ],
+      "expected": "反色必须转换所有像素为互补色；撤销可恢复。",
+      "persistence": false
+    },
+    {
+      "id": "f37",
+      "name": "图像属性 / Attributes",
+      "steps": [
+        "Image",
+        "Attributes",
+        "修改画布宽高和单位",
+        "在彩色/黑白模式或透明属性之间切换",
+        "确认",
+        "画布尺寸及颜色/透明模式相应更新；透明图像也可由这里启用。 GitHub"
+      ],
+      "expected": "Attributes 修改宽高与彩色 / 黑白 / 透明模式正确更新。",
+      "persistence": false
+    },
+    {
+      "id": "f38",
+      "name": "Clear Image",
+      "steps": [
+        "在画布已有内容时",
+        "Image",
+        "Clear Image",
+        "整张画布恢复背景状态",
+        "Undo",
+        "原内容恢复"
+      ],
+      "expected": "Clear Image 清空画布为背景状态；撤销可恢复。",
+      "persistence": false
+    },
+    {
+      "id": "f39",
+      "name": "Draw Opaque / 透明选区模式",
+      "steps": [
+        "创建含背景颜色的选区",
+        "切换 Image 中的 Draw Opaque 状态",
+        "移动选区",
+        "开启时背景色一并覆盖，关闭时背景色区域透明",
+        "再次切换验证差异"
+      ],
+      "expected": "Draw Opaque 开关必须决定移动选区时背景色是否覆盖；两态可验证差异。",
+      "persistence": true
+    },
+    {
+      "id": "f40",
+      "name": "Tool Box 显示控制",
+      "steps": [
+        "View",
+        "Tool Box",
+        "隐藏左侧工具箱",
+        "再次开启",
+        "工具箱恢复且当前工具和画布内容不变"
+      ],
+      "expected": "Tool Box 显隐正确；当前工具与画布内容不变。",
+      "persistence": true
+    },
+    {
+      "id": "f41",
+      "name": "Color Box 显示控制",
+      "steps": [
+        "View",
+        "Color Box",
+        "隐藏底部调色板",
+        "再次开启",
+        "调色板恢复且当前前景/背景色保持"
+      ],
+      "expected": "Color Box 显隐正确；前景 / 背景色保持。",
+      "persistence": true
+    },
+    {
+      "id": "f42",
+      "name": "Status Bar 显示控制",
+      "steps": [
+        "View",
+        "Status Bar",
+        "隐藏底部状态栏",
+        "再次开启",
+        "状态栏恢复并继续显示坐标、选区尺寸等上下文信息"
+      ],
+      "expected": "Status Bar 显隐正确；坐标等上下文信息正确显示。",
+      "persistence": true
+    },
+    {
+      "id": "f43",
+      "name": "Text Toolbar",
+      "steps": [
+        "选择 Text 工具",
+        "View",
+        "Text Toolbar",
+        "显示/隐藏字体面板",
+        "修改字体和字号",
+        "文本预览及最终像素结果同步变化；当前 JS Paint 提供这一 View 菜单项。 GitHub"
+      ],
+      "expected": "Text Toolbar 显隐正确；字体 / 字号修改同步影响预览与最终像素。",
+      "persistence": false
+    },
+    {
+      "id": "f44",
+      "name": "Zoom 菜单",
+      "steps": [
+        "View",
+        "Zoom",
+        "使用标准倍率、放大倍率、Custom 自定义倍率或 Zoom To Window",
+        "画布按照目标倍率显示",
+        "编辑内容和真实图像尺寸不变；官方支持任意自定义缩放及适应窗口。 GitHub"
+      ],
+      "expected": "Zoom 各倍率与自定义 / 适应窗口正确；编辑内容与真实尺寸不变。",
+      "persistence": false
+    },
+    {
+      "id": "f45",
+      "name": "网格显示",
+      "steps": [
+        "将视图放大到较高倍率",
+        "View",
+        "Zoom / Show Grid",
+        "显示像素级网格",
+        "关闭网格",
+        "网格消失但图像不变；经典 Ctrl+G 网格行为由 JS Paint 支持。 GitHub"
+      ],
+      "expected": "高倍率下网格显示 / 关闭正确；图像不变。",
+      "persistence": false
+    },
+    {
+      "id": "f46",
+      "name": "Thumbnail 缩略图",
+      "steps": [
+        "放大画布",
+        "View 中启用 Thumbnail",
+        "出现整个图像缩略预览窗口",
+        "在主画布平移或缩放",
+        "缩略图仍提供全图上下文",
+        "关闭后主编辑状态保持"
+      ],
+      "expected": "Thumbnail 提供全图预览；平移 / 缩放时保持上下文；关闭后编辑状态保持。",
+      "persistence": true
+    },
+    {
+      "id": "f47",
+      "name": "全屏模式",
+      "steps": [
+        "View",
+        "Fullscreen",
+        "编辑器占据浏览器可用全屏区域",
+        "工具与画布继续正常工作",
+        "退出全屏回到原布局。 GitHub"
+      ],
+      "expected": "全屏模式下工具与画布正常工作；退出后恢复原布局。",
+      "persistence": false
+    },
+    {
+      "id": "f48",
+      "name": "移动画布与滚动",
+      "steps": [
+        "将图像放大到超出可视区域",
+        "使用水平、垂直滚动条或鼠标/触控操作平移视图",
+        "前往不同画面区域绘制",
+        "原图坐标和已有像素保持一致"
+      ],
+      "expected": "放大后滚动 / 平移正确；原图坐标与已有像素保持一致。",
+      "persistence": true
+    },
+    {
+      "id": "f49",
+      "name": "画布边缘调整尺寸",
+      "steps": [
+        "拖动白色画布边缘或角落的调整手柄",
+        "扩大或缩小画布",
+        "新增区域使用背景色",
+        "原有像素保持原来的相对位置"
+      ],
+      "expected": "画布边缘调整手柄正确扩大 / 缩小画布；新增区域为背景色；原像素相对位置保持。",
+      "persistence": true
+    },
+    {
+      "id": "f50",
+      "name": "菜单与快捷键联动",
+      "steps": [
+        "分别通过菜单和对应键盘快捷键执行 Undo、Redo、Select All、Zoom/Grid、Save 等操作",
+        "两种入口产生相同状态变化",
+        "菜单禁用/启用状态随上下文同步更新"
+      ],
+      "expected": "菜单与快捷键必须产生相同状态变化；禁用 / 启用状态随上下文同步。",
+      "persistence": false
+    },
+    {
+      "id": "f51",
+      "name": "主题切换",
+      "steps": [
+        "Extras",
+        "Themes",
+        "在 Classic、Modern、Dark 等主题间切换",
+        "工具箱、菜单和窗口外观改变",
+        "当前图像、颜色和编辑历史保持不变。 GitHub"
+      ],
+      "expected": "主题切换改变界面外观；当前图像、颜色与编辑历史保持不变。",
+      "persistence": true
+    },
+    {
+      "id": "f52",
+      "name": "语言切换",
+      "steps": [
+        "Extras",
+        "Language",
+        "选择另一界面语言",
+        "按提示重新加载",
+        "菜单、工具提示与窗口文字切换语言",
+        "当前功能布局保持一致。 GitHub"
+      ],
+      "expected": "语言切换后界面文字正确变化；功能布局一致。",
+      "persistence": true
+    },
+    {
+      "id": "f53",
+      "name": "Vertical Color Box",
+      "steps": [
+        "Extras",
+        "Vertical Color Box",
+        "将横向底部调色板切换为纵向布局",
+        "再次关闭",
+        "恢复经典 Color Box 位置",
+        "颜色状态保持。 GitHub"
+      ],
+      "expected": "Vertical Color Box 切换布局正确；颜色状态保持。",
+      "persistence": true
+    },
+    {
+      "id": "f54",
+      "name": "Quick Undo Button",
+      "steps": [
+        "Extras",
+        "Quick Undo Button",
+        "显示便于触控的浮动撤销按钮",
+        "执行绘制",
+        "点击浮动按钮撤销",
+        "关闭选项后按钮消失。 GitHub"
+      ],
+      "expected": "Quick Undo Button 浮动按钮正确显示 / 撤销 / 关闭。",
+      "persistence": false
+    },
+    {
+      "id": "f55",
+      "name": "Render History As GIF",
+      "steps": [
+        "完成一系列绘画步骤",
+        "Extras",
+        "Render History As GIF",
+        "根据文档编辑历史生成动画",
+        "保存 GIF",
+        "动画按操作过程回放图像变化。 GitHub"
+      ],
+      "expected": "Render History As GIF 必须生成回放操作过程的动画；保存的 GIF 正确。",
+      "persistence": false
+    },
+    {
+      "id": "f56",
+      "name": "Help / About",
+      "steps": [
+        "Help",
+        "Help Topics 打开使用说明",
+        "查看工具或菜单帮助",
+        "Help",
+        "About Paint 显示 JS Paint 版本/项目信息",
+        "关闭窗口回到原编辑状态"
+      ],
+      "expected": "Help / About 正确打开说明与版本信息；关闭后回到原编辑状态。",
+      "persistence": false
+    },
+    {
+      "id": "f57",
+      "name": "完整绘图工作流",
+      "steps": [
+        "New 新建空白画布",
+        "设置前景/背景色",
+        "用 Pencil 和 Brush 绘图",
+        "用 Fill 填充封闭区域",
+        "用 Airbrush 添加纹理",
+        "用 Line、Curve、Rectangle、Polygon、Ellipse、Rounded Rectangle 创建图形",
+        "使用 Text 添加文字",
+        "用 Select 移动局部内容",
+        "Image 中翻转/缩放",
+        "Undo/Redo 校正",
+        "Save As 导出图片",
+        "再打开验证输出"
+      ],
+      "expected": "完整绘图工作流每步正确；导出后再打开验证输出一致。",
+      "persistence": false
+    }
+  ],
+  "exclusions": [
+    {
+      "feature": "File → Upload to Imgur",
+      "treatment": "Exclude",
+      "reason": "需要接入外部 Imgur 服务和网络上传能力，不影响 JS Paint 的核心本地绘图、编辑和导出工作流；官方明确把它作为 Web 扩展功能。 GitHub"
+    },
+    {
+      "feature": "File → Load From URL / URL 粘贴加载中的跨域代理",
+      "treatment": "Exclude",
+      "reason": "本地 Open 应完整实现；但任意公网 URL 加载可能需要 CORS 代理，官方部署文档也说明可选依赖 CORS Anywhere，因此复现时可以排除跨域代理和任意网络图片抓取。 GitHub"
+    },
+    {
+      "feature": "多人实时协作 session",
+      "treatment": "Exclude",
+      "reason": "当前实现依赖 Firebase，而且官方本身将该功能描述为较粗糙的实验性多人协作；不属于经典 Paint 核心编辑体验。 GitHub"
+    },
+    {
+      "feature": "Head Tracker / Speech Recognition / Dwell Clicker 等高级无障碍控制",
+      "treatment": "Exclude",
+      "reason": "属于 Extras 中面向眼动、头部追踪、语音控制等特殊设备或浏览器能力的附加功能；普通鼠标、键盘和触控编辑完整实现即可。 GitHub"
+    },
+    {
+      "feature": "File → Set As Wallpaper 的真实操作系统壁纸写入",
+      "treatment": "Exclude",
+      "reason": "浏览器网页无法稳定直接设置桌面壁纸；官方接口本身也允许退化为保存图片，因此不要求真正修改用户操作系统壁纸。 GitHub"
+    },
+    {
+      "feature": "PWA / Electron 桌面端专属系统集成",
+      "treatment": "Exclude",
+      "reason": "当前目标是复现 jspaint.app Web 版本，不要求 Electron 文件关联、系统菜单、命令行启动、安装包、PWA 安装或原生桌面集成。"
+    }
+  ]
+}

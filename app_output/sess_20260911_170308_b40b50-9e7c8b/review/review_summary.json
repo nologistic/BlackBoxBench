@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "9636d763836c3d109d14a0479e00c0eaf303bf5c3bae2f533bb0cf188910d320",
+  "accepted_apk_hash": "a51bc54ddb056973fc08acae731683863a4df4ab3c53b4db6d7f167dcb4dbc9a",
+  "revision_count": 0,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "accept",
+      "checked_flows": [
+        "首次引导与 Preview Demo",
+        "通知权限请求与拒绝",
+        "首页账户、预算与趋势展示",
+        "交易列表、汇总与新建支出",
+        "新增交易后首页和汇总联动",
+        "预算页与更多功能入口",
+        "应用重启后的本地数据持久化"
+      ],
+      "findings": [
+        "核心流程运行正常，视觉语言与黑盒观察到的 Cashew 保持一致。",
+        "新建 Coffee 支出后金额汇总与预算即时更新，重启后记录仍存在。",
+        "未在复现产物中使用原应用私有资源或用户私人信息。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "a9c63c728a0c32d655327e897688bf9a3556af8449e683ab005816d328c0121a",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 0,
+          "sha256": "f9dda4f7dc6c0750d6306503d25201e1be27d6be53d5c52778d61eba993f11f0",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 0,
+          "sha256": "c481362da6fc96a6e24bf355d98bb3405dc1c0fce7a236175402dcce317b60d5",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 1,
+          "sha256": "457e9fcb136ee27bbace5d76b7b91eafa8b3529b7f027f46954da896406bf1c9",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 2,
+          "sha256": "70dd23411644aec712758f0d2a27dd4ea08ec76932e3b840360d51379c386129",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 4,
+          "sha256": "db5006a31810f1f2611de2c2cdf4384b6b8de0a9f845e0590a466f9edd4cd111",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 5,
+          "sha256": "22d6da6cdfd26209d222f4c3354b251cd5153927fa78b487b91f5e7fb61c5f83",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 9,
+          "sha256": "063e981d0ac9055918e3dc4a7d138e9f93f0bf4712cb29b407bf46814c979553",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 10,
+          "sha256": "c1380557e696f3ab16da46ba1ca57bee5aa22352b2cab43d063ccfb770f3b0a1",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 11,
+          "sha256": "d39650838137b1b614d9f770d1fd5830252d10703b77678166db0386c935afb1",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 12,
+          "sha256": "7243fd8cefdea9bed8425d74fb9bd4d0c05fb15d43967feb73a89201b781a959",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 16,
+          "sha256": "d858b30aec931d62b9d7d7db402857023174a163c0bb80cedb26e904323a10fb",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 17,
+          "sha256": "7e6c8a1bf5740ee9fcbebeb0580e41d7eb79d552f13d36db89e76cf9ef0b4074",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 18,
+          "sha256": "80465f0cfcc6a4ae93dccb21ddfe080499c1736f559567024719c40ac9f1eb90",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 19,
+          "sha256": "a5863f1a92c3063cfca1ad039bf1275d875acf277914c906d0948568ad904c41",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 21,
+          "sha256": "493c8b45ee724cef0728e264000e5ebcf347bcbdd5710246e41172bafda8a482",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 22,
+          "sha256": "4d40a5ce730b7bfef5678e368c4402de074f9ac6f1dc63bd625fe32b5e5e4f78",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 23,
+          "sha256": "3d18e03f98ba574315db967920c1e4f45c49356a0d6cae163934beda7370ec9f",
+          "path": "review/round_01/observation_018.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

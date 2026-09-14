@@ -98,9 +98,11 @@ def test_yuque_web_checklist_loads_and_matches_platform():
     path = Path("review_specs/yuque_web.json")
     checklist = Checklist.load(path)
     assert checklist.platform == "web"
-    assert len(checklist.features) == 29
+    assert len(checklist.features) == 26
     assert sum(1 for f in checklist.features if f["persistence"]) == 2
-    assert sum(1 for f in checklist.features if f["multi_user"]) == 5
+    # The checklist was revised to single-user scope: multi-user features were
+    # removed or rewritten during the dataset alignment (2026-09-15).
+    assert sum(1 for f in checklist.features if f["multi_user"]) == 0
     checklist.expect_platform("web")
     with pytest.raises(ValueError):
         checklist.expect_platform("android")
@@ -248,3 +250,62 @@ def test_web_review_mcp_lists_web_platform_checklists_only():
                for item in payload["checklists"])
     assert set(payload["grades"]) == {"full", "partial", "placeholder",
                                       "broken"}
+
+
+def test_checklist_exclusions_are_validated_strictly():
+    base = {"checklist_id": "t_excl", "platform": "web",
+            "features": _features()}
+    ok = Checklist.from_object({**base, "exclusions": [
+        {"feature": "实时协作", "treatment": "排除", "reason": "需要第二客户端"}]})
+    assert ok.exclusions()[0]["feature"] == "实时协作"
+    # A corrupt entry must not silently vanish — it is a boundary change.
+    with pytest.raises(ValueError, match="object"):
+        Checklist.from_object({**base, "exclusions": ["实时协作"]})
+    with pytest.raises(ValueError, match="feature"):
+        Checklist.from_object({**base, "exclusions": [
+            {"treatment": "排除", "reason": "x"}]})
+    with pytest.raises(ValueError, match="array"):
+        Checklist.from_object({**base, "exclusions": {"feature": "x"}})
+    # Absent exclusions stay legal (every android checklist).
+    assert Checklist.from_object(base).exclusions() == []
+
+
+def test_web_review_start_evaluation_exposes_exclusions_immediately(
+        tmp_path, monkeypatch):
+    from agents.web_review import mcp_server as web_mcp
+
+    specs = tmp_path / "review_specs"
+    specs.mkdir()
+    (specs / "t_excl.json").write_text(json.dumps({
+        "checklist_id": "t_excl", "platform": "web",
+        "features": _features(),
+        "exclusions": [{"feature": "实时协作", "treatment": "排除",
+                        "reason": "需要第二客户端"}],
+    }, ensure_ascii=False), encoding="utf-8")
+    handoff = _make_handoff(tmp_path)
+
+    monkeypatch.setattr(web_mcp, "REVIEW_SPECS_ROOT", specs.resolve())
+    monkeypatch.setattr(web_mcp, "WEBSITE_OUTPUT_ROOT", tmp_path.resolve())
+
+    class FakeSession:
+        finished = False
+
+        def __init__(self, handoff, checklist):
+            pass
+
+        def start(self):
+            return {"run_id": "eval_x"}
+
+        def observe(self):
+            return b"png", {"frame_id": 1}
+
+    monkeypatch.setattr(web_mcp, "WebEvaluationSession", FakeSession)
+    web_mcp._session = None
+    try:
+        resp = web_mcp._t_start_evaluation({"checklist": "t_excl.json",
+                                            "handoff_id": handoff.name})
+        payload = json.loads(resp["content"][1]["text"])
+        # The boundary arrives with the first payload, before any probing.
+        assert payload["exclusions"][0]["feature"] == "实时协作"
+    finally:
+        web_mcp._session = None

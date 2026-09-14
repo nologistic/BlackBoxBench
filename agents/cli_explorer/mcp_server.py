@@ -229,9 +229,10 @@ def _managed_exploration_files(run_dir: Path) -> dict[str, Path]:
 def _t_finalize(_args: dict) -> dict:
     global _reproduction
     if _reproduction is not None:
-        return _ok([_text({"exploration_finished": True,
-                           **_reproduction.started_payload(),
-                           "review": _review_payload()})])
+        return _ok([_text(_finalize_payload(
+            exploration_finished=True,
+            **_reproduction.started_payload(),
+            review=_review_payload()))])
     source_id = _session
     existing = (benchmark_config.RUNS_DIR / source_id /
                 "functional_topology.json") if source_id else None
@@ -245,8 +246,8 @@ def _t_finalize(_args: dict) -> dict:
         d = {"topology_path": f"runs/{source_id}/functional_topology.json"}
         topology = existing
     if os.environ.get("BBB_REPRODUCTION_AUTOSTART", "1") == "0":
-        return _ok([_text({**d, "exploration_finished": True,
-                           "reproduction_skipped": True})])
+        return _ok([_text(_finalize_payload(
+            **d, exploration_finished=True, reproduction_skipped=True))])
     try:
         run_dir = benchmark_config.RUNS_DIR / source_id
         _reproduction = ReproductionWorkspace.start(
@@ -259,9 +260,10 @@ def _t_finalize(_args: dict) -> dict:
     except Exception as exc:
         _log(f"reproduction handoff failed: {type(exc).__name__}: {exc}")
         return _err("exploration finalized but reproduction workspace failed to start; retry finalize")
-    return _ok([_text({**d, "exploration_finished": True,
-                       **_reproduction.started_payload(),
-                       "review": _review_payload()})])
+    return _ok([_text(_finalize_payload(
+        **d, exploration_finished=True,
+        **_reproduction.started_payload(),
+        review=_review_payload()))])
 
 
 def _require_reproduction() -> ReproductionWorkspace:
@@ -408,6 +410,58 @@ def _release_binding(reason: str) -> None:
     _bound_target = ""
 
 
+def _load_target_exclusions(app_id: str) -> list | None:
+    """Operator-curated out-of-scope surfaces for a registered target.
+
+    Sourced from review_specs/<app_id>.json — the same file the web judge
+    reads — so exploration and review share one boundary definition. These
+    surfaces are never explored, recorded or reproduced.
+    """
+    if not app_id:
+        return None
+    path = PROJECT_ROOT / "review_specs" / f"{app_id}.json"
+    if not path.is_file():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        # A corrupt checklist must not masquerade as "no exclusions" without
+        # a trace: the boundary silently widening is a review-validity bug.
+        # The technical cause stays in the local log only.
+        _log(f"exclusions unreadable for {app_id}: {type(exc).__name__}")
+        return None
+    items = data.get("exclusions")
+    if not isinstance(items, list) or not items:
+        return None
+    return items
+
+
+def _bound_app_id() -> str:
+    """App id of the currently bound target ('' for ad-hoc url targets).
+
+    Only the explicit start_session binding counts: in BBB_SESSION-bound
+    mode the real target is unknown here, and guessing from BBB_APP_ID
+    could attach the wrong boundary to the session.
+    """
+    if _bound_target.startswith("app:"):
+        return _bound_target[len("app:"):]
+    return ""
+
+
+def _finalize_payload(**fields) -> dict:
+    """Finalize receipt: exploration results plus the exclusion boundary.
+
+    The reproduction agent must see the out-of-scope surfaces at the moment
+    generation starts, not discover them by wasting budget on surfaces that
+    will never be graded.
+    """
+    payload = dict(fields)
+    exclusions = _load_target_exclusions(_bound_app_id())
+    if exclusions:
+        payload["exclusions"] = exclusions
+    return payload
+
+
 def _t_start_session(args: dict) -> dict:
     """Explicitly choose the exploration target for this conversation."""
     global _session, _own_session, _bound_target
@@ -419,8 +473,12 @@ def _t_start_session(args: dict) -> dict:
     if _session:
         if _bound_session_running():
             if _bound_target == key:
-                return _ok([_text({"session_id": _session, "target": key,
-                                   "note": "已是当前目标,继续探索即可"})])
+                payload = {"session_id": _session, "target": key,
+                           "note": "已是当前目标,继续探索即可"}
+                exclusions = _load_target_exclusions(app_id)
+                if exclusions:
+                    payload["exclusions"] = exclusions
+                return _ok([_text(payload)])
             return _err(f"当前对话已绑定会话 {_session}({_bound_target})。"
                         f"更换目标请先 finalize 结束它,或新开一个对话。")
         # bound session died or was closed externally — release and rebind
@@ -451,9 +509,13 @@ def _t_start_session(args: dict) -> dict:
     _own_session = True
     _bound_target = key
     _log(f"session created: {_session} (target={key})")
-    return _ok([_text({"session_id": _session,
-                       "app_id": body.get("app_id"),
-                       "brief": body.get("brief", "")})])
+    result = {"session_id": _session,
+              "app_id": body.get("app_id"),
+              "brief": body.get("brief", "")}
+    exclusions = _load_target_exclusions(app_id or body.get("app_id") or "")
+    if exclusions:
+        result["exclusions"] = exclusions
+    return _ok([_text(result)])
 
 
 _ACTION_PROPS = {
