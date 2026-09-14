@@ -13,8 +13,15 @@ import pytest
 
 # Set all mutable benchmark roots before importing benchmark.config.  Pytest's
 # normal temp fixture starts too late because module imports initialize the
-# global Controller manager.
-_TEST_ROOT = Path(tempfile.mkdtemp(prefix="blackboxbench-tests-"))
+# global Controller manager.  _TEST_ROOT is placed directly under the
+# workspace tmp/ (sibling of the repo) rather than relying on the TMP
+# redirection inside benchmark.config: BBB_* env vars must be set before that
+# import (config.py reads them at import time), so importing config first is
+# not an option.  It used to land in the system temp and leak there on every
+# aborted session (32 leftovers found 2026-09-15).
+_REPO = Path(__file__).resolve().parent.parent
+_TEST_ROOT = Path(tempfile.mkdtemp(
+    prefix="blackboxbench-tests-", dir=str(_REPO.parent / "tmp")))
 os.environ.setdefault("BBB_RUNS_DIR", str(_TEST_ROOT / "runs"))
 os.environ.setdefault("BBB_APP_OUTPUT_DIR", str(_TEST_ROOT / "app_output"))
 os.environ.setdefault("BBB_ANDROID_TARGETS_DIR", str(_TEST_ROOT / "android_targets"))
