@@ -510,6 +510,18 @@ class AndroidEmulatorRuntime(Runtime):
         if destination.exists():
             shutil.rmtree(destination)
         shutil.copytree(self.toolchain.avd_template, destination)
+        # The AVD template ships a Windows-authored config.ini whose
+        # image.sysdir.1 uses backslashes; the Linux emulator rejects those
+        # ("Broken AVD system path") while the Windows one accepts both, so
+        # normalize to forward slashes on every clone regardless of host.
+        config_path = destination / "config.ini"
+        if config_path.is_file():
+            text = config_path.read_text(encoding="utf-8")
+            fixed = re.sub(r"^(image\.sysdir\.1=.*)$",
+                           lambda m: m.group(1).replace("\\", "/"),
+                           text, flags=re.MULTILINE)
+            if fixed != text:
+                config_path.write_text(fixed, encoding="utf-8")
         profile = Path(getattr(self.spec, "profile_snapshot", "") or ".")
         if str(profile) != "." and profile.is_dir():
             shutil.copytree(profile, destination, dirs_exist_ok=True)

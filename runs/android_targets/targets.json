@@ -2,7 +2,7 @@
   "aegis": {
     "app_id": "aegis",
     "description": "Aegis Authenticator: 2FA/TOTP token vault.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\aegis\\5b9d496d21c5938bdd733b01583516d27cd556db0749357f58baa648ef8ef804.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/aegis/5b9d496d21c5938bdd733b01583516d27cd556db0749357f58baa648ef8ef804.apk",
     "package_name": "com.beemdevelopment.aegis",
     "launch_activity": "com.beemdevelopment.aegis.ui.MainActivity",
     "apk_sha256": "5b9d496d21c5938bdd733b01583516d27cd556db0749357f58baa648ef8ef804",
@@ -24,7 +24,7 @@
   "ankidroid": {
     "app_id": "ankidroid",
     "description": "AnkiDroid: spaced-repetition flashcard study app.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\ankidroid\\a09496efb755fab39c6f179514224e3df76fb6ada3c2e10d14740611e47bb466.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/ankidroid/a09496efb755fab39c6f179514224e3df76fb6ada3c2e10d14740611e47bb466.apk",
     "package_name": "com.ichi2.anki",
     "launch_activity": "com.ichi2.anki.IntentHandler",
     "apk_sha256": "a09496efb755fab39c6f179514224e3df76fb6ada3c2e10d14740611e47bb466",
@@ -46,7 +46,7 @@
   "antennapod": {
     "app_id": "antennapod",
     "description": "AntennaPod: podcast aggregator and player.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\antennapod\\f5dde17e296d36453bfd5973361b7b07499edad2d93c205e2a4e770643af3a52.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/antennapod/f5dde17e296d36453bfd5973361b7b07499edad2d93c205e2a4e770643af3a52.apk",
     "package_name": "de.danoeh.antennapod",
     "launch_activity": "de.danoeh.antennapod.activity.SplashActivity",
     "apk_sha256": "f5dde17e296d36453bfd5973361b7b07499edad2d93c205e2a4e770643af3a52",
@@ -68,7 +68,7 @@
   "cashew": {
     "app_id": "cashew",
     "description": "Cashew: personal finance with accounts and budgets.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\cashew\\5cdbb5208a62f790a8a2870b30274f74c83a5a5b2f68584fe8fdec829a3e0e55.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/cashew/5cdbb5208a62f790a8a2870b30274f74c83a5a5b2f68584fe8fdec829a3e0e55.apk",
     "package_name": "com.budget.tracker_app",
     "launch_activity": "com.budget.tracker_app.MainActivity",
     "apk_sha256": "5cdbb5208a62f790a8a2870b30274f74c83a5a5b2f68584fe8fdec829a3e0e55",
@@ -90,7 +90,7 @@
   "feeder": {
     "app_id": "feeder",
     "description": "Feeder: RSS/Atom/JSON feed reader.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\feeder\\b7c677c470f30112d4262a7cd0e6c83ce2cc60361a1ceb558d8ecba4525c4102.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/feeder/b7c677c470f30112d4262a7cd0e6c83ce2cc60361a1ceb558d8ecba4525c4102.apk",
     "package_name": "com.nononsenseapps.feeder",
     "launch_activity": "com.nononsenseapps.feeder.ui.MainActivity",
     "apk_sha256": "b7c677c470f30112d4262a7cd0e6c83ce2cc60361a1ceb558d8ecba4525c4102",
@@ -112,7 +112,7 @@
   "fossify_calculator": {
     "app_id": "fossify_calculator",
     "description": "Fossify Calculator: arithmetic plus unit conversion.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\fossify_calculator\\7c5443c22d6d62c67dfe80df33ea9161ff0fa440f92590bcb45d7008b57613ed.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/fossify_calculator/7c5443c22d6d62c67dfe80df33ea9161ff0fa440f92590bcb45d7008b57613ed.apk",
     "package_name": "org.fossify.math",
     "launch_activity": "org.fossify.math.activities.SplashActivity.Green",
     "apk_sha256": "7c5443c22d6d62c67dfe80df33ea9161ff0fa440f92590bcb45d7008b57613ed",
@@ -134,7 +134,7 @@
   "fossify_calendar": {
     "app_id": "fossify_calendar",
     "description": "Fossify Calendar: events, tasks and reminders.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\fossify_calendar\\2acbd47fa2abc6dd4846e406ed2fd60c5c01b8613158d10e012135923ee24894.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/fossify_calendar/2acbd47fa2abc6dd4846e406ed2fd60c5c01b8613158d10e012135923ee24894.apk",
     "package_name": "org.fossify.calendar",
     "launch_activity": "org.fossify.calendar.activities.SplashActivity.Green",
     "apk_sha256": "2acbd47fa2abc6dd4846e406ed2fd60c5c01b8613158d10e012135923ee24894",
@@ -156,7 +156,7 @@
   "fossify_gallery": {
     "app_id": "fossify_gallery",
     "description": "Fossify Gallery: media viewer with editor and recycle bin.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\fossify_gallery\\ae7e699599e81f70e2b82626bb1dfa883fe096cd938387133e123c116e5641d9.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/fossify_gallery/ae7e699599e81f70e2b82626bb1dfa883fe096cd938387133e123c116e5641d9.apk",
     "package_name": "org.fossify.gallery",
     "launch_activity": "org.fossify.gallery.activities.SplashActivity.Green",
     "apk_sha256": "ae7e699599e81f70e2b82626bb1dfa883fe096cd938387133e123c116e5641d9",
@@ -185,7 +185,7 @@
   "fossify_paint": {
     "app_id": "fossify_paint",
     "description": "Fossify Paint: digital drawing canvas with brushes.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\fossify_paint\\b949ad0a1eafce616e9e6c6f5fa5b265e4b8ad426303a245be921a6e0c0def5e.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/fossify_paint/b949ad0a1eafce616e9e6c6f5fa5b265e4b8ad426303a245be921a6e0c0def5e.apk",
     "package_name": "org.fossify.paint",
     "launch_activity": "org.fossify.paint.activities.SplashActivity.Green",
     "apk_sha256": "b949ad0a1eafce616e9e6c6f5fa5b265e4b8ad426303a245be921a6e0c0def5e",
@@ -207,7 +207,7 @@
   "google_clock": {
     "app_id": "google_clock",
     "description": "Google Desk Clock: alarms, world clock, timer and stopwatch.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\google_clock\\1389710d90b0c8d1f77a6517ca3ffda91b45ae2239a738efb265a179e1927867.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/google_clock/1389710d90b0c8d1f77a6517ca3ffda91b45ae2239a738efb265a179e1927867.apk",
     "package_name": "com.google.android.deskclock",
     "launch_activity": "com.android.deskclock.DeskClock",
     "apk_sha256": "1389710d90b0c8d1f77a6517ca3ffda91b45ae2239a738efb265a179e1927867",
@@ -229,7 +229,7 @@
   "joplin": {
     "app_id": "joplin",
     "description": "Joplin: Markdown notes with notebooks and to-dos.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\joplin\\2343274489aefad1f0a10aa5aebe7798631a470e0003cf44a0b7fc870a553c36.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/joplin/2343274489aefad1f0a10aa5aebe7798631a470e0003cf44a0b7fc870a553c36.apk",
     "package_name": "net.cozic.joplin",
     "launch_activity": "net.cozic.joplin.MainActivity",
     "apk_sha256": "2343274489aefad1f0a10aa5aebe7798631a470e0003cf44a0b7fc870a553c36",
@@ -251,7 +251,7 @@
   "keepassdx": {
     "app_id": "keepassdx",
     "description": "KeePassDX: KeePass password database manager.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\keepassdx\\c86dee97c80da0659c475bb071c22dd8a89406817b147bcf1be46785c1c37727.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/keepassdx/c86dee97c80da0659c475bb071c22dd8a89406817b147bcf1be46785c1c37727.apk",
     "package_name": "com.kunzisoft.keepass.libre",
     "launch_activity": "com.kunzisoft.keepass.activities.FileDatabaseSelectActivity",
     "apk_sha256": "c86dee97c80da0659c475bb071c22dd8a89406817b147bcf1be46785c1c37727",
@@ -273,7 +273,7 @@
   "librera": {
     "app_id": "librera",
     "description": "Librera Reader: EPUB/PDF/FB2/MOBI ebook reader.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\librera\\b20d11e6579dc1e7d477942efeecb86382569db77b9a55b4afca0a89559d23f3.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/librera/b20d11e6579dc1e7d477942efeecb86382569db77b9a55b4afca0a89559d23f3.apk",
     "package_name": "com.foobnix.pro.pdf.reader",
     "launch_activity": "com.foobnix.ui2.MainTabs2",
     "apk_sha256": "b20d11e6579dc1e7d477942efeecb86382569db77b9a55b4afca0a89559d23f3",
@@ -295,7 +295,7 @@
   "loop_habit_tracker": {
     "app_id": "loop_habit_tracker",
     "description": "Loop Habit Tracker: daily habits with streaks.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\loop_habit_tracker\\e3da224511dc61cda2e8d55f400ea4be51f58afceba832717a833a143832bc1a.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/loop_habit_tracker/e3da224511dc61cda2e8d55f400ea4be51f58afceba832717a833a143832bc1a.apk",
     "package_name": "org.isoron.uhabits",
     "launch_activity": "org.isoron.uhabits.MainActivity",
     "apk_sha256": "e3da224511dc61cda2e8d55f400ea4be51f58afceba832717a833a143832bc1a",
@@ -317,7 +317,7 @@
   "material_files": {
     "app_id": "material_files",
     "description": "Material Files: file manager with archives and bookmarks.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\material_files\\c375592402fa62249ba3114e313efacb11399ebdb2f94f8663c34e828efea1c1.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/material_files/c375592402fa62249ba3114e313efacb11399ebdb2f94f8663c34e828efea1c1.apk",
     "package_name": "me.zhanghai.android.files",
     "launch_activity": "me.zhanghai.android.files.filelist.FileListActivity",
     "apk_sha256": "c375592402fa62249ba3114e313efacb11399ebdb2f94f8663c34e828efea1c1",
@@ -346,7 +346,7 @@
   "organic_maps": {
     "app_id": "organic_maps",
     "description": "Organic Maps: offline maps, search and routing.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\organic_maps\\1f19229d95b731862349d504b150dad63eb405caa83e98c96bfe93b7acae3c7a.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/organic_maps/1f19229d95b731862349d504b150dad63eb405caa83e98c96bfe93b7acae3c7a.apk",
     "package_name": "app.organicmaps.web",
     "launch_activity": "app.organicmaps.DownloadResourcesActivity",
     "apk_sha256": "1f19229d95b731862349d504b150dad63eb405caa83e98c96bfe93b7acae3c7a",
@@ -368,7 +368,7 @@
   "snapseed": {
     "app_id": "snapseed",
     "description": "Snapseed: photo editor with tools and filters.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\snapseed\\aac3f5e49430b276265eafc0aab74370cfc683b4003e58ce8d358a4665445acf.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/snapseed/aac3f5e49430b276265eafc0aab74370cfc683b4003e58ce8d358a4665445acf.apk",
     "package_name": "com.niksoftware.snapseed",
     "launch_activity": "com.google.android.apps.snapseed.WelcomeScreenActivity",
     "apk_sha256": "aac3f5e49430b276265eafc0aab74370cfc683b4003e58ce8d358a4665445acf",
@@ -390,7 +390,7 @@
   "tasks": {
     "app_id": "tasks",
     "description": "Tasks.org: to-do lists, tags and reminders.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\tasks\\f1d726605aca3a587384913dbf8ac0b127df4769045e8f922abf5634cc7253e7.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/tasks/f1d726605aca3a587384913dbf8ac0b127df4769045e8f922abf5634cc7253e7.apk",
     "package_name": "org.tasks",
     "launch_activity": "com.todoroo.astrid.activity.TaskListActivity",
     "apk_sha256": "f1d726605aca3a587384913dbf8ac0b127df4769045e8f922abf5634cc7253e7",
@@ -412,7 +412,7 @@
   "vinyl": {
     "app_id": "vinyl",
     "description": "Vinyl Music Player: local music and playlists.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\vinyl\\e387f130f269d64334882bc71a4c8610124cf53f8312b91568b0a92cc073cae3.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/vinyl/e387f130f269d64334882bc71a4c8610124cf53f8312b91568b0a92cc073cae3.apk",
     "package_name": "com.poupa.vinylmusicplayer",
     "launch_activity": "com.poupa.vinylmusicplayer.ui.activities.MainActivity",
     "apk_sha256": "e387f130f269d64334882bc71a4c8610124cf53f8312b91568b0a92cc073cae3",
@@ -434,7 +434,7 @@
   "vlc": {
     "app_id": "vlc",
     "description": "VLC: video and audio player.",
-    "apk_path": "D:\\llm\\benchmark app\\runs\\android_targets\\artifacts\\vlc\\4a9144fadfd8606cc5c0e9db892fd24846b7b2efeb1630db5377955d1612b119.apk",
+    "apk_path": "/storage/dzj/BlackBoxBench/runs/android_targets/artifacts/vlc/4a9144fadfd8606cc5c0e9db892fd24846b7b2efeb1630db5377955d1612b119.apk",
     "package_name": "org.videolan.vlc",
     "launch_activity": "org.videolan.vlc.StartActivity",
     "apk_sha256": "4a9144fadfd8606cc5c0e9db892fd24846b7b2efeb1630db5377955d1612b119",
