@@ -154,6 +154,10 @@ IDE/客户端的项目根应打开 `repo/` 而不是工作区根——批量删�
   `artifacts/` 由可信侧管理。`evaluations/` 存放 app-review 清单评测产物。
 - `app_reproduction/materials/apps/`：20 个 per-app 复现素材包
   （CATALOG.md + SUPPLEMENT.md + 虚构实体素材）。
+- `android_apks/`：Android 数据集 26 目标的原始 APK 分发副本（718MB，
+  sha256 与 `runs/android_targets/artifacts/` 一致；`NOTICE.md` 非盈利学术
+  声明、`APK_MANIFEST.md` 许可证清单、`scripts/restore_android_apks.py`
+  一键恢复到运行位置；joplin 超 100MB 拆双卷）。
 - `review_specs/`：人工功能要求清单（web/android 各数据集，`Checklist` 校验；
   app_id 与目标注册一一对应）。
 - `cache/`：2026-09-07 环境改版前的 Android 端历史产物归档（4 个复现交接、
