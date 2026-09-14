@@ -25,13 +25,33 @@ WEBSITE_OUTPUT_DIR = Path(os.environ.get("BBB_WEBSITE_OUTPUT_DIR",
 ANDROID_TARGETS_DIR = Path(os.environ.get(
     "BBB_ANDROID_TARGETS_DIR", PROJECT_ROOT / "runs" / "android_targets"))
 
+# ------------------------------------------------------------------ workspace
+# The repo's parent directory doubles as the runtime workspace: every volatile
+# artefact lands in sibling dirs of the repo instead of the system temp. The
+# repo stays pure source + evidence; teardown never deletes thousands of files
+# inside it; a crashed host leaves leftovers in one reclaimable place.
+#
+# TMP/TEMP redirection must run before this process's first tempfile call
+# (tempfile caches its resolution) and propagates to every child process
+# (controller, emulator, gradle, chrome) through the environment. Explicit
+# TMP/TEMP in the environment wins (setdefault); BBB_KEEP_SYSTEM_TMP=1 opts
+# out entirely (e.g. sandboxes that must not write beside the repo).
+WORKSPACE_DIR = PROJECT_ROOT.parent
+TMP_DIR = WORKSPACE_DIR / "tmp"
+if os.environ.get("BBB_KEEP_SYSTEM_TMP", "") != "1":
+    os.environ.setdefault("TMP", str(TMP_DIR))
+    os.environ.setdefault("TEMP", str(TMP_DIR))
+    tempfile.tempdir = None   # drop any cached resolution; re-read env next use
+    TMP_DIR.mkdir(parents=True, exist_ok=True)
+
 # Volatile runtime scratch: Chromium user-data dirs and Android AVD clones.
 # These are large (a clone is several GB), numerous (hundreds of cache files)
 # and worthless once a session ends, so they live outside the repository:
 # `runs/` is the evidence tree, and a teardown must not have to delete
 # thousands of workspace files. See benchmark/scratch.py.
 SCRATCH_DIR = Path(os.environ.get("BBB_SCRATCH_DIR", "").strip() or
-                   Path(tempfile.gettempdir()) / "blackboxbench-scratch")
+                   WORKSPACE_DIR / "scratch")
+SCRATCH_DIR.mkdir(parents=True, exist_ok=True)
 
 # Guest UI language for every Android emulator the project starts: exploration,
 # reproduction review and third-party evaluation. Pinning it here keeps the
