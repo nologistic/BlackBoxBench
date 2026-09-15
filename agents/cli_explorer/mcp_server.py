@@ -203,6 +203,46 @@ def _text(d: dict) -> dict:
     return {"type": "text", "text": json.dumps(d, ensure_ascii=False)}
 
 
+def _image_item(data_b64: str, mime: str = "image/png") -> dict:
+    """Return one MCP image block, re-encoding PNG screenshots as JPEG.
+
+    Exploration frames are lossless PNG captures of a 1080x2400 screen
+    (measured 0.5-3.8MB each) and every frame is echoed back in later turns,
+    so a long run pushes the request body toward the ~50MB gateway limit.
+    Re-encoding at quality 80 shrinks a frame ~8x with no visible loss for
+    UI work; the original PNG stays on disk for archival and pixel review
+    (only the model-facing copy changes). BBB_IMAGE_JPEG=0 disables,
+    BBB_IMAGE_JPEG_QUALITY tunes quality, BBB_IMAGE_JPEG_MAX_EDGE optionally
+    downscales. Any failure falls back to the original payload: compression
+    must never break an exploration.
+    """
+    if mime != "image/png" or not data_b64 or os.environ.get("BBB_IMAGE_JPEG", "1") == "0":
+        return {"type": "image", "data": data_b64, "mimeType": mime}
+    try:
+        import io
+
+        from PIL import Image
+
+        with Image.open(io.BytesIO(base64.b64decode(data_b64))) as img:
+            if img.mode not in ("RGB", "L"):
+                img = img.convert("RGB")
+            max_edge = int(os.environ.get("BBB_IMAGE_JPEG_MAX_EDGE", "0"))
+            if max_edge and max(img.size) > max_edge:
+                scale = max_edge / max(img.size)
+                img = img.resize((max(1, int(img.width * scale)),
+                                  max(1, int(img.height * scale))),
+                                 Image.LANCZOS)
+            buf = io.BytesIO()
+            img.save(buf, "JPEG",
+                     quality=int(os.environ.get("BBB_IMAGE_JPEG_QUALITY", "80")),
+                     optimize=True)
+        return {"type": "image",
+                "data": base64.b64encode(buf.getvalue()).decode("ascii"),
+                "mimeType": "image/jpeg"}
+    except Exception:
+        return {"type": "image", "data": data_b64, "mimeType": mime}
+
+
 # ------------------------------------------------------------------ tools
 
 def _t_observe(_args: dict) -> dict:
@@ -213,8 +253,7 @@ def _t_observe(_args: dict) -> dict:
                               "cursor", "budget", "brief", "tabs") if k in d}
     meta["session_id"] = _session
     return _ok([
-        {"type": "image", "data": d["screenshot_png_b64"],
-         "mimeType": "image/png"},
+        _image_item(d["screenshot_png_b64"]),
         _text(meta),
     ])
 
@@ -380,8 +419,7 @@ def _t_start_reproduction_review(args: dict) -> dict:
             max_revisions=_configured_review_revisions())
     png, meta = _review.start_round(args.get("entry_path", "."))
     return _ok([
-        {"type": "image", "data": base64.b64encode(png).decode("ascii"),
-         "mimeType": "image/png"},
+        _image_item(base64.b64encode(png).decode("ascii")),
         _text(meta),
     ])
 
@@ -389,8 +427,7 @@ def _t_start_reproduction_review(args: dict) -> dict:
 def _t_review_observe(_args: dict) -> dict:
     png, meta = _require_review().observe()
     return _ok([
-        {"type": "image", "data": base64.b64encode(png).decode("ascii"),
-         "mimeType": "image/png"},
+        _image_item(base64.b64encode(png).decode("ascii")),
         _text(meta),
     ])
 

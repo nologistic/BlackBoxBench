@@ -286,7 +286,9 @@ class TestMCPServer:
         types = [c["type"] for c in result["content"]]
         assert types == ["image", "text"]
         img = result["content"][0]
-        assert img["mimeType"] == "image/png" and len(img["data"]) > 1000
+        # model-facing frames are re-encoded as JPEG to keep the request body
+        # small (see tests/test_image_compression.py); the raw PNG stays on disk
+        assert img["mimeType"] == "image/jpeg" and len(img["data"]) > 1000
 
     def test_click_and_discovery_and_finalize(self, mcp_proc):
         proc, sid = mcp_proc
