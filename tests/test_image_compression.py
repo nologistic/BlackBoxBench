@@ -92,6 +92,24 @@ def test_image_item_strips_data_uri_prefix(modpath, monkeypatch):
 
 
 @pytest.mark.parametrize("modpath", MODULES)
+def test_image_item_downscales_over_client_ceiling(modpath, monkeypatch):
+    """超过 2000 长边的帧应缩到 2000（与 opencode 客户端的透传阈值对齐）。
+
+    回归：MCP 输出 1080x2400 的 JPEG 后，opencode 因超过其 2000px 限制而
+    自行 resize 并转回 PNG（base64 体积反而比 JPEG 大 5 倍）；先缩到 2000
+    长边可让客户端原样透传 JPEG。
+    """
+    m = importlib.import_module(modpath)
+    monkeypatch.delenv("BBB_IMAGE_JPEG", raising=False)
+    monkeypatch.delenv("BBB_IMAGE_JPEG_MAX_EDGE", raising=False)
+    png = _content_png(1200, 2600)
+    item = m._image_item(base64.b64encode(png).decode("ascii"))
+    assert item["mimeType"] == "image/jpeg"
+    out = base64.b64decode(item["data"])
+    assert max(Image.open(io.BytesIO(out)).size) == 2000
+
+
+@pytest.mark.parametrize("modpath", MODULES)
 def test_image_item_passthrough_and_fallback(modpath, monkeypatch, tmp_path):
     """开关/非 PNG/坏数据/空数据 都必须原样透传，绝不抛异常。"""
     m = importlib.import_module(modpath)

@@ -212,9 +212,11 @@ def _image_item(data_b64: str, mime: str = "image/png") -> dict:
     Re-encoding at quality 80 shrinks a frame ~8x with no visible loss for
     UI work; the original PNG stays on disk for archival and pixel review
     (only the model-facing copy changes). BBB_IMAGE_JPEG=0 disables,
-    BBB_IMAGE_JPEG_QUALITY tunes quality, BBB_IMAGE_JPEG_MAX_EDGE optionally
-    downscales. Any failure falls back to the original payload: compression
-    must never break an exploration.
+    BBB_IMAGE_JPEG_QUALITY tunes quality, BBB_IMAGE_JPEG_MAX_EDGE (default
+    2000) downscales to the client's image ceiling so clients pass the JPEG
+    through untouched instead of re-encoding it (opencode re-encodes frames
+    over 2000px, inflating them back to PNG). Any failure falls back to the
+    original payload: compression must never break an exploration.
     """
     if mime != "image/png" or not data_b64 or os.environ.get("BBB_IMAGE_JPEG", "1") == "0":
         return {"type": "image", "data": data_b64, "mimeType": mime}
@@ -229,7 +231,7 @@ def _image_item(data_b64: str, mime: str = "image/png") -> dict:
         with Image.open(io.BytesIO(base64.b64decode(data_b64))) as img:
             if img.mode not in ("RGB", "L"):
                 img = img.convert("RGB")
-            max_edge = int(os.environ.get("BBB_IMAGE_JPEG_MAX_EDGE", "0"))
+            max_edge = int(os.environ.get("BBB_IMAGE_JPEG_MAX_EDGE", "2000"))
             if max_edge and max(img.size) > max_edge:
                 scale = max_edge / max(img.size)
                 img = img.resize((max(1, int(img.width * scale)),
