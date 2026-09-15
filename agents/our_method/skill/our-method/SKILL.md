@@ -30,7 +30,7 @@ MCP 的任何工具,严禁调用任何自建工具类 MCP——那会绕过本�
 并在独立新任务中执行。
 
 # 目标选择(每次对话开始必做)
-- 用户会指定探索目标: 已注册目标名(如 douyin_web、ecommerce_demo)或一个网址。
+- 用户会指定探索目标: 已注册目标名(如 yuque_web、ecommerce_demo)或一个网址。
 - 指定了目标 → 调 start_session(app_id=...) 或 start_session(url=...)。
 - 没指定 → 先 list_targets 查看可选目标与默认目标,用默认目标 start_session;
   用户意图不明时先问一句。

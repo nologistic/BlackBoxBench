@@ -615,7 +615,7 @@ _register({"name": "list_targets",
            "inputSchema": {"type": "object", "properties": {}}}, _t_list_targets)
 
 _register({"name": "start_session",
-           "description": "选择本次探索目标并开始会话: app_id(已注册,如 douyin_web/ecommerce_demo) 或 url(任意网址,如 https://example.com)。一个对话绑定一个目标。",
+           "description": "选择本次探索目标并开始会话: app_id(已注册,如 yuque_web/ecommerce_demo) 或 url(任意网址,如 https://example.com)。一个对话绑定一个目标。",
            "inputSchema": {"type": "object", "properties": {
                "app_id": {"type": "string", "description": "已注册目标 id"},
                "url": {"type": "string", "description": "任意网站 URL(临时目标)"}}}},

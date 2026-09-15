@@ -27,12 +27,10 @@ class PreflightError(RuntimeError):
 #   box:      the logged-in avatar's exact crop at capture time
 #   search_x: the horizontal strip the crop is template-matched across
 #             (headers shift a few px as marketing slots come and go)
-# douyin margins measured: logged-in 0.00-0.01, logged-out 0.93 → threshold 0.15.
-_AVATAR_ZONES = {
-    "douyin_web": {"box": (1392, 2, 1439, 50), "search_x": (1290, 1440)},
-    # bilibili: 头像在顶栏中部偏右;裁掉右上角通知红点区域以免其闪烁误伤
-    "bilibili_web": {"box": (943, 12, 981, 52), "search_x": (900, 1100)},
-}
+# Currently empty: no registered target carries an avatar precheck. A new
+# calibration is registered here after scripts/live_login.py --capture saves
+# the header reference crop for that target.
+_AVATAR_ZONES: dict[str, dict] = {}
 
 DIFF_THRESHOLD = 0.15
 

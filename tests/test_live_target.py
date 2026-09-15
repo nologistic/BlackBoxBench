@@ -1,4 +1,4 @@
-"""Live-target (douyin_web) plumbing tests.
+"""Live-target plumbing tests.
 
 No real browser and no network: the pixel precheck runs on synthetic frames,
 the runtime dispatch only constructs objects, and the busy guard never gets
@@ -21,24 +21,18 @@ from benchmark.runtime.base import Runtime, RuntimeInfo
 # ------------------------------------------------------------------ registry
 
 class TestRegistry:
-    def test_douyin_web_spec(self):
-        spec = get_app("douyin_web")
-        assert spec.kind == "live"
-        assert spec.live_url.startswith("https://")
-        assert spec.precheck in prechecks.PRECHECKS
-        assert spec.seed == "live"
-
     def test_yuque_web_spec_uses_soft_network_constraint(self):
         spec = get_app("yuque_web")
         assert spec.kind == "live"
         assert spec.live_url == "https://www.yuque.com/"
+        assert spec.seed == "live"
         assert not spec.precheck
         assert "不是域名或导航白名单" in spec.brief
         assert "不得" in spec.brief and "原始实现" in spec.brief
 
     def test_live_spec_has_no_local_launch(self):
         with pytest.raises(RuntimeError):
-            get_app("douyin_web").launch_command(1234, "x")
+            get_app("yuque_web").launch_command(1234, "x")
 
     def test_local_default_kind_unchanged(self):
         spec = get_app("ecommerce_demo")
@@ -48,12 +42,17 @@ class TestRegistry:
 
 # ------------------------------------------------------------------ precheck
 
+# Test-only zone injected into prechecks._AVATAR_ZONES by the fixture below;
+# coordinates mirror a typical top-right header avatar crop at 1440x900.
+TEST_ZONE_BOX = (1392, 2, 1439, 50)
+
+
 def _png(fill=(20, 20, 30), avatar=None) -> bytes:
     """Synthetic 1440x900 frame; `avatar` paints the header check zone."""
     img = Image.new("RGB", (1440, 900), fill)
     if avatar is not None:
         img.paste(Image.new("RGB", (47, 48), avatar),
-                  (prechecks._AVATAR_ZONES["douyin_web"]["box"][0], prechecks._AVATAR_ZONES["douyin_web"]["box"][1]))
+                  (TEST_ZONE_BOX[0], TEST_ZONE_BOX[1]))
     buf = io.BytesIO()
     img.save(buf, format="PNG")
     return buf.getvalue()
@@ -86,23 +85,30 @@ class TestPrecheck:
         monkeypatch.setattr(prechecks, "live_state_dir", lambda app_id: tmp_path)
         return tmp_path
 
+    @pytest.fixture(autouse=True)
+    def test_zone(self, monkeypatch):
+        """Register a synthetic calibration so the mechanism is testable
+        independently of which targets happen to be calibrated in prod."""
+        monkeypatch.setitem(prechecks._AVATAR_ZONES, "test_web",
+                            {"box": TEST_ZONE_BOX, "search_x": (1290, 1440)})
+
     def test_missing_reference_fails(self, state_dir):
         with pytest.raises(prechecks.PreflightError, match="参考图"):
-            prechecks.avatar_logged_in(_ShotRuntime(_png()), "douyin_web")
+            prechecks.avatar_logged_in(_ShotRuntime(_png()), "test_web")
 
     def test_matching_avatar_passes(self, state_dir):
         logged_in = _png(avatar=(200, 120, 60))
-        ref = Image.open(io.BytesIO(logged_in)).crop(prechecks._AVATAR_ZONES["douyin_web"]["box"])
+        ref = Image.open(io.BytesIO(logged_in)).crop(TEST_ZONE_BOX)
         ref.save(state_dir / "header_ref.png")
-        prechecks.avatar_logged_in(_ShotRuntime(logged_in), "douyin_web")
+        prechecks.avatar_logged_in(_ShotRuntime(logged_in), "test_web")
 
     def test_different_header_fails(self, state_dir):
         logged_in = _png(avatar=(200, 120, 60))
-        ref = Image.open(io.BytesIO(logged_in)).crop(prechecks._AVATAR_ZONES["douyin_web"]["box"])
+        ref = Image.open(io.BytesIO(logged_in)).crop(TEST_ZONE_BOX)
         ref.save(state_dir / "header_ref.png")
         logged_out = _png(avatar=(254, 44, 85))  # red 登录 button zone
         with pytest.raises(prechecks.PreflightError, match="不是登录状态"):
-            prechecks.avatar_logged_in(_ShotRuntime(logged_out), "douyin_web")
+            prechecks.avatar_logged_in(_ShotRuntime(logged_out), "test_web")
 
 
 # ------------------------------------------------------------------ dispatch
@@ -114,7 +120,7 @@ class TestDispatch:
                             tmp_path / "profile")
         from benchmark.orchestrator.manager import SessionManager
         mgr = SessionManager(tmp_path / "runs")
-        rt = mgr._make_runtime(get_app("douyin_web"), tmp_path / "d",
+        rt = mgr._make_runtime(get_app("yuque_web"), tmp_path / "d",
                                tmp_path / "s")
         assert isinstance(rt, live_chromium.LiveChromiumRuntime)
         assert rt._profile_dir == tmp_path / "profile"
@@ -140,15 +146,15 @@ class TestDispatch:
         from benchmark.orchestrator.manager import SessionManager
         mgr = SessionManager(tmp_path / "runs")
         fake = types.SimpleNamespace(
-            spec=types.SimpleNamespace(app_id="douyin_web"), status="running",
+            spec=types.SimpleNamespace(app_id="yuque_web"), status="running",
             id="sess_fake")
         mgr._sessions["sess_fake"] = fake
         with pytest.raises(RuntimeError, match="busy"):
-            mgr.create("douyin_web")
+            mgr.create("yuque_web")
         # a closed session with the same app_id must NOT block new ones
         fake.status = "closed"
         with pytest.raises(RuntimeError, match="no_profile"):
-            mgr.create("douyin_web")
+            mgr.create("yuque_web")
 
     def test_docker_shared_reference_busy_guard(self, tmp_path, monkeypatch):
         """docker-mode sessions share ONE reference browser: a second
@@ -198,7 +204,7 @@ class TestAdhocLiveSpec:
 
     def test_live_specs_have_no_network_allowlist(self):
         from benchmark.orchestrator.apps import make_live_spec_for_url as mk
-        for spec in (get_app("douyin_web"), get_app("yuque_web"),
+        for spec in (get_app("yuque_web"),
                      mk("https://www.example.com/")):
             assert not hasattr(spec, "allowed_hosts")
             assert "不是域名或导航白名单" in spec.brief
@@ -224,7 +230,7 @@ class TestLiveReset:
             def stop(self): calls.append("stop")
             def reset(self): calls.append("reset")
 
-        sess = Session(session_id="sess_t", spec=get_app("douyin_web"),
+        sess = Session(session_id="sess_t", spec=get_app("yuque_web"),
                        runtime=_Rt(_png()), session_dir=tmp_path / "sess",
                        budget=Budget(10, 60, 10))
         sess.reset()
@@ -234,7 +240,7 @@ class TestLiveReset:
     def test_f12_blocked_on_live_target(self, tmp_path):
         from benchmark.orchestrator.session import Budget, Session
         from benchmark.topology import models as m
-        sess = Session(session_id="sess_t2", spec=get_app("douyin_web"),
+        sess = Session(session_id="sess_t2", spec=get_app("yuque_web"),
                        runtime=_ShotRuntime(_png()), session_dir=tmp_path / "s2",
                        budget=Budget(10, 60, 10))
         with pytest.raises(ValueError, match="key_not_allowed"):
@@ -265,7 +271,7 @@ class TestLiveReset:
                 self.stopped = True
 
         rt = _BoomRt(_png())
-        sess = Session(session_id="sess_t3", spec=get_app("douyin_web"),
+        sess = Session(session_id="sess_t3", spec=get_app("yuque_web"),
                        runtime=rt, session_dir=tmp_path / "s3",
                        budget=Budget(10, 60, 10))
         with pytest.raises(SessionClosed):

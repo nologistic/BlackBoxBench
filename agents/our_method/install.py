@@ -218,7 +218,7 @@ def main() -> None:
     p.add_argument("--cli", default="kimi",
                    choices=["kimi", "claude", "codex", "codebuddy"])
     p.add_argument("--app", default="ecommerce_demo",
-                   help="自举会话的被测应用 (见 /api/apps), 如 douyin_web")
+                   help="自举会话的被测应用 (见 /api/apps), 如 yuque_web")
     p.add_argument("--exclusive", action="store_true",
                    help="Codex: 注册 our-method 的同时移除基线 MCP,实现硬隔离"
                         "(重装基线即可恢复: python -m agents.cli_explorer.install --cli codex)")

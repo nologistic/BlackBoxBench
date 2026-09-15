@@ -141,7 +141,7 @@ sample_apps/<app_id>/
 - 只有需要固定 app_id、定制只读 brief 或像素 precheck 时，才按下文注册为正式
   live target；不需要为 CDN、认证域或跳转域维护名单。
 
-### 10.1 注册为正式 live target(以 douyin_web 为范例)
+### 10.1 注册为正式 live target
 
 1. `benchmark/orchestrator/apps.py` 注册:
    `AppSpec(app_id=..., kind="live", live_url="https://.../", precheck="<key>",

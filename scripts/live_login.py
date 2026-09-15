@@ -1,14 +1,14 @@
 """Live-target login maintenance (operator tool, not benchmark code).
 
-  vendor/python/python.exe scripts/live_login.py --app douyin_web --capture
+  vendor/python/python.exe scripts/live_login.py --app yuque_web --capture
   vendor/python/python.exe scripts/live_login.py --url https://example.com --capture
       Open the live browser on the target site. Log in manually in the window
       (QR scan / password + verification — whatever the site asks). Press
       Enter here once logged in: the browser profile becomes the golden
       backup every later session of this target relies on. Targets with a
-      registered precheck (douyin_web) also save the avatar reference crop.
+      registered avatar precheck also save the header reference crop.
 
-  vendor/python/python.exe scripts/live_login.py --app douyin_web --check
+  vendor/python/python.exe scripts/live_login.py --app yuque_web --check
       Launch the live browser and run the target's registered precheck.
 
 Profiles are per-target (runs/live_targets/<app_id>/), so login state for
@@ -91,7 +91,7 @@ def main() -> None:
     p = argparse.ArgumentParser(description=__doc__)
     target = p.add_mutually_exclusive_group()
     target.add_argument("--app", default=None,
-                        help="已注册目标(默认 douyin_web)")
+                        help="已注册目标(默认 yuque_web)")
     target.add_argument("--url", default=None,
                         help="任意站点 URL(临时目标,profile 按站点持久化)")
     g = p.add_mutually_exclusive_group(required=True)
@@ -100,7 +100,7 @@ def main() -> None:
     args = p.parse_args()
 
     spec = make_live_spec_for_url(args.url) if args.url \
-        else get_app(args.app or "douyin_web")
+        else get_app(args.app or "yuque_web")
     if spec.kind != "live":
         raise SystemExit(f"{spec.app_id} 不是 live target")
     if args.capture:

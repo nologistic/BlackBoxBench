@@ -80,7 +80,7 @@ App 若为知名开源项目,Agent 可能从训练记忆"背出"功能而非探�
 
 ## 3. Live Target(真实网站)的例外与降级保证
 
-`douyin_web` 等 `kind="live"` 的被测对象是**真实线上网站**,与本地 seeded app
+`yuque_web` 等 `kind="live"` 的被测对象是**真实线上网站**,与本地 seeded app
 有本质区别。它用于"对真实软件做功能探索"的场景,**不构成 benchmark 级隔离**,
 评测结论(尤其 determinism / coverage 类指标)不可与本地 app 直接比较。
 

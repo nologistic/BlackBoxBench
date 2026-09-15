@@ -8,7 +8,7 @@ agent-facing paths — they exist only for future evaluator tooling.
 Two kinds of targets:
 - local: seeded app subprocess behind the loopback gateway (full isolation,
   deterministic reset to S0). This is the benchmark-grade mode.
-- live:  a real website (e.g. douyin_web) driven through a headed persistent
+- live:  a real website (e.g. yuque_web) driven through a headed persistent
   browser profile. No S0 reset, no determinism, internet required — the
   pixel/HID whitelist still applies. See docs/security_model.md (live targets).
 """
@@ -62,39 +62,6 @@ _REGISTRY: dict[str, AppSpec] = {
         brief=("这是一个电商购物应用。你拥有一个测试账号: 用户名 alice, "
                "密码 alice123。登录它不是必须的——你可以先匿名探索,在需要时"
                "(例如遇到登录门槛)再使用它。"),
-    ),
-    # Live target: the real Douyin web app. Login state is maintained by a
-    # human operator (scripts/live_login.py --app douyin_web --capture); every
-    # session runs a pixel precheck and refuses to start logged-out.
-    "douyin_web": AppSpec(
-        app_id="douyin_web",
-        kind="live",
-        description="抖音网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
-        live_url="https://www.douyin.com/",
-        precheck="avatar_logged_in",
-        seed="live",
-        brief=("这是一个短视频内容平台的网页版,你当前处于已登录状态。"
-               "它可以搜索、浏览视频、直播等。注意: 这是一个真实线上应用,"
-               "内容会实时变化,请不要执行发帖、评论、关注、点赞、私信等"
-               "任何会修改账号公开状态的操作,只读探索和站内搜索是允许的。"
-               + _LIVE_SOFT_NETWORK_RULE),
-    ),
-    # Live target: bilibili web. Same operator-maintained login model as
-    # douyin_web (scripts/live_login.py --app bilibili_web --capture).
-    "bilibili_web": AppSpec(
-        app_id="bilibili_web",
-        kind="live",
-        description="哔哩哔哩网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
-        live_url="https://www.bilibili.com/",
-        precheck="avatar_logged_in",
-        seed="live",
-        brief=("这是一个视频内容平台的网页版,你当前处于已登录状态。"
-               "它可以搜索、浏览视频、番剧、直播等。注意: 这是一个真实线上应用,"
-               "内容会实时变化,请不要执行发帖、评论、关注、点赞、投币、收藏、"
-               "私信等任何会修改账号公开状态的操作,只读探索和站内搜索是允许的。"
-               + _LIVE_SOFT_NETWORK_RULE),
     ),
     "yuque_web": AppSpec(
         app_id="yuque_web",
