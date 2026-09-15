@@ -62,7 +62,21 @@ _http = httpx.Client(timeout=httpx.Timeout(600.0, connect=10.0),
 
 
 def _log(msg: str) -> None:
+    """stderr for the client console + append-only file for post-mortems.
+
+    The stdio channel keeps no transcript: a failure inside a tool call can
+    outlive the client's view, so the reason must survive in a file. Logging
+    must never break a tool call.
+    """
     print(f"[android-blackboxbench-mcp] {msg}", file=sys.stderr, flush=True)
+    try:
+        path = Path(os.environ.get("BBB_MCP_LOG")
+                    or (benchmark_config.RUNS_DIR / "mcp_server.log"))
+        with open(path, "a", encoding="utf-8") as fh:
+            fh.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} "
+                     f"[pid {os.getpid()}] [android-blackboxbench-mcp] {msg}\n")
+    except OSError:
+        pass
 
 
 def _controller_up() -> bool:
@@ -201,6 +215,9 @@ def _image_item(data_b64: str, mime: str = "image/png") -> dict:
     """
     if mime != "image/png" or not data_b64 or os.environ.get("BBB_IMAGE_JPEG", "1") == "0":
         return {"type": "image", "data": data_b64, "mimeType": mime}
+    if data_b64.startswith("data:"):
+        # defensive: strip a data-URI wrapper if one ever leaks in
+        data_b64 = data_b64.split(",", 1)[-1]
     try:
         import io
 
@@ -222,7 +239,10 @@ def _image_item(data_b64: str, mime: str = "image/png") -> dict:
         return {"type": "image",
                 "data": base64.b64encode(buf.getvalue()).decode("ascii"),
                 "mimeType": "image/jpeg"}
-    except Exception:
+    except Exception as exc:
+        # never break an exploration, but keep the reason for post-mortems
+        _log(f"image re-encode failed, sending the original "
+             f"{mime}: {type(exc).__name__}: {exc}")
         return {"type": "image", "data": data_b64, "mimeType": mime}
 
 

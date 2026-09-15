@@ -220,6 +220,9 @@ def _image_item(data_b64: str, mime: str = "image/png") -> dict:
     """
     if mime != "image/png" or not data_b64 or os.environ.get("BBB_IMAGE_JPEG", "1") == "0":
         return {"type": "image", "data": data_b64, "mimeType": mime}
+    if data_b64.startswith("data:"):
+        # defensive: strip a data-URI wrapper if one ever leaks in
+        data_b64 = data_b64.split(",", 1)[-1]
     try:
         import io
 
@@ -241,7 +244,10 @@ def _image_item(data_b64: str, mime: str = "image/png") -> dict:
         return {"type": "image",
                 "data": base64.b64encode(buf.getvalue()).decode("ascii"),
                 "mimeType": "image/jpeg"}
-    except Exception:
+    except Exception as exc:
+        # never break an exploration, but keep the reason for post-mortems
+        _log(f"image re-encode failed, sending the original "
+             f"{mime}: {type(exc).__name__}: {exc}")
         return {"type": "image", "data": data_b64, "mimeType": mime}
 
 

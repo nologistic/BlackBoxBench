@@ -73,9 +73,30 @@ def test_image_item_reencodes_png_as_jpeg(modpath, monkeypatch):
 
 
 @pytest.mark.parametrize("modpath", MODULES)
-def test_image_item_passthrough_and_fallback(modpath, monkeypatch):
+def test_image_item_strips_data_uri_prefix(modpath, monkeypatch):
+    """带 data:image/png;base64, 前缀的输入也应压缩（防御性剥离）。
+
+    回归：运行中的一个 MCP 进程曾对截图静默回退成原样 PNG——数据一旦被
+    包成 data URI，裸 b64decode 会抛异常并触发回退。剥离前缀保证无论上游
+    以哪种形态给出 base64，压缩都能工作。
+    """
+    m = importlib.import_module(modpath)
+    monkeypatch.delenv("BBB_IMAGE_JPEG", raising=False)
+    png = _content_png()
+    b64 = base64.b64encode(png).decode("ascii")
+    item = m._image_item("data:image/png;base64," + b64)
+    assert item["mimeType"] == "image/jpeg"
+    out = base64.b64decode(item["data"])
+    assert out[:2] == b"\xff\xd8"
+    assert len(out) < len(png)
+
+
+@pytest.mark.parametrize("modpath", MODULES)
+def test_image_item_passthrough_and_fallback(modpath, monkeypatch, tmp_path):
     """开关/非 PNG/坏数据/空数据 都必须原样透传，绝不抛异常。"""
     m = importlib.import_module(modpath)
+    log_path = tmp_path / "mcp.log"
+    monkeypatch.setenv("BBB_MCP_LOG", str(log_path))
     png = _content_png()
     b64 = base64.b64encode(png).decode("ascii")
 
@@ -89,10 +110,12 @@ def test_image_item_passthrough_and_fallback(modpath, monkeypatch):
     item = m._image_item(b64, "image/jpeg")
     assert item["mimeType"] == "image/jpeg" and item["data"] == b64
 
-    # 坏数据（不是图片）→ 回退原样，不抛
+    # 坏数据（不是图片）→ 回退原样，不抛；原因必须落日志（不再静默）
     bad = base64.b64encode(b"definitely not an image").decode("ascii")
     item = m._image_item(bad)
     assert item["mimeType"] == "image/png" and item["data"] == bad
+    assert log_path.is_file()
+    assert "image re-encode failed" in log_path.read_text(encoding="utf-8")
 
     # 空数据 → 原样
     item = m._image_item("")
