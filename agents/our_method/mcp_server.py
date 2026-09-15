@@ -26,6 +26,7 @@ import subprocess
 import sys
 import threading
 import time
+import traceback
 from pathlib import Path, PurePosixPath
 
 import httpx
@@ -50,6 +51,15 @@ _session = os.environ.get("BBB_SESSION", "")
 _app_id = os.environ.get("BBB_APP_ID", "ecommerce_demo")
 _own_session = False   # we created it → we finalize on shutdown
 _bound_target = ""     # normalized target key set by start_session
+# Last session this conversation finalized: the retry anchor for a failed
+# reproduction handoff, kept independent of _session (whose binding may be
+# released by the 404/410 path after the session closes).
+_finalized_source = ""
+# True when finalize succeeded but the reproduction workspace failed to
+# start. In that state auto-creating a session (default target) would strand
+# the conversation on the wrong app and block every switch-back, so the
+# server keeps the retry-finalize path open instead.
+_finalize_degraded = False
 _reproduction: ReproductionWorkspace | None = None
 _review: ManagedReproductionReview | None = None
 
@@ -57,7 +67,21 @@ _http = httpx.Client(timeout=120.0, trust_env=False)
 
 
 def _log(msg: str) -> None:
+    """stderr for the client console + append-only file for post-mortems.
+
+    The stdio channel keeps no transcript: a handoff that fails inside a long
+    tool call can outlive the client's request timeout, so the failure must
+    survive in a file. Logging must never break a tool call.
+    """
     print(f"[our-method-mcp] {msg}", file=sys.stderr, flush=True)
+    try:
+        path = Path(os.environ.get("BBB_MCP_LOG")
+                    or (benchmark_config.RUNS_DIR / "mcp_server.log"))
+        with open(path, "a", encoding="utf-8") as fh:
+            fh.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} "
+                     f"[pid {os.getpid()}] [our-method-mcp] {msg}\n")
+    except OSError:
+        pass
 
 
 def _controller_up() -> bool:
@@ -87,6 +111,14 @@ def _ensure_session() -> None:
     global _session, _own_session, _bound_target
     if _session:
         return
+    if _finalize_degraded:
+        # Finalized; only the reproduction handoff failed. Auto-creating a
+        # session here would silently bind the conversation to the default
+        # target and make recovery impossible (start_session refuses to
+        # switch a live binding). Keep the retry-finalize path instead.
+        raise RuntimeError(
+            f"探索已定稿（session {_finalized_source}）但复现工作区未启动。"
+            f"请调用 finalize 重试复现启动；如需重新探索，请新开一个对话。")
     _ensure_controller()
     r = _http.post(f"{_controller}/api/sessions", json={
         "app_id": _app_id, "budget": _budget_payload()})
@@ -113,7 +145,9 @@ def _shutdown() -> None:
             _log(f"reproduction cleanup failed: {type(e).__name__}")
         finally:
             _reproduction = None
-    if _own_session and _session:
+    if _own_session and _session and not _finalized_source:
+        # _finalized_source set → the session was already finalized (or a
+        # handoff waits to be retried); a second finalize call is just 410.
         try:
             _http.post(f"{_controller}/agent/{_session}/finalize", json={},
                        timeout=30)
@@ -145,6 +179,13 @@ def _post(path: str, payload: dict) -> tuple[dict | None, str | None]:
             # binding is dead weight — release it NOW and tell the agent the
             # one-step recovery, or it flails (wait/list_targets loops).
             _release_binding(f"{r.status_code} from agent channel")
+            if _finalize_degraded:
+                # The close is expected (finalize already succeeded); the
+                # correct recovery is retrying the handoff, not rebuilding
+                # an exploration session.
+                return None, (f"HTTP {r.status_code}: {msg} —— 探索已定稿"
+                              f"（session {_finalized_source}）但复现工作区未启动。"
+                              f"请调用 finalize 重试复现启动；不要重建探索会话。")
             return None, (f"HTTP {r.status_code}: {msg} —— 会话已失效且绑定已释放。"
                           f"恢复方法: 调用 start_session(app_id 或 url 同前)"
                           f"重建会话后继续探索。")
@@ -545,12 +586,15 @@ def _t_input_read(args: dict) -> dict:
 
 
 def _t_finalize(_args: dict) -> dict:
-    global _reproduction
+    global _reproduction, _finalized_source, _finalize_degraded
     if _reproduction is not None:
         return _ok([_text({"exploration_finished": True,
                            **_reproduction.started_payload(),
                            "review": _review_payload()})])
-    source_id = _session
+    # Retry anchor first: after a successful finalize the session is closed,
+    # and a later request may already have released the binding, so the
+    # finalized id must not depend on _session staying alive.
+    source_id = _finalized_source or _session
     existing = (benchmark_config.RUNS_DIR / source_id /
                 "functional_topology.json") if source_id else None
     if existing is None or not existing.is_file():
@@ -562,6 +606,8 @@ def _t_finalize(_args: dict) -> dict:
     else:
         d = {"topology_path": f"runs/{source_id}/functional_topology.json"}
         topology = existing
+    if source_id:
+        _finalized_source = source_id
     if os.environ.get("BBB_REPRODUCTION_AUTOSTART", "1") == "0":
         return _ok([_text({**d, "exploration_finished": True,
                            "reproduction_skipped": True})])
@@ -576,11 +622,15 @@ def _t_finalize(_args: dict) -> dict:
                         if name.startswith("screenshots/"))
         _reset_asset_reads(_reproduction.handoff_id, available)
     except DockerUnavailableError as exc:
-        _log(f"reproduction handoff unavailable: {exc}")
+        _finalize_degraded = True
+        _log(f"reproduction handoff unavailable: {exc}\n{traceback.format_exc()}")
         return _err(str(exc))
     except Exception as exc:
-        _log(f"reproduction handoff failed: {type(exc).__name__}: {exc}")
+        _finalize_degraded = True
+        _log(f"reproduction handoff failed: {type(exc).__name__}: {exc}\n"
+             f"{traceback.format_exc()}")
         return _err("exploration finalized but reproduction workspace failed to start; retry finalize")
+    _finalize_degraded = False
     return _ok([_text({**d, "exploration_finished": True,
                        **_reproduction.started_payload(),
                        "review": _review_payload()})])
@@ -754,6 +804,13 @@ def _t_start_session(args: dict) -> dict:
     if not app_id and not url:
         return _err("需要 app_id 或 url 之一")
     key = f"app:{app_id}" if app_id else f"url:{url}"
+    if _finalize_degraded:
+        # Exploration is done; the only valid continuation is retrying the
+        # reproduction handoff (a fresh session would strand this
+        # conversation on a second exploration of the same evidence).
+        return _err(
+            f"探索已定稿（session {_finalized_source}）但复现工作区未启动。"
+            f"请调用 finalize 重试复现启动；如需重新探索，请新开一个对话。")
     if _session:
         if _bound_session_running():
             if _bound_target == key:
@@ -1139,6 +1196,7 @@ def _reset_conversation() -> None:
     session and the previous one is finalized on disconnect.
     """
     global _session, _own_session, _bound_target
+    global _finalized_source, _finalize_degraded
     if _review is not None or _reproduction is not None or _own_session:
         try:
             _shutdown()
@@ -1147,6 +1205,8 @@ def _reset_conversation() -> None:
     _session = os.environ.get("BBB_SESSION", "")
     _own_session = False
     _bound_target = ""
+    _finalized_source = ""
+    _finalize_degraded = False
     _reset_asset_reads()
 
 

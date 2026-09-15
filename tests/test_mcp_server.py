@@ -172,6 +172,93 @@ def test_finish_reproduction_is_gated_by_accepted_review(monkeypatch):
     assert managed._reproduction is None and managed._review is None
 
 
+def test_failed_handoff_keeps_retry_path(monkeypatch, tmp_path):
+    """复现启动失败必须进入可重试态：不得自动新建默认会话，finalize 可重试。
+
+    回归：2026-09-15 语雀探索定稿后复现启动失败，下一个工具调用自动创建了
+    默认目标(ecommerce_demo)的新会话，把对话锁死在错误目标上。
+    """
+    from agents.cli_explorer import mcp_server as managed
+
+    sid = "sess_20260915_120000_feed1234"
+    topology = tmp_path / "runs" / sid / "functional_topology.json"
+    topology.parent.mkdir(parents=True)
+    topology.write_text('{"nodes":[],"edges":[]}', encoding="utf-8")
+    starts: list[dict] = []
+
+    class Failing:
+        @classmethod
+        def start(cls, **kwargs):
+            starts.append(kwargs)
+            raise RuntimeError("docker handoff exploded")
+
+    class Working:
+        handoff_id = "h1"
+
+        @classmethod
+        def start(cls, **kwargs):
+            starts.append(kwargs)
+            return cls()
+
+        def started_payload(self):
+            return {"stage": "reproduction", "ready": True,
+                    "handoff_id": "h1", "output": "website_output/h1"}
+
+    monkeypatch.setattr(managed, "PROJECT_ROOT", tmp_path)
+    monkeypatch.setattr(managed.benchmark_config, "RUNS_DIR", tmp_path / "runs")
+    monkeypatch.setattr(managed, "_session", sid)
+    monkeypatch.setattr(managed, "_reproduction", None)
+    monkeypatch.setattr(managed, "_review", None)
+    monkeypatch.setattr(managed, "_bound_target", "app:miniapp")
+    monkeypatch.setattr(managed, "_finalized_source", "")
+    monkeypatch.setattr(managed, "_finalize_degraded", False)
+    monkeypatch.delenv("BBB_REPRODUCTION_AUTOSTART", raising=False)
+    monkeypatch.setattr(managed, "ReproductionWorkspace", Failing)
+
+    # 1) finalize: 会话已定稿，复现启动抛异常 → 待重试态
+    result = managed._t_finalize({})
+    assert result["isError"]
+    assert managed._finalize_degraded is True
+    assert managed._finalized_source == sid
+
+    # 2) 会话关闭后绑定被 404/410 路径释放：不得静默创建默认目标的会话
+    monkeypatch.setattr(managed, "_session", "")
+    with pytest.raises(RuntimeError, match="finalize"):
+        managed._ensure_session()
+    data, err = managed._post("/observe", {})
+    assert data is None
+    assert err is not None and "finalize" in err and "新开一个对话" in err
+    assert managed._session == ""  # 默认会话没有被创建
+
+    # 3) start_session 也不能把对话引向第二次探索
+    result = managed._t_start_session({"app_id": "miniapp"})
+    assert result["isError"]
+    assert "finalize" in result["content"][0]["text"]
+
+    # 4) finalize 重试：不需要 _session，用定稿锚点重新启动并恢复状态
+    monkeypatch.setattr(managed, "ReproductionWorkspace", Working)
+    result = managed._t_finalize({})
+    assert not result["isError"]
+    payload = json.loads(result["content"][0]["text"])
+    assert payload["stage"] == "reproduction"
+    assert starts[-1]["source_id"] == sid
+    assert managed._finalize_degraded is False
+
+
+def test_mcp_log_written_to_file(monkeypatch, tmp_path):
+    """诊断日志必须落盘：工具调用超时时 stdio 通道不会留下任何记录。"""
+    from agents.cli_explorer import mcp_server as managed
+
+    log_path = tmp_path / "mcp_server.log"
+    monkeypatch.setenv("BBB_MCP_LOG", str(log_path))
+    managed._log("reproduction handoff failed: RuntimeError: boom")
+
+    assert log_path.is_file()
+    text = log_path.read_text(encoding="utf-8")
+    assert "[blackboxbench-mcp]" in text
+    assert "reproduction handoff failed: RuntimeError: boom" in text
+
+
 class TestMCPServer:
     def test_handshake_and_tools(self, mcp_proc):
         proc, _ = mcp_proc
