@@ -949,6 +949,49 @@ def test_android_workspace_mounts_per_app_materials(monkeypatch, tmp_path):
         ws.close()
 
 
+def test_android_sandbox_runs_as_host_uid(monkeypatch, tmp_path):
+    """沙箱以宿主 uid 运行，gradle 缓存卷 chown 给宿主 uid（2026-09-16 修复）。
+
+    回归：容器固定 uid 1000 时无法写宿主 775 挂载目录（本机 uid 1012），
+    Gradle 构建与评审 harness 全链路失败；且 Gradle 会 chmod 自己的缓存
+    目录（daemon registry 设 mode 700），仅放宽 mode 不够，必须 chown。
+    """
+    scaffold = tmp_path / "scaffold"; scaffold.mkdir()
+    (scaffold / "settings.gradle.kts").write_text(
+        "rootProject.name='x'", encoding="utf-8")
+    common = tmp_path / "common"; common.mkdir()
+    mobile = tmp_path / "mobile"; mobile.mkdir()
+    topology = tmp_path / "functional_topology.json"
+    topology.write_text('{"nodes":[]}', encoding="utf-8")
+    frame = tmp_path / "frame.png"; _png(frame)
+    calls = []
+    monkeypatch.setattr(app_workspace, "SCAFFOLD_ROOT", scaffold)
+    monkeypatch.setattr(app_workspace, "OUTPUT_ROOT", tmp_path / "app_output")
+    monkeypatch.setattr(app_workspace, "IMAGE_CONTEXT", tmp_path / "image")
+    monkeypatch.setattr(app_workspace, "ensure_docker_available", lambda: "ok")
+    monkeypatch.setattr(app_workspace, "ensure_materials", lambda: common)
+    monkeypatch.setattr(app_workspace, "ensure_app_materials", lambda: mobile)
+    monkeypatch.setattr(app_workspace, "_docker",
+                        lambda *args, **kwargs: calls.append(args) or
+                        SimpleNamespace(returncode=0, stdout="", stderr=""))
+    ws = app_workspace.AppReproductionWorkspace.start(
+        source_mode="android-baseline", source_id="sess_uid",
+        topology_path=topology,
+        exploration_files={"screenshots/frame.png": frame})
+    try:
+        runs = [call for call in calls if call and call[0] == "run"]
+        uid_gid = f"{os.getuid()}:{os.getgid()}"
+        main = runs[0]
+        assert "--user" in main and uid_gid in main
+        assert f"uid={os.getuid()}" in "\n".join(main)
+        assert "HOME=/tmp" in main
+        fix = runs[1]
+        assert "--volumes-from" in fix
+        assert "chown" in fix and uid_gid in fix
+    finally:
+        ws.close()
+
+
 def test_android_apk_archive_gate_rejects_nested_apk_and_private_text(tmp_path):
     ws = _workspace(tmp_path)
     ws.protected_strings = ["Private Person"]

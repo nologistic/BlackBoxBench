@@ -384,14 +384,24 @@ class AppReproductionWorkspace:
             # supplement does not include. Discipline lives in the skill
             # text: prefer /materials/app, go online only when necessary and
             # never upload exploration content or project files.
+            # Run as the calling host user: /workspace is a bind mount of a
+            # host directory owned by that uid, so a hardcoded container uid
+            # (1000) cannot write build outputs on hosts with a different
+            # uid — observed on the 2026-09-16 minesweeper reproduction
+            # (Gradle could not write /workspace; the review harness then
+            # failed with writable-home errors and an unsigned APK).
+            sandbox_uid, sandbox_gid = os.getuid(), os.getgid()
             run_args = [
                 "run", "-d", "--name", container,
+                "--user", f"{sandbox_uid}:{sandbox_gid}",
                 "--read-only", "--cap-drop", "ALL", "--security-opt",
                 "no-new-privileges:true", "--pids-limit", "256", "--memory",
                 "4g", "--cpus", "4", "--tmpfs",
-                "/tmp:rw,noexec,nosuid,size=256m,uid=1000,gid=1000,mode=0700",
+                f"/tmp:rw,noexec,nosuid,size=256m,"
+                f"uid={sandbox_uid},gid={sandbox_gid},mode=0700",
                 "--mount", "type=volume,target=/opt/gradle-cache",
                 "--env", "ANDROID_USER_HOME=/tmp/android-home",
+                "--env", "HOME=/tmp",
                 "--mount", f"type=bind,source={project},target=/workspace",
                 "--mount", f"type=bind,source={common_materials},target=/materials/common,readonly",
                 "--mount", f"type=bind,source={mobile_materials},target=/materials/mobile,readonly",
@@ -406,6 +416,25 @@ class AppReproductionWorkspace:
                 "--mount", f"type=bind,source={bundle},target=/exploration,readonly",
                 IMAGE_NAME]
             _docker(*run_args, timeout=120)
+            # The gradle-cache volume is initialized from the image with
+            # owner 1000:1000. Gradle both writes and chmods its cache
+            # (e.g. daemon/…/registry.bin is set to mode 700), and chmod
+            # requires ownership even when the mode allows writes — a
+            # chmod-only workaround still failed with "Operation not
+            # permitted". So hand the whole volume to the sandbox user.
+            # Runs as root with the minimal capabilities chown needs and
+            # is linked to the anonymous volume via --volumes-from.
+            # Idempotent; ~3s for the ~1GB warm cache, negligible next to
+            # a build (verified end-to-end: assembleDebug + apksigner).
+            _docker("run", "--rm", "--user", "0:0",
+                    "--read-only", "--cap-drop", "ALL",
+                    "--cap-add", "CHOWN", "--cap-add", "FOWNER",
+                    "--cap-add", "DAC_OVERRIDE",
+                    "--security-opt", "no-new-privileges:true",
+                    "--volumes-from", container,
+                    "--entrypoint", "chown", IMAGE_NAME,
+                    "-R", f"{sandbox_uid}:{sandbox_gid}",
+                    "/opt/gradle-cache", timeout=300)
         except Exception:
             _docker("rm", "-f", "-v", container, check=False, timeout=60)
             shutil.rmtree(output, ignore_errors=True)

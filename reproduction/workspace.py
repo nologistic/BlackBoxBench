@@ -274,12 +274,21 @@ class ReproductionWorkspace:
             # image tag; the first build populates the cache for the rest.
             with lock_for(f"image:{IMAGE_NAME}"):
                 _docker("build", "-t", IMAGE_NAME, str(IMAGE_CONTEXT))
+            # Run as the calling host user for the same reason as the
+            # android workbench: /workspace is a bind mount owned by that
+            # uid, so a hardcoded container uid cannot write it on hosts
+            # with a different uid (see app_reproduction/workspace.py).
+            sandbox_uid, sandbox_gid = os.getuid(), os.getgid()
             run_args = [
                 "run", "-d", "--name", container,
+                "--user", f"{sandbox_uid}:{sandbox_gid}",
                 "--network", "none", "--read-only",
                 "--cap-drop", "ALL", "--security-opt", "no-new-privileges:true",
                 "--pids-limit", "128", "--memory", "1g", "--cpus", "2",
-                "--tmpfs", "/tmp:rw,noexec,nosuid,size=128m,uid=1000,gid=1000,mode=0700",
+                "--tmpfs",
+                f"/tmp:rw,noexec,nosuid,size=128m,uid={sandbox_uid},"
+                f"gid={sandbox_gid},mode=0700",
+                "--env", "HOME=/tmp",
                 "--mount", f"type=bind,source={output},target=/workspace",
                 "--mount", f"type=bind,source={MATERIALS_ROOT.resolve()},target=/materials,readonly",
             ]
