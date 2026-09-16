@@ -476,6 +476,50 @@ class AppReproductionWorkspace:
         return {"stage": "app_reproduction", "written": relative.as_posix(),
                 "bytes": len(encoded)}
 
+    def patch_file(self, value: object, old_text: object,
+                   new_text: object) -> dict:
+        """Exact search-replace edit; preferred over whole-file rewrites.
+
+        The 2026-09-16 minesweeper reproduction died mid-stream while the
+        model was emitting a full-file workspace_write to fix two lines.
+        Small patches keep tool-call payloads tiny and survive flaky
+        long-stream conditions that whole-file rewrites are exposed to.
+        """
+        relative = _relative(value, allow_root=False)
+        if not isinstance(old_text, str) or not old_text:
+            raise ValueError("old_text must be a non-empty string")
+        if not isinstance(new_text, str):
+            raise ValueError("new_text must be text")
+        path = self._path(relative)
+        if not path.is_file():
+            raise ValueError("not a file")
+        if path.stat().st_size > MAX_READ:
+            raise ValueError(f"file exceeds {MAX_READ} bytes")
+        try:
+            content = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError as exc:
+            raise ValueError(
+                "binary project files cannot be patched") from exc
+        occurrences = content.count(old_text)
+        if occurrences == 0:
+            raise ValueError(
+                "old_text not found; read the file again and copy the exact "
+                "text to replace")
+        if occurrences > 1:
+            raise ValueError(
+                f"old_text matches {occurrences} times; include more "
+                "surrounding context to make it unique")
+        index = content.index(old_text)
+        line = content[:index].count("\n") + 1
+        updated = content[:index] + new_text + content[index + len(old_text):]
+        encoded = updated.encode("utf-8")
+        if len(encoded) > MAX_READ:
+            raise ValueError(f"patched content exceeds {MAX_READ} bytes")
+        target = self._path(relative, for_write=True)
+        target.write_text(updated, encoding="utf-8")
+        return {"stage": "app_reproduction", "patched": relative.as_posix(),
+                "line": line, "bytes": len(encoded)}
+
     def run_program(self, argv: object, cwd: object = ".",
                     timeout_seconds: object = 60) -> dict:
         if not isinstance(argv, list) or not argv or not all(

@@ -728,6 +728,17 @@ def _t_workspace_write(args: dict) -> dict:
         args.get("path"), args.get("content")))])
 
 
+def _t_workspace_patch(args: dict) -> dict:
+    if _review is not None and _review.active:
+        raise ValueError(
+            "complete the active reproduction review before modifying output")
+    prewrite = _prewrite_gate_error()
+    if prewrite is not None:
+        raise ValueError(prewrite)
+    return _ok([_text(_require_reproduction().patch_file(
+        args.get("path"), args.get("old_text"), args.get("new_text")))])
+
+
 def _t_workspace_run(args: dict) -> dict:
     if _review is not None and _review.active:
         raise ValueError(
@@ -1098,6 +1109,20 @@ _register({"name": "workspace_write",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string"}, "content": {"type": "string"}},
                "required": ["path", "content"]}}, _t_workspace_write)
+
+_register({"name": "workspace_patch",
+           "description": "仅在 finalize 后对复现输出中的已有文件做精确搜索-替换编辑"
+                          "（修改少量代码时优先用它，避免整文件 workspace_write 重写）。"
+                          "old_text 必须与文件内容完全一致且全文件唯一，否则报错；"
+                          "new_text 传空串表示删除该片段。",
+           "inputSchema": {"type": "object", "properties": {
+               "path": {"type": "string"},
+               "old_text": {"type": "string",
+                            "description": "要被替换的原文（含足够上下文以保证唯一）"},
+               "new_text": {"type": "string",
+                            "description": "替换后的文本；空串表示删除"}},
+               "required": ["path", "old_text", "new_text"]}},
+          _t_workspace_patch)
 
 _register({"name": "workspace_run",
            "description": "仅在素材消化后于无网络 Android 沙箱运行程序；可用 gradle --offline assembleDebug 构建。",

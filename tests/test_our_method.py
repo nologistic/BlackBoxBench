@@ -196,6 +196,10 @@ class StubWorkspace:
         self.calls.append(("write", path))
         return {"wrote": path}
 
+    def patch_file(self, path, old_text, new_text):
+        self.calls.append(("patch", path))
+        return {"patched": path}
+
     def run_program(self, argv, cwd=".", timeout_seconds=30):
         self.calls.append(("run", argv))
         return {"exit_code": 0, "stdout": "", "stderr": "", "truncated": False}
@@ -208,6 +212,19 @@ def test_workspace_write_handler_blocked_before_reading(
     try:
         with pytest.raises(ValueError, match="pre-write gate"):
             m._t_workspace_write({"path": "index.html", "content": "<html>"})
+        assert rep.calls == []
+    finally:
+        m._reproduction = None
+
+
+def test_workspace_patch_handler_blocked_before_reading(
+        bundle, topology):
+    rep = StubWorkspace(bundle, topology)
+    m._reproduction = rep
+    try:
+        with pytest.raises(ValueError, match="pre-write gate"):
+            m._t_workspace_patch({"path": "index.html", "old_text": "<html>",
+                                  "new_text": "<html2>"})
         assert rep.calls == []
     finally:
         m._reproduction = None
@@ -234,8 +251,10 @@ def test_workspace_handlers_allowed_after_digesting(bundle, topology):
         for i in range(4):
             m._note_asset_read(f"/exploration/screenshots/frame_{i:06d}.png")
         m._t_workspace_write({"path": "index.html", "content": "<html>"})
+        m._t_workspace_patch({"path": "index.html", "old_text": "<html>",
+                              "new_text": "<html lang=\"zh\">"})
         m._t_workspace_run({"argv": ["python", "-c", "print(1)"]})
-        assert [c[0] for c in rep.calls] == ["write", "run"]
+        assert [c[0] for c in rep.calls] == ["write", "patch", "run"]
     finally:
         m._reproduction = None
 

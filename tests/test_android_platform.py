@@ -1025,6 +1025,32 @@ def _workspace(tmp_path):
     return ws
 
 
+def test_android_workspace_patch_file_unique_replace(tmp_path):
+    """workspace_patch 用搜索-替换改动文件（2026-09-16 事故的防复发回归）。
+
+    整文件 workspace_write 的 19KB 工具调用在流中断时直接终结会话；
+    两行修复走 patch 只需百字节级参数，暴露面小两个数量级。
+    """
+    ws = _workspace(tmp_path)
+    ws.write_file("app/src/Main.kt",
+                  "val a = min(x, y)\nval b = min(x, y)\n")
+    with pytest.raises(ValueError, match="matches 2 times"):
+        ws.patch_file("app/src/Main.kt", "min(x, y)", "minOf(x, y)")
+    result = ws.patch_file("app/src/Main.kt", "val a = min(x, y)",
+                           "val a = minOf(x, y)")
+    assert result["patched"] == "app/src/Main.kt"
+    assert result["line"] == 1
+    assert "val a = minOf(x, y)" in ws.read_file("app/src/Main.kt")[0]["text"]
+    assert "val b = min(x, y)" in ws.read_file("app/src/Main.kt")[0]["text"]
+
+
+def test_android_workspace_patch_file_rejects_missing_text(tmp_path):
+    ws = _workspace(tmp_path)
+    ws.write_file("app/src/Main.kt", "val a = 1\n")
+    with pytest.raises(ValueError, match="not found"):
+        ws.patch_file("app/src/Main.kt", "nope()", "x()")
+
+
 def test_android_review_requires_restart_persistence_for_ours(tmp_path):
     ws = _workspace(tmp_path)
     review = AndroidReproductionReview(
@@ -1226,7 +1252,9 @@ def test_android_mcp_surfaces_do_not_expose_web_or_device_tools():
     assert required <= set(ours._TOOLS)
     assert not (forbidden & set(baseline._TOOLS))
     assert not (forbidden & set(ours._TOOLS))
-    assert "input_read" not in baseline._TOOLS
+    # 2026-09-10 起 baseline 也获得 /materials 读取通道（公平素材基线，
+    # 见 mcp_server.py 的 material read channel 注释），两侧一致暴露。
+    assert {"input_read", "input_list"} <= set(baseline._TOOLS)
     assert {"input_read", "input_list"} <= set(ours._TOOLS)
 
 

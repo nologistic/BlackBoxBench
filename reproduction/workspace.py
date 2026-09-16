@@ -366,6 +366,47 @@ class ReproductionWorkspace:
         return {"stage": "reproduction", "written": relative.as_posix(),
                 "bytes": len(content.encode("utf-8"))}
 
+    def patch_file(self, value: object, old_text: object,
+                   new_text: object) -> dict:
+        """Exact search-replace edit; preferred over whole-file rewrites.
+
+        Small patches keep tool-call payloads tiny and avoid re-emitting
+        large files through flaky long streams (see the 2026-09-16
+        minesweeper reproduction incident on the android side).
+        """
+        relative = _relative(value, allow_root=False)
+        if not isinstance(old_text, str) or not old_text:
+            raise ValueError("old_text must be a non-empty string")
+        if not isinstance(new_text, str):
+            raise ValueError("new_text must be text")
+        path = self._host_path(relative)
+        if not path.is_file():
+            raise ValueError("not a file")
+        if path.stat().st_size > MAX_READ:
+            raise ValueError(f"file exceeds {MAX_READ} bytes")
+        try:
+            content = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError as exc:
+            raise ValueError("binary output cannot be patched") from exc
+        occurrences = content.count(old_text)
+        if occurrences == 0:
+            raise ValueError(
+                "old_text not found; read the file again and copy the exact "
+                "text to replace")
+        if occurrences > 1:
+            raise ValueError(
+                f"old_text matches {occurrences} times; include more "
+                "surrounding context to make it unique")
+        index = content.index(old_text)
+        line = content[:index].count("\n") + 1
+        updated = content[:index] + new_text + content[index + len(old_text):]
+        if len(updated.encode("utf-8")) > MAX_READ:
+            raise ValueError(f"patched content exceeds {MAX_READ} bytes")
+        path = self._host_path(relative, for_write=True)
+        path.write_text(updated, encoding="utf-8")
+        return {"stage": "reproduction", "patched": relative.as_posix(),
+                "line": line, "bytes": len(updated.encode("utf-8"))}
+
     def run_program(self, argv: object, cwd: object = ".",
                     timeout_seconds: object = 30) -> dict:
         if not isinstance(argv, list) or not argv or not all(

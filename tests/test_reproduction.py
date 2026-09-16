@@ -282,6 +282,22 @@ def test_reproduction_output_io_rejects_escape_and_symlinks(monkeypatch, tmp_pat
     assert "console.log" in env.read_file("src/app.js")[0]["text"]
 
 
+def test_reproduction_patch_file_replaces_unique_text(monkeypatch, tmp_path):
+    """web 侧同款搜索-替换补丁（避免整文件重写的大工具调用）。"""
+    output = tmp_path / "output"
+    output.mkdir()
+    env = reproduction_workspace.ReproductionWorkspace(
+        "handoff", "self-built-tools", "self_test",
+        tmp_path / "topology.json", output, "container")
+    env.write_file("src/app.js", "const a = 1;\nconst b = 2;\n")
+    with pytest.raises(ValueError, match="not found"):
+        env.patch_file("src/app.js", "const c", "x")
+    result = env.patch_file("src/app.js", "const a = 1;", "const a = 10;")
+    assert result["patched"] == "src/app.js"
+    assert result["line"] == 1
+    assert "const a = 10;" in env.read_file("src/app.js")[0]["text"]
+
+
 def test_reproduction_finish_rejects_container_created_symlink(monkeypatch, tmp_path):
     output = tmp_path / "output"
     output.mkdir()
