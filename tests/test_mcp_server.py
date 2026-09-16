@@ -507,3 +507,87 @@ class TestTargetSelection:
         finally:
             proc.stdin.close()
             proc.wait(timeout=30)
+
+
+def test_lazy_bootstrap_retries_requested_target(monkeypatch):
+    """start_session 失败后 lazy 创建必须重试该目标,而不是默认目标。
+
+    回归: 2026-09-16 三个 live 任务(dropbox/reddit/youtube)的 start_session
+    因超时失败, 随后 agent 的 observe 触发 lazy 创建, 把对话静默绑定到
+    默认 ecommerce_demo —— 一个对话只能绑定一个目标, 真实目标再也无法
+    进入, 三个任务只能整体废弃重跑。
+    """
+    from agents.cli_explorer import mcp_server as managed
+
+    calls = []
+
+    class Resp:
+        def __init__(self, code):
+            self.status_code = code
+            self.text = "runtime_start_failed"
+
+        def raise_for_status(self):
+            if self.status_code != 200:
+                raise RuntimeError(f"HTTP {self.status_code}")
+
+        def json(self):
+            return {"session_id": "sess_lazy_retry"}
+
+    class Http:
+        def post(self, url, json=None, timeout=None):
+            calls.append({"url": url, "json": json})
+            return Resp(503 if len(calls) == 1 else 200)
+
+    monkeypatch.setattr(managed, "_http", Http())
+    monkeypatch.setattr(managed, "_ensure_controller", lambda: None)
+    monkeypatch.setattr(managed, "_session", "")
+    monkeypatch.setattr(managed, "_own_session", False)
+    monkeypatch.setattr(managed, "_bound_target", "")
+    monkeypatch.setattr(managed, "_last_requested_target", "")
+    monkeypatch.setattr(managed, "_finalize_degraded", False)
+
+    # 1) 显式 start_session(reddit_web) 失败 -> 请求目标被记住
+    r = managed._t_start_session({"app_id": "reddit_web"})
+    assert r["isError"]
+    assert managed._last_requested_target == "app:reddit_web"
+    assert managed._session == ""
+
+    # 2) agent 随后调用 observe/record_*: lazy 创建必须重试 reddit_web
+    managed._ensure_session()
+    assert calls[-1]["json"]["app_id"] == "reddit_web"
+    assert managed._bound_target == "app:reddit_web"
+
+
+def test_lazy_bootstrap_uses_default_without_request(monkeypatch):
+    """没有显式 start_session 时, lazy 创建仍走 BBB_APP_ID 默认值。"""
+    from agents.cli_explorer import mcp_server as managed
+
+    calls = []
+
+    class Resp:
+        status_code = 200
+        text = ""
+
+        def raise_for_status(self):
+            pass
+
+        def json(self):
+            return {"session_id": "sess_default"}
+
+    class Http:
+        def post(self, url, json=None, timeout=None):
+            calls.append({"url": url, "json": json})
+            return Resp()
+
+    monkeypatch.setattr(managed, "_http", Http())
+    monkeypatch.setattr(managed, "_ensure_controller", lambda: None)
+    monkeypatch.setattr(managed, "_session", "")
+    monkeypatch.setattr(managed, "_own_session", False)
+    monkeypatch.setattr(managed, "_bound_target", "")
+    monkeypatch.setattr(managed, "_last_requested_target", "")
+    monkeypatch.setattr(managed, "_finalize_degraded", False)
+    monkeypatch.setattr(managed, "_app_id", "miniapp")
+
+    managed._ensure_session()
+    assert calls[0]["json"]["app_id"] == "miniapp"
+    assert managed._bound_target == "app:miniapp"

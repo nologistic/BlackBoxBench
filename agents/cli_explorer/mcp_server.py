@@ -49,6 +49,13 @@ _session = os.environ.get("BBB_SESSION", "")
 _app_id = os.environ.get("BBB_APP_ID", "ecommerce_demo")
 _own_session = False   # we created it → we finalize on shutdown
 _bound_target = ""     # normalized target key set by start_session
+# Last target key explicitly requested via start_session, kept even when the
+# create call failed. The lazy bootstrap in _ensure_session must retry THIS
+# target instead of falling back to BBB_APP_ID: one transient 503 otherwise
+# strands the conversation on the default demo target, and start_session
+# refuses to rebind a live session (2026-09-16: three live runs lost to
+# ecommerce_demo this way).
+_last_requested_target = ""
 # Last session this conversation finalized: the retry anchor for a failed
 # reproduction handoff, kept independent of _session (whose binding may be
 # released by the 404/410 path after the session closes).
@@ -118,13 +125,24 @@ def _ensure_session() -> None:
             f"探索已定稿（session {_finalized_source}）但复现工作区未启动。"
             f"请调用 finalize 重试复现启动；如需重新探索，请新开一个对话。")
     _ensure_controller()
-    r = _http.post(f"{_controller}/api/sessions", json={
-        "app_id": _app_id, "budget": _budget_payload()})
+    # Bind to the target the conversation explicitly asked for (kept even
+    # when that create call failed), not the MCP default: silently falling
+    # back to BBB_APP_ID after a transient 503 would strand the conversation
+    # on the wrong target (start_session refuses to rebind a live session).
+    if _last_requested_target.startswith("app:"):
+        payload = {"app_id": _last_requested_target[len("app:"):],
+                   "budget": _budget_payload()}
+    elif _last_requested_target.startswith("url:"):
+        payload = {"live_url": _last_requested_target[len("url:"):],
+                   "budget": _budget_payload()}
+    else:
+        payload = {"app_id": _app_id, "budget": _budget_payload()}
+    r = _http.post(f"{_controller}/api/sessions", json=payload)
     r.raise_for_status()
     _session = r.json()["session_id"]
     _own_session = True
-    _bound_target = f"app:{_app_id}"
-    _log(f"session created: {_session} (app={_app_id})")
+    _bound_target = _last_requested_target or f"app:{_app_id}"
+    _log(f"session created: {_session} (lazy, target={_bound_target})")
 
 
 def _shutdown() -> None:
@@ -567,12 +585,13 @@ def _finalize_payload(**fields) -> dict:
 
 def _t_start_session(args: dict) -> dict:
     """Explicitly choose the exploration target for this conversation."""
-    global _session, _own_session, _bound_target
+    global _session, _own_session, _bound_target, _last_requested_target
     app_id = (args.get("app_id") or "").strip()
     url = (args.get("url") or "").strip()
     if not app_id and not url:
         return _err("需要 app_id 或 url 之一")
     key = f"app:{app_id}" if app_id else f"url:{url}"
+    _last_requested_target = key  # recoverable even if creation fails
     if _finalize_degraded:
         # Exploration is done; the only valid continuation is retrying the
         # reproduction handoff (a fresh session would strand this
