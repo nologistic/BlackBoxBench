@@ -724,11 +724,21 @@ _register({"name": "record_state",
           _t_discovery("/discovery/state"))
 
 _register({"name": "record_feature",
-           "description": "记录发现的功能(可观察行为契约)。evidence 引用真实 step/帧。",
+           "description": "记录发现的功能(可观察行为契约)。evidence 每项必须含 step/before_frame/after_frame 三个整数，直接照抄动作返回的 step/before_frame/frame_id；action 可选。示例：{\"evidence\":[{\"step\":3,\"before_frame\":5,\"after_frame\":6,\"action\":\"tap(540,1467)\"}]}。",
            "inputSchema": {"type": "object", "properties": {
                "name": {"type": "string"}, "description": {"type": "string"},
-               "behavior": {"type": "object"},
-               "evidence": {"type": "array", "items": {"type": "object"}},
+               "behavior": {"type": "object", "properties": {
+                   "preconditions": {"type": "array", "items": {"type": "string"}},
+                   "trigger": {"type": "object", "description": "触发方式，如 {\"type\": \"tap\", \"target\": \"登录按钮\"}（各字段均可选）"},
+                   "postconditions": {"type": "array", "items": {"type": "string"}},
+                   "persistent_effects": {"type": "array", "items": {"type": "string"}}},
+                   "description": "可观察行为契约；各字段均可选"},
+               "evidence": {"type": "array", "items": {"type": "object", "properties": {
+                   "step": {"type": "integer"},
+                   "before_frame": {"type": "integer"},
+                   "after_frame": {"type": "integer"},
+                   "action": {"type": "string", "description": "可选：动作的人读描述"}},
+                   "required": ["step", "before_frame", "after_frame"]}},
                "confidence": {"type": "number"},
                "status": {"type": "string"}}, "required": ["name"]}},
           _t_discovery("/discovery/feature"))
@@ -745,7 +755,12 @@ _register({"name": "record_edge",
            "inputSchema": {"type": "object", "properties": {
                "source": {"type": "string"}, "target": {"type": "string"},
                "type": {"type": "string"},
-               "evidence": {"type": "array", "items": {"type": "object"}},
+               "evidence": {"type": "array", "items": {"type": "object", "properties": {
+                   "step": {"type": "integer", "description": "动作序号（照抄动作返回的 step）"},
+                   "before_frame": {"type": "integer", "description": "动作前帧（照抄动作返回的 before_frame）"},
+                   "after_frame": {"type": "integer", "description": "动作后帧（照抄动作返回的 frame_id）"},
+                   "action": {"type": "string", "description": "可选：动作的人读描述"}},
+                   "required": ["step", "before_frame", "after_frame"]}},
                "confidence": {"type": "number"},
                "status": {"type": "string"},
                "note": {"type": "string"}},
@@ -767,7 +782,12 @@ _register({"name": "resolve_hypothesis",
                "hypothesis_id": {"type": "string"},
                "status": {"type": "string"},
                "note": {"type": "string"},
-               "evidence": {"type": "array", "items": {"type": "object"}}},
+               "evidence": {"type": "array", "items": {"type": "object", "properties": {
+                   "step": {"type": "integer", "description": "动作序号（照抄动作返回的 step）"},
+                   "before_frame": {"type": "integer", "description": "动作前帧（照抄动作返回的 before_frame）"},
+                   "after_frame": {"type": "integer", "description": "动作后帧（照抄动作返回的 frame_id）"},
+                   "action": {"type": "string", "description": "可选：动作的人读描述"}},
+                   "required": ["step", "before_frame", "after_frame"]}}},
                "required": ["hypothesis_id", "status"]}},
           lambda a: _t_discovery(f"/discovery/hypothesis/{a.pop('hypothesis_id')}/resolve")(a))
 

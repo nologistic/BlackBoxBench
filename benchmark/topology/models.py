@@ -117,7 +117,10 @@ class Evidence(BaseModel):
 
     step: int = Field(ge=0)
     before_frame: int = Field(ge=0)
-    action: str  # human-readable, e.g. "click(811,432)" — informational only
+    # human-readable, e.g. "click(811,432)" — informational only. Optional
+    # since 2026-09-16: agents frequently omitted it (15× 422 in one batch)
+    # for a field the validator never uses.
+    action: Optional[str] = None
     after_frame: int = Field(ge=0)
     note: Optional[str] = None
 

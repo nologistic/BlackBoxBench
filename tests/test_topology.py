@@ -87,6 +87,22 @@ class TestCreateAndValidate:
                 evidence=[m.Evidence(step=1, before_frame=f1,
                                      action="click", after_frame=f0)]))
 
+    def test_evidence_action_optional(self, store):
+        """informational 的 action 字段缺省不再 422（2026-09-16 批 15 次）。
+
+        action 从不参与校验，仅是人读描述；必填只会让 agent 因漏填
+        而反复被拒。缺省后与 note 一样可有可无。
+        """
+        st, f0, f1 = store
+        node = st.add_feature(m.FeatureCreate(
+            name="No action field", confidence=0.5,
+            evidence=[m.Evidence(step=1, before_frame=f0, after_frame=f1)]))
+        assert node.evidence[0].action is None
+        # 带上 action 依旧合法
+        ok = st.add_feature(m.FeatureCreate(
+            name="With action", confidence=0.5, evidence=_ev(f0, f1)))
+        assert ok.evidence[0].action == "click(1,2)"
+
     def test_edge_endpoints_must_exist(self, store):
         st, f0, f1 = store
         a = st.add_state(m.StateCreate(name="A"))
