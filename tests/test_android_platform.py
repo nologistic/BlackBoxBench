@@ -734,12 +734,15 @@ def test_device_failures_never_disclose_adb_to_an_agent(tmp_path):
     assert caught.value.recoverable is True
 
 
-def test_screenshot_blip_is_recoverable_while_the_device_lives(tmp_path):
+def test_screenshot_blip_is_recoverable_while_the_device_lives(
+        tmp_path, monkeypatch):
     spec = SimpleNamespace(package_name="com.example.app",
                            launch_activity=".MainActivity")
     runtime = AndroidEmulatorRuntime(spec, tmp_path)
     runtime.serial = "emulator-5554"
     runtime._enforce_foreground = lambda: None
+    runtime._wait_for_device = lambda timeout=30: None
+    monkeypatch.setattr(android_runtime.time, "sleep", lambda s: None)
     runtime._run = lambda *a, **k: SimpleNamespace(stdout=b"not-a-png",
                                                    returncode=0)
     runtime._device_responsive = lambda: True
@@ -747,12 +750,56 @@ def test_screenshot_blip_is_recoverable_while_the_device_lives(tmp_path):
         runtime.screenshot()
     assert caught.value.recoverable is True
     assert "emulator" not in str(caught.value)
+    # 非 PNG 会重试后才放弃：detail 应说明是多次连续失败。
+    assert "3 consecutive attempts" in caught.value.detail
 
     # A device that has stopped answering is terminal, not a blip.
     runtime._device_responsive = lambda: False
     with pytest.raises(android_runtime.DeviceError) as caught:
         runtime.screenshot()
     assert caught.value.recoverable is False
+
+
+def test_screenshot_retries_transient_non_png_frames(tmp_path, monkeypatch):
+    """单帧坏图先重试再放弃（2026-09-16 google_clock 事故回归）。
+
+    当天一张非 PNG 截图直接终结了探索会话（重建会话约 1.5 小时）；
+    现在截图内容级失败会先重试 3 次再抛错。
+    """
+    import io as _io
+    buffer = _io.BytesIO()
+    Image.new("RGB", (10, 20), "white").save(buffer, format="PNG")
+    good = buffer.getvalue()
+
+    spec = SimpleNamespace(package_name="com.example.app",
+                           launch_activity=".MainActivity")
+    runtime = AndroidEmulatorRuntime(spec, tmp_path)
+    runtime.serial = "emulator-5554"
+    runtime._enforce_foreground = lambda: None
+    runtime._info_from_png = lambda raw: RuntimeInfo(
+        width=10, height=20, device_scale_factor=1.0, platform="android",
+        orientation="portrait", density_dpi=0)
+    waits: list[int] = []
+    runtime._wait_for_device = lambda timeout=30: waits.append(1)
+    monkeypatch.setattr(android_runtime.time, "sleep", lambda s: None)
+
+    # 前两帧坏、第三帧好：应返回好帧，并在两次重试前等待设备。
+    frames = iter([b"not-a-png", b"still-not-a-png", good])
+    runtime._run = lambda *a, **k: SimpleNamespace(stdout=next(frames),
+                                                   returncode=0)
+    assert runtime.screenshot() == good
+    assert len(waits) == 2
+
+    # 三帧全坏：仍然抛可恢复错误，detail 说明连续失败次数。
+    frames = iter([b"bad-1", b"bad-2", b"bad-3"])
+    runtime._run = lambda *a, **k: SimpleNamespace(stdout=next(frames),
+                                                   returncode=0)
+    runtime._device_responsive = lambda: True
+    with pytest.raises(android_runtime.DeviceError,
+                       match="the screen could not be captured") as caught:
+        runtime.screenshot()
+    assert "3 consecutive attempts" in caught.value.detail
+    assert caught.value.recoverable is True
 
 
 def test_memory_admission_reserves_headroom_for_booting_emulators(

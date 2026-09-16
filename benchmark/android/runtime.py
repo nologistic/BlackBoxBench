@@ -392,16 +392,7 @@ class AndroidEmulatorRuntime(Runtime):
                 # Give the device a moment, then confirm it is back before
                 # spending the next attempt on the real command.
                 time.sleep(1.0 + attempt)
-                try:
-                    subprocess.run(
-                        [str(self.toolchain.adb), "-s", self.serial,
-                         "wait-for-device"] if self.serial else
-                        [str(self.toolchain.adb), "wait-for-device"],
-                        cwd=self.work_dir, env=environment,
-                        capture_output=True, timeout=30, check=False,
-                        creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
-                except (OSError, subprocess.SubprocessError):
-                    pass
+                self._wait_for_device()
         assert last_error is not None
         raise DeviceError(
             "the device did not complete this operation",
@@ -917,21 +908,52 @@ class AndroidEmulatorRuntime(Runtime):
         shutil.rmtree(self._avd_home, ignore_errors=True)
         self.start()
 
+    def _wait_for_device(self, timeout: int = 30) -> None:
+        """Best-effort `adb wait-for-device`; failures are ignored.
+
+        Split out of :meth:`_run` so the screenshot path can settle the
+        device between capture attempts without duplicating the adb
+        plumbing (and so tests can stub it).
+        """
+        try:
+            subprocess.run(
+                [str(self.toolchain.adb), "-s", self.serial,
+                 "wait-for-device"] if self.serial else
+                [str(self.toolchain.adb), "wait-for-device"],
+                cwd=self.work_dir,
+                env=self.toolchain.environment(self._avd_home),
+                capture_output=True, timeout=timeout, check=False,
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        except (OSError, subprocess.SubprocessError):
+            pass
+
     def screenshot(self) -> bytes:
         if self.serial:
             self._enforce_foreground()
-        result = self._run("exec-out", "screencap", "-p", timeout=20,
-                           binary=True)
-        raw = bytes(result.stdout)
-        if not raw.startswith(_PNG):
-            # A truncated or empty capture is almost always transient: the
-            # surface was mid-flip. Treat it as a blip on a live device so one
-            # bad frame cannot end an exploration.
-            raise DeviceError("the screen could not be captured this time",
-                              detail="screencap returned a non-PNG payload",
-                              recoverable=self._device_responsive())
-        self._last_info = self._info_from_png(raw)
-        return raw
+        # A truncated or empty capture is almost always transient: the
+        # surface was mid-flip. This used to raise on the very first
+        # non-PNG payload — on 2026-09-16 that ended a live exploration
+        # (google_clock lost ~1.5h; the agent rebuilt the session and
+        # started over). Retry the capture itself a few times before
+        # concluding the device is wedged; only a payload that stays
+        # broken across attempts escalates to DeviceError.
+        last_raw = b""
+        for attempt in range(3):
+            result = self._run("exec-out", "screencap", "-p", timeout=20,
+                               binary=True)
+            raw = bytes(result.stdout)
+            if raw.startswith(_PNG):
+                self._last_info = self._info_from_png(raw)
+                return raw
+            last_raw = raw
+            if attempt < 2:
+                time.sleep(1.0 + attempt)
+                self._wait_for_device()
+        raise DeviceError("the screen could not be captured this time",
+                          detail="screencap returned a non-PNG payload in "
+                                 f"3 consecutive attempts "
+                                 f"({len(last_raw)} bytes)",
+                          recoverable=self._device_responsive())
 
     def _info_from_png(self, raw: bytes) -> RuntimeInfo:
         with Image.open(io.BytesIO(raw)) as image:
