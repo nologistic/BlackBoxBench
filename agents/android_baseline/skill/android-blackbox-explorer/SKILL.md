@@ -40,6 +40,9 @@ description: 仅通过 Android App 可见截图和坐标级触控进行黑盒功
 
 - 复现工作区已经包含中立 Kotlin + Jetpack Compose 工程。只能通过 MCP 的
   `workspace_*` 工具修改它，不能访问宿主项目。
+- 修改已有文件时优先用 `workspace_patch`（精确搜索-替换，`old_text` 需与文件内容
+  完全一致且全文件唯一）；只有新建文件或大改才用 `workspace_write` 整文件重写——
+  大参数工具调用一旦在流式传输中被中断，整个会话会被终止。
 - 基于你探索阶段的记忆与已记录拓扑理解布局与行为（本条件不提供探索截图证据的
   读取通道）；优先用 `input_list`/`input_read` 读取 `/materials/app` 的目标专属
   补充素材与非实体信息（先读其中的 CATALOG.md 与 SUPPLEMENT.md），再使用

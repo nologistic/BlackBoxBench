@@ -108,6 +108,9 @@ finalize 成功后会立即进入与目标应用隔离的复现阶段。不要�
   `/materials` 提供的公共虚构素材，不得使用探索中看到的私人值。
 - 根据定稿拓扑复现网站的可观察核心功能,用 workspace_write 只向
   分配的输出目录写入; 需要修改的素材、数据库或后端先复制到输出目录。
+  修改已有文件时优先用 workspace_patch（精确搜索-替换，old_text 需与文件内容
+  完全一致且全文件唯一）；只有新建文件或大改才整文件重写——大参数工具调用
+  一旦在流式传输中被中断，整个会话会被终止。
 - 可用 workspace_run 运行构建、检查和测试。首次生成后不能直接结束：
   1. 调用 start_reproduction_review 启动本地成品，只通过 review_observe 与
      review_click / review_type_text / review_key_press / review_scroll 等 review_*
