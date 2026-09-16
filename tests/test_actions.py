@@ -24,6 +24,9 @@ class TestActions:
         r = client.post(f"/agent/{mini_session}/action",
                         json={"type": "click", "x": 200, "y": 130})
         assert r.status_code == 200 and r.json()["accepted"]
+        # 证据三元组的另一半：动作返回直接给出 before_frame（= 动作前那次
+        # observe 的 frame_id），agent 无需凭记忆重建（2026-09-16 事件根因）。
+        assert r.json()["before_frame"] == r0["frame_id"]
         after = _frame(client, mini_session, r.json()["frame_id"])
         # counter text region (away from the cursor overlay)
         assert _crop(before, (100, 195, 500, 240)) != _crop(after, (100, 195, 500, 240))

@@ -57,6 +57,9 @@ description: 黑盒 App 功能拓扑探索 —— 仅通过 GUI 截图与坐标�
 # 发现记录(强制证据)
 - record_state(visual_evidence 用真实 frame_id)、record_feature / record_data /
   record_edge(evidence 引用真实 step 与帧)。
+- 证据三元组 step / before_frame / after_frame 直接照抄动作返回里的 step、
+  before_frame、frame_id(frame_id 即 after_frame),不要凭记忆重建;填错会被
+  服务端拒绝并浪费动作预算。
 - 只有亲眼看到的才能 confirmed;推测先 record_hypothesis(statement + next_probe),
   验证后 resolve_hypothesis。
 - 发现理解错了: revise(op=update|merge|delete) 修正,不要堆重复节点。

@@ -70,6 +70,9 @@ MCP 的任何工具,严禁调用任何自建工具类 MCP——那会绕过本�
 # 发现记录(强制证据)
 - record_state(visual_evidence 用真实 frame_id)、record_feature / record_data /
   record_edge(evidence 引用真实 step 与帧)。
+- 证据三元组 step / before_frame / after_frame 直接照抄动作返回里的 step、
+  before_frame、frame_id(frame_id 即 after_frame),不要凭记忆重建;填错会被
+  服务端拒绝并浪费动作预算。
 - 边随过程记录: 每记录 3~5 个 state 后,回头把已验证的转换关系补成 record_edge
   (TRANSITIONS_TO / REQUIRES / MUTATES / PERSISTS_TO 等),不要攒到最后集中补——
   拓扑的边是复现侧行为契约的骨架,无边的节点清单会显著降低复现质量。

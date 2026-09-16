@@ -31,6 +31,9 @@ description: 仅通过 Android App 可见截图和坐标级触控进行黑盒功
   写入后的持久化。每次动作后用 `observe` 核对真实结果。
 - 只记录亲眼验证的行为。使用真实 frame/step 调用 `record_state`、
   `record_feature`、`record_data`、`record_edge`；推测用 hypothesis，验证后再裁决。
+- 证据三元组 `step / before_frame / after_frame` 直接照抄动作返回里的
+  `step`、`before_frame`、`frame_id`（frame_id 即 after_frame），不要凭记忆
+  重建；填错会被服务端拒绝并浪费动作预算。
 - 记录可观察行为，不写源码、接口、包名或框架信息。
 
 ## APK 复现

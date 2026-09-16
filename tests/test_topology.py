@@ -73,6 +73,20 @@ class TestCreateAndValidate:
                 evidence=[m.Evidence(step=1, before_frame=f1,
                                      action="click", after_frame=f0)]))
 
+    def test_evidence_error_reports_correct_frames(self, store):
+        """422 信息带上该 step 的正确前后帧，agent 可照抄修正（2026-09-16）。
+
+        当天 futoshiki 连续 7 次引用错误帧对被拒后放弃退出；错误信息里直接
+        给出正解可以让 agent 一轮恢复，而不是凭猜测反复试错。
+        """
+        st, f0, f1 = store
+        with pytest.raises(EvidenceError,
+                           match=f"has before_frame={f0}, after_frame={f1}"):
+            st.add_feature(m.FeatureCreate(
+                name="Mismatch", confidence=0.5,
+                evidence=[m.Evidence(step=1, before_frame=f1,
+                                     action="click", after_frame=f0)]))
+
     def test_edge_endpoints_must_exist(self, store):
         st, f0, f1 = store
         a = st.add_state(m.StateCreate(name="A"))

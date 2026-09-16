@@ -69,10 +69,16 @@ class TopologyStore:
                 raise EvidenceError(f"step {ev.step} not found in accepted actions")
             if action.get("before_frame") != ev.before_frame:
                 raise EvidenceError(
-                    f"before_frame {ev.before_frame} does not belong to step {ev.step}")
+                    f"before_frame {ev.before_frame} does not belong to step "
+                    f"{ev.step}; step {ev.step} has before_frame="
+                    f"{action.get('before_frame')}, after_frame="
+                    f"{action.get('after_frame')}")
             if action.get("after_frame") != ev.after_frame:
                 raise EvidenceError(
-                    f"after_frame {ev.after_frame} does not belong to step {ev.step}")
+                    f"after_frame {ev.after_frame} does not belong to step "
+                    f"{ev.step}; step {ev.step} has before_frame="
+                    f"{action.get('before_frame')}, after_frame="
+                    f"{action.get('after_frame')}")
 
     def _validate_frames(self, frames: list[int]) -> None:
         for f in frames:

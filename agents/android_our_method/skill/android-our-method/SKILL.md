@@ -23,6 +23,9 @@ description: 使用 Android our-method 的像素触控黑盒探索、索引化�
   `restart_app` 和 `wait` 做类人探索。先覆盖主要状态，再验证输入边界、错误、写入和重启持久化。
 - 用真实 frame/step 持续记录 state、feature、data 和 edge。Feature 要包含前置条件、
   触发、结果和持久化效果；每积累数个节点就补充真实转换边。推测必须先登记 hypothesis。
+- 证据三元组 `step / before_frame / after_frame` 直接照抄动作返回里的
+  `step`、`before_frame`、`frame_id`（frame_id 即 after_frame），不要凭记忆
+  重建；填错会被服务端拒绝并浪费动作预算。
 
 ## 索引化交接与生成闸门
 

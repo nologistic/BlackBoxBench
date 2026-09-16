@@ -283,8 +283,14 @@ class Session:
                 accepted=True, error=None, duration_ms=round(dur, 1),
                 before_frame=before_fid, after_frame=after_fid))
             self._watch_latency(dur)
+            # Evidence validation requires the exact (step, before_frame,
+            # after_frame) tuple of an accepted action. Returning both
+            # frames lets the agent cite them directly instead of
+            # reconstructing the pair from memory — on 2026-09-16 agents
+            # guessed the pairing wrong and burned their budget on 422s
+            # (futoshiki exited after seven rejections).
             return {"accepted": True, "frame_id": after_fid, "step": self.step,
-                    "tabs": self._tabs_info()}
+                    "before_frame": before_fid, "tabs": self._tabs_info()}
 
     def _watch_latency(self, duration_ms: float) -> None:
         """Note when the environment starts degrading, before it fails outright.
