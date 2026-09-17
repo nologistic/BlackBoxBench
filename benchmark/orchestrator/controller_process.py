@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import os
+import signal
 import subprocess
 import sys
 import time
@@ -50,6 +51,97 @@ def _pid_alive(pid: int) -> bool:
         return False
 
 
+def _env_fingerprint() -> str:
+    """Fingerprint of the environment a Controller was launched with.
+
+    The Controller is a machine-wide singleton keyed only by host:port, but
+    its behaviour depends on the launching environment (DISPLAY for Android
+    emulators, BBB_RUNS_DIR for live targets, PROJECT_ROOT, live proxy).
+    Reusing a Controller started by a *different* environment silently breaks
+    every session it serves - 2026-09-16: eight fresh runs inherited an old
+    Android Controller without DISPLAY and every browser launch failed. The
+    fingerprint lets ensure_local_controller detect and heal that mismatch.
+    """
+    import hashlib
+    parts = [
+        os.environ.get("DISPLAY", ""),
+        os.environ.get("BBB_RUNS_DIR", ""),
+        os.environ.get("BBB_LIVE_PROXY", ""),
+        str(config.PROJECT_ROOT.resolve()),
+    ]
+    digest = hashlib.sha256("|".join(parts).encode("utf-8")).hexdigest()
+    return digest[:16]
+
+
+def _state_env_matches(controller: str) -> bool:
+    """True when reusing the recorded Controller is considered safe.
+
+    - no state record: trust it. The Controller was started outside this
+      bootstrap path (operator or test harness) and carries no stale
+      environment question.
+    - recorded fingerprint: must match this environment.
+    - stale record WITHOUT a fingerprint (older revision): NOT safe - an
+      unverifiable leftover from another environment is exactly the hazard
+      this guard exists for (2026-09-16: eight runs inherited an old
+      Android Controller without DISPLAY).
+    """
+    state = _read_state(controller)
+    if not state:
+        return True
+    return str(state.get("env_fingerprint") or "") == _env_fingerprint()
+
+
+def _controller_has_active_sessions(controller: str) -> bool:
+    """Ask the Controller whether any session is still running.
+
+    Conservative on purpose: any probe failure or unknown status counts as
+    active so a stale Controller with live work is never killed blindly.
+    """
+    import urllib.request
+    try:
+        # Loopback only: never let a host http_proxy intercept this probe.
+        opener = urllib.request.build_opener(
+            urllib.request.ProxyHandler({}))
+        with opener.open(f"{controller}/api/sessions", timeout=5) as response:
+            sessions = json.loads(response.read().decode("utf-8"))
+    except Exception:
+        return True
+    if not isinstance(sessions, list):
+        return True
+    idle = {"closed", "failed"}
+    for session in sessions:
+        if not isinstance(session, dict):
+            return True
+        if str(session.get("status") or "").lower() not in idle:
+            return True
+    return False
+
+
+def _terminate_stale_controller(controller: str) -> None:
+    """Stop a leftover Controller whose environment no longer matches."""
+    state = _read_state(controller)
+    pid = int(state.get("pid") or 0)
+    if pid and _pid_alive(pid):
+        try:
+            os.kill(pid, signal.SIGTERM)
+        except OSError:
+            pass
+        deadline = time.monotonic() + 10.0
+        while time.monotonic() < deadline and _pid_alive(pid):
+            time.sleep(0.25)
+        if _pid_alive(pid):
+            hard = getattr(signal, "SIGKILL", None)
+            if hard is not None:
+                try:
+                    os.kill(pid, hard)
+                except OSError:
+                    pass
+    try:
+        _state_path(controller).unlink()
+    except OSError:
+        pass
+
+
 def _read_state(controller: str) -> dict:
     path = _state_path(controller)
     try:
@@ -71,6 +163,7 @@ def _write_state(controller: str, process: subprocess.Popen,
         "python": str(Path(sys.executable).resolve()),
         "project_root": str(config.PROJECT_ROOT.resolve()),
         "log": str(log_path),
+        "env_fingerprint": _env_fingerprint(),
     }
     temporary = path.with_suffix(".tmp")
     temporary.write_text(json.dumps(payload, indent=2), encoding="utf-8")
@@ -131,7 +224,20 @@ def ensure_local_controller(controller: str, is_up: Callable[[], bool],
                             timeout: float = 40.0) -> None:
     """Ensure one shared local Controller without duplicate process storms."""
     if is_up():
-        return
+        if _state_env_matches(controller):
+            return
+        # The reachable Controller was launched with a different environment
+        # (e.g. an Android batch's leftover serving a new live run). Heal it
+        # only when it has no running session; otherwise surface the conflict.
+        if _controller_has_active_sessions(controller):
+            raise RuntimeError(
+                f"Controller at {controller} was started with a different "
+                "environment and still has running sessions; close them (or "
+                "stop the stale Controller) before starting new runs")
+        if announce:
+            announce(f"Controller at {controller} belongs to a different "
+                     "environment; restarting it for this run")
+        _terminate_stale_controller(controller)
     _endpoint(controller)
     if announce:
         announce(f"Controller not reachable at {controller}; starting it…")
