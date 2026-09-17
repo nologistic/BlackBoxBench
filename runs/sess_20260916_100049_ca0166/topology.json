@@ -1,0 +1,1454 @@
+{
+  "app_id": "google_clock",
+  "graph_version": "1.0",
+  "session_id": "sess_20260916_100049_ca0166",
+  "generated_at": "2026-09-16T10:55:10.081909+00:00",
+  "nodes": [
+    {
+      "name": "alarm_list",
+      "description": "闹钟标签页初始态：两个预置闹钟 08:30（周一至周五）与 09:00（周六、周日），均关闭；每个卡片右侧有开关与展开箭头；底部圆形加号。",
+      "visual_evidence": [
+        3
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "标题 闹钟",
+        "08:30 周一至周五",
+        "09:00 周六周日",
+        "开关",
+        "展开箭头",
+        "加号按钮"
+      ],
+      "confidence": 0.95,
+      "id": "state_alarm_list",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 1,
+      "updated_step": 1
+    },
+    {
+      "name": "bedtime_onboarding",
+      "description": "就寝时间标签页引导态：大标题\"设置规律的就寝时间，改善睡眠质量\"，副标题\"选择规律的就寝时间、放下设备并聆听舒缓的音效\"，居中插画（床与手机），底部\"开始使用\"按钮。",
+      "visual_evidence": [
+        5
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "就寝时间",
+        "设置规律的就寝时间，改善睡眠质量",
+        "开始使用"
+      ],
+      "confidence": 0.9,
+      "id": "state_bedtime_onboarding",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 2,
+      "updated_step": 2
+    },
+    {
+      "name": "bedtime_setup_wake_alarm",
+      "description": "就寝时间引导步骤1：标题\"设置规律的起床闹钟\"，时间 07:00 带 +/- 调节，星期圆圈（一~日）全部选中，选项\"日出闹钟\"（关，副标题：在闹钟响铃之前慢慢调亮屏幕）、\"音效 默认铃声（Cesium）\"、\"振动\"（勾选），底部\"跳过\"和\"下一步\"。",
+      "visual_evidence": [
+        7
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "设置规律的起床闹钟",
+        "07:00",
+        "减号",
+        "加号",
+        "星期圆圈",
+        "日出闹钟",
+        "音效 默认铃声 Cesium",
+        "振动",
+        "跳过",
+        "下一步"
+      ],
+      "confidence": 0.9,
+      "id": "state_bedtime_setup_wake_alarm",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 3,
+      "updated_step": 3
+    },
+    {
+      "name": "bedtime_setup_bedtime_time",
+      "description": "就寝时间引导步骤2：标题\"设置就寝时间，让设备按时静音\"，时间 23:00 带 +/-，\"8 小时\"睡眠时长，星期圆圈全选，选项\"提醒通知 就寝时间前 15 分钟\"、\"就寝模式 勿扰・更改屏幕\"，底部\"跳过\"和\"完成\"。",
+      "visual_evidence": [
+        9
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "设置就寝时间，让设备按时静音",
+        "23:00",
+        "8 小时",
+        "提醒通知",
+        "就寝模式",
+        "跳过",
+        "完成"
+      ],
+      "confidence": 0.9,
+      "id": "state_bedtime_setup_bedtime_time",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 4,
+      "updated_step": 4
+    },
+    {
+      "name": "bedtime_configured",
+      "description": "就寝时间已启用页：顶部\"时间表\"卡片显示就寝时间 23:00、起床时间 07:00、副标题\"8 小时 · 下次闹钟时间：星期四\"；下方卡片\"查看近期就寝时间内的活动数据\"（不用了/继续）、\"聆听助眠音效\"（选择音效）等。",
+      "visual_evidence": [
+        11
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "时间表",
+        "就寝时间 23:00",
+        "起床时间 07:00",
+        "8小时 下次闹钟时间 星期四",
+        "查看近期就寝时间内的活动数据",
+        "继续",
+        "聆听助眠音效",
+        "选择音效"
+      ],
+      "confidence": 0.9,
+      "id": "state_bedtime_configured",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 5,
+      "updated_step": 5
+    },
+    {
+      "name": "calendar_permission_dialog",
+      "description": "就寝时间日历权限弹窗：图标 + \"要允许\"时钟\"访问您的日历吗？\" + \"允许\" / \"不允许\" 按钮。",
+      "visual_evidence": [
+        15
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "要允许时钟访问您的日历吗",
+        "允许",
+        "不允许"
+      ],
+      "confidence": 0.9,
+      "id": "state_calendar_permission_dialog",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 7,
+      "updated_step": 7
+    },
+    {
+      "name": "bedtime_cards",
+      "description": "就寝时间页功能卡片：时间表（23:00–07:00，8 小时）、查看近期活动数据（不用了/继续）、聆听助眠音效（选择音效）、查看即将进行的活动（日历权限，不用了/继续）。",
+      "visual_evidence": [
+        19
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "时间表",
+        "查看近期就寝时间内的活动数据",
+        "聆听助眠音效",
+        "选择音效",
+        "查看即将进行的活动"
+      ],
+      "confidence": 0.85,
+      "id": "state_bedtime_cards",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 10,
+      "updated_step": 10
+    },
+    {
+      "name": "stopwatch_idle",
+      "description": "秒表初始态：大圆显示 00 / 00，底部单一蓝色播放按钮。",
+      "visual_evidence": [
+        25
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "秒表",
+        "00 00",
+        "播放按钮"
+      ],
+      "confidence": 0.9,
+      "id": "state_stopwatch_idle",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 12,
+      "updated_step": 12
+    },
+    {
+      "name": "stopwatch_running",
+      "description": "秒表运行态：显示秒与百分秒（如 16/75），底部三按钮：左重置（循环箭头）、中暂停、右计次（秒表图标）。",
+      "visual_evidence": [
+        27
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "秒表",
+        "计时数字",
+        "重置按钮",
+        "暂停按钮",
+        "计次按钮"
+      ],
+      "confidence": 0.9,
+      "id": "state_stopwatch_running",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 14,
+      "updated_step": 14
+    },
+    {
+      "name": "秒表计次",
+      "description": "秒表计次：运行中点击计次按钮，圆下方列出每条记录（#编号、该圈用时、累计用时），新记录置顶。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 15,
+          "before_frame": 28,
+          "action": "点击计次按钮",
+          "after_frame": 29,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_秒表计次",
+      "type": "FEATURE",
+      "created_step": 15,
+      "updated_step": 15
+    },
+    {
+      "name": "stopwatch_paused",
+      "description": "秒表暂停态：计时停止（1:34.61），计次列表显示 #1/#2 的圈用时与总用时；底部只有左重置（循环箭头）和中播放（恢复）按钮，计次按钮消失。",
+      "visual_evidence": [
+        32
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "秒表",
+        "1:34.61",
+        "计次记录 #1 #2",
+        "重置按钮",
+        "播放按钮"
+      ],
+      "confidence": 0.9,
+      "id": "state_stopwatch_paused",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 16,
+      "updated_step": 16
+    },
+    {
+      "name": "秒表暂停/继续",
+      "description": "秒表可通过中央按钮暂停与继续；暂停后计次按钮隐藏。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 16,
+          "before_frame": 30,
+          "action": "点击中央按钮暂停",
+          "after_frame": 31,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_秒表暂停_继续",
+      "type": "FEATURE",
+      "created_step": 16,
+      "updated_step": 16
+    },
+    {
+      "name": "秒表重置",
+      "description": "秒表重置按钮清空计时与所有计次记录，直接回到初始态。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 17,
+          "before_frame": 32,
+          "action": "点击重置按钮",
+          "after_frame": 33,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_秒表重置",
+      "type": "FEATURE",
+      "created_step": 17,
+      "updated_step": 17
+    },
+    {
+      "name": "alarm_list_with_bedtime_wake",
+      "description": "闹钟页在启用就寝时间后新增分组：\"起床\"标题下为 07:00 每天、开关开启（就寝引导创建的起床闹钟），其余闹钟归入\"其他\"分组（08:30 周一至周五、09:00 周六周日，均关闭）。",
+      "visual_evidence": [
+        36
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "起床分组",
+        "07:00 每天 开启",
+        "其他分组",
+        "08:30",
+        "09:00"
+      ],
+      "confidence": 0.95,
+      "id": "state_alarm_list_with_bedtime_wake",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 18,
+      "updated_step": 18
+    },
+    {
+      "name": "wake_alarm_detail",
+      "description": "起床闹钟 07:00 展开详情：每天、开关开启、星期全选、\"暂停闹钟\"、\"默认铃声（Cesium）\"、振动已勾选，并显示绿色提示气泡\"让音乐唤醒你 / 您现在可以选择Pandora、Calm、Spotify和YouTube Music中的音乐\"。",
+      "visual_evidence": [
+        38
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "添加标签",
+        "07:00",
+        "每天",
+        "星期全选",
+        "暂停闹钟",
+        "默认铃声 Cesium",
+        "绿色提示 让音乐唤醒你",
+        "振动"
+      ],
+      "confidence": 0.9,
+      "id": "state_wake_alarm_detail",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 19,
+      "updated_step": 19
+    },
+    {
+      "name": "闹钟删除",
+      "description": "闹钟详情卡片底部有\"删除\"，点击即删除该闹钟。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 22,
+          "before_frame": 42,
+          "action": "点击 08:30 卡片中的删除",
+          "after_frame": 43,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_闹钟删除",
+      "type": "FEATURE",
+      "created_step": 22,
+      "updated_step": 22
+    },
+    {
+      "name": "闹钟启用/停用开关",
+      "description": "闹钟列表每条右侧有开关可启用/停用，启用后高亮。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 23,
+          "before_frame": 44,
+          "action": "点击 09:00 条目开关",
+          "after_frame": 45,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_闹钟启用_停用开关",
+      "type": "FEATURE",
+      "created_step": 23,
+      "updated_step": 23
+    },
+    {
+      "name": "alarm_time_picker_dialog",
+      "description": "添加闹钟的时间选择对话框：标题\"选择时间\"，大字当前选中小时/分钟，24 小时表盘，底部键盘图标、取消、确定。",
+      "visual_evidence": [
+        48
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "选择时间",
+        "小时 19",
+        "分钟 00",
+        "表盘",
+        "键盘图标",
+        "取消",
+        "确定"
+      ],
+      "confidence": 0.9,
+      "id": "state_alarm_time_picker_dialog",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 24,
+      "updated_step": 24
+    },
+    {
+      "name": "new_alarm_detail_2130",
+      "description": "新建 21:30 闹钟自动展开：下次响铃\"今天\"，开关开启，星期圆圈未选，行有\"预定闹钟时间 +\"、\"默认铃声（Cesium）\"、\"振动\"、\"删除\"；上方为已开启的 09:00。",
+      "visual_evidence": [
+        57
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "添加标签",
+        "21:30",
+        "今天",
+        "开关",
+        "星期圆圈",
+        "预定闹钟时间",
+        "默认铃声 Cesium",
+        "振动",
+        "删除"
+      ],
+      "confidence": 0.9,
+      "id": "state_new_alarm_detail_2130",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 29,
+      "updated_step": 29
+    },
+    {
+      "name": "新建闹钟",
+      "description": "通过加号创建闹钟：打开\"选择时间\"对话框（表盘/键盘两种输入），确定后创建闹钟并自动展开。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 24,
+          "before_frame": 46,
+          "action": "点击加号",
+          "after_frame": 47,
+          "note": null
+        },
+        {
+          "step": 26,
+          "before_frame": 50,
+          "action": "切换键盘输入",
+          "after_frame": 51,
+          "note": null
+        },
+        {
+          "step": 27,
+          "before_frame": 52,
+          "action": "输入小时 21",
+          "after_frame": 53,
+          "note": null
+        },
+        {
+          "step": 29,
+          "before_frame": 55,
+          "action": "点击确定",
+          "after_frame": 56,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_新建闹钟",
+      "type": "FEATURE",
+      "created_step": 29,
+      "updated_step": 29
+    },
+    {
+      "name": "闹钟标签",
+      "description": "可为闹钟设置文字标签，设置后显示在卡片顶部。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 30,
+          "before_frame": 57,
+          "action": "点击添加标签",
+          "after_frame": 58,
+          "note": null
+        },
+        {
+          "step": 32,
+          "before_frame": 61,
+          "action": "选择建议词提交",
+          "after_frame": 62,
+          "note": null
+        },
+        {
+          "step": 33,
+          "before_frame": 63,
+          "action": "点击确定",
+          "after_frame": 64,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_闹钟标签",
+      "type": "FEATURE",
+      "created_step": 33,
+      "updated_step": 33
+    },
+    {
+      "name": "闹钟重复星期选择",
+      "description": "闹钟可多选一周重复日；选定重复日后下次响铃文本更新，并额外出现\"暂停闹钟\"行（未选重复日时为\"预定闹钟时间\"）。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 34,
+          "before_frame": 65,
+          "action": "选中星期三",
+          "after_frame": 66,
+          "note": null
+        },
+        {
+          "step": 35,
+          "before_frame": 67,
+          "action": "取消星期三",
+          "after_frame": 68,
+          "note": null
+        }
+      ],
+      "confidence": 0.85,
+      "status": "confirmed",
+      "id": "feature_闹钟重复星期选择",
+      "type": "FEATURE",
+      "created_step": 35,
+      "updated_step": 35
+    },
+    {
+      "name": "alarm_sound_picker",
+      "description": "闹钟提示音选择页：标签\"提示音/YouTube Music\"；\"您的提示音 新增\"；\"设备提示音\"列出静音、默认铃声（Cesium，勾选）、Argon、Barium、BeeBeep Alarm、Beep-Beep-Beep Alarm 等；进入时弹出\"可使用音乐闹钟\"对话框。",
+      "visual_evidence": [
+        71,
+        73
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "返回",
+        "闹钟提示音",
+        "提示音",
+        "YouTube Music",
+        "您的提示音",
+        "新增",
+        "设备提示音",
+        "静音",
+        "默认铃声 Cesium",
+        "Argon",
+        "Barium",
+        "BeeBeep Alarm"
+      ],
+      "confidence": 0.9,
+      "id": "state_alarm_sound_picker",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 37,
+      "updated_step": 37
+    },
+    {
+      "name": "闹钟提示音选择",
+      "description": "闹钟可更换提示音：点击铃声行进入\"闹钟提示音\"页，在设备提示音列表中选择，返回后生效。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 36,
+          "before_frame": 69,
+          "action": "点击铃声行打开提示音页",
+          "after_frame": 70,
+          "note": null
+        },
+        {
+          "step": 38,
+          "before_frame": 73,
+          "action": "选择 Barium",
+          "after_frame": 74,
+          "note": null
+        },
+        {
+          "step": 39,
+          "before_frame": 75,
+          "action": "返回后显示 Barium",
+          "after_frame": 76,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_闹钟提示音选择",
+      "type": "FEATURE",
+      "created_step": 39,
+      "updated_step": 39
+    },
+    {
+      "name": "clock_tab_home",
+      "description": "时钟标签页主页：大字当前时间（18:27），下一行\"9月16日周三\"后跟小闹钟图标与\"周四07:00\"表示下一次闹钟；下方圆形加号。",
+      "visual_evidence": [
+        81
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "标题 时钟",
+        "当前时间 18:27",
+        "日期 9月16日周三",
+        "下一闹钟 周四07:00",
+        "加号按钮"
+      ],
+      "confidence": 0.95,
+      "id": "state_clock_tab_home",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 41,
+      "updated_step": 41
+    },
+    {
+      "name": "时钟主页显示时间与下一闹钟",
+      "description": "时钟标签页显示当前时间与日期，并显示下一个已启用闹钟的时间。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 41,
+          "before_frame": 79,
+          "action": "切换到时钟标签页",
+          "after_frame": 80,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_时钟主页显示时间与下一闹钟",
+      "type": "FEATURE",
+      "created_step": 41,
+      "updated_step": 41
+    },
+    {
+      "name": "更改日期和时间提示",
+      "description": "设置中的\"更改日期和时间\"点击后回到时钟标签页，并在右上角溢出菜单处弹出绿色提示\"您可在这里找到隐私权政策\"。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 44,
+          "before_frame": 84,
+          "action": "点击更改日期和时间",
+          "after_frame": 85,
+          "note": null
+        }
+      ],
+      "confidence": 0.7,
+      "status": "confirmed",
+      "id": "feature_更改日期和时间提示",
+      "type": "FEATURE",
+      "created_step": 44,
+      "updated_step": 44
+    },
+    {
+      "name": "显示含秒数设置",
+      "description": "设置中的\"显示含秒数的时间\"开关控制时钟页是否显示秒。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 47,
+          "before_frame": 88,
+          "action": "打开显示含秒数开关",
+          "after_frame": 89,
+          "note": null
+        },
+        {
+          "step": 48,
+          "before_frame": 90,
+          "action": "返回时钟标签页",
+          "after_frame": 91,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_显示含秒数设置",
+      "type": "FEATURE",
+      "created_step": 48,
+      "updated_step": 48
+    },
+    {
+      "name": "timer_input",
+      "description": "定时器输入态：标题\"定时器\"，显示 00时 00分 00秒，数字键盘 1-9、00、0、退格；时长为 0 时不显示开始按钮。",
+      "visual_evidence": [
+        94
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "定时器",
+        "00时 00分 00秒",
+        "数字键 1-9",
+        "00",
+        "0",
+        "退格"
+      ],
+      "confidence": 0.9,
+      "id": "state_timer_input",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 49,
+      "updated_step": 49
+    },
+    {
+      "name": "定时器键盘输入",
+      "description": "定时器用数字键盘输入时长，数字逐位累积填充秒/分/时；时长为零时无开始按钮。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 50,
+          "before_frame": 94,
+          "action": "点击数字 3",
+          "after_frame": 95,
+          "note": null
+        },
+        {
+          "step": 51,
+          "before_frame": 95,
+          "action": "点击数字 0",
+          "after_frame": 96,
+          "note": null
+        }
+      ],
+      "confidence": 0.85,
+      "status": "confirmed",
+      "id": "feature_定时器键盘输入",
+      "type": "FEATURE",
+      "created_step": 51,
+      "updated_step": 51
+    },
+    {
+      "name": "timer_running",
+      "description": "定时器运行态：卡片标题\"30秒的定时器\"，右上 X，环形进度，中央大字倒计时（20），下方小重置图标，\" +1:00\"与粉色暂停按钮，页面下方加号。",
+      "visual_evidence": [
+        99
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "30秒的定时器",
+        "X 关闭",
+        "环形进度",
+        "倒计时 20",
+        "重置图标",
+        "+1:00",
+        "暂停按钮",
+        "加号"
+      ],
+      "confidence": 0.9,
+      "id": "state_timer_running",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 52,
+      "updated_step": 52
+    },
+    {
+      "name": "定时器暂停/继续",
+      "description": "定时器可通过粉色中央按钮暂停/继续。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 57,
+          "before_frame": 106,
+          "action": "点击粉色按钮暂停",
+          "after_frame": 107,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_定时器暂停_继续",
+      "type": "FEATURE",
+      "created_step": 57,
+      "updated_step": 57
+    },
+    {
+      "name": "定时器加一分钟",
+      "description": "定时器\"+1:00\"按钮延长 1 分钟；在超时态使用可将其拉回正计时并继续。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 56,
+          "before_frame": 104,
+          "action": "超时态点击 +1:00",
+          "after_frame": 105,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_定时器加一分钟",
+      "type": "FEATURE",
+      "created_step": 57,
+      "updated_step": 57
+    },
+    {
+      "name": "定时器完成态与超时计数",
+      "description": "定时器倒计时归零后进入完成态：卡片高亮、数字显示负值继续累加、按钮变为停止。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 56,
+          "before_frame": 104,
+          "action": "超时态（显示 -5）点击 +1:00",
+          "after_frame": 105,
+          "note": null
+        }
+      ],
+      "confidence": 0.85,
+      "status": "confirmed",
+      "id": "feature_定时器完成态与超时计数",
+      "type": "FEATURE",
+      "created_step": 57,
+      "updated_step": 57
+    },
+    {
+      "name": "定时器重置到完整时长",
+      "description": "定时器卡片内的重置图标把倒计时恢复到完整时长。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 58,
+          "before_frame": 108,
+          "action": "点击重置图标",
+          "after_frame": 109,
+          "note": null
+        }
+      ],
+      "confidence": 0.85,
+      "status": "confirmed",
+      "id": "feature_定时器重置到完整时长",
+      "type": "FEATURE",
+      "created_step": 58,
+      "updated_step": 58
+    },
+    {
+      "name": "timer_multiple",
+      "description": "多个定时器并列：上方\"15秒的定时器\"运行中（紧凑布局：左侧圆环+倒计时，右侧 +1:00 与暂停），下方\"30秒的定时器\"暂停（30，播放按钮）；每个卡片右上角有 X 关闭；页面底部加号新增。",
+      "visual_evidence": [
+        117
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "15秒的定时器",
+        "30秒的定时器",
+        "+1:00",
+        "暂停",
+        "播放",
+        "X 关闭",
+        "加号"
+      ],
+      "confidence": 0.9,
+      "id": "state_timer_multiple",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 62,
+      "updated_step": 62
+    },
+    {
+      "name": "多个定时器",
+      "description": "可添加多个定时器，并列显示各自倒计时与控件。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 62,
+          "before_frame": 115,
+          "action": "启动第二个定时器",
+          "after_frame": 116,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_多个定时器",
+      "type": "FEATURE",
+      "created_step": 62,
+      "updated_step": 62
+    },
+    {
+      "name": "关闭定时器",
+      "description": "定时器卡片右上角 X 可关闭该定时器。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 63,
+          "before_frame": 117,
+          "action": "关闭 15秒 定时器",
+          "after_frame": 118,
+          "note": null
+        }
+      ],
+      "confidence": 0.85,
+      "status": "confirmed",
+      "id": "feature_关闭定时器",
+      "type": "FEATURE",
+      "created_step": 63,
+      "updated_step": 63
+    },
+    {
+      "name": "闹钟持久化",
+      "description": "闹钟与就寝时间设置持久化：重启 App 后闹钟列表与开关状态不变。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 66,
+          "before_frame": 123,
+          "action": "重启 App",
+          "after_frame": 124,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_闹钟持久化",
+      "type": "FEATURE",
+      "created_step": 66,
+      "updated_step": 66
+    },
+    {
+      "name": "Alarm（闹钟）",
+      "description": "闹钟实体的持久化存储：包含时间、启用状态、重复星期、标签、铃声、振动；重启 App 后保留。",
+      "confidence": 0.9,
+      "id": "data_alarm_闹钟",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 66,
+      "updated_step": 66
+    },
+    {
+      "name": "settings_page",
+      "description": "设置页：时钟分组含样式（数字）、显示含秒数的时间（本会话开启）、自动显示家所在地时间（开，副标题\"在其他时区旅行时显示家中时间\"）、家所在地时区 (GMT+8:00) 北京、更改日期和时间；闹钟分组含闹钟时长 10 分钟、延后时长 10 分钟、闹钟音量滑块。",
+      "visual_evidence": [
+        128
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "样式 数字",
+        "显示含秒数的时间",
+        "自动显示家所在地时间",
+        "家所在地时区 (GMT+8:00) 北京",
+        "更改日期和时间",
+        "闹钟时长 10 分钟",
+        "延后时长 10 分钟",
+        "闹钟音量"
+      ],
+      "confidence": 0.9,
+      "id": "state_settings_page",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 68,
+      "updated_step": 68
+    },
+    {
+      "name": "时钟样式数字/指针切换",
+      "description": "设置\"样式\"可切换时钟显示为数字或指针；指针模式显示模拟表盘。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 70,
+          "before_frame": 130,
+          "action": "在样式下拉中选择指针",
+          "after_frame": 131,
+          "note": null
+        },
+        {
+          "step": 72,
+          "before_frame": 134,
+          "action": "切到时钟标签页看到表盘",
+          "after_frame": 135,
+          "note": null
+        }
+      ],
+      "confidence": 0.85,
+      "status": "confirmed",
+      "id": "feature_时钟样式数字_指针切换",
+      "type": "FEATURE",
+      "created_step": 72,
+      "updated_step": 72
+    },
+    {
+      "name": "overflow_menu",
+      "description": "时钟标签页右上角溢出菜单：屏保、设置、隐私权政策、发送反馈、帮助。",
+      "visual_evidence": [
+        145
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "屏保",
+        "设置",
+        "隐私权政策",
+        "发送反馈",
+        "帮助"
+      ],
+      "confidence": 0.9,
+      "id": "state_overflow_menu",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 79,
+      "updated_step": 79
+    },
+    {
+      "name": "screensaver_prompt",
+      "description": "屏保全屏模式提示：深色全屏，弹卡显示手向下滑图标、\"目前处于全屏模式\"、\"若要退出，请从屏幕顶部向下滑动\"与\"知道了\"按钮。",
+      "visual_evidence": [
+        147
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "目前处于全屏模式",
+        "若要退出，请从屏幕顶部向下滑动",
+        "知道了"
+      ],
+      "confidence": 0.85,
+      "id": "state_screensaver_prompt",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 80,
+      "updated_step": 80
+    },
+    {
+      "name": "screensaver_fullscreen",
+      "description": "屏保/全屏模式：黑底仅显示大字当前时间与日期+下一闹钟，无明显 UI 控件；退出方式为从屏幕顶部向下滑动。",
+      "visual_evidence": [
+        153
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "18:52",
+        "9月16日周三",
+        "下一闹钟 周四07:00"
+      ],
+      "confidence": 0.85,
+      "id": "state_screensaver_fullscreen",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 83,
+      "updated_step": 83
+    },
+    {
+      "name": "屏保全屏模式",
+      "description": "屏保模式：全屏深色仅显示时钟与下一闹钟，从屏幕顶部下滑退出。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 80,
+          "before_frame": 145,
+          "action": "点击屏保",
+          "after_frame": 146,
+          "note": null
+        },
+        {
+          "step": 84,
+          "before_frame": 153,
+          "action": "从顶部下滑退出",
+          "after_frame": 154,
+          "note": null
+        }
+      ],
+      "confidence": 0.8,
+      "status": "confirmed",
+      "id": "feature_屏保全屏模式",
+      "type": "FEATURE",
+      "created_step": 84,
+      "updated_step": 84
+    },
+    {
+      "name": "Stopwatch（秒表）",
+      "description": "秒表计时状态：仅在前台/后台运行时存在，含计时值、运行/暂停状态与计次记录列表；重置或关闭后清除。",
+      "confidence": 0.85,
+      "id": "data_stopwatch_秒表",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 84,
+      "updated_step": 84
+    },
+    {
+      "name": "Timer（定时器）",
+      "description": "定时器实例：可同时存在多个，每个含总时长、剩余/超时值、运行/暂停/完成状态；完成态显示负值并计时超时。",
+      "confidence": 0.85,
+      "id": "data_timer_定时器",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 84,
+      "updated_step": 84
+    },
+    {
+      "name": "BedtimeSchedule（就寝时间表）",
+      "description": "就寝时间配置：就寝时间、起床时间、时长、重复日、提醒通知与就寝模式设置；启用后创建\"起床\"闹钟。",
+      "confidence": 0.9,
+      "id": "data_bedtimeschedule_就寝时间表",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 84,
+      "updated_step": 84
+    }
+  ],
+  "edges": [
+    {
+      "source": "state_bedtime_configured",
+      "target": "state_alarm_list_with_bedtime_wake",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 5,
+          "before_frame": 9,
+          "action": "就寝引导完成创建起床闹钟 07:00",
+          "after_frame": 10,
+          "note": null
+        },
+        {
+          "step": 18,
+          "before_frame": 34,
+          "action": "回到闹钟页看到起床分组 07:00",
+          "after_frame": 35,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "note": "启用就寝时间时设置的起床闹钟（07:00 每天）会出现在闹钟页的\"起床\"分组并默认开启",
+      "id": "edge_0001",
+      "created_step": 35
+    },
+    {
+      "source": "state_alarm_list_with_bedtime_wake",
+      "target": "state_clock_tab_home",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 41,
+          "before_frame": 79,
+          "action": "切换时钟标签页并看到下一闹钟时间",
+          "after_frame": 80,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "note": "时钟主页日期旁显示下一个已启用闹钟（由闹钟列表状态决定）",
+      "id": "edge_0002",
+      "created_step": 66
+    },
+    {
+      "source": "state_alarm_list",
+      "target": "state_new_alarm_detail_2130",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 24,
+          "before_frame": 46,
+          "action": "点击加号",
+          "after_frame": 47,
+          "note": null
+        },
+        {
+          "step": 29,
+          "before_frame": 55,
+          "action": "确定创建 21:30",
+          "after_frame": 56,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0003",
+      "created_step": 84
+    },
+    {
+      "source": "state_timer_input",
+      "target": "state_timer_running",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 52,
+          "before_frame": 97,
+          "action": "点击播放开始定时器",
+          "after_frame": 98,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0004",
+      "created_step": 84
+    },
+    {
+      "source": "state_stopwatch_idle",
+      "target": "state_stopwatch_running",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 13,
+          "before_frame": 25,
+          "action": "点击秒表播放",
+          "after_frame": 26,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0005",
+      "created_step": 84
+    },
+    {
+      "source": "state_stopwatch_running",
+      "target": "state_stopwatch_paused",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 16,
+          "before_frame": 30,
+          "action": "点击中央按钮暂停秒表",
+          "after_frame": 31,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0006",
+      "created_step": 84
+    },
+    {
+      "source": "state_bedtime_onboarding",
+      "target": "state_bedtime_setup_wake_alarm",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 3,
+          "before_frame": 5,
+          "action": "点击开始使用",
+          "after_frame": 6,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0007",
+      "created_step": 84
+    },
+    {
+      "source": "state_bedtime_setup_bedtime_time",
+      "target": "state_bedtime_configured",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 5,
+          "before_frame": 9,
+          "action": "在就寝时间步骤点击完成",
+          "after_frame": 10,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0008",
+      "created_step": 84
+    },
+    {
+      "source": "state_alarm_list",
+      "target": "state_alarm_time_picker_dialog",
+      "type": "REVEALS",
+      "evidence": [
+        {
+          "step": 24,
+          "before_frame": 46,
+          "action": "点击加号打开时间选择对话框",
+          "after_frame": 47,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0009",
+      "created_step": 84
+    }
+  ],
+  "unresolved_questions": [],
+  "coverage_summary": {
+    "states": 23,
+    "features": 22,
+    "data_entities": 4,
+    "edges": 9,
+    "confirmed_ratio": 1.0,
+    "actions_used": 84
+  }
+}

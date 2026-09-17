@@ -1,0 +1,19 @@
+{
+  "session_id": "sess_20260916_085540_214bfd",
+  "app_id": "futoshiki",
+  "status": "closed",
+  "close_reason": "agent_finalized",
+  "actions_used": 77,
+  "observations_used": 53,
+  "steps": 77,
+  "frames": 130,
+  "coverage": {
+    "states": 9,
+    "features": 9,
+    "data_entities": 2,
+    "edges": 7,
+    "confirmed_ratio": 1.0,
+    "actions_used": 77
+  },
+  "elapsed_s": 3691
+}

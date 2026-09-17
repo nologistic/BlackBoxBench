@@ -1,0 +1,19 @@
+{
+  "app_id": "loop_habit_tracker",
+  "session_id": "sess_20260916_085452_5b6e6e",
+  "coverage": {
+    "states": 9,
+    "features": 7,
+    "data_entities": 2,
+    "edges": 5,
+    "confirmed_ratio": 1.0,
+    "actions_used": 105
+  },
+  "unresolved_questions": [],
+  "nodes_by_status": {
+    "confirmed": 18,
+    "hypothesized": 0,
+    "uncertain": 0,
+    "rejected": 0
+  }
+}

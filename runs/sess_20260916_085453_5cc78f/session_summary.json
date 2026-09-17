@@ -1,0 +1,19 @@
+{
+  "session_id": "sess_20260916_085453_5cc78f",
+  "app_id": "fossify_calculator",
+  "status": "closed",
+  "close_reason": "agent_finalized",
+  "actions_used": 173,
+  "observations_used": 71,
+  "steps": 173,
+  "frames": 243,
+  "coverage": {
+    "states": 7,
+    "features": 21,
+    "data_entities": 2,
+    "edges": 16,
+    "confirmed_ratio": 1.0,
+    "actions_used": 173
+  },
+  "elapsed_s": 4587
+}

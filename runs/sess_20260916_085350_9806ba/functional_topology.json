@@ -1,0 +1,877 @@
+{
+  "app_id": "game2048",
+  "graph_version": "1.0",
+  "session_id": "sess_20260916_085350_9806ba",
+  "generated_at": "2026-09-16T11:28:48.590271+00:00",
+  "nodes": [
+    {
+      "name": "Game Board (playing)",
+      "description": "主游戏界面：顶部两行图标按钮（游戏手柄+、魔法棒/取消、汉堡菜单、书签、暂停），计分面板（分数/最高/OE/RETRIES/TIE 计时器），4x4 棋盘，已有一个初始 \"2\" 方块，计时从 00:00:12 起递增。",
+      "visual_evidence": [
+        5
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "游戏手柄图标按钮",
+        "魔法棒图标按钮",
+        "汉堡菜单按钮",
+        "书签按钮",
+        "暂停按钮",
+        "分数=0",
+        "最高=0",
+        "OE=1",
+        "RETRIES=0",
+        "TIE 计时器",
+        "4x4 棋盘",
+        "'2' 方块"
+      ],
+      "confidence": 0.9,
+      "id": "state_game_board_playing",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 2,
+      "updated_step": 2
+    },
+    {
+      "name": "游戏操作列表",
+      "description": "从右上角入口进入，出现标题\"游戏操作\"的列表，条目依次为：转到书签、Recent games、再玩一局、分享游戏、载入游戏、选择主题、棋盘尺寸选项、退出、游戏指南；右上角有 X 可关闭。",
+      "visual_evidence": [
+        12
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "游戏操作",
+        "转到书签",
+        "Recent games",
+        "再玩一局",
+        "分享游戏",
+        "载入游戏",
+        "选择主题",
+        "棋盘尺寸选项",
+        "退出",
+        "游戏指南",
+        "X"
+      ],
+      "confidence": 0.95,
+      "id": "state_游戏操作列表",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 5,
+      "updated_step": 5
+    },
+    {
+      "name": "选择主题",
+      "description": "\"选择主题\"界面，含三个选项：系统配色、深色主题、浅色主题，各带圆形选择标记，右上角 X 关闭。",
+      "visual_evidence": [
+        24
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "选择主题",
+        "系统配色",
+        "深色主题",
+        "浅色主题",
+        "X"
+      ],
+      "confidence": 0.9,
+      "id": "state_选择主题",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 11,
+      "updated_step": 11
+    },
+    {
+      "name": "主题切换（系统/深色/浅色）",
+      "description": "从游戏操作列表进入选择主题，可选系统配色、深色主题、浅色主题；选择深色主题后界面整体变为深色（背景黑、方块深灰、文字白）。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 12,
+          "before_frame": 24,
+          "action": "在选择主题界面点按深色主题",
+          "after_frame": 25,
+          "note": null
+        },
+        {
+          "step": 13,
+          "before_frame": 26,
+          "action": "点按 X 关闭游戏指南",
+          "after_frame": 27,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_主题切换_系统_深色_浅色",
+      "type": "FEATURE",
+      "created_step": 14,
+      "updated_step": 14
+    },
+    {
+      "name": "棋盘尺寸选择（3x3 至 8x8）",
+      "description": "从游戏操作进入棋盘尺寸设置，可选 33、44、55、66、77、88（即 3x3 至 8x8）；选择后立即开始对应尺寸的新棋局。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 15,
+          "before_frame": 30,
+          "action": "点按游戏操作列表中的棋盘尺寸项",
+          "after_frame": 31,
+          "note": null
+        },
+        {
+          "step": 17,
+          "before_frame": 34,
+          "action": "点按尺寸 33",
+          "after_frame": 35,
+          "note": null
+        },
+        {
+          "step": 18,
+          "before_frame": 36,
+          "action": "点按 X 关闭游戏指南",
+          "after_frame": 37,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_棋盘尺寸选择_3x3_至_8x8",
+      "type": "FEATURE",
+      "created_step": 18,
+      "updated_step": 18
+    },
+    {
+      "name": "3x3 棋盘（深色主题）",
+      "description": "深色主题下的 3x3 棋盘新局，含一个 \"2\" 方块；分数=0，最高=0，OE=1，RETRIES=0，TIE 计时运行。",
+      "visual_evidence": [
+        38
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "3x3 棋盘",
+        "\"2\" 方块",
+        "分数 0",
+        "最高 0",
+        "OE 1",
+        "RETRIES 0",
+        "TIE 计时"
+      ],
+      "confidence": 0.9,
+      "id": "state_3x3_棋盘_深色主题",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 18,
+      "updated_step": 18
+    },
+    {
+      "name": "方块合并与计分",
+      "description": "相同数字方块碰撞后合并为两倍数值（2+2→4），分数按合并后数值增加（+4），最高分同步更新；每次有效滑动后空位生成一个新方块，OE 计数递增（每步 +1）。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 26,
+          "before_frame": 52,
+          "action": "从棋盘左下向右滑动",
+          "after_frame": 53,
+          "note": null
+        },
+        {
+          "step": 27,
+          "before_frame": 54,
+          "action": "沿第三列向下滑动触发合并",
+          "after_frame": 55,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_方块合并与计分",
+      "type": "FEATURE",
+      "created_step": 27,
+      "updated_step": 27
+    },
+    {
+      "name": "撤销与重做",
+      "description": "滑动后出现撤销（弯箭头）入口，点按后棋盘、分数、OE 回退到上一步之前的状态；最高分不回退。撤销后出现重做（反向弯箭头）入口，同时一个\"2048\"样式方块图标出现在按钮区。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 27,
+          "before_frame": 54,
+          "action": "滑动合并后分数 4、OE 3",
+          "after_frame": 55,
+          "note": null
+        },
+        {
+          "step": 28,
+          "before_frame": 56,
+          "action": "点按撤销箭头",
+          "after_frame": 57,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_撤销与重做",
+      "type": "FEATURE",
+      "created_step": 28,
+      "updated_step": 28
+    },
+    {
+      "name": "书签保存当前局面",
+      "description": "游戏界面书签入口点按后图标由空心变为实心，表示把当前局面加入书签。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 30,
+          "before_frame": 60,
+          "action": "点按第二行书签图标",
+          "after_frame": 61,
+          "note": null
+        }
+      ],
+      "confidence": 0.8,
+      "status": "confirmed",
+      "id": "feature_书签保存当前局面",
+      "type": "FEATURE",
+      "created_step": 30,
+      "updated_step": 30
+    },
+    {
+      "name": "再玩一局（重开新局）",
+      "description": "游戏操作列表中的\"再玩一局\"会立即开始新的同尺寸棋局：棋盘清空后出现一个\"2\"方块，分数归零、OE 回到 1、计时重置；最高分保持不变。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 34,
+          "before_frame": 68,
+          "action": "点按游戏操作列表中的再玩一局",
+          "after_frame": 69,
+          "note": null
+        }
+      ],
+      "confidence": 0.85,
+      "status": "confirmed",
+      "id": "feature_再玩一局_重开新局",
+      "type": "FEATURE",
+      "created_step": 35,
+      "updated_step": 35
+    },
+    {
+      "name": "游戏结束覆盖层",
+      "description": "棋盘填满且无可移动/合并方向时，棋盘中央出现半透明覆盖层，显示\"游戏结束\"和\"再玩一局\"文字；分数与最高分保留。",
+      "visual_evidence": [
+        145
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "游戏结束",
+        "再玩一局",
+        "棋盘（4,2,4 / 64,32,8 / 2,4,2）",
+        "分数 452",
+        "最高 452",
+        "OE 55"
+      ],
+      "confidence": 0.95,
+      "id": "state_游戏结束覆盖层",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 98,
+      "updated_step": 98
+    },
+    {
+      "name": "游戏结束判定",
+      "description": "当棋盘填满且不存在可合并的相邻同值方块时游戏结束，棋盘上显示\"游戏结束／再玩一局\"覆盖文字。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 98,
+          "before_frame": 143,
+          "action": "连续滑动直到所有方向都无法再移动",
+          "after_frame": 144,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_游戏结束判定",
+      "type": "FEATURE",
+      "created_step": 98,
+      "updated_step": 98
+    },
+    {
+      "name": "主题切换不重置棋局",
+      "description": "选择主题提供系统配色、深色主题、浅色主题三项，切换后界面配色立即改变，且不重开当前棋局；最高分与棋局状态保持。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 109,
+          "before_frame": 163,
+          "action": "在游戏操作中打开选择主题",
+          "after_frame": 164,
+          "note": null
+        },
+        {
+          "step": 110,
+          "before_frame": 165,
+          "action": "点按浅色主题",
+          "after_frame": 166,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_主题切换不重置棋局",
+      "type": "FEATURE",
+      "created_step": 110,
+      "updated_step": 110
+    },
+    {
+      "name": "历史对局列表",
+      "description": "\"Recent games\" 界面：表格含表头 分数 / 最后修改时间 / 用时（右侧被裁切），列出历史对局，如 452 与 2026-09-16 17:46、4 与 2026-09-16 17:28；底部有横向滚动条，右上角 X 关闭。",
+      "visual_evidence": [
+        170
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "Recent games",
+        "分数",
+        "最后修改时间",
+        "用时",
+        "452",
+        "2026-09-16 17:46",
+        "4",
+        "2026-09-16 17:28",
+        "横向滚动条",
+        "X"
+      ],
+      "confidence": 0.9,
+      "id": "state_历史对局列表",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 112,
+      "updated_step": 112
+    },
+    {
+      "name": "历史对局列表",
+      "description": "游戏操作中的 Recent games 打开历史对局列表，按行显示每局的分数、最后修改时间与用时；列表可横向滚动查看更多列。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 112,
+          "before_frame": 168,
+          "action": "点按游戏操作中的 Recent games",
+          "after_frame": 169,
+          "note": null
+        }
+      ],
+      "confidence": 0.8,
+      "status": "confirmed",
+      "id": "feature_历史对局列表",
+      "type": "FEATURE",
+      "created_step": 113,
+      "updated_step": 113
+    },
+    {
+      "name": "最高分按棋盘尺寸区分",
+      "description": "最高分按棋盘尺寸分别保存：3x3 的最高分为 452，切换回 4x4 后最高分显示 0，切换尺寸会开始对应尺寸的新棋局。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 120,
+          "before_frame": 182,
+          "action": "在棋盘尺寸界面点按 44",
+          "after_frame": 183,
+          "note": null
+        }
+      ],
+      "confidence": 0.85,
+      "status": "confirmed",
+      "id": "feature_最高分按棋盘尺寸区分",
+      "type": "FEATURE",
+      "created_step": 120,
+      "updated_step": 120
+    },
+    {
+      "name": "当前对局与最高分",
+      "description": "当前对局数据：棋盘（尺寸与各格数值）、分数、OE 计数、用时计时、撤销/重做历史；最高分按棋盘尺寸分别保存。",
+      "confidence": 0.9,
+      "id": "data_当前对局与最高分",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 124,
+      "updated_step": 124
+    },
+    {
+      "name": "书签与历史对局",
+      "description": "书签（保存当前局面）与历史对局列表（每局分数、最后修改时间、用时）。",
+      "confidence": 0.8,
+      "id": "data_书签与历史对局",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 124,
+      "updated_step": 124
+    },
+    {
+      "name": "主题与棋盘尺寸设置",
+      "description": "用户设置：主题（系统配色/深色/浅色）与棋盘尺寸（3x3 至 8x8），重启应用后保持。",
+      "confidence": 0.9,
+      "id": "data_主题与棋盘尺寸设置",
+      "type": "DATA",
+      "status": "confirmed",
+      "created_step": 124,
+      "updated_step": 124
+    },
+    {
+      "name": "棋盘尺寸选择",
+      "description": "棋盘尺寸选择界面，标题为棋盘尺寸，含 33、44、55、66、77、88 六个选项，圆形标记表示当前选中项（如 33 或 44），右上角可关闭。",
+      "visual_evidence": [
+        180
+      ],
+      "entry_conditions": [],
+      "observed_elements": [
+        "33",
+        "44",
+        "55",
+        "66",
+        "77",
+        "88",
+        "圆形选中标记"
+      ],
+      "confidence": 0.9,
+      "id": "state_棋盘尺寸选择",
+      "type": "STATE",
+      "status": "confirmed",
+      "created_step": 124,
+      "updated_step": 124
+    },
+    {
+      "name": "游戏指南弹窗",
+      "description": "应用启动或开始新棋局时会先弹出\"游戏指南\"对话框，内容说明在游戏区域上下左右滑动移动方块、相同数字碰撞合并为两倍、目标是合并出尽可能大的方块、合并出 2048 是胜利的第一步；右上角 X 可关闭。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 23,
+          "before_frame": 46,
+          "action": "重启应用后出现游戏指南",
+          "after_frame": 47,
+          "note": null
+        },
+        {
+          "step": 24,
+          "before_frame": 48,
+          "action": "点按指南右上角 X 关闭",
+          "after_frame": 49,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "id": "feature_游戏指南弹窗",
+      "type": "FEATURE",
+      "created_step": 124,
+      "updated_step": 124
+    },
+    {
+      "name": "载入游戏打开文件选择",
+      "description": "游戏操作列表中的载入游戏会调到系统文件选择界面选取存档；列表还包含退出应用与分享游戏等条目。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 6,
+          "before_frame": 12,
+          "action": "点按游戏操作列表中的一项后出现文件选择界面",
+          "after_frame": 13,
+          "note": null
+        }
+      ],
+      "confidence": 0.8,
+      "status": "confirmed",
+      "id": "feature_载入游戏打开文件选择",
+      "type": "FEATURE",
+      "created_step": 124,
+      "updated_step": 124
+    },
+    {
+      "name": "刷新重开当前棋局",
+      "description": "圆形箭头刷新入口点按后当前棋局被重开（棋盘清空并生成一个新方块、分数与 OE 归零、用时计时重置），最高分保留。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 21,
+          "before_frame": 42,
+          "action": "点按圆形箭头入口",
+          "after_frame": 43,
+          "note": null
+        }
+      ],
+      "confidence": 0.85,
+      "status": "confirmed",
+      "id": "feature_刷新重开当前棋局",
+      "type": "FEATURE",
+      "created_step": 124,
+      "updated_step": 124
+    },
+    {
+      "name": "计分与计数面板",
+      "description": "计分面板包含：分数（当前局得分）、最高（按棋盘尺寸记录的最高分）、OE（随有效滑动递增的计数）、RETRIES（重试次数）、以及格式为 时:分:秒 的用计时计时。",
+      "behavior": {
+        "preconditions": [],
+        "trigger": null,
+        "inputs": [],
+        "postconditions": [],
+        "persistent_effects": [],
+        "constraints": [],
+        "error_cases": []
+      },
+      "evidence": [
+        {
+          "step": 27,
+          "before_frame": 54,
+          "action": "滑动合并后分数与 OE 变化",
+          "after_frame": 55,
+          "note": null
+        }
+      ],
+      "confidence": 0.85,
+      "status": "confirmed",
+      "id": "feature_计分与计数面板",
+      "type": "FEATURE",
+      "created_step": 124,
+      "updated_step": 124
+    }
+  ],
+  "edges": [
+    {
+      "source": "state_游戏操作列表",
+      "target": "state_棋盘尺寸选择",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 118,
+          "before_frame": 178,
+          "action": "点按游戏操作中的棋盘尺寸项",
+          "after_frame": 179,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0001",
+      "created_step": 124
+    },
+    {
+      "source": "state_游戏操作列表",
+      "target": "state_选择主题",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 109,
+          "before_frame": 163,
+          "action": "点按游戏操作中的选择主题项",
+          "after_frame": 164,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0002",
+      "created_step": 124
+    },
+    {
+      "source": "state_游戏操作列表",
+      "target": "state_历史对局列表",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 112,
+          "before_frame": 168,
+          "action": "点按游戏操作中的 Recent games",
+          "after_frame": 169,
+          "note": null
+        }
+      ],
+      "confidence": 0.9,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0003",
+      "created_step": 124
+    },
+    {
+      "source": "state_3x3_棋盘_深色主题",
+      "target": "state_游戏结束覆盖层",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 98,
+          "before_frame": 143,
+          "action": "连续滑动直到无路可走",
+          "after_frame": 144,
+          "note": null
+        }
+      ],
+      "confidence": 0.85,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0004",
+      "created_step": 124
+    },
+    {
+      "source": "state_游戏结束覆盖层",
+      "target": "state_game_board_playing",
+      "type": "TRANSITIONS_TO",
+      "evidence": [
+        {
+          "step": 99,
+          "before_frame": 145,
+          "action": "点按再玩一局",
+          "after_frame": 146,
+          "note": null
+        }
+      ],
+      "confidence": 0.85,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0005",
+      "created_step": 124
+    },
+    {
+      "source": "state_棋盘尺寸选择",
+      "target": "state_game_board_playing",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 120,
+          "before_frame": 182,
+          "action": "点按棋盘尺寸 44",
+          "after_frame": 183,
+          "note": null
+        }
+      ],
+      "confidence": 0.85,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0006",
+      "created_step": 124
+    },
+    {
+      "source": "state_选择主题",
+      "target": "state_game_board_playing",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 110,
+          "before_frame": 165,
+          "action": "点按浅色主题",
+          "after_frame": 166,
+          "note": null
+        }
+      ],
+      "confidence": 0.85,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0007",
+      "created_step": 124
+    },
+    {
+      "source": "feature_方块合并与计分",
+      "target": "data_当前对局与最高分",
+      "type": "MUTATES",
+      "evidence": [
+        {
+          "step": 27,
+          "before_frame": 54,
+          "action": "沿第三列向下滑动触发合并",
+          "after_frame": 55,
+          "note": null
+        }
+      ],
+      "confidence": 0.85,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0008",
+      "created_step": 124
+    },
+    {
+      "source": "feature_书签保存当前局面",
+      "target": "data_书签与历史对局",
+      "type": "PERSISTS_TO",
+      "evidence": [
+        {
+          "step": 30,
+          "before_frame": 60,
+          "action": "点按第二行书签图标",
+          "after_frame": 61,
+          "note": null
+        }
+      ],
+      "confidence": 0.8,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0009",
+      "created_step": 124
+    },
+    {
+      "source": "feature_最高分按棋盘尺寸区分",
+      "target": "data_主题与棋盘尺寸设置",
+      "type": "DEPENDS_ON",
+      "evidence": [
+        {
+          "step": 120,
+          "before_frame": 182,
+          "action": "从 3x3 切换到 4x4 后最高分显示 0",
+          "after_frame": 183,
+          "note": null
+        }
+      ],
+      "confidence": 0.85,
+      "status": "confirmed",
+      "note": null,
+      "id": "edge_0010",
+      "created_step": 124
+    }
+  ],
+  "unresolved_questions": [
+    {
+      "id": "hyp_0001",
+      "statement": "顶部第一行左侧的\"手柄\"图标是 AI/模式开关：点按后图标变为\"场记板（影片）\"图标，工具栏简化，棋盘下方出现 AI 评估信息行（预计分数区间、搜索节点 N5、耗时 ms）；魔法棒图标会在工具栏加入一个\"星形播放\"按钮并显示评估信息。",
+      "evidence": [
+        {
+          "step": 106,
+          "before_frame": 158,
+          "action": "点按手柄图标",
+          "after_frame": 159,
+          "note": null
+        },
+        {
+          "step": 104,
+          "before_frame": 154,
+          "action": "点按魔法棒图标",
+          "after_frame": 155,
+          "note": null
+        }
+      ],
+      "confidence": 0.5,
+      "next_probe": "点按星形播放按钮观察是否自动落子；观察场记板模式下的界面元素。",
+      "status": "uncertain",
+      "note": "手柄/魔法棒会改变顶部图标集合，并在棋盘下方显示预计分数区间与搜索节点、耗时等信息；但未能确认具体含义与自动落子行为，标为不确定。",
+      "created_step": 106,
+      "resolved_step": 124
+    }
+  ],
+  "coverage_summary": {
+    "states": 7,
+    "features": 14,
+    "data_entities": 3,
+    "edges": 10,
+    "confirmed_ratio": 1.0,
+    "actions_used": 124
+  }
+}
