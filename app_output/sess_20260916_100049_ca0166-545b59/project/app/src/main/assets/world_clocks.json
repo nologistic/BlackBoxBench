@@ -1,0 +1,30 @@
+{
+  "note": "虚构友好城市时区表。utc_offset 为小时（含半时区）。display 显示在时钟页。",
+  "cities": [
+    {"name": "本地", "utc_offset": 8.0, "display": "本地时间"},
+    {"name": "伦敦", "utc_offset": 0.0, "display": "伦敦"},
+    {"name": "巴黎", "utc_offset": 1.0, "display": "巴黎"},
+    {"name": "柏林", "utc_offset": 1.0, "display": "柏林"},
+    {"name": "莫斯科", "utc_offset": 3.0, "display": "莫斯科"},
+    {"name": "迪拜", "utc_offset": 4.0, "display": "迪拜"},
+    {"name": "孟买", "utc_offset": 5.5, "display": "孟买"},
+    {"name": "曼谷", "utc_offset": 7.0, "display": "曼谷"},
+    {"name": "新加坡", "utc_offset": 8.0, "display": "新加坡"},
+    {"name": "香港", "utc_offset": 8.0, "display": "香港"},
+    {"name": "东京", "utc_offset": 9.0, "display": "东京"},
+    {"name": "首尔", "utc_offset": 9.0, "display": "首尔"},
+    {"name": "悉尼", "utc_offset": 10.0, "display": "悉尼"},
+    {"name": "奥克兰", "utc_offset": 12.0, "display": "奥克兰"},
+    {"name": "夏威夷", "utc_offset": -10.0, "display": "夏威夷"},
+    {"name": "安克雷奇", "utc_offset": -9.0, "display": "安克雷奇"},
+    {"name": "洛杉矶", "utc_offset": -8.0, "display": "洛杉矶"},
+    {"name": "丹佛", "utc_offset": -7.0, "display": "丹佛"},
+    {"name": "芝加哥", "utc_offset": -6.0, "display": "芝加哥"},
+    {"name": "墨西哥城", "utc_offset": -6.0, "display": "墨西哥城"},
+    {"name": "纽约", "utc_offset": -5.0, "display": "纽约"},
+    {"name": "利马", "utc_offset": -5.0, "display": "利马"},
+    {"name": "圣保罗", "utc_offset": -3.0, "display": "圣保罗"},
+    {"name": "雷克雅未克", "utc_offset": 0.0, "display": "雷克雅未克"}
+  ],
+  "hometown_default": {"name": "香港", "utc_offset": 8.0}
+}

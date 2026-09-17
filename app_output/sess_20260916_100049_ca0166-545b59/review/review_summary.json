@@ -1,0 +1,652 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "d32ab5c65485db270924dadd757fad5326887a5e0e2ff4edb5bcecbbee8cfb20",
+  "accepted_apk_hash": "d217694f80a736242b73f4303f8abc6c3a669473b8d182d4a2cc06ee476ad7dd",
+  "revision_count": 3,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "时钟标签页显示当前时间/日期与下一个已启用闹钟",
+        "时钟页加号进入搜索城市页（离线提示 + 城市列表）",
+        "闹钟列表分组显示 08:30/09:00 与开关",
+        "闹钟卡片展开显示星期圆圈、暂停闹钟/预定闹钟时间、铃声、振动、删除",
+        "闹钟开关启用后卡片高亮，时钟页下一闹钟同步更新",
+        "加号打开时间选择对话框并用确定创建新闹钟（自动展开显示 明天）",
+        "定时器键盘输入 30 秒并启动",
+        "定时器运行中暂停与 +1:00 加时",
+        "定时器卡片 X 关闭",
+        "秒表启动、计次（#1 1 00.40）、暂停、重置",
+        "就寝时间标签页引导页显示",
+        "底部导航标签切换"
+      ],
+      "findings": [
+        "缺少系统栏内边距：页面标题被状态栏时间覆盖（如“时钟/闹钟/就寝时间”与状态栏 19:xx 重叠），底部导航被系统手势条压住；导航项仅在文字标签附近可点，点击图标区域不切换标签。需对根布局加 systemBarsPadding 并扩大导航项点击区域。",
+        "定时器输入态的“开始（播放）”按钮不居中：Row 中左右各用 weight(1f) 的 Spacer 导致按钮实际位置偏移约 40px，点击视觉中心位置无法启动（实测需点在按钮偏右处才生效）。应改为对称布局使播放按钮真正居中。",
+        "就寝时间引导页“开始使用”按钮在可见位置（屏幕中下部的蓝色胶囊）点击无响应：多次点击 (540,1807)/(470,1806)/(540,1860)/(540,1775) 均停留在引导页，无法进入“设置规律的起床闹钟”步骤，导致就寝时间流程不可用。",
+        "就寝时间引导页主标题“设置规律的就寝时间，改善睡眠质量”换行后两行文字相互重叠（第二行压在首行上），可读性差，需修正行高/宽度或改为更短文案。",
+        "闹钟详情展开后的星期圆圈一排（一~日）宽度超出卡片，第 7 个“日”被裁掉/移出卡片外，需缩小圆圈尺寸或改用均分布局。",
+        "闹钟分组的“其他”标题也带了一个时钟图标，而目标中仅“起床”分组带图标；建议仅起床分组显示图标。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "6262a3aa437f79d5742759d9bdf8b7c5070ba46c3c1931043f2bcab76dc2ae01",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "47c57e049f629b26d25aab639eeb7ce0fb55f81fc787da5397c7e370cbc1592e",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "ff49ac03afa9e19056925514de9aa3b12d1ad28998b9191b1a652f9cca799edf",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "34d896827ffe2d02e545dbb7ebb9da2e943021c96d43a44a5d5ae3148bbbfc34",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "f430700ff5b214859aacbb8f5445315ae513cc0f0e4f63596555abff368fbceb",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "eee5c44790a3bf6b1e288ee4c49b382f6085ab61085a998abcd17b90563b5d17",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 6,
+          "sha256": "35b483781b76f5d1c028382abd51ad51f9a3fc8e98f1e8f459583ba9e0457627",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 7,
+          "sha256": "35e576cd8fd32bd57fc4021552120131e29036e77bd875e9dae38930a17820ab",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 8,
+          "sha256": "de6cf5266971832f713c866463ac9d9987e981d22e0a25ee26080aabcbbec410",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 9,
+          "sha256": "506f2343ca9d4f1272c9b7a2e2f954e30fa78b5e54adb558934eed90df62c330",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 10,
+          "sha256": "1d910b7f641561594ffb16f3ca2cffa3e446ee539671c5a58664f887eaf10783",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 11,
+          "sha256": "e0f946aa8dff9818fd5717d00bc2f8a00f21bbac7325050fafc84a8d4c6cea4d",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 12,
+          "sha256": "c4b06a2e67f933f0559149f821d375c1dcacbe08369ad3fd4372dd98a5f17088",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 14,
+          "sha256": "4f6326be6a0b7de6002110ae8ea3f0f86885bea955c1175611e06807b72f3eab",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 15,
+          "sha256": "92abea8881781fa80085b4a12e0cd66ee918e06005c9887d5e5346b0d962dd41",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 16,
+          "sha256": "6f5ae2326b073fc0d69122fedd0422a3ce11a1b6ec1626ccc6f19fccaf590be1",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 17,
+          "sha256": "0fc1a8eda76f7f5da145036212180b202a1a7e9fbbc1ad8e25c6005a2feca292",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 18,
+          "sha256": "e6a0cd5f72378a762aff40deaa8b8d8af6ed7ee1ce1b0d29cf2e88e54bdffb3b",
+          "path": "review/round_01/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 19,
+          "sha256": "990c9a6056e41bbdafa48398b59660a1ae61309b35b7b734279adb71395a0ac5",
+          "path": "review/round_01/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 21,
+          "sha256": "f98b2fedcf0ae751f0e2359be29e7f599dc8d69694cae2af6d9ae0360964de34",
+          "path": "review/round_01/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 23,
+          "sha256": "1c856dace1681beb26832c29922c49713dfd9a1c96444d14e8d208ee1e3de410",
+          "path": "review/round_01/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 24,
+          "sha256": "3fb5c3db68a1f74808ef1939bbad7e933461c44abc3f9fc47b07ff9c25b8949f",
+          "path": "review/round_01/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 26,
+          "sha256": "19c6a7d523b66e7d62f484cb45f8c7685a23113beccd6bb16b29e11e71e31d1b",
+          "path": "review/round_01/observation_023.png"
+        },
+        {
+          "number": 24,
+          "action_count": 27,
+          "sha256": "0e9da226b0098f53dfc2952503dcc6305469c694135f1e5320d23e6b23e38c6b",
+          "path": "review/round_01/observation_024.png"
+        },
+        {
+          "number": 25,
+          "action_count": 28,
+          "sha256": "0e9da226b0098f53dfc2952503dcc6305469c694135f1e5320d23e6b23e38c6b",
+          "path": "review/round_01/observation_025.png"
+        },
+        {
+          "number": 26,
+          "action_count": 29,
+          "sha256": "d45d3db344a55e9a9baaf137beea0a4bec564d3680eddeda7fadba838b640978",
+          "path": "review/round_01/observation_026.png"
+        },
+        {
+          "number": 27,
+          "action_count": 30,
+          "sha256": "86cd4e08e96b74d0a49dca423b2d7622f5c989ed6e7bf64242ce40c33f03f607",
+          "path": "review/round_01/observation_027.png"
+        },
+        {
+          "number": 28,
+          "action_count": 31,
+          "sha256": "a4b56e8561fb2ab935e828ea229004178572e0022a8b4161545b3e0fcaaf46b0",
+          "path": "review/round_01/observation_028.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "底部导航：点击图标区域可切换标签（闹钟/时钟/定时器/秒表/就寝时间）",
+        "系统栏适配：标题不再与状态栏重叠，底部导航位于手势条之上",
+        "时钟标签页显示时间/日期与下一闹钟",
+        "闹钟列表：其他分组（无图标）与两条闹钟卡片展示",
+        "闹钟卡片展开：星期圆圈一排完整显示（一二三四五六日，无裁切）",
+        "闹钟卡片展开：暂停闹钟/默认铃声（Cesium）/振动/删除",
+        "定时器键盘输入 3 秒并用居中的播放按钮启动",
+        "定时器完成态：卡片高亮、显示 -9 超时、按钮变为停止、+1:00 可加时",
+        "秒表启动/计次/暂停/重置（第一轮已验证，本轮未重复）",
+        "就寝时间引导页文案换行不再重叠、布局与目标一致"
+      ],
+      "findings": [
+        "就寝时间引导页“开始使用”仍然无法点击：本轮在 (540,1720)、(540,1750) 以及上一轮的 (540,1807)/(470,1806)/(540,1860)/(540,1775) 多次点击均停留在引导页，无法进入“设置规律的起床闹钟”步骤，整个就寝时间流程不可用。已排除底部导航/其它按钮的影响（同一屏上导航可切换）；下一轮将把该页改为整屏可点击并在其上使用 Material Button，若仍无效则改为不依赖该按钮直接进入设置步骤。",
+        "上一轮遗留项确认已修复：状态栏重叠、底部导航图标区不可点、定时器播放按钮不居中、闹钟星期圆圈被裁切、“其他”分组多余图标。（本轮观察 1、2、11、13 证实）",
+        "轻微：闹钟卡片展开偶发需要点第二次才响应（第一轮 (540,400) 一次成功、本轮同一位置两次未响应、改点 (540,615) 后成功），推测为点击注入时序/触摸抖动，暂不作为缺陷阻塞，但会顺带把卡片点击区域做得更大更稳。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "2bfd425ba8695d6c7cfbf244c080b3df340ba80926d782f5489df42d37fae3dd",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "a409342b00d8d4edd5f35661ebdbfca3e8423d9b7d3596c94b698668c863e887",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "33353502a631df18b7fc7be9ed2b7fa4c4558e3abae9f0ac2748c4f35d34da33",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "c3027574bc6c7814f7537f5c36ee8dc0dca2b3e35deb8bcfc6226c130efa9af8",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "252ea0108ba6cb3c21aa3df2eff453feb3c1354ae00dd8b5565b0e173d032d04",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "2a91170e52694f63b488a3f6b41401fb687ea9cb07a3653bc805d70cc65c15af",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 7,
+          "sha256": "afec821f72d96319d903b92c37795a27df80f5edb624b5e8ad596997e153a865",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 8,
+          "sha256": "5c87f8be7081fda490c05cd445bf5b369bc8ea8db2224cf9c7c0b8be5b308d34",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 9,
+          "sha256": "13cb667d739fe16ced14cefc46dc9c75dbae456afb9f4a592b02398344fd6623",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 11,
+          "sha256": "6729e5221c5dce9cae4666a8574fbb1c58e3aa033e9686ab78092f92352570d5",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 12,
+          "sha256": "c6e148d60333812e6a1c6ce4489c9720fa72bb44a2119e0f1ac6988e4ee489c0",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 13,
+          "sha256": "ab95b0577697fb50b031bb4f49afd4ec29053e017bdbb071c74787650a1e54a0",
+          "path": "review/round_02/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 14,
+          "sha256": "69e714bda92de5c51413cd16b5b2f1a5dea413e2bf72ca0192f7fe7eefa54476",
+          "path": "review/round_02/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 16,
+          "sha256": "585c7b85e19b2220f197b1877d533a7d947480d6bac702c06cadc6ba6cbfd160",
+          "path": "review/round_02/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 17,
+          "sha256": "19ae647c92a52e2a3f3716cc871c3e381da7149a26e9bc35512b47add558f723",
+          "path": "review/round_02/observation_015.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "revise",
+      "checked_flows": [
+        "就寝时间引导页 → 设置规律的起床闹钟（07:00/星期/日出闹钟/音效/振动）→ 设置就寝时间（23:00/8 小时/提醒通知/就寝模式）→ 完成",
+        "完成就寝设置后进入已启用页（时间表 23:00-07:00、8 小时 · 下次闹钟时间：明天07:00、活动数据/助眠音效卡片）",
+        "就寝设置创建“起床”分组 07:00 每天闹钟并出现在闹钟页",
+        "闹钟页显示 起床/其他 两个分组与三条闹钟",
+        "时钟页下一闹钟显示 明天07:00",
+        "设置页：样式/显示含秒数/自动显示家所在地时间/家所在地时区/更改日期和时间/闹钟时长/延后时长/闹钟音量",
+        "设置样式切换为指针后时钟页显示模拟表盘",
+        "重启 App 后设置与闹钟（含起床闹钟）持久化"
+      ],
+      "findings": [
+        "上一轮的核心缺陷已修复：就寝时间引导页“开始使用”现在可点击，流程可完整走通（观察 3、4、5 证实）。根因是就寝分步状态用本地 remember 保存会在重组时丢失，改为放在 ClockStore 中持久化后解决。",
+        "遗留外观缺陷：就寝时间两个设置步骤中的星期圆圈一排仍然溢出，第 7 个“日”被裁出屏幕（观察 3、4）；闹钟详情页已修好但步骤页未同步，下一轮改用 Arrangement.SpaceBetween + 44dp 圆圈修正。",
+        "本轮未复测秒表与定时器的完整流程，但上一轮已验证通过（1、2 轮结论继续有效）。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "37baa1a1e63e0dcc4e6811da0611a783532b74e01546bf5737c64184cd65bce7",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "ac3fcea17dcdc80696d2e1f4f9c916dbddb1c7390076d244c837092f7e487214",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "69b77b0fda858ffe0cdfaaf6e13fa7805aa2a4dbe73d7ca13b115e07460148b8",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "2a1fc889b0b558b06d4ebd91873d167e396e1959b3e2f9f900c97f9b65779665",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "03408c08f4df538d657d57859262adbfc632aaf1d25aa8d85a718160b92f17c4",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "512f5a0c14c80bf7e5a688fe2ce169e8e2ac50bb0d455cbcc984acea79c0e53e",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 7,
+          "sha256": "e1b51c103babd5b8a71044d93b4b625d5d299abd85b476dbb6e6b6842e7e6c65",
+          "path": "review/round_03/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 8,
+          "sha256": "e6162c9549d30423957ccdc75aaa4ef58842c5c4c5641d122342f96cb51c841a",
+          "path": "review/round_03/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 9,
+          "sha256": "7090dd45fcc94dbed55d908d28b09e6ee4155fff32af96c5d53160734768d324",
+          "path": "review/round_03/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 11,
+          "sha256": "7d894e837acd1d2fe96acf37d2d15acee52eeda34e295a8f8feb7dad57aded2f",
+          "path": "review/round_03/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 12,
+          "sha256": "3550d6dbd896a1bbba67531734b5075d817d6c190edb4e92bf26fd879fbb7259",
+          "path": "review/round_03/observation_011.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 4,
+      "decision": "accept",
+      "checked_flows": [
+        "就寝时间引导 → 步骤1（07:00 起床闹钟，星期圆圈一~日完整显示、日出闹钟、音效、振动）→ 步骤2（23:00、8 小时、星期圆圈完整、提醒通知、就寝模式）→ 完成",
+        "就寝设置创建“起床”分组 07:00 每天闹钟，时钟页显示下一闹钟 明天07:00",
+        "时钟标签页：大字时间/日期/下一闹钟、加号、底部五标签导航",
+        "闹钟标签页：起床/其他分组、闹钟卡片、开关、展开详情（星期/暂停闹钟/铃声/振动/删除）",
+        "定时器：数字键盘输入、居中播放按钮启动、倒计时、完成态 -9 超时与停止/+1:00",
+        "秒表：启动、计次、暂停、重置（第 1 轮验证）",
+        "设置页与样式切换（指针/数字）、显示含秒数、家所在地时区、闹钟时长/延后时长/音量",
+        "重启 App 后闹钟与设置持久化"
+      ],
+      "findings": [
+        "全部核心流程在像素级复验中正常：时钟、闹钟（含分组/开关/展开详情/时间选择对话框）、定时器（含完成超时态）、秒表、就寝时间（引导→两步设置→已启用页并生成起床闹钟）、设置与持久化。",
+        "本轮确认上一轮遗留的星期圆圈溢出已修复：步骤 1/2 中 一~日 七个圆圈完整显示（观察 2、3）。",
+        "未发现任何来自探索阶段的私人信息或非虚构内容：应用内铃声为公共素材 WAV，城市表为补充素材虚构城市，界面文案为通用时钟功能文案。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "b134dbca3edf8a0599dfefeb723a64743136ea20e718bcd0c8946e67f8624903",
+          "path": "review/round_04/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "b3824879708062ee0bcc3e9756f21c2e23bb1034840f9d85e4f94538f1cd2980",
+          "path": "review/round_04/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "fa9b271be46c0efa359a96eca6e921bf3a9d5f9433dbbbf1b661f9de5c3a13b1",
+          "path": "review/round_04/observation_003.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

@@ -1,0 +1,539 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "dd12049decdc4ee81025471befff0b8d74c55319bf6fd05bdd2e9f5903c0bfeb",
+  "accepted_apk_hash": "15e4c4973f79d44c89e9066d52275aa6f70dc647f48a1b13bc1b894f2a217bd8",
+  "revision_count": 2,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "习惯列表渲染(日期条+布尔/可量化行)",
+        "点击习惯名进入详情页",
+        "详情页总览/成绩/历史/日历渲染",
+        "尝试点击 + 新增",
+        "尝试点击日期格打卡"
+      ],
+      "findings": [
+        "顶部 app bar 与系统状态栏重叠：+ / 过滤 / 溢出菜单绘制在状态栏区域内，点击被系统状态栏拦截，无法打开新增习惯类型选择与菜单。需为各屏顶栏加 statusBarsPadding（背景延伸到状态栏之下、内容下移）。",
+        "点击或长按习惯行中的某日格子没有触发打卡(备注对话框/快速切换)，而是打开了习惯详情页；行级 clickable 覆盖了子级日期格手势。需把左侧(圆环+习惯名)与右侧日期格拆成并列的可点击区域，避免嵌套。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "long_press"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "d69daa32dcef2409f3e2bd2613c97b160f307784f81c73b7e8030d9df782b94b",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "8221c1a24b4d412f51fe61f5a10d20a54ccc0f55b55d3de2cfe95c7054995854",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "f4fd6f8704cfccdceb4e9319e87958ec3a8700683dbfe6f05d521e144fef9c36",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 5,
+          "sha256": "1e3502e965d0f5200138e5fe23e2fc9a3e2a1a8606f1bdf473336667cfc60b6c",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 6,
+          "sha256": "be07dc017f8de0fbd001e2616cabd42c70edb65326297f5b60cc895029678354",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 7,
+          "sha256": "1e3502e965d0f5200138e5fe23e2fc9a3e2a1a8606f1bdf473336667cfc60b6c",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 8,
+          "sha256": "2fc1232f3c5391845f8d035c47bf3be7c52bf7c8b157a1f4a34e6b966ee8d67d",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 10,
+          "sha256": "9a143965f504ab085df0d02da7fce85abdb9183dcc42268c967de950493002ab",
+          "path": "review/round_01/observation_008.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "顶部栏 + 按钮打开习惯类型选择(完成与否/可量化)",
+        "可量化习惯表单(单位/目标/目标类型)填写并保存",
+        "新习惯 Run 出现在列表(0 km/日)",
+        "点击日期格打开备注对话框"
+      ],
+      "findings": [
+        "可量化打卡数值输入框初始值为 \"0\" 且为多行：输入新数值会得到 \"70\"，按回车会插入换行(\"7\\n0\")，保存后仍为 0，未记录本次打卡。应改为：初始为空(值>0 才显示原值)、占位符显示 0、单行输入，保存时按整数解析。",
+        "顶部状态栏遮挡问题已修复，+ 菜单、类型选择、表单与列表均可达。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "a2a3fb15ed9426723faf55e183a887739785f4ecc81670b72a627c18f631a7ec",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "cce434c4d430d2aad26646b6b54ff7dc99bbcd381c72e13a5b3b0832cb59c29d",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "9a28a41cc5a390e85b2ddd7ce2f3d577e89ddf8a8acc43c1952464facc489032",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 9,
+          "sha256": "6b2781e8452703a24c30afd2c7747e2f36af0d953d61345c4dbcf52a88613fc8",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 11,
+          "sha256": "e23aedad55f6253664edc811b75db807764f46a5a668682371dec42469421ce7",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 12,
+          "sha256": "9b1866e72a3229385ce4e7d0acbc94d0b6101fb785e54ef0c54c0f4377666529",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 15,
+          "sha256": "4c4d51808f0a64e258c64218b9d66994de917349f1fc7bf75dbcc07aeefe2597",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 16,
+          "sha256": "b8e574eb06981fa9d6c7ad16f8b02b575c5db3d2cb354cf303d52bde0c76c746",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 17,
+          "sha256": "c94e139d70847dba9655f162d86947c4793616acc819792441c7c2fd2ec80519",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 20,
+          "sha256": "414b4fc1eafe80c3424be6188ecb26a3eb099691bf719d84f02e393a4d4082a4",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 24,
+          "sha256": "71d1cc72fd8a9e3fea504007d29d381a79f2245de75eb7e612bf3c141d302262",
+          "path": "review/round_02/observation_011.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "accept",
+      "checked_flows": [
+        "顶部栏 + 打开类型选择(完成与否/可量化)",
+        "可量化习惯表单(单位/目标/目标类型)填写并保存",
+        "布尔习惯某日打卡(备注对话框→✓)",
+        "可量化习惯某日输入数值并保存(阅读 25/页)",
+        "重启后打卡与习惯持久",
+        "溢出菜单→设置页",
+        "漏斗过滤菜单(隐藏已存档/已完成/排序)",
+        "习惯详情页(总览/成绩/历史/日历)",
+        "长按习惯进入多选→调色板改色"
+      ],
+      "findings": [
+        "核心流程均可用：列表(日期条+布尔✕/✓、可量化数值+单位)、+ 类型选择、两种表单、每日打卡与数值记录、持久化、过滤/排序、设置、详情统计、多选改色/删除。",
+        "顶部状态栏遮挡已修复，所有顶栏按钮可达。",
+        "可量化打卡数值输入框的初值与多行问题已修复(初始为空、占位 0、单行、数字过滤)，保存后正确计入。",
+        "与原站相比仅有少量装饰差异：成绩图缺 y 轴百分比刻度、历史图未标注数值、日历为堆叠月历而非转置月列，不影响功能判定。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "b4e39ac23c5d7eab183b446c2bbdf2eed5e05975680ccf7605b7f0f15080790c",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 0,
+          "sha256": "8b4c0867a9817430c76be5c0a36b49ad4e594bd6bce69f4f0918075625e2976e",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 1,
+          "sha256": "04939d52e7ba7882f936d59a8e1178d710426d0d48848e9ae713075c4f9b8c7d",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "59a11d9bec8560a56cf0af89dd8b02f898861b8e941649f06ea740d6a46ec57b",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "20a719b5d511744c4f549b5ecb2a98d420b413cfac519c35ab1ef61e57470e06",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "20a719b5d511744c4f549b5ecb2a98d420b413cfac519c35ab1ef61e57470e06",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 6,
+          "sha256": "66030d2c0b1c36d8a3aa74a2e6292712bead404a78e05dd1baa584b0f0b6e4da",
+          "path": "review/round_03/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 7,
+          "sha256": "bf5097e5f48586c09d8d69f37cbcffc12feb64efc93c73f25289674f1f0aa46f",
+          "path": "review/round_03/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 9,
+          "sha256": "020e2203f287a57a51de0074d89e9f7498a7775fe471d24edf92727cf3379b08",
+          "path": "review/round_03/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 12,
+          "sha256": "4cd76aa1019ffb3dd848fc9fdf6722ba017b3de47d40f3f4201c1134d246e98a",
+          "path": "review/round_03/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 13,
+          "sha256": "133b856d07c2611fd1926adb4d5a90d8c9a132d09679fc2c915792d647c91974",
+          "path": "review/round_03/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 14,
+          "sha256": "d89fdaeae16917cc9c2b61cb5b35ebeca6d68ce69d17fb9aa1c4a41528946eea",
+          "path": "review/round_03/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 15,
+          "sha256": "d4a4b4abd3a43a638183cb52a67198995042605f08890d4b6f9c83cbf0cb5f38",
+          "path": "review/round_03/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 16,
+          "sha256": "d4a4b4abd3a43a638183cb52a67198995042605f08890d4b6f9c83cbf0cb5f38",
+          "path": "review/round_03/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 17,
+          "sha256": "2bf60aa5645474590dddfcf8da095964560d213e7aa186dc26030da1a4e67e7f",
+          "path": "review/round_03/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 19,
+          "sha256": "4eec0fe9f79db15422f3b2159b282cfcdd44b7ccd06141d730562faa0ce90a3f",
+          "path": "review/round_03/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 20,
+          "sha256": "2f98edf57722778034901c3af88046c5c90a79b3efc4bdf88f62045445dceb1d",
+          "path": "review/round_03/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 21,
+          "sha256": "ed1479bc7f33c6d561dc31314d66b80c3330dee16b59fa699d079d98f2d18993",
+          "path": "review/round_03/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 22,
+          "sha256": "7b2d4801295d94e6c83995907407060e6974df3e0b200f31ba594f6d03770fff",
+          "path": "review/round_03/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 23,
+          "sha256": "f36002df5da04e034e2acbe94adf45ddf3dcff3b4546d221196245712ed3aaf2",
+          "path": "review/round_03/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 24,
+          "sha256": "cebd71c1bbcda75924476ccd9187f86735df6f991fbdfe7313b928d2a6a84234",
+          "path": "review/round_03/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 26,
+          "sha256": "da544ed6dc1c540b5c9e72ead8e6501f0251f09046b797ac2a97fbc1aaab8af6",
+          "path": "review/round_03/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 28,
+          "sha256": "b41a016f492d261c4147cccdc1d485f0341723b63cae37d75e4dc061510104a2",
+          "path": "review/round_03/observation_023.png"
+        },
+        {
+          "number": 24,
+          "action_count": 30,
+          "sha256": "3a2161606eb21fad09f0acfb28ab5e50e6e14a77c4ea2ca4497077ae46de1c36",
+          "path": "review/round_03/observation_024.png"
+        },
+        {
+          "number": 25,
+          "action_count": 31,
+          "sha256": "a16cb366158d1aedad432305ad49d0ce9bbac533fcd75005be648086805b806d",
+          "path": "review/round_03/observation_025.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

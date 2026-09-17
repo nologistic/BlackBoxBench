@@ -1,0 +1,603 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "9a1d484cef5893d004720bfa5d4a2932cd17974638370b8d54fd8ab106f6c71b",
+  "accepted_apk_hash": "f7ea9daea75eacb38ee053f48d3549e43cc934846a2bf1367b9cfa999c33f1c8",
+  "revision_count": 2,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "启动游戏指南",
+        "滑动移动方块",
+        "计分面板 OE/分数显示",
+        "撤销入口出现"
+      ],
+      "findings": [
+        "连续两次滑动后 OE 从 1 递增到 3，但棋盘画面始终只显示同一个 '2' 且位置不变，也没有生成任何新方块：棋盘没有随引擎状态重绘（严重）",
+        "顶部左侧手柄图标渲染为一块白色圆角矩形，无法辨认",
+        "应用未进入全屏，顶部出现系统状态栏（16:16 时间/电量），与原应用全屏不一致",
+        "启动时游戏指南正常显示，内容与原应用一致"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "7aa9805b5a3249fde82e16c0e46ae7b06c473fb2136a6dc42f78dc2d5b0b7f94",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "8587c34c9497409c2ae862e0fbcd1350b7fb0c805c79b7727af75eb45c486bca",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "4a82d912e6e1181868dc6350cdf7fc3f58e55bdf5323036a729ae3d97d62e74d",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "d4bee29ad4d06c9b0a7b8998c853d8bbc02cf0225c377f8be0a78a1a68dbe0fe",
+          "path": "review/round_01/observation_004.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "启动全屏与游戏指南",
+        "滑动移动方块",
+        "OE/计时面板",
+        "手柄与魔法棒图标"
+      ],
+      "findings": [
+        "全屏与游戏指南已正常，手柄图标已可辨认",
+        "滑动后 OE 由 1 变 2，但棋盘画面仍只显示原来的 '2' 且位置不变，未出现新方块：棋盘仍未随对局数据重绘（严重，等同无法游玩）"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "5da1fefe01ca0d116a8d97fe0d478d4e564bb25491deb3da9112a6dcd1da3763",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "e01c2276b88eb0052300ac2e3fb262dbf0da9d6bc82105fa96ecd3c2bf363e6d",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "e31a97e917726772f8ae66167bb96a396674df32e50feb76a6309455cfb6a26e",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "bc4586ec91806300b86acb79e0e4204b1ac72707d40d4862e6e2a184c876fd46",
+          "path": "review/round_02/observation_004.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "accept",
+      "checked_flows": [
+        "启动全屏与游戏指南弹窗",
+        "4x4/3x3 棋盘滑动移动、生成新方块",
+        "相同数字合并与计分、最高分按尺寸持久化",
+        "撤销与重做",
+        "游戏操作列表及各项入口（主题/棋盘尺寸/再玩一局/载入/分享/指南）",
+        "深色与浅色主题切换",
+        "棋盘尺寸 33/44 切换并重开新局",
+        "游戏结束覆盖层与再玩一局"
+      ],
+      "findings": [
+        "滑动移动、方块生成、合并得分、最高分（按棋盘尺寸分别记录）均正常，且状态会立即重绘",
+        "撤销/重做正确回退与恢复棋盘、分数与 OE，最高分不回退",
+        "游戏操作列表条目与原应用一致（含 转到书签、Recent games、再玩一局、分享游戏、载入游戏、选择主题、Select board sie、Eit app、游戏指南）",
+        "主题（系统配色/深色/浅色）切换即时生效且不重开棋局",
+        "棋盘尺寸 33-88 选择后重开对应尺寸新局并显示游戏指南",
+        "游戏结束时棋盘上出现 游戏结束/再玩一局 覆盖层，点按再玩一局开始新局且最高分保留",
+        "全屏模式与首次弹窗与原应用一致",
+        "顶部手柄/魔法棒图标、2048 图标等与原应用形态接近；剩余差异为图标细节与面板文本位置等外观层面"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "e01c2276b88eb0052300ac2e3fb262dbf0da9d6bc82105fa96ecd3c2bf363e6d",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "e3dd6b9297d7baf5f542d889a053b1d082d35017e10cd29cb772c614d830023d",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "e01c2276b88eb0052300ac2e3fb262dbf0da9d6bc82105fa96ecd3c2bf363e6d",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "0956a0447c529ab2c2abe8981963e6eb159ab990ed601d124fcd82c89c75db0a",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "1bfc063e2e4be0b46f4cb9b172c2b6df322662ae385b41c5d9f06f0bb83c2e49",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "87e4da6e98ad9c5d5e4dd2418fadba73711d7d8ebe896d7c23304abfda5ce731",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 6,
+          "sha256": "f617ae21a7e352680c8228835e3522d4e558f5b5d09365bf1150dc1e6da70f94",
+          "path": "review/round_03/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 7,
+          "sha256": "a6a87244c1127535673b095eadc55a7c6d941a84586996f766c57e60756de1ac",
+          "path": "review/round_03/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 8,
+          "sha256": "60a124db0ccc37196280db2869e74d13c2a0a41b246f75330cb11085f4707208",
+          "path": "review/round_03/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 12,
+          "sha256": "e01c2276b88eb0052300ac2e3fb262dbf0da9d6bc82105fa96ecd3c2bf363e6d",
+          "path": "review/round_03/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 15,
+          "sha256": "f2be12b5ccfd53f7d70a9efa4c1e12c999a5fafbacf0070017516e43eee69d8e",
+          "path": "review/round_03/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 16,
+          "sha256": "f2be12b5ccfd53f7d70a9efa4c1e12c999a5fafbacf0070017516e43eee69d8e",
+          "path": "review/round_03/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 17,
+          "sha256": "f2be12b5ccfd53f7d70a9efa4c1e12c999a5fafbacf0070017516e43eee69d8e",
+          "path": "review/round_03/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 18,
+          "sha256": "f64db4129d2440e792fb72d77933af287382c0df81717b73c2faab268106e12d",
+          "path": "review/round_03/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 19,
+          "sha256": "6ccd5801be3bebb082e8211198a822ee7b14545b00e607d8895e7863b9a20922",
+          "path": "review/round_03/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 21,
+          "sha256": "45d867ba0c52f3f37b0fd3ec48fa2b3fe499be40ac6919d7a0644642dc0422a1",
+          "path": "review/round_03/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 22,
+          "sha256": "3437a81c6bb2d3520e65582b9a3b4bf3ae7c48cc4021172832804f571ad3ab2e",
+          "path": "review/round_03/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 23,
+          "sha256": "9d74e7c268f580a7fe9485f5e6c569c29111274ee3092eb40b88ece85201093a",
+          "path": "review/round_03/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 25,
+          "sha256": "de5cbb63a2df457d45e60544aea1e9d8d31e6779f0c8cb7e69304aec080600ea",
+          "path": "review/round_03/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 26,
+          "sha256": "de5cbb63a2df457d45e60544aea1e9d8d31e6779f0c8cb7e69304aec080600ea",
+          "path": "review/round_03/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 34,
+          "sha256": "3437a81c6bb2d3520e65582b9a3b4bf3ae7c48cc4021172832804f571ad3ab2e",
+          "path": "review/round_03/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 37,
+          "sha256": "ba1b992651523c7a28264941106f3d036d783a7ea5f23da4f439ccd04bf463a3",
+          "path": "review/round_03/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 41,
+          "sha256": "fcc69faa8d54fccbd2507d113d140a8e47b9e9a570c54fd63de6edf8e9ff7a03",
+          "path": "review/round_03/observation_023.png"
+        },
+        {
+          "number": 24,
+          "action_count": 44,
+          "sha256": "08dc0c20c117455444909b79019540448c10d80276ec9ec26a196258632d93ad",
+          "path": "review/round_03/observation_024.png"
+        },
+        {
+          "number": 25,
+          "action_count": 45,
+          "sha256": "2d0b3d731b1f7aa2181837ec3956ea86178e600443ec85e0f984bea675cf9ec9",
+          "path": "review/round_03/observation_025.png"
+        },
+        {
+          "number": 26,
+          "action_count": 48,
+          "sha256": "461ecafa53c257fbe37b94df617fd0004955d16411c1b09bb967bb1cbbf0a663",
+          "path": "review/round_03/observation_026.png"
+        },
+        {
+          "number": 27,
+          "action_count": 51,
+          "sha256": "078e6a411a7f1b378d818bc9aa5a64e42a4520ff285adb366ab404e259a3cdbf",
+          "path": "review/round_03/observation_027.png"
+        },
+        {
+          "number": 28,
+          "action_count": 55,
+          "sha256": "40b8f03bb260e68f65d4184e23dc35d313fd8ea9e34ee901c17bcef3d4d2828d",
+          "path": "review/round_03/observation_028.png"
+        },
+        {
+          "number": 29,
+          "action_count": 59,
+          "sha256": "19e577d54f0784f0eeb45f8b9dbb30f6e1c9aff8707a9bf4ecb1fa2889b020b2",
+          "path": "review/round_03/observation_029.png"
+        },
+        {
+          "number": 30,
+          "action_count": 63,
+          "sha256": "415478247c21ddf3dd44e54609e7ea775ffb5bf8f65b56bc917251ac8498a19f",
+          "path": "review/round_03/observation_030.png"
+        },
+        {
+          "number": 31,
+          "action_count": 66,
+          "sha256": "a61c38d58016780c7cee424942d25858b14e9f2a146f6d5b23c6b059f8e686fc",
+          "path": "review/round_03/observation_031.png"
+        },
+        {
+          "number": 32,
+          "action_count": 69,
+          "sha256": "bb9111e8a2ab5bb2861a42c0281f9efaa07c1a21fe067518573dccc0c7e30c15",
+          "path": "review/round_03/observation_032.png"
+        },
+        {
+          "number": 33,
+          "action_count": 70,
+          "sha256": "1f4ccaf3887aaba42898e53fd13177c5bf759e237f9b85679057c6f940ab184a",
+          "path": "review/round_03/observation_033.png"
+        },
+        {
+          "number": 34,
+          "action_count": 74,
+          "sha256": "076adce273eaf7794596a17ac6fb94e19f5334ff834247f2ae68141a14838e9c",
+          "path": "review/round_03/observation_034.png"
+        },
+        {
+          "number": 35,
+          "action_count": 75,
+          "sha256": "d997a19dec5d1ac15e4c7ccc1cc9c36b5830a08d4c13db424c68e1dafd3ad72c",
+          "path": "review/round_03/observation_035.png"
+        },
+        {
+          "number": 36,
+          "action_count": 76,
+          "sha256": "ab818bbff7b7779b4fe9ecb027d60885e9ddbf36ea15a732bed0dd32e5ce7656",
+          "path": "review/round_03/observation_036.png"
+        },
+        {
+          "number": 37,
+          "action_count": 77,
+          "sha256": "b29ff15d34eb23cf5d67421aa681034f0615a8f6702fd5c38b9929c0bb8c92ef",
+          "path": "review/round_03/observation_037.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

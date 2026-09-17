@@ -1,0 +1,377 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "f1fb3eacb753e737699e8972de80f405ae53e55e8dd25603d15867005e422681",
+  "accepted_apk_hash": "52cf214b8a46a2878000c0a9fc1e61ead9b796943bf2d7225150bb7756e91e77",
+  "revision_count": 2,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "cold start default Easy board renders",
+        "tap a cell to reveal",
+        "mine counter and timer panels render"
+      ],
+      "findings": [
+        "Grid cells do not repaint after a tap: a tap started the timer (meaning a reveal happened) but every cell still looks covered.",
+        "The seven-segment panels are clipped: the 3-digit mine counter shows only 2 digit boxes and the MM:SS timer drops digits, because the Row had a fixed width narrower than its content."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "51c1d17290bc75f8ec3221694bdfcc82b6abfc6b9bb25eca3f2d808b9428d6cb",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "615048a8ef16a6b0a1deba03c1b6f10d80411f9872b4bfa6c05469d217fe487a",
+          "path": "review/round_01/observation_002.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "tap a cell to reveal (timer starts but grid unchanged)",
+        "long-press to flag (counter 010 to 009 but no flag drawn)",
+        "digit panels render"
+      ],
+      "findings": [
+        "Game state updates but the grid never repaints: a long-press decremented the mine counter (010 to 009) yet no flag appears on any cell and no revealed cell is drawn.",
+        "Cell state is stored in plain fields that Compose cannot observe, so GameCell output is stale. Cells must be backed by observable state."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "a65e97f6b9aa0f624d249e600ea41205eed18713fd82cc2bf54eba92038ba3fa",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "b30595c2c995576d10d056161bf70e8790fac4c97e1923eed7a229494ee0c321",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "7193d28897cc72eda38e32f92be7c956764534bdd957c7b6917a258b805054bf",
+          "path": "review/round_02/observation_003.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "accept",
+      "checked_flows": [
+        "cold start shows Easy 9x9 with mine counter 010, 00:00 timer, smiley, four difficulty tabs and Licenses",
+        "tap reveals cells and flood-fill; numbers colored (blue 1)",
+        "long-press flags a cell with an orange flag and decrements the mine counter",
+        "Medium preset: 12x12, counter 030, amber 05:00 countdown",
+        "Hard preset: counter 050, amber 03:00 countdown, fog-of-war purple revealed cells with hidden numbers",
+        "Custom Game dialog: grid-size slider, mines slider with count and percent, Fog of war and Safe first tap toggles, Cancel/Start",
+        "win: green You Win banner, sunglasses face, remaining mines auto-flagged, counter 000",
+        "lose: red Game Over banner, dead face, exploded mine and all mines revealed",
+        "countdown expiring ends the game with the Game Over banner",
+        "Licenses dialog opens and closes",
+        "smiley face button resets a fresh covered board with restored counter and timer"
+      ],
+      "findings": [
+        "No blocking defects found in this round: reveal, flag, chord no-op, win, loss, timeout, difficulty presets, custom dialog, licenses and reset all behave as observed on the target.",
+        "Minor cosmetic difference: revealed empty cells use a near-background shade so they are faint, and the seven-segment glyphs are slightly thicker than the target."
+      ],
+      "actions": [
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "wait"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "4213a2945c41dc880dcc88a607ef5da997aa63d41cd0e04ac922d33ca9b3c1e2",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "874d4d78e4fad90e531c49bf0a13aa6796b27a823c29029b0ea2783c1ca01b4c",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "5df07d88132b5f0f0c71d617b0f73b3c5cafae6bf2e9f983cdbad0626433bd2e",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "9ef0a54c43da36f2158782866f67365afac9cf7c01fec61f182226fa14c2ade5",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "d31352edc3137e949a7a95698b7aaa670bc28f89b665c1f6183314bb73ee88b1",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "345a630e76d242197aef41c1301ba08e7cea81295e67d9f2cbe78b044b9f3ffd",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 6,
+          "sha256": "c2b38300f3797d68ccc9896d72a892124550c05c0661692e133cb5fbd49b64a0",
+          "path": "review/round_03/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 7,
+          "sha256": "af1e59bd7f146feddefec3def925766e3bbaee258d000bb3f9853d9c1b4ceb5c",
+          "path": "review/round_03/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 8,
+          "sha256": "831db63c30fd3ecc2c8ebedc10289f3055eb444dc8cc7d8d91b4753d2ab79c13",
+          "path": "review/round_03/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 9,
+          "sha256": "134d4ac04debbffc68470d6ec58061f96c04b77d5116beb1cb6ee4aae1161f59",
+          "path": "review/round_03/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 10,
+          "sha256": "f4f4452ca753b0694b06d911c5e11b1ddb7dc02f7f005463cfc8699ab789902c",
+          "path": "review/round_03/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 11,
+          "sha256": "10b9c88e190e149615ce2c8799a9840a565bd2b7da2129ec3a93db8a8c0b1685",
+          "path": "review/round_03/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 12,
+          "sha256": "9d8fd5950b7aa0b12bf5d64a0acf0cd82ee0c2022771561f53fefbc6c7719162",
+          "path": "review/round_03/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 13,
+          "sha256": "c12aea05ac52c94b1dccca11cb1a4a99fcaa293665756ea956d37152606b7d5f",
+          "path": "review/round_03/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 14,
+          "sha256": "29014177f87f10fdb1415a3181b0683eeabe7d14ec5f681f684d98f0ccad72b7",
+          "path": "review/round_03/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 15,
+          "sha256": "233173c1d6d30da3e8906a0bc58f896fe688b06f0242cdc009249bb1651d8255",
+          "path": "review/round_03/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 16,
+          "sha256": "ee0694b39921de023281748995fdcbba5224e0d0b69bc49785f317bb68beb9b3",
+          "path": "review/round_03/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 17,
+          "sha256": "b863068c6800ce58b16b9c17b70a4ab933fc5fb4354b46b082d4adc19bac9f87",
+          "path": "review/round_03/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 18,
+          "sha256": "61b2cc07a0f547503f564759db83de61ab3de61e7d354b849ae67076de434bf3",
+          "path": "review/round_03/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 19,
+          "sha256": "09a3447deab405d00c3bfa443ef192dfc0642a585258ca19be58eb8dca117d18",
+          "path": "review/round_03/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 20,
+          "sha256": "b03e0349db935032af7e40e41f70dde4c63af4fced6709b700230a78a72ef675",
+          "path": "review/round_03/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 21,
+          "sha256": "b9d39894b534adabea89f96ca2597430f6dfcc8b8c34cd96ba51efcdd3849113",
+          "path": "review/round_03/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 22,
+          "sha256": "ff8e3967866633fa874d7c698ec7b7d944c7c43bdca43d611293273db3839a39",
+          "path": "review/round_03/observation_023.png"
+        },
+        {
+          "number": 24,
+          "action_count": 23,
+          "sha256": "4dcdf30172f78554b374ca81667ceffb490985afc962b3421b767680447b654b",
+          "path": "review/round_03/observation_024.png"
+        },
+        {
+          "number": 25,
+          "action_count": 25,
+          "sha256": "830e03b20b29953b7aff594621bf001494d15e088c6915f6a0988592c1e77335",
+          "path": "review/round_03/observation_025.png"
+        },
+        {
+          "number": 26,
+          "action_count": 26,
+          "sha256": "a7251191add03bd733c6ca6418a9a64ed9d4657c6e53a8c25550fc470389ce7d",
+          "path": "review/round_03/observation_026.png"
+        },
+        {
+          "number": 27,
+          "action_count": 27,
+          "sha256": "16da8b7a64a32dffc1a2780962716bbc4ba7fcd8ab13f8a4d91949f92dc8a61a",
+          "path": "review/round_03/observation_027.png"
+        },
+        {
+          "number": 28,
+          "action_count": 28,
+          "sha256": "91442b534a8251261057fe4269547930dd7dd77ae8e8633e79864f0a85a6a3c2",
+          "path": "review/round_03/observation_028.png"
+        },
+        {
+          "number": 29,
+          "action_count": 29,
+          "sha256": "95102bf21f5f5cf977a217e2be3775b106a5f6cbd0095eae703b7580b0510f9f",
+          "path": "review/round_03/observation_029.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

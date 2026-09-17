@@ -1,0 +1,545 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "1cc31c38cb771dd32897c9f3e6c2fd5ba1ab644bfba0f1bd3cf5d248c59a40a7",
+  "accepted_apk_hash": "31155b70623aa352d47c886db2c06d13b92a52d8e2dcd70cd3a414cdf18de239",
+  "revision_count": 3,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "主菜单进入新游戏对话框",
+        "选择 4x4/EASY 并开始游戏",
+        "选中空格并填入数字",
+        "重复数字标红",
+        "长按清除格子",
+        "暂停覆盖层与冻结计时",
+        "暂停菜单打开帮助并从帮助返回暂停",
+        "帮助两页（How to Play / Core Rules）",
+        "MAIN MENU 返回主菜单",
+        "进入主题页"
+      ],
+      "findings": [
+        "游戏页与暂停页右上角计时器与系统状态栏时钟重叠，原版计时器位于状态栏下方；需下移。",
+        "暂停按钮内的暂停图标被渲染成橙色 emoji 方块，原版是两条白色竖条。",
+        "主题页标题 THEMES 居左，原版居中显示。",
+        "主题页 AUTO/DAY/NIGHT 选择器布局与原版不同：原版为一条滑轨、星形指针表示当前档、DAY/NIGHT 为轨上圆点，档位文字在下方；当前为并排标签加孤立圆点。",
+        "顶部场景图带偏高（约屏高 1/3），原版约占 1/5；压缩后使棋盘与键盘整体下移的空间更合理。",
+        "需要补验胜利页（勝/YOU WON/用时/暂停用时/SHARE/NEW GAME）与 5x5、6x6、MEDIUM/HARD 生成是否正常。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "b235804ddd6fb8d7d0c326cf3b99d1468da7393493193ad60b861931e1ba717f",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "2694ff87d98fb615a5805a9941e856b5638ec03d1b81525c33c947a7f47cbddf",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "2694ff87d98fb615a5805a9941e856b5638ec03d1b81525c33c947a7f47cbddf",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "ae99917e67cfbb63d9b5de52fc0be5446f522143009a74a9a5c9f21b71b6e5d4",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 5,
+          "sha256": "1bc3489f016486c4a411c6d23ba22fa1de53a6bcfbc2b5963005b267df0a0f8c",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 7,
+          "sha256": "e8eca6724b3c24aca231a80030ec53964a402229660d1b9e0db9ce0fd692e596",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 8,
+          "sha256": "712a094ffae1c720a705ee9a669bddbe9cb11445d7ff01f5eab47d3c1fc364bb",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 9,
+          "sha256": "f538e2de526ccf1eb1d144418372e6fa2c6c2f93d4a117b61ad1397274e0f127",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 10,
+          "sha256": "c83db97a8c33fcf53a112233fd75e4580bc69f8dc584ed1752bd237bcb75800d",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 12,
+          "sha256": "60b13a9300432b37d436c3f7f6b2cffd1c6def1df800f3fba07dfd0cbdbd5ee3",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 13,
+          "sha256": "c66dfed3dff538e4ddebf05a13cf16c18c3d218ac4b31a32e9767500e47967d5",
+          "path": "review/round_01/observation_011.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "主菜单→新游戏对话框→4x4/EASY 开始",
+        "选中格子并填写数字",
+        "长按清除格子",
+        "暂停覆盖层与冻结计时",
+        "暂停菜单 HELP 与返回、MAIN MENU",
+        "解出 4x4 进入胜利页并显示用时",
+        "胜利页打开新游戏对话框",
+        "选择 6x6/HARD 生成棋盘"
+      ],
+      "findings": [
+        "胜利页左对齐问题：YOU WON、SOLVED IN、用时与暂停用时说明整体贴左边缘并被裁切，应水平居中（与 勝 和标签药丸一致）。",
+        "计时器位置与暂停图标已修复。",
+        "已确认 4x4 解出会进入胜利页并显示用时；6x6/HARD 生成正常、键盘自动扩展为 1-6。",
+        "尚需在下一轮确认主题页标题居中与 AUTO/DAY/NIGHT 单轨滑块（本轮未复验）。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "60e424498a16dd8f0290b2d828bfbb52acdfa5e901678dbe3946ccd56ae42c49",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "892684471ea8dd1c9c4916ce1fc64d6270b4e207d3f42c2ef6958cdb976aafb8",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 18,
+          "sha256": "1ea86ff84b34ccb1f35a0c12a2bbe197dd6ce6601d13ea4e9de117fa9fec34db",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 22,
+          "sha256": "825cb08480822b88e3a361dfd6451648b80f649939067860acdc545c41983e37",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 23,
+          "sha256": "8a5675efd7dfe7e8536f938bcf43f48f4055d01ce18474cb99f4a82f8a09f465",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 24,
+          "sha256": "04e91f4048ddbb887ce506cf98f8280b9af93755828da5b7046452193039401b",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 27,
+          "sha256": "2e0d47f0db56dabbdbfc577f3440b775e5234428a44975984c11a7fb4b64cbf3",
+          "path": "review/round_02/observation_007.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "revise",
+      "checked_flows": [
+        "主菜单→主题页：MONO/TINTED 与 AUTO/DAY/NIGHT 滑块",
+        "切换 TINTED 与 NIGHT 后返回主菜单生效",
+        "重启 App 后主题设置保留",
+        "4x4/EASY 生成、填空、解出进入胜利页",
+        "胜利页文本居中显示"
+      ],
+      "findings": [
+        "胜利页文本居中已修复，YOU WON / SOLVED IN / 用时 / 暂停用时说明均正确居中显示。",
+        "主题页标题已居中；AUTO/DAY/NIGHT 改为单轨 + 星形指针，与目标一致；TINTED+NIGHT 生效且重启后保留。",
+        "胜利页 SHARE 目前调用系统分享 chooser，会把 App 切到后台并导致复验环境无法恢复目标 App（tool crashed: target App could not be restored to foreground）；需改为不离开 App 的分享行为（复制结果到剪贴板并给出应用内提示）。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "3416605cb7adb90450e1a5b1ecc790b30047dc542e2b3128bdc026887ad840e8",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "e958b5fa6da0fb7c5afef4462e9a9e7998836839104d47c062b4ae494e8218f6",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "ddb336a9e2b59214007c862ed59226de449702e56a5402743a888ca1cc26b7e7",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "bdab1d3198ad3e8c7e6ee7ff1bd62402969156d646d6f231ad82b72c9f83928c",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 5,
+          "sha256": "9bbce0f6a00f2aee8e9e0ccdc642db678cc22f1d20178ef4cac54bb4ffc5621c",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 9,
+          "sha256": "344fc2a764fb696b46fbb22f6bb2764efa3c0952e79e5375d060e3fef201d3b4",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 23,
+          "sha256": "f1a48108771ee24cccbed5a647fdb3be7043f4f48a6ed9894f373c4be490873f",
+          "path": "review/round_03/observation_007.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 4,
+      "decision": "accept",
+      "checked_flows": [
+        "主菜单 → 新游戏（4x4/EASY）",
+        "选中空格、填数字、冲突标红",
+        "完成整盘后进入胜利页（用时、暂停用时说明）",
+        "胜利页 SHARE 不再离开 App（复制结果并停留）",
+        "主题页 MONO/TINTED 与 AUTO/DAY/NIGHT 单轨滑块",
+        "主题设置跨重启持久化",
+        "帮助页两页与返回",
+        "暂停覆盖层、RESET、6x6/HARD 生成"
+      ],
+      "findings": [
+        "胜利页文本已全部居中，SHARE 已改为复制结果到剪贴板并停留应用内，点击后不再导致目标 App 失焦。",
+        "主题页标题居中、AUTO/DAY/NIGHT 单轨滑块与星形指针符合目标；TINTED+NIGHT 全局生效并在重启后保留。",
+        "4x4 EASY 与 6x6 HARD 生成、映射键盘、冲突标红（行列重复与不等式违规）、长按清除、RESET、暂停冻结计时均照常工作。",
+        "未发现私人信息或不应复现的敏感内容；全部素材为自绘像素风场景与通用文本。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "7c0f6c57bdb6c38a16485d8d4f5bf46c17b8372da24f6282864009c0deee4fb0",
+          "path": "review/round_04/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "58a404bbb153677554ed3781f614b1a07467849548652ed1d85a607636d2c4c5",
+          "path": "review/round_04/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 17,
+          "sha256": "d50329e503691ff324e168e399e21e26143745250b09eb34e667f209241dee3e",
+          "path": "review/round_04/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 19,
+          "sha256": "42930aac862f2defbf73e63fbbf6042e6b29e182380459ce25ac66cf1e79365f",
+          "path": "review/round_04/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 20,
+          "sha256": "d1524c2ef33a28566ad576bb1ac01bad35dd358cf031dafa968ac66eb8dd1929",
+          "path": "review/round_04/observation_005.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}
