@@ -221,8 +221,15 @@ def start_local_controller(controller: str, is_up: Callable[[], bool],
 
 def ensure_local_controller(controller: str, is_up: Callable[[], bool],
                             *, announce: Callable[[str], None] | None = None,
-                            timeout: float = 40.0) -> None:
-    """Ensure one shared local Controller without duplicate process storms."""
+                            timeout: float = 120.0) -> None:
+    """Ensure one shared local Controller without duplicate process storms.
+
+    ``timeout`` covers both waiting for an already-starting Controller and
+    booting a fresh one. A cold start under a batch-launch storm (dozens of
+    MCPs racing at once) needs well beyond the historical 40s: on
+    2026-09-17 a 12-task launch left one task dead with "alive but
+    unhealthy" because the probe gave up too early.
+    """
     if is_up():
         if _state_env_matches(controller):
             return
@@ -247,7 +254,11 @@ def ensure_local_controller(controller: str, is_up: Callable[[], bool],
         state = _read_state(controller)
         pid = int(state.get("pid") or 0)
         if state.get("controller") == controller and _pid_alive(pid):
-            deadline = time.monotonic() + min(5.0, timeout)
+            # A live process that is not answering yet is usually a cold
+            # start still importing under a launch storm; allow 30s before
+            # declaring it unhealthy (the historical 5s produced false
+            # failures and cost one whole task on 2026-09-17).
+            deadline = time.monotonic() + min(30.0, timeout)
             while time.monotonic() < deadline:
                 if is_up():
                     return

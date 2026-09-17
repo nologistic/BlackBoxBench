@@ -39,6 +39,48 @@ class CreateSession(BaseModel):
     live_url: str | None = None
 
 
+def _prune_empty_session_dirs(min_age_s: float = 1800.0) -> int:
+    """Remove leftover empty session directories from bootstrap storms.
+
+    When many MCPs race one cold Controller, session creation can fail
+    repeatedly and leave orphan sess_* dirs that were never bound: no
+    app_id, no frames, no discovery. On 2026-09-17 a 12-task launch left
+    217 such dirs. Remove only dirs that are empty AND older than
+    min_age_s; anything recent or with any content is left alone so live
+    runs are never touched.
+    """
+    import json
+    import shutil
+    import time
+
+    cutoff = time.time() - min_age_s
+    removed = 0
+    for sess_dir in sorted(config.RUNS_DIR.glob("sess_*")):
+        meta = sess_dir / "session.json"
+        if not meta.is_file():
+            continue
+        try:
+            data = json.loads(meta.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if str(data.get("app_id") or data.get("target") or ""):
+            continue
+        frames = sess_dir / "frames"
+        try:
+            if frames.is_dir() and any(frames.iterdir()):
+                continue
+        except OSError:
+            continue
+        try:
+            if meta.stat().st_mtime > cutoff:
+                continue
+        except OSError:
+            continue
+        shutil.rmtree(sess_dir, ignore_errors=True)
+        removed += 1
+    return removed
+
+
 def create_app() -> FastAPI:
     @asynccontextmanager
     async def lifespan(_app: FastAPI):
@@ -48,6 +90,10 @@ def create_app() -> FastAPI:
         for sid in manager.mark_abandoned_sessions():
             print(f"[controller] session {sid} was abandoned by a previous "
                   f"controller; recorded as failed")
+        pruned = _prune_empty_session_dirs()
+        if pruned:
+            print(f"[controller] pruned {pruned} empty session dir(s) left "
+                  f"by a bootstrap storm")
         yield
 
     app = FastAPI(title="BlackBoxBench Controller", docs_url=None,
