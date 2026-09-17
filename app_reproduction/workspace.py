@@ -395,7 +395,10 @@ class AppReproductionWorkspace:
             # uid — observed on the 2026-09-16 minesweeper reproduction
             # (Gradle could not write /workspace; the review harness then
             # failed with writable-home errors and an unsigned APK).
-            sandbox_uid, sandbox_gid = os.getuid(), os.getgid()
+            if hasattr(os, "getuid"):  # POSIX: run as the calling host user
+                sandbox_uid, sandbox_gid = os.getuid(), os.getgid()
+            else:  # Windows: no uid semantics; keep the historical ids
+                sandbox_uid, sandbox_gid = 1000, 1000
             run_args = [
                 "run", "-d", "--name", container,
                 "--user", f"{sandbox_uid}:{sandbox_gid}",

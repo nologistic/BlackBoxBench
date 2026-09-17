@@ -996,6 +996,7 @@ def test_android_workspace_mounts_per_app_materials(monkeypatch, tmp_path):
         ws.close()
 
 
+@pytest.mark.skipif(not hasattr(os, "getuid"), reason="uid semantics are POSIX-only")
 def test_android_sandbox_runs_as_host_uid(monkeypatch, tmp_path):
     """沙箱以宿主 uid 运行，gradle 缓存卷 chown 给宿主 uid（2026-09-16 修复）。
 
