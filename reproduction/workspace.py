@@ -18,7 +18,9 @@ import shutil
 import stat
 import subprocess
 import tempfile
+import time
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
 from typing import Mapping
 
@@ -124,6 +126,57 @@ def _docker(*args: str, check: bool = True,
         timeout=timeout, check=check,
         creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
     )
+
+
+def prune_stale_containers(name_prefix: str, *,
+                           max_running_hours: float = 24.0) -> list[str]:
+    """Best-effort sweep of leftover sandbox containers.
+
+    Normal teardown happens in close()/finish(); a crashed review round, a
+    killed MCP process, or a teardown that itself timed out can strand a
+    sandbox. Sweep leftovers before starting a new handoff: created/exited
+    containers unconditionally (they can never be live), and running ones
+    older than max_running_hours (a healthy reproduction finishes within
+    hours, so an older sandbox has lost its owner). Freshly started
+    containers are left alone - they belong to concurrent reproductions.
+
+    Never raises: a broken daemon simply leaves the residue for a later
+    sweep. Returns the ids that were removed.
+    """
+    removed: list[str] = []
+    try:
+        for status in ("created", "exited"):
+            ids = _docker("ps", "-aq", "--filter", f"name={name_prefix}",
+                          "--filter", f"status={status}",
+                          check=False, timeout=60).stdout.split()
+            if ids:
+                _docker("rm", "-f", "-v", *ids, check=False, timeout=600)
+                removed.extend(ids)
+        live = _docker("ps", "-q", "--filter", f"name={name_prefix}",
+                       check=False, timeout=60).stdout.split()
+        if live:
+            info = _docker("inspect", "--format",
+                           "{{.Id}} {{.State.StartedAt}}", *live,
+                           check=False, timeout=120).stdout
+            cutoff = time.time() - max_running_hours * 3600.0
+            stale = []
+            for line in info.splitlines():
+                container_id, _, started_at = line.strip().partition(" ")
+                if not container_id or not started_at:
+                    continue
+                try:
+                    started = datetime.fromisoformat(
+                        started_at[:19]).replace(tzinfo=timezone.utc)
+                except ValueError:
+                    continue
+                if started.timestamp() < cutoff:
+                    stale.append(container_id)
+            if stale:
+                _docker("rm", "-f", "-v", *stale, check=False, timeout=600)
+                removed.extend(stale)
+    except Exception:
+        pass
+    return removed
 
 
 def ensure_docker_available(timeout: int = DOCKER_HEALTH_TIMEOUT) -> str:
@@ -256,6 +309,9 @@ class ReproductionWorkspace:
         # output/artifact directories. This also avoids a second slow Docker
         # call from cleanup when the daemon is unreachable.
         ensure_docker_available()
+        # Self-heal before adding a new sandbox: sweep sandboxes stranded by
+        # crashed/killed runs so residue cannot accumulate across sessions.
+        prune_stale_containers("bbb-repro-")
         ensure_materials()
 
         handoff_id = f"{source_id}-{secrets.token_hex(3)}"

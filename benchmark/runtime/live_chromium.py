@@ -20,6 +20,7 @@ Differences from LocalChromiumRuntime (see docs/security_model.md, live targets)
 from __future__ import annotations
 
 import os
+import random
 import shutil
 import subprocess
 import time
@@ -109,7 +110,28 @@ class LiveChromiumRuntime(LocalChromiumRuntime):
 
     def start(self) -> None:
         self._work_dir.mkdir(parents=True, exist_ok=True)
-        self._start_browser()
+        # Concurrent cold starts (a fresh batch boots many browsers at once)
+        # can leave the debugger port unreachable or the first load timing
+        # out: 2026-09-17 four of eight concurrent runs failed exactly this
+        # way while the host had ample CPU. Retry with backoff + jitter
+        # instead of bouncing the failure back to the agent.
+        delays = (0.0, 5.0, 15.0, 45.0)
+        last: Exception | None = None
+        for delay in delays:
+            if delay:
+                time.sleep(delay + random.uniform(0.0, delay * 0.3))
+            try:
+                self._start_browser()
+                return
+            except Exception as exc:  # retried below
+                last = exc
+                try:
+                    self._kill_browser()
+                except Exception:
+                    pass
+        raise RuntimeError(
+            f"live browser failed to start after {len(delays)} attempts: "
+            f"{last!r}") from last
 
     # stop()/health()/input/screenshot inherited. reset() inherited: cold
     # browser restart on the same profile (NOT a state reset — live targets

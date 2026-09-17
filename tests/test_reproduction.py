@@ -11,6 +11,7 @@ import sys
 import time
 import uuid
 import wave
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from fastapi.testclient import TestClient
@@ -251,6 +252,51 @@ def test_docker_preflight_times_out_before_creating_output(monkeypatch, tmp_path
             source_mode="managed-tools", source_id="sess_test",
             topology_path=topology)
     assert not output_root.exists()
+
+
+def test_prune_stale_containers_sweeps_leftovers_and_zombies(monkeypatch):
+    """Residue sweep: created/exited leftovers and long-dead running
+    zombies are removed; a freshly started container (a concurrent
+    reproduction) is untouched."""
+    calls: list[tuple] = []
+
+    def fake_docker(*args, **kwargs):
+        calls.append(args)
+        if args[:2] == ("ps", "-aq"):
+            status = next(a for a in args if a.startswith("status="))
+            body = ("c-created\n" if status.endswith("created")
+                    else "c-exited\n")
+        elif args[:2] == ("ps", "-q"):
+            body = "c-fresh\nc-zombie\n"
+        elif args[:2] == ("inspect", "--format"):
+            now = datetime.now(timezone.utc)
+            fresh = now.strftime("%Y-%m-%dT%H:%M:%S")
+            old = (now - timedelta(hours=48)).strftime("%Y-%m-%dT%H:%M:%S")
+            body = f"c-fresh {fresh}\nc-zombie {old}\n"
+        elif args[0] == "rm":
+            body = ""
+        else:
+            raise AssertionError(f"unexpected docker call: {args}")
+        return subprocess.CompletedProcess(args, 0, stdout=body, stderr="")
+
+    monkeypatch.setattr(reproduction_workspace, "_docker", fake_docker)
+    removed = reproduction_workspace.prune_stale_containers("bbb-repro-")
+    assert sorted(removed) == ["c-created", "c-exited", "c-zombie"]
+    rm_targets = [a for call in calls if call[0] == "rm" for a in call[3:]]
+    assert "c-created" in rm_targets
+    assert "c-exited" in rm_targets
+    assert "c-zombie" in rm_targets
+    assert "c-fresh" not in rm_targets
+
+
+def test_prune_stale_containers_never_raises(monkeypatch):
+    """Cleanup must never block a new handoff: a dead daemon just leaves
+    the residue for a later sweep."""
+    def broken(*args, **kwargs):
+        raise subprocess.TimeoutExpired("docker", kwargs.get("timeout", 60))
+
+    monkeypatch.setattr(reproduction_workspace, "_docker", broken)
+    assert reproduction_workspace.prune_stale_containers("bbb-repro-") == []
 
 
 def test_exploration_artifact_bundle_rejects_escape_and_symlink(tmp_path):

@@ -9,6 +9,7 @@ import re
 import secrets
 import shutil
 import stat
+import subprocess
 import tempfile
 import zipfile
 from io import BytesIO
@@ -23,6 +24,7 @@ from reproduction.filelock import lock_for
 from reproduction.materials.build import ensure_materials
 from reproduction.workspace import (
     DockerUnavailableError, _docker, _relative, ensure_docker_available,
+    prune_stale_containers,
 )
 from .materials.build import ensure_app_materials
 
@@ -319,6 +321,9 @@ class AppReproductionWorkspace:
         if not isinstance(parsed, dict):
             raise ValueError("finalized topology must be an object")
         ensure_docker_available()
+        # Self-heal before adding a new sandbox: sweep sandboxes stranded by
+        # crashed/killed runs so residue cannot accumulate across sessions.
+        prune_stale_containers("bbb-app-repro-")
         require_android_build_image()
         common_materials = ensure_materials().resolve()
         mobile_materials = ensure_app_materials().resolve()
@@ -415,7 +420,16 @@ class AppReproductionWorkspace:
                 "--mount", f"type=bind,source={safe_topology},target=/input/functional_topology.json,readonly",
                 "--mount", f"type=bind,source={bundle},target=/exploration,readonly",
                 IMAGE_NAME]
-            _docker(*run_args, timeout=120)
+            try:
+                _docker(*run_args, timeout=120)
+            except subprocess.TimeoutExpired:
+                # A cold daemon under load can need >120s to create this
+                # 5.2GB-image sandbox (2026-09-16: two runs lost their first
+                # finalize that way). Drop the half-created container and
+                # retry once with a wider budget instead of bouncing the
+                # failure back to the agent.
+                _docker("rm", "-f", "-v", container, check=False, timeout=60)
+                _docker(*run_args, timeout=300)
             # The gradle-cache volume is initialized from the image with
             # owner 1000:1000. Gradle both writes and chmods its cache
             # (e.g. daemon/…/registry.bin is set to mode 700), and chmod
