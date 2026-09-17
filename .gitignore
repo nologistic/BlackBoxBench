@@ -8,7 +8,8 @@
 # 登录态 / AVD 快照 / 运行时锁 / 可再生缓存仍然排除。
 runs/*
 !runs/android_targets
-!runs/sess_*
+# 2026-09-17: 探索过程（runs/sess_*）不再上云——会话证据只留在本机，
+# 不上传 Git（体积大、含真实站点画面）。仅目标注册表继续跟踪。
 runs/android_targets/manual_sessions/
 runs/android_targets/manual_show_saved/
 runs/android_targets/booting/
