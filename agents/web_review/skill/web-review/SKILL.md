@@ -44,7 +44,9 @@ MCP、宿主 Shell、浏览器 DevTools、DOM 查询工具或网络工具。
 
 ### 1. 准备
 
-1. `list_checklists` 查看可用清单、可评审的交接目录和四档标准。
+1. `list_checklists` 查看可用清单、可评审的交接目录和四档标准。交接目录条目
+   带 `app_id`（站点名）——**先按 app_id 与目标站点配对**：选 app_id 匹配的
+   handoff，配上同名清单（如 notion_web 用 notion_web.json），不要跨站点试错。
 2. `start_evaluation(checklist="<清单文件>", handoff_id="<交接目录>")`
    ——交接目录会被静态服务在 loopback 并在锁定浏览器中打开，返回首屏截图。
 3. `evaluation_status` 通读清单全文，规划验证顺序。**先做前置依赖**（如登录、

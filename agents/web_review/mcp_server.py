@@ -29,6 +29,7 @@ import sys
 import threading
 from pathlib import Path
 
+from benchmark import config
 from app_evaluation.checklist import Checklist
 from app_evaluation.grades import GRADE_CRITERIA, GRADE_LABELS, Grade
 from web_evaluation.session import WebEvaluationSession
@@ -83,15 +84,54 @@ def _resolve_under(root: Path, value: str, what: str) -> Path:
     return resolved
 
 
+def _handoff_app_id(handoff_name: str) -> str:
+    """Resolve the source app of a handoff via its session id prefix.
+
+    Handoffs are named ``<session_id>-<token>``; the session's session.json
+    under RUNS_DIR records the target app. Judges need this to pair a
+    checklist with the SAME app's handoff — without it they can only guess
+    (2026-09-17: all seven web evaluations mispaired at least once).
+    """
+    sid = handoff_name.rsplit("-", 1)[0]
+    meta = config.RUNS_DIR / sid / "session.json"
+    try:
+        return json.loads(meta.read_text(encoding="utf-8")).get("app_id") or ""
+    except (OSError, ValueError):
+        return ""
+
+
+def _handoff_root(handoff: Path, depth: int = 3) -> Path | None:
+    """Locate the entry-page root of a handoff.
+
+    The entry may sit at the handoff root, or nested a level or two down:
+    some generators copy the docker output verbatim, yielding
+    ``<handoff>/website_output/<handoff>/index.html`` (2026-09-17: the notion
+    and youtube handoffs were unfindable this way and could not be judged).
+    """
+    if (handoff / "index.html").is_file():
+        return handoff
+    if depth <= 0:
+        return None
+    for sub in sorted(handoff.iterdir()):
+        if sub.is_dir():
+            found = _handoff_root(sub, depth - 1)
+            if found is not None:
+                return found
+    return None
+
+
 def _resolve_handoff(value: str) -> Path:
     """Locate the handoff under website_output. Accepts a handoff id."""
     raw = (value or _handoff_env or "").strip()
     if not raw:
         raise ValueError("需要 handoff_id（website_output 下的交接目录名）")
     resolved = _resolve_under(WEBSITE_OUTPUT_ROOT, raw, "handoff")
-    if not resolved.is_dir() or not (resolved / "index.html").is_file():
+    if not resolved.is_dir():
+        raise ValueError("交接目录不存在")
+    root = _handoff_root(resolved)
+    if root is None:
         raise ValueError("交接目录缺少 index.html；先完成网页复现交接")
-    return resolved
+    return root
 
 
 def _resolve_checklist(value: str) -> Checklist:
@@ -130,8 +170,12 @@ def _t_list_checklists(_args: dict) -> dict:
     handoffs = []
     if WEBSITE_OUTPUT_ROOT.is_dir():
         for child in sorted(WEBSITE_OUTPUT_ROOT.iterdir()):
-            if child.is_dir() and (child / "index.html").is_file():
-                handoffs.append(child.name)
+            if child.is_dir() and _handoff_root(child) is not None:
+                entry = {"handoff_id": child.name}
+                app_id = _handoff_app_id(child.name)
+                if app_id:
+                    entry["app_id"] = app_id
+                handoffs.append(entry)
     return _ok([_text({
         "checklists": items,
         "available_handoffs": handoffs,

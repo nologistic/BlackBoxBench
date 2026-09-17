@@ -149,6 +149,21 @@ def _infer_checklist_from_handoff(handoff: str) -> str:
     return ""
 
 
+def _handoff_app_id(handoff_name: str) -> str:
+    """Resolve the source app of a handoff via its session id prefix.
+
+    Handoffs are named ``<session_id>-<token>``; the session's session.json
+    under runs/ records the target app. Judges need this to pair a
+    checklist with the SAME app's handoff - without it they can only guess.
+    """
+    sid = handoff_name.rsplit("-", 1)[0]
+    meta = PROJECT_ROOT / "runs" / sid / "session.json"
+    try:
+        return json.loads(meta.read_text(encoding="utf-8")).get("app_id") or ""
+    except (OSError, ValueError):
+        return ""
+
+
 def _require_session() -> AppEvaluationSession:
     if _session is None:
         raise ValueError("尚未开始评测；先调用 start_evaluation")
@@ -176,7 +191,11 @@ def _t_list_checklists(_args: dict) -> dict:
     if APP_OUTPUT_ROOT.is_dir():
         for child in sorted(APP_OUTPUT_ROOT.iterdir()):
             if (child / "artifacts" / "app-debug.apk").is_file():
-                handoffs.append(child.name)
+                entry = {"handoff_id": child.name}
+                app_id = _handoff_app_id(child.name)
+                if app_id:
+                    entry["app_id"] = app_id
+                handoffs.append(entry)
     return _ok([_text({
         "checklists": items,
         "installable_handoffs": handoffs,

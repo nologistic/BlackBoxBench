@@ -10,10 +10,13 @@ from __future__ import annotations
 import json
 import os
 import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-PY = ROOT / "vendor" / "python" / "python.exe"
+PY = ROOT / "vendor" / "python" / "python.exe"  # Windows dev default
+if not PY.exists():  # Linux/opencode: use the interpreter running this script
+    PY = Path(sys.executable)
 
 
 def smoke(module: str) -> dict:
@@ -49,8 +52,10 @@ def smoke(module: str) -> dict:
             "tools": names,
             "checklists": [(c["file"], c["checklist_id"],
                             c["requirements"]) for c in body["checklists"]],
-            "handoffs": sorted(body.get("installable_handoffs",
-                                        body.get("available_handoffs", [])))}
+            "handoffs": sorted(
+                h["handoff_id"] if isinstance(h, dict) else str(h)
+                for h in body.get("installable_handoffs",
+                                  body.get("available_handoffs", [])))}
 
 
 for module in ("agents.app_review.mcp_server",
