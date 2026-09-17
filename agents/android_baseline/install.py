@@ -10,6 +10,7 @@ and installs the exploration skill into the CLI's skills directory.
   vendor/python/python.exe -m agents.android_baseline.install            # kimi(默认)
   vendor/python/python.exe -m agents.android_baseline.install --cli claude
   vendor/python/python.exe -m agents.android_baseline.install --cli codex
+  python -m agents.android_baseline.install --cli opencode               # Linux/opencode
   vendor/python/python.exe -m agents.android_baseline.install --uninstall --cli kimi
 """
 from __future__ import annotations
@@ -49,6 +50,72 @@ def _codex_command() -> str:
     if not command:
         raise FileNotFoundError("Codex CLI not found on PATH")
     return command
+
+
+def _opencode_config() -> Path:
+    return Path.home() / ".config" / "opencode" / "opencode.jsonc"
+
+
+def _opencode_skills_dir() -> Path:
+    return Path.home() / ".config" / "opencode" / "skills"
+
+
+def _opencode_load(config_path: Path) -> dict:
+    if not config_path.exists():
+        return {}
+    try:
+        return json.loads(config_path.read_text(encoding="utf-8"))
+    except ValueError as exc:
+        raise SystemExit(
+            f"无法解析 {config_path}（可能含 JSONC 注释）——"
+            f"请先整理为纯 JSON 再运行: {exc}")
+
+
+def install_opencode(app_id: str = "android_commerce_demo") -> None:
+    """Register the MCP + skill in opencode's user config (~/.config/opencode).
+
+    Matches the existing hand-written entries for the web conditions: local
+    stdio server with explicit cwd/PYTHONPATH and a large per-request timeout,
+    so slow first tools (controller/session bootstrap) never die on the
+    client's 5s default.
+    """
+    python = str(PY) if PY.exists() else sys.executable
+    config_path = _opencode_config()
+    config_path.parent.mkdir(parents=True, exist_ok=True)
+    data = _opencode_load(config_path)
+    env = {"PYTHONPATH": str(PROJECT_ROOT)}
+    if app_id != "android_commerce_demo":
+        env["BBB_ANDROID_APP_ID"] = app_id
+    data.setdefault("mcp", {})[SERVER_NAME] = {
+        "type": "local",
+        "command": [python, "-m", "agents.android_baseline.mcp_server"],
+        "cwd": str(PROJECT_ROOT),
+        "environment": env,
+        "enabled": True,
+        "timeout": 600000,
+    }
+    config_path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n",
+                           encoding="utf-8")
+    print(f"[install] opencode MCP 已注册: {SERVER_NAME} → {config_path}")
+
+    skill_dst = _opencode_skills_dir() / "android-blackbox-explorer"
+    _copy_skill(skill_dst)
+    print(f"[install] opencode skill 已安装: {skill_dst}")
+    print(f"[install] 默认被测应用: {app_id}")
+
+
+def uninstall_opencode() -> None:
+    config_path = _opencode_config()
+    if config_path.exists():
+        data = _opencode_load(config_path)
+        if data.get("mcp", {}).pop(SERVER_NAME, None) is not None:
+            config_path.write_text(
+                json.dumps(data, indent=2, ensure_ascii=False) + "\n",
+                encoding="utf-8")
+            print("[install] opencode MCP 条目已移除")
+    shutil.rmtree(_opencode_skills_dir() / "android-blackbox-explorer",
+                  ignore_errors=True)
+    print("[install] opencode skill 已移除")
 
 
 def install_kimi(app_id: str = "android_commerce_demo") -> None:
@@ -201,7 +268,7 @@ def uninstall_codebuddy() -> None:
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--cli", default="kimi",
-                   choices=["kimi", "claude", "codex", "codebuddy"])
+                   choices=["kimi", "claude", "codex", "codebuddy", "opencode"])
     p.add_argument("--app", default="android_commerce_demo",
                    help="自举会话的 Android 目标 app_id，如 android_commerce_demo")
     p.add_argument("--uninstall", action="store_true")
@@ -220,6 +287,13 @@ def main() -> None:
         print_claude_hint()
     elif args.cli == "codebuddy":
         uninstall_codebuddy() if args.uninstall else install_codebuddy(args.app)
+    elif args.cli == "opencode":
+        uninstall_opencode() if args.uninstall else install_opencode(args.app)
+        if not args.uninstall:
+            print()
+            print("完成。之后的使用方式:")
+            print("  1. 重启 opencode 让 MCP 与 skill 生效;")
+            print("  2. 新开对话, 调用 android-blackbox-explorer skill [目标 app_id]。")
     else:
         uninstall_codex() if args.uninstall else install_codex(args.app)
         if not args.uninstall:
