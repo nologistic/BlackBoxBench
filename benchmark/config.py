@@ -116,7 +116,7 @@ SETTLE_ANIMATION_POLLS = 3     # consecutive polls that must agree
 
 # ------------------------------------------------------------------ budgets (defaults; per-session overridable)
 DEFAULT_MAX_ACTIONS = 1500
-DEFAULT_MAX_DURATION_S = 8 * 3600
+DEFAULT_MAX_DURATION_S = 3 * 3600
 DEFAULT_MAX_OBSERVATIONS = 2000
 
 # ------------------------------------------------------------------ cursor overlay

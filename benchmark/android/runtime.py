@@ -15,7 +15,7 @@ import threading
 import time
 import uuid
 from contextlib import contextmanager
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 from PIL import Image
 
@@ -320,6 +320,10 @@ class AndroidEmulatorRuntime(Runtime):
         self._last_info: RuntimeInfo | None = None
         self._target_lease: Path | None = None
         self._guard_attached = False
+        # The guard actually used at attach time (env override or the repo
+        # default); stop() needs it for a matching detach even when the env
+        # var is absent in that later call.
+        self._guard_path: str | None = None
 
     def _acquire_target_lease(self) -> None:
         lease_root = config.ANDROID_TARGETS_DIR / "leases" / self.spec.app_id
@@ -455,7 +459,46 @@ class AndroidEmulatorRuntime(Runtime):
                 answered = True
         return not answered
 
+    @staticmethod
+    def _reap_orphan_emulators() -> int:
+        """SIGKILL orphaned emulator processes (POSIX only, best effort).
+
+        A SIGKILLed controller/MCP/review process leaves its qemu alive —
+        reparented to init, still pinning ~4GB RAM and its console port;
+        the memory admission gate then rejects every later start. Kill
+        orphans (parent is init AND the binary lives in this repo's vendor
+        tree) before reserving a port, so the next boot heals the machine
+        by itself. Never touches a healthy emulator (its parent is the
+        python that launched it) or anyone else's VMs.
+        """
+        import signal
+        if os.name != "posix":
+            return 0
+        killed = 0
+        vendor = str(config.VENDOR_DIR)
+        for proc in Path("/proc").glob("[0-9]*"):
+            try:
+                cmdline = (proc / "cmdline").read_bytes().decode(
+                    "utf-8", "replace")
+                if "qemu-system" not in cmdline or vendor not in cmdline:
+                    continue
+                stat = (proc / "stat").read_text(encoding="utf-8",
+                                                 errors="replace")
+                # pid (comm) state ppid ... — comm may contain spaces, so
+                # parse after the last ')'.
+                ppid = int(stat.rsplit(")", 1)[1].split()[1])
+                if ppid == 1:
+                    os.kill(int(proc.name), signal.SIGKILL)
+                    killed += 1
+            except (OSError, ValueError, IndexError):
+                continue
+        return killed
+
     def _reserve_port(self) -> int:
+        # Self-heal before reserving: sweep orphans left by killed
+        # controller/MCP processes so a crashed run cannot starve the next
+        # one of RAM and ports.
+        self._reap_orphan_emulators()
         locks = port_locks_dir()
         locks.mkdir(parents=True, exist_ok=True)
         for port in EMULATOR_PORT_RANGE:
@@ -572,6 +615,7 @@ class AndroidEmulatorRuntime(Runtime):
                 self._pregrant()
                 self._restore_app_data_profile()
                 self._seed_file_picker()
+                self._seed_target_files()
                 self._set_orientation()
                 self.restart_app()
             self._last_info = self._capture_info()
@@ -608,6 +652,11 @@ class AndroidEmulatorRuntime(Runtime):
         guard = (os.environ.get("BBB_ANDROID_NETWORK_GUARD", "").strip()
                  or str(config.PROJECT_ROOT / "scripts"
                         / "android_network_guard.py"))
+        if guard:
+            # Remember the guard that will attach, so stop() can detach with
+            # the same one even when the env var is absent there (a default-
+            # path attach used to leave the lease file behind forever).
+            self._guard_path = guard
         proxy = (os.environ.get("BBB_ANDROID_PUBLIC_PROXY", "").strip()
                  or "http://127.0.0.1:8899")
         guest_proxy: tuple[str, int] | None = None
@@ -619,7 +668,10 @@ class AndroidEmulatorRuntime(Runtime):
             guest_proxy = self._parse_controlled_proxy(proxy)
         self._apply_guest_firewall(self.spec.network_policy, guest_proxy)
         if self.spec.network_policy == "offline":
-            if guard:
+            if guard and self.serial:
+                # No serial (not booted / unit-test harness) means no guest
+                # to firewall: attaching a guard lease for an empty serial
+                # just fails (and used to break the platform test suite).
                 self._call_external_guard(guard, "attach", self.serial,
                                           "deny-all")
                 self._guard_attached = True
@@ -766,6 +818,51 @@ class AndroidEmulatorRuntime(Runtime):
                       "android.intent.action.MEDIA_SCANNER_SCAN_FILE", "-d",
                       f"file://{destination}/{path.name}", check=False)
 
+    def _seed_target_files(self) -> None:
+        """Push per-target content seeds (spec.seed_files) to the device.
+
+        Runs after the APK install and pregrants, before the first launch,
+        so library/media apps open onto populated content instead of empty
+        screens. Media files additionally get a MediaStore scan broadcast
+        (same trick as _seed_file_picker).
+        """
+        entries = list(getattr(self.spec, "seed_files", None) or [])
+        if not entries:
+            return
+        # Evaluation specs carry a synthetic app_id (evaluation_<run>); their
+        # seed sources live under the ORIGINAL target's directory.
+        root_id = str(getattr(self.spec, "seed_root_id", "")
+                      or self.spec.app_id)
+        root = config.PROJECT_ROOT / "android_seeds" / root_id
+        if not root.is_dir():
+            raise FileNotFoundError(
+                f"seed_files configured for {self.spec.app_id} but "
+                f"{root} does not exist — run scripts/build_android_seeds.py")
+        for entry in entries:
+            src = root / str(entry["src"])
+            dst = str(entry["dst"])
+            if not src.exists():
+                raise FileNotFoundError(f"seed source missing: {src}")
+            self._run("shell", "mkdir", "-p", dst)
+            if src.is_dir():
+                items = sorted(p for p in src.rglob("*") if p.is_file())
+                rel_root = src
+            else:
+                items, rel_root = [src], src.parent
+            for path in items:
+                rel = path.relative_to(rel_root).as_posix()
+                target = f"{dst}/{rel}"
+                self._run("shell", "mkdir", "-p",
+                          str(PurePosixPath(target).parent))
+                self._run("push", str(path), target, timeout=120)
+                if path.suffix.lower() in (
+                        ".mp3", ".m4a", ".flac", ".ogg", ".wav",
+                        ".jpg", ".jpeg", ".png", ".webp", ".heic",
+                        ".gif", ".mp4", ".mkv", ".webm"):
+                    self._run("shell", "am", "broadcast", "-a",
+                              "android.intent.action.MEDIA_SCANNER_SCAN_FILE",
+                              "-d", f"file://{target}", check=False)
+
     def _component(self) -> str:
         activity = self.spec.launch_activity
         if activity.startswith("."):
@@ -859,7 +956,12 @@ class AndroidEmulatorRuntime(Runtime):
 
     def stop(self) -> None:
         if self._guard_attached and self.serial:
-            guard = os.environ.get("BBB_ANDROID_NETWORK_GUARD", "").strip()
+            # Prefer the guard recorded at attach time: the env var may be
+            # absent in this process (attach fell back to the repo copy) and
+            # skipping detach then left the lease file behind forever.
+            guard = (self._guard_path
+                     or os.environ.get("BBB_ANDROID_NETWORK_GUARD",
+                                       "").strip())
             if guard:
                 try:
                     self._call_external_guard(guard, "detach", self.serial)

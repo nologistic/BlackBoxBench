@@ -19,7 +19,13 @@
     "seed": "a09496efb755fab3",
     "precheck": "",
     "pregrant_permissions": [],
-    "pregrant_appops": []
+    "pregrant_appops": [],
+    "seed_files": [
+      {
+        "src": ".",
+        "dst": "/sdcard/Download/BlackBoxBench/Anki"
+      }
+    ]
   },
   "antennapod": {
     "app_id": "antennapod",
@@ -41,7 +47,13 @@
     "seed": "f5dde17e296d3645",
     "precheck": "",
     "pregrant_permissions": [],
-    "pregrant_appops": []
+    "pregrant_appops": [],
+    "seed_files": [
+      {
+        "src": ".",
+        "dst": "/sdcard/Download/BlackBoxBench/AntennaPod"
+      }
+    ]
   },
   "cashew": {
     "app_id": "cashew",
@@ -85,7 +97,13 @@
     "seed": "b7c677c470f30112",
     "precheck": "",
     "pregrant_permissions": [],
-    "pregrant_appops": []
+    "pregrant_appops": [],
+    "seed_files": [
+      {
+        "src": ".",
+        "dst": "/sdcard/Download/BlackBoxBench/Feeder"
+      }
+    ]
   },
   "fossify_calculator": {
     "app_id": "fossify_calculator",
@@ -158,6 +176,12 @@
     ],
     "pregrant_appops": [
       "MANAGE_EXTERNAL_STORAGE"
+    ],
+    "seed_files": [
+      {
+        "src": ".",
+        "dst": "/sdcard/DCIM/Camera"
+      }
     ]
   },
   "fossify_paint": {
@@ -290,7 +314,13 @@
     "seed": "b20d11e6579dc1e7",
     "precheck": "",
     "pregrant_permissions": [],
-    "pregrant_appops": []
+    "pregrant_appops": [],
+    "seed_files": [
+      {
+        "src": ".",
+        "dst": "/sdcard/Books"
+      }
+    ]
   },
   "loop_habit_tracker": {
     "app_id": "loop_habit_tracker",
@@ -334,7 +364,13 @@
     "seed": "3f9f260dc3e32a12",
     "precheck": "",
     "pregrant_permissions": [],
-    "pregrant_appops": []
+    "pregrant_appops": [],
+    "seed_files": [
+      {
+        "src": ".",
+        "dst": "/sdcard/Documents"
+      }
+    ]
   },
   "material_files": {
     "app_id": "material_files",
@@ -363,6 +399,12 @@
     ],
     "pregrant_appops": [
       "MANAGE_EXTERNAL_STORAGE"
+    ],
+    "seed_files": [
+      {
+        "src": ".",
+        "dst": "/sdcard/SeedFiles"
+      }
     ]
   },
   "metronome": {
@@ -429,7 +471,13 @@
     "seed": "026d0a38638f2680",
     "precheck": "",
     "pregrant_permissions": [],
-    "pregrant_appops": []
+    "pregrant_appops": [],
+    "seed_files": [
+      {
+        "src": ".",
+        "dst": "/sdcard/Download/BlackBoxBench/PDF"
+      }
+    ]
   },
   "nonogram": {
     "app_id": "nonogram",
@@ -495,7 +543,13 @@
     "seed": "aac3f5e49430b276",
     "precheck": "",
     "pregrant_permissions": [],
-    "pregrant_appops": []
+    "pregrant_appops": [],
+    "seed_files": [
+      {
+        "src": ".",
+        "dst": "/sdcard/Pictures/Snapseed"
+      }
+    ]
   },
   "tasks": {
     "app_id": "tasks",
@@ -561,7 +615,13 @@
     "seed": "e387f130f269d643",
     "precheck": "",
     "pregrant_permissions": [],
-    "pregrant_appops": []
+    "pregrant_appops": [],
+    "seed_files": [
+      {
+        "src": ".",
+        "dst": "/sdcard/Music"
+      }
+    ]
   },
   "vlc": {
     "app_id": "vlc",
@@ -583,6 +643,12 @@
     "seed": "4a9144fadfd8606c",
     "precheck": "",
     "pregrant_permissions": [],
-    "pregrant_appops": []
+    "pregrant_appops": [],
+    "seed_files": [
+      {
+        "src": ".",
+        "dst": "/sdcard/Media"
+      }
+    ]
   }
 }

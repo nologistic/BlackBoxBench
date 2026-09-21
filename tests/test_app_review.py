@@ -194,8 +194,9 @@ def test_app_review_infers_checklist_from_handoff(review_mcp, monkeypatch,
         "session_id": "sess_20260907_175302_b2ca36",
         "app_id": "google_clock"}), encoding="utf-8")
     monkeypatch.setattr(module, "PROJECT_ROOT", tmp_path)
-
-    # unit level: derivation and its refusals
+    # Handoff derivation reads sessions through benchmark.config's
+    # runs root (BBB_* overridable), not the module-level PROJECT_ROOT.
+    monkeypatch.setattr(module, "RUNS_ROOT", tmp_path / "runs")
     assert module._infer_checklist_from_handoff(
         "sess_20260907_175302_b2ca36-60a134") == "google_clock"
     assert module._infer_checklist_from_handoff("") == ""

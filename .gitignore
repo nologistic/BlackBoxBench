@@ -46,10 +46,10 @@ website_output/*
 cache/
 
 # ---- Android APK 复现输出与可重建移动素材 ----
+# 2026-09-22 策略变更：实验结果（会话产物 sess_* 与评审报告 evaluations）
+# 不再上云——只保留本机；Git 仅跟踪项目框架代码。
 app_output/*
 !app_output/.gitkeep
-!app_output/sess_*
-!app_output/evaluations
 reproduction/materials/generated/
 app_reproduction/materials/generated/
 sample_apps/android_commerce_demo/.gradle/

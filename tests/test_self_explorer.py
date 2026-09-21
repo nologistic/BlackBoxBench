@@ -287,6 +287,9 @@ def test_docker_resolver_accepts_explicit_binary(monkeypatch, tmp_path):
     assert launcher._docker_command() == str(binary)
 
 
+@pytest.mark.skipif(sys.platform != "win32",
+                    reason="resolves a Windows-only per-user Docker "
+                           "Desktop path (instantiates WindowsPath)")
 def test_docker_resolver_finds_per_user_desktop(monkeypatch, tmp_path):
     binary = (tmp_path / "Programs" / "DockerDesktop" / "resources" /
               "bin" / "docker.exe")

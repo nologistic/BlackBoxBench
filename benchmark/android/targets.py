@@ -52,6 +52,15 @@ class AndroidTargetSpec:
     # "target App could not be restored to foreground" until finalize).
     pregrant_permissions: list[str] = field(default_factory=list)
     pregrant_appops: list[str] = field(default_factory=list)
+    # Content seeds pushed to the emulator AFTER the APK install and BEFORE
+    # the first launch, so media/library apps start with a populated state
+    # instead of an empty one (empty libraries blind exploration to the
+    # app's core features; see the 2026-09-20 vinyl/gallery discussion).
+    # Each entry: {"src": "<relative path under android_seeds/<app_id>/>",
+    #              "dst": "<absolute device path, e.g. /sdcard/Music>"}
+    # Directories are pushed recursively; pushed media files also get a
+    # MEDIA_SCANNER_SCAN_FILE broadcast so MediaStore indexes them.
+    seed_files: list[dict] = field(default_factory=list)
 
     @property
     def apk(self) -> Path:

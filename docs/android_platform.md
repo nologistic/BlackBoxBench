@@ -1,5 +1,27 @@
 # Android black-box exploration and APK reproduction
 
+## Content Seeds (种子素材)
+
+Media/library apps cold-start onto empty screens, which flattens exploration
+onto empty-list UI (established in the 2026-09-20 vinyl / fossify_gallery
+retrospective). `AndroidTargetSpec.seed_files` pushes content from
+`android_seeds/<app_id>/` into the emulator **after the APK install and
+before the first launch**, and broadcasts `MEDIA_SCANNER_SCAN_FILE` for
+media files so MediaStore indexes them immediately.
+
+```python
+seed_files = [{"src": ".", "dst": "/sdcard/Music"}]   # src is seeds-relative
+```
+
+- All material is generated locally: `python3 scripts/build_android_seeds.py`
+  (ffmpeg audio/video, PIL photos with EXIF, hand-rolled EPUB/OPML, genanki decks)
+- Declarations: `python3 scripts/register_android_seeds.py` (idempotent,
+  writes targets.json)
+- Covers 11 targets: vinyl / fossify_gallery / snapseed / vlc / antennapod /
+  markor / librera / mj_pdf / material_files / ankidroid / feeder
+- **Requires a controller restart to take effect** (running processes hold
+  the old code)
+
 Android is a parallel vertical slice beside the existing web benchmark. It
 uses the same evidence-validated topology and recorder, but has its own target
 registry, trusted Emulator Runtime, MCP conditions and APK output domain.

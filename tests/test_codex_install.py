@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import subprocess
+import sys
 
 from agents.cli_explorer import install as managed_install
 from agents.app_review import install as app_review_install
@@ -28,7 +29,9 @@ def test_managed_codex_install_registers_mcp_and_skill(monkeypatch, tmp_path):
     add = calls[-1]
     assert add[:5] == ["codex.cmd", "mcp", "add", "blackboxbench", "--env"]
     assert "BBB_APP_ID=ecommerce_demo" in add
-    assert add[-3:] == [str(managed_install.PY), "-m",
+    expected = (str(managed_install.PY) if managed_install.PY.exists()
+                else sys.executable)
+    assert add[-3:] == [expected, "-m",
                         "agents.cli_explorer.mcp_server"]
     assert (tmp_path / "skills" / "blackbox-explorer" / "SKILL.md").is_file()
 
@@ -50,7 +53,9 @@ def test_self_built_codex_install_is_separate(monkeypatch, tmp_path):
                        "blackboxbench-self-built", "--env"]
     assert "BBB_SELF_APP_ID=ecommerce_demo" in add
     assert "PYTHONUTF8=1" in add
-    assert add[-3:] == [str(self_install.PYTHON), "-m",
+    expected = (str(self_install.PYTHON) if self_install.PYTHON.exists()
+                else sys.executable)
+    assert add[-3:] == [expected, "-m",
                         "self_explorer.mcp_server"]
     assert (tmp_path / "skills" / "self-built-explorer" / "SKILL.md").is_file()
 
@@ -70,7 +75,10 @@ def test_app_review_codex_install_registers_judge_only(monkeypatch, tmp_path):
 
     add = calls[-1]
     assert add[:5] == ["codex.cmd", "mcp", "add", "app-review", "--env"]
-    assert "BBB_APP_REVIEW_CHECKLIST=demo.json" in add
+    # The checklist env default was removed: the MCP requires an
+    # explicit checklist per evaluation (a silent default graded the
+    # wrong object on 2026-09-08).
+    assert "BBB_APP_REVIEW_CHECKLIST" not in " ".join(add)
     assert add[-3:] == [app_review_install._python(), "-m",
                         "agents.app_review.mcp_server"]
     skill = tmp_path / "skills" / "app-review" / "SKILL.md"

@@ -14,7 +14,7 @@
 # now 15s. Sessions land in repo/runs; the batch runs from /storage/dzj/runs.
 set -euo pipefail
 
-GAP=15
+GAP=60
 if [ "${1:-}" = "--gap" ]; then
     GAP="${2:?--gap needs a value}"
     shift 2

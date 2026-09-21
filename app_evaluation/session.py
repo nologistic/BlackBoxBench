@@ -97,6 +97,21 @@ class AppEvaluationSession:
 
     # ------------------------------------------------------------- lifecycle
 
+    def _target_seed_files(self) -> list:
+        """Content seeds of the ORIGINAL target (checklist id), so the judge
+        tests the reproduction on the same populated content the explorer
+        saw. Without this, media/library reproductions open onto empty
+        libraries and checklist items like "play a song" deadlock the judge
+        in an observe-wait loop (observed twice on vinyl 2026-09-21)."""
+        try:
+            from benchmark.android.targets import _load_registered
+            spec = _load_registered().get(
+                getattr(self.checklist, "checklist_id", ""))
+            return list(getattr(spec, "seed_files", None) or []) if spec \
+                else []
+        except Exception:
+            return []
+
     def _spec(self) -> SimpleNamespace:
         return SimpleNamespace(
             app_id=f"evaluation_{self.run_id}", apk_path=str(self.apk),
@@ -104,7 +119,11 @@ class AppEvaluationSession:
             launch_activity=self.launch_activity, orientation="portrait",
             reset_strategy="clear_data", network_policy=self.network_policy,
             profile_snapshot="", platform="android", kind="android",
-            source_type="generated")
+            source_type="generated",
+            seed_files=self._target_seed_files(),
+            # seed sources live under android_seeds/<original target id>,
+            # NOT under this synthetic evaluation_* app_id.
+            seed_root_id=str(getattr(self.checklist, "checklist_id", "")))
 
     def start(self) -> dict:
         """Boot the evaluation emulator and install the APK under test."""
@@ -114,7 +133,16 @@ class AppEvaluationSession:
             raise ValueError("evaluation session is already started")
         self.runtime = self._runtime_factory(
             self._spec(), self.output_dir / "runtime")
-        self.runtime.start()
+        try:
+            self.runtime.start()
+        except Exception:
+            # A failed boot leaves a worthless eval_*/frames shell behind;
+            # the judge retries with a fresh run_id anyway. Clean it up so
+            # evaluations/ does not accumulate crash residue.
+            import shutil
+            self.runtime = None
+            shutil.rmtree(self.output_dir, ignore_errors=True)
+            raise
         self.started = True
         return {"started": True, "run_id": self.run_id,
                 "requirements": self.checklist.requirements(),

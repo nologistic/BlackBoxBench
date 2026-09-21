@@ -1,0 +1,36 @@
+[project]
+name = "blackboxbench"
+version = "0.1.0"
+description = "Black-box app understanding benchmark: explore, reproduce, evaluate."
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --tb=short"
+# Android emulator / live browser tests are integration-tier; exclude them
+# from the default fast loop. Run explicitly with: pytest tests/ -m integration
+markers = [
+    "integration: requires emulator, browser, or docker (deselect with '-m \"not integration\"')",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning:httpx.*",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+# Only fatal errors by default — the codebase predates ruff and has its own
+# style. Fatal-only catches syntax errors and undefined names (real bugs)
+# without flagging formatting.
+select = ["E9", "F63", "F7", "F82"]
+exclude = [
+    "vendor/",
+    "node_modules/",
+    "__pycache__/",
+    "sample_apps/",
+    "android_apks/",
+]
+
+[tool.ruff.per-file-ignores]
+# Tests use fixtures and imports that ruff may flag
+"tests/*" = ["F811"]

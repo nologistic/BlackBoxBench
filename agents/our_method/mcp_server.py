@@ -102,7 +102,7 @@ def _ensure_controller() -> None:
 
 def _budget_payload() -> dict:
     return {"max_actions": int(os.environ.get("BBB_MAX_ACTIONS", "1500")),
-            "max_duration_s": int(os.environ.get("BBB_MINUTES", "480")) * 60,
+            "max_duration_s": int(os.environ.get("BBB_MINUTES", "180")) * 60,
             "max_observations": 2000}
 
 

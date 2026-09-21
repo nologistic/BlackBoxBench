@@ -32,6 +32,12 @@ class SessionManager:
         self.runs_dir.mkdir(parents=True, exist_ok=True)
         self._sessions: dict[str, Session] = {}
         self._runtimes: dict[str, Runtime] = {}
+        # Live targets whose session is mid-create. runtime.start() takes
+        # minutes and runs outside the lock; without this reservation two
+        # concurrent creates can both pass the "already running" check and
+        # race to boot two browsers on one login profile (SingletonLock
+        # flapping, restore_golden corrupting the golden profile).
+        self._live_reservations: set[str] = set()
         self._lock = threading.Lock()
         import atexit
         atexit.register(self.shutdown_all)
@@ -94,14 +100,24 @@ class SessionManager:
         """Create a session from a resolved AppSpec — either a registered app
         or an ad-hoc one (e.g. make_live_spec_for_url for a bare URL)."""
         import os
+        reserved_live = False
         if spec.kind == "live":
-            # one live browser profile → at most one live session per target
+            # one live browser profile → at most one live session per target.
+            # Reserve BEFORE releasing the lock: runtime.start() below takes
+            # minutes, so a plain check-then-start would let two concurrent
+            # creates both pass and open the same profile simultaneously.
             with self._lock:
                 for s in self._sessions.values():
                     if s.spec.app_id == spec.app_id and s.status == "running":
                         raise RuntimeError(
                             f"live target {spec.app_id} busy: session {s.id} "
                             f"is still running — close it first")
+                if spec.app_id in self._live_reservations:
+                    raise RuntimeError(
+                        f"live target {spec.app_id} busy: a concurrent "
+                        f"session creation is still starting — retry shortly")
+                self._live_reservations.add(spec.app_id)
+                reserved_live = True
         if os.environ.get("BBB_RUNTIME") == "docker":
             # docker-mode runtimes all attach to the SAME reference container
             # (one browser, one data dir): two concurrent sessions would see
@@ -141,6 +157,9 @@ class SessionManager:
             # no usable pixels, callers must not receive a broken live session.
             sess._capture_frame(0, settle=True)
         except Exception:
+            if reserved_live:
+                with self._lock:
+                    self._live_reservations.discard(spec.app_id)
             if sess is not None:
                 sess.recorder.close()
             try:
@@ -151,7 +170,32 @@ class SessionManager:
         with self._lock:
             self._sessions[sid] = sess
             self._runtimes[sid] = runtime
+            if reserved_live:
+                # Hand the reservation over to the registered session inside
+                # the same lock — no gap where the target looks free.
+                self._live_reservations.discard(spec.app_id)
         return sess
+
+    def reopen_session(self, sid: str) -> Session:
+        """Reopen a closed session: fresh runtime, preserved topology.
+
+        Used when an agent resumes after an interruption (provider quota,
+        crash) and needs to continue the same exploration. The session's
+        TopologyStore (states, features, edges) survives in the controller's
+        memory; only the runtime (emulator/browser) and recorder are rebuilt.
+        """
+        with self._lock:
+            old = self._sessions.get(sid)
+            if old is None:
+                raise ValueError(f"no such session: {sid}")
+            if old.status != "closed":
+                raise ValueError(f"session {sid} is {old.status}, not closed")
+            data_dir = old.dir / "appdata"
+            runtime = self._make_runtime(old.spec, data_dir, old.dir)
+            runtime.start()
+            old.reopen(runtime)
+            self._runtimes[sid] = runtime
+            return old
 
     @staticmethod
     def _run_precheck(spec, runtime: Runtime) -> None:

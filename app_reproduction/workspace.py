@@ -577,9 +577,15 @@ class AppReproductionWorkspace:
         relative = _relative(cwd)
         workdir = "/workspace" + (
             "/" + relative.as_posix() if relative.parts else "")
-        result = _docker("exec", "-i", "--workdir", workdir,
-                         self.container_name, *argv, check=False,
-                         timeout=timeout)
+        # No `-i`: sandbox commands are non-interactive (an open stdin would
+        # eat bytes from the MCP stdio channel). The in-container `timeout`
+        # makes a timed-out gradle build die inside the sandbox too — killing
+        # only the docker client would leave it burning CPU/RAM next to its
+        # retry until pids-limit/OOM kills the sandbox.
+        result = _docker("exec", "--workdir", workdir,
+                         self.container_name, "timeout", "--signal=KILL",
+                         str(timeout), *argv, check=False,
+                         timeout=timeout + 30)
         return {"stage": "app_reproduction", "exit_code": result.returncode,
                 "stdout": result.stdout[-MAX_OUTPUT:],
                 "stderr": result.stderr[-MAX_OUTPUT:],

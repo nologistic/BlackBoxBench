@@ -270,9 +270,17 @@ def test_prune_stale_containers_sweeps_leftovers_and_zombies(monkeypatch):
             body = "c-fresh\nc-zombie\n"
         elif args[:2] == ("inspect", "--format"):
             now = datetime.now(timezone.utc)
-            fresh = now.strftime("%Y-%m-%dT%H:%M:%S")
-            old = (now - timedelta(hours=48)).strftime("%Y-%m-%dT%H:%M:%S")
-            body = f"c-fresh {fresh}\nc-zombie {old}\n"
+            if "Created" in args[2]:
+                # created-state age check: this leftover has been stuck for
+                # 10 minutes (> the 5-minute concurrency grace window).
+                old = (now - timedelta(minutes=10)).strftime(
+                    "%Y-%m-%dT%H:%M:%S")
+                body = f"c-created {old}\n"
+            else:
+                fresh = now.strftime("%Y-%m-%dT%H:%M:%S")
+                old = (now - timedelta(hours=48)).strftime(
+                    "%Y-%m-%dT%H:%M:%S")
+                body = f"c-fresh {fresh}\nc-zombie {old}\n"
         elif args[0] == "rm":
             body = ""
         else:

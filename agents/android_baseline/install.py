@@ -60,15 +60,63 @@ def _opencode_skills_dir() -> Path:
     return Path.home() / ".config" / "opencode" / "skills"
 
 
+def _strip_jsonc_comments(text: str) -> str:
+    """Remove // and /* */ comments outside string literals.
+
+    A naive regex would eat "https://..." inside strings; this walks the
+    text with a string-literal state instead.
+    """
+    out = []
+    i, n = 0, len(text)
+    in_string = False
+    while i < n:
+        ch = text[i]
+        if in_string:
+            out.append(ch)
+            if ch == "\\" and i + 1 < n:
+                out.append(text[i + 1])
+                i += 2
+                continue
+            if ch == '"':
+                in_string = False
+            i += 1
+        elif ch == '"':
+            in_string = True
+            out.append(ch)
+            i += 1
+        elif ch == "/" and text[i:i + 2] == "//":
+            while i < n and text[i] != "\n":
+                i += 1
+        elif ch == "/" and text[i:i + 2] == "/*":
+            end = text.find("*/", i + 2)
+            i = n if end < 0 else end + 2
+            out.append(" ")
+        else:
+            out.append(ch)
+            i += 1
+    return "".join(out)
+
+
 def _opencode_load(config_path: Path) -> dict:
     if not config_path.exists():
         return {}
+    text = config_path.read_text(encoding="utf-8")
     try:
-        return json.loads(config_path.read_text(encoding="utf-8"))
-    except ValueError as exc:
-        raise SystemExit(
-            f"无法解析 {config_path}（可能含 JSONC 注释）——"
-            f"请先整理为纯 JSON 再运行: {exc}")
+        return json.loads(text)
+    except ValueError:
+        # JSONC: opencode's own config ships with comments. Strip them
+        # (string-aware) and retry instead of aborting the install.
+        try:
+            data = json.loads(_strip_jsonc_comments(text))
+        except ValueError as exc:
+            raise SystemExit(
+                f"无法解析 {config_path}——请先整理为合法 JSON 再运行: {exc}")
+        # Rewriting will drop the user's comments: keep a one-shot backup.
+        backup = config_path.with_name(config_path.name + ".bak")
+        if not backup.exists():
+            backup.write_text(text, encoding="utf-8")
+            print(f"[install] {config_path} 含注释，原文件已备份: {backup}")
+        return data
 
 
 def install_opencode(app_id: str = "android_commerce_demo") -> None:

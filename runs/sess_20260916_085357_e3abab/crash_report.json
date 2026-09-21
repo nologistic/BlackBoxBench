@@ -1,6 +1,0 @@
-{
-  "error": "DeviceError('the screen could not be captured this time')",
-  "at": "2026-09-16T10:00:40.556803+00:00",
-  "step": 65,
-  "last_frame": 123
-}

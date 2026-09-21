@@ -107,7 +107,7 @@ def _ensure_controller() -> None:
 
 def _budget_payload() -> dict:
     return {"max_actions": int(os.environ.get("BBB_MAX_ACTIONS", "1500")),
-            "max_duration_s": int(os.environ.get("BBB_MINUTES", "480")) * 60,
+            "max_duration_s": int(os.environ.get("BBB_MINUTES", "180")) * 60,
             "max_observations": 2000}
 
 
@@ -137,7 +137,12 @@ def _ensure_session() -> None:
                    "budget": _budget_payload()}
     else:
         payload = {"app_id": _app_id, "budget": _budget_payload()}
-    r = _http.post(f"{_controller}/api/sessions", json=payload)
+    # A live-target create can legitimately take minutes (Chromium boot +
+    # heavy first page); the client default of 120s would cut it off mid-
+    # flight and the agent would retry into a "busy" loop against its own
+    # in-progress creation.
+    r = _http.post(f"{_controller}/api/sessions", json=payload,
+                   timeout=600)
     r.raise_for_status()
     _session = r.json()["session_id"]
     _own_session = True
@@ -623,7 +628,8 @@ def _t_start_session(args: dict) -> dict:
     else:
         payload["live_url"] = url
     try:
-        r = _http.post(f"{_controller}/api/sessions", json=payload)
+        r = _http.post(f"{_controller}/api/sessions", json=payload,
+                       timeout=600)
     except Exception as e:
         return _err(f"controller unreachable: {e}")
     if r.status_code != 200:

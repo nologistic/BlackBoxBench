@@ -14,6 +14,10 @@ description: 黑盒 App 功能拓扑探索 —— 仅通过 GUI 截图与坐标�
   用户意图不明时先问一句。
 - start_session 失败且提示需要人工登录 → 停下来,请用户在终端运行
   scripts/live_login.py(--app 或 --url 对应目标) --capture 完成登录后再继续。
+- start_session 若失败(503 / busy / controller 不可达),那是平台(控制器+浏览器)正在
+  冷启动或上一个创建仍在进行——**等待 5 分钟再重试一次**(用 wait 工具分段等待,
+  如 10 次 × 30000ms),期间不要连续快速重发。收到 "busy: a concurrent session
+  creation is still starting" 属正常在途状态,等待即可,不是失败。
 - 一个对话绑定一个目标;想换目标,先 finalize 当前会话或请用户新开对话。
 
 # 排除清单(探索边界)
@@ -68,6 +72,12 @@ description: 黑盒 App 功能拓扑探索 —— 仅通过 GUI 截图与坐标�
 # 结束
 主要功能、错误路径、持久化都覆盖后,调用 finalize 生成拓扑图。
 任务简报会以用户消息或会话 brief 给出(例如测试账号),留意使用。
+
+- **finalize 前的会话一致性自检(必做)**:若你在探索中途重建过会话(会话死亡后
+  start_session 重开),续接会话上没有此前的 discovery 记录——直接 finalize 只会
+  生成贫瘠拓扑。判别法:当前会话的 record 次数远小于你的探索发现总数。先把记忆中
+  的 states/features/data/edges 重新取证并 record 到当前会话(证据三元组必须来自
+  本会话的真实 frame/step——重走关键路径取证),覆盖后再 finalize。
 
 finalize 成功后会立即进入与目标应用隔离的复现阶段。不要在此停下:
 

@@ -54,7 +54,10 @@ class TestAgentChannelWhitelist:
                         json={"type": "move_pointer", "x": 500, "y": 500})
         assert r.status_code == 200
         # tabs = 窗口管理级信息(数量+当前索引),不含 URL/标题等语义
-        assert set(r.json().keys()) <= {"accepted", "frame_id", "step", "tabs"}
+        # (before_frame is the pre-action frame id — same non-semantic kind
+        # as frame_id, added 2026-09-16 so agents can cite the exact pair.)
+        assert set(r.json().keys()) <= {"accepted", "before_frame",
+                                        "frame_id", "step", "tabs"}
 
     def test_agent_routes_are_narrow(self, client, mini_session):
         # no GET on the agent channel (404 from the static mount or 405 from the

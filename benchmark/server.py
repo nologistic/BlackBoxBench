@@ -58,6 +58,17 @@ def _prune_empty_session_dirs(min_age_s: float = 1800.0) -> int:
     for sess_dir in sorted(config.RUNS_DIR.glob("sess_*")):
         meta = sess_dir / "session.json"
         if not meta.is_file():
+            # Never bound to a session (crash between mkdir and the first
+            # write): an EMPTY stale dir is a shell worth removing; anything
+            # with content stays — it may belong to a live create race.
+            try:
+                if (any(sess_dir.iterdir())
+                        or sess_dir.stat().st_mtime > cutoff):
+                    continue
+                shutil.rmtree(sess_dir, ignore_errors=True)
+                removed += 1
+            except OSError:
+                continue
             continue
         try:
             data = json.loads(meta.read_text(encoding="utf-8"))
@@ -291,6 +302,23 @@ def create_app() -> FastAPI:
         _session(sid)
         manager.reset(sid)
         return {"ok": True}
+
+    @app.post("/api/sessions/{sid}/reopen")
+    async def reopen_session(sid: str):
+        """Reopen a closed session for continued exploration.
+
+        Rebuilds the runtime (emulator/browser) and recorder while
+        preserving the session's topology and discovery state. Used by
+        agents resuming after provider quota interruptions.
+        """
+        try:
+            session = manager.reopen_session(sid)
+            return {"session_id": sid, "app_id": session.spec.app_id,
+                    "status": "running"}
+        except ValueError as e:
+            detail = str(e)
+            code = 404 if "no such" in detail else 409
+            raise HTTPException(code, detail=detail)
 
     @app.post("/api/sessions/{sid}/close")
     def close_session(sid: str):

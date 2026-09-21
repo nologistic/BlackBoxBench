@@ -119,13 +119,28 @@ def _windows_proxy_environment() -> dict[str, str]:
 
 def _docker(*args: str, check: bool = True,
             timeout: int = 600) -> subprocess.CompletedProcess[str]:
+    # stdin MUST stay closed: this MCP server runs on stdio, and an exec
+    # child that inherits fd 0 would eat bytes from the JSON-RPC channel.
     return subprocess.run(
         [_docker_command(), *args], cwd=PROJECT_ROOT, env=_docker_env(),
         text=True, encoding="utf-8", errors="replace",
+        stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE, stderr=subprocess.PIPE,
         timeout=timeout, check=check,
         creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
     )
+
+
+def _created_age_s(created_at: str) -> float:
+    """Age of a container in seconds since its creation time (docker's
+    ISO-8601). Unparseable timestamps return 0 (treated as fresh — never
+    deleted)."""
+    try:
+        t = datetime.fromisoformat(
+            created_at[:19].replace("Z", "")).replace(tzinfo=timezone.utc)
+    except ValueError:
+        return 0.0
+    return time.time() - t.timestamp()
 
 
 def prune_stale_containers(name_prefix: str, *,
@@ -149,6 +164,19 @@ def prune_stale_containers(name_prefix: str, *,
             ids = _docker("ps", "-aq", "--filter", f"name={name_prefix}",
                           "--filter", f"status={status}",
                           check=False, timeout=60).stdout.split()
+            if status == "created" and ids:
+                # A concurrent handoff's `docker run -d` passes through the
+                # "created" state for a few seconds before turning running;
+                # deleting it there races the other MCP's start() and kills
+                # its sandbox mid-flight (observed 2026-09-18 02:06: two
+                # simultaneous handoffs deleted each other's containers).
+                # Only reclaim created containers stuck for >5 minutes.
+                info = _docker("inspect", "--format",
+                               "{{.Id}} {{.Created}}", *ids,
+                               check=False, timeout=120).stdout
+                ids = [line.split()[0] for line in info.splitlines()
+                       if line.strip()
+                       and _created_age_s(" ".join(line.split()[1:])) > 300]
             if ids:
                 _docker("rm", "-f", "-v", *ids, check=False, timeout=600)
                 removed.extend(ids)
@@ -486,9 +514,15 @@ class ReproductionWorkspace:
         relative = _relative(cwd)
         workdir = "/workspace" + (
             "/" + relative.as_posix() if relative.parts else "")
+        # No `-i`: sandbox commands are non-interactive and an open stdin
+        # could eat bytes from the MCP stdio channel. The in-container
+        # `timeout` guarantees a timed-out command dies inside the sandbox
+        # too — killing only the docker client would leave the process
+        # burning CPU/RAM next to its retry.
         result = _docker(
-            "exec", "-i", "--workdir", workdir, self.container_name, *argv,
-            check=False, timeout=timeout,
+            "exec", "--workdir", workdir, self.container_name,
+            "timeout", "--signal=KILL", str(timeout), *argv,
+            check=False, timeout=timeout + 30,
         )
         return {"stage": "reproduction", "exit_code": result.returncode,
                 "stdout": result.stdout[-MAX_OUTPUT:],

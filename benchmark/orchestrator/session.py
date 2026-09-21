@@ -79,6 +79,10 @@ class Budget:
         if self.ended_at is None:
             self.ended_at = time.monotonic()
 
+    def unfreeze(self) -> None:
+        """Allow a frozen budget to accept more work (session reopen)."""
+        self.ended_at = None
+
     def elapsed(self) -> float:
         end = self.ended_at if self.ended_at is not None else time.monotonic()
         return end - self.started_at
@@ -120,6 +124,11 @@ class Session:
         self._last_frame_id: int | None = None
         self._latencies: list[float] = []
         self._last_latency_warning = 0
+        # Doom-loop telemetry (trace-only): the same action landing on the
+        # same pre-frame many times in a row means the agent is stuck; see
+        # _watch_doomloop.
+        self._last_action_key = ""
+        self._action_repeat_count = 0
         self._lock = threading.RLock()
         self.created_at = utc_now()
         self._write_session_meta()
@@ -283,6 +292,7 @@ class Session:
                 accepted=True, error=None, duration_ms=round(dur, 1),
                 before_frame=before_fid, after_frame=after_fid))
             self._watch_latency(dur)
+            self._watch_doomloop(action, before_fid)
             # Evidence validation requires the exact (step, before_frame,
             # after_frame) tuple of an accepted action. Returning both
             # frames lets the agent cite them directly instead of
@@ -323,6 +333,36 @@ class Session:
                 "baseline_ms": round(baseline, 1),
                 "recent_ms": round(recent, 1),
                 "ratio": round(ratio, 2),
+            })
+
+    def _watch_doomloop(self, action: dict, before_fid) -> None:
+        """Trace-only early warning when the agent is stuck in a loop.
+
+        The same action landing on the same pre-action frame many times in
+        a row means the agent is doom-looping (a legitimate repeated scroll
+        changes the frame, so it does not trip this). Without this signal
+        a stuck agent silently burns its whole 1500-action budget. This
+        never changes the receipt and never terminates the session — it
+        only emits a trace event for operators and post-hoc analysis.
+        """
+        try:
+            key = json.dumps({"action": action, "before": before_fid},
+                             sort_keys=True, ensure_ascii=False)
+        except (TypeError, ValueError):
+            return
+        if key == self._last_action_key:
+            self._action_repeat_count += 1
+        else:
+            self._last_action_key = key
+            self._action_repeat_count = 1
+        if (self._action_repeat_count == 24
+                or (self._action_repeat_count > 24
+                    and self._action_repeat_count % 48 == 0)):
+            self.recorder.log_event("action_loop_suspected", {
+                "step": self.step,
+                "repeat": self._action_repeat_count,
+                "action_type": (action.get("type", "?")
+                                if isinstance(action, dict) else "?"),
             })
 
     def _classify_runtime_failure(self, exc: Exception) -> Exception:
@@ -530,6 +570,26 @@ class Session:
             finally:
                 self.recorder.close()
 
+    def reopen(self, runtime: Runtime) -> None:
+        """Reopen a closed session with a fresh runtime, preserving its
+        topology/discovery state for continued exploration.
+
+        Called when an agent resumes after an interruption (e.g. provider
+        quota exhaustion) and needs to continue the same exploration rather
+        than starting over. The TraceRecorder is recreated in append mode
+        on the same directory, so new frames/actions/discoveries continue
+        the existing evidence trail seamlessly.
+        """
+        with self._lock:
+            if self.status != "closed":
+                return
+            self.status = "running"
+            self.close_reason = None
+            self.budget.unfreeze()
+            self.runtime = runtime
+            self.recorder = TraceRecorder(self.dir)
+            self._write_session_meta()
+
     def _write_summary(self) -> None:
         """Write the compact session summary; raw frames remain the audit log."""
         try:
@@ -566,6 +626,13 @@ class Session:
         self._write_session_meta()
         try:
             self.runtime.stop()
+        except Exception:
+            pass
+        # finalize()/close() both release the recorder; a failed session
+        # must too, or every failure leaks its fd and buffered frames until
+        # the controller exits.
+        try:
+            self.recorder.close()
         except Exception:
             pass
 

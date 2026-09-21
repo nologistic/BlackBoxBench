@@ -38,12 +38,14 @@ PROTOCOL_VERSION = "2025-06-18"
 SERVER_NAME = "web-review"
 SERVER_VERSION = "0.1.0"
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-WEBSITE_OUTPUT_ROOT = (PROJECT_ROOT / "website_output").resolve()
-REVIEW_SPECS_ROOT = (PROJECT_ROOT / "review_specs").resolve()
+# Outputs follow benchmark.config so BBB_* overrides reach the judge too.
+PROJECT_ROOT = config.PROJECT_ROOT
+WEBSITE_OUTPUT_ROOT = Path(config.WEBSITE_OUTPUT_DIR).resolve()
+REVIEW_SPECS_ROOT = (config.PROJECT_ROOT / "review_specs").resolve()
 
 _session: WebEvaluationSession | None = None
-_checklist_env = os.environ.get("BBB_WEB_REVIEW_CHECKLIST", "")
+# NOTE: no checklist env fallback — see _resolve_checklist. A silent env
+# default is the wrong-object trap behind the 2026-09-08 mis-evaluation.
 _handoff_env = os.environ.get("BBB_WEB_REVIEW_HANDOFF", "")
 
 
@@ -135,9 +137,17 @@ def _resolve_handoff(value: str) -> Path:
 
 
 def _resolve_checklist(value: str) -> Checklist:
-    raw = (value or _checklist_env or "").strip()
+    raw = (value or "").strip()
     if not raw:
-        raise ValueError("需要 checklist 路径")
+        # An absent checklist must NOT fall back to an environment default:
+        # a silent default grades the wrong object (see the 2026-09-08
+        # android incident). The checklist is chosen explicitly and the
+        # caller is shown what exists.
+        available = sorted(p.stem for p in REVIEW_SPECS_ROOT.glob("*.json"))
+        raise ValueError(
+            "需要显式指定 checklist，例如 start_evaluation("
+            "checklist=\"<清单文件>\", handoff_id=\"...\")；"
+            f"可用清单: {', '.join(available)}")
     resolved = _resolve_under(REVIEW_SPECS_ROOT, raw, "checklist")
     checklist = Checklist.load(resolved)
     checklist.expect_platform("web")
@@ -191,15 +201,21 @@ def _t_start_evaluation(args: dict) -> dict:
     global _session
     if _session is not None and not _session.finished:
         return _err("已有进行中的评测；先 finish_evaluation 或 abort_evaluation")
+    raw_handoff = str(args.get("handoff_id") or "").strip()
     checklist = _resolve_checklist(args.get("checklist", ""))
-    handoff = _resolve_handoff(args.get("handoff_id", ""))
+    handoff = _resolve_handoff(raw_handoff)
     session = WebEvaluationSession(handoff=handoff, checklist=checklist)
     started = session.start()
     _session = session
     png, meta = session.observe()
     started.update(meta)
     started["checklist_id"] = checklist.checklist_id
-    started["handoff_id"] = handoff.name
+    # Report the TOP-LEVEL handoff id the caller named — the ledger pairs
+    # on it. A nested entry dir (e.g. <id>/website_output/<id> or <id>/dist)
+    # must not masquerade as the handoff id; it travels separately.
+    started["handoff_id"] = raw_handoff
+    if handoff.name != raw_handoff:
+        started["handoff_entry"] = handoff.name
     # The boundary travels with the first payload: the judge must see the
     # out-of-scope surfaces before planning probes, not one status call
     # later.
@@ -496,6 +512,31 @@ def _serve_stdio() -> None:
     _serve_stream(sys.stdin, send)
 
 
+def _peek_auth(conn: socket.socket) -> bytes | None:
+    """Read the first line of a NEW connection (its auth message).
+
+    The MCP is strict request/response: the client waits for the auth
+    reply before sending anything else, so there is no buffered remainder
+    to preserve. Bytes after the first newline would be a protocol
+    violation and are dropped.
+    """
+    try:
+        conn.settimeout(60)
+        buf = b""
+        while b"\n" not in buf and len(buf) < (1 << 20):
+            chunk = conn.recv(65536)
+            if not chunk:
+                break
+            buf += chunk
+    except OSError:
+        return None
+    finally:
+        conn.settimeout(None)
+    if not buf:
+        return None
+    return buf.split(b"\n", 1)[0] + b"\n"
+
+
 def _serve_tcp(host: str, port: int, token: str) -> None:
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -503,11 +544,48 @@ def _serve_tcp(host: str, port: int, token: str) -> None:
     server.listen(1)
     _log(f"listening on {host}:{server.getsockname()[1]}")
     lock = threading.Lock()
+    holder: dict = {"conn": None}
     try:
         while True:
             conn, _addr = server.accept()
-            if not lock.acquire(blocking=False):
-                conn.close()
+            # Zombie eviction (aligned with the explorer MCP): a container
+            # proxy can swallow the client-side disconnect, and the dead
+            # connection then holds the single slot forever. A NEW client
+            # that proves the token takes over — the stale connection is
+            # shut down (its reader unblocks and releases the lock). An
+            # unproven connection never evicts a live session.
+            if holder["conn"] is not None:
+                first = _peek_auth(conn)
+                ok = False
+                if first is not None:
+                    try:
+                        ok = _authorized(
+                            json.loads(first.decode("utf-8", "replace")),
+                            token)
+                    except ValueError:
+                        ok = False
+                if not ok:
+                    try:
+                        conn.close()
+                    except OSError:
+                        pass
+                    continue
+            else:
+                first = None
+            prev = holder["conn"]
+            if prev is not None:
+                try:
+                    prev.shutdown(socket.SHUT_RDWR)
+                except OSError:
+                    pass
+            holder["conn"] = conn
+            if not lock.acquire(timeout=30):
+                try:
+                    conn.close()
+                except OSError:
+                    pass
+                if holder["conn"] is conn:
+                    holder["conn"] = None
                 continue
             try:
                 stream = conn.makefile("rwb")
@@ -518,6 +596,8 @@ def _serve_tcp(host: str, port: int, token: str) -> None:
                     stream.flush()
 
                 def lines():
+                    if first is not None:
+                        yield first.decode("utf-8", errors="ignore")
                     for raw in stream:
                         yield raw.decode("utf-8", errors="ignore")
 
@@ -525,6 +605,8 @@ def _serve_tcp(host: str, port: int, token: str) -> None:
             except Exception as e:
                 _log(f"connection ended: {e!r}")
             finally:
+                if holder["conn"] is conn:
+                    holder["conn"] = None
                 lock.release()
                 try:
                     conn.close()

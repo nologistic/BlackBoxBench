@@ -25,6 +25,36 @@ Agent 中）和**薄校验层**共同完成：
 一旦给分，就必须有据、说全、格式一致——这是四条件对照实验可比性的前提，而不是
 对 judge 判断力的替代。
 
+### 1.1 评测模型唯一性（铁律，2026-09-20 确立）
+
+**评测（judge）引擎全局唯一：`gpt-6-astra` + reasoning effort `xhigh`（经 codex exec）。**
+
+被测对象是**探索生成模型**，候选池为：gpt-5.6-sol(xhigh)、kimi-k3、glm-5.3、
+deepseek-v4.1、claude 系列——它们只允许跑**探索生成**（exploration →
+reproduction），**一律不得作为 judge 给复现产物打分**。
+
+理由与约束：
+
+- **避免自评偏差**：任何被测模型自评或互评都会引入与能力相关的系统性偏置，
+  唯一固定 judge 才能保证跨模型横向可比。
+- **口径锁死**：所有 `evaluation_report.json` 必须出自同一 judge 配置
+  （astra xhigh），历史报告中不同口径的成绩不得混入对照表。
+- **启动模板**：
+  `codex exec -m gpt-6-astra -c model_reasoning_effort='xhigh' --skip-git-repo-check -s danger-full-access '/app-review <目标>（handoff_id=..., checklist=...）'`
+  （环境：`NO_PROXY=127.0.0.1,localhost`、`DISPLAY=:99`、cwd=`/storage/dzj/review`、unset `BBB_RUNS_DIR`）
+
+### 1.2 运行目录约定（2026-09-21 确立）
+
+| 环节 | 运行目录（cwd）|
+|---|---|
+| 探索生成（exploration → reproduction）| `/storage/dzj/runs` |
+| 评测（evaluation，astra judge 会话）| `/storage/dzj/review` |
+
+探索与评测在**两个独立工作目录**中运行，互不混用：探索产生的现场痕迹
+（目标 lease、控制台输出、临时文件）统一留在 `runs/`；评测（astra judge）
+一律在 `review/` 中启动。本约定自 2026-09-21 起生效，此前已完成的会话与
+报告不受影响（历史 log 的 workdir 字段可能为旧目录，不作为口径）。
+
 ## 2. 评测立场
 
 **评的是功能，不是代码，也不是像素还原度。**

@@ -33,6 +33,30 @@ from benchmark.scratch import reclaim_scratch, scratch_root, scratch_usage
 
 
 def _emulator_processes() -> list[tuple[str, str]]:
+    """[(pid, name)] for this repo's emulator/qemu processes.
+
+    Windows walks tasklist; Linux (previously unsupported — the kill path
+    silently no-op'd there) scans /proc and only matches binaries under
+    this repo's vendor tree, so an operator's unrelated VMs are never
+    touched by --kill-emulators.
+    """
+    if sys.platform != "win32":
+        found: list[tuple[str, str]] = []
+        vendor = str(config.VENDOR_DIR)
+        for proc in Path("/proc").glob("[0-9]*"):
+            try:
+                cmdline = (proc / "cmdline").read_bytes().decode(
+                    "utf-8", "replace")
+            except OSError:
+                continue
+            lowered = cmdline.lower()
+            if "emulator" not in lowered and "qemu" not in lowered:
+                continue
+            if vendor not in cmdline:
+                continue
+            name = "qemu-system" if "qemu-system" in lowered else "emulator"
+            found.append((proc.name, name))
+        return found
     try:
         result = subprocess.run(["tasklist", "/FO", "CSV", "/NH"],
                                 capture_output=True, text=True, timeout=30)
@@ -83,12 +107,21 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.kill_emulators:
+        import os
+        import signal
         for pid, name in _emulator_processes():
             try:
-                subprocess.run(["taskkill", "/PID", pid, "/F"],
-                               capture_output=True, timeout=30, check=False)
+                if sys.platform == "win32":
+                    subprocess.run(["taskkill", "/PID", pid, "/F"],
+                                   capture_output=True, timeout=30,
+                                   check=False)
+                else:
+                    # Linux: --kill-emulators used to be a silent no-op
+                    # here (taskkill does not exist), leaving orphan qemu
+                    # processes pinning ~4GB RAM each.
+                    os.kill(int(pid), signal.SIGKILL)
                 print(f"killed {pid}:{name}")
-            except (OSError, subprocess.SubprocessError):
+            except (OSError, subprocess.SubprocessError, ValueError):
                 print(f"could not kill {pid}:{name}")
         time.sleep(5)
 

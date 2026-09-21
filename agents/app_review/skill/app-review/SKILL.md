@@ -36,7 +36,7 @@ description: 严格评审 AI Agent 生成的 Android APK 复现产物。当用�
    带 `app_id`（应用名）——**先按 app_id 与目标应用配对**：选 app_id 匹配的
    handoff，配上同名清单（如 google_clock 用 google_clock.json），不要跨应用试错。
 2. `start_evaluation(checklist="<清单文件>", handoff_id="<交接目录>")`
-   安装 APK 到全新断网模拟器并取得首屏。
+   安装 APK 到全新模拟器（隔离网络，与探索环境一致）并取得首屏。
 3. `evaluation_status` 通读清单全文，规划验证顺序。**先做前置依赖**（如登录），
    再做依赖它的功能。
 

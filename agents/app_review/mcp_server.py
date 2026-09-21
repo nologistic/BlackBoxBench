@@ -28,6 +28,7 @@ import sys
 import threading
 from pathlib import Path
 
+from benchmark import config
 from app_evaluation.checklist import Checklist
 from app_evaluation.grades import GRADE_CRITERIA, GRADE_LABELS, Grade
 from app_evaluation.session import AppEvaluationSession
@@ -36,12 +37,16 @@ PROTOCOL_VERSION = "2025-06-18"
 SERVER_NAME = "app-review"
 SERVER_VERSION = "0.1.0"
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-APP_OUTPUT_ROOT = (PROJECT_ROOT / "app_output").resolve()
-REVIEW_SPECS_ROOT = (PROJECT_ROOT / "review_specs").resolve()
+# Outputs follow benchmark.config so BBB_* overrides (multi-runs-dir
+# deployments) reach the judge too, not just the exploration side.
+PROJECT_ROOT = config.PROJECT_ROOT
+APP_OUTPUT_ROOT = Path(config.APP_OUTPUT_DIR).resolve()
+RUNS_ROOT = Path(config.RUNS_DIR).resolve()
+REVIEW_SPECS_ROOT = (config.PROJECT_ROOT / "review_specs").resolve()
 
 _session: AppEvaluationSession | None = None
-_checklist_env = os.environ.get("BBB_APP_REVIEW_CHECKLIST", "")
+# NOTE: no checklist env fallback — see _resolve_checklist. A silent env
+# default is the wrong-object trap behind the 2026-09-08 mis-evaluation.
 _apk_env = os.environ.get("BBB_APP_REVIEW_APK", "")
 
 
@@ -135,7 +140,7 @@ def _infer_checklist_from_handoff(handoff: str) -> str:
            "PQRSTUVWXYZ0123456789_-" for c in raw):
         return ""
     session_id = raw.rsplit("-", 1)[0] if "-" in raw else raw
-    meta = PROJECT_ROOT / "runs" / session_id / "session.json"
+    meta = RUNS_ROOT / session_id / "session.json"
     try:
         data = json.loads(meta.read_text(encoding="utf-8"))
         app_id = str(data.get("app_id") or "").strip()
@@ -157,7 +162,7 @@ def _handoff_app_id(handoff_name: str) -> str:
     checklist with the SAME app's handoff - without it they can only guess.
     """
     sid = handoff_name.rsplit("-", 1)[0]
-    meta = PROJECT_ROOT / "runs" / sid / "session.json"
+    meta = RUNS_ROOT / sid / "session.json"
     try:
         return json.loads(meta.read_text(encoding="utf-8")).get("app_id") or ""
     except (OSError, ValueError):
@@ -329,7 +334,7 @@ _register({"name": "list_checklists",
           _t_list_checklists)
 
 _register({"name": "start_evaluation",
-           "description": "在全新断网模拟器安装待测 APK 并载入人工清单；返回首屏截图。",
+           "description": "在全新模拟器（隔离网络：仅经白名单代理放行，与探索环境一致）安装待测 APK 并载入人工清单；返回首屏截图。",
            "inputSchema": {"type": "object", "properties": {
                "checklist": {"type": "string",
                              "description": "review_specs 下的清单文件名"},
@@ -438,7 +443,13 @@ def _handle(msg: dict) -> dict | None:
         except OSError:
             result = _err("evaluation operation failed")
         except Exception as e:
-            result = _err(f"tool crashed: {e!r}")
+            # DeviceError is worded agent-safe upstream (no host paths, no
+            # serials); anything else must not leak internals to the judge.
+            if getattr(e, "agent_safe", False):
+                result = _err(str(e))
+            else:
+                _log(f"tool {name} crashed: {e!r}")
+                result = _err("evaluation tool failed internally")
         return {"jsonrpc": "2.0", "id": mid, "result": result}
     if mid is None:
         return None
@@ -512,6 +523,31 @@ def _serve_stdio() -> None:
     _serve_stream(sys.stdin, send)
 
 
+def _peek_auth(conn: socket.socket) -> bytes | None:
+    """Read the first line of a NEW connection (its auth message).
+
+    The MCP is strict request/response: the client waits for the auth
+    reply before sending anything else, so there is no buffered remainder
+    to preserve. Bytes after the first newline would be a protocol
+    violation and are dropped.
+    """
+    try:
+        conn.settimeout(60)
+        buf = b""
+        while b"\n" not in buf and len(buf) < (1 << 20):
+            chunk = conn.recv(65536)
+            if not chunk:
+                break
+            buf += chunk
+    except OSError:
+        return None
+    finally:
+        conn.settimeout(None)
+    if not buf:
+        return None
+    return buf.split(b"\n", 1)[0] + b"\n"
+
+
 def _serve_tcp(host: str, port: int, token: str) -> None:
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -519,11 +555,48 @@ def _serve_tcp(host: str, port: int, token: str) -> None:
     server.listen(1)
     _log(f"listening on {host}:{server.getsockname()[1]}")
     lock = threading.Lock()
+    holder: dict = {"conn": None}
     try:
         while True:
             conn, _addr = server.accept()
-            if not lock.acquire(blocking=False):
-                conn.close()
+            # Zombie eviction (aligned with the explorer MCP): a container
+            # proxy can swallow the client-side disconnect, and the dead
+            # connection then holds the single slot forever. A NEW client
+            # that proves the token takes over — the stale connection is
+            # shut down (its reader unblocks and releases the lock). An
+            # unproven connection never evicts a live session.
+            if holder["conn"] is not None:
+                first = _peek_auth(conn)
+                ok = False
+                if first is not None:
+                    try:
+                        ok = _authorized(
+                            json.loads(first.decode("utf-8", "replace")),
+                            token)
+                    except ValueError:
+                        ok = False
+                if not ok:
+                    try:
+                        conn.close()
+                    except OSError:
+                        pass
+                    continue
+            else:
+                first = None
+            prev = holder["conn"]
+            if prev is not None:
+                try:
+                    prev.shutdown(socket.SHUT_RDWR)
+                except OSError:
+                    pass
+            holder["conn"] = conn
+            if not lock.acquire(timeout=30):
+                try:
+                    conn.close()
+                except OSError:
+                    pass
+                if holder["conn"] is conn:
+                    holder["conn"] = None
                 continue
             try:
                 stream = conn.makefile("rwb")
@@ -534,6 +607,8 @@ def _serve_tcp(host: str, port: int, token: str) -> None:
                     stream.flush()
 
                 def lines():
+                    if first is not None:
+                        yield first.decode("utf-8", errors="ignore")
                     for raw in stream:
                         yield raw.decode("utf-8", errors="ignore")
 
@@ -541,6 +616,8 @@ def _serve_tcp(host: str, port: int, token: str) -> None:
             except Exception as e:
                 _log(f"connection ended: {e!r}")
             finally:
+                if holder["conn"] is conn:
+                    holder["conn"] = None
                 lock.release()
                 try:
                     conn.close()

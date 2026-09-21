@@ -50,6 +50,8 @@ _session = os.environ.get("BBB_SESSION", "")
 _app_id = os.environ.get("BBB_ANDROID_APP_ID", "android_commerce_demo")
 _own_session = False   # we created it → we finalize on shutdown
 _bound_target = ""     # normalized target key set by start_session
+# 最近一次绑定的会话 id：绑定被释放（410/死亡）后仍保留，供 finalize 回退取材。
+_last_session = _session
 _reproduction: AppReproductionWorkspace | None = None
 _review: AndroidReproductionReview | None = None
 
@@ -97,7 +99,7 @@ def _ensure_controller() -> None:
 
 def _budget_payload() -> dict:
     return {"max_actions": int(os.environ.get("BBB_MAX_ACTIONS", "1500")),
-            "max_duration_s": int(os.environ.get("BBB_MINUTES", "480")) * 60,
+            "max_duration_s": int(os.environ.get("BBB_MINUTES", "180")) * 60,
             "max_observations": 2000}
 
 
@@ -312,35 +314,66 @@ def _managed_exploration_files(run_dir: Path) -> dict[str, Path]:
     return files
 
 
-def _t_finalize(_args: dict) -> dict:
+def _t_finalize(args: dict) -> dict:
     global _reproduction
     if _reproduction is not None:
         return _ok([_text({"exploration_finished": True,
                            **_reproduction.started_payload(),
                            "review": _review_payload()})])
-    if not _session:
-        # finalize means "finish the exploration I am bound to". Letting it
-        # fall through to _post would lazily create a fresh session on the
-        # default app — the path by which a dead Google Clock session once
-        # handed off a blank commerce-demo topology: the agent believes it
-        # is completing its own work while the MCP silently binds a
-        # zero-exploration session, possibly on a different target. Refuse
-        # and point at the recovery path instead.
-        return _err("没有可定稿的探索会话：原会话已失效或尚未开始，finalize 不会"
-                    "隐式新建会话。请先调用 start_session(app_id 同前) 重建会话、"
-                    "完成探索后再 finalize。")
-    source_id = _session
-    existing = (benchmark_config.RUNS_DIR / source_id /
-                "functional_topology.json") if source_id else None
-    if existing is None or not existing.is_file():
-        d, err = _post("/finalize", {})
-        if err:
-            return _err(err)
-        source_id = _session
-        topology = benchmark_config.RUNS_DIR / source_id / "functional_topology.json"
+    # 显式材料源（2026-09-21 增）：探索中途重建过会话时，交接材料必须取自
+    # 探索主会话而非当前续接会话——后者往往只有零星几帧（v4.1f nonogram
+    # 曾因此产出 2 帧的贫瘠 handoff）。材料源会话必须已定稿（有 topology）。
+    requested = str(args.get("source_session") or "").strip()
+    # 绑定已释放（finalize 半失败后会话 closed、后续调用 410）时，自动回退到
+    # 最近会话的材料——若其已定稿，直接完成交接，agent 无需重建会话。
+    if (not requested and not _session and _last_session
+            and (benchmark_config.RUNS_DIR / _last_session /
+                 "functional_topology.json").is_file()):
+        requested = _last_session
+        _log(f"finalize falling back to released session {requested} "
+             "(topology present)")
+    if requested and requested != _session:
+        run_dir_req = benchmark_config.RUNS_DIR / requested
+        if not run_dir_req.is_dir():
+            return _err(f"source_session 目录不存在: {requested}")
+        topo_req = run_dir_req / "functional_topology.json"
+        if not topo_req.is_file():
+            return _err("source_session 无 functional_topology.json（探索未定稿），"
+                        "不能作为交接材料源；请先在该会话上完成探索定稿。")
+        if _session:
+            # 先结束当前（续接）会话，保持 finalize = 结束当前探索的语义
+            _d, _err_text = _post("/finalize", {})
+            if _err_text:
+                return _err(_err_text)
+        source_id = requested
+        topology = topo_req
+        d = {"topology_path": f"runs/{source_id}/functional_topology.json",
+             "source_session": source_id}
     else:
-        d = {"topology_path": f"runs/{source_id}/functional_topology.json"}
-        topology = existing
+        if not _session:
+            # finalize means "finish the exploration I am bound to". Letting it
+            # fall through to _post would lazily create a fresh session on the
+            # default app — the path by which a dead Google Clock session once
+            # handed off a blank commerce-demo topology: the agent believes it
+            # is completing its own work while the MCP silently binds a
+            # zero-exploration session, possibly on a different target. Refuse
+            # and point at the recovery path instead.
+            return _err("没有可定稿的探索会话：原会话已失效或尚未开始，finalize 不会"
+                        "隐式新建会话。请先调用 start_session(app_id 同前) 重建会话、"
+                        "完成探索后再 finalize；若探索主会话已定稿，可用 "
+                        "finalize(source_session=<探索主会话 id>) 直接交接其材料。")
+        source_id = _session
+        existing = (benchmark_config.RUNS_DIR / source_id /
+                    "functional_topology.json") if source_id else None
+        if existing is None or not existing.is_file():
+            d, err = _post("/finalize", {})
+            if err:
+                return _err(err)
+            source_id = _session
+            topology = benchmark_config.RUNS_DIR / source_id / "functional_topology.json"
+        else:
+            d = {"topology_path": f"runs/{source_id}/functional_topology.json"}
+            topology = existing
     if os.environ.get("BBB_REPRODUCTION_AUTOSTART", "1") == "0":
         return _ok([_text({**d, "exploration_finished": True,
                            "reproduction_skipped": True})])
@@ -591,8 +624,10 @@ def _bound_session_running() -> bool:
 
 
 def _release_binding(reason: str) -> None:
-    global _session, _own_session, _bound_target
+    global _session, _own_session, _bound_target, _last_session
     _log(f"releasing binding to {_session} ({reason})")
+    if _session:
+        _last_session = _session   # 供 finalize 回退取材（若该会话已定稿）
     _session = ""
     _own_session = False
     _bound_target = ""
@@ -609,6 +644,7 @@ def _t_start_session(args: dict) -> dict:
     except KeyError:
         return _err(f"未知 Android app_id: {app_id}")
     key = f"app:{app_id}"
+    resume_from = (args.get("resume_from", "") or "").strip()
     if _session:
         if _bound_session_running():
             if _bound_target == key:
@@ -619,6 +655,31 @@ def _t_start_session(args: dict) -> dict:
         # bound session died or was closed externally — release and rebind
         # instead of bricking the conversation (finalize is impossible then)
         _release_binding("session no longer running")
+
+    # Resume a previously closed session (e.g. after provider quota
+    # exhaustion): reopen it on the controller with its topology intact.
+    if resume_from:
+        try:
+            _ensure_controller()
+        except Exception as e:
+            return _err(f"controller 启动失败: {e}")
+        try:
+            r = _http.post(f"{_controller}/api/sessions/{resume_from}/reopen")
+        except Exception as e:
+            return _err(f"controller unreachable: {e}")
+        if r.status_code == 200:
+            body = r.json()
+            _session = body["session_id"]
+            _own_session = True
+            _bound_target = f"app:{body.get('app_id', app_id)}"
+            _log(f"session reopened: {_session} (app={_bound_target})")
+            return _ok([_text({"session_id": _session, "target": _bound_target,
+                               "note": "已恢复之前的探索会话,拓扑和发现记录完好,继续探索即可"})])
+        try:
+            msg = r.json().get("detail", r.text[:300])
+        except Exception:
+            msg = r.text[:300]
+        return _err(f"恢复会话失败 HTTP {r.status_code}: {msg}")
     try:
         _ensure_controller()
     except Exception as e:
@@ -691,7 +752,8 @@ _register({"name": "list_targets",
 _register({"name": "start_session",
            "description": "选择已注册的 Android app_id 并启动独立模拟器会话；一个对话绑定一个目标。",
            "inputSchema": {"type": "object", "properties": {
-               "app_id": {"type": "string", "description": "已注册 Android 目标 id"}},
+               "app_id": {"type": "string", "description": "已注册 Android 目标 id"},
+               "resume_from": {"type": "string", "description": "恢复之前的会话 ID（限额中断后继续）"}},
                "required": ["app_id"]}},
           _t_start_session)
 
@@ -817,8 +879,14 @@ def _revise(a: dict) -> dict:
 
 
 _register({"name": "finalize",
-           "description": "完成真实 Android 探索、定稿功能拓扑并立即启动隔离 APK 复现阶段。",
-           "inputSchema": {"type": "object", "properties": {}}}, _t_finalize)
+           "description": "完成真实 Android 探索、定稿功能拓扑并立即启动隔离 APK 复现阶段。"
+                          "若探索中途重建过会话，必须用 source_session 指向探索主会话，"
+                          "否则交接材料将取自零星的续接会话。",
+           "inputSchema": {"type": "object", "properties": {
+               "source_session": {
+                   "type": "string",
+                   "description": "探索主会话 id（sess_...，需已定稿）。仅当当前绑定"
+                                  "会话不是探索主会话时需要指定。"}}}}, _t_finalize)
 
 _register({"name": "input_list",
            "description": "仅在 finalize 后列出 /materials 下的公共素材"

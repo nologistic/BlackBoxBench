@@ -72,6 +72,39 @@ def restore_golden_files(app_id: str) -> None:
     shutil.copytree(golden, prof)
 
 
+def _clear_stale_singleton(profile_dir):
+    """Remove a leftover Chrome singleton lock whose owner process is dead.
+
+    A killed/crashed browser leaves SingletonLock behind; the next headed
+    start then prints "Opening in existing browser session." and exits at
+    once - that took down the live web batch's browsers on 2026-09-17.
+    """
+    import os
+    lock = profile_dir / "SingletonLock"
+    if not (lock.is_symlink() or lock.exists()):
+        return
+    owner = 0
+    try:
+        target = os.readlink(lock) if lock.is_symlink() else ""
+        if "-" in target:
+            owner = int(target.rsplit("-", 1)[1])
+    except (OSError, ValueError):
+        owner = 0
+    if owner > 0:
+        try:
+            os.kill(owner, 0)
+            return  # owner alive: keep the lock
+        except OSError:
+            pass
+    for name in ("SingletonLock", "SingletonCookie", "SingletonSocket"):
+        path = profile_dir / name
+        try:
+            if path.is_symlink() or path.exists():
+                path.unlink()
+        except OSError:
+            pass
+
+
 class LiveChromiumRuntime(LocalChromiumRuntime):
     """Headed Chromium + persistent profile, pointed at a real website.
 
@@ -148,6 +181,7 @@ class LiveChromiumRuntime(LocalChromiumRuntime):
     def _start_browser(self) -> None:
         exe = find_browser()
         self._profile_dir.mkdir(parents=True, exist_ok=True)
+        _clear_stale_singleton(self._profile_dir)
         log = open(self._work_dir / "browser.log", "ab")
         args = [
             str(exe),

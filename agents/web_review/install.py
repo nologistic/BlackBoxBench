@@ -60,8 +60,9 @@ def install_kimi(checklist: str = DEFAULT_CHECKLIST) -> None:
     entry = {
         "command": str(PY),
         "args": ["-m", "agents.web_review.mcp_server"],
-        "env": {"PYTHONPATH": str(PROJECT_ROOT),
-                "BBB_WEB_REVIEW_CHECKLIST": checklist},
+        # No checklist env: the MCP requires an explicit checklist per
+        # evaluation (a silent default graded the wrong object once).
+        "env": {"PYTHONPATH": str(PROJECT_ROOT)},
     }
     data.setdefault("mcpServers", {})[SERVER_NAME] = entry
     cfg.write_text(json.dumps(data, indent=2), encoding="utf-8")
@@ -99,7 +100,6 @@ def install_codex(checklist: str = DEFAULT_CHECKLIST) -> None:
     subprocess.run([
         codex, "mcp", "add", SERVER_NAME,
         "--env", f"PYTHONPATH={PROJECT_ROOT}",
-        "--env", f"BBB_WEB_REVIEW_CHECKLIST={checklist}",
         "--", _python(), "-m", "agents.web_review.mcp_server",
     ], check=True)
     destination = _codex_home() / "skills" / SKILL_NAME
@@ -139,8 +139,7 @@ def install_codebuddy(checklist: str = DEFAULT_CHECKLIST) -> None:
     entry = {
         "command": str(_python()),
         "args": ["-m", "agents.web_review.mcp_server"],
-        "env": {"PYTHONPATH": str(PROJECT_ROOT),
-                "BBB_WEB_REVIEW_CHECKLIST": checklist},
+        "env": {"PYTHONPATH": str(PROJECT_ROOT)},
     }
     data.setdefault("mcpServers", {})[SERVER_NAME] = entry
     config_path.write_text(json.dumps(data, indent=2, ensure_ascii=False),
