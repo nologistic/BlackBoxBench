@@ -93,8 +93,11 @@ class _SlotPool:
                 path.parent.mkdir(parents=True, exist_ok=True)
                 fd = os.open(str(path), os.O_RDWR | os.O_CREAT, 0o600)
                 if _try_lock_fd(fd):
-                    os.ftruncate(fd, 0)
-                    os.write(fd, str(os.getpid()).encode("ascii"))
+                    # Deliberately no writes while the range lock is held:
+                    # the Windows msvcrt path locks byte 0, and the original
+                    # _ResourceLock never touches file contents either — the
+                    # same discipline on both platforms keeps behaviour
+                    # identical across POSIX and Windows.
                     self._fd = fd
                     return
                 os.close(fd)
