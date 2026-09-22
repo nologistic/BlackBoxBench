@@ -9,6 +9,7 @@ import base64
 import json
 import threading
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 
 from .. import config
@@ -37,7 +38,21 @@ class TransientEnvironmentError(Exception):
     environment artefact, not an observation about the Agent. Ending an
     exploration dozens of steps in because of it discards real work, so the
     Agent is told this single step did not go through and may simply continue.
+
+    ``retry_after_s`` is a server-computed hint for when the step is worth
+    retrying — a boot under way or a momentarily busy device answers "not
+    yet" with a number instead of leaving the Agent to guess at one, which is
+    what the agent-side wait/retry loops used to do (one 8+ minute stretch of
+    pure retries was observed during a parallel-boot window).
     """
+
+    def __init__(self, message: str, retry_after_s: int = 10):
+        super().__init__(message)
+        self.retry_after_s = max(1, int(retry_after_s))
+
+
+def _iso_utc(ts: float) -> str:
+    return datetime.fromtimestamp(ts, timezone.utc).isoformat()
 
 
 def _agent_safe_message(exc: Exception) -> str:
@@ -131,6 +146,11 @@ class Session:
         self._action_repeat_count = 0
         self._lock = threading.RLock()
         self.created_at = utc_now()
+        # Wall-clock of the last agent call (any observe/action/discovery).
+        # list/status views derive a "stalled" flag from it, so a session
+        # whose agent died — or whose runtime hung while the process stays
+        # alive — becomes visible without someone watching a log file.
+        self.last_activity_at = time.time()
         self._write_session_meta()
 
     # ------------------------------------------------------------ metadata
@@ -157,9 +177,29 @@ class Session:
                        "max_observations": self.budget.max_observations},
             "status": self.status,
             "close_reason": self.close_reason,
+            "last_activity_at": _iso_utc(self.last_activity_at),
+            # Runtime identity, persisted so a supervisor restart can tell
+            # "this session's emulator/browser is still alive" from "it never
+            # will be again" instead of marking every running session failed.
+            "runtime": self._runtime_fingerprint(),
         }
         (self.dir / "session.json").write_text(json.dumps(meta, indent=2),
                                                encoding="utf-8")
+
+    def _runtime_fingerprint(self) -> dict:
+        """Identify the live runtime well enough to re-check it later.
+
+        An emulator's port/serial or a browser profile dir survive in /proc
+        and on disk even when this controller process does not; retaining
+        them on disk is what makes a post-restart "is it still there?"
+        check possible at all.
+        """
+        fp: dict = {}
+        for key in ("port", "serial", "user_data_dir", "profile_dir"):
+            value = getattr(self.runtime, key, None)
+            if value not in (None, ""):
+                fp[key] = str(value)
+        return fp
 
     # ------------------------------------------------------------ capture
 
@@ -220,6 +260,7 @@ class Session:
 
     def observe(self) -> dict:
         with self._lock:
+            self.last_activity_at = time.time()
             self._require_running()
             self.budget.check_observe()
             self.budget.observations_used += 1
@@ -267,6 +308,7 @@ class Session:
 
     def execute(self, action: m.Action) -> dict:
         with self._lock:
+            self.last_activity_at = time.time()
             self._require_running()
             self.budget.check_action()
             self._validate(action)
@@ -389,7 +431,9 @@ class Session:
             self.recorder.log_event("environment_blip", {
                 "step": self.step, "detail": str(detail)[:500],
                 "recovered": True})
-            return TransientEnvironmentError(_agent_safe_message(exc))
+            retry_after = int(getattr(exc, "retry_after_s", 0) or 10)
+            return TransientEnvironmentError(_agent_safe_message(exc),
+                                             retry_after_s=retry_after)
         self._fail(exc, f"runtime error: {detail}")
         return SessionClosed(_agent_safe_message(exc))
 
@@ -676,4 +720,17 @@ class Session:
                 "unresolved": len(g.unresolved_questions),
             },
             "last_action": last,
+            "last_activity_at": _iso_utc(self.last_activity_at),
+            "stalled": self.is_stalled(),
         }
+
+    def is_stalled(self) -> bool:
+        """A running session whose agent channel has gone quiet.
+
+        Detection only — it changes no behaviour; it makes a hung run visible
+        in list/status so it is found by polling instead of by someone
+        noticing that a log file stopped growing hours ago.
+        """
+        threshold = int(getattr(config, "SESSION_STALL_AFTER_S", 600) or 0)
+        return (self.status == "running" and threshold > 0
+                and (time.time() - self.last_activity_at) > threshold)

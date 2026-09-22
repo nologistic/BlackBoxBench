@@ -6,6 +6,7 @@ Route families (see docs/api_contract.md):
 """
 from __future__ import annotations
 
+import time
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
@@ -100,7 +101,8 @@ def create_app() -> FastAPI:
         # at startup, so tooling never trusts a status that is certainly wrong.
         for sid in manager.mark_abandoned_sessions():
             print(f"[controller] session {sid} was abandoned by a previous "
-                  f"controller; recorded as failed")
+                  f"controller; on-disk status corrected "
+                  f"(recoverable if its runtime still answers)")
         pruned = _prune_empty_session_dirs()
         if pruned:
             print(f"[controller] pruned {pruned} empty session dir(s) left "
@@ -155,8 +157,12 @@ def create_app() -> FastAPI:
         except TransientEnvironmentError as e:
             # The environment blipped but is healthy: this observation did not
             # go through, the session continues. 409 keeps it distinct from an
-            # invalid request (400) and from a dead environment (503).
-            raise HTTPException(409, detail=str(e))
+            # invalid request (400) and from a dead environment (503). The
+            # body carries a server-computed retry hint so the Agent waits a
+            # told duration instead of guessing at one.
+            raise HTTPException(409, detail={
+                "message": str(e), "retry_after_s": e.retry_after_s,
+                "state": "busy"})
         except Exception as e:
             raise _runtime_failure(sid, e)
 
@@ -171,7 +177,9 @@ def create_app() -> FastAPI:
         except (BudgetExhausted, SessionClosed):
             raise
         except TransientEnvironmentError as e:
-            raise HTTPException(409, detail=str(e))
+            raise HTTPException(409, detail={
+                "message": str(e), "retry_after_s": e.retry_after_s,
+                "state": "busy"})
         except Exception as e:
             raise _runtime_failure(sid, e)
 
@@ -182,6 +190,9 @@ def create_app() -> FastAPI:
     # gets mistaken for a limit of the Agent.
     def _discovery(sid: str, op: str, request, handler):
         sess = _session(sid)
+        # Discovery writes are agent activity too: a session busy recording
+        # nodes must not look stalled.
+        sess.last_activity_at = time.time()
         try:
             return handler(sess)
         except (EvidenceError, ValueError, KeyError) as exc:

@@ -20,7 +20,7 @@ from pathlib import Path, PurePosixPath
 from PIL import Image
 
 from .. import config
-from ..filelock import lock_for
+from ..filelock import lock_for, slots_for
 from ..runtime.base import Runtime, RuntimeInfo
 from ..scratch import (
     new_scratch_dir, pid_alive, reclaim_scratch, remove_scratch_dir)
@@ -538,7 +538,12 @@ class AndroidEmulatorRuntime(Runtime):
         self._avd_home = new_scratch_dir("avd", self.work_dir.name)
 
     def _prepare_avd(self) -> str:
-        name = "bbb_" + re.sub(r"[^a-z0-9]", "_", self.work_dir.name.lower())
+        # The AVD name must match the one the base snapshot was baked under
+        # (BBB_Snapshot): the emulator rejects a snapshot whose recorded AVD
+        # differs ("different AVD configuration"). Names only need to be
+        # unique inside one ANDROID_AVD_HOME, which is per-session scratch,
+        # so a fixed name is safe across concurrent sessions.
+        name = "BBB_Snapshot"
         self._avd_home.mkdir(parents=True, exist_ok=True)
         destination = self._avd_home / f"{name}.avd"
         if destination.exists():
@@ -564,6 +569,66 @@ class AndroidEmulatorRuntime(Runtime):
             encoding="utf-8")
         return name
 
+    def _base_snapshot(self, name: str) -> str:
+        """Name of the base snapshot shipped in the clone, or "" for cold boot.
+
+        The snapshot is baked into the AVD template once (see
+        scripts/build_android_snapshot.py); every clone carries it, so a
+        session restores it instead of paying the full framework cold start.
+        A missing snapshot silently means "cold boot" — the template may
+        predate snapshot baking, and that must keep working unchanged.
+        """
+        wanted = str(getattr(config, "ANDROID_SNAPSHOT_NAME", "") or "").strip()
+        if not wanted:
+            return ""
+        if not (self._avd_home / f"{name}.avd" / "snapshots" / wanted).is_dir():
+            return ""
+        return wanted
+
+    def _kill_emulator_process(self) -> None:
+        """Kill a failed qemu without touching ports/leases (retry reuses them)."""
+        if self.process is None:
+            return
+        try:
+            self.process.kill()
+            self.process.wait(timeout=30)
+        except Exception:
+            pass
+        self.process = None
+
+    def _bring_up(self, name: str, snapshot: str, apk_path: str) -> None:
+        """One full emulator bring-up: spawn, boot, configure, install, seed.
+
+        Run under the boot quota. ``snapshot`` names a base snapshot to
+        restore (empty = cold boot); callers retry the same clone cold when a
+        snapshot load fails.
+        """
+        command = [str(self.toolchain.emulator), "-avd", name,
+                   "-port", str(self.port), "-no-audio",
+                   "-no-boot-anim", "-no-snapshot-save", "-gpu",
+                   "swiftshader_indirect", "-camera-back", "none",
+                   "-camera-front", "none", "-dns-server",
+                   "1.1.1.1,8.8.8.8"]
+        if snapshot:
+            command += ["-snapshot", snapshot]
+        if not self.headed:
+            command.append("-no-window")
+        self.process = subprocess.Popen(
+            command, cwd=self.work_dir,
+            env=self.toolchain.environment(self._avd_home),
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        self._wait_until_booted()
+        self._configure_network()
+        self._apply_locale()
+        self._run("install", "-r", "-t", apk_path, timeout=120)
+        self._pregrant()
+        self._restore_app_data_profile()
+        self._seed_file_picker()
+        self._seed_target_files()
+        self._set_orientation()
+        self.restart_app()
+
     def start(self) -> None:
         if self.process is not None:
             return
@@ -586,38 +651,30 @@ class AndroidEmulatorRuntime(Runtime):
             self.port = self._reserve_port()
             self.serial = f"emulator-{self.port}"
             name = self._prepare_avd()
-            command = [str(self.toolchain.emulator), "-avd", name,
-                       "-port", str(self.port), "-no-audio",
-                       "-no-boot-anim", "-no-snapshot-save", "-gpu",
-                       "swiftshader_indirect", "-camera-back", "none",
-                       "-camera-front", "none", "-dns-server",
-                       "1.1.1.1,8.8.8.8"]
-            if not self.headed:
-                command.append("-no-window")
-            # Boot serialization: concurrent qemu bring-ups saturate host
-            # CPU/IO and adb, so simultaneous boots each time out and every
-            # caller hangs in an "environment init failed" retry loop
-            # (observed with 4 parallel evaluation runs on 2026-09-09). The
-            # clone above is per-session scratch and safe to overlap; the
-            # emulator bring-up below — boot, the framework restart behind
-            # locale pinning, APK install — is not. Sessions submitted
-            # together queue here instead of racing each other to death.
-            with lock_for("android:boot-serial", timeout=1800):
-                self.process = subprocess.Popen(
-                    command, cwd=self.work_dir,
-                    env=self.toolchain.environment(self._avd_home),
-                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                    creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
-                self._wait_until_booted()
-                self._configure_network()
-                self._apply_locale()
-                self._run("install", "-r", "-t", str(apk), timeout=120)
-                self._pregrant()
-                self._restore_app_data_profile()
-                self._seed_file_picker()
-                self._seed_target_files()
-                self._set_orientation()
-                self.restart_app()
+            snapshot = self._base_snapshot(name)
+            # Boot quota: at most ANDROID_BOOT_CONCURRENCY bring-ups run at
+            # once, across all processes. This used to be a global serial
+            # lock: concurrent qemu bring-ups saturated CPU/IO and adb on the
+            # 39.4 GB host, so every boot timed out and every caller hung in
+            # an "environment init failed" retry loop (observed with 4
+            # parallel evaluation runs on 2026-09-09). The current host
+            # (144 CPU / 251 GB) absorbs 16 concurrent boots comfortably. A
+            # base snapshot trims each bring-up to seconds; ports, AVD clones
+            # and scratch are per-session, so the only shared resource this
+            # guards is host throughput — a quota, not a lock.
+            with slots_for("android:boot",
+                           config.ANDROID_BOOT_CONCURRENCY, timeout=1800):
+                try:
+                    self._bring_up(name, snapshot, str(apk))
+                except Exception:
+                    if not snapshot:
+                        raise
+                    # A base-snapshot load that fails (stale or incompatible
+                    # snapshot) must not cost the session its runtime: kill
+                    # the failed qemu and cold-boot the same clone before
+                    # surfacing anything.
+                    self._kill_emulator_process()
+                    self._bring_up(name, "", str(apk))
             self._last_info = self._capture_info()
         except Exception:
             self.stop()

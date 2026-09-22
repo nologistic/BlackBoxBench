@@ -85,6 +85,31 @@ ANDROID_MIN_FREE_MEMORY_MB = int(
 ANDROID_EMULATOR_MEMORY_MB = int(
     os.environ.get("BBB_ANDROID_EMULATOR_MB", "4100"))
 
+# How many emulator bring-ups may run concurrently, across all processes.
+# History: the figures above were calibrated for a 39.4 GB host, where 4
+# parallel boots saturated CPU/IO and made every adb command time out
+# (2026-09-09 incident), so bring-up was serialized behind a global lock.
+# The current host has 144 CPU / 251 GB: 16 concurrent boots peak around
+# 40 cores and reserve ~66 GB, both well inside budget, and the remaining
+# preconditions for safe overlap (unique ports, per-session AVD clones,
+# cross-process memory admission) are enforced elsewhere. The quota is the
+# knob; set BBB_ANDROID_BOOT_CONCURRENCY=1 to restore strict serialization.
+ANDROID_BOOT_CONCURRENCY = int(
+    os.environ.get("BBB_ANDROID_BOOT_CONCURRENCY", "16"))
+
+# Name of the base boot snapshot baked into the AVD template (see
+# scripts/build_android_snapshot.py). When present in a session's clone the
+# emulator restores it instead of paying a full 5-7 minute framework cold
+# start; a missing or failing snapshot falls back to a cold boot, so an
+# un-baked template keeps working unchanged. Empty disables snapshot usage.
+ANDROID_SNAPSHOT_NAME = os.environ.get("BBB_ANDROID_SNAPSHOT", "bbb_base").strip()
+
+# A running session whose agent channel has been silent this long is exposed
+# as "stalled" in the operator API (detection only; nothing is restarted
+# automatically). 0 disables the flag.
+SESSION_STALL_AFTER_S = int(
+    os.environ.get("BBB_SESSION_STALL_AFTER_S", "600"))
+
 # ------------------------------------------------------------------ viewport
 VIEWPORT_WIDTH = int(os.environ.get("BBB_VIEWPORT_WIDTH", "1440"))
 VIEWPORT_HEIGHT = int(os.environ.get("BBB_VIEWPORT_HEIGHT", "900"))

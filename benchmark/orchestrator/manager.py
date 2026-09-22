@@ -26,6 +26,19 @@ def _free_port() -> int:
         return s.getsockname()[1]
 
 
+def _tcp_port_alive(port: int) -> bool:
+    """Whether something still accepts connections on a loopback port.
+
+    Used only to re-check a persisted runtime fingerprint after a controller
+    restart: an emulator console port that answers means the emulator process
+    survived the controller, so the session's runtime is worth keeping.
+    """
+    import socket
+    with socket.socket() as s:
+        s.settimeout(1.0)
+        return s.connect_ex(("127.0.0.1", int(port))) == 0
+
+
 class SessionManager:
     def __init__(self, runs_dir: Path | None = None):
         self.runs_dir = Path(runs_dir or config.RUNS_DIR)
@@ -47,10 +60,15 @@ class SessionManager:
 
         Sessions live in memory only, so a force-killed Controller leaves
         `session.json` claiming `running` for a session no API call can ever
-        reach again: it cannot be observed, closed or resumed. Recording that
-        honestly at startup keeps operator tooling and post-hoc analysis from
-        trusting a status that is certainly wrong. Frames, traces and topology
-        are left untouched — they are the audit log.
+        reach again. Recording that honestly at startup keeps operator tooling
+        and post-hoc analysis from trusting a status that is certainly wrong.
+        Frames, traces and topology are left untouched — they are the audit log.
+
+        Before declaring a session dead, its persisted runtime fingerprint is
+        re-checked: an emulator whose port still answers means the machine
+        (and a multi-GB AVD clone) survived the controller — that session is
+        recorded as ``recoverable`` instead of ``failed``, so an operator can
+        inspect or rebind it without hunting for orphans first.
         """
         corrected: list[str] = []
         for meta_path in sorted(self.runs_dir.glob("sess_*/session.json")):
@@ -60,10 +78,25 @@ class SessionManager:
                 continue
             if not isinstance(meta, dict) or meta.get("status") != "running":
                 continue
-            meta["status"] = "failed"
-            meta["close_reason"] = (
-                "controller exited without closing this session; its runtime "
-                "is gone and the session cannot be resumed")
+            runtime = meta.get("runtime") or {}
+            alive = False
+            try:
+                port = int(runtime.get("port") or 0)
+            except (TypeError, ValueError):
+                port = 0
+            if port:
+                alive = _tcp_port_alive(port)
+            if alive:
+                meta["status"] = "recoverable"
+                meta["close_reason"] = (
+                    "controller restarted while this session's runtime was "
+                    "still alive; the runtime was left running for inspection "
+                    "or rebinding, the session itself is not reachable")
+            else:
+                meta["status"] = "failed"
+                meta["close_reason"] = (
+                    "controller exited without closing this session; its "
+                    "runtime is gone and the session cannot be resumed")
             try:
                 meta_path.write_text(json.dumps(meta, indent=2),
                                      encoding="utf-8")
@@ -242,7 +275,9 @@ class SessionManager:
             return [{"session_id": sid, "app_id": s.spec.app_id,
                      "platform": getattr(s.spec, "platform", "web"),
                      "status": s.status, "step": s.step,
-                     "created_at": s.created_at}
+                     "created_at": s.created_at,
+                     "last_activity_at": s.last_activity_at,
+                     "stalled": s.is_stalled()}
                     for sid, s in self._sessions.items()]
 
     def reset(self, sid: str) -> None:
