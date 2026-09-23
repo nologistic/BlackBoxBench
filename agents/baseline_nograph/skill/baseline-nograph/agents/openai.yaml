@@ -1,0 +1,9 @@
+interface:
+  display_name: "Android Blackbox Explorer (No-Graph)"
+  short_description: "托管像素触控探索并复现 Android APK"
+  default_prompt: "Use $baseline-nograph to explore the selected Android app and reproduce it as an installable APK."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "android-blackboxbench"
+      description: "Trusted Android pixels, touch, topology and APK reproduction tools"

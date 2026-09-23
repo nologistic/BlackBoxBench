@@ -65,8 +65,8 @@ Agent framework
 
 ### Android App 探索与 APK 复现
 
-Android 是与网页并列的独立链路，包含托管 `android-baseline` 和增强
-`android-our-method` 两个条件。它支持项目内确定性样例 APK 和操作员注册的本地 APK；
+Android 是与网页并列的独立链路，包含托管 `android-baseline`、增强
+`android-our-method` 与消融变体 `baseline-nograph` 三个条件。它支持项目内确定性样例 APK 和操作员注册的本地 APK；
 Agent 不会接触 APK 文件、ADB、控件树、日志、设备文件或反编译结果。探索完成后在固定
 Kotlin + Jetpack Compose 离线工作区生成可安装 APK，并在另一台独立模拟器中进行多轮
 像素复测。
@@ -140,6 +140,21 @@ vendor/python/python.exe -m agents.our_method.install --cli codex --app ecommerc
 Skill 都明确禁止寻找、读取、比较或借鉴其他探索条件。若操作员另有严格客户端容器
 隔离需求，再为单次正式实验只暴露一个 MCP。our-method 与基线的差异见
 [our-method](agents/our_method/README.md)。
+
+Android 链路的三个条件与此同构，安装方式与 `--cli` 参数完全一致：
+
+```powershell
+python -m agents.android_baseline.install --cli codex --app <app_id>    # 托管基线
+python -m agents.baseline_nograph.install --cli codex --app <app_id>   # 消融：记录自由
+python -m agents.android_our_method.install --cli codex --app <app_id> # 增强
+```
+
+- `$android-blackbox-explorer`：托管基线（要求按指定 DAG 方式记录探索发现）；
+- `$baseline-nograph`：**消融条件**——流程与 baseline 完全一致，唯一差异是
+  **不再要求**按指定方式记录；MCP 工具面 = baseline 减去 7 个 discovery 记录工具
+  （record_state / feature / data / edge / hypothesis / resolve / revise），
+  agent 可自行选择记录方式或完全不记录，系统不做任何记录校验；
+- `$our-method`：增强版（素材硬闸 / 证据帧索引 / 写路径证据验收）。
 
 ### Python SDK
 
