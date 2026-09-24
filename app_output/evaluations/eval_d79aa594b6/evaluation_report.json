@@ -1,0 +1,2618 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "run_id": "eval_d79aa594b6",
+  "checklist_id": "tasks",
+  "checklist_sha256": "a892caa95ffe700d071997fae2a7b57d629714f07c126820d724273dc74bf52b",
+  "apk_sha256": "cd92d64562df1e5c821d204bcb0e03ff4b143606d658630e1050953d7c03231e",
+  "package_name": "com.blackboxbench.reproduction",
+  "counts": {
+    "full": 3,
+    "partial": 10,
+    "placeholder": 7,
+    "broken": 0
+  },
+  "requirements": [
+    {
+      "requirement_id": "f01",
+      "name": "创建基础任务",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "输入 Audit Alpha 后保存，任务出现在无截止日期分组，只有工作清单，无日期、重复及标签；重启后列表仍保留，重新打开标题相同。",
+      "evidence_observations": [
+        4,
+        7,
+        9,
+        10
+      ],
+      "persistence_evidence": {
+        "requirement_id": "f01",
+        "before_observation": 4,
+        "after_observation": 7,
+        "persisted_observation": 9
+      },
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f02",
+      "name": "编辑任务与状态持久化",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "标题由Audit Alpha改为Audit Alpha revised，多行描述保存后可在列表看到摘要，重开及重启后文本保留。编辑页从顶部到底部未显示创建时间/修改时间，编辑屏幕设置也没有对应选项，无法验证修改时间更新且创建时间不变，故仅基本文本编辑完整。",
+      "evidence_observations": [
+        10,
+        11,
+        12,
+        14,
+        15,
+        16,
+        60,
+        91,
+        102
+      ],
+      "persistence_evidence": {
+        "requirement_id": "f02",
+        "before_observation": 10,
+        "after_observation": 15,
+        "persisted_observation": 60
+      },
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f03",
+      "name": "开始日期 / 截止日期 / 时间",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "已验证开始日期日历选择、截止日期今天/明天快捷项、17:00快捷时间、日历具体日期以及自定义15:30。保存后分别进入明天及9月25日分组，显示对应时间；重新打开日期仍正确。无时间、无日期可分别清除，恢复无截止日期分组。自定义输入需要滚动面板到底部。",
+      "evidence_observations": [
+        17,
+        18,
+        29,
+        31,
+        35,
+        37,
+        38,
+        41,
+        119,
+        123,
+        127,
+        128
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f04",
+      "name": "重复任务",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "每周重复可保存。首次完成时任务进入已完成区，没有保持可执行的下一次待办；手动恢复后才在9月30日分组发现该任务，说明日期实际已推进一周但下一周期与完成状态衔接不完整。自定义频率输入、周期单位和结束次数点击未改变配置，不能验证结束规则执行。",
+      "evidence_observations": [
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        88,
+        113
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f05",
+      "name": "优先级",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "无/低/中/高优先级均可选择并保存，任务列表分别以灰/蓝/黄/红视觉标识即时反映，重开和重启后字段保持。排序面板的字段和箭头无响应，无法按优先级改变任务次序，因此字段与视觉反馈完整，但要求中的排序联动未实现。",
+      "evidence_observations": [
+        10,
+        19,
+        31,
+        35,
+        41,
+        60,
+        61,
+        110,
+        111,
+        112,
+        115
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f06",
+      "name": "清单管理与任务归属",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "已有工作/生活/购物清单可在任务中选择。将Audit Alpha从工作移到生活并保存后，列表及重新打开都显示生活，设置页显示各清单计数。但清单选择面板的新建加号进入白屏；本地清单设置页点击清单无响应，抽屉长内容无法滚到清单区，创建新清单和按清单隔离筛选未完成。",
+      "evidence_observations": [
+        73,
+        74,
+        75,
+        76,
+        77,
+        88,
+        91,
+        107,
+        108,
+        128
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f07",
+      "name": "标签管理",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "可创建并关联AuditTag，保存/重启后任务编辑器和列表保留标签块；删除关联后列表标签消失。抽屉中规划标签计数1，点击仅显示相应任务；移除该任务标签后筛选结果为空且计数消失，关联更新有效。但抽屉无法滚动或折叠到下方新标签，AuditTag筛选入口不可达，长标签列表的完整使用受阻。",
+      "evidence_observations": [
+        25,
+        26,
+        60,
+        91,
+        119,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f08",
+      "name": "子任务层级",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "在 Audit Alpha 下添加 Audit Child，保存后父任务显示子任务数量 1；展开可见子任务，单独勾选后仅子任务打勾并加删除线，折叠后隐藏；编辑页删除子任务并保存，父任务继续存在且子任务数量 chip 消失。",
+      "evidence_observations": [
+        27,
+        31,
+        32,
+        33,
+        34,
+        35,
+        41
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f09",
+      "name": "提醒",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "任务编辑页只有红色启用提醒提示，点击文字、铃铛及主页设置按钮均未进入提醒配置或系统授权。应用通知页却显示已启用，点击亦无变化。无法添加到期/开始/提前延后提醒、配置重复次数或产生可验证通知，提醒流程停留在提示和设置外观。",
+      "evidence_observations": [
+        2,
+        3,
+        36,
+        37,
+        91,
+        96,
+        97
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f10",
+      "name": "地点与地点提醒",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "位置选择页只呈现横线背景和固定标记；搜索栏点击并输入London未出现输入内容或结果，定位按钮和地图拖动也无可见变化。选择此位置只在编辑页写入通用文字已选择的位置，保存重开虽保留该文字，却无实际地点名称/地址、到达离开条件或主列表位置块；抽屉下部亦不可达。没有可验证的真实地点选择和位置提醒闭环。",
+      "evidence_observations": [
+        62,
+        64,
+        77,
+        91,
+        119,
+        128,
+        131,
+        135,
+        136
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f11",
+      "name": "描述与链接识别",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "多行描述可输入、保存、重开，列表显示第一行摘要。要求的显示描述/完整描述长度及显示链接开关均未出现在任务清单选项和外观页，不能切换为完整描述或启用URL/电话/地址点击。输入法将部分URL标点转为全角，未以该文本无法跳转单独判定链接缺陷；降级依据是展示和链接配置流程缺失。",
+      "evidence_observations": [
+        14,
+        15,
+        16,
+        91,
+        104,
+        105,
+        106,
+        118,
+        119
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f12",
+      "name": "文件与媒体附件",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "添加附件弹出拍照、录制便笺、相册、存储四种来源；逐一点击均仅关闭菜单并回到原编辑页，未进入相机、录音或文件选择流程，任务仍显示添加附件，没有新增附件。",
+      "evidence_observations": [
+        64,
+        65,
+        66,
+        67,
+        68,
+        69
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f13",
+      "name": "任务计时器",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "计时器行存在播放/暂停图标，点击后图标可切换，但已耗时始终00:00。23:05左右启动并保存，至23:12重新打开同一任务仍为00:00且回到播放状态，未保存运行状态或累计时长；点击计时器名称和耗时均没有估计时长设置界面。",
+      "evidence_observations": [
+        69,
+        70,
+        71,
+        72,
+        77,
+        91,
+        92
+      ],
+      "persistence_evidence": {
+        "requirement_id": "f13",
+        "before_observation": 69,
+        "after_observation": 77,
+        "persisted_observation": 91
+      },
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f14",
+      "name": "完成、恢复与删除任务",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "普通任务Beta勾选后进入底部已完成区并显示删除线；取消勾选可恢复，再次完成后抽屉待办总数18降为17。显示完成项开关能隐藏/恢复且重启保留。单任务删除有确认框，删除Alpha后搜索Audit为空。批量清理确实删除完成项，但在Audit搜索结果执行清理后，搜索范围外原有已完成PR也消失，清理未限制搜索范围；普通完成任务无可见完成时间，完成项移到底部选项也不能修改，故非完整。",
+      "evidence_observations": [
+        88,
+        134,
+        137,
+        140,
+        142,
+        143,
+        144,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f15",
+      "name": "搜索任务",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "搜索Audit返回两条含该标题的新增任务；清空后恢复全列表；搜索只存在描述中的Nebula仅返回Alpha，打开结果正确。打开Beta后按返回键，搜索栏和关键词全部消失并回到完整列表，未保留返回搜索结果状态。",
+      "evidence_observations": [
+        115,
+        117,
+        118,
+        119,
+        137,
+        138,
+        139
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f16",
+      "name": "自定义过滤器",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "可命名并保存高优先级过滤器，重启后抽屉保留且打开只显示匹配任务。新增/完成高优先级Beta后过滤器计数5降为4，动态更新有效。添加标题/标签条件只关闭菜单而未增加条件，组合配置不完整；保存曾白屏需重启恢复。长按已保存过滤器只打开结果，齿轮仅有应用设置，未出现编辑/删除过滤器入口，删除流程未完成。",
+      "evidence_observations": [
+        47,
+        50,
+        51,
+        54,
+        55,
+        56,
+        58,
+        59,
+        129,
+        148,
+        153,
+        154
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f17",
+      "name": "列表分组、排序与显示控制",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "固定按截止日期分组并排序有效，日期修改后任务移到正确分组。显示已完成任务开关可修改、重启保留，关闭后搜索Audit隐藏已完成Beta。分组字段、排序字段及升降序箭头均点击无响应；显示未开始项目、已完成子任务及完成任务移到底部开关也未切换。因此只实现固定日期组织和完成项可见性，无法完成多字段排序/分组及其余选项。",
+      "evidence_observations": [
+        104,
+        105,
+        110,
+        111,
+        112,
+        128,
+        140,
+        142,
+        143,
+        144,
+        145
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f18",
+      "name": "任务列表卡片内容配置",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "任务卡片能够固定显示长标题换行、描述摘要及清单/标签，但任务清单选项页只有显示已完成任务和分组两行且点击无响应；外观页也没有字号、行距、完整标题、完整描述、链接或各类信息块的显示配置。没有可验证的卡片展示自定义流程。",
+      "evidence_observations": [
+        104,
+        105,
+        106,
+        109,
+        110,
+        115,
+        128
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f19",
+      "name": "自定义任务编辑界面",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "编辑屏幕选项页仅有显示计时器/显示日历两行固定为开，点击均无切换。滑动没有更多项目，也无字段拖动排序、隐藏或恢复默认入口。现有任务编辑页字段固定，因此无法实现要求的编辑布局自定义。",
+      "evidence_observations": [
+        91,
+        102,
+        103
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f20",
+      "name": "默认值与完整持久化闭环",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "任务默认值页面只显示默认清单=工作、默认优先级=无。分别点击两项没有选择器或状态变化；标签、日期、重复、提醒、位置默认值入口缺失。重启后新建任务仍是固定工作清单、无优先级、无日期及标签，未形成可配置、保存并继承的默认值流程。",
+      "evidence_observations": [
+        98,
+        99,
+        100,
+        101
+      ],
+      "persistence_evidence": {
+        "requirement_id": "f20",
+        "before_observation": 98,
+        "after_observation": 100,
+        "persisted_observation": 101
+      },
+      "not_verifiable_reason": null
+    }
+  ],
+  "actions": [
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_enter"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_enter"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    }
+  ],
+  "observations": [
+    {
+      "number": 1,
+      "action_count": 0,
+      "sha256": "7c622d20edd1bfd3eabe20782f2f13e92634622f091d54da36ba6d53398077bb",
+      "path": "frames/observation_001.png"
+    },
+    {
+      "number": 2,
+      "action_count": 1,
+      "sha256": "36542e95e455fb3bdebf9c958f98b192741289695c0431113b41a668cda282f1",
+      "path": "frames/observation_002.png"
+    },
+    {
+      "number": 3,
+      "action_count": 2,
+      "sha256": "186a12694e9297eb7a5c6204bc682f8097e03619a8666fb5bf794e9e09813e94",
+      "path": "frames/observation_003.png"
+    },
+    {
+      "number": 4,
+      "action_count": 4,
+      "sha256": "770faf96a2b48ca239a439b425927fc0083c20c510a994a38eeafcaff8d9cb77",
+      "path": "frames/observation_004.png"
+    },
+    {
+      "number": 5,
+      "action_count": 7,
+      "sha256": "80a8d9986587662006a73f8c30f48466a04710e6466c9e2c8c5a6438210fad95",
+      "path": "frames/observation_005.png"
+    },
+    {
+      "number": 6,
+      "action_count": 9,
+      "sha256": "bc67f2d8125994200a1b2dd69398551a0686d3323a0850cfe9c936609eafde51",
+      "path": "frames/observation_006.png"
+    },
+    {
+      "number": 7,
+      "action_count": 10,
+      "sha256": "439263b4d4949a3d8d91047121eb40cb59d9c8265c10fe9f0f511738a070d3a8",
+      "path": "frames/observation_007.png"
+    },
+    {
+      "number": 8,
+      "action_count": 13,
+      "sha256": "09746a93f1636e654be594a48c150de719bba51d03e6002aae9b857bd1383088",
+      "path": "frames/observation_008.png"
+    },
+    {
+      "number": 9,
+      "action_count": 14,
+      "sha256": "439263b4d4949a3d8d91047121eb40cb59d9c8265c10fe9f0f511738a070d3a8",
+      "path": "frames/observation_009.png"
+    },
+    {
+      "number": 10,
+      "action_count": 15,
+      "sha256": "b99d932b338b0e5e150dc1108f35679c4fed605706562f61b4653da7858cd0bb",
+      "path": "frames/observation_010.png"
+    },
+    {
+      "number": 11,
+      "action_count": 16,
+      "sha256": "303cb2e54fe1656131da9d78d110e9c93b6bbf842a16100821cff0e6ed71a36e",
+      "path": "frames/observation_011.png"
+    },
+    {
+      "number": 12,
+      "action_count": 17,
+      "sha256": "021f9a4d772eb9077cd4a760ade4d4e737f98c10f9d00e4cee39ca39d4099eec",
+      "path": "frames/observation_012.png"
+    },
+    {
+      "number": 13,
+      "action_count": 20,
+      "sha256": "71c02d2929dbe62b6126941905d87455ada1f44e9193530deae33a64234d0f5c",
+      "path": "frames/observation_013.png"
+    },
+    {
+      "number": 14,
+      "action_count": 29,
+      "sha256": "5bf1f70f30f11e5825c3310ca115712a8ae489c45ef5472da78dafd3b9822264",
+      "path": "frames/observation_014.png"
+    },
+    {
+      "number": 15,
+      "action_count": 32,
+      "sha256": "228a18c420212c0cb5827e3082eb1eaa12aba10c0965f146a37f9323c4906fdb",
+      "path": "frames/observation_015.png"
+    },
+    {
+      "number": 16,
+      "action_count": 33,
+      "sha256": "a1417a8221d7a1acde51fb2eea3310766ae179eb6d7a9462c07f82d9673a62bd",
+      "path": "frames/observation_016.png"
+    },
+    {
+      "number": 17,
+      "action_count": 34,
+      "sha256": "1f51b29de0c5fad806b194e93d390848dce5ba84ce3a0a34dfb123889f4ff633",
+      "path": "frames/observation_017.png"
+    },
+    {
+      "number": 18,
+      "action_count": 38,
+      "sha256": "3ef7f342d388ce90ae513c7aa11fe781df34124713cd03e76e3042005cbc3a98",
+      "path": "frames/observation_018.png"
+    },
+    {
+      "number": 19,
+      "action_count": 42,
+      "sha256": "0a32ae88e39c4eabfab16c96d4dc3ec8cc00aac139fd46c95255b0b521cd43e2",
+      "path": "frames/observation_019.png"
+    },
+    {
+      "number": 20,
+      "action_count": 43,
+      "sha256": "2136af7323fe1d5945c3820c76afa90a612b858a72669afc45d4d493037b27e3",
+      "path": "frames/observation_020.png"
+    },
+    {
+      "number": 21,
+      "action_count": 46,
+      "sha256": "e5a4f0bef023d2de8bf8b450a96b8f715465757be7166ae935c38271ff296cf6",
+      "path": "frames/observation_021.png"
+    },
+    {
+      "number": 22,
+      "action_count": 47,
+      "sha256": "096051eb2cd8125594c9ad51f709f0a2051a81d413bbf68d7fe4644f16dfffa2",
+      "path": "frames/observation_022.png"
+    },
+    {
+      "number": 23,
+      "action_count": 50,
+      "sha256": "35572428f121a47845315ea667ef1de56a2f48f35b47e3b2df485249468e4e7e",
+      "path": "frames/observation_023.png"
+    },
+    {
+      "number": 24,
+      "action_count": 53,
+      "sha256": "7933ea9129d110f13954af0e25508313d2c3943eec13bd8498876976f1a721b7",
+      "path": "frames/observation_024.png"
+    },
+    {
+      "number": 25,
+      "action_count": 54,
+      "sha256": "01bddb326cd2b1c5683e97e247cb0b284acd416831f7706d4456fecb71b3fb4b",
+      "path": "frames/observation_025.png"
+    },
+    {
+      "number": 26,
+      "action_count": 55,
+      "sha256": "699efcb9514e043df49954bf74d8cfc585c28554e081511f05af3d197384f4ce",
+      "path": "frames/observation_026.png"
+    },
+    {
+      "number": 27,
+      "action_count": 56,
+      "sha256": "8de6db1c3c68832fa4ba17256716f976d264b6546a4c5fc27679649a93d68e7a",
+      "path": "frames/observation_027.png"
+    },
+    {
+      "number": 28,
+      "action_count": 69,
+      "sha256": "7b24717361fc7abf09de755b693594481c1ebca8b306812390b1c0991728174f",
+      "path": "frames/observation_028.png"
+    },
+    {
+      "number": 29,
+      "action_count": 72,
+      "sha256": "b0a9d47e63248cd19deec39f16151a0abecdbbfb2f30afc399a176ed6ce2ab66",
+      "path": "frames/observation_029.png"
+    },
+    {
+      "number": 30,
+      "action_count": 73,
+      "sha256": "9951c159c782a7148f61da5eab7c1ad4a77a9c9e9210d4d5cc9349975b733a18",
+      "path": "frames/observation_030.png"
+    },
+    {
+      "number": 31,
+      "action_count": 76,
+      "sha256": "ff63006cfcf1b4a9b68c530c829c157f92107e44efd737a892207445361ad50f",
+      "path": "frames/observation_031.png"
+    },
+    {
+      "number": 32,
+      "action_count": 77,
+      "sha256": "d0cd6c9b48a7352d8724c7872d747e1c793c65e918d4805dde8ab92ee03964c0",
+      "path": "frames/observation_032.png"
+    },
+    {
+      "number": 33,
+      "action_count": 78,
+      "sha256": "80e013c56a0716f4912066c6270d5098e7cded5d49e908ddfd932ea35f688068",
+      "path": "frames/observation_033.png"
+    },
+    {
+      "number": 34,
+      "action_count": 79,
+      "sha256": "ff63006cfcf1b4a9b68c530c829c157f92107e44efd737a892207445361ad50f",
+      "path": "frames/observation_034.png"
+    },
+    {
+      "number": 35,
+      "action_count": 80,
+      "sha256": "f24ade14ee5381a449ee39bd8b4b701043664682c9ca459e5856af860e9fe10f",
+      "path": "frames/observation_035.png"
+    },
+    {
+      "number": 36,
+      "action_count": 89,
+      "sha256": "2310d2f82032a1c3f656dcbdc60cf6196e58681987bc70fe84b2f7d2bde1ca5c",
+      "path": "frames/observation_036.png"
+    },
+    {
+      "number": 37,
+      "action_count": 90,
+      "sha256": "dbbb22d826d52374f06c5e3dc4acf4e638c5dc49ad63b9a05e916faacf6dceec",
+      "path": "frames/observation_037.png"
+    },
+    {
+      "number": 38,
+      "action_count": 91,
+      "sha256": "bff64e6dba2346a1b413f412a6e14850b59cb632f2ff067670cc7259d05db07b",
+      "path": "frames/observation_038.png"
+    },
+    {
+      "number": 39,
+      "action_count": 92,
+      "sha256": "588609abbdd6248e30675cc2760c9c7483c861714720d238be09044793a023e8",
+      "path": "frames/observation_039.png"
+    },
+    {
+      "number": 40,
+      "action_count": 95,
+      "sha256": "aa6d5fd3d886099eb5d44bd2fc96d217205e9dfd1ada7ccfa0de4af9175af35f",
+      "path": "frames/observation_040.png"
+    },
+    {
+      "number": 41,
+      "action_count": 99,
+      "sha256": "907d9ead5c4aab28d5ec1bf7c43509b50849d1e97adebd8756a81f30dc7a42d1",
+      "path": "frames/observation_041.png"
+    },
+    {
+      "number": 42,
+      "action_count": 106,
+      "sha256": "c518c67b8c77570cd4218c0709f4a1078b3e663462b41f3f88c58efba17395ba",
+      "path": "frames/observation_042.png"
+    },
+    {
+      "number": 43,
+      "action_count": 107,
+      "sha256": "b63b5e75ba8f8ab46768baf724603e759415e261fbfb695a8b69e923874044bf",
+      "path": "frames/observation_043.png"
+    },
+    {
+      "number": 44,
+      "action_count": 108,
+      "sha256": "8eb7b36fb8ccf85986c77a3c42ca7a47af8101fcd8abb85d6a575e0a5c517f0b",
+      "path": "frames/observation_044.png"
+    },
+    {
+      "number": 45,
+      "action_count": 110,
+      "sha256": "dfab18038018cefd65832eacd4754d29495b68bc8000f767218b3f444e466069",
+      "path": "frames/observation_045.png"
+    },
+    {
+      "number": 46,
+      "action_count": 111,
+      "sha256": "dfab18038018cefd65832eacd4754d29495b68bc8000f767218b3f444e466069",
+      "path": "frames/observation_046.png"
+    },
+    {
+      "number": 47,
+      "action_count": 112,
+      "sha256": "e0683115b90900b0c1e5e980553a3afb884fc602df14e6b8c8e4a586358b7474",
+      "path": "frames/observation_047.png"
+    },
+    {
+      "number": 48,
+      "action_count": 116,
+      "sha256": "1f8c40846cb9690938a7f797365caba8760b7b9338526f7c84f2ebc534144562",
+      "path": "frames/observation_048.png"
+    },
+    {
+      "number": 49,
+      "action_count": 119,
+      "sha256": "188b0316169d6b1fb516c4b92fd2d9c717253479cbbed520a0e62d786fb006f4",
+      "path": "frames/observation_049.png"
+    },
+    {
+      "number": 50,
+      "action_count": 122,
+      "sha256": "2343cb4f8eb27a7255f70bebb684fb6095e2c0eb7befde3f383cb8b4dda13b6b",
+      "path": "frames/observation_050.png"
+    },
+    {
+      "number": 51,
+      "action_count": 123,
+      "sha256": "807f00d068f4ef15000946fb3208133fb13cc547fa1f6bb5b7fca42961f2eb24",
+      "path": "frames/observation_051.png"
+    },
+    {
+      "number": 52,
+      "action_count": 124,
+      "sha256": "f08c368f32e9b2b5442865da6844d38b72fd8b1bcb4ecdbcf5c656ab720afa5a",
+      "path": "frames/observation_052.png"
+    },
+    {
+      "number": 53,
+      "action_count": 126,
+      "sha256": "807f00d068f4ef15000946fb3208133fb13cc547fa1f6bb5b7fca42961f2eb24",
+      "path": "frames/observation_053.png"
+    },
+    {
+      "number": 54,
+      "action_count": 130,
+      "sha256": "4c492f520fabc72d756b63721f08deca18b7200b3c2dbc0754732c3c5d104c11",
+      "path": "frames/observation_054.png"
+    },
+    {
+      "number": 55,
+      "action_count": 132,
+      "sha256": "898d482472cfb3120a880bd9652263824bee5da005875a5e1d23135cb63c74ed",
+      "path": "frames/observation_055.png"
+    },
+    {
+      "number": 56,
+      "action_count": 133,
+      "sha256": "898d482472cfb3120a880bd9652263824bee5da005875a5e1d23135cb63c74ed",
+      "path": "frames/observation_056.png"
+    },
+    {
+      "number": 57,
+      "action_count": 134,
+      "sha256": "e144a15f3cd12da30bd5b43e1c1ebbfa115e77d9ada6a7be3a359730747aa5ff",
+      "path": "frames/observation_057.png"
+    },
+    {
+      "number": 58,
+      "action_count": 135,
+      "sha256": "0c3fbd916d64c7319dd00b561c0fa07896d88bed0d6d74ef59967a3c33d38c93",
+      "path": "frames/observation_058.png"
+    },
+    {
+      "number": 59,
+      "action_count": 136,
+      "sha256": "7afa226bb49dc8478878ecd6cc40d7804f3c89ef2202ed4ca7fb8d473ee23ece",
+      "path": "frames/observation_059.png"
+    },
+    {
+      "number": 60,
+      "action_count": 142,
+      "sha256": "5e9c1c68a5233074222c92c34ff522c443678aaadec472f2b64239df26641fe1",
+      "path": "frames/observation_060.png"
+    },
+    {
+      "number": 61,
+      "action_count": 144,
+      "sha256": "a68b68466929b96abe9990331794144423eaffe795b2bdb587b709963dbc0398",
+      "path": "frames/observation_061.png"
+    },
+    {
+      "number": 62,
+      "action_count": 145,
+      "sha256": "7d1ef71c2b7f752603b219d2ffe3bbcd71e6a342dd5e2f1f3bc3425a65188c51",
+      "path": "frames/observation_062.png"
+    },
+    {
+      "number": 63,
+      "action_count": 149,
+      "sha256": "80447ea4a1362ca38e985aa9471758318d5ef321396649178cb2cabcdeebe017",
+      "path": "frames/observation_063.png"
+    },
+    {
+      "number": 64,
+      "action_count": 157,
+      "sha256": "771178447dcf5197a986bbbcbd8b6c3abb641af909cb52a305c975f4f3ca8b6f",
+      "path": "frames/observation_064.png"
+    },
+    {
+      "number": 65,
+      "action_count": 158,
+      "sha256": "58024b1fe56dacca4cfa4bda4ef65198cd504ce9f8fd7140df004b94fd4d171f",
+      "path": "frames/observation_065.png"
+    },
+    {
+      "number": 66,
+      "action_count": 159,
+      "sha256": "771178447dcf5197a986bbbcbd8b6c3abb641af909cb52a305c975f4f3ca8b6f",
+      "path": "frames/observation_066.png"
+    },
+    {
+      "number": 67,
+      "action_count": 161,
+      "sha256": "3b625b7523adf0974439c29deb07d87d9659681d1d2eb7709db91a61be6f2cb1",
+      "path": "frames/observation_067.png"
+    },
+    {
+      "number": 68,
+      "action_count": 163,
+      "sha256": "3b625b7523adf0974439c29deb07d87d9659681d1d2eb7709db91a61be6f2cb1",
+      "path": "frames/observation_068.png"
+    },
+    {
+      "number": 69,
+      "action_count": 165,
+      "sha256": "3b625b7523adf0974439c29deb07d87d9659681d1d2eb7709db91a61be6f2cb1",
+      "path": "frames/observation_069.png"
+    },
+    {
+      "number": 70,
+      "action_count": 166,
+      "sha256": "3b625b7523adf0974439c29deb07d87d9659681d1d2eb7709db91a61be6f2cb1",
+      "path": "frames/observation_070.png"
+    },
+    {
+      "number": 71,
+      "action_count": 168,
+      "sha256": "46fe81414e07aaa2fd78cdae8dc495a4739a5b3ae7907ef2ff2f1b7db05a53da",
+      "path": "frames/observation_071.png"
+    },
+    {
+      "number": 72,
+      "action_count": 169,
+      "sha256": "46fe81414e07aaa2fd78cdae8dc495a4739a5b3ae7907ef2ff2f1b7db05a53da",
+      "path": "frames/observation_072.png"
+    },
+    {
+      "number": 73,
+      "action_count": 170,
+      "sha256": "baee1e497fc68c6ede13f1f7ee7860051b410f6659671a3e0e772e1119740eb0",
+      "path": "frames/observation_073.png"
+    },
+    {
+      "number": 74,
+      "action_count": 171,
+      "sha256": "686264b1ea755af1d972ce2f39fa2ac418aa8a1ac5bb01bb18dacec87b86a03b",
+      "path": "frames/observation_074.png"
+    },
+    {
+      "number": 75,
+      "action_count": 173,
+      "sha256": "87cc90f8d0be3bd37cc90c1c4937276f2096ddd4d28eba596db38d883f0b5c78",
+      "path": "frames/observation_075.png"
+    },
+    {
+      "number": 76,
+      "action_count": 179,
+      "sha256": "4a582289c8bcf953029f85ea12e3804c38bfd2a36650032d4e72fbd8d21c4baf",
+      "path": "frames/observation_076.png"
+    },
+    {
+      "number": 77,
+      "action_count": 184,
+      "sha256": "33726b6f30765922fffac26bffd2c646ac65612b13268a4c4c1f6a878942aeef",
+      "path": "frames/observation_077.png"
+    },
+    {
+      "number": 78,
+      "action_count": 186,
+      "sha256": "2c03bd96bd31a7ae2159b60aa6873dc8ee973a0be4c95326eae76d948975dc88",
+      "path": "frames/observation_078.png"
+    },
+    {
+      "number": 79,
+      "action_count": 188,
+      "sha256": "30ef02cbd81281856c2e9d95d2ae5c4e35e31ae85df1e1b14d33010b6be6606e",
+      "path": "frames/observation_079.png"
+    },
+    {
+      "number": 80,
+      "action_count": 189,
+      "sha256": "dc921a06c11ded13d67922ae209c68de65668d79a55020cc89d387166ef2699b",
+      "path": "frames/observation_080.png"
+    },
+    {
+      "number": 81,
+      "action_count": 190,
+      "sha256": "d8f2fc6b7990b6428775bef34f6fa30bcd0f1e672e5c0131cb0d487a55187d4e",
+      "path": "frames/observation_081.png"
+    },
+    {
+      "number": 82,
+      "action_count": 193,
+      "sha256": "67b8794d751d067b2f12dab0d3f45f8d5f5d8b438ba3d72915d6e8c076db08b0",
+      "path": "frames/observation_082.png"
+    },
+    {
+      "number": 83,
+      "action_count": 194,
+      "sha256": "81a91ceed6191f18738a3dca45f6ed79cfb21c966c9e8b5e1cbe3c5abdf960f2",
+      "path": "frames/observation_083.png"
+    },
+    {
+      "number": 84,
+      "action_count": 197,
+      "sha256": "6fafb37f3c90152470406ed166d522883f08e1b4327045f2ebe865f2ac379220",
+      "path": "frames/observation_084.png"
+    },
+    {
+      "number": 85,
+      "action_count": 198,
+      "sha256": "95b02e2bf959994bc2cb92126a63f6864319c345ea1e25153abad3dd6c8f8dd2",
+      "path": "frames/observation_085.png"
+    },
+    {
+      "number": 86,
+      "action_count": 201,
+      "sha256": "78178e8e6db4e0d35506cd5256b3d159bb0fb3dd0fc4a30cfa2de7a0437077da",
+      "path": "frames/observation_086.png"
+    },
+    {
+      "number": 87,
+      "action_count": 203,
+      "sha256": "c4315a0fa8851a186e4f5dea19102253b7d8b4461971ce74e95422bdf4b6d232",
+      "path": "frames/observation_087.png"
+    },
+    {
+      "number": 88,
+      "action_count": 204,
+      "sha256": "72bd8a31a10399736ff5864d30d82b70fa102a1412c1ee329f0cfa72f70ca608",
+      "path": "frames/observation_088.png"
+    },
+    {
+      "number": 89,
+      "action_count": 207,
+      "sha256": "a5ac7276897686b1945011166191c56c2117a698c5c2e650cdcba80f7b6a25f1",
+      "path": "frames/observation_089.png"
+    },
+    {
+      "number": 90,
+      "action_count": 212,
+      "sha256": "ce6ed4d771a4e191f37ad3a7a0fc5cdc5569777e129bd4cc9877b880b1785bac",
+      "path": "frames/observation_090.png"
+    },
+    {
+      "number": 91,
+      "action_count": 214,
+      "sha256": "ebcf027f77ac5afa6b165d2b51609d7fd34d5caaf5f11764142e9aba34d504b1",
+      "path": "frames/observation_091.png"
+    },
+    {
+      "number": 92,
+      "action_count": 216,
+      "sha256": "ebcf027f77ac5afa6b165d2b51609d7fd34d5caaf5f11764142e9aba34d504b1",
+      "path": "frames/observation_092.png"
+    },
+    {
+      "number": 93,
+      "action_count": 218,
+      "sha256": "66d2258a2a392396e5976228d0a3c2cc1ff5debb14d1be0fc5a24487761369a1",
+      "path": "frames/observation_093.png"
+    },
+    {
+      "number": 94,
+      "action_count": 219,
+      "sha256": "1d5c1b16557872b7e8f46a6863cf15b9ba33b11eb90ea62274e82f1b5a4cbe93",
+      "path": "frames/observation_094.png"
+    },
+    {
+      "number": 95,
+      "action_count": 220,
+      "sha256": "25daf98d6637016d27f09dce344dce54c0b02481ad7985aa177302ba49cf9f04",
+      "path": "frames/observation_095.png"
+    },
+    {
+      "number": 96,
+      "action_count": 221,
+      "sha256": "bc27188e3d7070132ebc44a58c63bfa76121b2cb7bbda9f30e34ea1c575215a8",
+      "path": "frames/observation_096.png"
+    },
+    {
+      "number": 97,
+      "action_count": 222,
+      "sha256": "bc27188e3d7070132ebc44a58c63bfa76121b2cb7bbda9f30e34ea1c575215a8",
+      "path": "frames/observation_097.png"
+    },
+    {
+      "number": 98,
+      "action_count": 225,
+      "sha256": "00f9380f1948877cb16364c0381d0df4658f033439f5235b58336a16582f99df",
+      "path": "frames/observation_098.png"
+    },
+    {
+      "number": 99,
+      "action_count": 226,
+      "sha256": "5a067a593ac822a38b42923aaf0bdfdaabfdf500bd48f357dc3ace6aaa1bb11f",
+      "path": "frames/observation_099.png"
+    },
+    {
+      "number": 100,
+      "action_count": 227,
+      "sha256": "5a067a593ac822a38b42923aaf0bdfdaabfdf500bd48f357dc3ace6aaa1bb11f",
+      "path": "frames/observation_100.png"
+    },
+    {
+      "number": 101,
+      "action_count": 229,
+      "sha256": "0835181e382405e973413f11cca64e0463331befa4ef258e6de98c6c1b3c47f5",
+      "path": "frames/observation_101.png"
+    },
+    {
+      "number": 102,
+      "action_count": 240,
+      "sha256": "c8d8d87305d4b82b1057b9987fc6c2828911fb38a0c52461bec503185a63d835",
+      "path": "frames/observation_102.png"
+    },
+    {
+      "number": 103,
+      "action_count": 243,
+      "sha256": "8679d94e050fb6152f100b10f96c6780ad49b066c667ff7d711dc81644c01b8f",
+      "path": "frames/observation_103.png"
+    },
+    {
+      "number": 104,
+      "action_count": 246,
+      "sha256": "d4d1a3084ecba6d86b29bdb18ec1693f2bdb684dec301d632f6783e21e1992ed",
+      "path": "frames/observation_104.png"
+    },
+    {
+      "number": 105,
+      "action_count": 248,
+      "sha256": "ddd5fdc5caeef790ddfbb7e503e71d2f0193a9ffc84e7540106fc01f6241fad6",
+      "path": "frames/observation_105.png"
+    },
+    {
+      "number": 106,
+      "action_count": 251,
+      "sha256": "a45fc208b623b9a0978c4099e830685a1ed764b12b264219f49f19bbe8dbd884",
+      "path": "frames/observation_106.png"
+    },
+    {
+      "number": 107,
+      "action_count": 254,
+      "sha256": "a5d5a6b12f3b0bedbc0490c0ca3c849b1c9bcf092f03120dc377d08a3e3933af",
+      "path": "frames/observation_107.png"
+    },
+    {
+      "number": 108,
+      "action_count": 255,
+      "sha256": "28e15ae2971175db05c80ed0d34e2578931f92166e3fa7fca4e534fa70df8641",
+      "path": "frames/observation_108.png"
+    },
+    {
+      "number": 109,
+      "action_count": 260,
+      "sha256": "04d69ea2411a3254f01caed5f8d8806ed280bfc90c90f3d8e40bc0e8ff6462d2",
+      "path": "frames/observation_109.png"
+    },
+    {
+      "number": 110,
+      "action_count": 263,
+      "sha256": "f415922db1fa49050f1d5b6b8c507797468bffee7394ea1b8e33637a8929ed4d",
+      "path": "frames/observation_110.png"
+    },
+    {
+      "number": 111,
+      "action_count": 264,
+      "sha256": "00a3c99b4e7b4050acf69fd2b715e9bc7a099ae2f397d18dabfb257c8fadeb67",
+      "path": "frames/observation_111.png"
+    },
+    {
+      "number": 112,
+      "action_count": 268,
+      "sha256": "b6db3a70422b3658bdd04d8e8740204edb378ad39466733f8dd07971b034dd62",
+      "path": "frames/observation_112.png"
+    },
+    {
+      "number": 113,
+      "action_count": 271,
+      "sha256": "f8507ffcc214524682ae270df288ca709636026d8f40a6bcfec2e5cc4ff72679",
+      "path": "frames/observation_113.png"
+    },
+    {
+      "number": 114,
+      "action_count": 277,
+      "sha256": "115ce70039ff22ef1a2f145df9fd4938b53785595cead3b5bc89b000b5b605fb",
+      "path": "frames/observation_114.png"
+    },
+    {
+      "number": 115,
+      "action_count": 280,
+      "sha256": "e56393a621d2f2587c1b5ce395a0fadcdd1bbbb1e2ae78202a0450337e9dece9",
+      "path": "frames/observation_115.png"
+    },
+    {
+      "number": 116,
+      "action_count": 281,
+      "sha256": "99f7f00b54417a72a6403d38b341be9f77e04a74f2707ee837c0257ba870d910",
+      "path": "frames/observation_116.png"
+    },
+    {
+      "number": 117,
+      "action_count": 282,
+      "sha256": "242f71a46e1473ef0242fe45d19575e1c3f42787b100543f9d6a8f8a2511dabd",
+      "path": "frames/observation_117.png"
+    },
+    {
+      "number": 118,
+      "action_count": 285,
+      "sha256": "b577dc9015f924d1a463a29be9ae10cf39c85a7d913a6b77d90d4cd9b64bd93a",
+      "path": "frames/observation_118.png"
+    },
+    {
+      "number": 119,
+      "action_count": 286,
+      "sha256": "ae7900b239d39c347be19100297329ec072072a475778c378a6b925edf6d1c2c",
+      "path": "frames/observation_119.png"
+    },
+    {
+      "number": 120,
+      "action_count": 290,
+      "sha256": "057281b7b872589beb5da7ff3729388a4bd580c744307b4ae94262354f4dcc0d",
+      "path": "frames/observation_120.png"
+    },
+    {
+      "number": 121,
+      "action_count": 291,
+      "sha256": "f0ad7737f5452ecf90320b9afce07b773c3da93f9a80d2c289932745a79fc3bb",
+      "path": "frames/observation_121.png"
+    },
+    {
+      "number": 122,
+      "action_count": 294,
+      "sha256": "9424cdc2deac36cdb93eb7f5a7f9cdd058b3786b9a228fecb3efdfe6db7dad2c",
+      "path": "frames/observation_122.png"
+    },
+    {
+      "number": 123,
+      "action_count": 299,
+      "sha256": "948660409895a59e3f1cd25a49dd74421664d092ab0560ed01424095f5db3fff",
+      "path": "frames/observation_123.png"
+    },
+    {
+      "number": 124,
+      "action_count": 303,
+      "sha256": "12fee3894778b1c65c53b0e32f9a719d400df469463fabc2b1930b654b73e218",
+      "path": "frames/observation_124.png"
+    },
+    {
+      "number": 125,
+      "action_count": 309,
+      "sha256": "a1a9fcd130e260396d223bda84d9c93f7ce524c301b054bc46b4d07f46d37bc1",
+      "path": "frames/observation_125.png"
+    },
+    {
+      "number": 126,
+      "action_count": 312,
+      "sha256": "b210ad1ff1d8dd0a3aa622ef4bd81230b2f6a94aa39c2928acbd48b36e63b28f",
+      "path": "frames/observation_126.png"
+    },
+    {
+      "number": 127,
+      "action_count": 330,
+      "sha256": "2698fb0fdc39d4741bead882c4f51886af7c689aaebedd6a53cef01ad465c115",
+      "path": "frames/observation_127.png"
+    },
+    {
+      "number": 128,
+      "action_count": 335,
+      "sha256": "679781ed259d88d42ea62a05b19c2abc50434bfc6c36e829844bfb0b31b2d624",
+      "path": "frames/observation_128.png"
+    },
+    {
+      "number": 129,
+      "action_count": 336,
+      "sha256": "50cf28e832ecb19e1fb9481a243e0ca16d51e44ed49c4870bc98f0f881d535fa",
+      "path": "frames/observation_129.png"
+    },
+    {
+      "number": 130,
+      "action_count": 337,
+      "sha256": "910b49bf30ca38ee4a563e70a6588c94b70552cc45b7bb14e719cb96fb3b2a1c",
+      "path": "frames/observation_130.png"
+    },
+    {
+      "number": 131,
+      "action_count": 340,
+      "sha256": "481032cf4d5ba1ddd28cf3c8edd688422f7f2499484833c7c42e72e9de524655",
+      "path": "frames/observation_131.png"
+    },
+    {
+      "number": 132,
+      "action_count": 343,
+      "sha256": "f8e34f5b0fc2d0dc3fc4dead1093aa2ec48e17d4cc869fb0b10a7b86362d42a1",
+      "path": "frames/observation_132.png"
+    },
+    {
+      "number": 133,
+      "action_count": 346,
+      "sha256": "046f65700ac0b0b5cfe8ce452a6c8fe059e7e8cab172351e692724553465a13d",
+      "path": "frames/observation_133.png"
+    },
+    {
+      "number": 134,
+      "action_count": 347,
+      "sha256": "815eae011218e1566daf786e99757b870d90357838f97f6f2375352c9f0b2dfa",
+      "path": "frames/observation_134.png"
+    },
+    {
+      "number": 135,
+      "action_count": 352,
+      "sha256": "6c230df9179924296dc36d81080fc095ed4aca11ca461e91276f78a03981bc6d",
+      "path": "frames/observation_135.png"
+    },
+    {
+      "number": 136,
+      "action_count": 356,
+      "sha256": "6bac1a2c1f351c9ab1c1a89b29b5fa188809c39220f4f6a045c3107d94ceb6bd",
+      "path": "frames/observation_136.png"
+    },
+    {
+      "number": 137,
+      "action_count": 363,
+      "sha256": "03f5d707be9326000344a9702787142f9cfd9e5c5c38cd8e4780b3a80878f7c4",
+      "path": "frames/observation_137.png"
+    },
+    {
+      "number": 138,
+      "action_count": 364,
+      "sha256": "725c2b29adafbe03c45afb7129d4d18be2d444208f1073a442c3b81057dd507d",
+      "path": "frames/observation_138.png"
+    },
+    {
+      "number": 139,
+      "action_count": 365,
+      "sha256": "ea1295c0d0a6a3c50178bd0adc7a562d80adcdbda8d34b92327a5d0d7a740e1c",
+      "path": "frames/observation_139.png"
+    },
+    {
+      "number": 140,
+      "action_count": 371,
+      "sha256": "993b7842bb19129ddf8612ad09d98a137534ef94bf531d2336c672a14c3af909",
+      "path": "frames/observation_140.png"
+    },
+    {
+      "number": 141,
+      "action_count": 375,
+      "sha256": "5868bd996ff0d5d5d3cde5b2269f2794aabe8908282704b8e39a0d0ef56ba626",
+      "path": "frames/observation_141.png"
+    },
+    {
+      "number": 142,
+      "action_count": 377,
+      "sha256": "33212f1389a4254fd5839ec2997d9b402f924f45ce563ef23e95d627573676ea",
+      "path": "frames/observation_142.png"
+    },
+    {
+      "number": 143,
+      "action_count": 384,
+      "sha256": "66a59933371d2aa4fd4d68cf4417543a92278528768293b23df3745bec2970d8",
+      "path": "frames/observation_143.png"
+    },
+    {
+      "number": 144,
+      "action_count": 388,
+      "sha256": "548c25d2b2ea645b8bd797499e9a35321f3718943510fccc52fb1d798d7eea5d",
+      "path": "frames/observation_144.png"
+    },
+    {
+      "number": 145,
+      "action_count": 390,
+      "sha256": "f6f7287447a333af8fe2d5981e54c5e20e31b0763fe051aea29b482e0c856ee6",
+      "path": "frames/observation_145.png"
+    },
+    {
+      "number": 146,
+      "action_count": 392,
+      "sha256": "1712f96e4d4f4a65f0c468843172cf92419ad27c33d3fac7f6b407e244d46684",
+      "path": "frames/observation_146.png"
+    },
+    {
+      "number": 147,
+      "action_count": 393,
+      "sha256": "b445f82813addfa6eada85c4ec0564df00728d3e5a44f4867b0e80d731a1fbc5",
+      "path": "frames/observation_147.png"
+    },
+    {
+      "number": 148,
+      "action_count": 395,
+      "sha256": "4d442abf1f3251e1d0749d3ec5479efd03ca179285ef4e7bec598255e00ac592",
+      "path": "frames/observation_148.png"
+    },
+    {
+      "number": 149,
+      "action_count": 399,
+      "sha256": "bab1bec57702d157fbde1ebba6f2f401b534a62217d0b14704a67920dfdea422",
+      "path": "frames/observation_149.png"
+    },
+    {
+      "number": 150,
+      "action_count": 403,
+      "sha256": "11ac53604bfbadb2286be0dbca0edfed2090861275f88d5715dbd0f84b93f342",
+      "path": "frames/observation_150.png"
+    },
+    {
+      "number": 151,
+      "action_count": 410,
+      "sha256": "933788cfcf19dc3d1cb726cf3ee3fc92614eb39e23b845a5a4066f7863459cf9",
+      "path": "frames/observation_151.png"
+    },
+    {
+      "number": 152,
+      "action_count": 417,
+      "sha256": "73e8604f3da9f8a0e24c873fa08083d5d3039575622327e85c46ad44f7ef748e",
+      "path": "frames/observation_152.png"
+    },
+    {
+      "number": 153,
+      "action_count": 420,
+      "sha256": "776056c9213fc1454d5a8ea9aa52414898f69e215047790dc676e6f534ce22b9",
+      "path": "frames/observation_153.png"
+    },
+    {
+      "number": 154,
+      "action_count": 421,
+      "sha256": "97dea5d42270a207001b3710d96cdc1ae47a8371f83d6f5718db6239e9a4941f",
+      "path": "frames/observation_154.png"
+    }
+  ]
+}

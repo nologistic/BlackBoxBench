@@ -1,0 +1,1429 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "run_id": "eval_b182ed6c15",
+  "checklist_id": "minesweeper",
+  "checklist_sha256": "90e0bbd0f767d62ef9dfc16f45ad5393963c60a367837dd3a824d2787b906b9e",
+  "apk_sha256": "d5666c3a7d7d3d575648d4b7caa21c30e3838f5dd3cd4e827ad371daa808e648",
+  "package_name": "com.blackboxbench.reproduction",
+  "counts": {
+    "full": 16,
+    "partial": 3,
+    "placeholder": 3,
+    "broken": 0
+  },
+  "requirements": [
+    {
+      "requirement_id": "f01",
+      "name": "新游戏与基础棋盘初始化",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "启动默认选中 Easy，棋盘为 9×9、计数 10、计时 00:00；首次揭格出现数字且表情变化，随后计时增长。后续按数字推导完成了同难度棋盘。",
+      "evidence_observations": [
+        2,
+        3,
+        4,
+        17,
+        23
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f02",
+      "name": "单格揭开与数字生成",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "多次点击显示按位置变化的数字，1 为蓝色、2 为绿色、3 为红色、4 为紫色。失败后对照实际炸弹：Medium 第5行第6列的4对应第4行第7列、第5行第7列、第6行第6/7列四雷；Hard 第4行第3列的3对应第3/4/5行第4列三雷；Easy 左上角1对应右邻一雷。",
+      "evidence_observations": [
+        3,
+        7,
+        28,
+        29,
+        31,
+        33
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f03",
+      "name": "空白区域连锁展开",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "点击右下角一次展开相连空白与边界数字；点击左上角进一步展开大片零雷区域，扩散在数字边界停止，未自动揭开后来标记出的地雷。",
+      "evidence_observations": [
+        13,
+        14,
+        16,
+        17,
+        18
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f04",
+      "name": "标记旗帜与取消旗帜",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "长按未揭格出现橙色旗，计数 10→9；普通点击旗帜保持，再次长按取消后计数恢复 10。对已揭数字长按没有标旗；后续多旗计数随操作变化。",
+      "evidence_observations": [
+        3,
+        4,
+        5,
+        6,
+        14,
+        15,
+        20,
+        21,
+        22
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f05",
+      "name": "正确完成一局游戏",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "按数字推理标记 10 雷后计数为 0 但未胜利，揭开最后一个安全格才显示绿色 You Win! 和墨镜表情，计时冻结在 02:10；然而重启 App 后最终棋盘、旗帜与胜利状态全部丢失，回到未揭开的 Easy 10 雷、00:00。依据 persistence 要求及重启丢失规则判为 placeholder。",
+      "evidence_observations": [
+        20,
+        22,
+        23,
+        24,
+        25
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f06",
+      "name": "踩雷与失败状态",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "取消旗帜后点击第一行第二列地雷，当前格显示橙色爆炸、其余 9 雷显示炸弹，出现红色 Game Over 与失败表情；计时停在 00:23，之后点击安全格及长按均不改变棋盘。",
+      "evidence_observations": [
+        6,
+        7,
+        8,
+        10,
+        11
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f07",
+      "name": "游戏中状态反馈与重新开始",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "游戏计时、雷计数和胜负表情会随状态变化；失败和进行中多次点击中央表情均未重开。改点 Easy 可清空棋盘、计时、旗帜与失败条幅后开始新局，重置功能存在但要求的表情 Restart 入口无效。",
+      "evidence_observations": [
+        7,
+        9,
+        11,
+        12,
+        14,
+        15
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f08",
+      "name": "Easy 预设难度",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "Easy 为 9×9、10 雷且选中态明确；第一局失败后再次点 Easy 重置并开启新局。第一局第一行第二列为雷；第二局同位置为展开的零格，且完成了第二局，雷布局已重新生成。",
+      "evidence_observations": [
+        2,
+        7,
+        12,
+        17,
+        23
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f09",
+      "name": "Medium / Hard 预设难度切换",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "从 Easy 9×9/10 雷切换 Medium 后变为 12×12/30 雷及 05:00 倒计时；再切 Hard 变为 14×14/50 雷及 03:00。选中态随难度切换，旧局揭格和失败条幅清空，均可实际揭格。",
+      "evidence_observations": [
+        25,
+        26,
+        28,
+        29,
+        30,
+        31
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f10",
+      "name": "不同难度下核心规则一致性",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "Easy、Medium、Hard均实际进行了揭格、标旗、连锁展开和触雷；计数随旗帜变化，失败盘抽查邻雷数字一致，Hard迷雾遮蔽后失败会恢复已揭数字，未见边界崩溃。Easy已按数字推理完成胜利，Custom组合模式也达到胜利；本次Medium和Hard的操作均以触雷结束，未取得这两档全部安全格揭开后的胜利截图，因此跨三档胜利条件的一致性尚未形成完整证据，保守判partial。该降级是验证覆盖不足，不代表已观察到Medium/Hard无法获胜。",
+      "evidence_observations": [
+        4,
+        14,
+        17,
+        18,
+        23,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        71
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f11",
+      "name": "Custom 自定义棋盘",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "Custom 对话框可调整 Grid size 与 Mines；16×16/40 雷显示15%，改成20×20后显示40雷10%，Start生成可数的20行20列、计数40的棋盘并可揭格和标旗；随后5×5/16雷也生成对应25格，失败时数得16雷。",
+      "evidence_observations": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        42,
+        45
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f12",
+      "name": "Custom 参数联动与边界约束",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "尺寸滑杆可从5×5变到20×20，40雷在16×16显示15%、在20×20显示10%；缩到5×5时雷数自动限制为16(64%)。雷滑杆向右可设20×20/256(64%)并正常开局，向左可设1(整数百分比0%)，Start后实际单雷棋盘展开并获胜；5×5/16雷失败盘数得16雷。所测范围内未允许雷数达到总格数，配置、计数与棋盘一致。",
+      "evidence_observations": [
+        35,
+        36,
+        40,
+        45,
+        56,
+        57,
+        58,
+        67,
+        68,
+        69,
+        70,
+        71,
+        75,
+        76
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f13",
+      "name": "Safe first tap 安全首击",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "开启Safe first tap后，5×5/16雷连续五局在左上、中心、右下、右上、左下首击均安全；最后一局第二次点击正常踩雷，失败盘仍有16雷。另将开关关闭再开启，按返回关闭Custom并重新进入后仍为开启，提供返回重入的三段证据；重启观察中开启状态也仍显示为开，但整套Custom参数会恢复默认。",
+      "evidence_observations": [
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        66,
+        72,
+        73,
+        74
+      ],
+      "persistence_evidence": {
+        "requirement_id": "f13",
+        "before_observation": 72,
+        "after_observation": 73,
+        "persisted_observation": 74
+      },
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f14",
+      "name": "关闭 Safe first tap 的行为",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "关闭安全首击后，5×5/16雷第一局左上首击为安全数字，第二局中心首击立即爆炸并Game Over，关闭确实影响行为；同进程重入仍为关闭。但重启App后Custom回到默认16×16/40雷且Safe first tap自动变为开启，关闭设置未持久化，按重启丢失规则判placeholder。",
+      "evidence_observations": [
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f15",
+      "name": "Fog of War 自定义规则",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "Fog开启后20×20/42雷可正常揭格和展开，随后已揭数字被紫色格遮盖；重新进入Custom仍显示开启。重启App后Fog回到关闭、尺寸和雷数回到默认，开启设置丢失。再次开启并关闭Fog后用5×5/16雷开局，中心数字5在等待8秒后仍可见，说明规则有实际作用，但持久化失败，按规则判placeholder。",
+      "evidence_observations": [
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        69,
+        74,
+        75,
+        76,
+        77
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f16",
+      "name": "Custom 组合配置",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "组合20×20、42雷、Fog开启及安全首击开启后首击安全，可继续在另一角触发大片连锁展开，之后Fog确实遮盖数字；20×20/256雷同样可安全首击并标旗，计数256→255。再组合20×20/1雷+Fog+安全首击，一次空白展开全部安全格并自动获胜，唯一雷自动标旗，周围8格均显示1，未见规则叠加引发状态不一致。",
+      "evidence_observations": [
+        59,
+        60,
+        62,
+        63,
+        65,
+        67,
+        68,
+        70,
+        71
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f17",
+      "name": "雷区随机生成正确性",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "连续同选Easy新开两局、揭格后故意触雷：两张失败盘均数得10雷，布局明显不同。前局第3行第6列1对应第4行第7列雷，第3行第8列2对应第4行第7/9列两雷，第7行第6列3对应第7行第7列及第8行第5/7列三雷；后局第3行第5列1对应第4行第6列雷，第3行第7列3对应第4行第6/7/8列三雷，第5行第3列2对应第6行第2/3列两雷。多个数字随本局雷位正确变化；更早Easy第一行第二列为雷、后续局同处为零格，也确认布局更换。",
+      "evidence_observations": [
+        7,
+        17,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f18",
+      "name": "边界 / 角落邻雷计算",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "已对照失败后的实际雷位抽查角、边、内部数字：Easy 左上角1仅邻接第一行第二列雷；Medium 第二行第一列1邻接第三行第一列雷，第三行第二列2邻接第三行第一列和第四行第二列两雷，第五行第六列4邻接四雷；Hard 第四行第三列3邻接第三至第五行第四列三雷。未见边界错计或崩溃。",
+      "evidence_observations": [
+        7,
+        28,
+        29,
+        31,
+        33
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f19",
+      "name": "Flag 与揭格冲突状态",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "最后一个安全格经历 Hidden→Flagged→Hidden→Revealed：长按标旗后普通点击保持旗帜，取消后恢复隐藏，再点击显示数字 1 并触发胜利；没有旗帜和揭开同时存在。",
+      "evidence_observations": [
+        20,
+        21,
+        22,
+        23
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f20",
+      "name": "胜负状态锁定",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "Easy 失败后点击安全格及长按隐藏格均无变化，00:23 冻结；Easy 胜利后点击雷旗及长按旗帜均无变化，02:10 冻结；Hard 失败后同样不能取消旗或继续揭格。通过难度按钮重开后恢复正常操作。",
+      "evidence_observations": [
+        7,
+        8,
+        11,
+        12,
+        13,
+        23,
+        24,
+        25,
+        26,
+        28,
+        33,
+        34
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f21",
+      "name": "大棋盘性能与交互",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "20×20/40雷共400格均显示；一次左上点击展开大片空白及数字边界，连续4次长按标旗使计数40→36，继续多处点击并在右下区域触发第二次大范围展开，先标记的右下角旗帜仍保留；截图及时反映完整状态，未见卡死、漏绘或崩溃。",
+      "evidence_observations": [
+        36,
+        37,
+        38,
+        39
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f22",
+      "name": "完整综合游戏流程",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "本次完成Easy揭格、连锁展开、标旗、失败，再通过Easy按钮新开并按数字逻辑通关；随后切换Medium、Hard并进行揭格和失败，进入20×20/40雷且安全首击开启的Custom新局并操作。综合主要链路可走通，但中央表情Restart入口重复点击无效，需改走难度按钮；Easy胜利状态与Custom选项也未跨重启保留。",
+      "evidence_observations": [
+        4,
+        7,
+        9,
+        11,
+        12,
+        17,
+        18,
+        23,
+        25,
+        26,
+        28,
+        29,
+        30,
+        31,
+        33,
+        36,
+        37,
+        38,
+        39,
+        46,
+        66
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    }
+  ],
+  "actions": [
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    }
+  ],
+  "observations": [
+    {
+      "number": 1,
+      "action_count": 0,
+      "sha256": "a8652cfc61afe7d1b77a2a00e5b2543fb5257e614789514887c1603d9e4c8c8a",
+      "path": "frames/observation_001.png"
+    },
+    {
+      "number": 2,
+      "action_count": 0,
+      "sha256": "3c3044bc8ed17e7d42ee9b992d6e429667e5825a02bbbafa3c3f3a0e7e6d17d4",
+      "path": "frames/observation_002.png"
+    },
+    {
+      "number": 3,
+      "action_count": 1,
+      "sha256": "0c3a8ea2352520b5977642ed9af06c57048c026a756ebf8b8e26df19d6f7d48a",
+      "path": "frames/observation_003.png"
+    },
+    {
+      "number": 4,
+      "action_count": 2,
+      "sha256": "e30b2f5f6242d345b6bcd4acbf9a694c65dceae33ccbc4f0190adcf4ba86af9f",
+      "path": "frames/observation_004.png"
+    },
+    {
+      "number": 5,
+      "action_count": 3,
+      "sha256": "b9b75d94d847ec2fc62404d287af00bdf5d3ca7b604b6860b8ab33cdc2af2571",
+      "path": "frames/observation_005.png"
+    },
+    {
+      "number": 6,
+      "action_count": 4,
+      "sha256": "7951c21bcbe5ece52030818e23c5eda03adc5ead1941182897ce18de24b36666",
+      "path": "frames/observation_006.png"
+    },
+    {
+      "number": 7,
+      "action_count": 6,
+      "sha256": "573764c3da60752931bfc9fe6afae30727b6289700064bcd9a86557ff0ee3612",
+      "path": "frames/observation_007.png"
+    },
+    {
+      "number": 8,
+      "action_count": 8,
+      "sha256": "2a14da6928ee97fb2d2546f135dbd3285c5c2d221f4c40918f74c329e695d2ec",
+      "path": "frames/observation_008.png"
+    },
+    {
+      "number": 9,
+      "action_count": 9,
+      "sha256": "2a14da6928ee97fb2d2546f135dbd3285c5c2d221f4c40918f74c329e695d2ec",
+      "path": "frames/observation_009.png"
+    },
+    {
+      "number": 10,
+      "action_count": 10,
+      "sha256": "2a14da6928ee97fb2d2546f135dbd3285c5c2d221f4c40918f74c329e695d2ec",
+      "path": "frames/observation_010.png"
+    },
+    {
+      "number": 11,
+      "action_count": 11,
+      "sha256": "2a14da6928ee97fb2d2546f135dbd3285c5c2d221f4c40918f74c329e695d2ec",
+      "path": "frames/observation_011.png"
+    },
+    {
+      "number": 12,
+      "action_count": 12,
+      "sha256": "a80f5a97e9ae26c20157172b939ac4f8233e6a4c41819e412499be4d2f7ac764",
+      "path": "frames/observation_012.png"
+    },
+    {
+      "number": 13,
+      "action_count": 13,
+      "sha256": "e904ae992c30253cb7cdd948a19027727be65633f7deae7f32d69c9755b88436",
+      "path": "frames/observation_013.png"
+    },
+    {
+      "number": 14,
+      "action_count": 14,
+      "sha256": "b89b91ba7b6e1c7e0e3933dad8c8eb87a414d847f70e7ddf3eac22c851f35e9b",
+      "path": "frames/observation_014.png"
+    },
+    {
+      "number": 15,
+      "action_count": 16,
+      "sha256": "eac2b5f1a44ed45bd38ff1f25ba8c239f39feaf8b86693b62ddaa88b3ec4d11e",
+      "path": "frames/observation_015.png"
+    },
+    {
+      "number": 16,
+      "action_count": 17,
+      "sha256": "e6e3a19fc39c879edebc5468f2ed32eb0d5a5f13da004b81b3a8f2fb9ff3251a",
+      "path": "frames/observation_016.png"
+    },
+    {
+      "number": 17,
+      "action_count": 18,
+      "sha256": "fbc2978ef7d8903b5816b22dc4bd486c99d2a47518999921f9cedaf67dea9013",
+      "path": "frames/observation_017.png"
+    },
+    {
+      "number": 18,
+      "action_count": 32,
+      "sha256": "bcf0111fbba5092a7ab36f264652a4ef3552139c439f317aeef78e4343e1d239",
+      "path": "frames/observation_018.png"
+    },
+    {
+      "number": 19,
+      "action_count": 49,
+      "sha256": "c974cbfab51c3387b683f70e7eabf774ca3977f070f21562ae173c90248177e1",
+      "path": "frames/observation_019.png"
+    },
+    {
+      "number": 20,
+      "action_count": 50,
+      "sha256": "84799120caf4cd3559be2b42e4c1bf434a5c21af3cd8f3b077713c34e3ec33d8",
+      "path": "frames/observation_020.png"
+    },
+    {
+      "number": 21,
+      "action_count": 52,
+      "sha256": "1a776ff76a4fd44aad24b478fde5bde047b930395c212d493c0001145f0d8777",
+      "path": "frames/observation_021.png"
+    },
+    {
+      "number": 22,
+      "action_count": 53,
+      "sha256": "e4eb84d96cb945a5acbe69084cec7b7d9db5a432fb8f45985eefd62977c61691",
+      "path": "frames/observation_022.png"
+    },
+    {
+      "number": 23,
+      "action_count": 54,
+      "sha256": "c9c8f96d02221c87454804bb110ea567ba7abe95d31ff831be50d7f6db3e37cb",
+      "path": "frames/observation_023.png"
+    },
+    {
+      "number": 24,
+      "action_count": 56,
+      "sha256": "c9c8f96d02221c87454804bb110ea567ba7abe95d31ff831be50d7f6db3e37cb",
+      "path": "frames/observation_024.png"
+    },
+    {
+      "number": 25,
+      "action_count": 57,
+      "sha256": "6779ab340d8a7f6870928a3cb50651929facf57822200cb8563342202d2ee3be",
+      "path": "frames/observation_025.png"
+    },
+    {
+      "number": 26,
+      "action_count": 58,
+      "sha256": "62f72128d123f2cbec841c3427cde8cb74ebf5400b226d25bf26830e2237ebd8",
+      "path": "frames/observation_026.png"
+    },
+    {
+      "number": 27,
+      "action_count": 59,
+      "sha256": "7519edf4bd4e1fbd94c4cac33f87991d573d3397c2797ff4f26fed4334cb8d00",
+      "path": "frames/observation_027.png"
+    },
+    {
+      "number": 28,
+      "action_count": 62,
+      "sha256": "69751b1c5534873807f9f0eb9d9ed3101d317d2bf77e3bb7c6caaa179e5d9e8f",
+      "path": "frames/observation_028.png"
+    },
+    {
+      "number": 29,
+      "action_count": 63,
+      "sha256": "61fef4775e03f794395908c67bf9c3d77520c9d0671ed1d6e7183e207011abb0",
+      "path": "frames/observation_029.png"
+    },
+    {
+      "number": 30,
+      "action_count": 64,
+      "sha256": "5d46bbdcd979b53579c0fd83e49380f45525f3305044042f7b66ba5dbc235f75",
+      "path": "frames/observation_030.png"
+    },
+    {
+      "number": 31,
+      "action_count": 65,
+      "sha256": "55c6e7fdbe926bb3eafba77b2a54be26d3f7dcbf2f0c7b9e79f6b043275fb3aa",
+      "path": "frames/observation_031.png"
+    },
+    {
+      "number": 32,
+      "action_count": 67,
+      "sha256": "0686913d5fa29d293c51b99cbb507aeeda08fdaa81707340ec9fe2d634c4c2db",
+      "path": "frames/observation_032.png"
+    },
+    {
+      "number": 33,
+      "action_count": 68,
+      "sha256": "617d1c1e3b6793d8c5c90b7d18a3d05df762135472dc94bb5881d56b1f189305",
+      "path": "frames/observation_033.png"
+    },
+    {
+      "number": 34,
+      "action_count": 70,
+      "sha256": "617d1c1e3b6793d8c5c90b7d18a3d05df762135472dc94bb5881d56b1f189305",
+      "path": "frames/observation_034.png"
+    },
+    {
+      "number": 35,
+      "action_count": 71,
+      "sha256": "527e966c3df6e21559cf92f202b2c22cfc7a61d4437652fda29bae9c73cdddd2",
+      "path": "frames/observation_035.png"
+    },
+    {
+      "number": 36,
+      "action_count": 72,
+      "sha256": "e464d7d586d68ff00371e882c35bb61111aa5d64bb85741bd88dcbd9bb9462d7",
+      "path": "frames/observation_036.png"
+    },
+    {
+      "number": 37,
+      "action_count": 73,
+      "sha256": "6a394fb283f64c7acc33363f9388724083c2b7a0ee2eecd8058345b8d6037748",
+      "path": "frames/observation_037.png"
+    },
+    {
+      "number": 38,
+      "action_count": 74,
+      "sha256": "31dcde46265e98bc933b6faf682d2eccdbbd63c598e9ef85376a76c6ce213365",
+      "path": "frames/observation_038.png"
+    },
+    {
+      "number": 39,
+      "action_count": 83,
+      "sha256": "9dc43fc07f07224cbf7ca5afbc02fe76395e1950c5baac59be7b5c9ece4aaf13",
+      "path": "frames/observation_039.png"
+    },
+    {
+      "number": 40,
+      "action_count": 85,
+      "sha256": "ef712888b420c34d31acc75b04ddd93ac14675f761fcf3ce9de2a4c94c30f51f",
+      "path": "frames/observation_040.png"
+    },
+    {
+      "number": 41,
+      "action_count": 86,
+      "sha256": "3688693c05add5663409a069a49eb4d280e54a596f26cfe40d384728d252e1f3",
+      "path": "frames/observation_041.png"
+    },
+    {
+      "number": 42,
+      "action_count": 87,
+      "sha256": "7870f5b0b93035962ea3659a2f557dfd6517e8200620044a220216da13ac0cf4",
+      "path": "frames/observation_042.png"
+    },
+    {
+      "number": 43,
+      "action_count": 88,
+      "sha256": "0787223fb115c00e2e43210b1cda256a23a12f87bb59416f342823b5930c692b",
+      "path": "frames/observation_043.png"
+    },
+    {
+      "number": 44,
+      "action_count": 89,
+      "sha256": "b73a368f5a7e89b01b4730f44350b53811206f191078725c9a8ca192407f4bd6",
+      "path": "frames/observation_044.png"
+    },
+    {
+      "number": 45,
+      "action_count": 91,
+      "sha256": "e4dc6fa63218db2d07f1c1bfae096cfd875e2054f0f6286cc371bdd81321283f",
+      "path": "frames/observation_045.png"
+    },
+    {
+      "number": 46,
+      "action_count": 93,
+      "sha256": "86b90cf685a30682389896f630648103f6dcc88301e12b8d44cd00343720b9af",
+      "path": "frames/observation_046.png"
+    },
+    {
+      "number": 47,
+      "action_count": 95,
+      "sha256": "8c39abebe236af4cb2f306445ce7524cbbfcab0b49748ffb382a02ade8a26bf6",
+      "path": "frames/observation_047.png"
+    },
+    {
+      "number": 48,
+      "action_count": 96,
+      "sha256": "dfe804f3bc4edc8770064d83a75274eda394129af8acc7f9d50e2562821219e1",
+      "path": "frames/observation_048.png"
+    },
+    {
+      "number": 49,
+      "action_count": 98,
+      "sha256": "16dcb367687b30c84862b29d5b4fdce50dffd2f15f2939ecbaba390e0e1f7000",
+      "path": "frames/observation_049.png"
+    },
+    {
+      "number": 50,
+      "action_count": 99,
+      "sha256": "1f13357da697ea417552cc3961c70cc6f691fe0f3be4669587c2c973a1916aa6",
+      "path": "frames/observation_050.png"
+    },
+    {
+      "number": 51,
+      "action_count": 101,
+      "sha256": "d22c041f67faaa9e7ea76ab4cf333605738bbdf1abde56c2700813ddd3bbe7bc",
+      "path": "frames/observation_051.png"
+    },
+    {
+      "number": 52,
+      "action_count": 104,
+      "sha256": "c49fcbb63ecad1ce8381885efee4890a436bea70cd0a33d02255ce9d15806da3",
+      "path": "frames/observation_052.png"
+    },
+    {
+      "number": 53,
+      "action_count": 107,
+      "sha256": "67ebd5f31389451cadc54f139242552a7688d036d958035664226a8f5e0442a9",
+      "path": "frames/observation_053.png"
+    },
+    {
+      "number": 54,
+      "action_count": 110,
+      "sha256": "808cfbfd8de9b2cf10d03fc47a3ab38db601b04cea2214d17f0c26b854cacabf",
+      "path": "frames/observation_054.png"
+    },
+    {
+      "number": 55,
+      "action_count": 111,
+      "sha256": "18e96ea3d328b18c448546457fc9c79c3374299492d3a7df4b8157151acbf459",
+      "path": "frames/observation_055.png"
+    },
+    {
+      "number": 56,
+      "action_count": 114,
+      "sha256": "377ea9c74ecae31767e3354bcc27f568b2a9f7986dca98d4043e0b7903253480",
+      "path": "frames/observation_056.png"
+    },
+    {
+      "number": 57,
+      "action_count": 116,
+      "sha256": "2b078b0602fdeeadea88dfbddfa47a0fd20c8b6011c1456b4651537e705fd359",
+      "path": "frames/observation_057.png"
+    },
+    {
+      "number": 58,
+      "action_count": 118,
+      "sha256": "addcf25fcd90cd9a045d0bc9ab9685578952c772a2773f090ee3422f818ff1e7",
+      "path": "frames/observation_058.png"
+    },
+    {
+      "number": 59,
+      "action_count": 120,
+      "sha256": "37798ab5d65e313be0c73e1ed6ce5614754e140cda18c8dc5052f7b323df475f",
+      "path": "frames/observation_059.png"
+    },
+    {
+      "number": 60,
+      "action_count": 122,
+      "sha256": "80beb3397db7402dea5bf1892068cf3774ea7e5779947a54e2d1bd5ce657673e",
+      "path": "frames/observation_060.png"
+    },
+    {
+      "number": 61,
+      "action_count": 123,
+      "sha256": "145efc77480bcc7c70757a4b503b53780c1953321e6e03c0ba3e9fd90bf6b736",
+      "path": "frames/observation_061.png"
+    },
+    {
+      "number": 62,
+      "action_count": 124,
+      "sha256": "f599126a85789f5bd42cf646a4def9c5fe298b5be526b2d1bcda035157fff2c1",
+      "path": "frames/observation_062.png"
+    },
+    {
+      "number": 63,
+      "action_count": 125,
+      "sha256": "6a56058b2bad9d4e2453f98ef2f960324111a0a538333bad423b29d3361145e2",
+      "path": "frames/observation_063.png"
+    },
+    {
+      "number": 64,
+      "action_count": 126,
+      "sha256": "aaea4318d2fee7e4381b479bcbba968a166736453808edc861c39dd7fef24b06",
+      "path": "frames/observation_064.png"
+    },
+    {
+      "number": 65,
+      "action_count": 127,
+      "sha256": "9410ac0b31844296ff9fa60f98c87d44ac11f575c918ade38881d8aa5963a16e",
+      "path": "frames/observation_065.png"
+    },
+    {
+      "number": 66,
+      "action_count": 129,
+      "sha256": "c48a93add224868ae35fdfbe2615732e63c368ada6b50b775b62415b3c65c951",
+      "path": "frames/observation_066.png"
+    },
+    {
+      "number": 67,
+      "action_count": 131,
+      "sha256": "95baed33646bb62c91620005db92482cb3693de49fba1d6d111a6c7de4684417",
+      "path": "frames/observation_067.png"
+    },
+    {
+      "number": 68,
+      "action_count": 135,
+      "sha256": "2e7809fe1c94abd55ba9f4c879c273b1b946d28697166f52ca2eeb7eef7c1b9d",
+      "path": "frames/observation_068.png"
+    },
+    {
+      "number": 69,
+      "action_count": 137,
+      "sha256": "937042f76d1358caaf8eef0d0b5636bdb3423b90bcf782ce81e744769bb40765",
+      "path": "frames/observation_069.png"
+    },
+    {
+      "number": 70,
+      "action_count": 138,
+      "sha256": "efbe6ce2528abef09f6a57f2d3c362e9f8d2de6e7721a86de67dcaff6eb3a188",
+      "path": "frames/observation_070.png"
+    },
+    {
+      "number": 71,
+      "action_count": 140,
+      "sha256": "ebeef88d0dc4fd7f18be8d7db153a3b605dc0456e7f3c7a1fb20693b1a29f3da",
+      "path": "frames/observation_071.png"
+    },
+    {
+      "number": 72,
+      "action_count": 142,
+      "sha256": "f0a8f0c7139e7cd0cc247e9a14198672578b421003d6bcbd3fd167d138f91732",
+      "path": "frames/observation_072.png"
+    },
+    {
+      "number": 73,
+      "action_count": 143,
+      "sha256": "0e76c9db2e1781c920bad9e07a1788fe7a27e70c78ebe9ee2f8d72b20260676b",
+      "path": "frames/observation_073.png"
+    },
+    {
+      "number": 74,
+      "action_count": 145,
+      "sha256": "0e76c9db2e1781c920bad9e07a1788fe7a27e70c78ebe9ee2f8d72b20260676b",
+      "path": "frames/observation_074.png"
+    },
+    {
+      "number": 75,
+      "action_count": 148,
+      "sha256": "58bb45e11406bd8d2c67223174ddda607e14d62c95e12e3f9b5163cee6c434ea",
+      "path": "frames/observation_075.png"
+    },
+    {
+      "number": 76,
+      "action_count": 150,
+      "sha256": "b6c2985e248a7a2e37b865cd5b7452ccad51435a0e4e101c05b4e0e6856eb3de",
+      "path": "frames/observation_076.png"
+    },
+    {
+      "number": 77,
+      "action_count": 151,
+      "sha256": "3b5b02df33ebd9e01ed11aede84b904e944ba9fc11bd67471bbab3dfad7494fb",
+      "path": "frames/observation_077.png"
+    },
+    {
+      "number": 78,
+      "action_count": 153,
+      "sha256": "f3cd0402702bc16f6f15b8dada83dd0bb91a6646061fb4adf61d4c57a9470a96",
+      "path": "frames/observation_078.png"
+    },
+    {
+      "number": 79,
+      "action_count": 154,
+      "sha256": "ab81cdefb00708202dc0c701dc5380b1d2ce126a29803a91828f2a5d681d8e78",
+      "path": "frames/observation_079.png"
+    },
+    {
+      "number": 80,
+      "action_count": 155,
+      "sha256": "c0bb3c37673297b1ba1ba8011420da6a7d71f94db3e95da7f282ea49ad292105",
+      "path": "frames/observation_080.png"
+    },
+    {
+      "number": 81,
+      "action_count": 157,
+      "sha256": "cf86e6b9383e350148613783f51a33434e4b80f2f943c094c717b3b3d950c1ca",
+      "path": "frames/observation_081.png"
+    },
+    {
+      "number": 82,
+      "action_count": 158,
+      "sha256": "5460be109412f12a1905ab43fc4ad6ced5bfa2740269a59aaa3a3b764772a121",
+      "path": "frames/observation_082.png"
+    },
+    {
+      "number": 83,
+      "action_count": 159,
+      "sha256": "a09b0f5562d41652869c6cd45e756a93173c1aa52a171901ae97953b5f43ecae",
+      "path": "frames/observation_083.png"
+    }
+  ]
+}

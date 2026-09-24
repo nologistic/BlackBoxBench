@@ -1,0 +1,1410 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "run_id": "eval_869da87013",
+  "checklist_id": "tasks",
+  "checklist_sha256": "a892caa95ffe700d071997fae2a7b57d629714f07c126820d724273dc74bf52b",
+  "apk_sha256": "9db2d6b605f3eefb7c026a7f2dac52e6970b3d239c5ede6c85fa576172b8a115",
+  "package_name": "com.blackboxbench.reproduction",
+  "counts": {
+    "full": 3,
+    "partial": 8,
+    "placeholder": 0,
+    "broken": 9
+  },
+  "requirements": [
+    {
+      "requirement_id": "f01",
+      "name": "创建基础任务",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "在无截止日期、不重复、无标签状态创建 Review Alpha，保存后列表新增该任务，重启后任务及标题仍在。",
+      "evidence_observations": [
+        4,
+        5,
+        7,
+        8
+      ],
+      "persistence_evidence": {
+        "requirement_id": "f01",
+        "before_observation": 4,
+        "after_observation": 7,
+        "persisted_observation": 8
+      },
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f02",
+      "name": "编辑任务与状态持久化",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "标题改为 Review Alpha Edited 并填写两行备注后保存，列表标题更新，重进详情与重启后备注仍在；详情和编辑页未显示创建时间、修改时间，无法完成这两项时间字段核对。",
+      "evidence_observations": [
+        9,
+        11,
+        12,
+        13,
+        27,
+        30
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f03",
+      "name": "开始日期 / 截止日期 / 时间",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "今天快捷项设置为2026-09-21，明天对应日历9月22日；日历选择9月15日保存后详情显示该日期，清除后详情恢复无日期且列表日期消失。编辑页只有截止日期，未找到开始日期或时间输入；列表显示日期摘要但没有日期分组。",
+      "evidence_observations": [
+        14,
+        15,
+        20,
+        30,
+        32,
+        36
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f04",
+      "name": "重复任务",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "每日重复可保存；9月15日截止的任务在9月21日完成后，下次截止推进到9月22日并记录上次完成时间。重复区仅有不重复、每天、每周、每月及规则文本，未提供固定间隔、起算方式或结束日期/次数配置。",
+      "evidence_observations": [
+        16,
+        19,
+        20,
+        26,
+        27,
+        30,
+        31
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f05",
+      "name": "优先级",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "同一任务从无优先级依次改为高、中、低，保存后详情与列表摘要分别显示对应状态，重开仍保留。按优先级降序时会议标签列表中，中优先级任务排在低优先级目标任务之前。",
+      "evidence_observations": [
+        9,
+        16,
+        20,
+        27,
+        32,
+        36,
+        49,
+        50,
+        52,
+        53,
+        54
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f06",
+      "name": "清单管理与任务归属",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "新任务最初属于工作；改为生活后，抽屉工作未完成数由5变4、生活由8变9，工作列表不再显示该任务，生活列表显示该任务且共9个未完成项。",
+      "evidence_observations": [
+        9,
+        25,
+        30,
+        32,
+        34,
+        35,
+        36
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f07",
+      "name": "标签管理",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "新建 AuditTag 并同时选会议标签，保存重启后详情和列表均保留两个标签；AuditTag筛选只显示目标任务。移除AuditTag后详情只剩会议，抽屉同步移除AuditTag。但抽屉标签项没有任务数量，未达到计数要求。",
+      "evidence_observations": [
+        17,
+        20,
+        25,
+        26,
+        27,
+        49,
+        50,
+        51
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f08",
+      "name": "子任务层级",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "创建Child One和Child Two后详情显示两项；Child One可独立完成并在重入后显示勾选，父任务仍未完成，列表计数变1/1。删除Child Two后Child One及父任务保持关联。主列表只显示子任务数量，点击数量进入详情，未提供父项折叠/展开或在主列表显示子任务的入口。",
+      "evidence_observations": [
+        19,
+        20,
+        32,
+        48,
+        49,
+        50,
+        52,
+        55,
+        59
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f09",
+      "name": "提醒",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "检查新建任务和带10:00截止时间的已有任务，详情及编辑页从顶部滑到底部都没有提醒开关、提醒时间或重复提醒设置；返回抽屉及筛选菜单也未找到入口，无法配置并触发通知。",
+      "evidence_observations": [
+        4,
+        5,
+        40,
+        64,
+        65,
+        66,
+        67,
+        68,
+        70
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f10",
+      "name": "地点与地点提醒",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "任务编辑页只有标题、备注、清单、截止日期、优先级、重复、标签、子任务和保存；上下滑动未出现地点输入。抽屉可见清单和标签，多次滑动未出现地点分类或地点提醒入口，无法建立地点关联。",
+      "evidence_observations": [
+        4,
+        5,
+        30,
+        38,
+        39,
+        66,
+        67,
+        68,
+        70
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f11",
+      "name": "描述与链接识别",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "两行备注可保存并在重进及重启后的详情中保留；任务列表没有显示这些备注。检查抽屉与筛选排序菜单未发现显示描述、完整描述、显示链接设置；详情中的电话号码未呈现链接样式，点击也未打开链接操作。",
+      "evidence_observations": [
+        11,
+        12,
+        13,
+        27,
+        40,
+        52,
+        59,
+        60,
+        64,
+        70
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f12",
+      "name": "文件与媒体附件",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "新建和已有任务编辑页均已从顶部滑到底部，页面在子任务和保存按钮处结束；详情页也未出现文件、媒体或添加附件入口，未能启动相机、录音、相册或存储选择流程。",
+      "evidence_observations": [
+        4,
+        5,
+        19,
+        60,
+        65,
+        66,
+        67,
+        68
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f13",
+      "name": "任务计时器",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "检查新建任务、已有任务详情与完整编辑页，未找到预计耗时、已耗时间、计时器或启动/暂停控件；返回列表筛选和导航抽屉后也没有计时入口，无法开始计时或验证累计耗时。",
+      "evidence_observations": [
+        4,
+        5,
+        60,
+        64,
+        65,
+        66,
+        67,
+        68,
+        70
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f14",
+      "name": "完成、恢复与删除任务",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "勾选后重开详情显示已完成及2026-09-22 00:03完成时间，恢复后回到未完成状态。删除后会议标签结果移除该任务、生活计数9变8、总未完成17变16，重启仍保持。列表隐藏已完成开关有效；但点击完成时当前列表未立即重绘，且菜单未提供清除当前范围已完成项的批量删除功能，地点联动无可用入口。",
+      "evidence_observations": [
+        43,
+        45,
+        55,
+        56,
+        57,
+        58,
+        59,
+        61,
+        62,
+        63,
+        64,
+        69,
+        70
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f15",
+      "name": "搜索任务",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "在含多条不同标题任务的全部任务列表、清单列表及标签列表中检查顶部和菜单，入口只有筛选、排序和方向，没有搜索输入框；抽屉多次滑动也未出现搜索入口，无法输入标题或描述关键词。",
+      "evidence_observations": [
+        6,
+        12,
+        35,
+        36,
+        40,
+        54,
+        64,
+        70
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f16",
+      "name": "自定义过滤器",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "导航抽屉只显示全部任务、今天、本地清单和标签，重复向上滑动未出现过滤器区域或新建入口。顶部筛选面板只提供隐藏已完成、排序字段和方向，没有条件组合、命名保存或自定义过滤器计数。",
+      "evidence_observations": [
+        25,
+        37,
+        38,
+        39,
+        40,
+        46,
+        64,
+        70
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f17",
+      "name": "列表分组、排序与显示控制",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "切换优先级排序和升降序后列表顺序改变；隐藏已完成开关重启后保留，关闭后两个原已完成任务重新显示。面板没有独立分组、未开始项目、已完成子任务或移至底部开关；已完成项固定显示在底部。",
+      "evidence_observations": [
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f18",
+      "name": "任务列表卡片内容配置",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "已检查主列表菜单、完整筛选排序面板和导航抽屉并多次滑动，没有任务清单选项、字体大小、行距、完整标题/描述/链接或纸片字段设置，无法调整任务卡片展示。",
+      "evidence_observations": [
+        6,
+        38,
+        39,
+        40,
+        43,
+        46,
+        64,
+        70
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f19",
+      "name": "自定义任务编辑界面",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "任务详情和编辑页提供固定字段；检查导航抽屉及列表菜单未找到设置、编辑屏幕选项或自定义编辑屏幕入口。编辑页滑到底部仅有子任务和保存，无字段排序、隐藏或恢复默认值操作。",
+      "evidence_observations": [
+        4,
+        5,
+        30,
+        49,
+        64,
+        66,
+        67,
+        68,
+        70
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f20",
+      "name": "默认值与完整持久化闭环",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "导航抽屉及列表菜单未提供任务默认值设置；新建页只能逐项填写当前任务的字段，没有默认清单、标签、日期、提醒或地点配置入口。已有任务的手工字段能保存，但无法完成配置默认值并由新任务继承的流程。",
+      "evidence_observations": [
+        4,
+        5,
+        6,
+        30,
+        38,
+        39,
+        40,
+        64,
+        70
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    }
+  ],
+  "actions": [
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_enter"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "wait"
+    }
+  ],
+  "observations": [
+    {
+      "number": 1,
+      "action_count": 0,
+      "sha256": "3254645dab79bb5355358294b97b905634c40b76f65aede0a3dfa6f3f7b71f63",
+      "path": "frames/observation_001.png"
+    },
+    {
+      "number": 2,
+      "action_count": 1,
+      "sha256": "6a8fe2bfb9647c04b48fd7dcaf56330e1b134f837eaf6c454baddc0b52b571f4",
+      "path": "frames/observation_002.png"
+    },
+    {
+      "number": 3,
+      "action_count": 1,
+      "sha256": "07a2a2627c9208d5fa0c8b5530f6ae4ee4145b89e22f9e7e067bc03ab3d9002f",
+      "path": "frames/observation_003.png"
+    },
+    {
+      "number": 4,
+      "action_count": 3,
+      "sha256": "1f1c68f27f0a43a301660d63e296302d561126429a321e558eb1c57fff6ffddb",
+      "path": "frames/observation_004.png"
+    },
+    {
+      "number": 5,
+      "action_count": 7,
+      "sha256": "24420090b9d4c1d63f41d19db464f8d421ffb2123d7f6bf2f8d1ec31a789eb2d",
+      "path": "frames/observation_005.png"
+    },
+    {
+      "number": 6,
+      "action_count": 10,
+      "sha256": "3f3d2f47575cbcf727e9ce3a68c63964a0766d3f902757a8a2549b99b7efb1bf",
+      "path": "frames/observation_006.png"
+    },
+    {
+      "number": 7,
+      "action_count": 12,
+      "sha256": "4a2946287aef413daa4b1e48bfde7d2ffb906dcd704cb550e92795efe9b6e0f3",
+      "path": "frames/observation_007.png"
+    },
+    {
+      "number": 8,
+      "action_count": 14,
+      "sha256": "6ca165a2659eac76db8e9e69783453d793ee24709671f3693ca1f7aa030733b1",
+      "path": "frames/observation_008.png"
+    },
+    {
+      "number": 9,
+      "action_count": 15,
+      "sha256": "f45bcd5be2a8379787b938535e73b611369ee59d4bbca8bf11a865001d1a4090",
+      "path": "frames/observation_009.png"
+    },
+    {
+      "number": 10,
+      "action_count": 20,
+      "sha256": "fe84f9984f3d37dcaa484f4c0ba444c95b94af3cd01707b3eb60f32faf74952e",
+      "path": "frames/observation_010.png"
+    },
+    {
+      "number": 11,
+      "action_count": 27,
+      "sha256": "8ab010056fe034914aaca44de39f01ef4a3554fdd1550f29da08c4845809cd4c",
+      "path": "frames/observation_011.png"
+    },
+    {
+      "number": 12,
+      "action_count": 29,
+      "sha256": "e04e9c418c2a44138c9ab961b20e968d356b9c891965c886e110948a8d98f64c",
+      "path": "frames/observation_012.png"
+    },
+    {
+      "number": 13,
+      "action_count": 30,
+      "sha256": "3fe9b0f49a54d48feb27f1af2e29d10ee922d8847d1a650010565639462f628e",
+      "path": "frames/observation_013.png"
+    },
+    {
+      "number": 14,
+      "action_count": 35,
+      "sha256": "8a845d1b617ded3a23c4c412487c4b55d02b736d0593fe7bc4d7bd32ac49fc3b",
+      "path": "frames/observation_014.png"
+    },
+    {
+      "number": 15,
+      "action_count": 37,
+      "sha256": "520f2d436229f345def12f8a6dfee585b3f2fe8ae74eee6c8ba9bcd1dc93ac87",
+      "path": "frames/observation_015.png"
+    },
+    {
+      "number": 16,
+      "action_count": 42,
+      "sha256": "20ae3aa6288a4584fcaa5506f2c5cc42a5a427a6a12ced11569a076fcbbb3e14",
+      "path": "frames/observation_016.png"
+    },
+    {
+      "number": 17,
+      "action_count": 47,
+      "sha256": "11d81f7de7741ed651e52b6a4d592836fa1556ba777150c20a1a3f77d8b0f9a6",
+      "path": "frames/observation_017.png"
+    },
+    {
+      "number": 18,
+      "action_count": 51,
+      "sha256": "276b10aa13da644d7e796dd591ff7c73ad4565f8e5a259d2bdc7b1f14caac06e",
+      "path": "frames/observation_018.png"
+    },
+    {
+      "number": 19,
+      "action_count": 56,
+      "sha256": "280381b8dbab74580a74365c1a4bad955ca67151d5ef25cb07424e6efecb87ee",
+      "path": "frames/observation_019.png"
+    },
+    {
+      "number": 20,
+      "action_count": 57,
+      "sha256": "31d95941cf5a827e5a3ad0dcaa56a3d8b0a84f866b97288b30de91e886e3f765",
+      "path": "frames/observation_020.png"
+    },
+    {
+      "number": 21,
+      "action_count": 59,
+      "sha256": "8828c41206a698ef5fb77640e48c49f63b569b2d0924fd67bbc0fcc3cdf2c73c",
+      "path": "frames/observation_021.png"
+    },
+    {
+      "number": 22,
+      "action_count": 61,
+      "sha256": "c01cece8d9567b563648df1811b7a14bcea95651d7cf15e635d5ae738f4bde5c",
+      "path": "frames/observation_022.png"
+    },
+    {
+      "number": 23,
+      "action_count": 62,
+      "sha256": "c01cece8d9567b563648df1811b7a14bcea95651d7cf15e635d5ae738f4bde5c",
+      "path": "frames/observation_023.png"
+    },
+    {
+      "number": 24,
+      "action_count": 63,
+      "sha256": "4db831c6a443ef43f59aac0297c96d740e7499e85b680621b738c625720e46ca",
+      "path": "frames/observation_024.png"
+    },
+    {
+      "number": 25,
+      "action_count": 65,
+      "sha256": "db31d0d2a28bab0ba4509df123adf7a5abc7ff735f106834cb94ccc5b08f77d2",
+      "path": "frames/observation_025.png"
+    },
+    {
+      "number": 26,
+      "action_count": 67,
+      "sha256": "48f9136ddf45e1f710722151c03da76f71f5bfec299ccb8d38f6871844e28297",
+      "path": "frames/observation_026.png"
+    },
+    {
+      "number": 27,
+      "action_count": 69,
+      "sha256": "86051e37c6d1e88ec613b90b585db6a7cb22177a61f6c445ab78f807503b530c",
+      "path": "frames/observation_027.png"
+    },
+    {
+      "number": 28,
+      "action_count": 71,
+      "sha256": "86051e37c6d1e88ec613b90b585db6a7cb22177a61f6c445ab78f807503b530c",
+      "path": "frames/observation_028.png"
+    },
+    {
+      "number": 29,
+      "action_count": 73,
+      "sha256": "97ec2df7380cc063751e76380930a54d9eb2f07c8aff4865742264c5c4a1a8f3",
+      "path": "frames/observation_029.png"
+    },
+    {
+      "number": 30,
+      "action_count": 76,
+      "sha256": "de184986d7b09782d1fd5b2b90a3543d726d17176e951cc53436495b06db8554",
+      "path": "frames/observation_030.png"
+    },
+    {
+      "number": 31,
+      "action_count": 81,
+      "sha256": "838e8696a239ce27ea2601aa5d0917aec5a513a4411a41063aba95a3f18c2a69",
+      "path": "frames/observation_031.png"
+    },
+    {
+      "number": 32,
+      "action_count": 83,
+      "sha256": "aafda2c3c0c65b084cbd5041bf1a70bfbed5930c0b517e139972a0281ab19dd5",
+      "path": "frames/observation_032.png"
+    },
+    {
+      "number": 33,
+      "action_count": 87,
+      "sha256": "9a5679a243bc3414b5630931d950249fc4817d5b71c01f48009a8d923d9a8d04",
+      "path": "frames/observation_033.png"
+    },
+    {
+      "number": 34,
+      "action_count": 88,
+      "sha256": "f313cbf8ce041453c5e035854a5bf97606f9a4488cf30b8c298f57bb50ae012a",
+      "path": "frames/observation_034.png"
+    },
+    {
+      "number": 35,
+      "action_count": 90,
+      "sha256": "c018428819fababa4279ded728a7ecf8380256511511ffd7318a637c8495ba2d",
+      "path": "frames/observation_035.png"
+    },
+    {
+      "number": 36,
+      "action_count": 93,
+      "sha256": "52af18c0e83ff208b26b75692014a7d0bd332c119c464a0719ace1cd35b74295",
+      "path": "frames/observation_036.png"
+    },
+    {
+      "number": 37,
+      "action_count": 95,
+      "sha256": "f25432ac27c113b050c493ec90994055345e82b8cf0df8f5dbde80f2704ac6cd",
+      "path": "frames/observation_037.png"
+    },
+    {
+      "number": 38,
+      "action_count": 97,
+      "sha256": "d9cb3c686322ddafbb5bd70528d4e93bd8d92cb4e67baa00140881b0574947ee",
+      "path": "frames/observation_038.png"
+    },
+    {
+      "number": 39,
+      "action_count": 99,
+      "sha256": "d9cb3c686322ddafbb5bd70528d4e93bd8d92cb4e67baa00140881b0574947ee",
+      "path": "frames/observation_039.png"
+    },
+    {
+      "number": 40,
+      "action_count": 102,
+      "sha256": "064d348751fad380f87d92b2f2274a1f174e51084f6b4e05035cfa7470c389f6",
+      "path": "frames/observation_040.png"
+    },
+    {
+      "number": 41,
+      "action_count": 106,
+      "sha256": "e068a5198ac67aab8bdafb12bef144fc3b60bff598fca24e6c5fb21a3e4e3c69",
+      "path": "frames/observation_041.png"
+    },
+    {
+      "number": 42,
+      "action_count": 107,
+      "sha256": "fd53a4a28a3cb88b5bfbbb7396dbdd97aabe3f6925f249d62aebc2179c91491f",
+      "path": "frames/observation_042.png"
+    },
+    {
+      "number": 43,
+      "action_count": 109,
+      "sha256": "14ce40b7b65e3e82c8963e6c430735f30c63c44874024f11c78c14005ac0e525",
+      "path": "frames/observation_043.png"
+    },
+    {
+      "number": 44,
+      "action_count": 113,
+      "sha256": "75aebce3c0bb8a242d595e2e7be92701c9e1c3762ae3dacf92796239d1421099",
+      "path": "frames/observation_044.png"
+    },
+    {
+      "number": 45,
+      "action_count": 114,
+      "sha256": "ba24b13e8ef67f907f0a63962a1934ffc7e6de7f3b15c396bb7a8a192375817b",
+      "path": "frames/observation_045.png"
+    },
+    {
+      "number": 46,
+      "action_count": 116,
+      "sha256": "cb8676fd383d4892edc635c8ff2d32e69d3621779adb6d9615b3e78e0edacba6",
+      "path": "frames/observation_046.png"
+    },
+    {
+      "number": 47,
+      "action_count": 119,
+      "sha256": "ba24b13e8ef67f907f0a63962a1934ffc7e6de7f3b15c396bb7a8a192375817b",
+      "path": "frames/observation_047.png"
+    },
+    {
+      "number": 48,
+      "action_count": 126,
+      "sha256": "af09a5a373ff0f5d6c2877ddcc9631c209e8d7a82e0f0806f0aa9a996127643c",
+      "path": "frames/observation_048.png"
+    },
+    {
+      "number": 49,
+      "action_count": 129,
+      "sha256": "c571ff0f2e71f3a7a9402d143c97821aa983a4c0fbb148dda62fb54a342b9e88",
+      "path": "frames/observation_049.png"
+    },
+    {
+      "number": 50,
+      "action_count": 131,
+      "sha256": "c5cf6ff0653efd9e43e32880f8cd7bc4086d4558c914b4afbfb3c9219b6150cf",
+      "path": "frames/observation_050.png"
+    },
+    {
+      "number": 51,
+      "action_count": 135,
+      "sha256": "a05e87a0cbd7cdc05c4fe2f1f037d97a45c7434713b1899f14f4fa42abc0f535",
+      "path": "frames/observation_051.png"
+    },
+    {
+      "number": 52,
+      "action_count": 137,
+      "sha256": "21e50494a3a04353f145a819d3da367658143dbaf7c86404af0d1ece006c0f87",
+      "path": "frames/observation_052.png"
+    },
+    {
+      "number": 53,
+      "action_count": 141,
+      "sha256": "ee156fe479d2d20eef93bcb8ea1e16085c09f3b5750bba401c6d8eb8b4f0cb4c",
+      "path": "frames/observation_053.png"
+    },
+    {
+      "number": 54,
+      "action_count": 143,
+      "sha256": "ce14511a7a251c5d463da6c79572bf7630df9af178a3cf31ceb097a092da1b64",
+      "path": "frames/observation_054.png"
+    },
+    {
+      "number": 55,
+      "action_count": 147,
+      "sha256": "a8cb13f83b0b886e33046697d9aad20d88c8c98796259328ff2882d64893d9d4",
+      "path": "frames/observation_055.png"
+    },
+    {
+      "number": 56,
+      "action_count": 149,
+      "sha256": "ac6d42ffd905effa25a9e9ea5da77115b0a9d37ba1869adf400320b8248aa325",
+      "path": "frames/observation_056.png"
+    },
+    {
+      "number": 57,
+      "action_count": 151,
+      "sha256": "1ed809e5d148866807e84d16ff36ed7a606fe576a54269e7a0908ef8f5723274",
+      "path": "frames/observation_057.png"
+    },
+    {
+      "number": 58,
+      "action_count": 159,
+      "sha256": "bffef95190d98780369700410c324c16c8dc7f69c0dd9edef2d14d5c9fa5c0cc",
+      "path": "frames/observation_058.png"
+    },
+    {
+      "number": 59,
+      "action_count": 161,
+      "sha256": "bf28ce23f2d014e6ec544192d759edf8184350086c461f4d8918d217b5ad9ac9",
+      "path": "frames/observation_059.png"
+    },
+    {
+      "number": 60,
+      "action_count": 163,
+      "sha256": "bf28ce23f2d014e6ec544192d759edf8184350086c461f4d8918d217b5ad9ac9",
+      "path": "frames/observation_060.png"
+    },
+    {
+      "number": 61,
+      "action_count": 165,
+      "sha256": "ad56a9d54b4798f9fea0011f42d2137bee8429b57e5685913d42627a5a58d283",
+      "path": "frames/observation_061.png"
+    },
+    {
+      "number": 62,
+      "action_count": 169,
+      "sha256": "b72f3fc4d869e0152f4e4510b6455076d02c672a692f30042d0b44916dba8dbe",
+      "path": "frames/observation_062.png"
+    },
+    {
+      "number": 63,
+      "action_count": 171,
+      "sha256": "5d1a476fb101777b9ca269f74e62016126347bd3f8b05746ee23c6bb3501a523",
+      "path": "frames/observation_063.png"
+    },
+    {
+      "number": 64,
+      "action_count": 173,
+      "sha256": "b942728873a1b98ec257cb4c113bc57afe7c429fb6efb78b5d0d1bc1b4e96984",
+      "path": "frames/observation_064.png"
+    },
+    {
+      "number": 65,
+      "action_count": 177,
+      "sha256": "ca66e3c112d6dd18fc5e067c44003a4ff17d735c1a930a47f804645e45952555",
+      "path": "frames/observation_065.png"
+    },
+    {
+      "number": 66,
+      "action_count": 179,
+      "sha256": "b3a447e075d27ed2b873eeccd789d4ce84ce979539d1f812eb77350f2bd81637",
+      "path": "frames/observation_066.png"
+    },
+    {
+      "number": 67,
+      "action_count": 182,
+      "sha256": "740a277ebd4095f1bd6ac7c4db03e969a54cbe5e90575d196dc0ec0cf9e63e6b",
+      "path": "frames/observation_067.png"
+    },
+    {
+      "number": 68,
+      "action_count": 184,
+      "sha256": "740a277ebd4095f1bd6ac7c4db03e969a54cbe5e90575d196dc0ec0cf9e63e6b",
+      "path": "frames/observation_068.png"
+    },
+    {
+      "number": 69,
+      "action_count": 189,
+      "sha256": "96c2ea6841d4944be92c455a6070f2c6361f41c6d8a9f3aef3383c2f5b7e4da1",
+      "path": "frames/observation_069.png"
+    },
+    {
+      "number": 70,
+      "action_count": 193,
+      "sha256": "a44afacb73acebc3e638bb460bb52eac2c62f0b3dd48cf403bfc59c22d0130fe",
+      "path": "frames/observation_070.png"
+    }
+  ]
+}

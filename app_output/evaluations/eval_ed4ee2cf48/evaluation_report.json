@@ -1,0 +1,1477 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "run_id": "eval_ed4ee2cf48",
+  "checklist_id": "vinyl",
+  "checklist_sha256": "1c2a02ed2b6565d10b98ee4c7a170b043ecca06a733cda75141fcb12576272a3",
+  "apk_sha256": "0d04a12e0d2d0471e762e01968a51c9431f7c30c17c1a9b18a5558f0a4fe31a1",
+  "package_name": "com.blackboxbench.reproduction",
+  "counts": {
+    "full": 2,
+    "partial": 13,
+    "placeholder": 3,
+    "broken": 4
+  },
+  "requirements": [
+    {
+      "requirement_id": "f01",
+      "name": "本地媒体库扫描与重建",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "启动后歌曲库显示 8 首歌曲，文件夹页也列出 8 个音频文件，专辑按 4/3/1 首分组，具备初始媒体展示路径。尚未完成新增/删除后重新扫描与扫描中间状态验证，不能据初始列表认定重建闭环完整。",
+      "evidence_observations": [
+        8,
+        56,
+        72,
+        96
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "仅可使用 GUI；无可用音频投放入口。后续应用出现 ANR，restart_app 多次无法重新启动，reset_app 也未完成，重新扫描用例被阻断。"
+    },
+    {
+      "requirement_id": "f02",
+      "name": "歌曲库浏览与排序",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "首字符倒序真实反转列表，切换到专辑页再回歌曲页保持；艺术家和专辑排序分别重排歌曲，同组保持合理次级顺序。Year/年份、Added/添加日期、Modified 等菜单逐项选择后可见列表未出现可区别变化，不能证明所有条件完整。未完成重启后的排序记忆验证。",
+      "evidence_observations": [
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "现有样本缺少已验证不同的年份/添加时间/修改时间，标签修改未落地；随后 ANR 阻断追加验证。"
+    },
+    {
+      "requirement_id": "f03",
+      "name": "专辑聚合与专辑详情",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "专辑页按 Neon Harbour、Paper Lanterns、Unknown Album 分组并显示封面、名称、艺术家和 4/3/1 首歌曲。Neon Harbour 详情汇总 4 首、8:01，仅列该专辑 Track 1—4，顺序合理；从歌曲菜单“查看专辑”进入得到同一专辑与歌曲集合。",
+      "evidence_observations": [
+        8,
+        10,
+        15
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f04",
+      "name": "艺术家聚合与艺术家详情",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "艺术家页聚合 BlackBoxBench、Mei & The Foxes、The Chromatics，详情显示专辑/歌曲区及汇总；直接打开 The Chromatics 与从歌曲“查看艺术家”进入均得到 1 张专辑、4 首、8:01。艺术家主列表只显示歌曲数，未显示要求中的专辑数。",
+      "evidence_observations": [
+        16,
+        17,
+        18
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "现有样本每个艺术家只有一张专辑，无法覆盖同一艺术家多个专辑及多 Artist 元数据分支；标签修改未落地。"
+    },
+    {
+      "requirement_id": "f05",
+      "name": "音乐类型 Genre 聚合",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "音乐类型页列出 Indie Folk 与 Synthwave，打开 Indie Folk 只显示 Paper Lanterns 的 3 首歌曲，能够选入播放器。类型主列表未显示歌曲计数；编辑 Genre 为 Synthwave Review 并保存后类型列表仍只有原来的两组，未按新标签更新。",
+      "evidence_observations": [
+        19,
+        20,
+        21,
+        59,
+        61,
+        64
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f06",
+      "name": "文件夹浏览",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "文件夹页显示 /storage/emulated/0/Music 和八个音频文件名、大小，点击条目可建立播放队列。点击路径栏无父级导航，菜单仅有随机播放和网格尺寸，返回键直接回歌曲库；未提供可浏览的目录层级或变化的面包屑。随机模式下点击 Neon Harbour 第一曲实际进入 Paper Lanterns Track 1。",
+      "evidence_observations": [
+        72,
+        73,
+        74,
+        75
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f07",
+      "name": "媒体库黑名单 / 白名单",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "点击黑名单只出现“黑名单”提示，未进入目录选择或管理页面，无法配置排除目录。白名单可以切换开关并显示固定起始目录 /storage/emulated/0/Music，但未提供范围选择或可验证的媒体过滤变化；返回媒体库仍为原 8 首。没有完成要求的目录过滤闭环。",
+      "evidence_observations": [
+        77,
+        78,
+        79,
+        83,
+        96
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "样本全部位于同一 Music 目录，白名单真正的跨目录筛选无法验证；后续 ANR 且重启失败阻断重扫和持久化复验。"
+    },
+    {
+      "requirement_id": "f08",
+      "name": "搜索歌曲及媒体实体",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "搜索页可打开并展示专辑、艺术家和歌曲；多次点击及长按搜索框后输入 Track 1、Aurora 并确认，输入框仍显示“搜索曲库”，列表始终保留所有实体，没有查询过滤行为。",
+      "evidence_observations": [
+        65,
+        68,
+        69,
+        70
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f09",
+      "name": "基础音频播放闭环",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "完整播放页能显示曲名、艺术家、专辑和时长，进度随时间前进、暂停后保持、拖动可跳至 1:53，并在结束后切歌。但初次选曲后停在 0:00；从播放页返回媒体库后变为暂停，重入播放页进度归零，mini-player 未保持正在播放状态。",
+      "evidence_observations": [
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        35,
+        36,
+        74,
+        75
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "仅有截图观察通道，已验证可见进度与按钮状态，无法直接监听音频输出。"
+    },
+    {
+      "requirement_id": "f10",
+      "name": "上一首 / 下一首 / 自动连续播放",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "三曲队列中下一首将 Track 2 切换为 Track 3、进度归零且位置变为 3/3；上一首可返回 Track 2。拖到结尾后能自动进入下一曲。但循环图标为关闭的灰色时，队列末曲结束仍回到第一曲并继续播放，未按关闭循环停止。",
+      "evidence_observations": [
+        28,
+        29,
+        30,
+        31,
+        32
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f11",
+      "name": "随机与循环播放状态",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "随机按钮可高亮，后续从新集合启动时队列出现非原列表顺序；单曲循环状态下把 Track 2 拖近结尾后回到同一曲开头。关闭循环时队列最后一首结束仍回到第一首；离开播放页再进入，循环按钮恢复关闭且进度归零，状态未可靠保持。设置中的“记住随机播放状态”为开启。",
+      "evidence_observations": [
+        32,
+        33,
+        34,
+        35,
+        36,
+        74,
+        88
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f12",
+      "name": "“作为下一首”与播放队列插入",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "本轮运行受应用无响应阻断：系统弹出“Reproduced App 没有响应”，之后多次 restart_app 返回无法重新启动，reset_app 返回设备未完成操作，后续 observe 仍无法启动应用。因此在最终运行状态无法进入并执行“作为下一首插入”。本项失效判定仅描述本轮不可进入的状态，不是该功能逻辑已被独立测试并证实错误。",
+      "evidence_observations": [
+        96
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "因 ANR 及恢复失败，本项核心操作未执行，不能验证预期结果；需在恢复可操作环境后补测“作为下一首插入”。评测接口没有独立的“未验证/受阻”档位，本项使用 broken（完全无法进入）并明确此限制，不应当作功能实现缺陷的确定结论。"
+    },
+    {
+      "requirement_id": "f13",
+      "name": "加入播放队列与队列管理",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "正在播放页具有真实可切换的队列展示，当前歌曲、队列位置和总数随前后切曲变化，从另一集合启动后可显示 8 首的随机队列。逐首追加、清空及保存为持久播放列表尚未验证，不能认定完整队列管理闭环成立。",
+      "evidence_observations": [
+        23,
+        29,
+        31,
+        74,
+        96
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "应用在后续设置测试出现 ANR，此后无法重新启动；清空数据恢复也失败。该故障阻断追加/清空/保存测试，不代表已证明这些独立操作的逻辑缺陷。"
+    },
+    {
+      "requirement_id": "f14",
+      "name": "播放列表创建、加歌与持久化",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "本轮运行受应用无响应阻断：系统弹出“Reproduced App 没有响应”，之后多次 restart_app 返回无法重新启动，reset_app 返回设备未完成操作，后续 observe 仍无法启动应用。因此在最终运行状态无法进入并执行“播放列表创建、加歌与持久化”。本项失效判定仅描述本轮不可进入的状态，不是该功能逻辑已被独立测试并证实错误。",
+      "evidence_observations": [
+        96
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "因 ANR 及恢复失败，本项核心操作未执行，不能验证预期结果；需在恢复可操作环境后补测“播放列表创建、加歌与持久化”。评测接口没有独立的“未验证/受阻”档位，本项使用 broken（完全无法进入）并明确此限制，不应当作功能实现缺陷的确定结论。"
+    },
+    {
+      "requirement_id": "f15",
+      "name": "自动播放列表 / 派生列表",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "自动列表入口及歌曲明细可打开；收藏夹随心形收藏增加 Paper Lanterns Track 2、重启后保留、取消后减少，证明收藏派生列表具有动态行为。标为“最喜爱的歌曲”的列表仍是另外两首歌，没有跟随本次收藏变化。最近添加、播放历史、最近未播放过的增量更新未完成充分验证，不能认定整组自动列表达标。",
+      "evidence_observations": [
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        96
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "没有 GUI 音频投放能力；后续 ANR 和重启失败阻断了新增歌曲、播放未播歌曲前后的对照测试。"
+    },
+    {
+      "requirement_id": "f16",
+      "name": "收藏歌曲",
+      "grade": "full",
+      "grade_label": "完整",
+      "rationale": "Paper Lanterns 的 Track 2 心形由空心变为实心；重启后收藏夹包含该曲且播放页仍为实心。再次取消后收藏夹由两曲变一曲，普通歌曲页仍保留 Track 2。收藏集合在本版本以“收藏夹”提供。",
+      "evidence_observations": [
+        36,
+        37,
+        41,
+        42,
+        43,
+        56
+      ],
+      "persistence_evidence": {
+        "requirement_id": "f16",
+        "before_observation": 36,
+        "after_observation": 37,
+        "persisted_observation": 42
+      },
+      "not_verifiable_reason": null
+    },
+    {
+      "requirement_id": "f17",
+      "name": "音乐标签编辑器与媒体库同步",
+      "grade": "placeholder",
+      "grade_label": "占位",
+      "rationale": "在编辑器实际输入新标题 Track 1Review Aurora，以及 Album/Artist/Genre 的 Review 后缀、Year 2024，保存并允许修改音频文件后出现“标签已保存”。返回歌曲库仍显示原 Track 1，专辑、艺术家和 Genre 列表均未增加新分组或改变归属，保存反馈没有对应的数据变化。",
+      "evidence_observations": [
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "后续应用 ANR 且无法恢复，未能继续重扫和重开详情核验文件标签；已观察到保存后的媒体库同步路径不成立。"
+    },
+    {
+      "requirement_id": "f18",
+      "name": "歌曲详情与真实文件信息",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "详情弹窗实际展示 Neon Harbour Track 1 的路径、2.30 MB、Mp3、128 kb/s、44100 Hz、时间戳、Track/Disc、标题/艺术家/专辑/类型、时长 1:47 与 ReplayGain 缺省值；文件名和大小与文件夹页对应。尚未通过第二个音频文件的差异对照排除固定模板，也无法独立核验全部底层文件字段。",
+      "evidence_observations": [
+        13,
+        14,
+        72,
+        96
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "只有像素观察通道；第二文件对照前发生 ANR，重启和清空数据恢复均未成功。"
+    },
+    {
+      "requirement_id": "f19",
+      "name": "从设备删除歌曲",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "本轮运行受应用无响应阻断：系统弹出“Reproduced App 没有响应”，之后多次 restart_app 返回无法重新启动，reset_app 返回设备未完成操作，后续 observe 仍无法启动应用。因此在最终运行状态无法进入并执行“从设备删除歌曲”。本项失效判定仅描述本轮不可进入的状态，不是该功能逻辑已被独立测试并证实错误。",
+      "evidence_observations": [
+        96
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "因 ANR 及恢复失败，本项核心操作未执行，不能验证预期结果；需在恢复可操作环境后补测“从设备删除歌曲”。评测接口没有独立的“未验证/受阻”档位，本项使用 broken（完全无法进入）并明确此限制，不应当作功能实现缺陷的确定结论。"
+    },
+    {
+      "requirement_id": "f20",
+      "name": "睡眠定时器",
+      "grade": "broken",
+      "grade_label": "失效",
+      "rationale": "本轮运行受应用无响应阻断：系统弹出“Reproduced App 没有响应”，之后多次 restart_app 返回无法重新启动，reset_app 返回设备未完成操作，后续 observe 仍无法启动应用。因此在最终运行状态无法进入并执行“睡眠定时器”。本项失效判定仅描述本轮不可进入的状态，不是该功能逻辑已被独立测试并证实错误。",
+      "evidence_observations": [
+        96
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "因 ANR 及恢复失败，本项核心操作未执行，不能验证预期结果；需在恢复可操作环境后补测“睡眠定时器”。评测接口没有独立的“未验证/受阻”档位，本项使用 broken（完全无法进入）并明确此限制，不应当作功能实现缺陷的确定结论。"
+    },
+    {
+      "requirement_id": "f21",
+      "name": "ReplayGain / 均衡器与音频设置",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "均衡器可打开且 60 Hz 滑块可改变位置；ReplayGain 源模式可从无切为音轨、专辑，预放大可由不启用切为启用。尚无证据证明这些 UI 变化作用于真实音频增益。随后返回主界面出现“Reproduced App 没有响应”系统对话框，无法完成切换设置时播放进度/队列连续性的验证。仅记录时间先后，不能据此断言 ANR 的具体根因。",
+      "evidence_observations": [
+        88,
+        89,
+        91,
+        92,
+        93,
+        96
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "评审工具没有音频听取或波形测量通道，现有详情也未提供已知 ReplayGain 数据；ANR 后多次重启及 reset_app 失败。"
+    },
+    {
+      "requirement_id": "f22",
+      "name": "媒体库与界面配置持久化",
+      "grade": "partial",
+      "grade_label": "部分",
+      "rationale": "媒体库类别可勾选和调整顺序，隐藏艺术家后主页面确实只剩歌曲/专辑/音乐类型/播放列表；浅色切为暗色后背景即时变暗。Theme style 点击只显示同名提示，未提供 Classic/Rounded 选择；主色调选择后回到设置仍为原蓝色。遍历设置未找到 Export/Import 操作，配置恢复闭环未完成。",
+      "evidence_observations": [
+        77,
+        80,
+        81,
+        83,
+        84,
+        85,
+        86,
+        94,
+        95,
+        96
+      ],
+      "persistence_evidence": null,
+      "not_verifiable_reason": "AMOLED、强调色及重启持久化尚未完成全面复验；应用随后 ANR，restart_app 与 reset_app 均未恢复可操作界面。"
+    }
+  ],
+  "actions": [
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "restart_app"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "long_press"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "type_text"
+    },
+    {
+      "type": "press_enter"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "press_back"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "wait"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "tap"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "swipe"
+    },
+    {
+      "type": "press_back"
+    }
+  ],
+  "observations": [
+    {
+      "number": 1,
+      "action_count": 0,
+      "sha256": "5cf5b68424a5a719f9c70efb5703c67bf76b80c67fc8df963a07074bdb0456ec",
+      "path": "frames/observation_001.png"
+    },
+    {
+      "number": 2,
+      "action_count": 1,
+      "sha256": "2f7b50a60a748c248af0bfe5129cacffa21f8bbb3f075af4bd4f9abbc9894875",
+      "path": "frames/observation_002.png"
+    },
+    {
+      "number": 3,
+      "action_count": 2,
+      "sha256": "e7bdf265d0731ed6221fb5b313d4e0214c8956f4feb1b43cddb76234217267cf",
+      "path": "frames/observation_003.png"
+    },
+    {
+      "number": 4,
+      "action_count": 3,
+      "sha256": "b7cccb458887cb0a2b4fcc9e8325273c51c30bf689b86a93a871023ba8215f16",
+      "path": "frames/observation_004.png"
+    },
+    {
+      "number": 5,
+      "action_count": 4,
+      "sha256": "fe0d615565d2185fd5702eecd4f2bdef47326c8252123799aeb92abd32c3614a",
+      "path": "frames/observation_005.png"
+    },
+    {
+      "number": 6,
+      "action_count": 5,
+      "sha256": "631b9deb0840afba3735a4cae0daaff6c0b0b2b256be89aa4df29482f1446c5c",
+      "path": "frames/observation_006.png"
+    },
+    {
+      "number": 7,
+      "action_count": 6,
+      "sha256": "6573369f19345663a1433a13bc66065dc77917e32ceee1d5d600531a176f92de",
+      "path": "frames/observation_007.png"
+    },
+    {
+      "number": 8,
+      "action_count": 7,
+      "sha256": "fdc633c092d11f47731f84b418a2b826d781274a52bceaecdee20eddcf975a76",
+      "path": "frames/observation_008.png"
+    },
+    {
+      "number": 9,
+      "action_count": 8,
+      "sha256": "fdc633c092d11f47731f84b418a2b826d781274a52bceaecdee20eddcf975a76",
+      "path": "frames/observation_009.png"
+    },
+    {
+      "number": 10,
+      "action_count": 9,
+      "sha256": "6f968ad03bb9d4a2e1907c47de9e00ecaa3a5bdd9581477c084ee3987c8b3351",
+      "path": "frames/observation_010.png"
+    },
+    {
+      "number": 11,
+      "action_count": 10,
+      "sha256": "6f968ad03bb9d4a2e1907c47de9e00ecaa3a5bdd9581477c084ee3987c8b3351",
+      "path": "frames/observation_011.png"
+    },
+    {
+      "number": 12,
+      "action_count": 11,
+      "sha256": "ffc09db8b7cd579d48ed1fe772af26d06dc56fbf16cb62d98dc589d6bccb00f5",
+      "path": "frames/observation_012.png"
+    },
+    {
+      "number": 13,
+      "action_count": 12,
+      "sha256": "db7aea61f3eca08d9f9d45b912f44aab447c5a958ccb24c57dae1bcaf777b383",
+      "path": "frames/observation_013.png"
+    },
+    {
+      "number": 14,
+      "action_count": 13,
+      "sha256": "5ad48374dfa607162e994b04e18645a2c3f090f85bcaa4f94b6b42953b7f5966",
+      "path": "frames/observation_014.png"
+    },
+    {
+      "number": 15,
+      "action_count": 16,
+      "sha256": "f2bb5c208e7df2d8206e76ba302df35890dec2e51a8ef3478fa668aed6c36d5a",
+      "path": "frames/observation_015.png"
+    },
+    {
+      "number": 16,
+      "action_count": 18,
+      "sha256": "73f1e8f8f60af2a08a44aec08208f3de4bbc9b7c249ef2b5dd8c31f613c52d69",
+      "path": "frames/observation_016.png"
+    },
+    {
+      "number": 17,
+      "action_count": 20,
+      "sha256": "950a16112d1a75b0ec00a9999e7ec088d8b1878dd451d321a734c168b97f4a10",
+      "path": "frames/observation_017.png"
+    },
+    {
+      "number": 18,
+      "action_count": 21,
+      "sha256": "3ba8bfc21f57fec2e0243a036c9c114bde420b7a338299fe4e13b6379646eebb",
+      "path": "frames/observation_018.png"
+    },
+    {
+      "number": 19,
+      "action_count": 23,
+      "sha256": "9dfd8945988e360711996d866ff15873a95ac3198e5562e064d7f4bda09733ea",
+      "path": "frames/observation_019.png"
+    },
+    {
+      "number": 20,
+      "action_count": 24,
+      "sha256": "dd9ee054aca27fd509624d818a3fc433133bc189e9bc5e125cdbcce142c65ec3",
+      "path": "frames/observation_020.png"
+    },
+    {
+      "number": 21,
+      "action_count": 25,
+      "sha256": "e1cdbe5b56a2a78f71a28dbbc311753054dcfa0916936b35bbc956a5da48a03c",
+      "path": "frames/observation_021.png"
+    },
+    {
+      "number": 22,
+      "action_count": 27,
+      "sha256": "b04d68d3ad79ab7e39eb264d661b51f66fe01108ca5ad8bcbb791bf47d766a07",
+      "path": "frames/observation_022.png"
+    },
+    {
+      "number": 23,
+      "action_count": 28,
+      "sha256": "4cb011de2acb061699eadc8778ba39c4b11faf14b4347d6512ef84f071a7eab1",
+      "path": "frames/observation_023.png"
+    },
+    {
+      "number": 24,
+      "action_count": 30,
+      "sha256": "99d2a496e40da2e1790e5aa517e39a17d62448a030b92e80c0ee66869228ddb9",
+      "path": "frames/observation_024.png"
+    },
+    {
+      "number": 25,
+      "action_count": 31,
+      "sha256": "1e0dee373967a494c69509b375b9dde2f08b3ca509020a5212b61658b1d5ba8a",
+      "path": "frames/observation_025.png"
+    },
+    {
+      "number": 26,
+      "action_count": 32,
+      "sha256": "82d10a1d7e43ff1ad49102c2be61789aa649a9dc4772c4095ece48ef65079f66",
+      "path": "frames/observation_026.png"
+    },
+    {
+      "number": 27,
+      "action_count": 33,
+      "sha256": "82d10a1d7e43ff1ad49102c2be61789aa649a9dc4772c4095ece48ef65079f66",
+      "path": "frames/observation_027.png"
+    },
+    {
+      "number": 28,
+      "action_count": 34,
+      "sha256": "d78879871c299924d7ae1ca8c111a2c6cd93d198f5b001a8a99bb3a76a3b0afe",
+      "path": "frames/observation_028.png"
+    },
+    {
+      "number": 29,
+      "action_count": 36,
+      "sha256": "aca8a77004e90ba391bfdc9576b9a1010eb2d1c3762086409d78682bf5f7307e",
+      "path": "frames/observation_029.png"
+    },
+    {
+      "number": 30,
+      "action_count": 37,
+      "sha256": "474a154a2bcfe551c51f7e0cab84c54b82cdb21a3f62c675abbc98f7b6da662d",
+      "path": "frames/observation_030.png"
+    },
+    {
+      "number": 31,
+      "action_count": 38,
+      "sha256": "000b07a6659692b5cf24d8759462793259d31bcc07707fbd37d6cac0753a6c42",
+      "path": "frames/observation_031.png"
+    },
+    {
+      "number": 32,
+      "action_count": 40,
+      "sha256": "7499a94a650d6bdbac3f7d345aa4b56575df59da8bfbc5db41db07d04c4ccbff",
+      "path": "frames/observation_032.png"
+    },
+    {
+      "number": 33,
+      "action_count": 42,
+      "sha256": "6cd4fe019050e762e624ef278238df280d846d9b82aec413376f88f8d3e92b60",
+      "path": "frames/observation_033.png"
+    },
+    {
+      "number": 34,
+      "action_count": 43,
+      "sha256": "d80fa0426bbf877fab78d1318f49d18426c5510369aefc31fa56448048d7add9",
+      "path": "frames/observation_034.png"
+    },
+    {
+      "number": 35,
+      "action_count": 46,
+      "sha256": "989e7c8f9a2917bf67d398f0ca2385735301f461711246cf4781676fc241d286",
+      "path": "frames/observation_035.png"
+    },
+    {
+      "number": 36,
+      "action_count": 48,
+      "sha256": "bde88a1994f22cf39e503335d6fef64dba22e275cc325fcca8ba987507a93669",
+      "path": "frames/observation_036.png"
+    },
+    {
+      "number": 37,
+      "action_count": 49,
+      "sha256": "6b9564e4790b56c2d8fd32477479a941210355f007c4034b23ae687d40bebbc7",
+      "path": "frames/observation_037.png"
+    },
+    {
+      "number": 38,
+      "action_count": 51,
+      "sha256": "4ea1680586cbfe1aa84abfc8d842df9b2aa14cd1f966f84afc3f2272e5636465",
+      "path": "frames/observation_038.png"
+    },
+    {
+      "number": 39,
+      "action_count": 52,
+      "sha256": "cc0a3ea6bbdc7548adc70c3ce5e09a009d4598dff5fadc256616809a7585c9f8",
+      "path": "frames/observation_039.png"
+    },
+    {
+      "number": 40,
+      "action_count": 55,
+      "sha256": "aaf36c160b45602cac57dc7a912328ccb4cbeee4267d45aa87023944dffe9e25",
+      "path": "frames/observation_040.png"
+    },
+    {
+      "number": 41,
+      "action_count": 58,
+      "sha256": "c1757c86ab054324971ef81801c25e838d035be888ecdfc21d4225fbed9a5f72",
+      "path": "frames/observation_041.png"
+    },
+    {
+      "number": 42,
+      "action_count": 60,
+      "sha256": "667f83c6ee4cccb36fe061dae07655274c0bd8a09ad80b8983b62d41e60d1531",
+      "path": "frames/observation_042.png"
+    },
+    {
+      "number": 43,
+      "action_count": 64,
+      "sha256": "33509be527a2494b0a29b071562a2bfaf8e35a4724e13561c7358d58a7da77f7",
+      "path": "frames/observation_043.png"
+    },
+    {
+      "number": 44,
+      "action_count": 66,
+      "sha256": "d914cca2ce2f1975beab59cb2cfcd01be010859cc3b61ad1ab58c05a57716776",
+      "path": "frames/observation_044.png"
+    },
+    {
+      "number": 45,
+      "action_count": 67,
+      "sha256": "2b7b97596902840845b52fdb92bc92841f074a17d4fc5a64a7f1d9832e28bb4d",
+      "path": "frames/observation_045.png"
+    },
+    {
+      "number": 46,
+      "action_count": 68,
+      "sha256": "56baf82bde614e7a8541b38960d09d459d7a26a119f0d1e1887718e63c9e3a75",
+      "path": "frames/observation_046.png"
+    },
+    {
+      "number": 47,
+      "action_count": 70,
+      "sha256": "b2e3148dea99ecb02490758d675e5a1b89f1819dfb38817b1c96838ba0b5d44d",
+      "path": "frames/observation_047.png"
+    },
+    {
+      "number": 48,
+      "action_count": 73,
+      "sha256": "56ced2e34455fe5c4379ba3bf4f6f240cf000549756ad89a82aa4ac9c39c0526",
+      "path": "frames/observation_048.png"
+    },
+    {
+      "number": 49,
+      "action_count": 76,
+      "sha256": "e2863f5a9db6e37b4648bffacfe426686ba0aed393c5905d60b102b1ae41148a",
+      "path": "frames/observation_049.png"
+    },
+    {
+      "number": 50,
+      "action_count": 79,
+      "sha256": "e2863f5a9db6e37b4648bffacfe426686ba0aed393c5905d60b102b1ae41148a",
+      "path": "frames/observation_050.png"
+    },
+    {
+      "number": 51,
+      "action_count": 82,
+      "sha256": "e2863f5a9db6e37b4648bffacfe426686ba0aed393c5905d60b102b1ae41148a",
+      "path": "frames/observation_051.png"
+    },
+    {
+      "number": 52,
+      "action_count": 85,
+      "sha256": "e2863f5a9db6e37b4648bffacfe426686ba0aed393c5905d60b102b1ae41148a",
+      "path": "frames/observation_052.png"
+    },
+    {
+      "number": 53,
+      "action_count": 88,
+      "sha256": "e2863f5a9db6e37b4648bffacfe426686ba0aed393c5905d60b102b1ae41148a",
+      "path": "frames/observation_053.png"
+    },
+    {
+      "number": 54,
+      "action_count": 91,
+      "sha256": "e2863f5a9db6e37b4648bffacfe426686ba0aed393c5905d60b102b1ae41148a",
+      "path": "frames/observation_054.png"
+    },
+    {
+      "number": 55,
+      "action_count": 94,
+      "sha256": "e2863f5a9db6e37b4648bffacfe426686ba0aed393c5905d60b102b1ae41148a",
+      "path": "frames/observation_055.png"
+    },
+    {
+      "number": 56,
+      "action_count": 97,
+      "sha256": "2c6ab7765b8f666812dee6971dac3cfd34cd6e5e2b50091797d49f7f57f9cc0e",
+      "path": "frames/observation_056.png"
+    },
+    {
+      "number": 57,
+      "action_count": 99,
+      "sha256": "f8a4f5268b172fe3446cb5610952d6d3ff11f589e86f7234174c40ae95be74a8",
+      "path": "frames/observation_057.png"
+    },
+    {
+      "number": 58,
+      "action_count": 102,
+      "sha256": "59badeefdb3f6ca2a36dd5dec2282a4494d225b083a816b4f51f94f89c8004da",
+      "path": "frames/observation_058.png"
+    },
+    {
+      "number": 59,
+      "action_count": 114,
+      "sha256": "1923abcc764f448c433ed7171b1078c7308a84f2b81d98bfc5c18e21f725367d",
+      "path": "frames/observation_059.png"
+    },
+    {
+      "number": 60,
+      "action_count": 115,
+      "sha256": "96b20e70a697fbdc539422b5ed17e097a36f7283cd8f52767a65c49b559899b4",
+      "path": "frames/observation_060.png"
+    },
+    {
+      "number": 61,
+      "action_count": 116,
+      "sha256": "fce0cf05985e2f63aa9230b22495402584a4073eacac91769e0577cb39047bb7",
+      "path": "frames/observation_061.png"
+    },
+    {
+      "number": 62,
+      "action_count": 117,
+      "sha256": "243b80f13d655d40241149fd52d411dd119c597e8b3d4b6c9be064aeac244cf4",
+      "path": "frames/observation_062.png"
+    },
+    {
+      "number": 63,
+      "action_count": 118,
+      "sha256": "5de0d93f798ee93c2d3ada939a2c35a67cef4f5d604cfe7fc2b8b91c7b3bdd4e",
+      "path": "frames/observation_063.png"
+    },
+    {
+      "number": 64,
+      "action_count": 119,
+      "sha256": "b22e4460257f52a92eee2a12763e5a9a563aa53989049fd34ddb8ccc592f2b5d",
+      "path": "frames/observation_064.png"
+    },
+    {
+      "number": 65,
+      "action_count": 120,
+      "sha256": "723d683886d5e8284c200ab12828c9d061de63465d94a226029f6653c39217b5",
+      "path": "frames/observation_065.png"
+    },
+    {
+      "number": 66,
+      "action_count": 122,
+      "sha256": "91c432fc6708d7192905fd1306aff9e8e9c3c12208f9dec4c6628fef67d2ac8f",
+      "path": "frames/observation_066.png"
+    },
+    {
+      "number": 67,
+      "action_count": 126,
+      "sha256": "f4d1803d7a737cd3ad35bd8183f0e281258540cb72304a869b941660a1a5c7b4",
+      "path": "frames/observation_067.png"
+    },
+    {
+      "number": 68,
+      "action_count": 129,
+      "sha256": "881cc6b97b25c94881b12dea7d9f5e44c99f0fdffd02fb7f6269720e85ea13ef",
+      "path": "frames/observation_068.png"
+    },
+    {
+      "number": 69,
+      "action_count": 130,
+      "sha256": "8c52a3d7827c9219d9806fb19208b382fd20c25d89639fada37acbb6ab1907e7",
+      "path": "frames/observation_069.png"
+    },
+    {
+      "number": 70,
+      "action_count": 133,
+      "sha256": "8c52a3d7827c9219d9806fb19208b382fd20c25d89639fada37acbb6ab1907e7",
+      "path": "frames/observation_070.png"
+    },
+    {
+      "number": 71,
+      "action_count": 135,
+      "sha256": "2fa4e4c094e77f5ef5a607266efb21762e1d6b7b530249f1e27297281a48bd9b",
+      "path": "frames/observation_071.png"
+    },
+    {
+      "number": 72,
+      "action_count": 136,
+      "sha256": "01744c48ca7b1fa20da78e46ba251f622f9967292ec067419898e05e72ff40ec",
+      "path": "frames/observation_072.png"
+    },
+    {
+      "number": 73,
+      "action_count": 138,
+      "sha256": "bd977b4657d6d935d083678e6bb80f5bd27eb555001e71edecb4411fc2f3d0e8",
+      "path": "frames/observation_073.png"
+    },
+    {
+      "number": 74,
+      "action_count": 141,
+      "sha256": "dff297185feee262cddf3aa96863a94546e931c3323fc2c5c4b2c74479475bae",
+      "path": "frames/observation_074.png"
+    },
+    {
+      "number": 75,
+      "action_count": 143,
+      "sha256": "fc6f500e8b1f284571f393365fa00f4598ba7b72bd64c75603b7cd2bc87839e4",
+      "path": "frames/observation_075.png"
+    },
+    {
+      "number": 76,
+      "action_count": 145,
+      "sha256": "0e651800be6db498532f8baa0dfce0b1ca7531c0d05ab9ed75b7c3c42e793b5c",
+      "path": "frames/observation_076.png"
+    },
+    {
+      "number": 77,
+      "action_count": 146,
+      "sha256": "7c3e05a5367e5f95d1e6ede988ab5895ec879479ace57b10a6aeed49fac0a142",
+      "path": "frames/observation_077.png"
+    },
+    {
+      "number": 78,
+      "action_count": 147,
+      "sha256": "86584d508827284b45c28672ef078f6cb1b63a5ee4788cd87457aab75e289285",
+      "path": "frames/observation_078.png"
+    },
+    {
+      "number": 79,
+      "action_count": 148,
+      "sha256": "14fa578c1fad1d37ee0b39cc3382aa1985fb940162e902feb63aaeec821784d3",
+      "path": "frames/observation_079.png"
+    },
+    {
+      "number": 80,
+      "action_count": 149,
+      "sha256": "1796f4193827327ca9d299b01a4f72c8eb9ba940652b00a0193926dcc57d2320",
+      "path": "frames/observation_080.png"
+    },
+    {
+      "number": 81,
+      "action_count": 151,
+      "sha256": "b3c107ac270caa2e5863abc386749db8d4576fb0f210a0c0cafb6e4eda49bde1",
+      "path": "frames/observation_081.png"
+    },
+    {
+      "number": 82,
+      "action_count": 153,
+      "sha256": "512e3c26bfbbd86ba85fbc926a3160fbc01c0b30d4767a777debfa367d072e71",
+      "path": "frames/observation_082.png"
+    },
+    {
+      "number": 83,
+      "action_count": 155,
+      "sha256": "43d481a2386ff47801561645abe95163b62965188a477698de2b2f24fe0ce370",
+      "path": "frames/observation_083.png"
+    },
+    {
+      "number": 84,
+      "action_count": 156,
+      "sha256": "a17e2b2da3e927b981b62bd607c88ebb36eab572aad66857a713046a80c51682",
+      "path": "frames/observation_084.png"
+    },
+    {
+      "number": 85,
+      "action_count": 157,
+      "sha256": "46bcdf5c51611cea1dd047b2476eef62fc0f052901acfbac6a49e087a7df553f",
+      "path": "frames/observation_085.png"
+    },
+    {
+      "number": 86,
+      "action_count": 160,
+      "sha256": "a036a57c6759391f7af9cbf945a2d61b656efc8d81c7e25a5ee35d82fc4f2f0e",
+      "path": "frames/observation_086.png"
+    },
+    {
+      "number": 87,
+      "action_count": 161,
+      "sha256": "b141256de549fc7073378b4f64a757926b5f65ef3dcedcccb386501568aa225d",
+      "path": "frames/observation_087.png"
+    },
+    {
+      "number": 88,
+      "action_count": 162,
+      "sha256": "5c53f19914a20ea5d7094ebcd83ea9ad53223aff91bdbf645f20496b2e2ccc73",
+      "path": "frames/observation_088.png"
+    },
+    {
+      "number": 89,
+      "action_count": 163,
+      "sha256": "13e7b78eaf54d51cb8503ab592904a4482c19ebae80b54c95db0b44d24af8784",
+      "path": "frames/observation_089.png"
+    },
+    {
+      "number": 90,
+      "action_count": 164,
+      "sha256": "13e7b78eaf54d51cb8503ab592904a4482c19ebae80b54c95db0b44d24af8784",
+      "path": "frames/observation_090.png"
+    },
+    {
+      "number": 91,
+      "action_count": 165,
+      "sha256": "6b007c9a2a4b9b2d45c81a854b207c966d1c37761b32264501a26d2d8895b4b7",
+      "path": "frames/observation_091.png"
+    },
+    {
+      "number": 92,
+      "action_count": 168,
+      "sha256": "821b6c340c485d25c148443615cffec7024ece59dedad6d174a7e4e9f3b3bdb0",
+      "path": "frames/observation_092.png"
+    },
+    {
+      "number": 93,
+      "action_count": 170,
+      "sha256": "6d004fef1db4d032c7dfe5bb3c966a54dd72d62f56630042a35c51e727a45da5",
+      "path": "frames/observation_093.png"
+    },
+    {
+      "number": 94,
+      "action_count": 171,
+      "sha256": "e435382a6e1e523ceec1bb9a1d1ea155842f6e2db05e98e20d7b5a1ae65fb5f3",
+      "path": "frames/observation_094.png"
+    },
+    {
+      "number": 95,
+      "action_count": 172,
+      "sha256": "54071231fcb42c458cc2d1bd0c909f6ac891165eedce5681f1801447162e0e26",
+      "path": "frames/observation_095.png"
+    },
+    {
+      "number": 96,
+      "action_count": 173,
+      "sha256": "591382c2736fdd2dbc60f5b3eeccc56be16cb4eec1fa55ad7d590bac3383a760",
+      "path": "frames/observation_096.png"
+    }
+  ]
+}
