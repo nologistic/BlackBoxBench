@@ -425,8 +425,8 @@ class AndroidEmulatorRuntime(Runtime):
 
         The poll ladder spans about a minute. An emulator whose framework
         is wedged under memory pressure answers ``offline`` for tens of
-        seconds before settling back to ``device`` — the 2026-09-08
-        our-method session was killed at step 51 because the old ~6s
+        seconds before settling back to ``device`` — an exploration
+        session on 2026-09-08 was killed at step 51 because the old ~6s
         window saw only the offline phase. Waiting out that phase costs a
         minute on a genuinely dead device, which is far cheaper than
         discarding an exploration that is dozens of steps in.

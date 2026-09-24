@@ -18,7 +18,6 @@ from app_reproduction.review import AndroidReproductionReview
 from app_evaluation.checklist import Checklist
 from app_evaluation.session import AppEvaluationSession
 from agents.android_baseline import agent_runtime as baseline_agent_runtime
-from agents.android_our_method import agent_runtime as ours_agent_runtime
 from benchmark.android.runtime import AndroidEmulatorRuntime
 from benchmark.android import runtime as android_runtime
 from benchmark.android.toolchain import AndroidToolchain, load_toolchain_lock
@@ -339,7 +338,7 @@ def test_android_probe_offline_longer_than_old_window_recovers(
     """A device stuck offline past the old ~6s window but recovering inside
     the widened ~60s ladder is healthy.
 
-    Regression for the 2026-09-08 our-method session: a wedged framework
+    Regression for an exploration session on 2026-09-08: a wedged framework
     answered ``offline`` for longer than the old probe ladder (0/2/4s), the
     probe read it as terminal and the session died at step 51 even though
     the emulator came back.
@@ -1107,7 +1106,7 @@ def _workspace(tmp_path):
     project.mkdir(parents=True); review.mkdir(); artifacts.mkdir()
     (project / "MainActivity.kt").write_text("fun main() {}", encoding="utf-8")
     ws = app_workspace.AppReproductionWorkspace(
-        "handoff", "android-our-method", "sess", tmp_path / "topology.json",
+        "handoff", "android-baseline", "sess", tmp_path / "topology.json",
         output, project, review, artifacts, "container", None, [], running=False)
     def build():
         apk = artifacts / "app-debug.apk"; apk.write_bytes(b"apk")
@@ -1142,7 +1141,7 @@ def test_android_workspace_patch_file_rejects_missing_text(tmp_path):
         ws.patch_file("app/src/Main.kt", "nope()", "x()")
 
 
-def test_android_review_requires_restart_persistence_for_ours(tmp_path):
+def test_android_review_requires_restart_persistence(tmp_path):
     ws = _workspace(tmp_path)
     review = AndroidReproductionReview(
         ws, require_write_evidence=True,
@@ -1222,7 +1221,7 @@ def test_android_visual_privacy_rejects_transformed_frames_and_review_patches(
     frames, patches = app_workspace._source_visual_signatures(
         {"frame.png": original}, regions)
     bundle = app_workspace._create_handoff_bundle(
-        "visual", "android-our-method", {"frame.png": original}, [], regions)
+        "visual", "android-baseline", {"frame.png": original}, [], regions)
     ws = _workspace(tmp_path / "workspace")
     ws.artifact_dir = bundle
     ws.source_visual_signatures = frames
@@ -1320,8 +1319,7 @@ def test_android_finalize_refuses_implicit_session_bootstrap(monkeypatch):
     must refuse instead of bootstrapping.
     """
     from agents.android_baseline import mcp_server as baseline_mcp
-    from agents.android_our_method import mcp_server as ours_mcp
-    for mcp in (baseline_mcp, ours_mcp):
+    for mcp in (baseline_mcp,):
         def no_bootstrap():
             raise AssertionError("finalize must not lazily create a session")
         monkeypatch.setattr(mcp, "_ensure_session", no_bootstrap)
@@ -1334,27 +1332,23 @@ def test_android_finalize_refuses_implicit_session_bootstrap(monkeypatch):
 
 def test_android_mcp_surfaces_do_not_expose_web_or_device_tools():
     from agents.android_baseline import mcp_server as baseline
-    from agents.android_our_method import mcp_server as ours
     required = {"tap", "long_press", "swipe", "type_text", "press_back",
                 "press_enter", "restart_app", "wait"}
     forbidden = {"click", "switch_tab", "close_tab", "get_dom", "adb",
                  "logcat", "selector"}
     assert required <= set(baseline._TOOLS)
-    assert required <= set(ours._TOOLS)
     assert not (forbidden & set(baseline._TOOLS))
-    assert not (forbidden & set(ours._TOOLS))
-    # 2026-09-10 起 baseline 也获得 /materials 读取通道（公平素材基线，
-    # 见 mcp_server.py 的 material read channel 注释），两侧一致暴露。
+    # baseline 的读取通道：/materials 素材、/exploration 探索证据与
+    # /input/functional_topology.json 定稿拓扑，见 mcp_server.py 的注释。
     assert {"input_read", "input_list"} <= set(baseline._TOOLS)
-    assert {"input_read", "input_list"} <= set(ours._TOOLS)
 
 
-def test_android_ours_input_read_accepts_per_app_materials(monkeypatch,
-                                                            tmp_path):
+def test_android_baseline_input_read_accepts_per_app_materials(monkeypatch,
+                                                               tmp_path):
     """The /materials/app supplement pack reads through the same input
     whitelist as common/mobile (regression for the 2026-09-07 failure
     'materials root must be common or mobile')."""
-    from agents.android_our_method import mcp_server as ours_mcp
+    from agents.android_baseline import mcp_server as baseline_mcp
 
     class _Rep:
         artifact_dir = None
@@ -1364,29 +1358,29 @@ def test_android_ours_input_read_accepts_per_app_materials(monkeypatch,
     pack = tmp_path / "pack"
     pack.mkdir()
     (pack / "CATALOG.md").write_text("catalog", encoding="utf-8")
-    monkeypatch.setattr(ours_mcp, "ensure_materials", lambda: tmp_path / "common")
-    monkeypatch.setattr(ours_mcp, "ensure_app_materials",
+    monkeypatch.setattr(baseline_mcp, "ensure_materials", lambda: tmp_path / "common")
+    monkeypatch.setattr(baseline_mcp, "ensure_app_materials",
                         lambda: tmp_path / "mobile")
     rep = _Rep()
-    monkeypatch.setattr(ours_mcp, "_reproduction", rep)
+    monkeypatch.setattr(baseline_mcp, "_reproduction", rep)
 
     # without a mounted pack /materials/app stays rejected
     with pytest.raises(ValueError):
-        ours_mcp._resolve_input_host("/materials/app/CATALOG.md", rep)
+        baseline_mcp._resolve_input_host("/materials/app/CATALOG.md", rep)
 
     # with the pack mounted it resolves inside the pack
     rep.app_materials_dir = pack
-    host = ours_mcp._resolve_input_host("/materials/app/CATALOG.md", rep)
+    host = baseline_mcp._resolve_input_host("/materials/app/CATALOG.md", rep)
     assert host == pack / "CATALOG.md"
-    assert ours_mcp._material_roots()["app"] == pack
+    assert baseline_mcp._material_roots()["app"] == pack
 
     # traversal out of the pack is still rejected
     with pytest.raises(ValueError):
-        ours_mcp._resolve_input_host("/materials/app/../../secrets.txt", rep)
+        baseline_mcp._resolve_input_host("/materials/app/../../secrets.txt", rep)
 
 
 def test_android_strict_agent_runtimes_mount_no_repository_or_docker_socket():
-    for runtime in (baseline_agent_runtime, ours_agent_runtime):
+    for runtime in (baseline_agent_runtime,):
         argv = runtime._container_argv("agent", 8400, "x" * 20, "image")
         joined = "\n".join(argv)
         assert "--read-only" in argv

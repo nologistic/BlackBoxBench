@@ -26,7 +26,7 @@ from benchmark.android.runtime import booting_dir, port_locks_dir
 
 MODULES = {
     "baseline": "agents.android_baseline.mcp_server",
-    "our-method": "agents.android_our_method.mcp_server",
+    "nograph": "agents.baseline_nograph.mcp_server",
 }
 
 
@@ -104,7 +104,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--app", default="google_clock")
     parser.add_argument("--steps", type=int, default=3)
-    parser.add_argument("--conditions", default="baseline,our-method")
+    parser.add_argument("--conditions", default="baseline,nograph")
     args = parser.parse_args()
 
     labels = [c.strip() for c in args.conditions.split(",") if c.strip()]

@@ -412,9 +412,13 @@ def _require_reproduction() -> AppReproductionWorkspace:
 # anchored to /workspace, so every /materials/* request was path-rejected
 # (observed on the 2026-09-10 organic_maps reproduction: the agent had to
 # draw the map from prior knowledge instead of reading the POI pack). This
-# restores the intended fairness: materials are a shared baseline, while the
-# exploration evidence (/exploration, topology) stays our-method-only — that
-# difference IS the experimental condition.
+# restores the intended fairness: materials are a shared baseline. The
+# channel was then widened so the reproduction stage can also consume the
+# exploration's own evidence — /exploration (the privacy-filtered handoff
+# bundle) and the finalized functional topology at
+# /input/functional_topology.json. Recording the exploration and reading it
+# back during reproduction is the point of the condition; an evidence trail
+# nobody can reopen is only overhead.
 _INPUT_MAX_READ = 2 * 1024 * 1024
 
 
@@ -431,15 +435,24 @@ def _material_roots() -> dict[str, Path]:
 
 def _resolve_input_host(path_value: object,
                         rep: AppReproductionWorkspace) -> Path:
-    """Map a whitelisted sandbox materials path to its host-side file.
+    """Map a whitelisted sandbox input path to its host-side file.
 
-    Baseline may read /materials only: /exploration and the finalized
-    topology are the our-method evidence channel and stay closed here.
+    Allowed roots: /exploration (handoff bundle), /materials (public
+    synthetic assets), /input/functional_topology.json (finalized topology).
+    Everything else — including /workspace output and any traversal — is
+    rejected, so output-directory path rules stay untouched.
     """
     raw = str(path_value or "").replace("\\", "/")
     candidate = PurePosixPath(raw)
     if candidate.is_absolute() and ".." not in candidate.parts:
         parts = candidate.parts[1:]
+        if parts[:1] == ("exploration",) and len(parts) >= 2:
+            root = rep.artifact_dir
+            if root is None:
+                raise ValueError("/exploration is not available")
+            host = root.joinpath(*parts[1:])
+            host.resolve().relative_to(Path(root).resolve())
+            return host
         if parts[:1] == ("materials",) and len(parts) >= 2:
             roots = _material_roots()
             root = roots.get(parts[1])
@@ -449,17 +462,44 @@ def _resolve_input_host(path_value: object,
             host = root.joinpath(*parts[2:])
             host.resolve().relative_to(root)
             return host
-    raise ValueError("input path must be under /materials/")
+        if parts == ("input", "functional_topology.json"):
+            if rep.topology_path is None:
+                raise ValueError(
+                    "/input/functional_topology.json is not available")
+            return Path(rep.topology_path)
+    raise ValueError(
+        "input path must be under /exploration/, /materials/, or "
+        "/input/functional_topology.json")
 
 
 def _t_input_list(args: dict) -> dict:
     rep = _require_reproduction()
-    raw = str(args.get("path", "/materials")).replace("\\", "/")
-    if raw.rstrip("/") == "/materials":
-        entries = [{"name": name, "dir": True, "bytes": None}
-                   for name in sorted(_material_roots())]
+    raw = str(args.get("path", "/exploration")).replace("\\", "/")
+    # list only whole whitelisted roots or directories below them
+    if raw.rstrip("/") in ("/exploration", "/materials", "/input"):
+        if raw.rstrip("/") == "/input":
+            # never list the session directory that hosts the topology
+            # file — expose exactly the whitelisted file itself.
+            entries = []
+            if rep.topology_path is not None:
+                entries.append({"name": "functional_topology.json",
+                                "dir": False,
+                                "bytes": Path(rep.topology_path).stat().st_size})
+            return _ok([_text({"path": raw, "entries": entries})])
+        if raw.rstrip("/") == "/materials":
+            entries = [{"name": name, "dir": True, "bytes": None}
+                       for name in sorted(_material_roots())]
+            return _ok([_text({"path": raw, "entries": entries})])
+        host_root = rep.artifact_dir
+        if host_root is None or not host_root.is_dir():
+            return _ok([_text({"path": raw, "entries": []})])
+        entries = []
+        for child in sorted(host_root.iterdir()):
+            entries.append({"name": child.name, "dir": child.is_dir(),
+                            "bytes": child.stat().st_size if child.is_file() else None})
         return _ok([_text({"path": raw, "entries": entries})])
-    target = _resolve_input_host(raw, rep)
+    # directory listing below /exploration or /materials
+    target = _resolve_input_host(raw if "/" in raw[1:] else "/" + raw, rep)
     if not target.is_dir():
         raise ValueError("not a directory")
     entries = []

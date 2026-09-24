@@ -20,8 +20,8 @@ description: 仅通过 Android App 可见截图和坐标级触控进行黑盒功
 ## 探索边界
 
 - 当前任务只属于 Android baseline 条件。不得寻找、列举、读取、调用、比较或借鉴
-  Android our-method、网页条件或任何其他探索条件的 Skill、MCP、提示词、工具源码、
-  安装目录和历史产物；即使客户端意外暴露也必须忽略。切换条件必须新建独立任务。
+  Android baseline-nograph、网页条件或任何其他探索条件的 Skill、MCP、提示词、
+  工具源码、安装目录和历史产物；即使客户端意外暴露也必须忽略。切换条件必须新建独立任务。
 - 探索阶段只可调用该 MCP 的 `observe`、`tap`、`long_press`、`swipe`、
   `type_text`、`press_back`、`press_enter`、`restart_app`、`wait` 和 discovery
   工具。
@@ -58,8 +58,11 @@ description: 仅通过 Android App 可见截图和坐标级触控进行黑盒功
 - 修改已有文件时优先用 `workspace_patch`（精确搜索-替换，`old_text` 需与文件内容
   完全一致且全文件唯一）；只有新建文件或大改才用 `workspace_write` 整文件重写——
   大参数工具调用一旦在流式传输中被中断，整个会话会被终止。
-- 基于你探索阶段的记忆与已记录拓扑理解布局与行为（本条件不提供探索截图证据的
-  读取通道）；优先用 `input_list`/`input_read` 读取 `/materials/app` 的目标专属
+- 复现阶段**先读** `/input/functional_topology.json`——它就是你探索期间定稿的功能
+  拓扑（功能、状态、数据实体、关系与证据），是复现时的功能蓝图；`/exploration/`
+  下还有隐私过滤后的探索截图（`screenshots/`）、拓扑摘要（`functional_topology.md`）
+  与覆盖报告（`coverage_report.json`）。以上内容都可用 `input_list`/`input_read` 读取。
+- 同时优先用 `input_list`/`input_read` 读取 `/materials/app` 的目标专属
   补充素材与非实体信息（先读其中的 CATALOG.md 与 SUPPLEMENT.md），再使用
   `/materials/common` 和 `/materials/mobile` 的虚构内容、图片、音视频和数据库。
 - 探索画面可能包含私人信息。不得在代码、APK、日志、说明或复测记录中复制或转述；

@@ -200,7 +200,7 @@ pixels-in/touch-out。通用 Session、Recorder 和 Topology 只增加平台元�
 网页 Runtime 和两个网页条件保持原行为。
 
 Android 方法层位于两个互不 import 的目录：`agents/android_baseline/` 与
-`agents/android_our_method/`。二者共享 `app_reproduction/` 的中立 Compose 脚手架、
+`agents/baseline_nograph/`。二者共享 `app_reproduction/` 的中立 Compose 脚手架、
 虚构移动素材、断网构建器和 review emulator。输出固定为
 `app_output/<handoff_id>/{project,review,artifacts}`；生成 APK 可进一步交给
 独立的 `app-review` MCP/Skill。评审 Agent 通过

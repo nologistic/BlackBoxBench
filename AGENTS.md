@@ -13,21 +13,18 @@
 - 自建模式已完成实验周期并**从所有 Agent（Codex/CodeBuddy/Kimi）注销**；
   代码归档于 `self_explorer/`，历史产物在 `runs/self_built/`。本文件中与自建
   模式相关的约束继续适用于归档代码与其复现实验。
-- 当前活跃的**探索条件为四个**：网页 **baseline**（`agents/cli_explorer`，
-  冻结作对照）、网页 **our-method**（`agents/our_method`，基线的独立演进副本；
-  改进含只读 `input_read`/`input_list` 素材通道、交接证据帧索引、写前预检、
-  完成硬闸与写路径证据验收，详见 `agents/our_method/README.md`）、Android
-  **baseline**（`agents/android_baseline`）与 Android **our-method**
-  （`agents/android_our_method`）。四者共享 `benchmark/*` 平台底座（Android 两
-  条件另共享 `benchmark/android`、Recorder、Topology 与 `app_reproduction`），
-  但不得互相 import 方法层实现；任一 our-method 的改进不得反向修改对应 baseline。
+- 当前活跃的**探索条件为三个**：网页 **baseline**（`agents/cli_explorer`，
+  冻结作对照）、Android **baseline**（`agents/android_baseline`）与 Android
+  **baseline-nograph**（`agents/baseline_nograph`，baseline 的无记录消融变体）。
+  三者共享 `benchmark/*` 平台底座（Android 两条件另共享 `benchmark/android`、
+  Recorder、Topology 与 `app_reproduction`），但不得互相 import 方法层实现。
 - 另有**两个评测条件**：`web-review`（`agents/web_review/` + `web_evaluation/`，
   已收编；像素+类人输入+交接源码只读通道 `read_source`，与 app-review 护栏
   完全对齐）与 `app-review`（`agents/app_review/` + `app_evaluation/`）。
   语义判定由 LLM judge 在 Skill 内完成，代码只做薄护栏（证据引用真实截图、四档
   封闭、不漏项、报告 schema 固定），契约见 `docs/evaluation_contract.md`。
-- 正式对照实验中每个 Agent 任务只应暴露一个条件的 MCP（our-method 安装器
-  提供 `--exclusive` 互斥注册）；评测任务只启用 `app-review`。
+- 正式对照实验中每个 Agent 任务只应暴露一个条件的 MCP；评测任务只启用
+  `app-review`。
 - 正式数据集与自写样例必须区分：**web 28 目标数据集**（语雀、YouTube、淘宝、知乎、
   小红书、微博、豆瓣、大众点评、携程、Reddit、Quora、Notion、Trello、Todoist、
   Airtable、Google Calendar、Dropbox、Google Forms、Excalidraw、diagrams.net、
@@ -145,7 +142,7 @@ IDE/客户端的项目根应打开 `repo/` 而不是工作区根——批量删�
 - `website_output/`：复现 Agent 唯一允许写入的网页结果目录。
 - `benchmark/android/`：Android APK 目标注册、可信 Emulator Runtime 与工具链发现。
 - `agents/android_baseline/`：Android 托管基线 MCP、安装器与 Skill。
-- `agents/android_our_method/`：Android our-method 独立 MCP、门禁与 Skill。
+- `agents/baseline_nograph/`：Android baseline 的无记录消融变体 MCP、安装器与 Skill。
 - `app_reproduction/`：固定 Compose 脚手架、移动素材、离线 APK 构建和像素复测。
 - `app_evaluation/`：安装后 Android 功能清单四档评测。
 - `web_evaluation/`：网页交接产物的四档评测会话（像素+类人输入+源码只读通道）。
@@ -168,7 +165,7 @@ IDE/客户端的项目根应打开 `repo/` 而不是工作区根——批量删�
 - Android Agent 只允许截图、tap、long_press、swipe、type_text、返回、确认、等待和
   重启 App；ADB、UIAutomator、Accessibility、selector、logcat、dumpsys、APK 和设备
   文件只能存在于可信 Runtime，任何结果不得回传 Agent。
-- 网页 baseline/our-method 与 Android baseline/our-method 是四个独立条件。Android
+- 网页 baseline 与 Android baseline/baseline-nograph 是独立条件。Android
   两个条件可以共享 `benchmark/android`、Recorder、Topology 与 `app_reproduction`，
   但不得互相 import 方法层实现；Android 改进不得反向修改网页条件行为。
 - 用户 APK 存入 `runs/android_targets/`，默认断网。公网模式缺少受控 proxy 与 network
@@ -226,10 +223,12 @@ IDE/客户端的项目根应打开 `repo/` 而不是工作区根——批量删�
   只读 `/materials/app` 挂载，含 `CATALOG.md`（实体素材清单）与 `SUPPLEMENT.md`
   （非实体领域信息：格式规范、接口概念、行为规则），实体素材必须虚构且确定性。
   包目录树纳入复现期间防篡改指纹（finish 时重算比对）。**白名单必须同步**：
-  `agents/android_our_method/mcp_server.py` 的 `_material_roots()` 需动态纳入
-  当前会话的 `app_materials_dir`（曾漏改导致 `input_read /materials/app` 被拒，
-  回归测试 `test_android_ours_input_read_accepts_per_app_materials` 守护）；
-  baseline 无 input 工具、走 `workspace_run` 容器内直读，不经宿主白名单。
+  `agents/android_baseline/mcp_server.py` 与 `agents/baseline_nograph/mcp_server.py`
+  的 `_material_roots()` 需动态纳入当前会话的 `app_materials_dir`（曾漏改导致
+  `input_read /materials/app` 被拒，回归测试
+  `test_android_baseline_input_read_accepts_per_app_materials` 守护）；baseline 的
+  复现阶段可用 `input_list`/`input_read` 读取 `/materials`、`/exploration` 与
+  `/input/functional_topology.json`。
 
 ## 常用命令
 
@@ -244,10 +243,10 @@ vendor/python/python.exe scripts/setup_android.py --preflight
 vendor/python/python.exe scripts/build_android_reproduction_image.py --accept-licenses
 vendor/python/python.exe scripts/build_android_sample.py
 vendor/python/python.exe -m agents.android_baseline.install --cli codex
-vendor/python/python.exe -m agents.android_our_method.install --cli codex
+vendor/python/python.exe -m agents.baseline_nograph.install --cli codex
 vendor/python/python.exe -m agents.app_review.install --cli codex
 vendor/python/python.exe -m agents.web_review.install --cli codex
-vendor/python/python.exe scripts/android_launch_preflight.py --app google_clock --condition our-method --close
+vendor/python/python.exe scripts/android_launch_preflight.py --app google_clock --condition nograph --close
 vendor/python/python.exe scripts/android_parallel_check.py --app google_clock
 vendor/python/python.exe scripts/android_locks.py --reclaim
 vendor/python/python.exe scripts/android_target.py list

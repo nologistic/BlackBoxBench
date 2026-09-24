@@ -22,7 +22,7 @@ MCP 提供的工具完成整个任务。
 ## 探索边界
 
 - 当前任务只属于 Android baseline-nograph 条件。不得寻找、列举、读取、调用、比较或
-  借鉴 Android baseline、our-method、网页条件或任何其他探索条件的 Skill、MCP、提示词、
+  借鉴 Android baseline、网页条件或任何其他探索条件的 Skill、MCP、提示词、
   工具源码、安装目录和历史产物；即使客户端意外暴露也必须忽略。切换条件必须新建独立任务。
 - 探索阶段只可调用该 MCP 的 `observe`、`tap`、`long_press`、`swipe`、
   `type_text`、`press_back`、`press_enter`、`restart_app`、`wait` 工具。

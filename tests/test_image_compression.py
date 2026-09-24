@@ -20,9 +20,8 @@ from PIL import Image
 
 MODULES = [
     "agents.cli_explorer.mcp_server",
-    "agents.our_method.mcp_server",
     "agents.android_baseline.mcp_server",
-    "agents.android_our_method.mcp_server",
+    "agents.baseline_nograph.mcp_server",
 ]
 
 

@@ -85,7 +85,7 @@ def test_app_review_codex_install_registers_judge_only(monkeypatch, tmp_path):
     assert skill.is_file()
     text = skill.read_text(encoding="utf-8")
     assert "只调用 `app-review` MCP" in text
-    assert "android-our-method" not in add and "android-blackboxbench" not in add
+    assert "android-blackboxbench" not in add
 
 
 # ------------------------------------------------------ CodeBuddy (user level)

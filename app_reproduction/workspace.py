@@ -310,7 +310,7 @@ class AppReproductionWorkspace:
               protected_regions: list[dict] | None = None,
               target_id: str = "",
               ) -> "AppReproductionWorkspace":
-        if source_mode not in ("android-baseline", "android-our-method"):
+        if source_mode != "android-baseline":
             raise ValueError("invalid Android source mode")
         if not SAFE_ID.fullmatch(source_id):
             raise ValueError("invalid source id")

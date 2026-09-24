@@ -1,9 +1,0 @@
-interface:
-  display_name: "Android Our Method"
-  short_description: "证据闸门增强的 Android 探索与 APK 复现"
-  default_prompt: "Use $android-our-method to explore the selected Android app, digest indexed evidence, and reproduce a reviewed APK."
-dependencies:
-  tools:
-    - type: "mcp"
-      value: "android-our-method"
-      description: "Android our-method pixels, indexed handoff and APK review tools"

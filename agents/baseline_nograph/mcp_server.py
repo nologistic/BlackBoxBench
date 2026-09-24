@@ -413,8 +413,8 @@ def _require_reproduction() -> AppReproductionWorkspace:
 # (observed on the 2026-09-10 organic_maps reproduction: the agent had to
 # draw the map from prior knowledge instead of reading the POI pack). This
 # restores the intended fairness: materials are a shared baseline, while the
-# exploration evidence (/exploration, topology) stays our-method-only — that
-# difference IS the experimental condition.
+# recorded-evidence channel (/exploration, /input/functional_topology.json)
+# belongs to the baseline condition.
 _INPUT_MAX_READ = 2 * 1024 * 1024
 
 
@@ -433,8 +433,9 @@ def _resolve_input_host(path_value: object,
                         rep: AppReproductionWorkspace) -> Path:
     """Map a whitelisted sandbox materials path to its host-side file.
 
-    Baseline may read /materials only: /exploration and the finalized
-    topology are the our-method evidence channel and stay closed here.
+    This ablation condition exposes /materials only: no discovery tools are
+    registered, so there is no recorded exploration evidence (no /exploration
+    bundle, no finalized topology) to read back.
     """
     raw = str(path_value or "").replace("\\", "/")
     candidate = PurePosixPath(raw)

@@ -38,13 +38,13 @@ if missing:
 a, b = reports["ad32e3"], reports["3b7a3f"]
 print(f"baseline=ad32e3  run={a['run_id']}  obs={len(a['observations'])}"
       f"  actions={len(a['actions'])}")
-print(f"our-mthd=3b7a3f  run={b['run_id']}  obs={len(b['observations'])}"
+print(f"report-b=3b7a3f  run={b['run_id']}  obs={len(b['observations'])}"
       f"  actions={len(b['actions'])}")
 print()
 print("counts:")
 for grade in ("full", "partial", "placeholder", "broken"):
     print(f"  {grade:12} baseline={a['counts'].get(grade, 0):2}"
-          f"  our-method={b['counts'].get(grade, 0):2}")
+          f"  report-b ={b['counts'].get(grade, 0):2}")
 print()
 print(f"{'requirement':28} {'base':10} {'ours':10}")
 diffs = 0
@@ -55,7 +55,7 @@ for ra, rb in zip(a["requirements"], b["requirements"]):
     print(f"{ra['requirement_id']:28} {ra['grade']:10} {rb['grade']:10}{mark}")
 print()
 print(f"same-grade requirements: {25 - diffs}/25")
-for name, r in (("baseline", a), ("our-method", b)):
+for name, r in (("baseline", a), ("report-b", b)):
     pe = sum(1 for q in r["requirements"] if q["persistence_evidence"])
     restarts = sum(1 for act in r["actions"]
                    if act["type"] in ("restart_app", "reset_app"))

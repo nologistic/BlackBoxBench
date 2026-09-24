@@ -22,7 +22,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-MODULE = "agents.android_our_method.mcp_server"
+MODULE = "agents.android_baseline.mcp_server"
 
 
 class Client:
