@@ -1,0 +1,427 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "9230c5fe080ac7c5cf00fda897ef1bc53a0f2dad8bebab912483c1bc1d35792b",
+  "accepted_apk_hash": "cc16471f3bc365cf660887a4c6d2039fb08fb3fe740d0f9792245611fb2f0654",
+  "revision_count": 3,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "cold start (Easy preset board)",
+        "header layout vs system status bar"
+      ],
+      "findings": [
+        "The app draws edge-to-edge: the LED mine counter and the LED timer are painted underneath the system status bar, so the clock/battery icons overlap the digits. The observed app shows its header below the status bar. Fix: apply status bar (and navigation bar) insets to the root layout.",
+        "Because the header is shifted up, the whole board sits higher than in the observed app; the grid should be centred in the space between the tab row and the Licenses footer once the insets are applied."
+      ],
+      "actions": [],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "4a1da6cedb570e763f32f9c903e2c767eba3d549abfe95c83c47bc55145a297c",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 0,
+          "sha256": "f52069e617fdbafcdbafaccd1b26c423ce8f8045fc1790067aa287938c7468b6",
+          "path": "review/round_01/observation_002.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "cold start board rendering",
+        "tap on a hidden tile (reveal)",
+        "timer start"
+      ],
+      "findings": [
+        "Critical: tapping a hidden tile produces no visible reaction at all - the board stays fully hidden and the LED timer stays 00:00, although the tap is delivered. Game state is mutated in plain fields that Compose never observes, so neither the board canvas nor the header ever redraws after the first frame. Fix: make the change counter (and ideally the clock value) real Compose state so every mutation invalidates the board and the header.",
+        "The board band sits ~55 dp higher than in the observed app: there the play area is a fixed band (roughly 337..742 dp on a 914 dp tall screen) that every board size is centred in, so the board should be biased downward instead of centred in all free space.",
+        "Tab subtitles (mine count / gear) are pressed against the bottom edge of the tab; give them a little more room."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "edad8062cbe588ff0d99083e0ed08c511b44ca8eb37f938259e20873f3cc3b58",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "edad8062cbe588ff0d99083e0ed08c511b44ca8eb37f938259e20873f3cc3b58",
+          "path": "review/round_02/observation_002.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "revise",
+      "checked_flows": [
+        "reveal by tap on Easy and Hard",
+        "long press flag",
+        "difficulty tab switch (Easy/Medium/Hard)",
+        "custom game dialog open/cancel",
+        "fog of war on Hard",
+        "losing the game (mine reveal + explosion)",
+        "countdown timer colour",
+        "Licenses button"
+      ],
+      "findings": [
+        "Header and banner never update: after a loss the mines, explosion and smiley freeze correctly but NO 'Game Over' banner appears and the smiley stays the neutral face; the LED counter and timer also keep the value they had when the last unrelated recomposition happened (timer stayed 03:00 while the countdown ran). Cause: the change counter is Compose state but it is only read inside the canvas draw lambda, so the composition (LED texts, banner, smiley) is never invalidated. Fix: observe the counter in the composition scope as well.",
+        "Flag and bomb glyphs are drawn nearly as large as the whole tile, so a flag bleeds over its cell edges; the observed app draws them at roughly 60% of the tile.",
+        "Tapping the Custom tab immediately replaces the running board with a fresh custom board; in the observed app the dialog opens over the untouched board and the board only changes when Start is pressed (Cancel leaves the old board in place).",
+        "The Licenses label sits too close to the bottom edge (inside the system gesture area) and does not react to taps; it must be raised to roughly the same height as in the observed app.",
+        "The board band sits ~50 dp too high compared with the observed app, where every board size is centred in a fixed band (roughly 337..742 dp); also the board must not be pushed down when the win/lose banner appears - the banner should occupy reserved space."
+      ],
+      "actions": [
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "6a7a36f60b9dad38ca482132f99784eca4662c675c0f92bacd2dcc65d8678c99",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "1e6c5da0061c4a884be6e48712f8f6da6f0e6496909524a1033853a8c3722b8d",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "5a62a6b346fe543662e7f92e0d43aa1d423e663da40fcff975ff6555d79894b1",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "a0cbe1051f76946f99e055a2951fd3b3ed88149665d622f0701d1fb87fe4616e",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "0e2c50734d06918b1b52643894982983d061b24a41848428fb2945cffdf5a61e",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 6,
+          "sha256": "a40c031a240c5f99e9c776e40536dec99a8bc91f55b31611e2bae20f17f20a22",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 7,
+          "sha256": "a40c031a240c5f99e9c776e40536dec99a8bc91f55b31611e2bae20f17f20a22",
+          "path": "review/round_03/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 8,
+          "sha256": "236e9f62ebab2189bf88fca8f19191235de92cd06e263b2b83de9311553c2700",
+          "path": "review/round_03/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 9,
+          "sha256": "36ce8878f48cbaa02d9db7c9301ea3834b2baebe8a45c16db7cb495be89021b1",
+          "path": "review/round_03/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 10,
+          "sha256": "1de555ab461c758f4a81d138a1d45fca39dfc0fe0f118e0b40a64c8bd5351ff2",
+          "path": "review/round_03/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 11,
+          "sha256": "f32b25beca3d07da3ecf1a1add788b9d2f1ed43b70186bc148f8fc88df16699a",
+          "path": "review/round_03/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 16,
+          "sha256": "7e6b010fcd717c4e007b0ba0faa37902c6a03a2cffb79389a2fe3d939b50b0f0",
+          "path": "review/round_03/observation_012.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 4,
+      "decision": "accept",
+      "checked_flows": [
+        "cold start shows Easy preset, fresh board, counter 010, timer 00:00, no persisted state",
+        "tap reveals tiles (single number and flood fill) and starts the count-up timer (00:01, 00:14, 00:29 ... live)",
+        "long press plants a flag and the mine counter updates live (010 -> 009)",
+        "flag glyph is drawn inside its tile at roughly 60% of the cell",
+        "Hard preset: 16x16 board, counter 050, orange 03:00 countdown ticking down (03:00 -> 02:57 -> 02:51)",
+        "fog of war on Hard: revealed numbers fade to a purple tile with a faint ghost after about 7 s",
+        "loss: red 'Game Over' banner, dizzy smiley, starburst on the tapped mine, all mines revealed on dark red tiles, timer frozen, earlier numbers fogged",
+        "win on a custom 5x5/1 game: green 'You Win!' banner, sunglasses smiley, remaining mine auto-flagged, counter 000, timer stopped",
+        "Custom tab opens the dialog over the untouched running board (flag, revealed tile, counter and running timer all unchanged); Cancel leaves that board in place",
+        "Custom dialog: grid slider 5x5..20x20, mines slider with '%' label, Fog of war off by default, Safe first tap on by default, Start builds the chosen board",
+        "Licenses dialog opens from the bottom label with the GPL-3.0 text and a Close button that returns to the board",
+        "smiley button restarts the current difficulty with a fresh board (reveals cleared, timer 00:00, counter reset)"
+      ],
+      "findings": [
+        "Recomposition defect from the previous round is fixed: the LED counter, LED timer, status banner and smiley now all update live (verified by watching the counter go 010 -> 009 on a flag, the timer count up and count down, the green win banner with the sunglasses face, and the red loss banner with the dizzy face).",
+        "Board band and bottom label now match the observed layout closely enough that every board size shares one fixed centred band, and the Licenses label is clear of the gesture area and responds to taps.",
+        "Verified states are all pixel-consistent with the observed app: hidden/revealed/flagged/mine/explosion/fog tiles, blue-green-red number colours, orange countdown vs white-red count-up, teal selected tab.",
+        "Minor notes (not blocking): the opening move is always mine-free on every preset, whereas the observed Hard board could explode on a first tap; the fog fade was confirmed inside a ~10 s window rather than timed to the second; chording, the negative counter and the countdown timeout path were not re-driven live in this round but are implemented in the shared model path."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "9608e5997ae5d1afb1e7d936650ea7045ba960952c02a2af9e082ea9d692f515",
+          "path": "review/round_04/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "03d1147536570b321db7f194b7e565c5777dc2de7af59f42e7d0f94dace80914",
+          "path": "review/round_04/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "4b454ca99e1d271d270031af0442e721166c1184d680cd758e12921eeecbbee3",
+          "path": "review/round_04/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "b5695da771871b8f1432ee807c870d8310ac7ae0d67fc690424045c078e50af1",
+          "path": "review/round_04/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 6,
+          "sha256": "37b00498b1798d12bbd848f699820800903a4f4121b1ad531caeb579f5fedfe9",
+          "path": "review/round_04/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 7,
+          "sha256": "0c4ebc779cca98911e958e66c9f4bf5933232326c9b8956a982938c9650288e3",
+          "path": "review/round_04/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 8,
+          "sha256": "4b7bdd4bb80b2a2ddf1cdf43d9cb6c2ccc11276cb2cd9c66591cf24d679ec260",
+          "path": "review/round_04/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 10,
+          "sha256": "c6c47b4e50f70d0102e4039601d09845e3f3e5965e6cc7f4b17945670fd9cb3f",
+          "path": "review/round_04/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 12,
+          "sha256": "2299722f2b8d5704144e8f46d16cdad2389f1124da79beddc144eb894ff18004",
+          "path": "review/round_04/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 17,
+          "sha256": "5d24cf502945cea415bf7d5662d3445a236569b74bd6249e3598b3e033897514",
+          "path": "review/round_04/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 23,
+          "sha256": "fd584a80d78bd1b50d2a63d0bf732ff37b9eb3caf47c3cf40773f43522ea995a",
+          "path": "review/round_04/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 24,
+          "sha256": "7bbb155632c100ebf7afd32c02f0b543122f8861985b405fafda268b943247b4",
+          "path": "review/round_04/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 25,
+          "sha256": "373d58e22a3b225e97cf75f3a7d9fa4cde00e7586b18613f4873abd5fb5cc464",
+          "path": "review/round_04/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 27,
+          "sha256": "160a1368a9501d90eb8dca0f5336fa0252747789a8b3317072445180c47085d2",
+          "path": "review/round_04/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 28,
+          "sha256": "4e2b18d0488d9c83e6b7ba1bfa10a6b0dff5256b70c306a7c9add55b7523f356",
+          "path": "review/round_04/observation_015.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

@@ -1,0 +1,514 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "b73113f93288a21c4a41e7da995ae19f22c5a57f348cfc55351d8bf84ccda045",
+  "accepted_apk_hash": "2c77bedc0f75c3790e94441a3a91dfda37690035b7ae878da97e91e94dbdf4bb",
+  "revision_count": 2,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "启动欢迎页（logo/Tasks/三个按钮）",
+        "继续但不同步 → 我的任务列表（种子数据渲染：重复图标、优先级颜色、清单/标签 chip、子任务缩进、已完成删除线、逾期橙色日期）",
+        "打开任务编辑器（标题、开始/截止日期、重复、优先级、清单 chip、标签 chip、子任务、提醒、描述、位置、附件）",
+        "截止日期选择器（今天/明天/下周四/无日期 + 时间 + 日历 + 取消/确定）",
+        "开始日期选择器（截止日期/截止时间/前一天/前一周/无日期相对预设）",
+        "重复对话框（不重复/每天/每周/每月/每年/自定义）+ 重复始于 chip",
+        "导航抽屉（我的任务/过滤器/标签 分组与计数、搜索 FAB）",
+        "重复任务勾选完成 → 顺延 + 「任务已完成/撤消」提示条",
+        "排序/显示底部面板（分组/排序/子任务/四个开关/已完成）"
+      ],
+      "findings": [
+        "【严重·可操作性】所有页面顶栏被状态栏覆盖：主列表齿轮、任务编辑器左上保存图标、右上垃圾桶都画在状态栏区域（y<100px）。实测点击 (1035,75) 打开设置、(70,75) 与 (70,125) 保存均无任何反应，即无法保存编辑、无法进入设置。需要在根布局加状态栏内边距（systemBarsPadding / windowInsetsPadding）。",
+        "【严重】底部工具栏与 FAB 紧贴手势导航条，底部面板最后一行（«已完成 按完成时间»）被导航条裁切；需要导航栏内边距。",
+        "【中】完成任务的 «任务已完成/撤消» 提示条绘制在排序/显示面板之上，遮住 «将已完成任务移至底部» 开关；提示条应自动消失或在打开面板时隐藏。",
+        "【轻】抽屉中标签行使用清单三横线图标，与清单行无法区分（原始 App 中标签为标签形状图标）；抽屉顶部卡片同样压在状态栏下。",
+        "【轻】抽屉内容较长时（18 个标签）«地点»«本地清单» 被推到很下方，需滚动较久才能触达。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "e1e03620330382d28f873564ede1281695fae46930ffa8a54109dd2d942de39e",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "f161ce83a6b522228771d9afafa297a36bb3f6b4150abec2d7e3dcc14eb5b3ff",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "09922d9ef6e0677d2e04db2d37fa630a1d0e4b6be13a1f51a6e37d4e5f00d95b",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "e1c74f3a53ee5bee9cbb78613e1ab573d100b42b5e0b02f4ec039958e1a1ec39",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "6c62c46802a852dcc122ab351037828f6e1c81e87f1312b6bcbfb191699b909f",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 6,
+          "sha256": "217c0cf4bcd7a2b028bec3f352c17fb5d57a2a5497a540f522179914e8c6b0d3",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 8,
+          "sha256": "9c96b6a00250e365f98614661cbc8f3eaed48ce5957184ea5568803262c11513",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 9,
+          "sha256": "c02f16496149bec1db24ddcee3829998f6d87dfe285962ef0c5c8e8c52fb19d8",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 10,
+          "sha256": "c02f16496149bec1db24ddcee3829998f6d87dfe285962ef0c5c8e8c52fb19d8",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 11,
+          "sha256": "c02f16496149bec1db24ddcee3829998f6d87dfe285962ef0c5c8e8c52fb19d8",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 13,
+          "sha256": "755c700c66092443284ad85e20ea6ff73ff1cbef52c53524e575bf2617fe1927",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 15,
+          "sha256": "fa8480a9ccf13966de8b88e42bf1a3aecb30385fec6b6605242fd50e3ebf99b2",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 16,
+          "sha256": "af5d267dd3b065270976a8b577963be2764c2b2c74d456da804ff4b6fc1cbcf0",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 17,
+          "sha256": "4c9bfaac6117258d67eb9943d44415eb4ce1c2116a74788b84b02afea7bff55b",
+          "path": "review/round_01/observation_014.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "欢迎页 → 继续但不同步 → 我的任务（状态栏内边距已修复，顶栏齿轮可点）",
+        "齿轮 → 设置页（捐赠/本地清单/添加账号/外观/通知/任务默认值/任务清单选项/编辑屏幕选项/日期和时间/导航抽屉/备份/插件设置）",
+        "外观页 + 主题对话框（亮色/黑色/暗色/壁纸/日·夜/系统默认）",
+        "FAB → 新建任务 → 输入标题 → 左上角保存（保存按钮已可点，任务成功创建并出现在列表底部）",
+        "导航抽屉（我的任务 17 / 过滤器 今天 0、最近修改过的 19 / 标签 带标签形状图标与计数 / 搜索 FAB）",
+        "长按任务进入多选模式（顶栏 返回+计数+标签/清单/时间/优先级/更多，选中行高亮）",
+        "重启 App 验证持久化（数据与暗色主题、上次查看的清单均保留）"
+      ],
+      "findings": [
+        "【中·已定位】外观→主题→暗色 后界面不会立即切换（仍为亮色），仅当重启 App 后才变暗；原因是 AppSettings 为普通字段、变更不触发重组。已在源码中加入可观察的 Store.revision 计数器（save()/touch() 自增，App 根与各屏读取），需重新构建验证。",
+        "【中】多选模式下点顶栏「⋮」弹出的是列表菜单（清除已完成项/收起子任务/展开子任务/分享），而不是原始 App 的选择菜单（全选/分享/克隆/删除）；克隆/删除/全选因此在多选态不可达。",
+        "【通过】状态栏遮挡问题已修复：主列表齿轮、编辑器保存/垃圾桶均可正常点击；底部工具栏与底部面板不再被手势条裁切；完成提示条不再覆盖排序面板（改为 3.5 秒自动消失且面板打开时隐藏）。",
+        "【通过】抽屉标签行已改为标签形状图标，清单/过滤器/今天/最近修改过的图标各不相同。",
+        "【通过】重启后数据完整保留（18 条种子任务 + 新建的 Buy milk、已完成子任务状态、暗色主题、上次查看的清单）。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "3ed94c646e013dd53a56936df5c61e70fa25cbdcb126418cab16bbaf8964c22c",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "2b5150794c9d08619afc611e606c7bc6d9e88fc0a78d9cd3f041b180d70a0c34",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "ef3cadd39631dc0d3f4cd65a68bcb31ab5057178709ef465ea852269a078104e",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "93f00701c32d90c60b6f3ebb890e3ac249b136667f33a8940b82074e3c059bab",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 5,
+          "sha256": "a42ae26606a383f94cd0389eaa4fe08eb6b463e629545a9b6b11b6540c351195",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 6,
+          "sha256": "f2aacb8869006989e1b83dd342595ac145ef55079f75c45167000a5d140daddb",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 7,
+          "sha256": "4190b6b1744376c2682b2cf4ce6b60731c3591662865ce5dd857a2995c3eba36",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 10,
+          "sha256": "892bd4f07856cec8b7dc7f9d0b61a73b7cbf81d171b8d9985cb754f08105fc65",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 13,
+          "sha256": "a794001a07205f44590a6948b939ad1054c161a3413f3971f0c6bc0afedebf22",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 14,
+          "sha256": "1ec3a183fa0f1e1701988259ef8ee4afe087ff35f4f960863c817b80a5a58c25",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 15,
+          "sha256": "bd023a511b97da9e1223d8d7267d30236d49cbf650e999c55d843aea5364626a",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 16,
+          "sha256": "fb4d393781c58dc2a1d65110cb1b852d3ccdb69b6cefc989884b4acce7ce8053",
+          "path": "review/round_02/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 18,
+          "sha256": "4d329aeedbe38e973d63289007f32b4041ea93b8af4844f0c787b63169d0106f",
+          "path": "review/round_02/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 19,
+          "sha256": "1883e0d58e2cf67049dab5ee72eb077fd45c579aab055ca38cb14d2dcb7a2f68",
+          "path": "review/round_02/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 22,
+          "sha256": "417d7c7b867c818ac4b96e20a00f4ea342651a8d2961d0013d64d1388f983b53",
+          "path": "review/round_02/observation_015.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "accept",
+      "checked_flows": [
+        "欢迎页（logo/Tasks/副标题/三个入口按钮）",
+        "继续但不同步 → 我的任务列表（18 条虚构种子任务、优先级颜色、重复图标、清单/标签 chip、子任务缩进、已完成删除线、逾期橙色日期）",
+        "外观 → 主题 → 暗色：界面立即整体切换为暗色（修复验证通过，无需重启）",
+        "长按任务进入多选 → 顶栏「⋮」弹出全选/分享/克隆/删除 → 克隆 → 「复制已选的任务?」→ 确定 → 生成副本并提示「已复制 1 个任务」",
+        "底部搜索按钮 → 搜索页（放大镜输入框）→ 输入 milk 显示空状态「这里没有任务哦。」→ 输入 okr 命中「写季度 OKR 草稿」（大小写不敏感、行渲染完整）",
+        "导航抽屉（我的任务/过滤器 今天·最近修改过的/标签，图标各异且带计数，搜索 FAB）",
+        "任务编辑器与日期/重复选择器（round 1 已验证）",
+        "排序与显示面板（分组/排序/子任务/四个开关/已完成）"
+      ],
+      "findings": [
+        "核心流程全部通过：状态栏/导航栏内边距修复后顶栏按钮（齿轮、保存、垃圾桶）均可正常点击，底部工具栏与面板不再被手势条裁切。",
+        "暗色主题现在切换即时生效（Store.revision 可观察计数器生效），且重启后保持。",
+        "多选模式菜单已修正为 全选/分享/克隆/删除，克隆路径完整：确认弹窗文案「复制已选的任务?」→ 任务副本出现在列表中 → 「已复制 1 个任务」提示。",
+        "搜索页正常：空查询/无结果时显示「这里没有任务哦。」，大小写不敏感匹配标题并完整渲染任务行。",
+        "数据持久化正常：重启后种子任务、已完成子任务状态、主题设置与上次查看的清单均保留。",
+        "残留小项（不影响验收）：抽屉在 18 个标签时内容较长，地点/本地清单需滚动查看；完成提示条会短暂覆盖列表底部内容（3.5 秒后自动消失）。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "364bcf50c781190c296f1010ec068a43207bbe06641490da019347571c57fc66",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 5,
+          "sha256": "ac0432fe90e82af88eb3bed4ffff073bdbdb46152c73fc8ae4377aedc9e59cb3",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 6,
+          "sha256": "d19cd822b3d3ca1759e34922f8d00d4f3cad126c0ffa8fb3f38ab83735aa868c",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 10,
+          "sha256": "d3724fc0be886f4cdf2b844ea4a0d5dc5590d68dcd364b653633cd999b7b3d87",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 12,
+          "sha256": "9a4f61bb41d592c5276a1bf56d9070efb958bfeba45b3d2033f00202f3cda269",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 14,
+          "sha256": "0cf3ba82b6e844c5e11174f88c28a3104625e732c2f54fc55549b65943218329",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 15,
+          "sha256": "c65208b113f17197ef72adb234581e5f7fbd11a9fca4bc1bc215f9109ded16ed",
+          "path": "review/round_03/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 16,
+          "sha256": "ad4b3e98c1c4527ef4e587e339bba750b51d2519e3a34e354505e551c4bb7e66",
+          "path": "review/round_03/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 17,
+          "sha256": "084f7f59302c8fa75b3e63415f2e4ae71b30a586f922bb4c5601123a7b6eb613",
+          "path": "review/round_03/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 19,
+          "sha256": "2d8985da84b8604798eae7a7c8a383a07d54f102eab2965fab39216e382ab053",
+          "path": "review/round_03/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 21,
+          "sha256": "e3171639e744b52ef8bdf1e5fbce97d84453a105ea5956fdfaa8dd4b80e78749",
+          "path": "review/round_03/observation_011.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}
