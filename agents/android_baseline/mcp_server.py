@@ -929,21 +929,26 @@ _register({"name": "finalize",
                                   "会话不是探索主会话时需要指定。"}}}}, _t_finalize)
 
 _register({"name": "input_list",
-           "description": "仅在 finalize 后列出 /materials 下的公共素材"
-                          "（common/mobile/app，含目标专属补充素材包）。",
+           "description": "仅在 finalize 后列出输入文件：/exploration 探索交接包"
+                          "（默认，含拓扑摘要、隐私过滤截图、覆盖报告）、"
+                          "/materials 公共素材（common/mobile/app，含目标专属"
+                          "补充素材包）、/input 定稿功能拓扑。",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string",
-                        "description": "如 /materials、/materials/app"}}}},
+                        "description": "如 /exploration、/input、/materials、"
+                                       "/materials/app（缺省列出 /exploration）"}}}},
           _t_input_list)
 
 _register({"name": "input_read",
-           "description": "仅在 finalize 后读取 /materials 素材中的文件"
-                          "（PNG 返回图像，其余返回文本）。"
-                          "路径必须在 /materials/ 之下。",
+           "description": "仅在 finalize 后读取输入文件（PNG 返回图像，其余返回文本）："
+                          "/input/functional_topology.json 定稿功能拓扑（复现蓝图）、"
+                          "/exploration 交接包（functional_topology.md、screenshots/、"
+                          "coverage_report.json）、/materials 公共素材。",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string",
-                        "description": "如 /materials/app/CATALOG.md、"
-                                       "/materials/app/data.json"}},
+                        "description": "如 /input/functional_topology.json、"
+                                       "/exploration/functional_topology.md、"
+                                       "/materials/app/CATALOG.md"}},
                "required": ["path"]}},
           _t_input_read)
 
