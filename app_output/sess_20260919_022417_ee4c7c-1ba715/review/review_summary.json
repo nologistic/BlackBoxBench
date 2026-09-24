@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "5964b07a66ed597cd8b4ffef75ccad3f22cce330af9faae7f433e0bf6b7e981d",
+  "accepted_apk_hash": "40b255a59434fb3e0e6309e4f589531d4b8f09b7fe6a1a4447f6b54b1adaa006",
+  "revision_count": 3,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "nav drawer"
+      ],
+      "findings": [
+        "width/icons/FAB"
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": "operator finalization"
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "compose state"
+      ],
+      "findings": [
+        "Store.version reads"
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": "operator finalization"
+    },
+    {
+      "round": 3,
+      "decision": "revise",
+      "checked_flows": [
+        "status bar"
+      ],
+      "findings": [
+        "overlay padding"
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": "operator finalization"
+    },
+    {
+      "round": 4,
+      "decision": "revise",
+      "checked_flows": [
+        "cosmetic"
+      ],
+      "findings": [
+        "quota; operator finalized"
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": "operator finalization"
+    }
+  ],
+  "operator_finalized": true
+}

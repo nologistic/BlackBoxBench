@@ -1,0 +1,309 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "7fdd3936ecf6601ad06f7bcb76af84e6e16aba92f5a2ea76c8a2a8d25eba5381",
+  "accepted_apk_hash": "d5666c3a7d7d3d575648d4b7caa21c30e3838f5dd3cd4e827ad371daa808e648",
+  "revision_count": 2,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "Cold launch Easy layout",
+        "Safe reveal and timer start",
+        "Custom dialog defaults and controls"
+      ],
+      "findings": [
+        "Core interactions and dialog work, but the entire header, difficulty row, and board are about 30–35dp too high compared with the observed app; add top inset/padding so the board begins near the original vertical position."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "4b5789c322cad895e4faf29e6631bba8a83145a3c50382a1ef60b487b91b37bc",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "8e219274dc1482dbb8d9b8daee92e117e5b155b8b91bce4d4c919ce845ac73ee",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "0736235c6e98e56a8ba25332742be8bd47e154c2f502c324675e328a30f53e5b",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "ccc7a8cf00e895d15e1749cd9a8e85038ceaf5fa5990295a953411f13ccc8599",
+          "path": "review/round_01/observation_004.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "Aligned cold-launch layout",
+        "Easy reveal cascade and timer",
+        "Long-press flag and counter",
+        "Medium 05:00 countdown",
+        "Hard 03:00 countdown and fog transition"
+      ],
+      "findings": [
+        "Layout and core behavior match. Fog transition is too fast: the first post-tap frame is already purple; increase the visible clue interval so a clue is observable before it fades."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "13ffb8a46066b358a92bcd577ace7db19254ea0864fa7cff68bdd97f19f8bf64",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "fc0d0dfeb529f536d719b7ac05d74e37f7dab7df2fce78d514caaa3d477edbff",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "5311b3509003e6cbb22eb3de9aed1c4e30c46771f13ad859e0cccda730efeadd",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "02ec74d83804e4f6bdbc571f13c21b3fda01c64c50990aa39b0ae87f92b38b2c",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "4271bf5990c4546fbfeb9ed12bcccffd4e9ed2b1ca308d2b84efb765f2462fae",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "cb026e14c897aaaeae50d4426f3dae21c31c714aaa998c4184649fe5a44afe0f",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 6,
+          "sha256": "2f3a1c3bd2345f1a57b4f6dcaab8201520df1ba1f31addf07102dcbb76c4cdec",
+          "path": "review/round_02/observation_007.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "accept",
+      "checked_flows": [
+        "Cold launch matches Easy 9×9 layout",
+        "Easy safe reveal cascade, colored clues, count-up timer",
+        "Long-press flag and mine counter decrement",
+        "Medium 12×12 board and 05:00 countdown",
+        "Hard 14×14 board, 03:00 countdown, visible clue then purple fog",
+        "Custom defaults, size/mine sliders, switches, Start",
+        "5×5 one-mine victory with auto-flag and banner",
+        "Dense custom mine hit with revealed mines and highlighted explosion",
+        "Licenses dialog, scrolling, Back dismissal",
+        "Cold restart resets to fresh Easy board"
+      ],
+      "findings": [
+        "No blocking visual, interaction, privacy, permission, or restart issues found in the final review build."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "restart_app"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "c1e580d2e6f0f64ff43967c8a6a60aa31da26aff266447ae31edcf08514614d3",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "42664271cbb8897b2819fc03bdc0111d8b0feba02e826be77cd07766a5f60dee",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "42c3a55da0c22701461632bfe4d0025f86be10c852b07d572f6e57b857d45334",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "3455b3aac2ec698bcdcddaa342dacadb45f9426ea41eefe4d9c4c87e80db79df",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 6,
+          "sha256": "2d5031c794de1aeb9835b2d8e0140af9d8077d6117b6f1fc473c7b17a216a6cc",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 8,
+          "sha256": "b09615d3803e4bb511c4cb19ee50b02ca9901b0f6bc3f3e16c5fea1389c6ae7d",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 9,
+          "sha256": "a1d5e60b361832ab7d26084e71f5ba5bbaf5103118b7c842ba0c2a6382135db1",
+          "path": "review/round_03/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 10,
+          "sha256": "c8fa87f2f237bd403fb4160d7938e7b0fe7e0b78ef241c06c748f1a4aee0d71e",
+          "path": "review/round_03/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 14,
+          "sha256": "92f9e01375146bd4ac78c560f607dffbee5a1fa20d83ce8c8199c4e5b869b8cd",
+          "path": "review/round_03/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 15,
+          "sha256": "f4e5de533bc175a7c0e14dab6d03308076909720a3a5c685e3b77e21a008a3d7",
+          "path": "review/round_03/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 16,
+          "sha256": "37fddb63ce55162f96d446a2a3076a84a8044e947be430ceddcda6f09c1ccf35",
+          "path": "review/round_03/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 17,
+          "sha256": "a4a4ff47a97d104023e3b31c958ee2cd324a2dcb693677233929c2e8884aacdd",
+          "path": "review/round_03/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 18,
+          "sha256": "7fa678d25102c1f9d10e9007018fd48d5f2f8e6b58bf430155d1b52426a823ca",
+          "path": "review/round_03/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 19,
+          "sha256": "65950936adc4c10b88530e4e3e3b554674e57e36c529334088fe8464dc71e5c3",
+          "path": "review/round_03/observation_014.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

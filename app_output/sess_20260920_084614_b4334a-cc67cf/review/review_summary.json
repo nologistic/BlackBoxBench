@@ -1,0 +1,393 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "a96820653d81c100113d78a47af258e93b427b668d72a916514dac1a67cc52f4",
+  "accepted_apk_hash": "49780d61f727f06325ab5fdefa608ef93bf1342cdb1474ea0b2226ed4f9ee8b7",
+  "revision_count": 2,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "Main menu, How To Play, Settings and setting persistence",
+        "Level 1 cycle mode, undo, completion dialog and Next Level",
+        "Select Level unlock/completion state",
+        "Random Puzzle difficulty selection including Expert 12x12",
+        "Multiplayer difficulty, room-code copy/paste and join",
+        "Classic fill/cross controls and long-press cross"
+      ],
+      "findings": [
+        "Game toolbar labels wrap vertically because default Material button horizontal padding leaves insufficient content width.",
+        "Multiplayer difficulty-chip labels wrap into multiple lines for the same padding reason."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "413389d85d88f2fb38c4c46223b9afe19c76c36adbc9b0d4222fc38ec6a81a9c",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "42436ecc6d0801a3993f854e841f650956ba8e66bfff489e6dcf5c1a71bbbc23",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "e5d6f53227bf4d7441975d2408fa48f61799300f3eff61d19d15e1d270c8e1a3",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 5,
+          "sha256": "25d01cc3d2eec58975f58d3465e3281c7d714271fdf366978e3550886f578597",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 7,
+          "sha256": "3f4098cab5c5c809eaf7e2430b7bf9c78698bb0a1cc9f256cfd5adfd9a31da81",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 9,
+          "sha256": "c4987077be94274fd7737af5c6c3edef1dc2b64a9d4426c8285946451eba271b",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 10,
+          "sha256": "6b08d56af588ec4f5d4bd4211df24a78da6d28b21965868c9e2c062bc2c7acb8",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 24,
+          "sha256": "e4abe648db3e3c92ed0baf4ab1c3a4e1929050f1cd24e21c62fe0e4c3f2077f9",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 25,
+          "sha256": "889e6faee6555434e9347fb818ea16e6988848954159bbbb33fa7338f5eb2e1a",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 27,
+          "sha256": "829d215d19870320b00e96efa744ced4b116bf9ccf034fc66f6c0ef7bd47781d",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 29,
+          "sha256": "4e49b3c40653763901376bd687f67533d30cb8b1fa996ac005fcfe40773e7e21",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 30,
+          "sha256": "64ae0b14a682ec81d53754f25ed72619547eeb62f0c3a2b4e9faecc4830a7555",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 32,
+          "sha256": "975afb1b3af00314b4482cef5a8eb5e5da4f2a40c9b84f4e9c9e8aadd8d8acb1",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 34,
+          "sha256": "586160e51a5bed885f7d2f75502e39bb1ec18122877c89a6cc3555c8cf8f9b33",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 35,
+          "sha256": "5a30c457102c9ba8eee2a1d2e6a9914bac77ee815b5aa503570bc32161449428",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 36,
+          "sha256": "b80ea08051f9cf7246e8c10c88720f3c25944337d4d9bc18f538a66577070e58",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 41,
+          "sha256": "7bc315c3ae59c3852fb3dfccf8164ef6cf62d31eca03f5bb9360650f75aebcfb",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 43,
+          "sha256": "de0212669bba3aec27c88fe5ccc6ac4d690d337f54313a418360e48246e4e736",
+          "path": "review/round_01/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 44,
+          "sha256": "290b0f6a163dcddc5569fafa4ea90fbcdd3eea275d91fcde01eadfe7bb7bacd7",
+          "path": "review/round_01/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 47,
+          "sha256": "1e20d60151a935e3cc3d68c181ba64814ed969a47776a1d46e6b7f36f9daf42a",
+          "path": "review/round_01/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 48,
+          "sha256": "499cff32ea074e50e1ddb6281e086eecce41c0071e7d25ea9c777583b0ea356c",
+          "path": "review/round_01/observation_021.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "Fresh-launch menu",
+        "Game toolbar after first typography revision",
+        "Multiplayer difficulty chips after first typography revision"
+      ],
+      "findings": [
+        "Difficulty chips now render correctly on one line.",
+        "UNDO and HINT toolbar labels render correctly, but RESTART still wraps at the final letter and needs a slightly smaller label size."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "95e4748e1622d157209984ec981f2fe800d327f73f731ec5d988b113784452ca",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "370cc2c169e6c51837d7e175a977ddd30234d42159d7874fd801dd89a0d36188",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 4,
+          "sha256": "0f5ae5c703b999a88d5add58ad2ddb570b4ab810c4b8ab9cddb2090bace0973e",
+          "path": "review/round_02/observation_003.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "accept",
+      "checked_flows": [
+        "Fresh launch and main menu visual hierarchy",
+        "How To Play four-step content",
+        "Settings toggles, restart persistence, cycle/classic modes and long-press cross",
+        "Level 1 grid interaction, undo, restart, solved-state completion dialog and Next Level",
+        "Level selection completion/unlock state",
+        "Random Puzzle difficulty modal and Expert 12x12 grid",
+        "Multiplayer difficulty selection, room code refresh/copy/paste, start/join",
+        "Final game-toolbar and multiplayer-chip typography after revision"
+      ],
+      "findings": [
+        "All core flows execute correctly in the isolated review emulator.",
+        "Final toolbar and difficulty-chip labels render on one line.",
+        "No network dependency, private data, or unnecessary Android permissions are present."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "1fd3944a56a458f62c0fb87dfe20691b890519c943a3667b0aec2eacd50608d9",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "697029e1ec6ca92a60ef13c79d4e1e45166a42191286980df4e2b703a02254b9",
+          "path": "review/round_03/observation_002.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

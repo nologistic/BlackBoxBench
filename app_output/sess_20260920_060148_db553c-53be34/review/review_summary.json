@@ -1,0 +1,868 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "5a7360b4e54eb90ada753c36ec0a6de8f17a58fcbe6cfa28fef47e43d7d8f645",
+  "accepted_apk_hash": "87fade1a0f30f37479629e0c9e4e22a8a96f742eeeace21caf6813dcce6872f5",
+  "revision_count": 2,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "引导3页滑动+开始使用",
+        "权限三连弹窗(模拟)",
+        "主界面歌曲列表+随机播放所有歌曲",
+        "点歌播放+迷你播放器",
+        "正在播放:播放/暂停/自动连播/循环三态带1角标/进度点跳/队列序号拖拽排序/队列项⋮菜单",
+        "歌曲⋮菜单10项+详情对话框全字段",
+        "加入播放列表→收藏夹(计数=1且详情可见)",
+        "标签编辑器8字段+FAB保存生效(列表与迷你播放器标题更新)",
+        "长按多选CAB已选择N+高亮",
+        "专辑网格6张+专辑详情(封面/年份/曲目数/总时长/4曲)"
+      ],
+      "findings": [
+        "严重:所有屏幕顶栏未加状态栏避让,工具栏被系统状态栏覆盖——主界面汉堡/搜索/溢出菜单、CAB的X与⋮、正在播放页心形/⋮、各详情页返回键均不可点击(点按落入系统状态栏),抽屉/文件夹/设置/关于/搜索/睡眠定时器/保存队列等流程因此无法触达",
+        "标签栏5个标签文字被截断(音乐类型→音乐类、播放列表→播放列),需缩小字号",
+        "正在播放页顶部⋮(清空/保存队列/睡眠定时器/均衡器)因遮挡无法验证"
+      ],
+      "actions": [
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "4ca8a93ca548929f18188e9a4058c0940da978225f7bdea93bfc9c2210054b97",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "8d9e25b16f5423f6a181d54a490e324208b0c18ca637131ad5330388054a313f",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "38d7be982112a268d5a8ecaef112c96af077c7118f1b0385482cb6fe50b85d35",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "672b10f7aac1a813a07a092d1bac38354c25c6a052dfef9244a111188b1832af",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "5dda6566baa6a3a9e73653829ae63243b696081e388d93e48a473f0e3c9b5bb3",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 6,
+          "sha256": "7cc77f3a9103295aad337375ffaf7d8f03025b12015d382fdb7886ec7f16722a",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 8,
+          "sha256": "2b1cbce173502c4cc5ce4b7ea71e56c966c4d6d80ca2d00779365944f30bc227",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 8,
+          "sha256": "534e398d34407cde76d501c53bc379355d9fe408cfa2ef40b9c8e41cbc8b9a74",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 9,
+          "sha256": "081c8a298759c94616bc42448033b428e43b0e771eb6767183bd36ae7ffa0947",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 11,
+          "sha256": "4929e240488804f4b53b95b9ae0c17c42daaab12b31558c75c86fab11cf50d40",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 13,
+          "sha256": "edcdd6f4424258664256b62f236a2b2fd1476a5dec0fb50d483193095f5c7a7a",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 16,
+          "sha256": "ebcf5b7b19dcf818c2d62c3a179001287c086cc2460321d2ae00eedfdd4bf591",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 17,
+          "sha256": "510c00d24a30d29be4a8594242f632a48855bfc92c9c14e4241b6822c0423e40",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 18,
+          "sha256": "a16e392e3366f48930cb861727e107e837619b6872fdc308fcc761f2f8d95e3e",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 20,
+          "sha256": "2ff0f252058845434b057a9e0119b7f37bf81bf34c6354023e4747665c5e39f7",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 21,
+          "sha256": "e404e9ae20f75b632f47dca58c866576d0693977e580caabbfd45ed5115f4f42",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 24,
+          "sha256": "2139afecbb235bdf584a4887d92f591ec6024eb3cd94d5d9020924b95c65e9f6",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 27,
+          "sha256": "68431461214dbf91b492ae199eb8f4478d365bb92c74b7dcf357fb8dd0cf6080",
+          "path": "review/round_01/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 28,
+          "sha256": "049243e259f94d24328375e75eb8abd927bb68f03b3a7cb5a9f628e80e34e1cc",
+          "path": "review/round_01/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 29,
+          "sha256": "f2b4c9c0c816e01d417a5405ea52609943478d9b5079b3cab682c4c4b3faaf6b",
+          "path": "review/round_01/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 30,
+          "sha256": "ec45389233fb947e78e74b2752cefc16a60ae301e717be3e63c2ba15cd7faf63",
+          "path": "review/round_01/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 33,
+          "sha256": "99a4d7bb5ab83dde669273789d53686661fd0b07f000ed6c96b7a2d0a640e780",
+          "path": "review/round_01/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 35,
+          "sha256": "d26e3a3b7df9225ebd961cc41652c40657e447757b1aded96d1402db2c0f26e8",
+          "path": "review/round_01/observation_023.png"
+        },
+        {
+          "number": 24,
+          "action_count": 36,
+          "sha256": "a5740dfcc4e2c17b9dcfdb7dbb85e74d2550c1c49aee9f9e615f6cd336eb50c5",
+          "path": "review/round_01/observation_024.png"
+        },
+        {
+          "number": 25,
+          "action_count": 38,
+          "sha256": "c4226f09d80900e0a7134445dab8239b734aa4499bd6f4fa8b5975cd6504412d",
+          "path": "review/round_01/observation_025.png"
+        },
+        {
+          "number": 26,
+          "action_count": 39,
+          "sha256": "b2ccf2b03ba343dc2582ca2ed5dc80882888ab6469d0713426f4c176c4b74a54",
+          "path": "review/round_01/observation_026.png"
+        },
+        {
+          "number": 27,
+          "action_count": 42,
+          "sha256": "f6a5407e8b8a354df942916aff95d194704fdfe4c091f14872088e55ef037582",
+          "path": "review/round_01/observation_027.png"
+        },
+        {
+          "number": 28,
+          "action_count": 43,
+          "sha256": "f6a5407e8b8a354df942916aff95d194704fdfe4c091f14872088e55ef037582",
+          "path": "review/round_01/observation_028.png"
+        },
+        {
+          "number": 29,
+          "action_count": 44,
+          "sha256": "84be40aa56d2a427b044d5ee178c47049f9efa15c4772963b8d5b8318f8b3d68",
+          "path": "review/round_01/observation_029.png"
+        },
+        {
+          "number": 30,
+          "action_count": 46,
+          "sha256": "dd75e526616337bb71f2b679183be1aa18e1288a7f35874e4f8fb7f1b97da16e",
+          "path": "review/round_01/observation_030.png"
+        },
+        {
+          "number": 31,
+          "action_count": 47,
+          "sha256": "ae1821c44a093b0f79d2561662b847f145dc29f26f755adf13fec4d5b0edf9c2",
+          "path": "review/round_01/observation_031.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "状态栏避让修复（主界面/详情/正在播放顶栏全部可点）",
+        "正在播放顶栏⋮菜单4项+睡眠定时器圆弧滑块+播完当前音乐复选框",
+        "均衡器菜单项点击仅关闭菜单（复现目标跳外部怪癖）",
+        "心形收藏切换",
+        "播放列表标签页智能列表计数（历史2/未播放16/最喜爱2/收藏夹1）",
+        "新建播放列表对话框创建后静默关闭且列表不出现（目标怪癖）",
+        "抽屉重新扫描媒体库确认对话框",
+        "艺术家详情页/类型详情页",
+        "restart 持久化：跳过引导权限、记住最后标签页、队列与暂停态、收藏与历史计数"
+      ],
+      "findings": [
+        "标签栏文字仍截断：13.sp 下 material3 Tab 内置水平 padding 导致“音乐类型”显示为“音乐类”、“播放列表”显示为“播放列”；目标机四字标签完整。需将 TabRow 替换为自绘 Row（weight(1f) clickable Text + 选中粉色下划线）保证完整显示。"
+      ],
+      "actions": [
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "96155b15d99aac4df61817b50a4a395e85f3d2ecfb1e7f5ed06f2f93e9cdb42f",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 0,
+          "sha256": "17f3161e6c576d67f13fd7c26560fa518bac270a6736c53796f9bb1ed4319f8a",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 6,
+          "sha256": "6756572bde533fb6bfa487a8486d6a1c1f2b2024546644ca2d0ac105152414c5",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 7,
+          "sha256": "1f4cbceee77b3b6432524476b80fdd7045aa74db97648207f87165bfdb372450",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 8,
+          "sha256": "628b3b4b159ba064c9acd500e07f3b02b0ea22c351a365b0e185ffc42aa23e2d",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 9,
+          "sha256": "dd9710ce22bd7e27df5d802dd630609792d1be0042262b98af53621c6f2c5ae7",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 10,
+          "sha256": "662adfe8847f398f55083d14de69f05f14d23f903e65433e676f4110f1021fc9",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 14,
+          "sha256": "093f3daa87c826160af607d97e2e01352ac5c5a9c2d99ce8261b58d9e26c116a",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 17,
+          "sha256": "7392934e622dacc4c4235ae39d2512a277a42cd69b819854852a1e1a192d092d",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 18,
+          "sha256": "ec24e5ff9e532c68a074ec4f7ca1fa1a00276acbb2510205902171244e523950",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 22,
+          "sha256": "a197f4c798c93c6c4bfe5f72c4729fad5816c38f20aa8b0791906b3639d5163f",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 25,
+          "sha256": "2c2ecb5d0222ebd6e509256dd6bde2d05d9ca0727959c37ed008e27e809a6869",
+          "path": "review/round_02/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 27,
+          "sha256": "a6f1015dec13d1422caa3922bb2dd07a1c439c44cd0b726f1ffd7010f526c90c",
+          "path": "review/round_02/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 31,
+          "sha256": "7da0cdae82a3c6f89a2c507d03a31d11869c88873c0864dd03d95ddd8d579872",
+          "path": "review/round_02/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 31,
+          "sha256": "e1ed56256a225c15748a687f8dcb1583d6fb54c3ebfe013fb44c6a74fc82631d",
+          "path": "review/round_02/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 32,
+          "sha256": "8e9423a71dc354c8bccca38163428b8b33f92191d371c96afbb3087a64a98f5e",
+          "path": "review/round_02/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 33,
+          "sha256": "e292b193712c733bd9f8e2dd55ede424f7db64655cef352fac94ebd0a942deb3",
+          "path": "review/round_02/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 34,
+          "sha256": "1d132fadece298d4d377c1637996746bab768f4136607aae62193ad6554d995e",
+          "path": "review/round_02/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 36,
+          "sha256": "ef7475f83f77d72122f4060c4a1b6a712cd32d8ac1c9ccf8432fac920305ab8f",
+          "path": "review/round_02/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 37,
+          "sha256": "67980a0acd11f320d9df2be4b0a033659403776a279be7ecc3e34423ae47d60a",
+          "path": "review/round_02/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 38,
+          "sha256": "cc9a97adaf157f9b06a7d7e8cff312479c832beaf5b6a40fd9a6c833a80bbe1f",
+          "path": "review/round_02/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 40,
+          "sha256": "3e6175b844ba7b2d54c30d4cdaa8d9739dd74cc53f388678f0ce24839640b2ad",
+          "path": "review/round_02/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 41,
+          "sha256": "bdc6b9058a0feaa207c70e127783a605a5405aeebf9cde261ce242cafb7dbf29",
+          "path": "review/round_02/observation_023.png"
+        },
+        {
+          "number": 24,
+          "action_count": 42,
+          "sha256": "4b5c0deef8362761a84d60f2f816319f85a894e34cdca602b558ffd893009580",
+          "path": "review/round_02/observation_024.png"
+        },
+        {
+          "number": 25,
+          "action_count": 43,
+          "sha256": "ea0eb337f1155bd80d79a10f00dcb9d308dd1ee9d3138bf6dc855ed64bcded42",
+          "path": "review/round_02/observation_025.png"
+        },
+        {
+          "number": 26,
+          "action_count": 46,
+          "sha256": "09621d66fe4787c488bac20bb44fdf8c08e01337648c18c089fbc55cadc01e95",
+          "path": "review/round_02/observation_026.png"
+        },
+        {
+          "number": 27,
+          "action_count": 47,
+          "sha256": "d32cb76a727cbec8a3bfd6c596519cf3cafc6bc21aaab2bdcd50bb796ab37bd6",
+          "path": "review/round_02/observation_027.png"
+        },
+        {
+          "number": 28,
+          "action_count": 48,
+          "sha256": "ad5ecac92620abf934bed2bb8d3332ed4a177d907e36f2d304780e6dd60f43be",
+          "path": "review/round_02/observation_028.png"
+        },
+        {
+          "number": 29,
+          "action_count": 50,
+          "sha256": "df023b9657bd7766e003767f0328aab0ac436d0d3033a29c74ca0e7dce5fd709",
+          "path": "review/round_02/observation_029.png"
+        },
+        {
+          "number": 30,
+          "action_count": 51,
+          "sha256": "8f6d545df979eabf1c684698f556c6264b4aac57a33ca38ad3fb7578e31afa6f",
+          "path": "review/round_02/observation_030.png"
+        },
+        {
+          "number": 31,
+          "action_count": 53,
+          "sha256": "02d4f6e12756daa1baba5f0e384fb1581ab1aed6cf421dbdae7d57eb4868a20b",
+          "path": "review/round_02/observation_031.png"
+        },
+        {
+          "number": 32,
+          "action_count": 54,
+          "sha256": "1cbf006fe6f056581e7cde006e083581604f0e2b605d3781b6a3845cd75736d3",
+          "path": "review/round_02/observation_032.png"
+        },
+        {
+          "number": 33,
+          "action_count": 56,
+          "sha256": "02d4f6e12756daa1baba5f0e384fb1581ab1aed6cf421dbdae7d57eb4868a20b",
+          "path": "review/round_02/observation_033.png"
+        },
+        {
+          "number": 34,
+          "action_count": 57,
+          "sha256": "bd8704e735651de03eb07a2615ec3008503bc148f9ccd50480f9f65a6fbead51",
+          "path": "review/round_02/observation_034.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "accept",
+      "checked_flows": [
+        "引导3页+权限三连弹窗（新装冷启动）",
+        "标签栏自绘Row修复：歌曲/专辑/艺术家/音乐类型/播放列表全部完整显示，选中粉色下划线正确",
+        "标签点击切换（歌曲/音乐类型/播放列表）正常",
+        "歌曲点击播放+迷你播放器出现并显示暂停态"
+      ],
+      "findings": [
+        "第3轮修复验证通过：标签栏四字标签完整显示且交互正常；前两轮已验证全部核心流程（播放/队列/菜单/对话框/搜索/文件夹/设置/关于/多选/持久化），无私人信息。"
+      ],
+      "actions": [
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "54012ca65965aee62f1413a1f97f256fdbdc45f03185d4ddae69750ffee833e5",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "3754f2410677dc8f399e252e7834f27b3cb035d17dd448a356edcdb418ad146f",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "9ba3eb3c86681854fa5a3f67813e1b7b8be5c3ebc2d97a2b097101a416a8a5a2",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "12b2a14722e0a6f6bb925c3901ed0d2fbfad45e235e82eece5a7448d7c78f1dd",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 5,
+          "sha256": "552fae64c7a5f66d3c0d8db3c13d83ed5a2d773ee5a2ccfe525e6ea15c6c6cb0",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 6,
+          "sha256": "aeb9ae3b7d14d3cb7fb896b7f095d7ac7b7a85860d0d2d288496e1daa1491485",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 7,
+          "sha256": "894d7e545e1939a1e9d22646d2b82c3eba724c88be9d3de1a8c705c4fbd5f9aa",
+          "path": "review/round_03/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 8,
+          "sha256": "6652c10d96c18a98bf332cf74e8ba0b5f76a7ad80ec4584b3d3d69560999cbd0",
+          "path": "review/round_03/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 10,
+          "sha256": "66f200d4e8f8a4a53a65d0a0197746476feecbc63451a1c01f62d30e5b79faf0",
+          "path": "review/round_03/observation_009.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

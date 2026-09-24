@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "3fbb2d751eb63776ff450b0fe5c80a259027d59e0f892369caed4404ed766125",
+  "accepted_apk_hash": "495737ac8a7bbada96012ec869d041c17ef4520e66208799405ae6c1a502f7d0",
+  "revision_count": 0,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "accept",
+      "checked_flows": [
+        "主任务列表的分组展示、任务完成状态与底部工具栏",
+        "新建任务并保存，重启后通过搜索确认任务仍存在",
+        "导航抽屉中的过滤器、标签、地点和本地清单",
+        "进入本地清单并查看对应任务",
+        "排序/分组底部面板及显示开关",
+        "设置页与外观主题选择",
+        "切换深色主题并重启确认主题持久化"
+      ],
+      "findings": [
+        "核心流程均可操作，界面结构、颜色、卡片、抽屉和编辑器与基线高度一致",
+        "新建任务 Review task 在重启后可搜索到，数据持久化有效",
+        "深色主题切换后重启仍保持，设置持久化有效",
+        "个别装饰性 Unicode 图标存在字体回退差异，但不影响功能或主要视觉层级"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "press_back"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "1167160e24e3203eeb8493b481385c6ba871798ec6fa17b0de637e575183f135",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "e9e896c6a457632e161ef5bc0c775d5d70c4f7c777bf8aa1561e67d8763d0ba9",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "cb6ada3c347f5430f6c4efea3249ff11a6845da060db0be2148d70872dff0996",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 5,
+          "sha256": "6090909a7b32c4540b8a3570b1708f8a994969d92f640d12a775259bc8bf00e0",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 6,
+          "sha256": "fc529ebb23d765a249b3e4259590a5ada0e5315453a3dba29bba4bcab521e2cb",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 6,
+          "sha256": "1b251bf55187d88cd774b768cfcad3b82e0ce6e3600a0f630f834c62a4232f72",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 7,
+          "sha256": "5e09bf9c27481177c7e1edaed24c40d858c8e69f2729f042f540ccb5e341a082",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 8,
+          "sha256": "1afc4d95142af0eca6c2fff2fb67eb2e397eeeabbe26b0c2ab20bae6680701d7",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 10,
+          "sha256": "8e21a1383a6d931649eae0a8169c2386fe6072de7d758a981c4ec3534394b50d",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 11,
+          "sha256": "edd6781b9c36f07a73d961cc3f4c10db3c8e6b35cfe35485e9ce68e4de164b2a",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 12,
+          "sha256": "147fc8637b5e00cce02450336ae6103901dfb614a824e7f921fcb7a8720dc510",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 13,
+          "sha256": "b8afe0e32d262f24ad0f79e212ac84929198506f65b3b67f7fd2c538a7ad5229",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 14,
+          "sha256": "b9a21e48f8f9b94d883cad2978883d3a5d532f1d2884f286bbb2cd006df8c282",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 15,
+          "sha256": "22ff3b39c5e5822ea3431975528a340e459a96113fb3f22c0a244228ba77228b",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 16,
+          "sha256": "e917ea8dd97431882861690cdde6de67528140b1f2a78b996480c1327e5aeb0e",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 18,
+          "sha256": "13483a1a7f1e685c2de0f470f2fe4a63cdea63378f6766b5f06081a5bf0a9b54",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 19,
+          "sha256": "fb4ba185ba3d8f309793e01225806a1c1269114a42d241b64b544fd40147647d",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 23,
+          "sha256": "0710398192a1a4a35e67cb21c8b0d8ab02dd0b6fc83b749c8e42367a32e6c788",
+          "path": "review/round_01/observation_018.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

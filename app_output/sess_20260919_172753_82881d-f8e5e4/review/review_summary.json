@@ -1,0 +1,1133 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "ee5ffdfccb6da4587975e13e02753fe4802fa2caf54c7be476f90e7a6aec7664",
+  "accepted_apk_hash": "5868115b980358dfaf5b15721ed74a089f58296f96934b8dbbb87be8317e86ea",
+  "revision_count": 3,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "首次启动主界面(Easy 9x9/010/计时00:00/页签行/Licenses入口)",
+        "点击关闭格翻开+泛洪+彩色数字+计时启动(00:05实测)",
+        "长按插旗:第一次成功(010→009,旗子显示)",
+        "普通点击输入正常(角格翻开为3)",
+        "表情按钮点击重开(长按触发的click也有效)"
+      ],
+      "findings": [
+        "长按仅在第一次生效:对已插旗格与关闭格的后续长按均未触发onLongClick(未取消插旗/未新增旗),疑似棋盘Column的verticalScroll手势拦截干扰combinedClickable长按",
+        "修复计划:棋盘不溢出时不加verticalScroll修饰符;同时清理tap()中对已翻开空格的无效分支"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "efcc46568963de1925ee3b08ecc7d2b9c7690e23d922ccb623f79f20bff3725a",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "8557880c6cf6a07e673d05fb72ad836206f77afd9df76e68eeb0f540ffeb02e9",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 1,
+          "sha256": "f3cd0cf825faf3ca97a89181cca3fa4a3aed933dc3caff35c50a3621fa7ebcaf",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 2,
+          "sha256": "f2a439f066d59808db6c907e8cfb300febb2735682e44bf7c85e8d02277dfc73",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 3,
+          "sha256": "695327dffa4e06b82756d512890e4d90b3c913cd98aa529eac3bd81ffdc3bb21",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 4,
+          "sha256": "fec6275e09e1daf17d7a5c9982c74e355d8c14340cde3bad6c38476f30ad54ac",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 5,
+          "sha256": "c2b50b54750f8090d8fe61d89f1ec8c047c0368a875fdc4bff6d0416fc5b33de",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 6,
+          "sha256": "0c1dd21e3343382f4aad5464b116a889f8be1cebc82955f4f1b5c389b06b5655",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 7,
+          "sha256": "2defe8d1655e8d508b56efda9c483d7022518c4cf2e2ac4c454ef1906c2d0868",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 8,
+          "sha256": "45406f1e5919b27728d56f9007efd0d5256cfd7dc8ef07c9367fd276b3a3ef76",
+          "path": "review/round_01/observation_010.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "长按插旗(每轮第一次成功:010→009)",
+        "点击翻开+泛洪+数字",
+        "长按取消插旗失败",
+        "长按其他关闭格插旗失败",
+        "连续观察:计时器冻结在00:05,表情按钮点击无响应→主线程卡死"
+      ],
+      "findings": [
+        "combinedClickable的onLongClick仅在会话首次长按时触发,后续长按全部失效(第1轮:app存活但长按死;第2轮:进一步演变为整个UI冻结,计时停走,点击无响应)",
+        "修复计划:弃用combinedClickable,改用pointerInput+awaitEachGesture手写按下/抬起/450ms计时判定;计时器改为单一LaunchedEffect(Unit)常驻协程,不再以version为key每秒重启;对话框显示改由tap处理器直接置位"
+      ],
+      "actions": [
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "e7a9969ec5ffaaa78c486cbd4d9dfe8f5151959e2d467de4130a3bacdf7018ed",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "8ec65ae4115bd8c2d1424cfcabe928a6fd4509a48ead056903b6939581b5cc6d",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "73867ed1b9c18d1c1dd27ece7689a2623d48555ba2e1023d3aa41a65161ea32f",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "2fc7131ac645721142f804debba003616c3cbcd32750fb8e30132f1777f6b4bc",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "62687ae7ca4860b0a5ad027cd74b413b6c7d2d5ab9202484c3a6d598d19ee3e5",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "9e01e823162f159c083da5a82f4cfce724c61d1eeec16c856c906ed7ea7e045f",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 5,
+          "sha256": "8628541d4175e1fbb8895d75472be1e70c5ea79f7b471d7f5d8c616418757e08",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 5,
+          "sha256": "a5c0b05c22dc214611505fb1fb5110fc311a6081b01f54da1d74c9d1305308cc",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 6,
+          "sha256": "d393907fd66a30f45ab6dd618366bf4209c008ce6bff069273b545dd04a1dc19",
+          "path": "review/round_02/observation_009.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "revise",
+      "checked_flows": [
+        "tap_reveal",
+        "timer",
+        "long_press_flag",
+        "long_press_unflag",
+        "app_persistence_after_restart"
+      ],
+      "findings": "Round 3: first long-press flags a cell (counter 010->009, flag emoji rendered). All subsequent long-presses (unflag same cell, flag different cell) produce no visible change; later the platform focus-check found the app unresponsive and restarted it. Root cause identified in code review of the reproduction source: UI invalidation relied on a UiState.version counter that is written but never read by any composable, so composition renders stale frames after mutations - gestures do mutate the model and persist, but the screen never recomposes. Visual updates observed earlier coincided with process restarts re-composing from restored state. Fix planned: back the game model with Compose snapshot state (mutableStateOf/SnapshotStateHashSet) so HUD, board and dialogs recompose naturally, and replace manual gesture loops with detectTapGestures.",
+      "actions": [
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "414ba37a225aab3ab5050c73a9d0cb8b99680d77a22b26e1f25d76ee92efb86d",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "de984c78b218da41df151feb1b4d5314b037709180c92302b85329c26c19a31b",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "894a72a09f42c5bce2036049161523cd2d2d2374bb6edf9e01e8920ab912f81a",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "894a72a09f42c5bce2036049161523cd2d2d2374bb6edf9e01e8920ab912f81a",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "b9897af6c5e349bf5598ade44c779d9562865513e9605c7d074db3634f337b6e",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "671cff2e71ad97db07de0f67fc09ea33576df1d7543c5d137451501a1579abd2",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 6,
+          "sha256": "2c2a6a48d300d24c2326ad94748359c5ce13b8de1924ede6036ddf7412b5bde1",
+          "path": "review/round_03/observation_007.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 4,
+      "decision": "accept",
+      "checked_flows": [
+        "tap_reveal_number",
+        "flood_reveal",
+        "timer_start_on_first_reveal",
+        "long_press_flag",
+        "long_press_unflag",
+        "long_press_flag_other_cell",
+        "loss_flow_dialog",
+        "difficulty_switch_medium_12x12_040",
+        "difficulty_switch_hard_14x14_099",
+        "custom_dialog_open",
+        "custom_stepper_decrement",
+        "custom_start_1x1_0",
+        "win_dialog_text",
+        "play_again",
+        "face_state_emojis",
+        "restart_app_persistence",
+        "licenses_page",
+        "licenses_back_navigation"
+      ],
+      "findings": [
+        "Core gameplay verified on the reproduced APK: tap reveals with colored numbers and flood fill; timer starts on first reveal and stops on game over; long-press flags, repeated long-press unflags, flagging a different cell decrements the counter further (010->009->010->009 sequence observed live).",
+        "Loss flow verified: tapping a mine explodes the cell, face changes to skull, timer freezes, and the end dialog appears and dismisses on outside tap.",
+        "Win flow verified deterministically via Custom 1x1/0: dialog text 'You Win!' / 'Congratulations, you found all the mines in 0 seconds' with Play Again; face shows sunglasses; Play Again starts a new game.",
+        "Difficulty switching verified by pixel measurement: Medium renders a 12-column board with counter 040, Hard renders a 14-row board with counter 099; Custom pill displays the configured mine count.",
+        "Custom dialog verified: opens from the Custom pill, Width/Height/Mines steppers decrement (150 excess decrements converge to 1/1/0, gates behave), Start game launches the configured board.",
+        "Persistence verified: restart_app restores the exact board state (flags, revealed cells, loss state).",
+        "Licenses screen opens from the bottom button and system back returns to the game.",
+        "Known deviation: the HUD (counter/face/timer) renders without status-bar insets, so it sits under the system status bar; the face button is therefore mostly covered by the status bar touch region and could not be tapped during review (face reset not re-verified in this round). The original app kept the HUD below the status bar. The board also renders flush to the left screen edge (rightmost column slightly clipped on Easy/Hard) instead of the original's centered margins.",
+        "One long-press on a closed unflagged cell produced no visible change once mid-game (not reproducible; other long-presses before and after worked). The review emulator also defers frame redraws while idle, which produced stale screenshots between inputs and complicated verification."
+      ],
+      "actions": [
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "wait"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "c7bab7bd3c60a5ef6add3d1911adafae25591008659ea2df40c4f80a5d034a58",
+          "path": "review/round_04/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "e677362bc6f13764d89bb4bdad69fd8259919113eba4d06cac419dd55fd91d09",
+          "path": "review/round_04/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "e1b4f161b43dab7453bc9d8e16e46ed9440b1107868a05d3f61ec0f274e3af31",
+          "path": "review/round_04/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "0861863d6909333ebfd1870d963363a574ba57b0f5350cc58cf6c6abfa68faf2",
+          "path": "review/round_04/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "3a76496522271f7fcbf65aa69fa61346370b5a1f1e3d8a4ebfa4907237e61cb2",
+          "path": "review/round_04/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "d49d6d73f6c15158e1a95d88d130dfb7d48b9b47d60c2743c05545b2961a99ae",
+          "path": "review/round_04/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 5,
+          "sha256": "6009bb2526547e33bdca90c778ea992c8a190e282fa244ea17fea9351c24e747",
+          "path": "review/round_04/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 6,
+          "sha256": "79678f76c8d61859ff301be4c42a4f6ff690a12693f8c0f02b3415b1faab7a06",
+          "path": "review/round_04/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 7,
+          "sha256": "176818d88fc5ec07f7ac187f81036cbf192452473f8b9d52a1d0b8914167f35c",
+          "path": "review/round_04/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 8,
+          "sha256": "176818d88fc5ec07f7ac187f81036cbf192452473f8b9d52a1d0b8914167f35c",
+          "path": "review/round_04/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 10,
+          "sha256": "d8ca072d3e472d23b7c51883a2066bc35d46059f9a25bc95560c869df182fbbb",
+          "path": "review/round_04/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 12,
+          "sha256": "54938c047d020f80ad0fbff95f0b355d22e3e2fb7a97e31917952908a70a1f46",
+          "path": "review/round_04/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 14,
+          "sha256": "559c3a975ff2f4b2ee9419f39a54906842023691248fdd676cc16a5eb408b942",
+          "path": "review/round_04/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 16,
+          "sha256": "77f86fd0f1cb6f7e0e70e73b8a42c600156dbf3a0a961c054c8b2df30446d648",
+          "path": "review/round_04/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 18,
+          "sha256": "aebbb52ccafca02394e91e18e47803433943b4b584b9497cc8b1c68a0d00a225",
+          "path": "review/round_04/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 20,
+          "sha256": "2dbdb5c64041bc75491fddb244b9138760e982d33863d6d71c0e384ec308cd15",
+          "path": "review/round_04/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 22,
+          "sha256": "9487db109307a34a0f54df34c765b29b31b7b2af584031a5895dae6707be44ed",
+          "path": "review/round_04/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 24,
+          "sha256": "d0dca76b2dbdf101440bc6cb4ca2d1d5b7f30a5617496257416690c0b665856f",
+          "path": "review/round_04/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 26,
+          "sha256": "6627386e7a63d090078c32ece7e048db38b850d9b1fb5a5c37b72756f5adcd9c",
+          "path": "review/round_04/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 28,
+          "sha256": "73b90070a6ca9265ac11ea7f78978b4685d4db20d4d60656667b64298b605667",
+          "path": "review/round_04/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 38,
+          "sha256": "7111e937ee1ac6851e21af52423c0ee47d883b1a82d8d6528069a32963ca62bb",
+          "path": "review/round_04/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 40,
+          "sha256": "b3d2db2b0464a48dfbbe7853b89b9b15e1bc6ae99766ca61def797cf22e44e7a",
+          "path": "review/round_04/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 42,
+          "sha256": "77a43cb82125ffecf95c87008dbce798325dbcd79300fe58a59274574777e6b3",
+          "path": "review/round_04/observation_023.png"
+        },
+        {
+          "number": 24,
+          "action_count": 44,
+          "sha256": "54df3623b7a1933bdbb16ac49fcd128c6b99e310e402ded7150ca406bc561676",
+          "path": "review/round_04/observation_024.png"
+        },
+        {
+          "number": 25,
+          "action_count": 46,
+          "sha256": "81bac8a896ffed5db2a50371b1b667dbbefe814aef8c7b70a55fae9ecac0a0b5",
+          "path": "review/round_04/observation_025.png"
+        },
+        {
+          "number": 26,
+          "action_count": 196,
+          "sha256": "510a88529d9447c5d4a310e46b14a9bb6da904fddb94997bbddf8e2afea43b19",
+          "path": "review/round_04/observation_026.png"
+        },
+        {
+          "number": 27,
+          "action_count": 198,
+          "sha256": "22961b6063ea3f2d741cb423439b139b192732cf4e8818e414e1e29d63d8e28d",
+          "path": "review/round_04/observation_027.png"
+        },
+        {
+          "number": 28,
+          "action_count": 200,
+          "sha256": "d704cae67303662fae1ffc3da7ebabd6fb79233c09412890cd9c95080175e493",
+          "path": "review/round_04/observation_028.png"
+        },
+        {
+          "number": 29,
+          "action_count": 202,
+          "sha256": "d835e4355f8f68236a86cc468f94937498ceb1c0d0698c369e7182c40f02a0aa",
+          "path": "review/round_04/observation_029.png"
+        },
+        {
+          "number": 30,
+          "action_count": 204,
+          "sha256": "af420d871f59342d8074f1a9ad6bbd5aa012adc79bcf6a020b9a717d145489fc",
+          "path": "review/round_04/observation_030.png"
+        },
+        {
+          "number": 31,
+          "action_count": 206,
+          "sha256": "d9235beed4720243e563f1f60dec67d44a2a763ed269d1cdc489ba2e9d97e821",
+          "path": "review/round_04/observation_031.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

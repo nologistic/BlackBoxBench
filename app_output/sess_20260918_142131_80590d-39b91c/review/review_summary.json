@@ -1,0 +1,304 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "57d7fab2d8f1de2a9ec537770827b3be69491aebc650993ab6a9ca293872645a",
+  "accepted_apk_hash": "9f1f5e778f93057a8b77bd9d0192babe54179efb66cd20a085f789ebd25eeb87",
+  "revision_count": 1,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "首屏Easy初始界面",
+        "点击揭开+计时",
+        "长按插旗+计数递减",
+        "切换Medium"
+      ],
+      "findings": [
+        "切换到Medium后棋盘仍是9×9，未变为12×12：GameState.rows/cols/cells 为构造期固定值，reset()只改config未重建网格。倒计时05:00与计数器030显示正确。",
+        "需修复后重建并复验 Medium/Hard/Custom 的网格尺寸"
+      ],
+      "actions": [
+        {
+          "type": "wait"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "6557800c8274739c935c290977a5d36c49f82bc373e5d43e3671dbcc2ba22225",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "562df9cf119400a6bef32106c0e9e678310d949a9b935725d6cf7cdd29f16cdd",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "575e1e7823d47258c456667bcc9c3872526c1e29f0f615aee6b6e67c20f638f8",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "85414327b34b3a49ecd050703297eda18f9cd4e7e4c9abd2246704992bc4f682",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 5,
+          "sha256": "39cdde907cc4d514b9c7ab0631363b28c1c34baa631cbaac1713cf7856275e45",
+          "path": "review/round_01/observation_005.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "accept",
+      "checked_flows": [
+        "Easy首屏与9×9初始态",
+        "点击揭开+洪水填充+数字配色+正计时",
+        "长按插旗与雷数递减",
+        "Medium 12×12/30雷/05:00橙色倒计时",
+        "Hard 16×16/50雷/03:00倒计时+战争迷雾紫格",
+        "Custom对话框(网格/雷数滑块+百分比+Fog of war+Safe first tap)",
+        "自定义开局(8×8/10雷)",
+        "触雷Game Over(红横幅/死脸/雷全显示/爆炸格)",
+        "胜利(绿横幅/墨镜脸/自动插旗/计数000/计时停)",
+        "笑脸按钮重置当前难度",
+        "Licenses许可对话框"
+      ],
+      "findings": [
+        "上一轮的网格尺寸缺陷已修复：Medium显示12×12、Hard 16×16、自定义8×8均正确",
+        "胜/负/超时三类结束态与横幅、表情、自动插旗行为与探索期观察一致",
+        "界面无私人信息，内容为虚构通用文本",
+        "第1轮复验中曾出现一次'app could not be restored to foreground'的工具层瞬时错误，后续会话稳定，未复现，判断为非App缺陷"
+      ],
+      "actions": [
+        {
+          "type": "wait"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "9b386703abd7dbf6cc1cc407ab67978bf2cc1f274ea1eb8228be2c5c84a567f7",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "6b67e55d12ffaa5bd7b9c91acbe133f79286489773f76528e19e88b3b504dea2",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "44c4076cb03d98843ca8437e53a0e5e69d1b734fad6cca17316f5675bf5b97ba",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 5,
+          "sha256": "f7e860d0ba9129f53e27de1cc324b9eb3e5b5982844f4779051d59788ae4f744",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 6,
+          "sha256": "a7fced06329c2cee42ce970618f2e2200c1ef6cfcbeb1c42ac7859906bf6c971",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 7,
+          "sha256": "3833fff61bc84523d2f30b41cbb12cb95d88fea3eab238f6ec511ad3345819cd",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 11,
+          "sha256": "618c465a840c5f538dea9bc16c7d024a570d083af08d285302f62e5f65995fdf",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 15,
+          "sha256": "c5bc864e16b518bc54cd64be09182ca0196a70c609afd8a5daecaab29539ff77",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 16,
+          "sha256": "060962932a02d0b6b52a250938e455fe34fe62c302b866b2b30e916f06f940d5",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 17,
+          "sha256": "2b83a6d000797b08ba684b94d477f5078afe36c2ca4b443c187a100352e4c091",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 20,
+          "sha256": "42223524f7e733338cccdaea99372f3f576d3b490ecc8ffffb8a1d7bbe993d41",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 22,
+          "sha256": "a34846fecadc187bd532cf841be8de7ff072f228fb55658d1f5f0166aaeed418",
+          "path": "review/round_02/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 23,
+          "sha256": "ff035cadd4a39d7de2dcf9f2d6878ee4502dd59452ab1dde01a364053bc421bf",
+          "path": "review/round_02/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 27,
+          "sha256": "c879655e00e20a3801d4d91b7ce3da1e2c6c5158d99ff2022a6684a9a9211bd3",
+          "path": "review/round_02/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 33,
+          "sha256": "b4ff75d09d16c518a50ca3220ad7b42c92f359c1a1da876b81a2026fc212ddaa",
+          "path": "review/round_02/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 34,
+          "sha256": "76cac31419b9bc8fdf10fadd3153fb6e0e00b6cee08a05bd927b7a6c204025e6",
+          "path": "review/round_02/observation_016.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}
