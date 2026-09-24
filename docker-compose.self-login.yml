@@ -1,0 +1,44 @@
+# Operator-only Docker-native login capture. This is separate from exploration:
+# there is no Agent/tool_builder service and the pixel/input UI is published on
+# host loopback only for the duration of manual login.
+services:
+  reference_login:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.reference_raw
+    image: blackboxbench/reference-raw:latest
+    environment:
+      BBB_APP_ID: external_url
+      BBB_TARGET_URL: ${BBB_TARGET_URL:?set BBB_TARGET_URL}
+      BBB_TARGET_MODE: external
+      BBB_CHROMIUM_PROFILE_DIR: /profile
+      BBB_OPERATOR_UI: "1"
+      BBB_OPERATOR_UI_PORT: "8400"
+    network_mode: bridge
+    ports:
+      - "127.0.0.1:${BBB_SELF_LOGIN_PORT:?set BBB_SELF_LOGIN_PORT}:8400"
+    volumes:
+      - type: bind
+        source: ${BBB_SELF_LOGIN_PROFILE:?set BBB_SELF_LOGIN_PROFILE}
+        target: /profile
+      - login_device:/device
+    tmpfs:
+      - /data:size=64m,uid=1000,gid=1000,mode=0700
+      - /tmp:size=64m,uid=0,gid=0,mode=1777
+    shm_size: 512m
+    read_only: true
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETGID
+      - SETUID
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 256
+    mem_limit: 1g
+    cpus: 2.0
+    init: true
+    restart: "no"
+
+volumes:
+  login_device:

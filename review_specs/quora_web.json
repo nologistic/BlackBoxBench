@@ -1,0 +1,438 @@
+{
+  "checklist_id": "quora_web",
+  "platform": "web",
+  "features": [
+    {
+      "id": "f01",
+      "name": "Home",
+      "steps": [
+        "Open Home",
+        "Load a feed containing answers, posts, followed topics, followed people, and Space content (preloaded fixture)",
+        "Interact through Upvote, Follow, or Comment",
+        "Revisit Home",
+        "Feed composition and interaction states persist"
+      ],
+      "expected": "Feed must contain answers, posts, followed topics, people, and Space content (preloaded); interactions update states; revisiting Home preserves feed composition and states.",
+      "persistence": false
+    },
+    {
+      "id": "f02",
+      "name": "Search Quora",
+      "steps": [
+        "Enter a keyword",
+        "Receive matching topics, questions, people, or other entities",
+        "Open a result",
+        "Navigate back",
+        "Preserve the original keyword and search context",
+        "Select another result without rebuilding the search state from scratch"
+      ],
+      "expected": "Results must cover topics, questions, people, and other entities; opening a result and returning preserves keyword and search context; selecting another result keeps the state.",
+      "persistence": false
+    },
+    {
+      "id": "f03",
+      "name": "Topics",
+      "steps": [
+        "Open a Topic such as Finance or RMS Titanic",
+        "Load topic metadata, follower count, Read/Answer views, content feed, and Related Topics",
+        "Follow or unfollow the topic",
+        "Topic state updates across Home and Profile"
+      ],
+      "expected": "Topic metadata, follower count, views, feed, and Related Topics must load correctly; follow/unfollow updates state across Home and Profile.",
+      "persistence": false
+    },
+    {
+      "id": "f04",
+      "name": "Following",
+      "steps": [
+        "Follow multiple Topics or People",
+        "Open Profile",
+        "Following shows the current followed entities",
+        "Unfollow one entity",
+        "Related feed and topic/person states update across Quora"
+      ],
+      "expected": "Following list must show currently followed entities; unfollowing updates related feed and topic/person states consistently across Quora.",
+      "persistence": false
+    },
+    {
+      "id": "f05",
+      "name": "Related Topics",
+      "steps": [
+        "Open a Topic",
+        "Display semantically related Topics",
+        "Follow one of them",
+        "Navigate into the related Topic",
+        "Return to the original Topic",
+        "Preserve follow states and navigation context"
+      ],
+      "expected": "Related topics must display and be navigable; following one updates its state; returning to the original topic preserves follow states and navigation context.",
+      "persistence": false
+    },
+    {
+      "id": "f06",
+      "name": "Questions for you",
+      "steps": [
+        "Open Questions for you",
+        "Load questions selected from followed topics (preloaded queue)",
+        "Answer, Follow, or Pass individual questions",
+        "The queue updates without losing unrelated items",
+        "Passed questions do not reappear in the current session queue"
+      ],
+      "expected": "Queue must load from followed topics (preloaded); Answer/Follow/Pass update the queue without losing unrelated items; passed questions do not reappear in the current session.",
+      "persistence": false
+    },
+    {
+      "id": "f07",
+      "name": "Answer requests",
+      "steps": [
+        "Preloaded answer requests (fixture)",
+        "Question appears in Answer requests",
+        "Open the question",
+        "Answer, Follow, or ignore the request",
+        "Request state updates and the question leaves or changes state in the request queue"
+      ],
+      "expected": "Preloaded requests must appear in the queue; answering, following, or ignoring updates request state; the question leaves or changes state accordingly.",
+      "persistence": false
+    },
+    {
+      "id": "f08",
+      "name": "Add Question",
+      "steps": [
+        "Open Add Question",
+        "Enter a question",
+        "Select visibility/audience context",
+        "System searches for similar existing questions while typing",
+        "User either chooses an existing question or continues with a new question",
+        "Question is created and becomes navigable"
+      ],
+      "expected": "Similar-question detection must work while typing; choosing an existing question or creating a new one must result in a navigable question object.",
+      "persistence": false
+    },
+    {
+      "id": "f09",
+      "name": "Was your question already asked?",
+      "steps": [
+        "Submit a candidate question",
+        "Detect one or more similar existing questions",
+        "Present View question / Edit Question / Add new question options",
+        "User selects an existing question or explicitly creates a distinct new one",
+        "Correct question object is used downstream"
+      ],
+      "expected": "Similar questions must be detected with correct options; selecting an existing one or creating a distinct new one uses the correct question object downstream.",
+      "persistence": false
+    },
+    {
+      "id": "f10",
+      "name": "Question Detail",
+      "steps": [
+        "Open a question",
+        "Load topics, answer count, Follow state, Related questions, Request Answer controls, and existing answers",
+        "Open an answer or related question",
+        "Return",
+        "Preserve the original question context"
+      ],
+      "expected": "Topics, answer count, follow state, related questions, request controls, and answers must load correctly; opening and returning preserves the question context.",
+      "persistence": false
+    },
+    {
+      "id": "f11",
+      "name": "Follow",
+      "steps": [
+        "Follow a question",
+        "Follow count and user state update",
+        "Question enters the user's followed-question relationship",
+        "Unfollow",
+        "All related states update consistently"
+      ],
+      "expected": "Follow state and count update immediately; the question enters the followed-question list; unfollowing updates all related states consistently.",
+      "persistence": false
+    },
+    {
+      "id": "f12",
+      "name": "Pass",
+      "steps": [
+        "In Questions for you, select Pass on a question",
+        "Remove it from the active queue",
+        "Persist the pass state",
+        "Reload or revisit the queue",
+        "Passed question does not immediately reappear"
+      ],
+      "expected": "Passing must remove the question from the active queue and persist the pass state; reloading does not bring it back immediately.",
+      "persistence": false
+    },
+    {
+      "id": "f13",
+      "name": "Request Answer",
+      "steps": [
+        "Open a Question Detail page",
+        "Select Request Answer",
+        "Choose one or more eligible users (preloaded list)",
+        "Send request",
+        "Request relationship is recorded on the original question",
+        "Request state persists"
+      ],
+      "expected": "Eligible users list must load (preloaded); sending records the request relationship on the question; request state persists.",
+      "persistence": false
+    },
+    {
+      "id": "f14",
+      "name": "Answer",
+      "steps": [
+        "Open a question",
+        "Click Answer",
+        "Launch the answer editor with the question context and optional credential",
+        "Write rich content",
+        "Post",
+        "Answer becomes attached to the question",
+        "Answer count increases",
+        "Author Profile reflects the new answer"
+      ],
+      "expected": "Editor must open with question context and credential; posted answer attaches to the question, increments the count, and appears on the author profile.",
+      "persistence": false
+    },
+    {
+      "id": "f15",
+      "name": "Choose credential / Credentials & Highlights",
+      "steps": [
+        "Start answering or posting",
+        "Choose an existing credential or add employment, education, or location credentials",
+        "Publish content",
+        "Selected credential appears with the content",
+        "Profile credentials remain reusable in future content"
+      ],
+      "expected": "Selected credential must appear with the published content; credentials remain reusable for future content.",
+      "persistence": false
+    },
+    {
+      "id": "f16",
+      "name": "Upvote",
+      "steps": [
+        "Upvote an answer, post, or comment",
+        "User-vote relation is created",
+        "Count and visual state update",
+        "Open the same object from another page",
+        "Upvote remains active",
+        "Remove or change the vote",
+        "Derived count recalculates correctly"
+      ],
+      "expected": "Vote state and count update immediately and persist across pages; removing or changing the vote recalculates the count correctly.",
+      "persistence": false
+    },
+    {
+      "id": "f17",
+      "name": "Comments / Reply",
+      "steps": [
+        "Add a comment to an answer or post",
+        "Comment count updates",
+        "Reply to a specific comment",
+        "Create a child reply linked to the correct parent",
+        "Collapse, reload, or revisit",
+        "Thread structure and vote states remain intact"
+      ],
+      "expected": "Comment count updates on submit; replies link to the correct parent; thread structure and vote states remain intact after collapse, reload, or revisit.",
+      "persistence": false
+    },
+    {
+      "id": "f18",
+      "name": "Comments sorting / View more comments",
+      "steps": [
+        "Open comments",
+        "Load an initial subset under the default deterministic sorting",
+        "Expand with View more comments",
+        "Preserve existing loaded comments and nested replies",
+        "Continue interaction without duplicating or losing comments"
+      ],
+      "expected": "Sorting and expansion must preserve loaded comments and nested replies; no duplication or loss during continued interaction.",
+      "persistence": false
+    },
+    {
+      "id": "f19",
+      "name": "Share",
+      "steps": [
+        "Open an answer or post",
+        "Click Share",
+        "Create a new share composer containing a reference preview to the original content",
+        "Add commentary and choose visibility",
+        "Publish",
+        "New shared post appears while preserving attribution and the original-content relation"
+      ],
+      "expected": "Share composer must include a reference preview; publishing creates a shared post preserving attribution and the original-content relation.",
+      "persistence": false
+    },
+    {
+      "id": "f20",
+      "name": "Bookmark",
+      "steps": [
+        "Bookmark an answer or post",
+        "Persist the user-content bookmark relation",
+        "Open the same content elsewhere",
+        "Bookmark state remains active",
+        "Remove bookmark",
+        "All visible instances update consistently"
+      ],
+      "expected": "Bookmark state persists across all visible instances; removing updates every instance consistently.",
+      "persistence": false
+    },
+    {
+      "id": "f21",
+      "name": "Create Post",
+      "steps": [
+        "Open Create Post from Home or a Space",
+        "Compose text, image, or linked content",
+        "Select credential and target context",
+        "Publish",
+        "Post appears in the appropriate feed or Space",
+        "Author Profile and content metrics update"
+      ],
+      "expected": "Post must appear in the appropriate feed or Space; author profile and content metrics update; credential and target context apply correctly.",
+      "persistence": false
+    },
+    {
+      "id": "f22",
+      "name": "Edit post / Delete post / Edit log",
+      "steps": [
+        "Publish a post",
+        "Edit content and create revision history",
+        "Delete the post",
+        "Confirm deletion",
+        "Post changes to a deleted state but remains recoverable through Edit log",
+        "Restore it",
+        "Original content and relationship context return"
+      ],
+      "expected": "Edits create revision history; deleting moves the post to a deleted state recoverable via Edit log; restoring returns the original content and relationships.",
+      "persistence": false
+    },
+    {
+      "id": "f23",
+      "name": "Edit answer / Delete answer",
+      "steps": [
+        "Publish an answer",
+        "Edit the answer",
+        "Open More actions",
+        "Delete answer",
+        "Confirm",
+        "Answer disappears from normal question content",
+        "Deletion state and moderation/recovery rules are applied consistently"
+      ],
+      "expected": "Editing updates the answer; deleting removes it from normal question content; deletion and recovery rules apply consistently.",
+      "persistence": false
+    },
+    {
+      "id": "f24",
+      "name": "Create a Space",
+      "steps": [
+        "Click Create Space",
+        "Enter a unique Name and Brief description",
+        "Validate availability",
+        "Create",
+        "Redirect to the new Space",
+        "Creator becomes Admin / Contributor",
+        "Initialization dashboard becomes available"
+      ],
+      "expected": "Unique name validation must work; creation redirects to the new Space; creator becomes Admin/Contributor; the initialization dashboard is available.",
+      "persistence": false
+    },
+    {
+      "id": "f25",
+      "name": "Admin dashboard",
+      "steps": [
+        "Create a Space",
+        "Open Admin dashboard",
+        "Complete setup tasks such as Edit visuals, Add your first piece of content, Invite people, and Share your Space to feed",
+        "Progress updates as tasks are completed",
+        "State persists across visits"
+      ],
+      "expected": "Setup tasks must display with progress; completing tasks updates progress; state persists across visits.",
+      "persistence": false
+    },
+    {
+      "id": "f26",
+      "name": "Space Admin tools",
+      "steps": [
+        "Open a Space as Admin",
+        "Invite users through search or invite link (preloaded contacts)",
+        "Contributors/followers list reflects configured state",
+        "Pending content or actions can enter Queue",
+        "Settings changes affect Space behavior",
+        "Administrative actions are recorded in Admin log"
+      ],
+      "expected": "Inviting via search or link works (preloaded contacts); contributors/followers list reflects state; Queue and Settings behave as configured; admin actions are logged.",
+      "persistence": false
+    },
+    {
+      "id": "f27",
+      "name": "Space Posts / Add Question",
+      "steps": [
+        "Open a Space",
+        "Create a Post or Add Question inside that Space",
+        "Content is explicitly associated with the Space",
+        "Followers receive or discover it through Space/feed contexts",
+        "Comments and Upvotes operate on the same underlying content object"
+      ],
+      "expected": "Content created inside a Space must be explicitly associated with it; comments and upvotes operate on the same underlying object.",
+      "persistence": false
+    }
+  ],
+  "exclusions": [
+    {
+      "feature": "Personalized recommendation engine\nFeed composition from user signals, inferred interests",
+      "treatment": "Hard Exclude",
+      "reason": "Requires recommendation models and behavioral data (cf. Spotify \"Recommendation engine\"); feed structure testable with preloaded fixture"
+    },
+    {
+      "feature": "Quora+ subscription and payments\nPlan selection, checkout, payment method, renewal, entitlements",
+      "treatment": "Hard Exclude",
+      "reason": "Commerce and subscription infrastructure (cf. Spotify \"Premium / Billing\")"
+    },
+    {
+      "feature": "Cross-user answer requests\nReal users receiving requests and their state changes",
+      "treatment": "Conditional Exclude",
+      "reason": "Request UI and state records testable with preloaded request list; real delivery excluded"
+    },
+    {
+      "feature": "Cross-user Space invitations\nReal invitees joining, contributor/follower growth",
+      "treatment": "Conditional Exclude",
+      "reason": "Admin tools and people list testable with fixture; real invitation delivery excluded"
+    },
+    {
+      "feature": "Negative preference feedback loop\nPass persisting as recommendation signal",
+      "treatment": "Conditional Exclude",
+      "reason": "Pass removes question from queue; recommendation-side feedback excluded"
+    },
+    {
+      "feature": "Recommended comment sorting\nAlgorithmic comment recommendation",
+      "treatment": "Conditional Exclude",
+      "reason": "Comment loading and expansion preserved; sorting uses deterministic rules"
+    },
+    {
+      "feature": "Similar-question detection engine\nReal-time semantic search while typing",
+      "treatment": "Conditional Exclude",
+      "reason": "Similar-question flow testable with fixture matching rules"
+    },
+    {
+      "feature": "Notification real event sources\nQuestion activity, requests, follows actually occurring",
+      "treatment": "Conditional Include",
+      "reason": "Notification states testable with preloaded notifications"
+    },
+    {
+      "feature": "Real follower counts and topic activity\nLive follower numbers, trending topics",
+      "treatment": "Conditional Exclude",
+      "reason": "Counts and metadata use fixture data"
+    },
+    {
+      "feature": "Credentials verification\nEmployment/education credential authenticity",
+      "treatment": "Conditional Exclude",
+      "reason": "Credential selection and display preserved; real verification excluded"
+    },
+    {
+      "feature": "Quora+ content paywall engine\nEntitlement rules over eligible content",
+      "treatment": "Hard Exclude",
+      "reason": "Subscription-gated content engine; excluded together with Quora+ subscription"
+    },
+    {
+      "feature": "Real content assets\nReal answers, posts, Spaces content",
+      "treatment": "Default Exclude",
+      "reason": "Use synthetic fixture content (cf. Spotify \"Real catalog\")"
+    }
+  ]
+}

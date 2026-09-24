@@ -1,0 +1,10 @@
+{
+  "note": "虚构可离线下载的地图区域。state: not_downloaded / downloading / up_to_date / update_available。",
+  "regions": [
+    {"id": "r_city", "name": "黑盒市（全市）", "size_mb": 182, "state": "up_to_date", "updated": "2026-09-01"},
+    {"id": "r_north", "name": "北山区", "size_mb": 96, "state": "not_downloaded", "updated": ""},
+    {"id": "r_lakeside", "name": "滨湖郡", "size_mb": 64, "state": "not_downloaded", "updated": ""},
+    {"id": "r_oldtown", "name": "旧城历史街区", "size_mb": 28, "state": "update_available", "updated": "2026-06-15"},
+    {"id": "r_west", "name": "西郊绿道带", "size_mb": 45, "state": "downloading", "progress": 0.37, "updated": ""}
+  ]
+}

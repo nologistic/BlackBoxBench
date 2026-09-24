@@ -1,0 +1,1 @@
+"""Managed Android baseline condition."""

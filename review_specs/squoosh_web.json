@@ -1,0 +1,467 @@
+{
+  "checklist_id": "squoosh_web",
+  "platform": "web",
+  "features": [
+    {
+      "id": "f01",
+      "name": "导入图片",
+      "steps": [
+        "打开首页",
+        "将图片拖入中央 Drop 区域，或点击选择本地图片，或从剪贴板 Paste 图片",
+        "进入编辑界面",
+        "成功解码并显示原图",
+        "文件名、原始尺寸和原始文件大小正确显示"
+      ],
+      "expected": "图片必须成功解码并显示；文件名 / 原始尺寸 / 原始大小正确显示。",
+      "persistence": false
+    },
+    {
+      "id": "f02",
+      "name": "示例图片",
+      "steps": [
+        "打开首页",
+        "点击任意内置示例图片",
+        "直接进入编辑器",
+        "示例图成为当前原图",
+        "可以继续使用全部 Resize、Reduce palette、Compress 和下载功能"
+      ],
+      "expected": "示例图片必须直接进入编辑器并可用全部功能。",
+      "persistence": false
+    },
+    {
+      "id": "f03",
+      "name": "原图 / 压缩图滑动对比",
+      "steps": [
+        "载入图片",
+        "中央出现垂直 Before / After 分割线",
+        "左右拖动分割控制柄",
+        "左侧显示一种版本、右侧显示另一种版本",
+        "图像位置和缩放状态保持同步，能够直观看到压缩差异"
+      ],
+      "expected": "分割线拖动正确；两侧版本同步缩放；压缩差异可见。",
+      "persistence": true
+    },
+    {
+      "id": "f04",
+      "name": "左右两侧独立编码比较",
+      "steps": [
+        "载入图片",
+        "在当前一侧选择 MozJPEG 并设置质量",
+        "切换编辑面板至另一侧",
+        "为另一侧选择 WebP / AVIF 等不同编码器和参数",
+        "拖动中央对比线",
+        "在同一画面直接比较两套独立编码结果"
+      ],
+      "expected": "两侧独立编码比较必须支持不同编码器与参数；分割线对比正确。",
+      "persistence": false
+    },
+    {
+      "id": "f05",
+      "name": "Resize 开关",
+      "steps": [
+        "载入图片",
+        "打开“调整尺寸 / Resize”",
+        "显示 Method、Preset、Width、Height、Premultiply alpha、Linear RGB、Maintain aspect ratio 等参数",
+        "关闭 Resize",
+        "恢复原始像素尺寸",
+        "再开启时重新应用设置"
+      ],
+      "expected": "Resize 开关正确（开启显示参数 / 关闭恢复原始尺寸 / 再开启重新应用）。",
+      "persistence": false
+    },
+    {
+      "id": "f06",
+      "name": "Resize 算法",
+      "steps": [
+        "开启 Resize",
+        "在 Method 中切换 Triangle / Catmull-Rom / Mitchell / Lanczos3 等重采样算法",
+        "保持目标宽高不变",
+        "图像重新处理",
+        "输出尺寸保持一致但像素重采样结果按算法发生变化"
+      ],
+      "expected": "各重采样算法必须产生不同像素结果；输出尺寸保持一致。",
+      "persistence": true
+    },
+    {
+      "id": "f07",
+      "name": "尺寸预设与自定义尺寸",
+      "steps": [
+        "开启 Resize",
+        "使用百分比 Preset 或直接修改 Width / Height",
+        "输出图像实时重新计算",
+        "修改 Width 后 Height 根据当前比例规则同步更新",
+        "文件大小随尺寸变化重新计算"
+      ],
+      "expected": "尺寸预设与自定义修改后输出实时重算；文件大小同步变化。",
+      "persistence": false
+    },
+    {
+      "id": "f08",
+      "name": "保持宽高比",
+      "steps": [
+        "开启 Resize",
+        "勾选 Maintain aspect ratio",
+        "修改 Width",
+        "Height 自动按原图比例改变",
+        "修改 Height",
+        "Width 同步改变",
+        "取消勾选",
+        "宽高可独立编辑"
+      ],
+      "expected": "保持宽高比联动正确；取消后可独立编辑。",
+      "persistence": false
+    },
+    {
+      "id": "f09",
+      "name": "非等比例 Fit Method",
+      "steps": [
+        "取消 Maintain aspect ratio",
+        "同时设置新的 Width 和 Height",
+        "出现或使用 Fit method",
+        "在 Stretch / Contain 等模式间切换",
+        "输出画面按照对应的拉伸或适配逻辑重新计算"
+      ],
+      "expected": "非等比例 Fit Method（Stretch / Contain）正确重新计算输出。",
+      "persistence": false
+    },
+    {
+      "id": "f10",
+      "name": "Premultiply Alpha / Linear RGB",
+      "steps": [
+        "对带透明通道或明显边缘的图片开启 Resize",
+        "分别切换 Premultiply alpha channel 与 Linear RGB",
+        "图像重新采样",
+        "边缘透明像素和颜色插值根据开关状态重新计算",
+        "宽高设置保持不变"
+      ],
+      "expected": "Premultiply alpha / Linear RGB 开关必须影响边缘透明与颜色插值。",
+      "persistence": true
+    },
+    {
+      "id": "f11",
+      "name": "Reduce palette",
+      "steps": [
+        "打开“减少调色板 / Reduce palette”",
+        "设置 Colors 数量",
+        "调低颜色数量",
+        "预览图减少可用颜色",
+        "调高后颜色层级恢复",
+        "输出大小实时重新计算"
+      ],
+      "expected": "Reduce palette 颜色数量变化必须实时反映在预览与输出大小。",
+      "persistence": false
+    },
+    {
+      "id": "f12",
+      "name": "Dithering",
+      "steps": [
+        "开启 Reduce palette",
+        "改变 Dithering 数值",
+        "在有限调色板下观察渐变区域的抖动颗粒变化",
+        "文件大小和最终输出同时更新",
+        "将 Dithering 调至最低观察无抖动结果"
+      ],
+      "expected": "Dithering 数值必须影响抖动颗粒；最低值无抖动。",
+      "persistence": false
+    },
+    {
+      "id": "f13",
+      "name": "编码格式切换",
+      "steps": [
+        "打开 Compress 编码器下拉框",
+        "在 Original Image、AVIF、Browser JPEG、Browser PNG、JPEG XL、MozJPEG、OxiPNG、QOI、WebP 等可用选项间切换",
+        "每次重新编码",
+        "扩展名、文件大小、编码参数面板随所选格式改变"
+      ],
+      "expected": "编码格式切换后扩展名 / 大小 / 参数面板必须同步变化。",
+      "persistence": false
+    },
+    {
+      "id": "f14",
+      "name": "MozJPEG 基础压缩",
+      "steps": [
+        "选择 MozJPEG",
+        "调整 Quality",
+        "从高质量逐步降低",
+        "右侧预览实时出现压缩差异",
+        "输出文件大小和节省百分比同步变化",
+        "将质量提高后视觉质量和文件大小恢复"
+      ],
+      "expected": "MozJPEG Quality 变化必须实时反映压缩差异与文件大小。",
+      "persistence": false
+    },
+    {
+      "id": "f15",
+      "name": "MozJPEG 颜色通道",
+      "steps": [
+        "选择 MozJPEG",
+        "展开 Advanced settings",
+        "Channels 在 Grayscale / RGB / YCbCr 间切换",
+        "Grayscale 输出去除颜色",
+        "RGB / YCbCr 恢复彩色编码",
+        "当前 Quality 等其他参数保持不变"
+      ],
+      "expected": "Channels 切换（Grayscale / RGB / YCbCr）正确；其他参数保持。",
+      "persistence": true
+    },
+    {
+      "id": "f16",
+      "name": "MozJPEG 色度抽样",
+      "steps": [
+        "选择 MozJPEG",
+        "Advanced settings",
+        "切换 Auto subsample chroma",
+        "开启 / 关闭 Separate chroma quality",
+        "修改独立色度质量",
+        "输出重新编码",
+        "文件大小与彩色细节随色度策略变化"
+      ],
+      "expected": "色度抽样相关选项必须影响文件大小与彩色细节。",
+      "persistence": false
+    },
+    {
+      "id": "f17",
+      "name": "MozJPEG Progressive / Smoothing",
+      "steps": [
+        "选择 MozJPEG",
+        "Advanced settings",
+        "切换 Progressive rendering",
+        "调整 Smoothing",
+        "输出 JPEG 重新编码",
+        "设置状态保留且文件大小实时更新"
+      ],
+      "expected": "Progressive / Smoothing 切换后重新编码且状态保留。",
+      "persistence": false
+    },
+    {
+      "id": "f18",
+      "name": "MozJPEG Quantization",
+      "steps": [
+        "选择 MozJPEG",
+        "展开 Quantization",
+        "在 ImageMagick、JPEG Annex K、Flat、MSSIM tuned、PSNR-HVS tuned、Watson、Ahumada 等量化表之间切换",
+        "使用相同 Quality 比较不同量化结果",
+        "输出大小和视觉结果随表变化"
+      ],
+      "expected": "量化表切换必须产生不同输出大小与视觉结果。",
+      "persistence": false
+    },
+    {
+      "id": "f19",
+      "name": "MozJPEG Trellis 高级参数",
+      "steps": [
+        "选择 MozJPEG",
+        "Advanced settings",
+        "切换 Trellis multipass、Optimize after trellis quantization 等参数",
+        "修改 Trellis quantization passes",
+        "重新执行编码",
+        "当前输出大小实时变化且其他设置保持"
+      ],
+      "expected": "Trellis 参数必须影响输出大小；其他设置保持。",
+      "persistence": true
+    },
+    {
+      "id": "f20",
+      "name": "AVIF 编码",
+      "steps": [
+        "选择 AVIF",
+        "调整 Quality / Lossless 等基础参数",
+        "展开高级设置",
+        "调节 Chroma subsampling、Alpha quality、Effort、Sharpness、Noise / tuning 等可用参数",
+        "每次修改重新编码",
+        "文件大小与画质实时更新"
+      ],
+      "expected": "AVIF 各参数必须实时影响编码结果与文件大小。",
+      "persistence": false
+    },
+    {
+      "id": "f21",
+      "name": "WebP 编码",
+      "steps": [
+        "选择 WebP",
+        "调整 Quality",
+        "展开高级设置并修改该编码器支持的 effort / filtering / alpha 等参数",
+        "预览与输出文件大小实时变化",
+        "下载得到 WebP 文件"
+      ],
+      "expected": "WebP 参数正确应用；下载得到有效 WebP 文件。",
+      "persistence": false
+    },
+    {
+      "id": "f22",
+      "name": "JPEG XL 编码",
+      "steps": [
+        "选择 JPEG XL",
+        "调节 Quality、Effort 等提供的参数",
+        "重新编码",
+        "比较原图与 JXL 输出",
+        "下载得到对应 JXL 文件；该格式在界面标为 beta 时仍保持完整基本工作流"
+      ],
+      "expected": "JPEG XL 编码工作流完整；下载得到 JXL 文件。",
+      "persistence": true
+    },
+    {
+      "id": "f23",
+      "name": "OxiPNG 无损优化",
+      "steps": [
+        "载入 PNG 或其他可转换图片",
+        "选择 OxiPNG",
+        "调节优化级别等可用参数",
+        "保持像素视觉结果不发生有损变化",
+        "输出 PNG 文件大小重新计算",
+        "下载优化后的 PNG"
+      ],
+      "expected": "OxiPNG 必须无损优化；像素不变且大小重新计算。",
+      "persistence": true
+    },
+    {
+      "id": "f24",
+      "name": "QOI / Browser 编码器",
+      "steps": [
+        "在 QOI、Browser JPEG、Browser PNG 等编码方式间切换",
+        "使用各自暴露的参数或默认浏览器编码",
+        "查看输出体积",
+        "下载并验证输出格式正确"
+      ],
+      "expected": "QOI / Browser 编码器切换正确；输出格式与下载验证一致。",
+      "persistence": false
+    },
+    {
+      "id": "f25",
+      "name": "90°旋转",
+      "steps": [
+        "载入图片",
+        "点击底部旋转按钮",
+        "图片顺时针旋转 90°",
+        "连续点击得到 180°、270°、360°",
+        "宽高在奇数次 90°旋转时正确交换",
+        "编码结果同步重新生成"
+      ],
+      "expected": "90° 旋转正确；奇数次旋转宽高交换；编码结果同步重新生成。",
+      "persistence": false
+    },
+    {
+      "id": "f26",
+      "name": "缩放预览",
+      "steps": [
+        "载入图片",
+        "使用底部 − / + 控件或滚轮改变预览倍率",
+        "显示当前缩放百分比",
+        "放大后查看局部压缩伪影",
+        "缩小或恢复合适比例",
+        "缩放仅影响视图，不改变最终输出像素尺寸"
+      ],
+      "expected": "缩放只影响视图；输出像素尺寸不变。",
+      "persistence": false
+    },
+    {
+      "id": "f27",
+      "name": "平移图片",
+      "steps": [
+        "放大图片至超出可视范围",
+        "拖动画面平移查看不同区域",
+        "中央 Before / After 分割线仍保持有效",
+        "左右版本始终使用相同的视图坐标"
+      ],
+      "expected": "平移后分割线保持有效；两侧视图坐标一致。",
+      "persistence": true
+    },
+    {
+      "id": "f28",
+      "name": "透明背景显示",
+      "steps": [
+        "载入包含透明通道的 PNG / WebP",
+        "使用背景显示切换按钮",
+        "在棋盘格 / 浅色等预览背景之间切换",
+        "透明像素自身不被修改",
+        "仅编辑器视觉背景变化"
+      ],
+      "expected": "透明背景显示切换只改变预览背景；透明像素不被修改。",
+      "persistence": false
+    },
+    {
+      "id": "f29",
+      "name": "输出文件大小统计",
+      "steps": [
+        "修改 Resize、Palette、Codec、Quality 任一参数",
+        "底部输出大小自动更新",
+        "同时显示相对于原文件的体积减少百分比",
+        "参数恢复后统计数据对应恢复"
+      ],
+      "expected": "任一参数修改后输出大小与节省百分比自动更新；恢复后统计对应恢复。",
+      "persistence": false
+    },
+    {
+      "id": "f30",
+      "name": "下载优化结果",
+      "steps": [
+        "完成编码配置",
+        "点击右下角蓝色下载按钮",
+        "浏览器生成并下载当前这一侧的编码结果",
+        "文件扩展名符合当前编码器",
+        "文件内容对应当前 Resize / Palette / Compress 全部设置"
+      ],
+      "expected": "下载文件扩展名符合编码器；内容对应当前全部设置。",
+      "persistence": false
+    },
+    {
+      "id": "f31",
+      "name": "返回并更换图片",
+      "steps": [
+        "编辑过程中点击左上角关闭按钮",
+        "返回首页",
+        "原编辑器退出",
+        "再拖入另一张图片",
+        "新图片建立新的独立压缩状态，不继承上一张图的像素数据"
+      ],
+      "expected": "关闭返回首页后新图片建立独立状态；不继承上一张图的像素数据。",
+      "persistence": false
+    },
+    {
+      "id": "f32",
+      "name": "完整图片优化流程",
+      "steps": [
+        "Drop / Paste 一张图片",
+        "使用 Resize 调整到目标尺寸",
+        "保持宽高比",
+        "必要时开启 Reduce palette 并调节 Colors / Dithering",
+        "选择 MozJPEG / WebP / AVIF",
+        "调整 Quality 和高级编码参数",
+        "使用中央滑块检查画质",
+        "查看压缩后大小与节省比例",
+        "与另一编码方案进行左右对比",
+        "选择更优结果",
+        "下载最终图片"
+      ],
+      "expected": "完整优化流程（导入 / Resize / Palette / 编码 / 对比 / 下载）每步正确；最终下载成功。",
+      "persistence": true
+    }
+  ],
+  "exclusions": [
+    {
+      "feature": "Google Analytics / 使用情况统计",
+      "treatment": "Exclude",
+      "reason": "官方仓库说明线上版本会收集基本访问数据、压缩前后文件大小以及 PWA 安装信息，但这与图片压缩本身完全无关；复现时不需要实现遥测或接入 Google Analytics。GitHub"
+    },
+    {
+      "feature": "PWA 安装、安装时间统计与完整 Service Worker 生命周期",
+      "treatment": "Exclude",
+      "reason": "可以把网页做成普通 Web 应用并正常本地处理图片；不要求复制“安装为应用”、升级缓存、PWA 安装统计等浏览器应用生命周期功能。"
+    },
+    {
+      "feature": "WebP v2 / WebP2 unstable 的真实完整编码实现",
+      "treatment": "Exclude",
+      "reason": "当前界面自己已经标记为 unstable；可保留选项或直接排除，不应作为核心验收项。官方 CLI 也把它作为独立实验性编码器。Npm"
+    },
+    {
+      "feature": "不同浏览器下编码结果的字节级完全一致",
+      "treatment": "Exclude",
+      "reason": "Browser JPEG / Browser PNG 本身依赖浏览器原生编码实现，因此不同浏览器可能产生不同字节结果；复现要求应是格式、尺寸、主要参数和视觉结果正确，而不是生成文件逐字节一致。"
+    },
+    {
+      "feature": "批量压缩 / 文件队列",
+      "treatment": "Exclude",
+      "reason": "当前 squoosh.app 的核心界面是单图片编辑与下载，不需要额外实现多文件批处理后台或队列系统；CLI 的批量能力属于另一个产品入口。"
+    }
+  ]
+}

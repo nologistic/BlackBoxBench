@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Cart - Nimbus Market{% endblock %}
+{% block content %}
+<h1 class="page-title">Shopping Cart</h1>
+{% if rows %}
+<table class="data-table">
+  <tr>
+    <th style="width:40%">Product</th>
+    <th style="width:15%">Unit price</th>
+    <th style="width:25%">Quantity</th>
+    <th style="width:12%">Subtotal</th>
+    <th style="width:8%"></th>
+  </tr>
+  {% for row in rows %}
+  <tr>
+    <td>{{ row.product.name }}</td>
+    <td>{{ row.product.price_cents|money }}</td>
+    <td>
+      <form method="post" action="/cart/update">
+        <input type="hidden" name="product_id" value="{{ row.product.id }}">
+        <input class="mini-input" type="text" name="quantity" value="{{ row.qty }}">
+        <button class="mini-btn" type="submit">Update</button>
+      </form>
+    </td>
+    <td>{{ row.line_total|money }}</td>
+    <td>
+      <form method="post" action="/cart/remove">
+        <input type="hidden" name="product_id" value="{{ row.product.id }}">
+        <button class="remove-btn" type="submit">Remove</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<div class="cart-footer">
+  <div class="coupon-box">
+    <form method="post" action="/cart/coupon">
+      <input class="coupon-input" type="text" name="code" placeholder="Coupon code" value="">
+      <button class="coupon-btn" type="submit">Apply</button>
+    </form>
+    {% if coupon %}<div class="coupon-hint">Coupon {{ coupon }} applied.</div>{% endif %}
+  </div>
+  <div class="totals">
+    <div class="totals-row">Subtotal <span class="amount">{{ subtotal|money }}</span></div>
+    {% if discount %}
+    <div class="totals-row">Discount ({{ coupon }}) <span class="amount">-{{ discount|money }}</span></div>
+    {% endif %}
+    <div class="totals-row grand">Total <span class="amount">{{ total|money }}</span></div>
+    <a class="checkout-btn" href="/checkout">Proceed to Checkout</a>
+  </div>
+</div>
+{% else %}
+<div class="empty-cart">
+  <div class="msg">Your cart is empty.</div>
+  <a class="cont" href="/">Continue shopping</a>
+</div>
+{% endif %}
+{% endblock %}

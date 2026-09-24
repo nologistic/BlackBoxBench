@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{% block title %}Nimbus Market{% endblock %}</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, Helvetica, sans-serif; background: #f4f6f8; color: #1f2933; font-size: 14px; }
+a { color: #2f6f9f; text-decoration: none; }
+
+/* ---- fixed header: 64px bar, content column 1200px centered ---- */
+.header { position: fixed; top: 0; left: 0; width: 100%; height: 64px; background: #173753; z-index: 100; }
+.header-inner { position: relative; width: 1200px; height: 64px; margin: 0 auto; }
+.logo { position: absolute; left: 0; top: 16px; width: 32px; height: 32px; display: block; }
+.brand { position: absolute; left: 44px; top: 0; line-height: 64px; font-size: 20px; font-weight: 700; color: #ffffff; }
+.search-form { position: absolute; left: 460px; top: 16px; height: 32px; }
+.search-input { width: 360px; height: 32px; padding: 0 10px; font-size: 14px; border: 1px solid #0d2338; border-radius: 4px; }
+.search-btn { position: absolute; left: 368px; top: 0; width: 72px; height: 32px; background: #4f8fba; color: #ffffff; border: 0; border-radius: 4px; font-size: 14px; cursor: pointer; }
+.header-cart { position: absolute; left: 950px; top: 0; line-height: 64px; color: #ffffff; font-size: 14px; }
+.header-account { position: absolute; left: 1080px; top: 0; line-height: 64px; color: #ffffff; font-size: 14px; }
+.header-account a { color: #cfe3f5; margin-left: 10px; }
+
+.main { position: relative; width: 1200px; margin: 0 auto; padding-top: 64px; }
+
+/* ---- banners: 80px total footprint (16 + 40 + 24) ---- */
+.error-bar, .notice-bar { height: 40px; line-height: 40px; margin: 16px 0 24px 0; padding: 0 16px; border-radius: 4px; font-size: 14px; }
+.error-bar { background: #f8d7da; border: 1px solid #e4a3a8; color: #842029; }
+.notice-bar { background: #d7e8f8; border: 1px solid #a3c4e4; color: #1c4966; }
+
+/* ---- home ---- */
+.cat-row { padding-top: 24px; height: 56px; }
+.cat-row a { display: inline-block; height: 32px; line-height: 32px; padding: 0 14px; margin-right: 8px; border: 1px solid #c8d2dc; border-radius: 16px; background: #ffffff; color: #33475b; font-size: 13px; }
+.cat-row a.active { background: #173753; color: #ffffff; border-color: #173753; }
+.grid { width: 1200px; }
+.grid::after { content: ""; display: block; clear: both; }
+.card { float: left; width: 285px; height: 300px; margin: 0 20px 20px 0; background: #ffffff; border: 1px solid #dde4ea; border-radius: 6px; position: relative; overflow: hidden; }
+.card:nth-child(4n) { margin-right: 0; }
+.card-img { width: 285px; height: 170px; display: block; }
+.card-name { position: absolute; left: 12px; top: 182px; font-size: 16px; font-weight: 700; color: #1f2933; }
+.card-cat { position: absolute; left: 12px; top: 206px; font-size: 12px; color: #7b8a97; }
+.card-price { position: absolute; left: 12px; top: 226px; font-size: 16px; font-weight: 700; color: #173753; }
+.card-view { position: absolute; left: 12px; top: 262px; font-size: 14px; }
+.empty-state { padding: 60px 0; text-align: center; font-size: 18px; color: #5a6b7a; }
+.empty-state .sub { margin-top: 10px; font-size: 14px; }
+
+/* ---- product detail (children absolutely positioned; origin y=64) ---- */
+.detail { position: relative; height: 560px; }
+.back-link { position: absolute; left: 0; top: 24px; font-size: 13px; }
+.detail-img { position: absolute; left: 0; top: 56px; width: 400px; height: 320px; }
+.detail-name { position: absolute; left: 440px; top: 56px; font-size: 28px; font-weight: 700; }
+.detail-price { position: absolute; left: 440px; top: 104px; font-size: 22px; font-weight: 700; color: #173753; }
+.detail-stock { position: absolute; left: 440px; top: 140px; font-size: 14px; color: #3f7d4e; }
+.detail-desc { position: absolute; left: 440px; top: 176px; width: 700px; font-size: 14px; line-height: 20px; color: #4a5a68; }
+.qty-label { position: absolute; left: 440px; top: 280px; height: 36px; line-height: 36px; font-size: 14px; }
+.qty-input { position: absolute; left: 540px; top: 280px; width: 80px; height: 36px; padding: 0 8px; font-size: 14px; border: 1px solid #b9c6d0; border-radius: 4px; }
+.add-btn { position: absolute; left: 636px; top: 280px; width: 180px; height: 36px; background: #2f6f9f; color: #ffffff; border: 0; border-radius: 4px; font-size: 15px; cursor: pointer; }
+
+/* ---- shared table / titles ---- */
+.page-title { padding-top: 24px; height: 56px; font-size: 24px; font-weight: 700; color: #1f2933; }
+.data-table { width: 100%; border-collapse: collapse; background: #ffffff; border: 1px solid #dde4ea; }
+.data-table th { height: 40px; background: #eef2f5; text-align: left; padding: 0 12px; font-size: 13px; color: #52616f; }
+.data-table td { height: 64px; padding: 0 12px; border-top: 1px solid #e6ebef; font-size: 14px; vertical-align: middle; }
+.mini-input { width: 56px; height: 32px; padding: 0 6px; font-size: 14px; border: 1px solid #b9c6d0; border-radius: 4px; }
+.mini-btn { width: 72px; height: 32px; margin-left: 8px; background: #4f8fba; color: #ffffff; border: 0; border-radius: 4px; font-size: 13px; cursor: pointer; }
+.remove-btn { width: 72px; height: 32px; background: #b3402f; color: #ffffff; border: 0; border-radius: 4px; font-size: 13px; cursor: pointer; }
+
+/* ---- cart footer ---- */
+.cart-footer { position: relative; margin-top: 24px; height: 240px; }
+.coupon-box { position: absolute; left: 0; top: 0; }
+.coupon-input { width: 200px; height: 36px; padding: 0 10px; font-size: 14px; border: 1px solid #b9c6d0; border-radius: 4px; }
+.coupon-btn { width: 80px; height: 36px; margin-left: 8px; background: #4f8fba; color: #ffffff; border: 0; border-radius: 4px; font-size: 14px; cursor: pointer; }
+.coupon-hint { margin-top: 10px; font-size: 12px; color: #7b8a97; }
+.totals { position: absolute; right: 0; top: 0; width: 360px; background: #ffffff; border: 1px solid #dde4ea; border-radius: 6px; padding: 16px; }
+.totals-row { height: 28px; line-height: 28px; font-size: 14px; }
+.totals-row .amount { float: right; }
+.totals-row.grand { border-top: 1px solid #dde4ea; margin-top: 4px; padding-top: 4px; font-weight: 700; font-size: 16px; }
+.checkout-btn { display: block; width: 328px; height: 44px; margin-top: 12px; background: #2f6f9f; color: #ffffff; text-align: center; line-height: 44px; border-radius: 4px; font-size: 16px; }
+.empty-cart { padding-top: 24px; }
+.empty-cart .msg { font-size: 18px; color: #5a6b7a; }
+.empty-cart .cont { display: inline-block; margin-top: 16px; font-size: 14px; }
+
+/* ---- login ---- */
+.login-card { position: absolute; left: 400px; top: 80px; width: 400px; background: #ffffff; border: 1px solid #dde4ea; border-radius: 6px; padding: 24px; }
+.login-card h2 { height: 32px; font-size: 22px; margin-bottom: 16px; }
+.field-label { display: block; height: 20px; font-size: 13px; color: #52616f; }
+.field-input { width: 352px; height: 36px; padding: 0 10px; margin-bottom: 16px; font-size: 14px; border: 1px solid #b9c6d0; border-radius: 4px; }
+.primary-btn { width: 352px; height: 40px; background: #2f6f9f; color: #ffffff; border: 0; border-radius: 4px; font-size: 15px; cursor: pointer; }
+
+/* ---- checkout ---- */
+.checkout-wrap { position: relative; min-height: 620px; }
+.ship-form { position: absolute; left: 0; top: 24px; width: 640px; background: #ffffff; border: 1px solid #dde4ea; border-radius: 6px; padding: 24px; }
+.ship-form h2 { height: 32px; font-size: 20px; margin-bottom: 16px; }
+.ship-input { width: 592px; height: 36px; padding: 0 10px; margin-bottom: 16px; font-size: 14px; border: 1px solid #b9c6d0; border-radius: 4px; }
+.place-btn { width: 240px; height: 44px; background: #2f6f9f; color: #ffffff; border: 0; border-radius: 4px; font-size: 16px; cursor: pointer; }
+.order-summary { position: absolute; right: 0; top: 24px; width: 440px; background: #ffffff; border: 1px solid #dde4ea; border-radius: 6px; padding: 16px; }
+.order-summary h2 { height: 32px; font-size: 18px; }
+.summary-item { height: 28px; line-height: 28px; font-size: 14px; }
+.summary-item .amount { float: right; }
+.summary-total { border-top: 1px solid #dde4ea; margin-top: 4px; padding-top: 4px; height: 32px; line-height: 32px; font-weight: 700; }
+.summary-total .amount { float: right; }
+
+/* ---- order confirmation / 404 ---- */
+.confirm-title { padding-top: 24px; height: 56px; font-size: 24px; font-weight: 700; color: #2f6b3a; }
+.order-meta { height: 32px; line-height: 32px; font-size: 15px; color: #33475b; }
+.confirm-table { margin-top: 16px; }
+.confirm-footer { margin-top: 24px; font-size: 14px; }
+.notfound { padding-top: 120px; text-align: center; }
+.notfound h1 { font-size: 28px; color: #33475b; }
+.notfound p { margin-top: 12px; font-size: 15px; color: #5a6b7a; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-inner">
+    <a class="logo" href="/" aria-label="Nimbus Market home">
+      <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="1" width="30" height="30" rx="7" fill="#ffffff"/>
+        <path d="M10 22 a5 5 0 0 1 .55-9.97 a6.5 6.5 0 0 1 12.45 1.75 A4.4 4.4 0 0 1 22.4 22 Z" fill="#2f6f9f"/>
+        <rect x="12" y="23.4" width="2.2" height="3.4" rx="1.1" fill="#4f8fba"/>
+        <rect x="16" y="23.4" width="2.2" height="3.4" rx="1.1" fill="#4f8fba"/>
+        <rect x="20" y="23.4" width="2.2" height="3.4" rx="1.1" fill="#4f8fba"/>
+      </svg>
+    </a>
+    <a class="brand" href="/">Nimbus Market</a>
+    <form class="search-form" action="/" method="get">
+      <input class="search-input" type="text" name="q" value="{{ q }}" placeholder="Search products">
+      <button class="search-btn" type="submit">Search</button>
+    </form>
+    <a class="header-cart" href="/cart">Cart ({{ cart_count }})</a>
+    <div class="header-account">
+      {% if user %}
+      Hi, {{ user.first_name }}<a href="/orders">Orders</a><a href="/logout">Logout</a>
+      {% else %}
+      <a href="/login">Login</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+<div class="main">
+  {% if error %}<div class="error-bar">{{ error }}</div>{% endif %}
+  {% if notice %}<div class="notice-bar">{{ notice }}</div>{% endif %}
+  {% block content %}{% endblock %}
+</div>
+</body>
+</html>

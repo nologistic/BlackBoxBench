@@ -1,0 +1,476 @@
+"""Reference app registry.
+
+An AppSpec describes how to launch a black-box reference app for a session.
+Adding a new app means registering a spec here (see docs/adding_reference_app.md).
+Ground-truth files live with the app and are NEVER read by the controller's
+agent-facing paths — they exist only for future evaluator tooling.
+
+Two kinds of targets:
+- local: seeded app subprocess behind the loopback gateway (full isolation,
+  deterministic reset to S0). This is the benchmark-grade mode.
+- live:  a real website (e.g. yuque_web) driven through a headed persistent
+  browser profile. No S0 reset, no determinism, internet required — the
+  pixel/HID whitelist still applies. See docs/security_model.md (live targets).
+"""
+from __future__ import annotations
+
+import re
+import secrets
+import sys
+from dataclasses import dataclass, field
+from pathlib import Path
+from urllib.parse import urlparse
+
+from .. import config
+
+
+@dataclass
+class AppSpec:
+    app_id: str
+    description: str
+    module: str = ""                     # local apps: python -m <module>
+    kind: str = "local"                  # "local" | "live"
+    seed: str = "seed_001"
+    extra_env: dict = field(default_factory=dict)
+    # Task brief handed to the agent: what a human tester would be given
+    # (e.g. a demo account). NEVER implementation details.
+    brief: str = ""
+    live_url: str = ""                   # kind=live: entry URL
+    precheck: str = ""                   # kind=live: orchestrator.prechecks key
+    platform: str = "web"
+
+    def launch_command(self, port: int, data_dir: Path) -> list[str]:
+        if self.kind != "local":
+            raise RuntimeError(f"{self.app_id}: live targets have no local app")
+        return [sys.executable, "-m", self.module,
+                "--port", str(port), "--data-dir", str(data_dir)]
+
+
+_LIVE_SOFT_NETWORK_RULE = (
+    "起始 URL 只是目标入口,不是域名或导航白名单;允许网站正常重定向、跨域加载"
+    "以及站内类人导航。不得把网络能力用于主动访问搜索引擎、代码托管站、网页"
+    "归档或其他站点来查找目标的原始实现,也不得直接请求、下载或读取目标页面"
+    "源码、接口响应等语义内容。")
+
+
+_REGISTRY: dict[str, AppSpec] = {
+    "ecommerce_demo": AppSpec(
+        app_id="ecommerce_demo",
+        description="Nimbus Market — seeded ecommerce demo (auth, catalog, cart, "
+                    "coupon, checkout, orders, persistence).",
+        module="sample_apps.ecommerce_demo.app",
+        brief=("这是一个电商购物应用。你拥有一个测试账号: 用户名 alice, "
+               "密码 alice123。登录它不是必须的——你可以先匿名探索,在需要时"
+               "(例如遇到登录门槛)再使用它。"),
+    ),
+    "yuque_web": AppSpec(
+        app_id="yuque_web",
+        kind="live",
+        description="语雀网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://www.yuque.com/",
+        seed="live",
+        brief=("这是语雀文档与知识库网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要新建、编辑、删除、分享文档或修改账号、团队与权限设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "youtube_web": AppSpec(
+        app_id="youtube_web",
+        kind="live",
+        description="YouTube 视频平台网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://www.youtube.com/",
+        seed="live",
+        brief=("这是YouTube 视频平台网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要上传视频、评论、点赞、订阅或修改播放列表与账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "taobao_web": AppSpec(
+        app_id="taobao_web",
+        kind="live",
+        description="淘宝电商平台网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://www.taobao.com/",
+        seed="live",
+        brief=("这是淘宝电商平台网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要下单、支付、评价、收藏、加购或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "zhihu_web": AppSpec(
+        app_id="zhihu_web",
+        kind="live",
+        description="知乎问答社区网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://www.zhihu.com/follow",
+        seed="live",
+        brief=("这是知乎问答社区网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要提问、回答、评论、点赞、收藏或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "xiaohongshu_web": AppSpec(
+        app_id="xiaohongshu_web",
+        kind="live",
+        description="小红书内容社区网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://www.xiaohongshu.com/explore",
+        seed="live",
+        brief=("这是小红书内容社区网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要发布笔记、评论、点赞、收藏或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "weibo_web": AppSpec(
+        app_id="weibo_web",
+        kind="live",
+        description="微博社交平台网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://weibo.com/",
+        seed="live",
+        brief=("这是微博社交平台网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要发博、评论、转发、点赞或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "douban_web": AppSpec(
+        app_id="douban_web",
+        kind="live",
+        description="豆瓣社区网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://www.douban.com/",
+        seed="live",
+        brief=("这是豆瓣社区网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要发帖、评论、点赞、收藏或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "dianping_web": AppSpec(
+        app_id="dianping_web",
+        kind="live",
+        description="大众点评本地生活平台网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://www.dianping.com/",
+        seed="live",
+        brief=("这是大众点评本地生活平台网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要写点评、上传图片、签到或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "ctrip_web": AppSpec(
+        app_id="ctrip_web",
+        kind="live",
+        description="携程旅行预订平台网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://www.ctrip.com/",
+        seed="live",
+        brief=("这是携程旅行预订平台网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要下单、支付、预订或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "reddit_web": AppSpec(
+        app_id="reddit_web",
+        kind="live",
+        description="Reddit 社区网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://www.reddit.com/",
+        seed="live",
+        brief=("这是Reddit 社区网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要发帖、评论、投票、加入社区或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "quora_web": AppSpec(
+        app_id="quora_web",
+        kind="live",
+        description="Quora 问答社区网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://www.quora.com/",
+        seed="live",
+        brief=("这是Quora 问答社区网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要提问、回答、评论、投票或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "notion_web": AppSpec(
+        app_id="notion_web",
+        kind="live",
+        description="Notion 工作区网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://app.notion.com/",
+        seed="live",
+        brief=("这是Notion 工作区网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要新建、编辑、删除、分享页面或修改工作区设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "trello_web": AppSpec(
+        app_id="trello_web",
+        kind="live",
+        description="Trello 看板网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://trello.com/",
+        seed="live",
+        brief=("这是Trello 看板网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要创建、编辑、删除、归档卡片或修改看板设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "todoist_web": AppSpec(
+        app_id="todoist_web",
+        kind="live",
+        description="Todoist 任务管理网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://app.todoist.com/",
+        seed="live",
+        brief=("这是Todoist 任务管理网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要创建、编辑、完成、删除任务或修改项目设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "airtable_web": AppSpec(
+        app_id="airtable_web",
+        kind="live",
+        description="Airtable 数据表格网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://airtable.com/",
+        seed="live",
+        brief=("这是Airtable 数据表格网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要新建、编辑、删除记录或修改表结构。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "google_calendar_web": AppSpec(
+        app_id="google_calendar_web",
+        kind="live",
+        description="Google 日历网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://calendar.google.com/",
+        seed="live",
+        brief=("这是Google 日历网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要新建、编辑、删除日程或修改日历设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "dropbox_web": AppSpec(
+        app_id="dropbox_web",
+        kind="live",
+        description="Dropbox 云存储网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://www.dropbox.com/",
+        seed="live",
+        brief=("这是Dropbox 云存储网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要上传、编辑、删除、分享文件或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "google_forms_web": AppSpec(
+        app_id="google_forms_web",
+        kind="live",
+        description="Google 表单网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://forms.google.com/",
+        seed="live",
+        brief=("这是Google 表单网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要新建、编辑、删除表单或提交响应。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "excalidraw_web": AppSpec(
+        app_id="excalidraw_web",
+        kind="live",
+        description="Excalidraw 白板网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://excalidraw.com/",
+        seed="live",
+        brief=("这是Excalidraw 白板网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要保存、导出、分享画布或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "diagrams_net_web": AppSpec(
+        app_id="diagrams_net_web",
+        kind="live",
+        description="diagrams.net 图表工具网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://app.diagrams.net/",
+        seed="live",
+        brief=("这是diagrams.net 图表工具网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要保存、导出、分享图表或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "spotify_web": AppSpec(
+        app_id="spotify_web",
+        kind="live",
+        description="Spotify 音乐平台网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://open.spotify.com/",
+        seed="live",
+        brief=("这是Spotify 音乐平台网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要创建播放列表、关注、收藏或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "desmos_web": AppSpec(
+        app_id="desmos_web",
+        kind="live",
+        description="Desmos 图形计算器网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://www.desmos.com/calculator/",
+        seed="live",
+        brief=("这是Desmos 图形计算器网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要保存、分享图表或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "desmos_geometry_web": AppSpec(
+        app_id="desmos_geometry_web",
+        kind="live",
+        description="Desmos Geometry 几何工具网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://www.desmos.com/geometry",
+        seed="live",
+        brief=("这是Desmos Geometry 几何工具网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要保存、分享构造或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "desmos_3d_web": AppSpec(
+        app_id="desmos_3d_web",
+        kind="live",
+        description="Desmos 3D 计算器网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://www.desmos.com/3d",
+        seed="live",
+        brief=("这是Desmos 3D 计算器网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要保存、分享图表或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "google_maps_web": AppSpec(
+        app_id="google_maps_web",
+        kind="live",
+        description="Google 地图网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://maps.google.com/",
+        seed="live",
+        brief=("这是Google 地图网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要编辑地图、上传照片、保存地点或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "kleki_web": AppSpec(
+        app_id="kleki_web",
+        kind="live",
+        description="Kleki 在线绘图网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://kleki.com/",
+        seed="live",
+        brief=("这是Kleki 在线绘图网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要保存、导出、分享画作或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "jspaint_web": AppSpec(
+        app_id="jspaint_web",
+        kind="live",
+        description="JS Paint 在线绘图网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://jspaint.app/",
+        seed="live",
+        brief=("这是JS Paint 在线绘图网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要保存、导出、分享画作或修改账号设置。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+    "squoosh_web": AppSpec(
+        app_id="squoosh_web",
+        kind="live",
+        description="Squoosh 图片压缩网页版 (live target: 登录态人工维护, 无 S0 reset / "
+                    "确定性保证, 仅像素+HID 通道不变)。",
+        live_url="https://squoosh.app/",
+        seed="live",
+        brief=("这是Squoosh 图片压缩网页版,登录态由人工预先维护。"
+               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
+               "不要处理包含个人隐私的图片。"
+               + _LIVE_SOFT_NETWORK_RULE),
+    ),
+}
+
+
+_LIVE_BRIEF = (
+    "这是一个真实线上网站,你通过浏览器访问它的网页版。内容会实时变化。"
+    "请只读探索(浏览、搜索、查看),不要执行任何会修改服务端或账号状态的"
+    "操作(发帖、评论、点赞、关注、购买、删除、设置变更等)。"
+    + _LIVE_SOFT_NETWORK_RULE)
+
+
+def make_live_spec_for_url(url: str) -> AppSpec:
+    """Ad-hoc live target from a bare URL (no registry entry needed).
+
+    The derived app_id is a stable per-host slug (live_www_example_com), so
+    the browser profile — and any login state captured for the site —
+    persists across sessions. The URL is only the browser's entry point;
+    redirects and cross-domain resources use normal public networking.
+    """
+    raw = url.strip()
+    if "://" not in raw:
+        raw = f"https://{raw}"
+    p = urlparse(raw)
+    if p.scheme not in ("http", "https") or not p.netloc or "@" in p.netloc:
+        raise ValueError(f"invalid live_url: {url!r}")
+    host = p.netloc.split(":")[0].lower()
+    if not re.fullmatch(r"[a-z0-9.-]+", host) or "." not in host or \
+            host in ("localhost", "127.0.0.1") or host.endswith(".internal"):
+        raise ValueError(f"live_url must be a real remote site: {url!r}")
+    slug = re.sub(r"[^a-z0-9]+", "_", host).strip("_")
+    entry = raw if (p.path not in ("", "/") or p.query) else \
+        f"{p.scheme}://{host}/"
+    return AppSpec(
+        app_id=f"live_{slug}",
+        kind="live",
+        description=f"ad-hoc live target: {entry}",
+        live_url=entry,
+        seed="live",
+        brief=_LIVE_BRIEF,
+    )
+
+
+def list_apps(platform: str = "web") -> list[dict]:
+    items = [{"app_id": s.app_id, "description": s.description,
+              "platform": s.platform, "kind": s.kind}
+             for s in _REGISTRY.values()]
+    if platform == "android":
+        try:
+            from ..android.targets import list_android_targets
+            return list_android_targets()
+        except Exception:
+            return []
+    if platform not in ("web", "all"):
+        raise ValueError("platform must be web, android or all")
+    if platform == "all":
+        try:
+            from ..android.targets import list_android_targets
+            items.extend(list_android_targets())
+        except Exception:
+            pass
+    return items
+
+
+def get_app(app_id: str) -> AppSpec:
+    if app_id in _REGISTRY:
+        return _REGISTRY[app_id]
+    try:
+        from ..android.targets import get_android_target
+        return get_android_target(app_id)  # type: ignore[return-value]
+    except KeyError:
+        available = [item["app_id"] for item in list_apps("all")]
+        raise KeyError(f"unknown app_id: {app_id!r}; available: {sorted(available)}")
+
+
+def new_gateway_secret() -> str:
+    return secrets.token_hex(24)

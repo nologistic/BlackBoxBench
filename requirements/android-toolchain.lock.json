@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "jdk": {
+    "major": 17,
+    "tested_version": "17.0.20.1+1",
+    "tested_distribution": "Eclipse Temurin"
+  },
+  "command_line_tools": {
+    "revision": "22.0",
+    "windows_url": "https://dl.google.com/android/repository/commandlinetools-win-15859902_latest.zip",
+    "windows_sha256": "90ae805d20434428bffcb699c290860f19bb5f66a67e6b330067e3de801fb04a",
+    "linux_url": "https://dl.google.com/android/repository/commandlinetools-linux-15859902_latest.zip",
+    "linux_sha256": "4e4c464f145a7512b57d088ac6c278c03c9eea610886b35a5e0804e74eedf583"
+  },
+  "sdk_packages": {
+    "platform-tools": "37.0.1",
+    "emulator": "37.1.11",
+    "platforms;android-35": "2",
+    "build-tools;35.0.0": "35.0.0",
+    "system-images;android-35;google_apis;x86_64": "9"
+  },
+  "avd": {
+    "name": "BBB_Base",
+    "target": "android-35",
+    "abi": "x86_64",
+    "tag": "google_apis",
+    "device": "pixel_6"
+  },
+  "gradle": {
+    "version": "8.10.2",
+    "base_image": "gradle@sha256:c2900027f3f0681c2cbfb09d527813851ad67aeafbb409997297efa2df20e748"
+  }
+}

@@ -1,0 +1,492 @@
+{
+  "checklist_id": "excalidraw_web",
+  "platform": "web",
+  "features": [
+    {
+      "id": "f01",
+      "name": "基础图形",
+      "steps": [
+        "在空画布创建一个矩形、菱形和椭圆，并保证三者互不重叠。"
+      ],
+      "expected": "矩形、菱形和椭圆必须全部创建成功且互不重叠；三者类型正确可辨识。",
+      "persistence": false
+    },
+    {
+      "id": "f02",
+      "name": "基础线条",
+      "steps": [
+        "创建一条直线和一条带箭头的连接线。"
+      ],
+      "expected": "直线和带箭头的连接线必须正确创建；箭头端点样式正确显示。",
+      "persistence": false
+    },
+    {
+      "id": "f03",
+      "name": "文本",
+      "steps": [
+        "创建文本 Start，设置为大号字体，并改为居中对齐。"
+      ],
+      "expected": "文本 Start 必须创建为指定字体大小并居中对齐；样式设置生效。",
+      "persistence": false
+    },
+    {
+      "id": "f04",
+      "name": "自由绘制",
+      "steps": [
+        "使用自由绘制工具画出一条连续曲线。"
+      ],
+      "expected": "自由绘制必须生成一条连续曲线；不能断线或跳点。",
+      "persistence": false
+    },
+    {
+      "id": "f05",
+      "name": "元素移动",
+      "steps": [
+        "创建三个对象，然后把中间对象移动到另外两个对象下方。"
+      ],
+      "expected": "三个对象正确创建；中间对象必须移动到另外两个下方；层级调整正确。",
+      "persistence": false
+    },
+    {
+      "id": "f06",
+      "name": "Resize",
+      "steps": [
+        "创建一个矩形，将其宽度扩大、高度缩小，但保持对象类型不变。"
+      ],
+      "expected": "矩形宽度扩大、高度缩小后对象类型保持不变；尺寸变化正确反映。",
+      "persistence": true
+    },
+    {
+      "id": "f07",
+      "name": "多选",
+      "steps": [
+        "创建四个对象，仅选中其中三个并整体移动，第四个保持原位置。"
+      ],
+      "expected": "仅三个对象被选中并整体移动；第四个保持原位置不变。",
+      "persistence": true
+    },
+    {
+      "id": "f08",
+      "name": "Lasso selection",
+      "steps": [
+        "使用套索选择跨越多个位置的三个对象，并同时移动它们。"
+      ],
+      "expected": "套索必须准确选中跨越多个位置的三个对象；移动后位置正确。",
+      "persistence": false
+    },
+    {
+      "id": "f09",
+      "name": "Stroke styling",
+      "steps": [
+        "创建矩形并修改描边颜色、描边粗细和边框样式。"
+      ],
+      "expected": "描边颜色、粗细和边框样式必须正确应用；其他属性不受影响。",
+      "persistence": false
+    },
+    {
+      "id": "f10",
+      "name": "Fill styling",
+      "steps": [
+        "创建一个矩形，设置绿色背景填充，同时保留深色描边。"
+      ],
+      "expected": "绿色填充生效且深色描边保留；填充与描边互不覆盖。",
+      "persistence": false
+    },
+    {
+      "id": "f11",
+      "name": "Roughness / line style",
+      "steps": [
+        "创建两个相同图形，一个使用较平滑风格，一个使用明显手绘风格。"
+      ],
+      "expected": "两个图形风格可明显区分（平滑 vs 手绘）；roughness 设置生效。",
+      "persistence": false
+    },
+    {
+      "id": "f12",
+      "name": "Opacity",
+      "steps": [
+        "创建两个重叠图形，将上层图形透明度降低，使下层图形可见。"
+      ],
+      "expected": "上层图形透明度降低后下层图形可见；透明度设置正确。",
+      "persistence": false
+    },
+    {
+      "id": "f13",
+      "name": "Rounded corners",
+      "steps": [
+        "创建两个矩形，一个使用直角，一个使用圆角。"
+      ],
+      "expected": "两个矩形的圆角设置正确区分（直角 / 圆角）。",
+      "persistence": false
+    },
+    {
+      "id": "f14",
+      "name": "Layer ordering",
+      "steps": [
+        "创建三个重叠图形，通过 Bring forward / Send backward 调整最终层级，使指定对象位于最上方。"
+      ],
+      "expected": "通过 Bring forward / Send backward 调整后，指定对象位于最上方；层级顺序正确。",
+      "persistence": false
+    },
+    {
+      "id": "f15",
+      "name": "Duplicate",
+      "steps": [
+        "创建一个对象，复制两次，并将三个副本排列成一行。"
+      ],
+      "expected": "复制两次后共三个副本；排列成一行且位置正确。",
+      "persistence": false
+    },
+    {
+      "id": "f16",
+      "name": "Delete + Undo",
+      "steps": [
+        "创建三个对象，删除其中一个，再通过 Undo 恢复，并验证其位置和样式恢复。"
+      ],
+      "expected": "Undo 恢复被删除对象；位置和样式与原状态一致。",
+      "persistence": false
+    },
+    {
+      "id": "f17",
+      "name": "Arrow styling",
+      "steps": [
+        "创建一条箭头，设置弯曲路径、更换箭头端点样式，并修改线条粗细。"
+      ],
+      "expected": "箭头弯曲路径、端点样式和线条粗细必须正确应用。",
+      "persistence": false
+    },
+    {
+      "id": "f18",
+      "name": "Connector binding",
+      "steps": [
+        "创建两个矩形，用箭头连接两者；移动任意一个矩形后，箭头仍然连接到对应对象。"
+      ],
+      "expected": "箭头必须正确绑定两个矩形；移动任一矩形后箭头仍连接对应对象。",
+      "persistence": false
+    },
+    {
+      "id": "f19",
+      "name": "Multi-step binding",
+      "steps": [
+        "创建 A、B、C 三个节点，形成 A",
+        "B",
+        "C；随后交换 B 和 C 的位置，并保持连接关系正确。"
+      ],
+      "expected": "A → B → C 连接正确；交换 B 和 C 位置后连接关系保持正确。",
+      "persistence": true
+    },
+    {
+      "id": "f20",
+      "name": "Frame",
+      "steps": [
+        "创建一个 Frame，并在 Frame 内放入文本、矩形和箭头三个元素。"
+      ],
+      "expected": "Frame 内必须包含文本、矩形和箭头三个元素；归属正确。",
+      "persistence": false
+    },
+    {
+      "id": "f21",
+      "name": "Frame movement",
+      "steps": [
+        "创建一个 Frame 和三个内部对象；移动 Frame 后，内部元素应与 Frame 一起移动。"
+      ],
+      "expected": "移动 Frame 时内部元素必须一起移动；相对位置保持。",
+      "persistence": false
+    },
+    {
+      "id": "f22",
+      "name": "Frame containment",
+      "steps": [
+        "创建两个 Frame，把一个对象从 Frame A 移入 Frame B，并验证最终只归属 B。"
+      ],
+      "expected": "对象从 Frame A 移入 Frame B 后只归属 B；不能同时属于两个 Frame。",
+      "persistence": false
+    },
+    {
+      "id": "f23",
+      "name": "Mixed diagram",
+      "steps": [
+        "构建一个包含 Input",
+        "Process",
+        "Output 的流程图，节点分别使用矩形、菱形和椭圆，并通过箭头正确连接。"
+      ],
+      "expected": "流程图三个节点类型正确（矩形 / 菱形 / 椭圆）且箭头连接正确。",
+      "persistence": false
+    },
+    {
+      "id": "f24",
+      "name": "Complex styling",
+      "steps": [
+        "将三个流程节点分别设置不同填充色，但统一描边宽度、线条风格和字体。"
+      ],
+      "expected": "三个节点填充色不同但描边宽度、线条风格和字体统一；样式应用一致。",
+      "persistence": false
+    },
+    {
+      "id": "f25",
+      "name": "Search on canvas",
+      "steps": [
+        "创建多个文本元素，其中只有一个包含 Database，使用“在画布上查找”定位它。"
+      ],
+      "expected": "「在画布上查找」必须准确定位包含 Database 的文本元素。",
+      "persistence": false
+    },
+    {
+      "id": "f26",
+      "name": "Zoom / pan",
+      "steps": [
+        "在相距较远的位置创建两个对象，通过缩放和平移从一个对象导航到另一个对象，且不修改对象。"
+      ],
+      "expected": "缩放和平移可导航到另一个对象；对象本身不被修改。",
+      "persistence": false
+    },
+    {
+      "id": "f27",
+      "name": "Theme",
+      "steps": [
+        "将编辑器切换至深色主题，再切回浅色主题，确保场景元素未被修改。"
+      ],
+      "expected": "主题切换（深色 / 浅色）不影响场景元素；元素属性保持不变。",
+      "persistence": false
+    },
+    {
+      "id": "f28",
+      "name": "Canvas background",
+      "steps": [
+        "修改画布背景颜色，并验证已有元素的颜色和属性不发生变化。"
+      ],
+      "expected": "画布背景颜色修改后已有元素的颜色和属性不变。",
+      "persistence": false
+    },
+    {
+      "id": "f29",
+      "name": "Local image import",
+      "steps": [
+        "给定 benchmark 本地图片 fixture，将图片插入画布，缩放并放入指定 Frame。"
+      ],
+      "expected": "本地图片必须成功插入画布；缩放并放入指定 Frame 后归属正确。",
+      "persistence": false
+    },
+    {
+      "id": "f30",
+      "name": "Save / reopen",
+      "steps": [
+        "创建包含形状、文本、箭头和 Frame 的场景，保存为 Excalidraw 文件，再重新打开并验证结构和位置基本保持。"
+      ],
+      "expected": "保存为 Excalidraw 文件后重新打开；结构和位置基本保持。",
+      "persistence": true
+    },
+    {
+      "id": "f31",
+      "name": "Export PNG",
+      "steps": [
+        "创建指定场景并导出 PNG，验证导出的图像中包含所有预期可见元素。"
+      ],
+      "expected": "导出的 PNG 必须包含所有预期可见元素；图像完整。",
+      "persistence": false
+    },
+    {
+      "id": "f32",
+      "name": "Reset canvas",
+      "steps": [
+        "创建多个元素后执行“重置画布”，验证场景被清空。"
+      ],
+      "expected": "「重置画布」后场景被清空；不能残留元素。",
+      "persistence": false
+    },
+    {
+      "id": "f33",
+      "name": "Bucket fill",
+      "steps": [
+        "创建一个封闭图形后使用 Bucket Fill 修改内部填充，而不改变其他对象。"
+      ],
+      "expected": "Bucket Fill 只修改封闭图形内部填充；其他对象不受影响。",
+      "persistence": false
+    },
+    {
+      "id": "f34",
+      "name": "Draw-to-shape",
+      "steps": [
+        "使用自由绘制创建近似几何轮廓，再通过 Draw to Shape 转换为标准几何对象。"
+      ],
+      "expected": "自由绘制的轮廓必须通过 Draw to Shape 转换为标准几何对象。",
+      "persistence": false
+    },
+    {
+      "id": "f35",
+      "name": "End-to-end diagram",
+      "steps": [
+        "构建 User",
+        "Login",
+        "Validate",
+        "Dashboard / Error 流程图，包含 5 个节点、条件分支、文本、箭头、颜色区分和一个外层 Frame。"
+      ],
+      "expected": "流程图必须包含 5 个节点、条件分支、文本、箭头、颜色区分和外层 Frame；结构完整正确。",
+      "persistence": false
+    },
+    {
+      "id": "f36",
+      "name": "End-to-end edit",
+      "steps": [
+        "在上一任务结果上，将 Validate 节点移到另一位置、增加一个 Retry 节点、重新连接流程，并保证原样式体系不变。"
+      ],
+      "expected": "Validate 节点移位、新增 Retry 节点并重新连接后，原样式体系保持不变。",
+      "persistence": false
+    },
+    {
+      "id": "f37",
+      "name": "Persistence round trip",
+      "steps": [
+        "完成一个 8+ 元素场景，保存、清空画布、重新打开文件，再导出 PNG，并验证最终场景结构仍正确。"
+      ],
+      "expected": "保存、清空、重新打开后再导出 PNG；最终场景结构仍正确。",
+      "persistence": false
+    },
+    {
+      "id": "f38",
+      "name": "Layer + frame + binding",
+      "steps": [
+        "创建两个 Frame，每个包含多个节点；建立跨 Frame 箭头连接，改变节点位置和图层顺序后仍保持正确连接和视觉层级。"
+      ],
+      "expected": "跨 Frame 箭头连接正确；改变节点位置和图层顺序后连接与视觉层级保持正确。",
+      "persistence": true
+    }
+  ],
+  "exclusions": [
+    {
+      "feature": "实时协作",
+      "treatment": "Hard Exclude",
+      "reason": "需要多客户端、网络同步、presence、冲突解决。"
+    },
+    {
+      "feature": "邀请协作者",
+      "treatment": "Hard Exclude",
+      "reason": "涉及第二账号、权限和服务器状态。"
+    },
+    {
+      "feature": "分享协作链接",
+      "treatment": "Hard Exclude",
+      "reason": "依赖外部服务和多用户状态。"
+    },
+    {
+      "feature": "Excalidraw+",
+      "treatment": "Hard Exclude",
+      "reason": "属于额外云端产品，不是基础 editor。"
+    },
+    {
+      "feature": "Plus 云端 workspace",
+      "treatment": "Hard Exclude",
+      "reason": "需要账号、云存储和订阅系统。"
+    },
+    {
+      "feature": "Text to Diagram AI",
+      "treatment": "Hard Exclude",
+      "reason": "生成式结果不确定。官方也将其归入 Generative AI。Excalidraw+"
+    },
+    {
+      "feature": "Wireframe to Code AI",
+      "treatment": "Hard Exclude",
+      "reason": "需要生成模型和代码执行能力。Excalidraw+"
+    },
+    {
+      "feature": "AI 文字至图表",
+      "treatment": "Hard Exclude",
+      "reason": "同上。"
+    },
+    {
+      "feature": "Mermaid → Excalidraw",
+      "treatment": "Conditional Exclude",
+      "reason": "可以实现 deterministic parser，但它不是核心白板交互能力；默认不考。"
+    },
+    {
+      "feature": "公共素材库浏览",
+      "treatment": "Hard Exclude",
+      "reason": "内容来自网络，资产可能随时间变化。"
+    },
+    {
+      "feature": "Library 云同步",
+      "treatment": "Hard Exclude",
+      "reason": "外部内容和账户状态。"
+    },
+    {
+      "feature": "本地 Library item",
+      "treatment": "Conditional Include",
+      "reason": "若 benchmark 预置固定 library fixture，可以测试插入。"
+    },
+    {
+      "feature": "嵌入网页",
+      "treatment": "Hard Exclude",
+      "reason": "iframe / 外部网站可用性不可控。"
+    },
+    {
+      "feature": "远程图片 URL",
+      "treatment": "Hard Exclude",
+      "reason": "网络依赖。"
+    },
+    {
+      "feature": "本地图片插入",
+      "treatment": "Include",
+      "reason": "如果 benchmark 提供固定本地图片，是确定性的。"
+    },
+    {
+      "feature": "实时网页预览",
+      "treatment": "Hard Exclude",
+      "reason": "外部网络状态不可控。"
+    },
+    {
+      "feature": "Discord / GitHub / Follow links",
+      "treatment": "Hard Exclude",
+      "reason": "产品外链接。"
+    },
+    {
+      "feature": "Sign up / Login",
+      "treatment": "Hard Exclude",
+      "reason": "账户系统不是 editor 核心。"
+    },
+    {
+      "feature": "账号语言同步",
+      "treatment": "Hard Exclude",
+      "reason": "非场景编辑能力。"
+    },
+    {
+      "feature": "Presentation / Plus-only 云功能",
+      "treatment": "Default Exclude",
+      "reason": "如果依赖 Plus 后端则排除。"
+    },
+    {
+      "feature": "跨设备同步",
+      "treatment": "Hard Exclude",
+      "reason": "需要真实云端和多设备。"
+    },
+    {
+      "feature": "浏览器 storage 持久化细节",
+      "treatment": "Default Exclude",
+      "reason": "不要求精确模拟 IndexedDB/localStorage 实现，只要求用户可见的 reopen 行为。"
+    },
+    {
+      "feature": "打印",
+      "treatment": "Hard Exclude",
+      "reason": "浏览器 / OS 打印框。"
+    },
+    {
+      "feature": "系统剪贴板跨应用行为",
+      "treatment": "Conditional Exclude",
+      "reason": "可以测试内部 copy/paste，但不要要求与外部应用互操作。"
+    },
+    {
+      "feature": "字体渲染像素完全一致",
+      "treatment": "Exclude from scoring",
+      "reason": "浏览器、OS 字体渲染存在差异。"
+    },
+    {
+      "feature": "自由手绘像素级一致",
+      "treatment": "Exclude from scoring",
+      "reason": "鼠标轨迹天然存在微小偏差。"
+    },
+    {
+      "feature": "复杂 AI 自动排版",
+      "treatment": "Hard Exclude",
+      "reason": "不确定性且非核心。"
+    }
+  ]
+}

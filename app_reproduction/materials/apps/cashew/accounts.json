@@ -1,0 +1,10 @@
+{
+  "note": "虚构账户。is_primary 标记主账户；新建交易默认使用它的账户与币种。",
+  "base_currency": "CNY",
+  "accounts": [
+    {"id": "acc_cash", "name": "现金钱包", "type": "现金", "currency": "CNY", "balance": 860.00, "is_primary": false},
+    {"id": "acc_salary", "name": "工资卡", "type": "银行卡", "currency": "CNY", "balance": 15240.50, "is_primary": true},
+    {"id": "acc_travel", "name": "旅行卡", "type": "银行卡", "currency": "USD", "balance": 320.00, "is_primary": false},
+    {"id": "acc_saving", "name": "欧元储蓄", "type": "储蓄", "currency": "EUR", "balance": 1500.00, "is_primary": false}
+  ]
+}

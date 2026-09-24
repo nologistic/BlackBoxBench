@@ -1,0 +1,8 @@
+# External-URL override. Both containers receive ordinary egress, but no
+# repository, Docker socket, managed explorer or host workspace is exposed.
+# The Agent's permitted network behavior is defined by the task Skill.
+services:
+  reference_raw:
+    network_mode: bridge
+  tool_builder:
+    network_mode: bridge

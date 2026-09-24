@@ -1,0 +1,500 @@
+{
+  "checklist_id": "diagrams_net_web",
+  "platform": "web",
+  "features": [
+    {
+      "id": "f01",
+      "name": "Basic Shapes",
+      "steps": [
+        "Open a blank diagram",
+        "Insert a rectangle, ellipse, and diamond",
+        "Place them at different positions on the page",
+        "Add text inside each shape",
+        "Move and resize the shapes",
+        "Verify text remains attached to its corresponding shape"
+      ],
+      "expected": "Rectangle, ellipse, and diamond must be placed at distinct positions; text must remain attached to its shape after moving and resizing.",
+      "persistence": false
+    },
+    {
+      "id": "f02",
+      "name": "Shape Style",
+      "steps": [
+        "Create several shapes",
+        "Select one shape",
+        "Change fill color, stroke color, stroke width, line style, opacity, rounded corners, and shadow",
+        "Select another shape and apply a different style",
+        "Verify styles remain associated with the correct objects after deselection"
+      ],
+      "expected": "Each style property must apply to the selected shape only; styles stay associated with the correct objects after deselection.",
+      "persistence": false
+    },
+    {
+      "id": "f03",
+      "name": "Connector",
+      "steps": [
+        "Create two shapes",
+        "Create a connector from the first shape to the second using connection points",
+        "Move both shapes to new positions",
+        "Connector endpoints remain attached and routing updates automatically",
+        "Change arrowhead and line style without breaking the connection"
+      ],
+      "expected": "Connector endpoints must remain attached after moving both shapes and routing updates automatically; arrowhead and line style changes do not break the connection.",
+      "persistence": false
+    },
+    {
+      "id": "f04",
+      "name": "Flowchart",
+      "steps": [
+        "Open the Flowchart shape library",
+        "Create Start, Process, Decision, and End nodes",
+        "Connect them into a directed process",
+        "Create Yes / No branches from the decision node",
+        "Add labels",
+        "Rearrange nodes while preserving the intended graph topology"
+      ],
+      "expected": "Flowchart nodes must connect into the intended directed graph; Yes/No branches from the decision node work; topology survives rearrangement.",
+      "persistence": false
+    },
+    {
+      "id": "f05",
+      "name": "Multi-step Flowchart Editing",
+      "steps": [
+        "Create a multi-node flowchart",
+        "Insert a new process node into an existing path",
+        "Remove the old direct connector",
+        "Reconnect predecessor",
+        "new node",
+        "successor",
+        "Move the new node",
+        "Adjust routing and labels",
+        "Final graph remains logically correct"
+      ],
+      "expected": "New node must be inserted into the path with predecessor to new node to successor reconnected; routing and labels adjust; the final graph is logically correct.",
+      "persistence": false
+    },
+    {
+      "id": "f06",
+      "name": "Arrow Styles",
+      "steps": [
+        "Create multiple connected shapes",
+        "Change connector start/end arrow types",
+        "Change straight / orthogonal / curved routing where available",
+        "Modify color and line thickness",
+        "Move connected nodes",
+        "Preserve selected connector styling and endpoint relationships"
+      ],
+      "expected": "Arrow type, routing, color, and thickness changes must persist on the selected connectors; endpoint relationships hold after moving nodes.",
+      "persistence": false
+    },
+    {
+      "id": "f07",
+      "name": "Shape Libraries",
+      "steps": [
+        "Open the shape panel",
+        "Expand Basic, Arrows, Flowchart, Entity Relation, and UML libraries",
+        "Locate specified symbols from different libraries",
+        "Drag them onto the canvas",
+        "Arrange them without replacing previously created objects"
+      ],
+      "expected": "Specified symbols from different libraries must be draggable to the canvas; arranging them does not replace previously created objects.",
+      "persistence": false
+    },
+    {
+      "id": "f08",
+      "name": "Entity Relationship Diagram",
+      "steps": [
+        "Open the Entity Relation library",
+        "Create several entity/table objects",
+        "Add labels representing entities",
+        "Connect entities with relationship connectors",
+        "Arrange the diagram so relationships remain readable",
+        "Modify one entity without damaging other relationships"
+      ],
+      "expected": "Entity objects must be created, labeled, and connected with relationship connectors; editing one entity does not damage other relationships.",
+      "persistence": false
+    },
+    {
+      "id": "f09",
+      "name": "UML Diagram",
+      "steps": [
+        "Open the UML library",
+        "Insert two or more class-style objects",
+        "Add names / attributes where supported",
+        "Create relationships between them",
+        "Reposition the classes",
+        "Preserve relationship direction and layout"
+      ],
+      "expected": "Class-style objects must be inserted with names/attributes; relationships keep direction and layout after repositioning.",
+      "persistence": false
+    },
+    {
+      "id": "f10",
+      "name": "Alignment / Distribution",
+      "steps": [
+        "Create five shapes at irregular positions",
+        "Multi-select the shapes",
+        "Align them to a common edge",
+        "Distribute them evenly",
+        "Resize selected objects where necessary",
+        "Preserve their relative order and individual labels"
+      ],
+      "expected": "Selected shapes must align to a common edge and distribute evenly; relative order and individual labels are preserved.",
+      "persistence": false
+    },
+    {
+      "id": "f11",
+      "name": "Layer Order",
+      "steps": [
+        "Create overlapping shapes",
+        "Change their fill colors",
+        "Send one object backward",
+        "Bring another object forward",
+        "Move one object to front / back",
+        "Verify the final visible stacking order matches the requested order"
+      ],
+      "expected": "Final stacking order must match the requested order after send backward / bring forward / to front / to back operations.",
+      "persistence": false
+    },
+    {
+      "id": "f12",
+      "name": "Group / Ungroup",
+      "steps": [
+        "Create several related shapes",
+        "Multi-select them",
+        "Group into one logical unit",
+        "Move and resize the group",
+        "Copy the group",
+        "Ungroup one copy",
+        "Edit an individual child object without changing the other copy"
+      ],
+      "expected": "Grouped unit must move and resize together; copied group is independent; editing one copy's child does not change the other.",
+      "persistence": false
+    },
+    {
+      "id": "f13",
+      "name": "Arrange Complex Layout",
+      "steps": [
+        "Create 6–10 connected nodes",
+        "Select the diagram",
+        "Apply an automatic layout such as vertical flow, horizontal flow, tree, or organic layout",
+        "Inspect the result",
+        "Manually correct one misplaced node",
+        "Connections remain valid after the layout operation"
+      ],
+      "expected": "Automatic layout must reorganize the diagram; one manually corrected node stays valid; connections remain valid after layout.",
+      "persistence": false
+    },
+    {
+      "id": "f14",
+      "name": "Tree Layout",
+      "steps": [
+        "Create a root node with multiple child nodes and grandchildren",
+        "Connect the hierarchy",
+        "Apply vertical or horizontal tree layout",
+        "Verify parent-child structure is retained",
+        "Add another child and rerun the layout",
+        "Updated tree remains readable"
+      ],
+      "expected": "Tree layout must retain parent-child structure; adding a child and re-running layout keeps the tree readable.",
+      "persistence": false
+    },
+    {
+      "id": "f15",
+      "name": "Organization Chart",
+      "steps": [
+        "Create a manager node, several direct reports, and lower-level reports",
+        "Connect them into a hierarchy",
+        "Apply an organization/tree-style layout",
+        "Move one branch manually",
+        "Preserve the hierarchical connections and labels"
+      ],
+      "expected": "Hierarchy must be connected and laid out; manually moving one branch preserves hierarchical connections and labels.",
+      "persistence": false
+    },
+    {
+      "id": "f16",
+      "name": "Complex Diagram Reconstruction",
+      "steps": [
+        "Start from a blank canvas",
+        "Reproduce a reference diagram containing multiple shape types, text labels, connectors, colors, and hierarchical relationships",
+        "Match approximate relative positions",
+        "Correct wrong connections or stacking",
+        "Final diagram preserves both visual structure and graph semantics"
+      ],
+      "expected": "Final diagram must preserve both visual structure and graph semantics; wrong connections or stacking are corrected.",
+      "persistence": false
+    },
+    {
+      "id": "f17",
+      "name": "Multi-select Editing",
+      "steps": [
+        "Create several shapes with different styles",
+        "Select a subset using box selection or multi-select",
+        "Apply a shared fill/stroke property",
+        "Move the selected group",
+        "Deselect",
+        "Verify unselected objects were not modified"
+      ],
+      "expected": "Shared property changes must apply only to selected shapes; unselected objects remain unmodified.",
+      "persistence": false
+    },
+    {
+      "id": "f18",
+      "name": "Copy / Duplicate / Delete",
+      "steps": [
+        "Create several connected objects",
+        "Duplicate selected shapes",
+        "Move duplicated objects to another location",
+        "Delete one original object",
+        "Repair any affected connector",
+        "Ensure copied objects remain independent from originals"
+      ],
+      "expected": "Duplicated objects must be independent; deleting an original and repairing affected connectors leaves copies intact.",
+      "persistence": false
+    },
+    {
+      "id": "f19",
+      "name": "Freehand Drawing",
+      "steps": [
+        "Enter freehand drawing mode",
+        "Change brush width / color where available",
+        "Draw multiple strokes",
+        "Finish drawing mode",
+        "Select, move, or delete a resulting drawing object",
+        "Continue editing the rest of the diagram normally"
+      ],
+      "expected": "Freehand strokes must be created as drawing objects; selecting, moving, or deleting one works; the rest of the diagram remains editable.",
+      "persistence": false
+    },
+    {
+      "id": "f20",
+      "name": "Page Setup",
+      "steps": [
+        "Open Page Setup",
+        "Change paper size",
+        "Switch portrait / landscape orientation",
+        "Change grid size and page background",
+        "Apply settings",
+        "Return to the diagram",
+        "Existing objects remain present and correctly positioned relative to the page"
+      ],
+      "expected": "Page settings (size, orientation, grid, background) must apply; existing objects remain present and correctly positioned.",
+      "persistence": false
+    },
+    {
+      "id": "f21",
+      "name": "Grid / Guides / Connection Helpers",
+      "steps": [
+        "Toggle grid, guides, connection arrows, and connection points",
+        "Create and move shapes while these helpers are enabled",
+        "Disable one or more helpers",
+        "Continue editing",
+        "Helper visibility changes without altering actual diagram data"
+      ],
+      "expected": "Helper toggles must change visibility only; diagram data remains unaltered.",
+      "persistence": false
+    },
+    {
+      "id": "f22",
+      "name": "Zoom / View State",
+      "steps": [
+        "Create objects across different regions of a page",
+        "Zoom in and pan to a specific area",
+        "Edit an object",
+        "Zoom out",
+        "Navigate to another object",
+        "Return to the previous area",
+        "Diagram data remains stable across viewport changes"
+      ],
+      "expected": "Zooming and panning must not modify diagram data; edits apply to the correct objects across viewport changes.",
+      "persistence": false
+    },
+    {
+      "id": "f23",
+      "name": "Multi-page Diagram",
+      "steps": [
+        "Create a diagram on Page 1",
+        "Insert Page 2",
+        "Rename Page 2",
+        "Create different objects on the second page",
+        "Switch repeatedly between pages",
+        "Each page preserves its own objects and viewport-independent content"
+      ],
+      "expected": "Each page must preserve its own objects; switching between pages repeatedly keeps content intact.",
+      "persistence": false
+    },
+    {
+      "id": "f24",
+      "name": "Page Lifecycle",
+      "steps": [
+        "Create multiple pages",
+        "Duplicate one page",
+        "Rename the duplicate",
+        "Delete another page",
+        "Switch between remaining pages",
+        "Verify only the targeted page was deleted and duplicated content remains editable"
+      ],
+      "expected": "Duplicating and deleting pages must affect only the targeted page; duplicated content remains editable.",
+      "persistence": false
+    },
+    {
+      "id": "f25",
+      "name": "Local Save / Reopen",
+      "steps": [
+        "Create a non-trivial diagram with shapes, text, and connectors",
+        "Save the editable diagram file locally",
+        "Close or reset the current diagram",
+        "Reopen the saved file",
+        "Verify objects, connections, pages, labels, and styles are restored and remain editable"
+      ],
+      "expected": "Reopened file must restore objects, connections, pages, labels, and styles; everything remains editable.",
+      "persistence": false
+    },
+    {
+      "id": "f26",
+      "name": "Export PNG / SVG",
+      "steps": [
+        "Create a completed diagram",
+        "Open Export",
+        "Choose PNG or SVG",
+        "Configure basic export options where available",
+        "Export the result",
+        "Return to the editor",
+        "Original editable diagram remains unchanged"
+      ],
+      "expected": "PNG/SVG export must produce the expected output; the original editable diagram remains unchanged.",
+      "persistence": false
+    },
+    {
+      "id": "f27",
+      "name": "Multi-page PDF Export",
+      "steps": [
+        "Create content on multiple pages",
+        "Configure page size / orientation",
+        "Export the complete document as PDF",
+        "Preserve page ordering and page boundaries",
+        "Return to the editor without losing editable diagram state"
+      ],
+      "expected": "PDF export must preserve page ordering and boundaries; editor state is not lost.",
+      "persistence": false
+    },
+    {
+      "id": "f28",
+      "name": "Search / Find",
+      "steps": [
+        "Create a diagram containing repeated and unique text labels",
+        "Use Find / Replace or search",
+        "Navigate to a matching object",
+        "Edit or replace its text",
+        "Search again",
+        "Verify the intended object was modified without changing unrelated labels"
+      ],
+      "expected": "Find/Replace must navigate to and modify only the intended object; unrelated labels stay unchanged.",
+      "persistence": false
+    },
+    {
+      "id": "f29",
+      "name": "Reference Diagram Revision",
+      "steps": [
+        "Open an existing structured diagram",
+        "Identify a specified subsystem",
+        "Add two new nodes",
+        "Remove an obsolete node",
+        "Reconnect surrounding dependencies",
+        "Apply alignment / layout corrections",
+        "Preserve all unaffected parts of the original diagram"
+      ],
+      "expected": "Two new nodes added, obsolete node removed, dependencies reconnected, alignment corrected; all unaffected parts preserved.",
+      "persistence": false
+    },
+    {
+      "id": "f30",
+      "name": "End-to-end Architecture Diagram",
+      "steps": [
+        "Start from a blank file",
+        "Add application, database, process, and external-system style nodes from multiple libraries",
+        "Create labeled directional connectors",
+        "Group related components",
+        "Apply consistent styles",
+        "Align the architecture",
+        "Add a second page for a detailed sub-flow",
+        "Save and reopen the editable file"
+      ],
+      "expected": "Multi-library nodes, labeled connectors, grouping, consistent styles, alignment, second page, save/reopen must all complete correctly.",
+      "persistence": false
+    }
+  ],
+  "exclusions": [
+    {
+      "feature": "Real-time Collaboration / Share\nInvite other users → Simultaneous multi-user editing → Presence, cursor synchronization, comments, or remote conflict handling",
+      "treatment": "Exclude",
+      "reason": "依赖多人账号、实时网络同步和远端协作基础设施；主要测的是协作后端而非单 Agent 的图形编辑能力，因此预先排除"
+    },
+    {
+      "feature": "Google Drive / OneDrive / Dropbox / GitHub Storage\nOpen from or save directly into third-party cloud storage → Synchronize changes with an external provider",
+      "treatment": "Exclude",
+      "reason": "依赖第三方 OAuth、账户权限和外部存储 API。Benchmark 可用本地保存 / 打开替代，从而仍然覆盖文件持久化"
+    },
+    {
+      "feature": "Publish / Public Link / Embed\nPublish a diagram → Generate public URL → Embed into another site",
+      "treatment": "Exclude",
+      "reason": "依赖托管、网络访问和公开权限管理，不属于图形编辑器本身的核心交互"
+    },
+    {
+      "feature": "External Plugins\nInstall or configure plugins → Run third-party plugin commands",
+      "treatment": "Exclude",
+      "reason": "插件环境、版本和外部代码不可控，复现结果不稳定；对应能力应由原生图形、布局、编辑 Task 覆盖"
+    },
+    {
+      "feature": "External Shape Libraries Requiring Network\nLoad remote vendor libraries or externally hosted custom stencil packs",
+      "treatment": "Exclude",
+      "reason": "外部资源可能变化或不可访问；Benchmark 只使用应用内置且可稳定获得的 Basic / Flowchart / UML / ER 等图形库"
+    },
+    {
+      "feature": "AI / Generated Diagram Features\nGenerate diagrams or content from prompts where third-party or AI services are involved",
+      "treatment": "Exclude",
+      "reason": "需要独立模型或远端推理组件，测到的是生成模型能力而不是 Agent 对 diagrams.net UI 和图结构的操作能力"
+    },
+    {
+      "feature": "Account / Subscription / Team Administration\nLogin, billing, workspace, organization, team, license, or account settings",
+      "treatment": "Exclude",
+      "reason": "与绘图任务本身无直接关系，同时依赖账户状态；不适合作为复现 diagrams.net 核心能力的 benchmark"
+    },
+    {
+      "feature": "Email / Notification / Social Functions\nSend invitations, notifications, email links, social sharing",
+      "treatment": "Exclude",
+      "reason": "属于外围通信能力，不考察图形编辑、关系构建、布局和持久化"
+    },
+    {
+      "feature": "Print to Physical Printer\nConfigure printer driver → Select physical printer → Complete OS-level print workflow",
+      "treatment": "Exclude",
+      "reason": "强依赖操作系统、硬件和打印驱动；使用 PDF 导出即可覆盖页面设置和输出能力"
+    },
+    {
+      "feature": "Browser / OS File-dialog Specific Behavior\nRequire exact native file picker layout, download shelf behavior, or OS-specific save dialog navigation",
+      "treatment": "Exclude",
+      "reason": "这些界面由浏览器和操作系统控制，不属于目标网站实现；只验证“最终文件成功保存 / 打开 / 导出”"
+    },
+    {
+      "feature": "Full Format Compatibility Matrix\nImport and perfectly reproduce every Visio, Lucidchart, Gliffy, SVG, XML, or proprietary format",
+      "treatment": "Exclude",
+      "reason": "涉及大量第三方格式兼容边界，容易把 benchmark 变成转换器测试；仅保留必要的本地 editable file 与 PNG / SVG / PDF 输出"
+    },
+    {
+      "feature": "Embedded Web Content / External URLs\nEmbed live webpages or depend on external URLs rendering inside the diagram",
+      "treatment": "Exclude",
+      "reason": "依赖目标站点的网络状态、安全策略和跨域行为；普通超链接或文本对象可由基础编辑 Task 覆盖"
+    },
+    {
+      "feature": "Presentation / Remote Slideshow Integrations\nPublish and remotely present diagrams to other participants",
+      "treatment": "Exclude",
+      "reason": "更接近协作和分发系统，不是核心绘图能力；页面、缩放和视图状态已有独立 Task 覆盖"
+    },
+    {
+      "feature": "Exact Theme / Language / Cosmetic Preference Replication\nSwitch every theme, locale, menu preference, or purely cosmetic UI setting",
+      "treatment": "Exclude",
+      "reason": "可保留浅色/深色等基本可用性测试，但不应作为主 benchmark；核心评分应放在对象、关系、布局、页面和文件状态上"
+    }
+  ]
+}

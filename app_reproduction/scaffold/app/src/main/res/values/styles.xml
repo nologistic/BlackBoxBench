@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.BlackBoxBench" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">#415F91</item>
+        <item name="android:navigationBarColor">#F9F9FF</item>
+        <item name="android:statusBarColor">#F9F9FF</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

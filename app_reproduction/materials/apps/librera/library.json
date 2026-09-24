@@ -1,0 +1,20 @@
+{
+  "note": "虚构书库。progress 为阅读进度（0-1）；cover_hint 指向 /materials/mobile/images/covers/ 的封面图。",
+  "books": [
+    {"id": "bk001", "title": "确定性生成手册", "author": "林汐", "format": "EPUB", "pages": 320, "progress": 0.42, "tags": ["技术"], "cover_hint": "covers/morning.png", "last_opened": "2026-09-06T22:10"},
+    {"id": "bk002", "title": "像素考古学", "author": "陈北辰", "format": "EPUB", "pages": 280, "progress": 1.0, "tags": ["技术", "历史"], "cover_hint": "covers/notifications.png", "last_opened": "2026-08-30T09:00"},
+    {"id": "bk003", "title": "黑盒白皮书（第 2 版）", "author": "黑盒研究院", "format": "PDF", "pages": 156, "progress": 0.12, "tags": ["技术"], "cover_hint": "covers/room.png", "last_opened": "2026-09-05T20:30"},
+    {"id": "bk004", "title": "早餐烘焙十二课", "author": "莫莫", "format": "EPUB", "pages": 198, "progress": 0.65, "tags": ["生活"], "cover_hint": "covers/baking.png", "last_opened": "2026-09-04T08:20"},
+    {"id": "bk005", "title": "城市漫步地图集", "author": "乔桥", "format": "PDF", "pages": 240, "progress": 0.0, "tags": ["生活", "旅行"], "cover_hint": "covers/walk.png", "last_opened": ""},
+    {"id": "bk006", "title": "信号与系统入门", "author": "周野", "format": "PDF", "pages": 412, "progress": 0.88, "tags": ["教材"], "cover_hint": "covers/room.png", "last_opened": "2026-09-01T16:45"},
+    {"id": "bk007", "title": "夜航诗集", "author": "阿岩", "format": "FB2", "pages": 128, "progress": 0.30, "tags": ["文学"], "cover_hint": "covers/morning.png", "last_opened": "2026-09-03T23:05"},
+    {"id": "bk008", "title": "合成音效图鉴", "author": "莫莫", "format": "MOBI", "pages": 176, "progress": 0.0, "tags": ["技术"], "cover_hint": "covers/notifications.png", "last_opened": ""},
+    {"id": "bk009", "title": "翻页的哲学", "author": "林汐", "format": "EPUB", "pages": 224, "progress": 0.75, "tags": ["文学"], "cover_hint": "covers/baking.png", "last_opened": "2026-09-06T21:00"},
+    {"id": "bk010", "title": "离线生活指南", "author": "陈北辰", "format": "EPUB", "pages": 256, "progress": 0.05, "tags": ["生活"], "cover_hint": "covers/walk.png", "last_opened": "2026-09-07T07:40"},
+    {"id": "bk011", "title": "书签设计史", "author": "乔桥", "format": "FB2", "pages": 144, "progress": 1.0, "tags": ["历史"], "cover_hint": "covers/room.png", "last_opened": "2026-08-15T11:30"},
+    {"id": "bk012", "title": "合集：黑盒短篇小说选", "author": "多位作者", "format": "EPUB", "pages": 384, "progress": 0.20, "tags": ["文学", "合集"], "cover_hint": "covers/morning.png", "last_opened": "2026-09-02T19:25", "is_folder_book": false}
+  ],
+  "folders_as_books": [
+    {"title": "黑盒讲义全集（文件夹）", "path": "/books/lectures", "children": ["bk003", "bk006"], "note": "包含多本书的文件夹显示为单个条目"}
+  ]
+}

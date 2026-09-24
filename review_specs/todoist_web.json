@@ -1,0 +1,356 @@
+{
+  "checklist_id": "todoist_web",
+  "platform": "web",
+  "features": [
+    {
+      "id": "f01",
+      "name": "Quick Add",
+      "steps": [
+        "Create a task named \"Review quarterly report\" and schedule it for tomorrow at 3:00 PM using natural-language date input."
+      ],
+      "expected": "Natural-language date input must parse correctly (\"tomorrow at 3:00 PM\"); the task is created with the correct schedule.",
+      "persistence": false
+    },
+    {
+      "id": "f02",
+      "name": "Quick Add",
+      "steps": [
+        "Create a task named \"Prepare weekly summary\" for next Friday, assign priority 2, and place it directly in a specified project."
+      ],
+      "expected": "Date, priority, and project must all apply correctly to the created task.",
+      "persistence": false
+    },
+    {
+      "id": "f03",
+      "name": "Quick Add",
+      "steps": [
+        "Create a task named \"Team standup\" that repeats every weekday at 9:00 AM and verify that the recurring schedule is attached to the task."
+      ],
+      "expected": "Recurring schedule (every weekday at 9:00 AM) must attach to the task and display correctly.",
+      "persistence": false
+    },
+    {
+      "id": "f04",
+      "name": "Quick Add",
+      "steps": [
+        "Create a task for the first Monday of next month, assign a label, set its priority, and confirm that all parsed task properties are correct before leaving the task."
+      ],
+      "expected": "Parsed properties (date, label, priority) must all be correct before leaving the task.",
+      "persistence": false
+    },
+    {
+      "id": "f05",
+      "name": "Inbox",
+      "steps": [
+        "Capture three unrelated tasks in Inbox, then organize each one by assigning an appropriate date, priority, and destination project."
+      ],
+      "expected": "Captured tasks must be organizable by date, priority, and project; each assignment applies correctly.",
+      "persistence": false
+    },
+    {
+      "id": "f06",
+      "name": "Inbox",
+      "steps": [
+        "Create an unscheduled task in Inbox, later add a due date and priority, then confirm that it appears in the appropriate planning view without leaving an unnecessary duplicate in Inbox."
+      ],
+      "expected": "Adding a due date and priority moves the task to the planning view without leaving a duplicate in Inbox.",
+      "persistence": false
+    },
+    {
+      "id": "f07",
+      "name": "Projects",
+      "steps": [
+        "Create a new project named \"Website Launch\", add a project description, and create several tasks representing different stages of the launch."
+      ],
+      "expected": "Project must be created with description; tasks must appear within it correctly.",
+      "persistence": false
+    },
+    {
+      "id": "f08",
+      "name": "Projects",
+      "steps": [
+        "Create a project with five tasks, assign different dates and priorities to them, and organize the project so that the highest-priority work is clearly identifiable."
+      ],
+      "expected": "Dates and priorities must save; the highest-priority work is clearly identifiable in the project.",
+      "persistence": false
+    },
+    {
+      "id": "f09",
+      "name": "Projects",
+      "steps": [
+        "Move an existing task from Inbox into a specified project, preserve its existing schedule, and verify that its task metadata remains unchanged after the move."
+      ],
+      "expected": "Moving a task to a project must preserve its schedule and metadata.",
+      "persistence": false
+    },
+    {
+      "id": "f10",
+      "name": "Projects",
+      "steps": [
+        "Create two tasks in a project, convert one into a subtask of the other, and verify that the resulting parent-child hierarchy is correct."
+      ],
+      "expected": "Converting a task into a subtask must create the correct parent-child hierarchy.",
+      "persistence": false
+    },
+    {
+      "id": "f11",
+      "name": "Projects",
+      "steps": [
+        "Reorganize several existing tasks by moving them into a different project while preserving their dates, priorities, and labels."
+      ],
+      "expected": "Moving tasks between projects must preserve dates, priorities, and labels.",
+      "persistence": false
+    },
+    {
+      "id": "f12",
+      "name": "Task Details",
+      "steps": [
+        "Create a task, add a detailed description, create two subtasks, assign a priority, add a label, and schedule the parent task for a specific date."
+      ],
+      "expected": "Description, subtasks, priority, label, and date must all save correctly on the task.",
+      "persistence": false
+    },
+    {
+      "id": "f13",
+      "name": "Task Details",
+      "steps": [
+        "Open an existing task, change its priority from P4 to P1, reschedule it to tomorrow, and add a comment explaining why it was reprioritized."
+      ],
+      "expected": "Priority change, reschedule, and comment must all apply correctly to the task.",
+      "persistence": false
+    },
+    {
+      "id": "f14",
+      "name": "Task Details",
+      "steps": [
+        "Add multiple subtasks to an existing task, schedule the subtasks on different days, complete one subtask, and leave the parent task incomplete."
+      ],
+      "expected": "Subtasks must be schedulable independently; completing one leaves the parent incomplete.",
+      "persistence": false
+    },
+    {
+      "id": "f15",
+      "name": "Task Details",
+      "steps": [
+        "Duplicate an existing task, modify the copy's title and date, move the duplicate to another project, and ensure the original task remains unchanged."
+      ],
+      "expected": "Duplicating must create an independent copy; modifying the copy leaves the original unchanged.",
+      "persistence": false
+    },
+    {
+      "id": "f16",
+      "name": "Task Details",
+      "steps": [
+        "Add an attachment or link to an existing task together with a comment, then reopen the task and verify that the supporting information is still available."
+      ],
+      "expected": "Attachment and comment must persist after reopening the task.",
+      "persistence": false
+    },
+    {
+      "id": "f17",
+      "name": "Task Details",
+      "steps": [
+        "Configure a task with a due date and a separate deadline so that the work is scheduled before the final deadline, then verify both dates are represented correctly."
+      ],
+      "expected": "Due date and deadline must both display correctly with work scheduled before the final deadline.",
+      "persistence": false
+    },
+    {
+      "id": "f18",
+      "name": "Task Details",
+      "steps": [
+        "Create a recurring task, complete the current occurrence, and verify that Todoist schedules the next occurrence rather than permanently closing the task."
+      ],
+      "expected": "Completing a recurring occurrence must schedule the next occurrence instead of closing the task.",
+      "persistence": false
+    },
+    {
+      "id": "f19",
+      "name": "Task Details",
+      "steps": [
+        "Create a monthly recurring task for the last working day of each month and verify that the recurrence pattern reflects the requested schedule."
+      ],
+      "expected": "Monthly recurrence for the last working day must reflect the requested pattern.",
+      "persistence": false
+    },
+    {
+      "id": "f20",
+      "name": "Task Details",
+      "steps": [
+        "Modify the schedule of an existing recurring task without accidentally converting it into a one-time task, then verify the next recurrence."
+      ],
+      "expected": "Modifying a recurring task must keep it recurring and the next occurrence must be correct.",
+      "persistence": false
+    },
+    {
+      "id": "f21",
+      "name": "Today",
+      "steps": [
+        "Review the tasks shown in Today, complete one task, postpone another to tomorrow, and reprioritize a third task for immediate attention."
+      ],
+      "expected": "Completing, postponing, and reprioritizing tasks in Today must all update correctly.",
+      "persistence": false
+    },
+    {
+      "id": "f22",
+      "name": "Today",
+      "steps": [
+        "Take an overdue task visible in Today, reschedule it to a realistic future date, and confirm that it no longer appears as overdue."
+      ],
+      "expected": "Rescheduling an overdue task removes its overdue status.",
+      "persistence": false
+    },
+    {
+      "id": "f23",
+      "name": "Today",
+      "steps": [
+        "Prepare today's work plan by selecting several existing tasks from different projects, rescheduling them to today, and assigning priorities that reflect execution order."
+      ],
+      "expected": "Selected tasks must move to today with priorities reflecting the intended execution order.",
+      "persistence": false
+    },
+    {
+      "id": "f24",
+      "name": "Upcoming",
+      "steps": [
+        "Review the upcoming week, move one task to tomorrow, another to next week, and assign a specific time to a third task while keeping their projects unchanged."
+      ],
+      "expected": "Moving tasks across dates must preserve their projects; assigned times display correctly.",
+      "persistence": false
+    },
+    {
+      "id": "f25",
+      "name": "Upcoming",
+      "steps": [
+        "Rebalance an overloaded day by moving several scheduled tasks across different dates in the upcoming week and verify that no task is duplicated or lost."
+      ],
+      "expected": "Rebalancing must not duplicate or lose any task.",
+      "persistence": false
+    },
+    {
+      "id": "f26",
+      "name": "Upcoming",
+      "steps": [
+        "Schedule a set of related tasks across several consecutive days so that preparation, execution, and follow-up occur in the intended chronological order."
+      ],
+      "expected": "Scheduled tasks must appear across the consecutive days in the intended chronological order.",
+      "persistence": false
+    },
+    {
+      "id": "f27",
+      "name": "Filters & Labels",
+      "steps": [
+        "Create a label named \"deep-work\", apply it to tasks across multiple projects, and use the label view to confirm that all labeled tasks can be found together."
+      ],
+      "expected": "Label must apply across projects; the label view must show all labeled tasks together.",
+      "persistence": false
+    },
+    {
+      "id": "f28",
+      "name": "Filters & Labels",
+      "steps": [
+        "Create a filter that shows high-priority tasks due today, then verify that tasks outside the date or priority criteria are excluded."
+      ],
+      "expected": "Filter must include only high-priority tasks due today; others are excluded.",
+      "persistence": false
+    },
+    {
+      "id": "f29",
+      "name": "Filters & Labels",
+      "steps": [
+        "Create a filter that returns tasks from a specified project that have a selected label and are due within the next seven days."
+      ],
+      "expected": "Filter must return only tasks matching project, label, and date-window criteria.",
+      "persistence": false
+    },
+    {
+      "id": "f30",
+      "name": "Filters & Labels",
+      "steps": [
+        "Create a multi-condition filter for overdue or high-priority tasks across multiple projects, inspect the results, and correct any task whose properties cause it to appear unexpectedly."
+      ],
+      "expected": "Multi-condition filter results must be correct; misclassified tasks are fixable by correcting properties.",
+      "persistence": false
+    },
+    {
+      "id": "f31",
+      "name": "Filters & Labels",
+      "steps": [
+        "Create two labels for different work contexts, assign them to several tasks, and use filters to separate tasks that require focused work from tasks that can be completed quickly."
+      ],
+      "expected": "Labels and filters must separate tasks by work context correctly.",
+      "persistence": false
+    },
+    {
+      "id": "f32",
+      "name": "Activity Log",
+      "steps": [
+        "Make several changes to tasks across Inbox and a project, then use Activity Log to identify the most recent task creation and project-related change."
+      ],
+      "expected": "Activity Log must correctly identify the most recent task creation and project-related change.",
+      "persistence": false
+    }
+  ],
+  "exclusions": [
+    {
+      "feature": "Team collaboration and assignments\nAssigning tasks to other users, shared projects",
+      "treatment": "Hard Exclude",
+      "reason": "Multi-user infrastructure (cf. notion \"Members\")"
+    },
+    {
+      "feature": "Pro plan features\nReminder history, extra filters, backups per plan",
+      "treatment": "Hard Exclude",
+      "reason": "Plan-gated features (cf. Spotify \"Premium / Billing\")"
+    },
+    {
+      "feature": "Real-time sync across devices\nCross-device state sync, presence",
+      "treatment": "Hard Exclude",
+      "reason": "Real-time sync infrastructure; local persistence testable"
+    },
+    {
+      "feature": "Natural-language date parsing full grammar\nComplete NL date grammar parity with Todoist",
+      "treatment": "Conditional Exclude",
+      "reason": "Common NL date inputs (tomorrow, next Friday, every weekday) testable; full parser grammar coverage excluded"
+    },
+    {
+      "feature": "Push/email notification delivery\nReal notification delivery",
+      "treatment": "Conditional Exclude",
+      "reason": "In-app reminder states testable; delivery excluded (cf. Spotify \"Notifications\")"
+    },
+    {
+      "feature": "Calendar sync and integrations\nGoogle/Outlook calendar sync, ICS feeds",
+      "treatment": "Conditional Exclude",
+      "reason": "In-app scheduling testable; external sync excluded"
+    },
+    {
+      "feature": "Location-based reminders\nGeofencing triggers and real GPS",
+      "treatment": "Conditional Exclude",
+      "reason": "Location reminder configuration testable; real geofencing excluded (cf. Google Maps \"location sharing\")"
+    },
+    {
+      "feature": "Cloud backup export/import\nCloud storage sync of backups",
+      "treatment": "Conditional Exclude",
+      "reason": "Local export/import testable; cloud sync excluded (cf. diagrams.net \"Storage\")"
+    },
+    {
+      "feature": "Karma productivity algorithm\nExact karma scoring rules",
+      "treatment": "Conditional Exclude",
+      "reason": "Karma display testable; scoring algorithm details excluded"
+    },
+    {
+      "feature": "Wear OS / mobile-specific behaviors\nWearable and native mobile interactions",
+      "treatment": "Conditional Exclude",
+      "reason": "Desktop web behaviors tested (cf. Desmos \"mobile gestures\")"
+    },
+    {
+      "feature": "Template gallery content\nOfficial template library",
+      "treatment": "Default Exclude",
+      "reason": "Content dataset; template usage flow preserved"
+    },
+    {
+      "feature": "Real task content assets\nReal projects/tasks data",
+      "treatment": "Default Exclude",
+      "reason": "Use synthetic fixture content (cf. Spotify \"Real catalog\")"
+    }
+  ]
+}

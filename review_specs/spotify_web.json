@@ -1,0 +1,294 @@
+{
+  "checklist_id": "spotify_web",
+  "platform": "web",
+  "features": [
+    {
+      "id": "f01",
+      "name": "Search → Play",
+      "steps": [
+        "Enter a track keyword in Search",
+        "Inspect mixed results containing tracks, artists, albums, and playlists",
+        "Select the intended track",
+        "Start playback",
+        "Verify the global player updates with track title, artist, artwork, duration, and progress",
+        "Navigate away from Search while playback continues"
+      ],
+      "expected": "Mixed search results must include tracks, artists, albums, and playlists; selected track starts playback; global player shows title, artist, artwork, duration, and progress; playback continues after navigating away.",
+      "persistence": false
+    },
+    {
+      "id": "f02",
+      "name": "Search Categories",
+      "steps": [
+        "Search for a keyword",
+        "Switch between result scopes such as All, Songs, Artists, Playlists, Albums, Podcasts/Audiobooks where supported",
+        "Open an item from a filtered result",
+        "Return to Search",
+        "Preserve the query and current search context"
+      ],
+      "expected": "Result scopes must filter correctly; opening a filtered item and returning preserves the query and search context.",
+      "persistence": false
+    },
+    {
+      "id": "f03",
+      "name": "Playback Controls",
+      "steps": [
+        "Start a track",
+        "Pause and resume playback",
+        "Seek to another timestamp",
+        "Move to the next or previous track",
+        "Toggle shuffle and repeat",
+        "Continue navigating through Spotify",
+        "Preserve the currently playing track and playback state in the persistent bottom player"
+      ],
+      "expected": "Pause/resume, seek, next/previous, shuffle/repeat must all work; current track and playback state persist in the bottom player while navigating.",
+      "persistence": false
+    },
+    {
+      "id": "f04",
+      "name": "Queue",
+      "steps": [
+        "Start playing a track",
+        "Add another track to the play queue",
+        "Open Queue",
+        "Verify the current track and upcoming tracks",
+        "Advance playback",
+        "The queued track becomes current and the remaining queue updates consistently"
+      ],
+      "expected": "Queued track must appear in Queue; after advancing, it becomes current and the remaining queue updates consistently.",
+      "persistence": false
+    },
+    {
+      "id": "f05",
+      "name": "Create Playlist",
+      "steps": [
+        "Create a new playlist from Your Library",
+        "Open the playlist",
+        "Search for tracks from inside the playlist",
+        "Add multiple tracks",
+        "Verify they appear in the playlist and the library sidebar",
+        "Leave the playlist and reopen it",
+        "Preserve playlist membership and track order"
+      ],
+      "expected": "New playlist must accept multiple added tracks; membership and track order persist after leaving and reopening.",
+      "persistence": false
+    },
+    {
+      "id": "f06",
+      "name": "Manage Playlist",
+      "steps": [
+        "Open an existing playlist",
+        "Edit playlist details where supported",
+        "Remove a track",
+        "Add another track",
+        "Use playlist actions such as privacy/profile visibility where available",
+        "Reopen the playlist",
+        "Confirm the updated metadata and track collection persist"
+      ],
+      "expected": "Playlist edits (details, remove/add tracks, visibility) must persist after reopening.",
+      "persistence": false
+    },
+    {
+      "id": "f07",
+      "name": "Playlist Folder",
+      "steps": [
+        "Create a playlist folder",
+        "Move an existing playlist into the folder",
+        "Return to Your Library",
+        "Expand the folder and reopen the playlist",
+        "Move or remove the playlist from the folder",
+        "Verify the playlist itself remains intact while only its library organization changes"
+      ],
+      "expected": "Folder must contain the moved playlist; expanding reopens it; removing from folder leaves the playlist itself intact.",
+      "persistence": false
+    },
+    {
+      "id": "f08",
+      "name": "Track Library State",
+      "steps": [
+        "Open a track from Search, Browse, or a playlist",
+        "Add/save it to the user's library or liked collection where supported",
+        "Navigate to another surface",
+        "Return to the track",
+        "Saved state remains visible",
+        "Remove it again",
+        "Verify the library state updates without affecting the original catalog item"
+      ],
+      "expected": "Saved state must persist across surfaces; removing updates the library state without affecting the original catalog item.",
+      "persistence": false
+    },
+    {
+      "id": "f09",
+      "name": "Artist / Album Navigation",
+      "steps": [
+        "Open a track",
+        "Navigate to its artist or album through track details/context actions",
+        "Inspect the artist/album content",
+        "Start another track from that page",
+        "Return to the previous surface",
+        "Global playback continues independently from page navigation"
+      ],
+      "expected": "Artist/album navigation from a track must work; starting another track there keeps global playback independent of page navigation.",
+      "persistence": false
+    },
+    {
+      "id": "f10",
+      "name": "Recently Played",
+      "steps": [
+        "Play tracks or playlists from multiple locations",
+        "Open Recently Played",
+        "Verify recently accessed content appears in recency order",
+        "Reopen an item from history",
+        "Continue playback",
+        "Return again and confirm the recent activity state has been updated"
+      ],
+      "expected": "Recently Played must list content in recency order; reopening updates the recent activity state.",
+      "persistence": false
+    },
+    {
+      "id": "f11",
+      "name": "Browse → Playback",
+      "steps": [
+        "Open Browse All",
+        "Enter a seeded category such as Pop, Focus, Workout, Sleep, or Charts",
+        "Open a playlist or album",
+        "Start a track",
+        "Return to Browse",
+        "Open another category",
+        "Current player state remains active while navigation context changes"
+      ],
+      "expected": "Category browsing must open seeded playlists/albums; starting a track keeps player state active while navigation context changes.",
+      "persistence": false
+    },
+    {
+      "id": "f12",
+      "name": "Cross-Surface Music Session",
+      "steps": [
+        "Search for Track A",
+        "Play it",
+        "Add Track B to the queue",
+        "Add Track A and Track C to Playlist X",
+        "Navigate to Browse and start Track D",
+        "Return to Playlist X",
+        "Verify A and C are still present",
+        "Open Queue and verify queue state according to intervening playback actions",
+        "Return to Search or Recently Played",
+        "All library, playlist, queue, and global player states remain mutually consistent"
+      ],
+      "expected": "All library, playlist, queue, and global player states must remain mutually consistent across the multi-surface session.",
+      "persistence": false
+    }
+  ],
+  "exclusions": [
+    {
+      "feature": "Real Spotify music catalog\nDo not require the replica to contain Spotify's real worldwide catalog, exact search ranking, artist popularity counts, release availability, or market-specific catalog state",
+      "treatment": "Exclude",
+      "reason": "External licensed dataset; use a frozen synthetic catalog instead"
+    },
+    {
+      "feature": "Real copyrighted audio streaming\nDo not require full Spotify tracks, DRM, Spotify CDN playback, Premium playback authorization, or Spotify Connect",
+      "treatment": "Exclude",
+      "reason": "Requires licensed audio, account state, and external playback infrastructure"
+    },
+    {
+      "feature": "Real lyrics / synchronized lyrics\nDo not require Spotify's real lyric provider, exact lyric text, or timestamp synchronization",
+      "treatment": "Exclude",
+      "reason": "Copyrighted/external dataset; synthetic fixture lyrics may be used only if playback UI needs testing"
+    },
+    {
+      "feature": "Recommendation / personalization engine\nExclude Discover Weekly, Daily Mix, personalized Home ranking, “Made for You”, recommended tracks, recommendation learning, and user-specific ranking",
+      "treatment": "Exclude",
+      "reason": "Requires large-scale recommendation models and private behavioral data"
+    },
+    {
+      "feature": "Dynamic charts and editorial ranking\nDo not require real Top 50, Viral, trending, new-release, regional chart, or editorial ranking data to match Spotify",
+      "treatment": "Exclude",
+      "reason": "Continuously changing external data; use seeded static category content"
+    },
+    {
+      "feature": "Radio / Autoplay recommendation generation\nExclude generating artist radio, song radio, endless autoplay, recommendation chains, or algorithmic next-track selection",
+      "treatment": "Exclude",
+      "reason": "Recommendation-system dependency"
+    },
+    {
+      "feature": "Music videos / Canvas / video content\nExclude MV playback, Canvas looping video, creator videos, and external video delivery",
+      "treatment": "Exclude",
+      "reason": "Separate media pipeline and licensed video assets"
+    },
+    {
+      "feature": "Podcasts / Audiobooks / Live Events\nDo not require complete podcast, audiobook, concert, or live-event ecosystems unless a separate benchmark explicitly targets them",
+      "treatment": "Exclude",
+      "reason": "Separate product domains rather than the core music-player benchmark"
+    },
+    {
+      "feature": "Premium / Subscription / Billing\nExclude Premium upgrades, trials, plans, billing, checkout, payment methods, subscription state, and plan-specific restrictions",
+      "treatment": "Exclude",
+      "reason": "Commerce infrastructure is unrelated to core music interaction"
+    },
+    {
+      "feature": "Offline download\nExclude downloading encrypted tracks for offline playback, device storage limits, and download synchronization",
+      "treatment": "Exclude",
+      "reason": "Requires native client, DRM, storage, and licensed content"
+    },
+    {
+      "feature": "Spotify Connect / Device handoff\nExclude discovering physical devices, transferring playback between browser/mobile/speaker, remote device control, and multi-device synchronization",
+      "treatment": "Exclude",
+      "reason": "Requires real devices and external Spotify infrastructure"
+    },
+    {
+      "feature": "Social / Friends\nExclude Friend Activity, follower graphs, social presence, listening activity visibility, profile-based recommendation, and friend discovery",
+      "treatment": "Exclude",
+      "reason": "Social graph and multi-user infrastructure"
+    },
+    {
+      "feature": "Collaborative Playlist / Jam / Blend\nExclude real-time playlist collaboration, invitations, shared listening sessions, Blend, Jam, and synchronized multiplayer playback",
+      "treatment": "Exclude",
+      "reason": "Requires multi-user and realtime collaboration infrastructure"
+    },
+    {
+      "feature": "Sharing outside the replica\nExclude external share sheets, social-network publishing, messaging apps, public Spotify URLs, QR/Spotify Codes, and deep-link interoperability",
+      "treatment": "Exclude",
+      "reason": "Third-party integration rather than core app state"
+    },
+    {
+      "feature": "Real artist follow ecosystem\nFollowing an artist may be represented as a local boolean if useful, but do not require real follower counts, artist notifications, fan analytics, or artist-profile social state",
+      "treatment": "Exclude",
+      "reason": "External social/content infrastructure"
+    },
+    {
+      "feature": "Notifications\nExclude release alerts, push notifications, email notifications, followed-artist updates, and notification delivery",
+      "treatment": "Exclude",
+      "reason": "Requires asynchronous notification infrastructure"
+    },
+    {
+      "feature": "Account / Authentication complexity\nDo not benchmark signup, login recovery, MFA, account linking, region migration, password management, account deletion, or session security",
+      "treatment": "Exclude",
+      "reason": "Identity infrastructure rather than music-product behavior"
+    },
+    {
+      "feature": "Desktop application integration\nExclude “Open in desktop app”, installer flows, OS media keys, native Windows/macOS audio enhancements, system equalizer integration, and desktop-specific controls",
+      "treatment": "Exclude",
+      "reason": "Depends on native OS capabilities"
+    },
+    {
+      "feature": "Audio quality / normalization / equalizer internals\nSettings UI may be visually reproduced, but do not require real codec switching, loudness normalization algorithms, EQ DSP, lossless delivery, or hardware-specific audio processing",
+      "treatment": "Exclude",
+      "reason": "Requires real audio pipeline/DSP rather than frontend interaction"
+    },
+    {
+      "feature": "Advertisements\nExclude ad targeting, ad insertion, frequency capping, sponsored recommendations, and ad measurement",
+      "treatment": "Exclude",
+      "reason": "Advertising infrastructure and targeting data"
+    },
+    {
+      "feature": "AI features\nExclude AI DJ, AI Playlist, generated recommendations, conversational music discovery, or any generative Spotify feature",
+      "treatment": "Exclude",
+      "reason": "Requires unavailable model/service dependencies"
+    },
+    {
+      "feature": "Exact Spotify metadata and artwork\nDo not score whether artist biographies, monthly listener counts, album covers, editorial descriptions, credits, or related-MV cards exactly match production Spotify",
+      "treatment": "Exclude",
+      "reason": "Benchmark should evaluate interaction logic, not proprietary content parity"
+    }
+  ]
+}

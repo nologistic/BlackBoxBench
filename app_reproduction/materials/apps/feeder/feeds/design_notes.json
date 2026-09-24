@@ -1,0 +1,36 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "设计手记",
+  "description": "虚构的设计随笔源，用于 JSON Feed 复现测试。",
+  "home_page_url": "https://design.blackboxbench.example",
+  "items": [
+    {
+      "id": "design-note-2026-001",
+      "url": "https://design.blackboxbench.example/spacing-system",
+      "title": "四档间距系统就够了",
+      "content_html": "<p>紧凑、常规、宽松、超宽——四档间距覆盖九成布局场景。</p><p>更细的档位只会带来选择困难。</p>",
+      "date_published": "2026-09-06T11:00:00Z"
+    },
+    {
+      "id": "design-note-2026-002",
+      "url": "https://design.blackboxbench.example/empty-states",
+      "title": "空状态是第一次问候",
+      "content_html": "<p>一个得体的空状态图加一句话，能把流失率降低一截。</p>",
+      "date_published": "2026-09-04T09:40:00Z"
+    },
+    {
+      "id": "design-note-2026-003",
+      "url": "https://design.blackboxbench.example/tactile-feedback",
+      "title": "触感反馈的三种强度",
+      "content_html": "<p>轻点、确认、警告各有对应的震动档位，别混用。</p>",
+      "date_published": "2026-09-02T18:20:00Z"
+    },
+    {
+      "id": "design-note-2026-004",
+      "url": "https://design.blackboxbench.example/dark-themes",
+      "title": "深色主题不是反色",
+      "content_html": "<p>饱和度整体下调、阴影改用光圈，列表分隔线加透明度。</p><p>直接反色的深色主题一眼假。</p>",
+      "date_published": "2026-08-30T08:10:00Z"
+    }
+  ]
+}

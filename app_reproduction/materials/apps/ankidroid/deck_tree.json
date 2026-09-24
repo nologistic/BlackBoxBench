@@ -1,0 +1,37 @@
+{
+  "note": "虚构的牌组层级树。counts.new/learn/due 为当前时刻的示例状态，用于复现牌组树视图与聚合徽标。",
+  "root": {
+    "name": "默认牌组",
+    "children": [
+      {
+        "name": "语言",
+        "children": [
+          {"name": "语言::日语", "children": [
+            {"name": "语言::日语::五十音", "children": [], "cards": {"new": 3, "learn": 0, "due": 0}},
+            {"name": "语言::日语::词汇", "children": [], "cards": {"new": 3, "learn": 0, "due": 1}}
+          ], "cards": {"new": 6, "learn": 0, "due": 1}},
+          {"name": "语言::英语", "children": [
+            {"name": "语言::英语::核心词汇", "children": [], "cards": {"new": 2, "learn": 1, "due": 0}}
+          ], "cards": {"new": 2, "learn": 1, "due": 0}}
+        ],
+        "cards": {"new": 8, "learn": 1, "due": 1}
+      },
+      {
+        "name": "科学",
+        "children": [
+          {"name": "科学::天文", "children": [], "cards": {"new": 3, "learn": 0, "due": 2}},
+          {"name": "科学::化学", "children": [], "cards": {"new": 2, "learn": 0, "due": 0}}
+        ],
+        "cards": {"new": 5, "learn": 0, "due": 2}
+      },
+      {
+        "name": "历史",
+        "children": [
+          {"name": "历史::近代史", "children": [], "cards": {"new": 1, "learn": 0, "due": 0}}
+        ],
+        "cards": {"new": 1, "learn": 0, "due": 0}
+      }
+    ],
+    "cards": {"new": 14, "learn": 1, "due": 3}
+  }
+}

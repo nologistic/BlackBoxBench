@@ -1,0 +1,12 @@
+otpauth://totp/ExampleCorp:linxi@example.com?secret=JBSWY3DPEHPK3PXP&issuer=ExampleCorp&digits=6&period=30
+otpauth://totp/ExampleCorp:momo@example.com?secret=KRSXG5CTMVRXEZLU&issuer=ExampleCorp&digits=6&period=30
+otpauth://totp/CloudStore:beichen@cloudstore.dev?secret=MFRGGZDFMZTWQ2LK&issuer=CloudStore&digits=6&period=30
+otpauth://totp/CloudStore:qiaoqiao@cloudstore.dev?secret=NBSWY3DPFQQFO33S&issuer=CloudStore&digits=6&period=30
+otpauth://totp/PaymentHub:zhouye@paymenthub.io?secret=ONSWG4TFOQQGS4ZA&issuer=PaymentHub&digits=8&period=30
+otpauth://totp/PaymentHub:linxi@paymenthub.io?secret=PAXC432FQQQG65TN&issuer=PaymentHub&digits=6&period=60
+otpauth://totp/DevForge:ayan@devforge.net?secret=QVSWY3DPEHPK3PXQ&issuer=DevForge&digits=6&period=30
+otpauth://totp/DevForge:momo@devforge.net?secret=RJSXG5CTMVRXEZLV&issuer=DevForge&digits=6&period=30
+otpauth://totp/MailGate:beichen@mailgate.org?secret=SFRGGZDFMZTWQ2LM&issuer=MailGate&digits=6&period=30
+otpauth://totp/StreamBox:qiaoqiao@streambox.tv?secret=TBSWY3DPFQQFO33T&issuer=StreamBox&digits=6&period=30
+otpauth://totp/StreamBox:zhouye@streambox.tv?secret=UCSXG5CTMVRXEZLW&issuer=StreamBox&digits=6&period=30
+otpauth://totp/SocialNest:ayan@socialnest.app?secret=VFRGGZDFMZTWQ2LN&issuer=SocialNest&digits=6&period=30

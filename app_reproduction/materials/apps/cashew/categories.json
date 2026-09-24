@@ -1,0 +1,37 @@
+{
+  "note": "两级类别体系：支出大类含子类，收入为单级。transactions.json 引用的类别必须在此定义。",
+  "expense": [
+    {"id": "cat_food", "name": "餐饮", "children": [
+      {"id": "cat_food_grocery", "name": "食材"},
+      {"id": "cat_food_takeout", "name": "外卖"},
+      {"id": "cat_food_cafe", "name": "咖啡"}
+    ]},
+    {"id": "cat_transport", "name": "交通", "children": [
+      {"id": "cat_transport_subway", "name": "地铁"},
+      {"id": "cat_transport_taxi", "name": "打车"},
+      {"id": "cat_transport_fuel", "name": "加油"}
+    ]},
+    {"id": "cat_shopping", "name": "购物", "children": [
+      {"id": "cat_shopping_clothes", "name": "衣物"},
+      {"id": "cat_shopping_daily", "name": "日用品"},
+      {"id": "cat_shopping_electronics", "name": "电子产品"}
+    ]},
+    {"id": "cat_fun", "name": "娱乐", "children": [
+      {"id": "cat_fun_movie", "name": "电影"},
+      {"id": "cat_fun_game", "name": "游戏"}
+    ]},
+    {"id": "cat_home", "name": "居住", "children": [
+      {"id": "cat_home_rent", "name": "房租"},
+      {"id": "cat_home_utility", "name": "水电燃气"}
+    ]},
+    {"id": "cat_health", "name": "医疗", "children": [
+      {"id": "cat_health_clinic", "name": "门诊"},
+      {"id": "cat_health_pharmacy", "name": "药品"}
+    ]}
+  ],
+  "income": [
+    {"id": "cat_income_salary", "name": "工资"},
+    {"id": "cat_income_interest", "name": "理财收益"},
+    {"id": "cat_income_refund", "name": "退款"}
+  ]
+}

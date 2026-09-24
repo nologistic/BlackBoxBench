@@ -1,0 +1,237 @@
+{
+  "checklist_id": "nonogram",
+  "platform": "android",
+  "features": [
+    {
+      "id": "f01",
+      "name": "首页与主要功能导航",
+      "steps": [
+        "启动 App",
+        "显示当前 LEVEL 状态",
+        "分别进入 PLAY、SELECT LEVEL、RANDOM PUZZLE、MULTIPLAYER、HOW TO PLAY、SETTINGS",
+        "返回首页"
+      ],
+      "expected": "首页各入口位置、返回行为、当前 Level 状态；页面之间切换后不能异常重置进度",
+      "persistence": false
+    },
+    {
+      "id": "f02",
+      "name": "固定关卡选择与锁定状态",
+      "steps": [
+        "首次进入 SELECT LEVEL",
+        "仅允许进入已解锁 Level",
+        "点击锁定关卡不能直接开始",
+        "完成当前关卡",
+        "返回关卡选择",
+        "下一关解除锁定"
+      ],
+      "expected": "关卡锁状态是持久状态；初始截图中 Level 1 可进入，其余关卡锁定；完成 Level 1 后必须正确推进到 Level 2，而不是所有关卡直接解锁",
+      "persistence": true
+    },
+    {
+      "id": "f03",
+      "name": "Nonogram 基础棋盘规则与 Fill / Cross 操作",
+      "steps": [
+        "开始一个固定关卡",
+        "根据左侧行提示与顶部列提示判断格子",
+        "选择 FILL 后点击格子进行填充",
+        "切换 CROSS [X]",
+        "标记确定为空的格子",
+        "继续操作直至形成正确图案"
+      ],
+      "expected": "核心业务逻辑。每一行/列提示表示连续填充块；多个数字代表多个独立连续块。需要维护三态：未确定 / Fill / Cross；Cross 不能被当作已填充。",
+      "persistence": false
+    },
+    {
+      "id": "f04",
+      "name": "棋盘线索与完成条件校验",
+      "steps": [
+        "对某行或某列按照 clue 填入对应连续块",
+        "检查该行/列状态",
+        "故意留下缺格、额外填格或位置错误",
+        "不应判定整题完成",
+        "修正所有格子",
+        "自动触发完成状态"
+      ],
+      "expected": "不能仅检查“填了多少格”，必须校验整个最终答案；行列约束和最终隐藏图案应一致；错误布局即使填充总数相同也不能通过",
+      "persistence": false
+    },
+    {
+      "id": "f05",
+      "name": "操作模式与格子状态切换",
+      "steps": [
+        "在同一题目中反复使用 Fill / Cross",
+        "开启 LONG PRESS TO CROSS 后长按格子测试 Cross",
+        "开启 CYCLE MODE 后测试单格状态的循环切换",
+        "关闭设置后重新验证操作方式恢复"
+      ],
+      "expected": "设置必须真实改变棋盘输入逻辑，而不是只有开关 UI；模式改变不能破坏已有棋盘状态",
+      "persistence": false
+    },
+    {
+      "id": "f06",
+      "name": "Undo、Hint 与 Restart",
+      "steps": [
+        "在棋盘连续操作若干步",
+        "点击 UNDO 回退最近操作",
+        "使用 HINT 获取一个有效提示/正确状态",
+        "再进行若干操作",
+        "点击 RESTART",
+        "棋盘恢复初始题面"
+      ],
+      "expected": "Undo 应按操作历史逆序回退；Hint 结果必须与真实答案一致；Restart 清空用户操作但保留当前题目、难度和 clue；计时/步数的重置行为也应一致",
+      "persistence": false
+    },
+    {
+      "id": "f07",
+      "name": "Timer 与 Moves 状态",
+      "steps": [
+        "开始新题",
+        "等待若干时间",
+        "执行 Fill/Cross 操作",
+        "观察顶部 TIME 与 MOVES",
+        "Undo、Hint、Restart 后继续操作",
+        "完成题目"
+      ],
+      "expected": "Timer 从游戏开始持续计时；Moves 随实际操作变化；完成界面应显示最终 MOVES 和 TIME，且与游戏过程一致",
+      "persistence": false
+    },
+    {
+      "id": "f08",
+      "name": "固定关卡完整通关流程",
+      "steps": [
+        "从 Level 1 开始",
+        "完整解开棋盘",
+        "出现 LEVEL COMPLETED!",
+        "显示图案、Moves、Time",
+        "点击 NEXT LEVEL",
+        "自动进入 Level 2",
+        "完成 Level 2",
+        "再验证关卡递进"
+      ],
+      "expected": "这是固定关卡主 E2E。完成后需记录完成状态、解锁下一关；截图已确认 Level 1 和 Level 2 都具有独立完成图案和统计",
+      "persistence": false
+    },
+    {
+      "id": "f09",
+      "name": "通关结果与返回路径",
+      "steps": [
+        "完成关卡",
+        "在完成弹窗验证隐藏图案、步数、时间",
+        "点击 NEXT LEVEL 进入下一关；另一次完成后选择 HOME",
+        "回到首页",
+        "再进入 SELECT LEVEL"
+      ],
+      "expected": "NEXT LEVEL 和 HOME 两条路径状态必须一致；已完成关卡不能因返回首页丢失；BUY ME A COFFEE 属辅助入口，不作为核心 benchmark 功能",
+      "persistence": false
+    },
+    {
+      "id": "f10",
+      "name": "Random Puzzle 五档难度选择",
+      "steps": [
+        "首页",
+        "RANDOM PUZZLE",
+        "打开难度选择",
+        "分别选择 Easy、Medium、Hard、Master、Expert",
+        "每次生成对应随机 Nonogram",
+        "返回并重新选择其他难度"
+      ],
+      "expected": "五种难度必须全部存在。难度变化应真正影响生成题，而不能只是标题变化；应保存当前随机题的难度、clue 与答案状态",
+      "persistence": false
+    },
+    {
+      "id": "f11",
+      "name": "随机 Nonogram 生成逻辑",
+      "steps": [
+        "在同一难度连续生成多道 Random Puzzle",
+        "比较棋盘答案和行/列 clues",
+        "对生成题进行求解",
+        "再生成新题",
+        "验证题面变化"
+      ],
+      "expected": "复现重点之一。生成时需先得到有效答案网格，再由答案正确计算所有行/列连续块 clues；生成结果必须可以按 displayed clues 得到合法完成状态，不能生成与 clues 不一致的棋盘",
+      "persistence": false
+    },
+    {
+      "id": "f12",
+      "name": "Expert 最高难度完整解谜",
+      "steps": [
+        "RANDOM PUZZLE",
+        "选择 EXPERT",
+        "进入最高难度题目",
+        "根据复杂多段行/列 clue 持续 Fill/Cross",
+        "必要时使用 Undo",
+        "完成整个棋盘"
+      ],
+      "expected": "最高价值推理 Task。截图中 Expert 已出现 12×12 棋盘，行列存在大量多段 clue，例如 2 3 1 2、1 3 1 1 等；需要跨行列持续约束传播、维护大量中间状态和全局一致性",
+      "persistence": false
+    },
+    {
+      "id": "f13",
+      "name": "不同难度随机题行为一致性",
+      "steps": [
+        "分别完成 Easy / Medium / Hard / Master / Expert 中的题目",
+        "检查五档均使用相同基础规则、完成判定、Moves、Timer、Hint、Restart",
+        "比较不同档题面复杂度"
+      ],
+      "expected": "核心规则在所有难度下必须统一；难度只能改变题目规模/复杂程度等生成参数，不能造成规则不一致；尤其需要验证 Expert 并非单纯放大 UI",
+      "persistence": false
+    },
+    {
+      "id": "f14",
+      "name": "How To Play 教程",
+      "steps": [
+        "首页",
+        "HOW TO PLAY",
+        "浏览 4 个规则模块：Reveal the Picture",
+        "Read the Clues",
+        "Mark Blank Spaces",
+        "Complete the Grid",
+        "返回首页"
+      ],
+      "expected": "正确展示 Fill、空白/X、行列 clues 与完成目标；教程页面的布局、图标、文字层次和滚动状态属于视觉复刻要求",
+      "persistence": false
+    },
+    {
+      "id": "f15",
+      "name": "Settings 基础游戏设置",
+      "steps": [
+        "首页",
+        "Settings",
+        "切换 HAPTIC FEEDBACK、LONG PRESS TO CROSS、CYCLE MODE",
+        "返回游戏",
+        "实际进行对应输入操作",
+        "再进入设置确认状态"
+      ],
+      "expected": "设置需要持久保存；Haptic 对应触摸反馈；Long Press 与 Cycle Mode 需要真实影响棋盘输入行为，而不是静态 switch",
+      "persistence": true
+    },
+    {
+      "id": "f16",
+      "name": "Reset Progress 全局进度重置",
+      "steps": [
+        "先完成至少两个固定关卡",
+        "确认下一关已解锁",
+        "Settings",
+        "RESET PROGRESS",
+        "执行重置",
+        "返回首页和 Select Level"
+      ],
+      "expected": "应清除固定关卡完成/解锁进度，并恢复初始 Level 状态；不能把应用设置、随机开关等无关状态一起错误清掉，除非目标 App 的可观察行为如此",
+      "persistence": false
+    },
+    {
+      "id": "f17",
+      "name": "中途退出与关卡状态恢复",
+      "steps": [
+        "开始固定/随机题",
+        "填写部分格子",
+        "返回上一页或 Home",
+        "再次进入 PLAY / 对应关卡",
+        "检查题目及进度状态"
+      ],
+      "expected": "测试生命周期和状态持久化。需要根据实际 App 行为正确实现",
+      "persistence": true
+    }
+  ]
+}

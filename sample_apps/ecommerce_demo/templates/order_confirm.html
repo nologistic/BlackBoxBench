@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Order #{{ order.id }} - Nimbus Market{% endblock %}
+{% block content %}
+<h1 class="confirm-title">Order confirmed</h1>
+<div class="order-meta">Order #{{ order.id }} &middot; Thank you, {{ order.shipping.name }}.</div>
+<table class="data-table confirm-table">
+  <tr>
+    <th style="width:50%">Product</th>
+    <th style="width:15%">Unit price</th>
+    <th style="width:15%">Quantity</th>
+    <th style="width:20%">Subtotal</th>
+  </tr>
+  {% for item in order["items"] %}
+  <tr>
+    <td>{{ item.name }}</td>
+    <td>{{ item.price_cents|money }}</td>
+    <td>{{ item.qty }}</td>
+    <td>{{ (item.price_cents * item.qty)|money }}</td>
+  </tr>
+  {% endfor %}
+</table>
+<div class="cart-footer">
+  <div class="coupon-box">
+    <div class="coupon-hint">Ship to: {{ order.shipping.name }}, {{ order.shipping.address }}, {{ order.shipping.city }} {{ order.shipping.zip }}</div>
+  </div>
+  <div class="totals">
+    <div class="totals-row">Subtotal <span class="amount">{{ order.subtotal_cents|money }}</span></div>
+    {% if order.discount_cents %}
+    <div class="totals-row">Discount{% if order.coupon %} ({{ order.coupon }}){% endif %} <span class="amount">-{{ order.discount_cents|money }}</span></div>
+    {% endif %}
+    <div class="totals-row grand">Total <span class="amount">{{ order.total_cents|money }}</span></div>
+  </div>
+</div>
+<div class="confirm-footer">
+  <a href="/">Continue shopping</a>
+</div>
+{% endblock %}
