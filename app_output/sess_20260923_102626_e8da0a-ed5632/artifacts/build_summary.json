@@ -1,0 +1,9 @@
+{
+  "apk": "artifacts/app-debug.apk",
+  "bytes": 9968309,
+  "sha256": "8fd82e5823f681261b58008285ff03eef0550dab441657e9457877e23af120f7",
+  "project_sha256": "8845c86b23c6955f34508749a682668fcba7fa00ab78d884508a1fff5be7a883",
+  "signature_verified": true,
+  "benchmark_certificate_sha256": "7ac18a28de25aa3e94c3729b699ec5e040d54dc5eb1ed7427058f79f55d2067f",
+  "declared_permissions": []
+}

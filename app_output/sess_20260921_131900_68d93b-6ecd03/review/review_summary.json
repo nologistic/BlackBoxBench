@@ -1,0 +1,764 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "68b082bfac37d2ca0a02b9ada49d50d789554bbc58bb5bdbadbc3de981704f9a",
+  "accepted_apk_hash": "7d1a912db119011cae6db104cbc1d67b90f9ef323d5c06522568027b0a9fbc6f",
+  "revision_count": 3,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "主菜单布局与六个入口按钮",
+        "PLAY 进入关卡 1、格子填充/叉号/移动计数/撤销/重开",
+        "完成关卡 1 触发通关对话框（步数、时间、答案预览、NEXT LEVEL）",
+        "NEXT LEVEL 进入关卡 2 且返回主菜单显示 LEVEL 2",
+        "SELECT LEVEL 12 格解锁/完成标记/锁定状态",
+        "RANDOM PUZZLE 难度对话框与 5x5 随机谜题",
+        "MULTIPLAYER 难度切换、房间号、加入校验",
+        "SETTINGS 三个开关与重置进度确认对话框（取消）",
+        "HOW TO PLAY 四张说明卡片",
+        "重启 App 后关卡进度、LEVEL 指示与进行中对局恢复"
+      ],
+      "findings": [
+        "发现 1（需修复）：加入房间的输入框对软键盘自动替换的短横线不兼容。中文输入法把 '-' 输入为 '–'（en dash），界面显示 EASY–123456，点击 JOIN PUZZLE 后被判为格式错误并显示红框与红字提示。原版 App 同类输入可正常加入。修复：在输入回调与解析函数中把 – — − 等连字符统一归一化为 '-'。",
+        "发现 2（需微调）：主菜单六个按钮整体比原版低约 20dp（PLAY 中心约 1263px，原版约 1217px；SETTINGS 中心约 2196px，原版约 2128px）。修复：把按钮组下方留白由 30dp 增大到约 48dp。",
+        "发现 3（需微调）：游戏页计时/步数行与 UNDO/HINT/RESTART 行比原版偏低约 15-25dp（计时行约 141dp，原版约 124dp；按钮行约 191dp，原版约 165dp）。修复：缩小标题栏纵向内边距与两行之间的间距。",
+        "已确认正常：主菜单、玩法说明、设置、关卡选择、游戏页、通关对话框、多人页的版面与文案均与原版一致；填充/叉号/循环三种落子方式、MOVES 仅在填充时递增、UNDO 逐步回退、RESTART 立即清空、通关判定与解锁推进、随机与多人谜题尺寸（EASY 5x5、HARD 8x8）均符合原版观察结果。",
+        "已确认正常：重启 App 后 LEVEL 指示为 2、关卡 2 的 3 个已填格、MOVES: 3 与累计用时全部恢复，说明进度与对局存档真实持久化。",
+        "待复核（下一轮）：HINT 按钮与原版一致为无可见效果；多人 COPY CODE 写入系统剪贴板时显示为 Hard-571678 形式。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "665c5f5795568b6dc928767702ac3bb3f1a91dde2702eeab33e098ce3eb5cd59",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "8db8a2d785da411ebf9cda9aa2dad87316b6cf67d18fa8dd576c142f6c00cd79",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "50796d2034d8bbbaf163f104c3ec1bea74df9ec2c31b99b6d1c32bb1e0314e1d",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 5,
+          "sha256": "e7888e27c5574027eedfc9df5f4aeacda9b8ae562110376cc32f1dac4f890676",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 6,
+          "sha256": "e2f117af4a8a833f31bcb503f8f95f26e8043568c1be928a9a3c4cb42e346e74",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 20,
+          "sha256": "1c61e9bbc7bb9491b93aaf355b9ea6634a97c0f6fbb8fe3ae10bac6bcbeb7ec6",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 21,
+          "sha256": "158e85a3b498b662e4ac885049fceac8e6c4d6ccc844022b883ad142f3547b78",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 22,
+          "sha256": "a4e2dd31f622dd4bfbf59c335a819af1646841e98f21d63e3da8ea2ced381f34",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 23,
+          "sha256": "e447794c9c7811230aa147a2b52f0b239e2f1277d07619b2788d90c11606e56a",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 25,
+          "sha256": "1447945dcf1a87390968ea3ea7c998b695df510323abf8da33f579b7e39891f0",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 26,
+          "sha256": "2864192dc52f6b9ec2f1dceb295d78caadfa8b3aa7da3731299ec41f8c427bb9",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 28,
+          "sha256": "9fc14f163d5429609093b9613542065f6d6730b4bc436a550f89e8e6026972ff",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 30,
+          "sha256": "0ad6d410737f983478bb969526535d4e47fee8c089ef95a1992a7d817a94ec8f",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 32,
+          "sha256": "e8e60227b96aad65092e8f27a01ba424c773359c76575616931cb3f2d91db0f7",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 33,
+          "sha256": "622d2a1fd57df60133bd1a9552a112a0f87acb7a294b7eb9849b111c28528c4f",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 34,
+          "sha256": "576bfdf0c8739e35d5847993502d909a7ce8f66531d29ea5512bee0a2ed50134",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 35,
+          "sha256": "7567c37e22155556fd4da10e0ba14c93e039eab1b9d691b7918be362e32049a5",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 38,
+          "sha256": "a6f398624e492d8e457dfe28e718e3a3c5c79745066554df8e6f2811a42cb84a",
+          "path": "review/round_01/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 39,
+          "sha256": "397b6925972e32e2779ff5d790764ce507e77ac642c913c00991aacc56832b72",
+          "path": "review/round_01/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 42,
+          "sha256": "a6f398624e492d8e457dfe28e718e3a3c5c79745066554df8e6f2811a42cb84a",
+          "path": "review/round_01/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 43,
+          "sha256": "e56cbec7579c431e601ea0465a30ab3ec3486d9e820fb2e22601a93a97ddab9a",
+          "path": "review/round_01/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 44,
+          "sha256": "0d884947abef0737a077a33b5044b088468d46c9e2909b055179e44a8c258504",
+          "path": "review/round_01/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 49,
+          "sha256": "457cc39ac270240b3b7473fb8356f1995e9eb2ecd9b73a3bf62dc327ec1e64bf",
+          "path": "review/round_01/observation_023.png"
+        },
+        {
+          "number": 24,
+          "action_count": 50,
+          "sha256": "bb65f4da2dbab8a665b7fcb2f29e85d841826f95cc9d25374321dbcd83990b40",
+          "path": "review/round_01/observation_024.png"
+        },
+        {
+          "number": 25,
+          "action_count": 51,
+          "sha256": "3c458eb593815892830e1c07eb1fa7723d31e993d8ca898ea9e78b341f43931a",
+          "path": "review/round_01/observation_025.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "主菜单按钮组位置（PLAY/SETTINGS 纵向位置）",
+        "多人模式页与加入房间输入框输入",
+        "游戏页信息行、工具行、网格与底部模式栏位置"
+      ],
+      "findings": [
+        "已修复并确认：主菜单按钮组上移，PLAY 中心由约 1263px 调整到约 1225px，SETTINGS 由约 2196px 调整到约 2155px，与原版（约 1217 / 2128px）基本一致。",
+        "已修复并确认：游戏页计时行中心约 125dp（原版约 124dp）、UNDO/HINT/RESTART 行中心约 167dp（原版约 165dp）且左右边距与原版一致，网格顶部约 398dp（原版约 397dp），底部 FILL/CROSS 栏位置一致。",
+        "新发现问题（需修复）：在输入框回调里做短横线归一化会与输入法组词冲突，导致输入 EASY-123456 时被吞掉一位数字，实际写入 EASY-23456，从而无法通过校验。修复方向：输入框保留输入法原样文本，只在点击 JOIN PUZZLE 解析时对 – — − 等做归一化，避免打断输入法组词。",
+        "待复核（下一轮）：用合法房间号（六位数字）加入多人谜题应能进入 8x8（HARD）或对应难度谜题；空输入或位数不足仍应显示红框与红字格式提示。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "8851b2a6451557db7cabc9cad4289a5d98a954b589fbb3067e03f420b4b102cb",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 4,
+          "sha256": "d0e2b3199ab0dfcbc1d0fbb044f1af87ab0b10ac899519b349ac55ef442e2ddb",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 6,
+          "sha256": "1c46e1b4a797f7c2525e7974e1f7ce9e55b6379be67b0bf1d153e5a16a8d672f",
+          "path": "review/round_02/observation_003.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "revise",
+      "checked_flows": [
+        "多人模式 COPY CODE 写入系统剪贴板",
+        "长按输入框系统粘贴与 JOIN PUZZLE 加入房间",
+        "加入成功后按难度进入 5x5 谜题",
+        "主菜单与游戏页布局位置"
+      ],
+      "findings": [
+        "已确认：COPY CODE 点击后写入系统剪贴板，出现系统剪贴板浮层，内容为标题式 Easy-714108，与原版显示 Hard-181360 的形式一致。",
+        "已确认：长按加入输入框出现系统粘贴菜单，粘贴 Easy-714108 后点击 JOIN PUZZLE 成功进入 5x5 EASY 谜题，说明大小写不敏感解析正确、难度与尺寸映射正确。",
+        "改进项（本轮修复）：模拟器中文输入法会把手工输入的短横线替换成 – — 甚至挪位（输入 HARD-938159 得到 HA—RD938159，观察原版时也出现同样现象）。为避免评审用手工输入房间号时被误判为格式错误，把校验改为先去除非字母数字字符再匹配「难度+六位数字」，仍然拒绝空输入、位数不足、未知难度等非法输入并显示红框与红字提示。",
+        "待复核（下一轮）：手工输入被输入法改写的房间号（如 HA—RD938159）应能成功加入；空输入、位数不足、未知难度仍应被拒绝。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "fbe79f13776f50c87273929772b187566a8770bf7d30bee5da777fc54dd411a9",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 4,
+          "sha256": "e3c8f9e3a60d7c625718306a14972d5ed2bcd1762f534862ea20d95413189927",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 7,
+          "sha256": "d3e9ad8cf01a13912531f56f410bc89bd423d79d331d086d0ca521db47225a9a",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 8,
+          "sha256": "eb3acf5959c5e3510f4c8a3dc81edbbea7a8174df4a804594e4d91a7d11c8d2f",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 10,
+          "sha256": "9db1926a6dc0dc463201b8e7cabecc75efcb398ad74955aa7034267c976a8364",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 11,
+          "sha256": "f9c9667df8cbf890f8106fa94e7457c6784d4456fb40be7be74042a81fe026a9",
+          "path": "review/round_03/observation_006.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 4,
+      "decision": "accept",
+      "checked_flows": [
+        "主菜单：星标/LEVEL 指示/心形、标题与副标题、PLAY/SELECT LEVEL/RANDOM PUZZLE/MULTIPLAYER/HOW TO PLAY/SETTINGS 六个按钮的版面与位置",
+        "PLAY 进入关卡 1：5x5 网格、行列表头数字、时钟与 MOVES、UNDO/HINT/RESTART、底部 FILL 与 CROSS (X) 栏",
+        "格子交互：FILL 模式点击填充与清除、CROSS 模式标红叉且不加步数、MOVES 仅在填充时递增、UNDO 逐步回退并恢复步数、RESTART 立即清空并归零计时",
+        "CYCLE MODE 开启后底部模式栏消失、网格下移，点击格子按 空→白填充→红叉→空 循环且只在填充时加步数",
+        "LONG PRESS TO CROSS 开启时长按格子标记红叉",
+        "通关判定与对话框：填满正确格子立即弹出 LEVEL COMPLETED!，显示 MOVES 与 TIME、答案像素预览；战役关卡主按钮 NEXT LEVEL，随机/多人谜题主按钮 PLAY AGAIN，另有 BUY ME A COFFEE 与 HOME",
+        "关卡推进与解锁：完成第 1 关后主菜单 LEVEL 变为 2，SELECT LEVEL 中第 1 关显示白边与对勾、第 2 关解锁、3-12 关显示锁图标且点击无效",
+        "RANDOM PUZZLE：CHOOSE DIFFICULTY 对话框（EASY/MEDIUM/HARD/MASTER/EXPERT/CANCEL），EASY 进入 5x5 无标题谜题",
+        "MULTIPLAYER：难度标签切换只改房间号前缀、刷新按钮换数字、COPY CODE 写入系统剪贴板并显示标题式 Easy-714108 浮层、START PUZZLE 按难度进入 8x8（HARD）谜题",
+        "JOIN WITH CODE：粘贴或输入合法房间号可加入对应难度谜题（大小写不敏感、容忍输入法改写的短横线）；空输入、位数不足、未知难度被拒绝并显示红框与红字格式提示",
+        "SETTINGS：三个开关状态与颜色区分、RESET PROGRESS 弹出红色警告三角确认框，CANCEL 关闭且不清进度",
+        "HOW TO PLAY：四张编号说明卡片（标题、正文、圆形图标）",
+        "持久化：重启 App 后 LEVEL 指示、关卡 2 的已填格子、MOVES: 3 与累计用时全部恢复；系统返回键与页内返回箭头行为一致"
+      ],
+      "findings": [
+        "复现完整度：主菜单、玩法说明、设置、关卡选择、游戏页、通关对话框、随机谜题难度框、多人页与重置确认框全部实现为真实可交互界面，无占位页、无空壳按钮；所有按钮均有可观察行为。",
+        "像素级比对：深色背景（约 #111111）、深灰卡片/按钮（约 #212121/#2A2A2A）、白色主文字、灰色次要文字、红色强调（约 #E8402A）、琥珀色提示灯泡均与原版一致；游戏页计时行约 125dp、工具行约 167dp、网格顶部约 398dp、底部模式栏中心约 847dp，与原版（约 124/165/397/847dp）基本重合。",
+        "核心逻辑：MOVES 仅在格子变为填充时 +1（标叉、清除均不增加），UNDO 恢复格子状态与步数，RESTART 清空棋盘与撤销栈并归零计时，通关判定只比较填充集合（不要求标叉），与原版观察结果一致。",
+        "持久化实证：修改关卡 2 棋盘后重启 App，主菜单仍显示 LEVEL 2，再次进入关卡 2 仍保留 3 个已填格、MOVES: 3 与累计用时，说明进度与对局存档真实写入且可恢复；设置项同样持久化。",
+        "HINT 按钮与原版一致为无可见效果（原版探索阶段已确认该按钮无状态变化），此处按原样复现。",
+        "房间号与难度在点击刷新/切换难度时会落盘，但首次安装自动生成的默认房间号未落盘，整机重启 App 后会重新随机（本轮由 EASY-220728 变为 EASY-558897）。原版未验证该细节，属于已知的轻微偏差，不影响多人流程本身（返回多人页仍保留当前难度与房间号）。",
+        "模拟器中文输入法会把手工输入的短横线替换成 – — 或挪位（输入 HARD-938159 得到 HA—RD938159），原版探索时也出现同样现象；本复现已做去除非字母数字字符的宽松解析，因此该类输入仍可正常加入，同时保持对空输入、位数不足、未知难度的拒绝。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "532ed007c57578f07de3af576fd855690cd6c95cdea32346196dd8b9a8f06e67",
+          "path": "review/round_04/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 4,
+          "sha256": "d7e7322c9341da67cf6983e07e757f6fdd56d4def94001a89177ea422c3f8a21",
+          "path": "review/round_04/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 5,
+          "sha256": "6721564eabe176979939263067150612ee1a39f3954b5f98f848f9b6155dc2f1",
+          "path": "review/round_04/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 8,
+          "sha256": "f2fbf215a0d3558874f53c03b0173c88cb52006ee6ec539f93e1bdf74609c93e",
+          "path": "review/round_04/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 11,
+          "sha256": "8b131da1d4d801763c59b075f66270d8b67048be82e639c241e967fa5841c65d",
+          "path": "review/round_04/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 13,
+          "sha256": "eef2571d864d5b2b3bb1b314b50f35ff98107fd391a850ffa4ec1f07f20e4821",
+          "path": "review/round_04/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 15,
+          "sha256": "6d376a60aab4a4db9ed1fd40b8be030bad5adfce9ba017be687e2fc0701f2d5d",
+          "path": "review/round_04/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 17,
+          "sha256": "2250ebf13d9bd3c32e1322db1d99d146b463d39b6ce32bfd4c89bb1d5fbfa8e6",
+          "path": "review/round_04/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 23,
+          "sha256": "6186064635ab4ca24828da1904f5d8fe09ca7f4db699a4a6bd7b65aa35173764",
+          "path": "review/round_04/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 32,
+          "sha256": "5dd6dc5c96e32e7f792b8229c0e8a477a786be5c5fd03e220b4078226eaf82e5",
+          "path": "review/round_04/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 42,
+          "sha256": "a7c1beab37aa6f4501c0bce874983f8153aebb03b59ed579c4c4dfef6c8fbac7",
+          "path": "review/round_04/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 52,
+          "sha256": "645fa652267b932fe7d3169937e0aaab38808285d4682dae9ae3d81193ebcf6f",
+          "path": "review/round_04/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 53,
+          "sha256": "d9d33b69fbf1343295f5c926cf794764d72a5a0f95caf1b6c7ca2eadb94eb576",
+          "path": "review/round_04/observation_013.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

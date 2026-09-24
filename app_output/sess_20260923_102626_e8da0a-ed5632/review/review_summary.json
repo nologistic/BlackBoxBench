@@ -1,0 +1,665 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "8845c86b23c6955f34508749a682668fcba7fa00ab78d884508a1fff5be7a883",
+  "accepted_apk_hash": "8fd82e5823f681261b58008285ff03eef0550dab441657e9457877e23af120f7",
+  "revision_count": 2,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "Easy: first tap reveals with flood fill and starts the count-up timer (red LED)",
+        "Long-press on a covered tile toggles an orange flag and decrements the mine counter",
+        "Medium tab: 13x14 board, counter 030, amber 05:00 countdown display",
+        "Custom Game dialog: grid size slider (5x5) auto-clamps mines to 16 (64%), mines slider, fog / safe-first-tap switches, Cancel and Start",
+        "Fog of war game: digits fade to violet tiles about 20s after reveal while empty cells stay dark",
+        "Win: green 'You Win!' banner, sunglasses face, all mines auto-flagged, counter 000, timer stopped",
+        "Loss: 'Game Over' banner, X-eyed face, exploded mine in bright red with starburst, all other mines revealed on dark red tiles",
+        "Licenses dialog: monospace scrollable notice with pinned teal Close button"
+      ],
+      "findings": [
+        "Mine percentage in the Custom dialog rounds up (40/256 shown as 16%) while the observed app truncates (15%); switch to floor.",
+        "Top bar sits higher than the observed layout: the counter/timer/face row should be pushed down by roughly 16-20dp so the tabs land just under it.",
+        "Covered tiles use a slightly larger corner radius and a lighter gradient than the observed bevel; tighten radius and darken.",
+        "Easy tab bomb glyph renders without a visible fuse and the Custom tab gear reads like a sun; both need a clearer glyph.",
+        "The review device stopped responding right after tapping the Easy tab at the end of this round (DeviceError: target App could not be relaunched), so tab switching back to Easy still needs re-verification in the next round."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "wait"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "8149c0cdc71877bc1287f5e10044d1e82e938b632038343ffb98af78b403cd5d",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "8d6c1b0f733617a5f84c5c708d66a14015d071370c4dac9c86880a3a2d3d9f03",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "ae7116573074a947ff59a93803c8b3c7e54606546028c79dce331737df926ed3",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "909ada05f15178b86a5b0838d5f54073cd47eef2ac1e6f09bdf147db282fedff",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "f3da0a31d8df75634abee411f201ed0169b6304255dd680f41a798715a36912d",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "f7d8eb47bdb7419af56c7d6fe6533df5ac4ad6c956996e17736832f3b13a97b6",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 6,
+          "sha256": "ae57c23cff8194629e4f7162c95e9c4a7f79c41bea04ffa5d7e2ef74a2411a47",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 7,
+          "sha256": "096db2e94183b819dd3529adffed50397b515f8646ee445afd16283f4ed3a597",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 8,
+          "sha256": "f784ad866f397f79abbc3b0050d71d7ac4a060400b0df10b400911032d0c766d",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 10,
+          "sha256": "8817a79433b9e8042a977ecf9cf392322f674b1624c758b628d78612d6df48f3",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 11,
+          "sha256": "25af94cec7c7b6f7f0eb851ebd65217848666442fe7c3e53f4a1c957644c4502",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 12,
+          "sha256": "bc9cdd382017c9bffd1b11109228ee8a93b009554862c7a9913fa89253b52151",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 13,
+          "sha256": "9cab26da1a23765d920f7ba59780dbc7144f8c8e5044ad966eeb0954ced1073d",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 14,
+          "sha256": "ce7d3ff9034398ad7d52008df9e42a3bfb56ef1049e6639c99a783de6773f41c",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 16,
+          "sha256": "d78ec2b280f88f7bfe96e83b416636c4f9da6d54f042babd7aadd3d15caf7daf",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 18,
+          "sha256": "36fc9367a51acf3f07c423a55ef34084ad6e6ace08adffb2901417b0031d5def",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 19,
+          "sha256": "7b2f85942e78396a8982687916b799506224e3c358bfc6102b082df47aa0c20d",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 20,
+          "sha256": "aab6a04be188722aee95e52c7ed1e9bfb56745f66a35faa2bbb0e4c4a1c50b14",
+          "path": "review/round_01/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 23,
+          "sha256": "0c17a022897e7d2f654c0bebcef1fa4aa7c9c3516cde2e6a6da9abd9310a6ec1",
+          "path": "review/round_01/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 25,
+          "sha256": "8ea24cf9c8e3a787c08d7ffa06128967e300d06bbf34e78b01e9581db81f0cbf",
+          "path": "review/round_01/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 26,
+          "sha256": "5548e551b7f2f879912eef83d0ea6e5cf88b5518b2fd45b79390ecaa82b2111a",
+          "path": "review/round_01/observation_021.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "Layout after revision: top bar / tab row / board / Licenses vertical positions now line up with the observed app",
+        "Custom Game dialog: grid slider 9x9, mines slider 20 -> '(24%)' confirming truncated percentage",
+        "Custom 9x9 / 20-mine board: first tap flood-reveals with 1 blue, 2 green, 3 red and 4 purple digits",
+        "Custom 9x9 / 2-mine board: first tap cascades to a win with green banner, sunglasses face, mines auto-flagged, counter 000",
+        "Easy preset board: long-press on a covered tile places a flag and decrements the counter 010 -> 009",
+        "Covered tile styling after revision: darker slate gradient with a tighter corner radius",
+        "Tab glyphs after revision: Easy bomb with fuse, Custom gear"
+      ],
+      "findings": [
+        "Defect: after the first tap on a freshly created custom board (reproduced on 5x5/2-mine and 9x9/20-mine), the board stops accepting touches - further taps on covered tiles and long presses both do nothing while the tab row, face button and dialogs stay responsive. The Easy preset accepted a tap followed by a long press, so the per-cell pointerInput nodes are the suspect.",
+        "Planned fix: replace the 25-289 per-cell pointerInput handlers with one board-level pointerInput that maps the touch offset to a row/column, which also removes any dependence on cell size.",
+        "Also confirmed in this round: mine percentage is now truncated (20 of 81 shows 24%, not 25%)."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "d4a2539832186976822c8a9fcf529b8318b3447ceead659e981bd8e1b5999f58",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "efcf44b876fc71d9a0d7a5e050730805bd9a6d8c741f9e47e9674e2ad77160a9",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 5,
+          "sha256": "06f761022829f3aa16904b9cc63fa0b284056d61646db0d005dd2847d71eece8",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 7,
+          "sha256": "2447d46c11ee91b9b71b46b6920a0c3daac31628fe1b2f1f82f68e7b62425434",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 9,
+          "sha256": "656de3ea36e1605a68bcadaefe17a5f3d3430ce8903357cc13485985cd45d151",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 11,
+          "sha256": "b7b4a5388575ddd8db1c4459e4a02457ec121e4e2bd7fed03120e1641f53f091",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 12,
+          "sha256": "474aa7d6aaa258ac257bf1cd382d36b07a78bbb34439fbfd282989588e533555",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 13,
+          "sha256": "41c64e7e3d59cedef61e19c89ea120ec1062e9395b9c8b5aee9844a87392723f",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 14,
+          "sha256": "bc8b8c7ce2e2ad125d59271fb78e8ca0be392ce95d075cb8b001360ef099b6e6",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 16,
+          "sha256": "d60a2791384c6895a17a56ae3a69b5fee3d64536f3164a636cdd1d9e2bd0bd69",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 17,
+          "sha256": "b2698de1a4fdf294a00c6912901fae4e58cfec67ac9c046ebab82662e132e6d9",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 18,
+          "sha256": "72685841f4c678f8b0f40eb25f379831bd65917cb8ff2f6b69403783daea4fff",
+          "path": "review/round_02/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 20,
+          "sha256": "2d7a7b481ce7965d1dec9aa1e3363d80f5b3309706abcec93684b0196e295e61",
+          "path": "review/round_02/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 24,
+          "sha256": "2ee6164ca659067dd85fbbe9b1b8e299a60e95eff44b3a3c68920fc3c6fecb08",
+          "path": "review/round_02/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 25,
+          "sha256": "e01d99d8fb3fe49ec97359f1fe9aa9fb0f72b68450ecefeff90c4d40ee86fcd7",
+          "path": "review/round_02/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 26,
+          "sha256": "f096e4514519d9c2627d80db16b96f2bed969c22682ae1edd0fdc2a5d103f056",
+          "path": "review/round_02/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 28,
+          "sha256": "46c6e5121def41ab5f8110e178ebc842960b44040f15d5d9316a98ca40be4ef8",
+          "path": "review/round_02/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 31,
+          "sha256": "f2b3be0312aecd3adb67707d427b73fc5327e731dee5a90596b7b47d2375018a",
+          "path": "review/round_02/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 33,
+          "sha256": "ce6764e1e9a38d9d831cc77375eab4a6f6dc0c767bcb4b5fbad260f289d09cda",
+          "path": "review/round_02/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 36,
+          "sha256": "eae8ed9b776563c36049d8ce402d801141a9f6f14672d19d61e1aeef96cac5aa",
+          "path": "review/round_02/observation_020.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "accept",
+      "checked_flows": [
+        "Easy board: four consecutive board gestures (two taps, a long-press flag and another tap) all register after the gesture-handling rewrite",
+        "Long-press flag toggles the orange flag and decreases the mine counter 010 -> 009, remaining flags stay consistent after a loss (10 mines, 3 flags -> 007)",
+        "Chording: tapping a revealed '2' with two adjacent flags reveals the remaining covered neighbour; when a flag was wrong the uncovered mine explodes with a starburst and the round ends with 'Game Over', X-eyed face and every mine revealed",
+        "Custom Game dialog: grid slider 5x5, mines slider 3 -> '3 (12%)', fog and safe-first-tap switches, Cancel/Start",
+        "Custom 5x5 / 3-mine board: first tap cascades, then a long-press flag and a further tap both work (previously the board stopped responding)",
+        "Custom 5x5 / 16-mine board: first tap wins the round, all mines auto-flagged, counter 000, green 'You Win!' banner, sunglasses face",
+        "Hard tab: 16x17 board, counter 050, amber 03:00 countdown; digits fade to violet tiles about 20s after reveal while empty cells stay dark",
+        "Restart: app relaunches into a fresh Easy game (counter 010, 00:00, Easy tab) - no persistence, matching the observed app",
+        "Licenses dialog opens from the bottom label with monospace scrollable notice and a pinned teal Close button"
+      ],
+      "findings": [
+        "Board gestures now use one board-level pointerInput that maps the touch offset to a row/column, so a freshly created board keeps accepting taps and long presses - the earlier 'board stops responding after the first tap' defect is fixed.",
+        "Digit fade timing is wall-clock based, so on the slow emulator the violet fade can appear a few seconds after the 20s mark; behaviour itself matches the observed app (only digit cells fade, empty cells stay dark).",
+        "No private or session data exists in the project or APK: the app declares no permissions, has no network use and its only text content is the licence notice."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "restart_app"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "46ef64a8b49552fe215c8fafcb943339e4d76004448f5a58459a749e2544c90b",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 4,
+          "sha256": "0c3d521e6ad58a17f9722a71e0f2e2d5ba8ae62082d26af922d94318364dbe01",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 7,
+          "sha256": "4333ca092878de0288320e5525721cec5775c2a194f31ce644aec270cc03de96",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 13,
+          "sha256": "04b89eb65223986a5afb7dc0b761f85a785f4bca792b29f54f9474ec974177e3",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 15,
+          "sha256": "7c942ddd2f0e7969b21c11875a7ae9a1a21132c2eb3c094ea1d515b418d6a9ad",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 19,
+          "sha256": "50a78d8265cf9ca6e5b056aa40a849302d5d16fa189fa8b85bf001a379d43c3f",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 20,
+          "sha256": "a901a8b4568f5bba4d631d15e9470118a10394415a749f7431c51fd479cb341a",
+          "path": "review/round_03/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 22,
+          "sha256": "f0fb35d6839791ee94848ca161a0fb20e64500558eebb027bfe625af8d670302",
+          "path": "review/round_03/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 23,
+          "sha256": "5e35ecf1862d2ffde66b8a7c652aa107f860813c1be714d365e65fa255355584",
+          "path": "review/round_03/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 24,
+          "sha256": "2b40b305cdd6b3bf5178ae3480b50be2ba30e5ddb127cdf30665d63517020c67",
+          "path": "review/round_03/observation_010.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

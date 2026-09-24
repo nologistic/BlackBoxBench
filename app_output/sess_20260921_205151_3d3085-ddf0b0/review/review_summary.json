@@ -1,0 +1,837 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "58b744a2fae731d9b6acd7f6281d33f17e9a4a82dea306226ed7658a5f27b430",
+  "accepted_apk_hash": "73eb20b174394de607b356b69c4f78129654ab3b233ce252ea8405c3043730ff",
+  "revision_count": 3,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "引导轮播5页+完成按钮",
+        "存储权限对话框",
+        "文件列表空态/FAB/新建文件对话框",
+        "创建文件并进入编辑器",
+        "编辑器顶栏与格式栏",
+        "To-Do 标签与工具栏"
+      ],
+      "findings": [
+        "编辑器输入时 autoFormat 整体重写文本，破坏 IME 组合态，导致注入的 ASCII 文本被拼音输入法吞掉并插入错误汉字（# Trip Plan - Day 1 变成 # Plan— 有1）——需改为仅对新增部分做增量标点替换",
+        "文件夹图标字符 🗀 与文件图标 🗈/🗎 在设备字体中缺字形显示为豆腐块（顶栏、文件行、底部文件标签、存储视图均受影响）",
+        "关于页 Markor 图标 Ⓜ 可能同样缺字形待验证"
+      ],
+      "actions": [
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "b33fab563e29d65ab42fcc7fe36e5f6b81245653f2cf334492f45a2970dcede5",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 0,
+          "sha256": "ffcb3a63deb2608dc444486a590e7e8dc5cf57faf8a2cb14b355d0d9a3ff0e0b",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 4,
+          "sha256": "25173588d592daa419a358286442a1c7590b1ba836d75ad943505581837e090e",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 5,
+          "sha256": "8c8f574d6f9c212022bc476541307084c60cec4c29c71e93820169aa605dd7ad",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 6,
+          "sha256": "8cecfdb0134114d4c5b074e109625fb8b75ed3b9e52e578c1d7eb8e2e32dd838",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 7,
+          "sha256": "84db5411e72fe8c6645f4963bc8b0bf42813471efb0240760abd1058dad48d5f",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 10,
+          "sha256": "ed072f8ce9298610c5a515f5ee2577e2cdad45a689dceae5013ea30b6486dc99",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 11,
+          "sha256": "98a9c421d9c1471cf0f31f3d0ddbd14504815ffddb89a2bd7d92cb103e8371bc",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 12,
+          "sha256": "33c2b85e1c7535cb395a875d29e95419d8f55a31ed6c6001b02a7c93e24db6fb",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 16,
+          "sha256": "77823a83b4eb91f930ada7fd59d5c6a5ad748199123c8158c98d941f7af0376d",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 18,
+          "sha256": "897189dcde83468f51803c4a3eaa0aa7e7b3e6b8a789a67e0def49fa1186316c",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 19,
+          "sha256": "b3f578297da27e77d91585c94cd46caf833d9d625243b58042b6a97ec60130d2",
+          "path": "review/round_01/observation_012.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "引导轮播+权限对话框",
+        "文件列表/图标修复确认",
+        "新建文件并进入编辑器",
+        "编辑器输入与标点替换"
+      ],
+      "findings": [
+        "文件夹/文件图标豆腐块已修复",
+        "增量 autoFormat 有改善（首行 - 正确替换为 —）但多行输入仍被拼音 IME 组合态吞字：- Visit the lake > now 变成 — IT他和拉克》",
+        "需要在编辑器输入框设置 KeyboardOptions(keyboardType=Ascii, autoCorrectEnabled=false) 以禁止拼音组合输入，与原生 EditText 行为对齐"
+      ],
+      "actions": [
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "5e649400b0683d4db798a6ede053fbf5573d0c1b7c9c868a17fc2e9536d04b06",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 0,
+          "sha256": "812f5d371b472ed139eb879cc97bded31c9ec55eae531e1536f8c97ccfbdcfe5",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 6,
+          "sha256": "fd9c454fd23fc9b9980979eb5da10aa0cb09b86cc777f2326dbf2d9c3271e25c",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 13,
+          "sha256": "04473a12835c4ecf2bd37fb498467d799bb3b5b0406998726487f2d4a453e1b6",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 16,
+          "sha256": "22dcfc81c6b4f8100ce9d2b696057bf6561b78307a225fdfead9cd895a71f986",
+          "path": "review/round_02/observation_005.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "revise",
+      "checked_flows": [
+        "引导5页+存储权限对话框",
+        "主界面文件浏览器(空态/FAB/顶栏/底部4标签)",
+        "新建文件对话框→创建Trip Notes.md→自动打开编辑器",
+        "编辑器输入与自动格式(##/-/替换,修订2后IME吞字已消除,QWERTY直输)",
+        "编辑器顶栏可点性(撤销/重做/保存/预览/搜索/⋮)",
+        "文件列表显示新建文件",
+        "To-Do标签:语法高亮((A)蓝/@绿/+橙/x行灰)/浏览待办事项对话框",
+        "QuickNote标签切换",
+        "更多/关于页(v2.16.1 (163)/项目团队/社区)"
+      ],
+      "findings": [
+        "核心缺陷:从文件列表打开笔记的编辑器(EditorScreen)顶栏紧贴屏幕顶部、被系统状态栏遮挡,撤销/重做/保存/眼睛预览/搜索/⋮菜单全部无法点击(多个y坐标多次点击均无响应);保存/预览为编辑器核心功能,必须修复(给顶栏加statusBarsPadding)",
+        "autoFormat把任意位置的'-'都替换为'—',导致todo中输入的日期'2026-09-22'变成'2026—09—22';应只在行首/空白后且后接空格的'- '才替换",
+        "To-Do标签顶栏的撤销/重做按钮是空实现(点击无效果)",
+        "关于页'设置''帮助/FAQ''贡献者'行首图标(⚙/ⓘ)渲染为空白豆腐块",
+        "已确认正常:引导/权限/新建文件/文件列表/编辑器输入与标点替换(修订2彻底解决IME吞字)/To-Do高亮与浏览对话框/QuickNote与更多标签切换"
+      ],
+      "actions": [
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "9b7b2be8019244472de628c36cd20d898e0a877fdd9605a27b9ffe7c648037b9",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 0,
+          "sha256": "21493cf716bdd8a088aaed58e4722ae088dfd5a5745ae305673823a2d9e79905",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 5,
+          "sha256": "40bccca633b8643876adc0a569bd393cf420cdcd30467e975643e2ec0afaca7d",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 6,
+          "sha256": "9fc736e3ecabaec1d833d5c1bb22bc7bd6a9b67d41cb3c280461c42bccfb308b",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 7,
+          "sha256": "897e6f51f46c6ce77715de52f4ab6063c9745e25f8014270c4066d935a4de886",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 11,
+          "sha256": "71f7deaf10cf0c7e5228eedde0cee5fb8d224fd551abc3af2db9515fcbdf4eca",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 14,
+          "sha256": "7f7389476e3996079ed104ac711287d8bce2989f178641348b17cbe9a242fc15",
+          "path": "review/round_03/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 15,
+          "sha256": "fd3fe879630bd9935b65fcc6dc1ac784ddad56f5222a96172ca374b3ba1ec6b3",
+          "path": "review/round_03/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 16,
+          "sha256": "075e149c02ac93984ca9e2b8e80c75b722d979c91c19cf8591ba93faaaff7dfb",
+          "path": "review/round_03/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 18,
+          "sha256": "93d7b8961befbfe96324cd580bf475ba60a1ff347173a2ac44a67efaf69b967d",
+          "path": "review/round_03/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 20,
+          "sha256": "8fd13f224f8eb33a631bc128faa127032c5f6ac389d427f417b6a090c7814a7d",
+          "path": "review/round_03/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 21,
+          "sha256": "2366aed0540b6ca7dac7a646762a664796c40de23e21e92b45db75e70c23309f",
+          "path": "review/round_03/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 22,
+          "sha256": "36c860e03807a9a647df338c2ee62b5bd0cd76a7d593867b2e42363e334dd22b",
+          "path": "review/round_03/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 24,
+          "sha256": "1726794bab055bfe7e524c004498925ab2beeee887b95db5c651447a648e4539",
+          "path": "review/round_03/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 25,
+          "sha256": "1726794bab055bfe7e524c004498925ab2beeee887b95db5c651447a648e4539",
+          "path": "review/round_03/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 26,
+          "sha256": "a85ea5b782ae58842031b1bc573b18d606def6aed1bd37e9ffd0b142ae918648",
+          "path": "review/round_03/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 27,
+          "sha256": "12d59b56f25db246153882bd699f640afcc6367b78a6a3362c8b0c6478045ed5",
+          "path": "review/round_03/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 28,
+          "sha256": "2528fc3105eb5d837f6714d9adb0400ae0ff966a0e49c773dedfcaf418eda129",
+          "path": "review/round_03/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 29,
+          "sha256": "6b2fe8ab2ea59f4bc7bea81cdd997b4715b4fbea62df8302cfd59961e802ba37",
+          "path": "review/round_03/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 34,
+          "sha256": "9b5de22e7d4cd972514a2aea044ea6c9fecb3ebcce9a47ac4c619e8279a9437c",
+          "path": "review/round_03/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 35,
+          "sha256": "5d8ab408f758be54eeadbba423d80c155d18853c69df42c6d7dc69dc189f87bd",
+          "path": "review/round_03/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 36,
+          "sha256": "b16864fa4bf93bf5fc0cb498f94ce31594afb6a631565814e2ca3102f180ca05",
+          "path": "review/round_03/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 40,
+          "sha256": "398c75abf4b329a56b3eeb23daff48d5fdebc891b430047844cfe9ff0a792a6d",
+          "path": "review/round_03/observation_023.png"
+        },
+        {
+          "number": 24,
+          "action_count": 42,
+          "sha256": "e574588be76ff6b16537c7d41bc995be92a412284bc00df42f822ca70bbf6223",
+          "path": "review/round_03/observation_024.png"
+        },
+        {
+          "number": 25,
+          "action_count": 43,
+          "sha256": "5e391e89c0dedc4ca86242ece16b713bd482039df82ba38e731caf7b30189dc4",
+          "path": "review/round_03/observation_025.png"
+        },
+        {
+          "number": 26,
+          "action_count": 47,
+          "sha256": "94df16c64377f35a3d19b723a589e245b7edca32992e2829f6f607652f789bdd",
+          "path": "review/round_03/observation_026.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 4,
+      "decision": "accept",
+      "checked_flows": [
+        "引导5页+存储权限对话框",
+        "主界面文件浏览器(空态/新建文件FAB/顶栏/底部4标签)",
+        "新建文件→编辑器:自动格式(##/-/》)+IME直输无吞字",
+        "编辑器顶栏:撤销/重做/眼睛预览切换(Markdown渲染)/⋮菜单/信息对话框(SHA-256+收藏勾选)",
+        "收藏:信息对话框勾选后文件列表图标变黄",
+        "To-Do:语法高亮((A)蓝/@绿/+橙/x行灰)+日期2026-09-22不再被破坏+撤销/重做生效",
+        "QuickNote:输入自动保存并在文件列表出现",
+        "更多/关于页:v2.16.1 (163)+全部图标正常+设置页结构与返回",
+        "持久化:重启后三文件/收藏黄标/文件内容/onboarded状态全部保留"
+      ],
+      "findings": [
+        "第三轮三项缺陷已全部修复并验证:编辑器/设置页顶栏加statusBarsPadding后可正常点击(预览/⋮菜单/撤销均工作);autoFormat的'- '替换改为仅行首/空白后触发,日期2026-09-22不再被破坏;To-Do撤销/重做已接线生效",
+        "关于页设置/帮助/贡献者图标由豆腐块修复为正常emoji",
+        "全部核心流程正常:引导→权限→文件浏览→新建→编辑(自动格式)→预览→收藏→To-Do高亮→QuickNote→关于/设置→重启持久化",
+        "复现内容均为演示文本,无任何私人信息"
+      ],
+      "actions": [
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "a7427ea95fdaafec77b4327085a816aac00ce6d2e8dc264eae2fc2c17021f122",
+          "path": "review/round_04/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 0,
+          "sha256": "b1a1dea22b6e2ab8d5c7e19a47b1a5eaceaba7238aedb3b4007e9e74a1810e78",
+          "path": "review/round_04/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 6,
+          "sha256": "58d258afedfdc1a762026eb1df6bcce2b1140821f010b20a85ec0b9458d661e6",
+          "path": "review/round_04/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 11,
+          "sha256": "f1cb7a9a143a00ee44de4bc7ed970c0f6fb2ee18cb74413f089ad2c2aa008164",
+          "path": "review/round_04/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 17,
+          "sha256": "ba4e64162dc897b7f58542659756d3bc473dd4376f6a461822faaeafe60f49df",
+          "path": "review/round_04/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 18,
+          "sha256": "78e2a0f10ab8b7b7a249dcd982ade67ed1d8c6d080f925bb499028ad0a90fc3e",
+          "path": "review/round_04/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 19,
+          "sha256": "14f4c17151b425035014978e3321ade200e237e58994475c287073ebd9511bf8",
+          "path": "review/round_04/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 22,
+          "sha256": "1030bb479e6f56aa26cd8a5bad5c9fb37809ce22232a8fc29e9f67597a50a229",
+          "path": "review/round_04/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 23,
+          "sha256": "211919f7b6222de2cb304642176192e665332d5a015fad05438576ab31a09727",
+          "path": "review/round_04/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 29,
+          "sha256": "7f371bd56c5ad831e4ed8bf5e22a607f7c8c448aaa5f499e1490d2df5b5dca0e",
+          "path": "review/round_04/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 30,
+          "sha256": "3e93215d1571256011b17b10195dcdde952843206a9af783f2acf84bb0f8c11b",
+          "path": "review/round_04/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 34,
+          "sha256": "e6a815e1c45f88f76d6cca73840bd54990f9cdd3e124e5063d112dcca6b6be1f",
+          "path": "review/round_04/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 36,
+          "sha256": "2de29b4932e2373e66c57b1439a6e8c97ee68ba40453ff0d3868a2d73f2de331",
+          "path": "review/round_04/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 37,
+          "sha256": "e451a28ee19fbe8ce12c91afeb79019f9f4ea383a9b600862a0641de7a0949a5",
+          "path": "review/round_04/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 38,
+          "sha256": "7986a449279c82d0e5628fc1c3fec3e16e222f1e61b1f7c07a55a6fa2395a8c6",
+          "path": "review/round_04/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 39,
+          "sha256": "b060f65ae5557f8dfcbb0b91ed45cdbe26df53ff25eb7c52637628c9953a1897",
+          "path": "review/round_04/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 40,
+          "sha256": "d0fdef0fc0c5cd664be845de444c1f62a6ec4e84696554dcdb68ea1ada081af7",
+          "path": "review/round_04/observation_017.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

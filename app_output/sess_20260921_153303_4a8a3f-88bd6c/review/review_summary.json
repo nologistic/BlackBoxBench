@@ -1,0 +1,434 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "1ce53d741ad83a2482c06a1e2cb24f86a77a94608098d870ebbf421edd69add4",
+  "accepted_apk_hash": "0d04a12e0d2d0471e762e01968a51c9431f7c30c17c1a9b18a5558f0a4fe31a1",
+  "revision_count": 1,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "首次启动三页引导与三项权限对话框",
+        "歌曲列表/随机播放/溢出菜单/排序子菜单（按首字符倒序生效）",
+        "曲目行溢出菜单 10 项与详情对话框",
+        "点击曲目播放、行高亮、迷你播放器",
+        "迷你播放器展开为正在播放页（封面/进度/传输控件/队列）",
+        "抽屉导航与设置页",
+        "媒体库类别对话框",
+        "播放列表标签页自动列表"
+      ],
+      "findings": [
+        "【严重】媒体库标签栏不可见：LibraryTabRow 被放在靛蓝顶栏之外，白底上白字，导致“歌曲/专辑/艺术家/音乐类型/播放列表”五个标签完全看不见（仅剩粉色指示条）。参照版中标签位于顶栏内部。",
+        "正在播放页队列重复：当前曲目既出现在顶部当前曲目卡片，又出现在下方队列列表中（无序号行）；参照版队列只列出已播放（负序号）与待播放（正序号）曲目，不含当前曲目。",
+        "“最喜爱的歌曲”副标题显示为“本月 · 2 歌曲”，参照版为“2 歌曲”（仅最近添加/播放历史/最近未播放过 带“本月 · ”前缀）。",
+        "侧边抽屉缺少顶部标题区，菜单项整体偏上；参照版“媒体库”位于约 313dp 处，当前约 64dp。",
+        "封面占位图为纯浅灰圆盘，观感偏亮；参照版为深色唱盘配细密纹路与浅色中心。",
+        "专辑页 “Unknown Album” 显示为“BlackBoxBench · 1 歌曲”，参照版为 0 歌曲（次要）。",
+        "详情对话框内容较长时底部（年份/长度/ReplayGain）被裁切，需在对话框内滚动才能看到（次要，滚动可用）。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "6ae89905270594cf582a0548fb9f677eff806536347bd2c0c55c3a00e2baa740",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "118b63a3d2beef59ed8190a2e91b84074c927c4b46f54ca2a72508462c70f85d",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "f9b165adb78f77d0ca7b1ed211c32175f579e163a3e79fbe91f953f45d4f1972",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 6,
+          "sha256": "dabbf614aef230c5cb2770b74d65c4557cde032c11b7126ad4ce6d5d9763985b",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 7,
+          "sha256": "c5c243380a2724ff0c3f4b2ee6990146b534ab71ea186ff3bb2a4ec328b4b5e2",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 8,
+          "sha256": "dc6213f96003d3c13d5c58aef816038a6db9e5fa3180f924d9ebe860d42116b7",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 9,
+          "sha256": "92b2b61ff5de3aac1dd776319398c5ec6eee4bf975be3f72b9f12c45eb5d4de8",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 10,
+          "sha256": "9179691a6f01621dc36345591f344489ae775cf9f27afdb790a89e17939a76ed",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 11,
+          "sha256": "f69c319d50826900a79972436f32cb540d337c22931ae1d9278f3ee0915daec8",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 13,
+          "sha256": "76d44b9426cb657248b9460aadee2561de44d9459f886c7bf8a95640c8683bfa",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 14,
+          "sha256": "499ef598e6418ba0ec51b04babbe6c6b95140935809d1f9b01b11f5fe9652c93",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 15,
+          "sha256": "4c25ef4c646b4ac4676929cdaa615d92f8b3eba7a88ac065957707a92a9c34ef",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 17,
+          "sha256": "95344cfa8b5eb34a6723522b7c2443b94dcc948a3eba60ad130ddc3ba665a287",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 18,
+          "sha256": "6b5fd6322739f1c32565d812505782fc8d4c98e3b2818daa655f2dd13f566c7e",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 19,
+          "sha256": "ea49cca9bf596f30a768946f661ea0968e3c1e347732e06ff4b1f45abe7ca4fa",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 21,
+          "sha256": "d5daa1bf8fdaa7a1678223761fcc96a597563d68da871b4264edd65c9e2ee017",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 22,
+          "sha256": "788c8b14b6d558a07813a121c0e3ec740e412b85db18bf2db0c65a7cd3d88061",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 24,
+          "sha256": "65e8f00bd1be52c6dc21ed9376c7e8ff01200bb321a46aaff52a5885c6ce8cf3",
+          "path": "review/round_01/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 25,
+          "sha256": "5d21cab8d47185837bd5a7f87d7d8ea10c30ed3f93aa7bacc1fc0a92331d60f3",
+          "path": "review/round_01/observation_019.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "accept",
+      "checked_flows": [
+        "首次启动三页引导 + 三项权限对话框 → 进入媒体库",
+        "媒体库标签栏（歌曲/专辑/艺术家/音乐类型/播放列表）可见且带动画下划线",
+        "歌曲列表排序子菜单（按首字符倒序）与页脚计数",
+        "点击曲目播放、行高亮图标、迷你播放器出现",
+        "迷你播放器展开为正在播放页：封面、进度条 0:00/0:00、随机/上一首/播放/下一首/循环、当前曲目卡片、即将播放 · 13:35 · 1/8、队列序号 1-8 无重复当前曲目",
+        "侧边抽屉（含唱盘标题区）→ 设置页六个分组",
+        "设置页 媒体库类别 对话框（歌曲/专辑/艺术家/音乐类型/播放列表 复选 + 重置/取消/确定）",
+        "关于页：应用信息、版本 1.11.0、维护者/贡献者均为虚构姓名",
+        "文件夹视图：/storage/emulated/0/Music 下 8 个文件与体积",
+        "搜索页：专辑/艺术家/歌曲 分区",
+        "音乐标签编辑器：8 个字段 + 保存 FAB → SAF 授权对话框",
+        "播放列表标签页：5 个自动播放列表与副标题格式"
+      ],
+      "findings": [
+        "媒体库标签栏已修复：五个标签现位于靛蓝顶栏内，白色文字 + 粉色下划线，选中项加粗，与参照版一致。",
+        "正在播放页队列已修复：不再重复当前曲目，仅显示待播放项 1..8 与已播放项的负数序号。",
+        "“最喜爱的歌曲”副标题已修复为“2 歌曲”，与参照版一致；最近添加/播放历史/最近未播放过 保留“本月 · N 歌曲”。",
+        "侧边抽屉已加入唱盘标题区（Vinyl Music Player），菜单层级与间距更接近参照版。",
+        "封面占位图已重绘为深色唱盘 + 多层纹路 + 浅色中心，观感与参照版一致。",
+        "文件夹视图文件名、体积、根目录路径与参照版逐项吻合。",
+        "标签编辑器保存触发 SAF 授权对话框（要允许Vinyl Music Player修改这个音频文件吗？拒绝/允许），与参照版文案一致。",
+        "关于页全部人名均为虚构（Rin Takeda / Marta Oliveira / Kenji Sato / Lucia Ferreira / Dmitri Volkov / Amara Nwosu / Tomás Reyes），版本号 1.11.0，无真实维护者信息。",
+        "播放历史计数由 3 增至 4，属播放后的动态统计，符合真实应用行为（非缺陷）。",
+        "未发现残留私有数据：素材均为合成音频与占位封面。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "76e47c9e9bd8b76662022cf0ecfc40f620d82feb6b9eadf3b9add428f5ef52fb",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 4,
+          "sha256": "6d2ca7763dde4b4d5371a1e289c71388c19ebbb4eb18d0a3e7ae231c7a4fe5b0",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 5,
+          "sha256": "1957ac21cdd0001c86502dff23f5d143902ec20a6dfa97c55404fc2a7b01c68a",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 8,
+          "sha256": "079756b877af0c7811b965d02cea8d004a3e4954d7ffd54ddd0b03f0e198c03c",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 9,
+          "sha256": "ea140f6bf0b063ea016d3eed2fabe03ab6dc5a59a56b4eaa778b6ce542baf897",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 12,
+          "sha256": "73b462993f79921c2cfe7ff21bd4cba1815857c59e2fb20572baddf0a81080bf",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 13,
+          "sha256": "6aa51f3e4c54244223cd97c124abc70ad775b90bb034a5636dead25f95364f33",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 16,
+          "sha256": "0d06641eb571b898c76a497aa358c8ed97c6fffee9023549efd1fa5f29e1997f",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 17,
+          "sha256": "4349dd9dd7592c7e3996e2a0ddbbf665284ed9c5f9a057448f388c22f042b7a6",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 19,
+          "sha256": "be88a84188bb115f995fff38c9c562965befec5267ccb50e9762cdf15dc8bd8a",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 23,
+          "sha256": "76f41ed2968bceb562113454d802cff9aa706fc93361831d4b4e0e845a3548cc",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 24,
+          "sha256": "5144182a9ecbe4a29b1c14e8e677228ccca68184fd12a3ec5fdf013057f14f53",
+          "path": "review/round_02/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 25,
+          "sha256": "d171b0d7c13c78f329f4b0443429701b3ea2186ec09ce29aa946c87f5a0757f2",
+          "path": "review/round_02/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 28,
+          "sha256": "6acd2521aec531694b74307cd8b24f18c06065deac748fa2740d9a471b790263",
+          "path": "review/round_02/observation_014.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

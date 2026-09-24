@@ -1,0 +1,47 @@
+{
+  "albums": [
+    {
+      "name": "Camera",
+      "items": [
+        {"file": "camera/IMG_20260829_029.png", "name": "IMG_20260829_029.png", "modified": 1787991120000, "taken": 1787991120000},
+        {"file": "camera/IMG_20260828_028.png", "name": "IMG_20260828_028.png", "modified": 1787915940000, "taken": 1787915940000},
+        {"file": "camera/IMG_20260827_027.png", "name": "IMG_20260827_027.png", "modified": 1787840760000, "taken": 1787840760000},
+        {"file": "camera/IMG_20260826_026.png", "name": "IMG_20260826_026.png", "modified": 1787765580000, "taken": 1787765580000},
+        {"file": "camera/IMG_20260825_025.png", "name": "IMG_20260825_025.png", "modified": 1787690400000, "taken": 1787690400000},
+        {"file": "camera/IMG_20260824_024.png", "name": "IMG_20260824_024.png", "modified": 1787615220000, "taken": 1787615220000},
+        {"file": "camera/IMG_20260823_023.png", "name": "IMG_20260823_023.png", "modified": 1787453640000, "taken": 1787453640000},
+        {"file": "camera/IMG_20260822_022.png", "name": "IMG_20260822_022.png", "modified": 1787374860000, "taken": 1787374860000},
+        {"file": "camera/IMG_20260821_021.png", "name": "IMG_20260821_021.png", "modified": 1787299680000, "taken": 1787299680000},
+        {"file": "camera/IMG_20260820_020.png", "name": "IMG_20260820_020.png", "modified": 1787224500000, "taken": 1787224500000},
+        {"file": "camera/IMG_20260819_019.png", "name": "IMG_20260819_019.png", "modified": 1787149320000, "taken": 1787149320000},
+        {"file": "camera/IMG_20260818_018.png", "name": "IMG_20260818_018.png", "modified": 1787074140000, "taken": 1787074140000},
+        {"file": "camera/IMG_20260817_017.png", "name": "IMG_20260817_017.png", "modified": 1786998960000, "taken": 1786998960000},
+        {"file": "camera/IMG_20260816_016.png", "name": "IMG_20260816_016.png", "modified": 1786923780000, "taken": 1786923780000},
+        {"file": "camera/IMG_20260815_015.png", "name": "IMG_20260815_015.png", "modified": 1786762200000, "taken": 1786762200000},
+        {"file": "camera/IMG_20260814_014.png", "name": "IMG_20260814_014.png", "modified": 1786687020000, "taken": 1786687020000},
+        {"file": "camera/IMG_20260813_013.png", "name": "IMG_20260813_013.png", "modified": 1786608240000, "taken": 1786608240000},
+        {"file": "camera/IMG_20260812_012.png", "name": "IMG_20260812_012.png", "modified": 1786533060000, "taken": 1786533060000},
+        {"file": "camera/IMG_20260811_011.png", "name": "IMG_20260811_011.png", "modified": 1786457880000, "taken": 1786457880000},
+        {"file": "camera/IMG_20260810_010.png", "name": "IMG_20260810_010.png", "modified": 1786382700000, "taken": 1786382700000},
+        {"file": "camera/IMG_20260809_009.png", "name": "IMG_20260809_009.png", "modified": 1786307520000, "taken": 1786307520000},
+        {"file": "camera/IMG_20260808_008.png", "name": "IMG_20260808_008.png", "modified": 1786232340000, "taken": 1786232340000},
+        {"file": "camera/IMG_20260807_007.png", "name": "IMG_20260807_007.png", "modified": 1786070760000, "taken": 1786070760000},
+        {"file": "camera/IMG_20260806_006.png", "name": "IMG_20260806_006.png", "modified": 1785995580000, "taken": 1785995580000}
+      ]
+    },
+    {
+      "name": "BlackBoxBench",
+      "items": [
+        {"file": "blackboxbench/sample_video.mp4", "name": "sample_video.mp4", "modified": 1789467600000, "taken": 1789467600000},
+        {"file": "blackboxbench/sample_photo.png", "name": "sample_photo.png", "modified": 1789467660000, "taken": 1789467660000}
+      ]
+    },
+    {
+      "name": "Movies",
+      "items": [
+        {"file": "movies/product_demo.mp4", "name": "product_demo.mp4", "modified": 1789048800000, "taken": 1789048800000},
+        {"file": "movies/story_loop.mp4", "name": "story_loop.mp4", "modified": 1789230600000, "taken": 1789230600000}
+      ]
+    }
+  ]
+}

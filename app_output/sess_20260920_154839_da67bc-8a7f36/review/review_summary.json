@@ -1,0 +1,314 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "808c0f5530f8dbe04d67f667f0c6240907e1fa8b972164f1f368753f36893e53",
+  "accepted_apk_hash": "0371665fd60e450d08f8b0ac18630745f01b3366e1fbc25574a8addec7f5f4ce",
+  "revision_count": 2,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "fresh install onboarding and horizontal paging",
+        "onboarding completion into 24-song library",
+        "song playback and mini-player",
+        "expanded player with animated vinyl, seek and queue",
+        "navigation drawer",
+        "settings surface"
+      ],
+      "findings": [
+        "Android 15 edge-to-edge places toolbar controls under the status bar; add status/navigation insets while retaining contextual background colors.",
+        "Persist the last top-level page across process restart to match the observed remember-last-page behavior."
+      ],
+      "actions": [
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "4ec3c59084c13a3478d847d441ae964ca5f35c062e49a67ce208cfa87e48490c",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "f5a4b04d09f73924ff32dc5c5152437ff775e64f356b2c9a5e3ce4fdc05d0b3b",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "f5a4b04d09f73924ff32dc5c5152437ff775e64f356b2c9a5e3ce4fdc05d0b3b",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "b0a9794641628337f80a8f49aedba67078354a64414570966d52699937b5db81",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 6,
+          "sha256": "8f0cbd8a0de73d643929fafdde5431b13b81c34e2f4860f47be990ecb4bb2504",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 8,
+          "sha256": "b426f4bc2288976e99a7e2907a0f3dfdc1e7af7fee8913829625d015c0751dd9",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 11,
+          "sha256": "e2c1dab5bcbe93add37b78590db1c84b5d90d695f46bd9fcc4b8686f71ec9a06",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 13,
+          "sha256": "1a55fbb06e397e58dc2e7af5e0333778cbf2d1ea0ff41a3513a4b90f58ef7ae7",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 15,
+          "sha256": "882d475b605314088a42c258d5c0e9729c47005d9c71cf16c665cddabd9bdb00",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 17,
+          "sha256": "882d475b605314088a42c258d5c0e9729c47005d9c71cf16c665cddabd9bdb00",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 19,
+          "sha256": "bd155d2482693cec16a95c8dd48569745bdcb6c820a38d3fe44c916742088986",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 21,
+          "sha256": "f6b59385b4ff0f819576872121a208a7ba9dd0a3fd0f8f5ebd6df1d0d9eb9aa7",
+          "path": "review/round_01/observation_012.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "fresh install after inset fix",
+        "main library top bar inset placement"
+      ],
+      "findings": [
+        "Inset correction successfully separates the status bar, but the new blue root background shows through transparent content pages. Give every non-player page an explicit white (or About pale) surface while keeping the status inset blue."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "0de14571af71fbfb5cf44194f1e95534e12323d19a6500e1b9b24ccee317a3a7",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "d0717cfa09be31bbe704f7d114f5e7f7f7303f010865f86eb4d7919e6d032e8d",
+          "path": "review/round_02/observation_002.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "accept",
+      "checked_flows": [
+        "fresh-install three-page onboarding and GET STARTED",
+        "24-song library from bundled synthetic catalog",
+        "songs, album grid and album detail navigation",
+        "searchable five-tab media library",
+        "song playback with real bundled audio and persistent mini-player",
+        "expanded player with animated vinyl, seek, repeat, shuffle and queue",
+        "song action menu, favorites and playlist chooser",
+        "navigation drawer, folder browser, settings and About",
+        "status/navigation inset rendering on Android 15",
+        "restart persistence for onboarding completion, current track, tab, favorites/playlists and last top-level page",
+        "privacy review: synthetic content only and no declared permissions"
+      ],
+      "findings": [
+        "No blocking findings in the accepted review build."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "wait"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "34025891a9a6f19c86433af3a8c0bcc676f0489b0b5bc778e26ba6622888a917",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "391932c6bd45cb9e3147c0ea2f20e818929f032e9ed0cf457b7a9b0232bc5464",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 4,
+          "sha256": "08662a0ffbb53dedf2889e6946fe94e43209e9ae8072567a70c226f99f0d3cf3",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 6,
+          "sha256": "1ce6dc06c5066f6a840fb240cd45af8734a3916ec088eb8bf74e4d0c57ce2b2a",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 10,
+          "sha256": "6ce80f2ecdbcbcece41a340434ec506d5e3798020b584cc993c116e4c5130bfa",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 12,
+          "sha256": "76a5ce56e193d8ef242331168a87459f401c7f985437fac43fc45507a6b5e32b",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 14,
+          "sha256": "bff361443270e293505dec16b758f8d248376fdf21c8a5b92c98afad5a6b7874",
+          "path": "review/round_03/observation_007.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

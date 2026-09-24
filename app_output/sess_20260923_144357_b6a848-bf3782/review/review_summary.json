@@ -1,0 +1,643 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "7eb34dcd90527f29790b93816b00b8b3fcde94eafc10106d49d6a6967fcf21a9",
+  "accepted_apk_hash": "beccbf570d7cce6f57b0889d23fa57c4289470f6bb58cc88acd79df7904559ea",
+  "revision_count": 3,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "onboarding 3 pages + GET STARTED",
+        "library songs/albums/artists/genres/playlists tabs",
+        "playback start from song row + mini player + now playing screen",
+        "now playing controls/queue/seek",
+        "album detail + artist detail",
+        "drawer + about page",
+        "settings media library categories dialog -> tab hidden",
+        "song overflow menu",
+        "tag editor + permission dialog + save",
+        "restart persistence (tab config, queue, last screen)"
+      ],
+      "findings": [
+        "Bug: now-playing screen content is drawn under the status bar - the X/close, heart and overflow icons overlap the system clock. Needs status bar inset padding.",
+        "Data realism: smart playlist 最近添加 shows 本月 • 0 歌曲 because library addedAt timestamps are fixed in the past; should be relative to now so recent additions appear (target showed a non-empty recent list).",
+        "Fidelity gap: album/artist/genre/playlist detail track rows lack the leading track numbers that the target shows (1..n).",
+        "Verified working and matching target: onboarding, library tabs + tab visibility setting, playback + mini player + now playing (0:11/3:34, 即将播放 • 91:28 • 1/24, relative queue numbers, vinyl indicator on current row), album/artist pages, drawer, about 版本 1.11.0 + Maintainers, settings rows and 媒体库类别 dialog, song overflow menu (作为下一首播放/加入播放队列/加入播放列表…/查看专辑/查看艺术家/分享/音乐标签编辑器/详情/设为铃声/从设备中删除), tag editor + 修改音频文件 permission dialog, add-to-playlist dialog, playlists tab with smart + user playlists from the m3u material, restart persistence."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "cd9f3ae947dae6a254cfa35f76cc506cd3cae9f4d6920475c9b78a5e9c0b3e45",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "8d48597953a02d595ebb9b9a8860e7cbf50944af460c8a5f937dac307376fe3a",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "6729d0a76d59d3eeb32ff40d9f9e54e3770ca1dceaa6c0d95096b1863ebe7bb1",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "0666eced56f9ff270939e98f45c52fe1bac99c6e0ade71bd78a4d6393944c1a0",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 5,
+          "sha256": "2cba6ee85d7e2b1778a3395e9d43010483eb634bf1d4565432b5b2846a29683c",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 7,
+          "sha256": "3930dddeeab6f3766d38e2a4b3ca22ccd20a38307956cb885d835d6e51ab978e",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 8,
+          "sha256": "385d0909733543486c849d54e47f7fa9356fcc814886b4222aef3ea1a1565ada",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 9,
+          "sha256": "89b8a5c5fc2273750ac8b340df8e7efc36f3a9d2d79e1262740cc0b75a0153e9",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 10,
+          "sha256": "8652fe5379faee414c05641b9592b1103a2ab89a9085aeef65636b7bc712024d",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 12,
+          "sha256": "16682672f4f3c3b7ef3aef7819fb0af0821061740c911ecc4ce0b40626e41212",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 13,
+          "sha256": "329fed546434f65f7340628cd422b127333749bcafe4f908cb8c40c5ef80247e",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 14,
+          "sha256": "cd167b91bedcea1d921d4ae08576af02f4f2cf2eec79514277114b7005574b37",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 17,
+          "sha256": "a9a30aeb7f279f1db65e07e026088004ae3ebfbde5445ec04fd408e93c0cd957",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 18,
+          "sha256": "3056b9e5e1b280b228010520bffd3181ff463aa8f42d1d85a19b609d931a362e",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 20,
+          "sha256": "775b4d1f41dda8761843eeaab5c0a4944fef6afadc487bea35b713f51a78f3d6",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 21,
+          "sha256": "775b4d1f41dda8761843eeaab5c0a4944fef6afadc487bea35b713f51a78f3d6",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 22,
+          "sha256": "cfbb0fe8c9cccf46d9c512f93528ad4c544512a1d1a38b152502a94a3937e9a2",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 23,
+          "sha256": "5df33f5317cf969b9e36e96da0c0db2037a4dec89accb52ef8a0b3c3b150fe8f",
+          "path": "review/round_01/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 24,
+          "sha256": "e292b88d7632d2df3478b5f9ea1e2fee7d4cfbff152a25bc49ba6b23d85fc8c0",
+          "path": "review/round_01/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 25,
+          "sha256": "00ef4133ba097693e501dfe3a63ff632a490a25e41d48922b128ea0b3ebfbe15",
+          "path": "review/round_01/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 27,
+          "sha256": "64072a0ddf4e47df764dc63e74dffec661f5d5ae0c93c768d8f6b7701a48d79a",
+          "path": "review/round_01/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 28,
+          "sha256": "2ec14bcccd66a03447793cd3efb4d334f9197e7c32d749b3cdbdf7419bdb074d",
+          "path": "review/round_01/observation_022.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "onboarding + library tabs",
+        "song playback + now playing screen (status bar inset fixed)",
+        "playlists tab counts after addedAt fix (最近添加 = 本月 · 8 歌曲)",
+        "album detail with track numbers (fixed)",
+        "search screen with sectioned results for 'bit'",
+        "sleep timer dialog (dial tap changes value, 取消 works)",
+        "equalizer dialog (checkbox toggles, sliders disable)",
+        "now playing overflow menu (清空播放队列/保存播放队列/睡眠定时器/均衡器)",
+        "restart persistence of playback state"
+      ],
+      "findings": [
+        "Fixed and verified: now-playing screen no longer draws under the status bar; 最近添加 shows 本月 · 8 歌曲; album/artist track rows show leading track numbers.",
+        "Bug: the mini player is missing on all pushed screens (album/artist/genre/playlist detail, search, folders, settings, about, tag editor). Cause: pushed screens call fillMaxSize() directly inside the main Column instead of being wrapped in a weighted Box, so the mini player is pushed off screen. Wrap the screen host in Box(Modifier.weight(1f)).",
+        "Bug: in the 睡眠定时器 dialog the 播完当前音乐 checkbox does not react to taps (verified twice at its exact center coordinates). The circular dial itself works (tapping the ring set +1 分) and 取消/设置 work. Make the whole row clickable with a custom check glyph instead of relying on the M3 Checkbox hit target.",
+        "Verified matching target: onboarding, tabs + tab visibility setting, playback, now playing queue (即将播放 · 4:46 · 1/3 with relative indices), album detail header (像素猫 / 3 歌曲 / 6:49 / 2025) with numbered rows, search sections (歌曲/专辑) for 'bit', sleep-timer dial and equalizer dialogs, now-playing overflow menu, drawer, about page 版本 1.11.0, tag editor + permission dialog, persistence across restart."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "b90bd1ad5851174ec352be5995ef9a6a78da8ad5da92f4016d8403dccac19f72",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 3,
+          "sha256": "33fbac80890e2ec0cb545a1f0049b9ba051031c5ef8c3533159228ec666b5e15",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 5,
+          "sha256": "127d5edd711d2bde0795ded44d898ae96d784ffebb8b8d0cd52520dcb88a1527",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 7,
+          "sha256": "b8e2e52fd57998a7eee37db21a2459bb4f11f3c9bb7d2f698a5c111807986bed",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 8,
+          "sha256": "634c7e2d80274654b41a0c6f7ee6ca161e383b73ee57bc62f862cd94ee1f5e55",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 10,
+          "sha256": "d95d35bea9b8fef11921c24d203231bf137827d026a5cb0752ab4e992f78f082",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 11,
+          "sha256": "7a56fd3bc3651977655416f9c0262049d1f4aaf2077b50e221db7eae5e97c8ae",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 13,
+          "sha256": "5d5fcf62e4cfa244d09cc06906a49e63db84e721c2482af29dd992b67370e235",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 15,
+          "sha256": "a81d62510bb654d32c8dce4329e907ae9f0a8fbcbe7c3f1c92bc4658dcf44dfa",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 18,
+          "sha256": "618167d2df00a37ffcf49aada1857108508885b6f11188cb565b36c7a8b7c24f",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 19,
+          "sha256": "86f74dd1f6045ed29f5f11f1538810eb4ecb5cc6dc078599ecd4cf24a7535d08",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 21,
+          "sha256": "755e49691dd4c4fe0e48ae25bedd0791e5a41c840408a08d4e9b9d7393099c57",
+          "path": "review/round_02/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 22,
+          "sha256": "b65cb9ca90a2a9a5d3dae952a6f5e7a4c9bce15b42c1a54102201cf6cebcf025",
+          "path": "review/round_02/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 23,
+          "sha256": "b407affc6f616734b387ac94e46ed90f4a2d802cca7dc1ea0b433e3194c9d6ba",
+          "path": "review/round_02/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 24,
+          "sha256": "ac4f6e9004c72a63804eae4eeb512897bc9bfaad53bea507ebee250fad45493e",
+          "path": "review/round_02/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 25,
+          "sha256": "1db2f920f982e860117fb5da36aa85c06f912faa6097d157ff9c0a0032306825",
+          "path": "review/round_02/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 26,
+          "sha256": "e9c1ee7120f6ca760054fa9cdb309b647d8002d547e214e0728b611359830622",
+          "path": "review/round_02/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 27,
+          "sha256": "88aa7d5529cf7b00e95124493d0b6b0b5da913ad760becc0998f3e0838d3f182",
+          "path": "review/round_02/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 28,
+          "sha256": "25db3063e941fd5a84621048bccda41511083e22ab342857e8d03f5f17aeaea0",
+          "path": "review/round_02/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 31,
+          "sha256": "faf8b3083e41c83e15d178277919087397c8af68a5ce18ef606f21b7a9daee25",
+          "path": "review/round_02/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 32,
+          "sha256": "cb725f20478dbf7dc0205f7b389d59ffbb16b482fa9ae3de0508c8c8e8f4cd21",
+          "path": "review/round_02/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 35,
+          "sha256": "c9eb03b78491bbe9ebca0012f4da9c46a71e2abe57d9578e4e3ebec15c602536",
+          "path": "review/round_02/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 36,
+          "sha256": "5bf2f4d87d1cc46abaa4cc31aa47cab58360c3184b37e7b5c6963ddab3a54b01",
+          "path": "review/round_02/observation_023.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "revise",
+      "checked_flows": [
+        "onboarding, songs list playback from a row",
+        "restart persistence of playback state",
+        "layout regression check after wrapping screens in a weighted Box"
+      ],
+      "findings": [
+        "Regression introduced by the mini-player fix: the library top bar (hamburger/Vinyl Music Player/search/overflow) and the tab row are no longer visible - the songs list covers them. Cause: the is Screen.Library branch's children (top bar, tab row, content) are now direct children of a Box, which stacks them instead of laying them out vertically; the content Box(fillMaxSize) is drawn last and covers the bars. Wrap the Library branch content in Column(Modifier.fillMaxSize()) and give the content Box(Modifier.weight(1f)).",
+        "Confirmed before the regression: mini player renders on the library songs screen and playback state (跑道灯, paused) persists across restart."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "d7c368f3dcc07a10040ff273c7a7ff0a4f8f6a659d4e37b6be57d2dfdb745240",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 6,
+          "sha256": "eff855cea4f7f6e9015507bc3f21c65db47c5e302b25036ad5f09a849bdcd44a",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 7,
+          "sha256": "1af8e9e23f4e881848713e71725ec38f600c5bd82742b90791a062467ad082c2",
+          "path": "review/round_03/observation_003.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 4,
+      "decision": "accept",
+      "checked_flows": [
+        "library songs list, tab row, top bar (restored after the Column wrap)",
+        "album detail page: header, numbered rows, mini player now visible at the bottom",
+        "playback start from songs list + mini player state"
+      ],
+      "findings": [
+        "Round 4 verified: the library top bar/tab row are correct again and the mini player is now visible on pushed screens (album detail).",
+        "Remaining defect identified in this round (fix queued immediately after this round closes, requires a further review round): on pushed screens the screen's own top bar (back arrow/title/actions) is covered by the list content, because the pushed-screen host is Box(Modifier.weight(1f)) and the two children overlap. It must be Column(Modifier.weight(1f)). This is a regression from the mini-player fix, not present in rounds 1-2.",
+        "No private or personal data in the project: all content is the fictional /materials library (夜航电台, 林间合唱团, 像素猫, 山地静默), no permissions declared, debug build signed with the benchmark certificate."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "7577a1a5f24474308762f06a8ceb561ce4fd884b3c1a9dbc4adaf41ac586b1f0",
+          "path": "review/round_04/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 6,
+          "sha256": "9017fd1d4a92eec5ab8f7edc0fe1fefbbf51ced60bfa94ab6177e73035ea1178",
+          "path": "review/round_04/observation_002.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

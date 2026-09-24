@@ -1,0 +1,527 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "59ce7405f2590cb6ceade319c0b879aae1cdf1ed96d76ecb273c34b4ad09a457",
+  "accepted_apk_hash": "9db2d6b605f3eefb7c026a7f2dac52e6970b3d239c5ede6c85fa576172b8a115",
+  "revision_count": 1,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "冷启动引导页（Logo + 添加账号/继续但不同步/导入 Tasks.org 备份）与目标截图逐像素对照",
+        "列表页：种子数据渲染、逾期标红、优先级/标签/子任务/重复规则元信息、FAB",
+        "抽屉导航：全部任务/今天/列表(工作·生活·购物)/标签(#会议…)/设置入口",
+        "标签页跨列表聚合（#会议 显示工作列表下的每日站会纪要）",
+        "重复任务完成：每日站会纪要 9/7 10:00 每天 → 同一条目顺延为 2026-09-22 10:00",
+        "非重复任务完成：买猫粮 打勾 + 完成于 2026-09-21 22:06 + 沉到底部",
+        "筛选器：隐藏已完成开关即时生效（完成项从列表移除）",
+        "任务详情页：标题/列表/截止/优先级/重复/标签/子任务勾选/标记完成·编辑·上移·下移",
+        "编辑表单：改截止日期为「明天」→ 保存 → 详情显示 2026-09-22",
+        "新建表单：FAB → 输入标题 ABC → 保存 → 列表出现「ABC」",
+        "重启持久化：重启后 补充办公用品(9-22)、每日站会纪要(9-22 10:00)、新建的 ABC、隐藏已完成开关、已过引导页 全部保持"
+      ],
+      "findings": [
+        "【配色偏差】全局主题仍使用 Material3 默认紫色 primary（引导页「添加账号」、FAB、选中态、复选框、Snackbar 按钮等均为紫色）。目标引导页实测：主按钮填充 #36618E（深蓝）、Logo 圆 #2196F3。需将 primary 改为 #36618E、Logo 改为 #2196F3，描边按钮边框 #BECEDE、文字深灰。",
+        "【引导页版式偏差】复现 Logo 圆心约在 device y≈780（屏高 32%），目标实测 y≈1021（42.6%）；复现 Logo 直径 150dp 与目标≈152dp 基本一致。",
+        "【引导页多余内容】目标 Logo 下方到按钮之间为纯白空白，复现多出「Tasks」大标题与「待办清单 · 标签 · 提醒」副标题两行未观测到的文字，应删除。",
+        "【引导页按钮几何】目标实测：按钮高约 100px(≈38-40dp)、相邻间距 48px(18dp)、左右边距 84px(32dp)、末按钮距屏底 160px(≈56dp)；复现为高 52dp、间距 12dp、左右边距 24dp、底部 40dp。",
+        "【功能缺陷·徽标缺失】抽屉里「工作/生活/购物」三个列表项未显示未完成数徽标（BadgedBox 空内容导致什么都不渲染）。SUPPLEMENT 明确要求列表页含未完成数徽标，必须修复为可见的数字徽标。",
+        "【显示不一致】完成时间格式不统一：种子数据 completed_at 为 ISO 形式（如 2026-09-08T11:05）被原样展示，而新完成的显示「2026-09-21 22:06」，需统一格式化为 yyyy-MM-dd HH:mm。",
+        "【下一轮待补验】恢复（取消完成）、删除（含确认弹窗）、排序切换（优先级/标题/手动 + 升降序）、新建表单空标题校验，本轮未逐一走查，将在修订后复验。",
+        "【探索限制声明】目标 App 探索阶段窗口完全不接收触摸，除引导页外无任何目标截图，因此列表/详情/表单/筛选器无法做像素级对照，本轮以上均为功能契约与自洽性验证。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "swipe"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "ff5eb14d05a086302e02a019df642f658c10a2ea7be8a125c3fc0b027ce95f1c",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 0,
+          "sha256": "2161cb860193ea78def5aee1fa86716c328a7c3a121265f922f34e6634b6219d",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 1,
+          "sha256": "2161cb860193ea78def5aee1fa86716c328a7c3a121265f922f34e6634b6219d",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 2,
+          "sha256": "2161cb860193ea78def5aee1fa86716c328a7c3a121265f922f34e6634b6219d",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 3,
+          "sha256": "9295fc7c904d12af97e7268ca810d7427bf11129b2dcf844762856bfcc068b5e",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 4,
+          "sha256": "db63716cf7a2231529229075386bdcaf2f1613b60b7e09874e4076e8599e28a6",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 5,
+          "sha256": "08a35aa3fac12af675d637f63be3ee88023ae9fa8e018e5674e7932264eeaeb5",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 6,
+          "sha256": "db63716cf7a2231529229075386bdcaf2f1613b60b7e09874e4076e8599e28a6",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 7,
+          "sha256": "7977d969395ac95b8bf70cc161626bbf7cc99c1cff7e524869b26664b5da3f09",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 8,
+          "sha256": "df834d26f3efc6e54d9c34dfe3b7e590d76eda13ea1c26d7d7ae5b27b1dc3335",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 9,
+          "sha256": "3ae522b117ff6cdd30a60da045d39bbaec91ef50a4e79a3747725fe8fd72a204",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 10,
+          "sha256": "b84f5f90e65258d6389e77c43fa60f9692ae73730640ee54de781e733e77f09d",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 11,
+          "sha256": "576047f64e37d14ae77409934724974af316a909e7cadc9a7fd441a102bacdf0",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 12,
+          "sha256": "f0bd26ebb1ee3e0d0718ebb5488e12196016d71d3e75094a3fa382fd747261b6",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 13,
+          "sha256": "636358c3cf91ba31c000b1a7c6c07af15b194dbf3ad7fbd8794cce1fad4c4c38",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 14,
+          "sha256": "13a5c9da3c43056328eba0b893bf08d868089ab3aaad0007387910f4ee4387e5",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 15,
+          "sha256": "90053757daacbc66fd627223e3f183ce13a078c821934d64ea768df77b1f7014",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 17,
+          "sha256": "a59c591fa9cc6107771350deb9cd95e7ef65efe3b5292d59b99055659191c347",
+          "path": "review/round_01/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 19,
+          "sha256": "bf6d9daf6f3cb1d3b1e1e3f3e3cb01dde83039e99f0cfcb407cc1d6d71399a74",
+          "path": "review/round_01/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 20,
+          "sha256": "7c025bc999dc87093271092287d2d2d28f8f9771abd1ad270544e066c97ba4ac",
+          "path": "review/round_01/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 21,
+          "sha256": "77e931279cdadd0b1d5ea982702184f909b4f49734123676c9d3e273f195bf19",
+          "path": "review/round_01/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 22,
+          "sha256": "3a548f01bba06fe94c38398862014a6ca56a8b44f758913c99efb970b61a00d1",
+          "path": "review/round_01/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 23,
+          "sha256": "aaa9ce6133e01e8bf2272f8853c5c1764a15b0d9bc5c130d1df88c060189226b",
+          "path": "review/round_01/observation_023.png"
+        },
+        {
+          "number": 24,
+          "action_count": 24,
+          "sha256": "52442ec0dde0273b62962d6254a0b111f73231eefa44556f76cfc43fb675cf12",
+          "path": "review/round_01/observation_024.png"
+        },
+        {
+          "number": 25,
+          "action_count": 25,
+          "sha256": "06fb9b32afc7886e25410f994d2c9fbabb101529d0b33f8ab7b475cf1263df18",
+          "path": "review/round_01/observation_025.png"
+        },
+        {
+          "number": 26,
+          "action_count": 26,
+          "sha256": "eacbe8fbdae254172ce5d450253c5fe71c39b5ffdfc9f3db1cea9e9455a0de5b",
+          "path": "review/round_01/observation_026.png"
+        },
+        {
+          "number": 27,
+          "action_count": 28,
+          "sha256": "a2d34e2e2a850f8b8a534bca1020bf7ada32c37f3030f4654a5c4e8bdb4afdbe",
+          "path": "review/round_01/observation_027.png"
+        },
+        {
+          "number": 28,
+          "action_count": 29,
+          "sha256": "fb5d442961b8e65123ec68329ada8dcc8175653fbdb15d005f20cb63d7db902a",
+          "path": "review/round_01/observation_028.png"
+        },
+        {
+          "number": 29,
+          "action_count": 31,
+          "sha256": "d565f8618d8c6a214a745cfedd3c36ef5fa8d2270d07e8a4d1167951ef1ecdb1",
+          "path": "review/round_01/observation_029.png"
+        },
+        {
+          "number": 30,
+          "action_count": 32,
+          "sha256": "169bcc99de6da0876d236584314c04e03dcd6a1625d66039f11403503c89f5de",
+          "path": "review/round_01/observation_030.png"
+        },
+        {
+          "number": 31,
+          "action_count": 34,
+          "sha256": "7a6d580ea2395c02b06b4ad502df9f585e909c73dec3015032ff1b2c02f3f5fe",
+          "path": "review/round_01/observation_031.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "accept",
+      "checked_flows": [
+        "引导页与目标截图逐像素对照（Logo 圆形蓝色 #2196F3、Logo 上沿 900sp y=685 与目标一致；主按钮填充实测 srgb(54,97,142) 与目标完全相同；三按钮高度/间距/边距/底部留白对齐；已删除此前臆造的标题文字）",
+        "抽屉导航徽标：工作 4 / 生活 8 / 购物 4，与「共 16 项未完成」一致",
+        "排序：切换「优先级」+「降序」后列表即时按高→中→低重排，完成项沉底",
+        "筛选器：隐藏已完成开关即时生效，数据保留",
+        "任务详情页：完成时间统一格式化为 2026-09-08 11:05 / 2026-09-03 15:40",
+        "恢复（取消完成）：详情页「恢复」→ 标题去删除线、完成时间消失、按钮变「标记完成」，Snackbar 提示「已恢复「整理会议纪要模板」」",
+        "删除：详情页垃圾桶 → 「删除任务」确认弹窗 → 删除 → 返回列表且任务消失",
+        "重启持久化：删除结果、排序偏好（优先级·降序）、已过引导页状态、重复任务顺延后的日期全部保持"
+      ],
+      "findings": [
+        "【已修复·配色】全局 primary 改为 #36618E、Logo 改为 #2196F3、描边按钮 #BECEDE + 深灰文字。复验实测引导页主按钮填充 srgb(54,97,142)，与目标截图采样值完全一致；Logo 圆 srgb(32,143,233) 与目标 srgb(35,154,248) 为同一 #2196F3（JPEG 压缩差异）。",
+        "【已修复·引导页版式】Logo 上沿 900sp y=685 与目标 y=685 完全对齐；主按钮上沿 900sp 1539 对目标 1538；按钮高 40dp、间距 18dp、左右边距 32dp、底部留白 56dp；已删除「Tasks」标题与副标题两行臆造内容，Logo 与按钮之间恢复为纯白。",
+        "【已修复·徽标】抽屉三个列表项恢复显示未完成数徽标（4/8/4），此前 BadgedBox 空内容导致不渲染的问题已解决。",
+        "【已修复·时间格式】种子数据的 ISO 完成时间统一格式化为 yyyy-MM-dd HH:mm 展示。",
+        "【本轮新验证】恢复、删除（含确认弹窗）、排序（优先级升/降序）三条此前未走查的流程全部通过，且重启后删除结果与排序偏好均保持。",
+        "【复验通道时序提示】点击后立即截图有时会拿到变更前的帧（例：点「恢复」后首帧详情页未更新，返回列表即见 Snackbar「已恢复」与状态变更；本次已在后续步骤补 1.5-3s 等待复核）。这是复验采样时序，不是应用缺陷，但建议后续复验在点击后加 1s 等待再截图。",
+        "【探索限制声明】目标 App 探索阶段窗口完全不接收触摸（多点位点击/长按/滑动/返回/重启均无响应），因此除引导页外没有任何目标截图可做像素对照；列表页、任务详情、新建/编辑表单、筛选器均为依据 /materials/app/SUPPLEMENT.md 功能契约实现并通过功能自洽性验证，无法声称与目标像素一致。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "restart_app"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "b2d71816ed064ef9a5ec0cbd1048a2943cfbab3e648046c8fb87a5ba4175aec4",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "ca3bfd2b503a98416fd79cb76ac4a30e5f415c95cbdd27fe0408dbf9185fc42e",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "27cfac4f0e7db456be031f6e563682928a22210ed64597f1bfd4a99fa93d1aae",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "db9a442d2f0de0441712b1ea29c7689a886c2033bed699b9db95f1c441ac38df",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 6,
+          "sha256": "684d2893acb6a28cdc45650c61cc0bedb71c848be9165b057868b7731434b041",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 8,
+          "sha256": "684d2893acb6a28cdc45650c61cc0bedb71c848be9165b057868b7731434b041",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 9,
+          "sha256": "2b05377a907b2bb894eecbd96d73d92dda3d214e790f958cb522a7e553f2b109",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 10,
+          "sha256": "0636bd34b9ea5dbc95f02f064cd28e2892dcc1a2e2cdaf1bceea797af3dd0c2c",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 11,
+          "sha256": "21c11b3d1deeb3488fbc841f25a05b4d72c7dc5bc9049e2d5f16bda9cb0ccf33",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 12,
+          "sha256": "41ead38fb37bd46a3ab2beaae757cbcb68c85653f08e74e8f604fffc21777b76",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 13,
+          "sha256": "e343b19d4622c1c6df06e31370aa998631adceba39ce3bee7289ec86793dd277",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 14,
+          "sha256": "e343b19d4622c1c6df06e31370aa998631adceba39ce3bee7289ec86793dd277",
+          "path": "review/round_02/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 15,
+          "sha256": "830dbda1b0b9394fc35e97a32ba5907b15ae3d8d2d89cac9143c3151ee035fc2",
+          "path": "review/round_02/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 17,
+          "sha256": "6ac2342b0f620cdd6146c6141dfd8acd9abb20c4d9f10e397c943f42ef5c6da6",
+          "path": "review/round_02/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 18,
+          "sha256": "7f2e9effb6d5a2fb911129ff334170a0f414b17de71b0abcf38fd26868dcb787",
+          "path": "review/round_02/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 20,
+          "sha256": "b12ff53edaf3c072fad9c8bfee66a632a923ac017de3e2f285f4828b55707802",
+          "path": "review/round_02/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 21,
+          "sha256": "ffaf59f8e9520778f38649c902ebd82044e7c565b53eab3f8729c951705766fb",
+          "path": "review/round_02/observation_017.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

@@ -1,0 +1,651 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "78ec1bc905b5ff845debc0c363feeb96f2313e4e3d51cc9f3cec83cc51dbc3b0",
+  "accepted_apk_hash": "0c2a25d164739b8d56d4d289aa7c1d8756361a07d88ccd14b826bbc724628504",
+  "revision_count": 1,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "Easy 初始界面（9×9、LED 计数器 010、计时器 00:00、四档标签、Licenses 链接）",
+        "点击未翻开格 → flood fill 连锁展开 + 数字配色（1 蓝 / 2 绿 / 3 红 / 5 橙）+ 计时器启动",
+        "长按插旗 → 旗帜图标 + 计数器 010→009",
+        "难度切换：Medium（13×13、030、05:00 琥珀倒计时）、Hard（15×15、050、03:00、标签高亮）",
+        "Hard 迷雾：翻开后约 7 秒变紫色雾格",
+        "Custom Game 对话框：Grid size 6×6、Mines 上限 27 (75%)（= 格子数-9 规则）、两个开关、Cancel/Start",
+        "胜利：😎 笑脸 + 绿色 “🎉 You Win! 🎉” 横幅 + 计数器 000 + 全部雷自动插旗",
+        "失败：😵 笑脸 + 红色 “💥 Game Over 💥” 横幅 + 全部雷以深红炸弹格公开 + 引爆格爆炸星标 + 计数器不变",
+        "冷启动/重启：无任何持久化，回到全新 Easy 局"
+      ],
+      "findings": [
+        "雷数百分比用了四舍五入：默认 16×16/40 显示 “40 (16%)”，目标显示 “40 (15%)”（应为向下取整）",
+        "笑脸重置按钮点击无响应（Canvas + clickable 未收到点击），无法重开新局",
+        "底部 Licenses 链接点击无响应，无法打开许可证对话框",
+        "顶部区域整体偏高：计数器行在 preview y≈30-75，目标 ≈78-130；底部 Licenses 亦偏高",
+        "数字/炸弹字形过大（几乎占满整格），目标约为格子的 2/3",
+        "滑块带离散刻度圆点，目标为无刻度点的光滑轨道",
+        "未翻开格的立体边框过亮过厚，目标更扁平subtle",
+        "Custom 对话框面板略窄（约 410 preview px，目标约 455）"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "ae5fed98152afbd84519408d20857ccc73735fea064464d832c33a3bbe8b1b12",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "84d38863d486c5c307a37f091e8717c63eade5addbd48d00b028af93b2c0a505",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "1d549848a71ad60290647e13f6ef9c353aa88ca859d758d992f1d964a01052e7",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "a6ab1212120e4d63e48742561b671d853acea146e7ab11f91b9760fa05b54a43",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "9a39aace4ad7aab46ccdccfa6d6c519c507920ec359a210730722f6f9672c4f1",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 6,
+          "sha256": "ab32d17e22201b00284f34bd650f2fb562786f167deb476537982be7553578e9",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 7,
+          "sha256": "8e4f85a14f7d189347e4edc7d50fb32fd323b1689c2009a3f5bb9d66521821c8",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 9,
+          "sha256": "d1670e66e237a6061c2ab4b0b912bfc17318d627e264dc58effd5841d5e8858d",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 11,
+          "sha256": "55cf0b06f53310bff281fd0f2143b6b533ed73abab5ac6acf9a09c142bd8f601",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 12,
+          "sha256": "3540d11c7b4d5011da48b29b90478704b65e8fa9c5b131e9fdf7a7c5011a0973",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 15,
+          "sha256": "a894d681499348cf7eb41a9dfa79179a62dc8f39b45cf5a7a7ce36e183e0d2ac",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 16,
+          "sha256": "be2e97419e90feb68a0c0b7a908d5b7ae746ea5640a7378273d5e06ec84814cb",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 17,
+          "sha256": "a0735b533024fa8d28d58696099f419918814732c9b171d05491d5872e5fe53e",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 18,
+          "sha256": "5c1eb3696853133d74fe340a19be782042d74cac389308fac47008f50e4839e4",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 19,
+          "sha256": "1b47b072bd624bdab90efe4a3401bb2bd248e2f4c2edb6f04254bc049eda3830",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 24,
+          "sha256": "6e39334bed24c30ea9f8ef7e56de5e42f5e3768150604cd8739429606daa9e0f",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 26,
+          "sha256": "4ecf6b4854ef657d45903beaef39d26468bc9647164ca3a86deee0c0cd350de2",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 29,
+          "sha256": "999f4e4a436ee7d67041b5b1cd46b369764c7bdbb3512263fb1abc8fbe560e4e",
+          "path": "review/round_01/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 32,
+          "sha256": "1e758a199937811384cab0b887be4e8a7fdd74bde29ef80cf9ed55d40ad70082",
+          "path": "review/round_01/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 37,
+          "sha256": "30602cdc43992d5def52897ad60d03a89da97247214cf779bce775379958e47b",
+          "path": "review/round_01/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 42,
+          "sha256": "735a772151ddebd2250eafca54deb0f6a5adee1f426ceef0ef951f0b92f0900b",
+          "path": "review/round_01/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 43,
+          "sha256": "18a22f148b3356f5e4ba77a39d6e06e827b1e92eb13f78675316adc038ede9e6",
+          "path": "review/round_01/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 44,
+          "sha256": "b99c4b084a6d0ea8bb0ecc8b6ffb93617e9d538acdc2e121f2cec89a4ba9e729",
+          "path": "review/round_01/observation_023.png"
+        },
+        {
+          "number": 24,
+          "action_count": 52,
+          "sha256": "98126d3a6d9f01e9663a1f3d8850823c7d3fc28e094948493e722554568a4b54",
+          "path": "review/round_01/observation_024.png"
+        },
+        {
+          "number": 25,
+          "action_count": 56,
+          "sha256": "968fa8034b1e14c70e7ce6ea17da3b233468f23d1f659f47c492f16b57651a30",
+          "path": "review/round_01/observation_025.png"
+        },
+        {
+          "number": 26,
+          "action_count": 64,
+          "sha256": "ada05f677df616205c51b2973104c92264d3b731bfb8d4f89ab940e0ce8c948a",
+          "path": "review/round_01/observation_026.png"
+        },
+        {
+          "number": 27,
+          "action_count": 68,
+          "sha256": "e47b44133f61f7284744edf51fd95869ef6a6d60baff8394a251b962a5de8bb3",
+          "path": "review/round_01/observation_027.png"
+        },
+        {
+          "number": 28,
+          "action_count": 72,
+          "sha256": "d81f9f13827cba5c5bdcbeb1f6bb3565ff7565cdf21f99cb2c985837680accae",
+          "path": "review/round_01/observation_028.png"
+        },
+        {
+          "number": 29,
+          "action_count": 73,
+          "sha256": "d81f9f13827cba5c5bdcbeb1f6bb3565ff7565cdf21f99cb2c985837680accae",
+          "path": "review/round_01/observation_029.png"
+        },
+        {
+          "number": 30,
+          "action_count": 77,
+          "sha256": "1a3fe2942c5571551b52a070d4fb9350ae7cc71b4d896c74affaa29b63258668",
+          "path": "review/round_01/observation_030.png"
+        },
+        {
+          "number": 31,
+          "action_count": 78,
+          "sha256": "68a83eec6db1846eab6ae8eccd5eb64e2f85ba5560b5eb7b5c2ad818f67f6f50",
+          "path": "review/round_01/observation_031.png"
+        },
+        {
+          "number": 32,
+          "action_count": 79,
+          "sha256": "68a83eec6db1846eab6ae8eccd5eb64e2f85ba5560b5eb7b5c2ad818f67f6f50",
+          "path": "review/round_01/observation_032.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "accept",
+      "checked_flows": [
+        "Easy 初始界面：顶部红色 LED 计数器 010 + 笑脸 + 00:00 计时器、四档标签（Easy 高亮 \"10 💣\"）、9×9 方格、底部 Licenses 链接（间距已修正到与目标一致）",
+        "点击未翻开格 → flood fill 连锁展开、数字配色（1 蓝/2 绿/3 红/4 紫/5 橙）、计时器启动",
+        "笑脸按钮 → 重开当前难度新局（本轮已修复可用：翻开后点击笑脸，棋盘复位、计时器归零）",
+        "长按插旗 / 再次长按取消 + 计数器增减",
+        "难度切换：Medium 13×13/030/05:00 琥珀倒计时；Hard 15×15/050/03:00 + 标签高亮",
+        "Hard 迷雾：翻开区域约 7 秒后整片变紫雾格",
+        "Custom Game 对话框：宽面板、无刻度点滑块、Grid size 7×7、Mines 37（= 格子数-9 上限规则）、百分比为向下取整（默认 16×16/40 显示 40 (15%)）",
+        "失败：😵 + 红色 “💥 Game Over 💥” + 全部雷以深红炸弹格公开 + 引爆格星爆 + 计数器/计时器冻结（本轮确认修正后字形比例）",
+        "胜利：😎 + 绿色 “🎉 You Win! 🎉” + 计数器 000 + 自动插旗（第 1 轮已验证，逻辑未改动）",
+        "Licenses 对话框：标题、GPL v3 声明、Apache-2.0 归属清单与全文、Close 按钮（本轮已修复可打开/关闭）",
+        "冷启动/重启：无持久化，回到全新 Easy 局"
+      ],
+      "findings": [
+        "已修复：雷数百分比改为向下取整，16×16/40 现显示 40 (15%)，与目标一致",
+        "已修复：笑脸按钮与 Licenses 链接改用 pointerInput/detectTapGestures 且扩大点击区，均可正常响应",
+        "已修复：顶部间距加大（计数器行 preview y≈85-130，目标 78-130）、底部 Licenses 移至 y≈1128（目标 1131）",
+        "已修复：数字/炸弹字形缩至格子约 0.68，铺满整格的问题消除",
+        "已修复：滑块去掉离散刻度点、对话框面板加宽到 preview x 40-496（目标 40-495）",
+        "已修复：未翻开格边框更细更暗，接近目标的扁平凸起观感",
+        "残留细节差异（不影响功能）：雷格使用 💣 emoji，带引信火花，目标小尺寸下看起来更接近纯黑炸弹；Medium/Hard 副标签用 ⏱/👁⚡ emoji 近似目标简笔图标；爆炸格为径向渐变加射线，目标为星爆图形；迷雾恢复约 7 秒（目标未精确测定，量级一致）"
+      ],
+      "actions": [
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "56da95cb783bc18f4b0dd84c3a2ad7ecc18f5d32ddce9c3afbf30e33f3d8f69b",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "343db9bfbc1460dbce36fffed294207aeef38d277e5cdd2dc4f238b3450372d3",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "fcf8972d7a38f1a46ab6cc396d2f47de3b9925a55da18c81c40096c811a5b015",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 5,
+          "sha256": "a1c8c68351f621f97db6725a371c8cb58fe6da96967e925bbb2ee80cc52507fd",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 8,
+          "sha256": "a1609f6889c3774e8907b078ac78bca614e9260140787b9ddb8025bc2d886026",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 10,
+          "sha256": "10c454df6d5523b36f3b892db80fb8ae53ae13ae8f37e96dadefc27fba5f862b",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 11,
+          "sha256": "a1609f6889c3774e8907b078ac78bca614e9260140787b9ddb8025bc2d886026",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 13,
+          "sha256": "86b1cd465065d4981f8a26d89515f7485604da2b56477781cecae5dd6096ad40",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 19,
+          "sha256": "40b74e74d7fd58441ba3d219184532b221581dccfccbb4b0bc674156d6f59d1f",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 23,
+          "sha256": "8a4411b2934ec2fc83bec7bb7544d0fe2e57558c181400874c3e2fddb7400bd4",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 27,
+          "sha256": "4c8f493e0f02f70528a5f33184eea6f3c155d18c9d9f4e72b58b2e01d2abee40",
+          "path": "review/round_02/observation_011.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

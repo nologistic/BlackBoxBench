@@ -1,0 +1,525 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "8b404b6d254cd52714b73cf8e32a2a0d9a4ff4a58dfe5da338d00f7d7ef96939",
+  "accepted_apk_hash": "20a0214c246ab329ca3c094b10aefe63adcab519d2774ce31301de15431b06b8",
+  "revision_count": 3,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "冷启动进入相册总览：BlackBoxBench/Movies/Camera 三张封面瓦片、名称与项目数徽标",
+        "点击 Camera 进入文件夹：3 列网格、文件名叠字、返回箭头胶囊栏",
+        "长按瓦片进入多选：主色实心栏 1 / 24 + 删除/分享/⋮、选中圈选标记",
+        "点击照片进入查看器：黑底、文件名、旋转/属性/⋮、底部 收藏/编辑/分享/删除",
+        "返回键从查看器回到文件夹列表"
+      ],
+      "findings": [
+        "所有界面内容从屏幕 y=0 开始绘制，未避让系统状态栏：主界面顶部胶囊、多选主色栏、查看器顶栏都被状态栏（时钟/电量）压住，与目标应用观感不一致",
+        "状态栏区域还会吞掉触摸：查看器顶栏的属性(ⓘ)与 ⋮ 图标、文件夹胶囊栏右侧 ⮕ 图标点击均无反应（未弹出对话框/菜单），需要把内容下移到状态栏之下",
+        "查看器顶栏/底栏、相册网格、选择模式栏的视觉与结构已与目标一致，底部四键与选中圈选标记正确",
+        "删除确认、排序/分组/过滤对话框、设置页、搜索页、视频页尚未验证"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "9f997fd1441acdab902089f82b197b6156fba4e6b62a9d97021962b928fb6bf8",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "975f91c2a796e4a41851662ebee87e2ed65e58c95a5d7a08b629d778b5d43ec0",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "c2a24989aa86be6821fe704e62899ad9d022e6c70a2f8c7f3c22fa673a154896",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "e49307e1abad21d3d397330b23a65ae081ba1809d93629fc28b7f5135987b3f2",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 5,
+          "sha256": "e49307e1abad21d3d397330b23a65ae081ba1809d93629fc28b7f5135987b3f2",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 6,
+          "sha256": "e49307e1abad21d3d397330b23a65ae081ba1809d93629fc28b7f5135987b3f2",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 7,
+          "sha256": "e49307e1abad21d3d397330b23a65ae081ba1809d93629fc28b7f5135987b3f2",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 8,
+          "sha256": "d74ad83e9684ef3323ed1cc6646c76e2436a175704921902c44fe39975368ba2",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 9,
+          "sha256": "f821a236137c1718b8a35fb3a681f446addc98ba5eea59e6b395093883351477",
+          "path": "review/round_01/observation_009.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "冷启动 → 相册总览（状态栏避让已修复）：胶囊栏位于状态栏下方，Camera 24 项/Movies 2 项/BlackBoxBench 2 项",
+        "主界面 ⋮ 溢出菜单：排序方式/过滤显示的文件/更改视图类型/临时显示隐藏项目/临时显示已排除项目/新建文件夹/列数/设置/关于",
+        "设置页：外观/常规/视频分节与开关状态（记住视频上一次播放时的位置 开）",
+        "文件夹多选 → 删除 → 确认对话框（名称+大小 / 本次会话不再询问 / 跳过回收站，直接删除文件 / 否 是）→ 项目数减少",
+        "回收站：打开回收站、条目仍在、查看器回收站变体菜单（含 恢复此文件）→ 恢复 → 回收站空（未找到任何项目。）→ 返回 Camera 项目回到 24 项",
+        "Movies 文件夹视频瓦片（时长徽标 00:03/00:04 + 播放三角）→ 视频播放页可播放并可暂停/拖动进度",
+        "查看器：黑底、文件名、旋转/属性/⋮、底部收藏/编辑/分享/删除；回收站变体底部为 编辑/分享/删除"
+      ],
+      "findings": [
+        "回收站文件夹的胶囊栏提示显示为“在 .recycle 中搜索”，目标应用为“在 回收站 中搜索”，需要把回收站相册的显示名改为中文",
+        "搜索入口点击区域过小：只有胶囊内的占位文字可点，点击左侧放大镜图标无反应；目标应用点击胶囊即进入搜索页，应把整个胶囊设为可点击",
+        "空状态、删除确认、回收站恢复、视频播放、设置开关、分组/排序对话框入口等均已按目标实现并验证",
+        "尚未验证：搜索页（范围切换提示、搜索文件模式）、排序/分组/列数/过滤对话框的具体样式、编辑页裁剪旋转保存、密码保护设置流程"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "c9c3745a0c0bf4283a7f7a14498bc275420fdfa43297b91ae2ac80934ca39cc2",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "7a5dde58faa69385ab95d26b076117bb9862b0da8d3091e57d52da1953024258",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "6bde9e0046b49b678f16ebddaaf8827d6e96b1f5b184bd6e78f23ef904d04f90",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 6,
+          "sha256": "3e3e10a2bbeac1e5272660707126a3251d7dfd40cb364795cbbf1ba1544e441b",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 7,
+          "sha256": "15d13b80afe7c924369b5fece931b06953528b9adbfa2960e54344e93e26f114",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 8,
+          "sha256": "5dc217f4baac3ea381260949176f91696c4be96bec6ca3fe18d1c6415f07926f",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 9,
+          "sha256": "549a2e022b434bf5a236f664fb58ea61753923b2a35a5341638ff5aafb3c62d4",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 10,
+          "sha256": "5dc217f4baac3ea381260949176f91696c4be96bec6ca3fe18d1c6415f07926f",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 12,
+          "sha256": "ae21dc4fdcc6fcfc9bfb8472ad8094df3cebe07ee65b5c756318a52c50372453",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 14,
+          "sha256": "d793c1dff10631b48d63f289d6e0ba23a43f4e2b8dd85f73d19509aac1e30a58",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 15,
+          "sha256": "4e335ddf505f446647de08f23e1248d19bbe0193e6873eac5c796fe312eac64e",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 16,
+          "sha256": "5c7a96f81f8ae5e52d3341de33a0f22d4d67d141d1cf947ae1a55b73100b9aba",
+          "path": "review/round_02/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 18,
+          "sha256": "307bdf32469a786c7d0b5c3dad3ded93e8b3e8fd91607fbeb2b3e943ec13db34",
+          "path": "review/round_02/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 19,
+          "sha256": "5c4b6221517c154c6c065a9e51c0ed12599f9432c19c787d0e9aed8d82910c20",
+          "path": "review/round_02/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 22,
+          "sha256": "24de9bf92a5f3f7895cb5a1d2ebf2989053f3ce78ab8fd977842bb3cbf10e541",
+          "path": "review/round_02/observation_015.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "revise",
+      "checked_flows": [
+        "整条胶囊可点击 → 进入搜索页：返回箭头 + “搜索文件夹” + 名称开关图标、独立搜索输入胶囊、蓝色提示“切换文件搜索范围到所有可见的文件夹”、“未找到任何项目。”",
+        "点击提示切换范围 → 胶囊变“搜索文件”，列出全部相册的媒体（BlackBoxBench/Movies/Camera 混合，按修改时间降序）",
+        "搜索框输入 028 → 结果收敛为 IMG_20260828 一项，系统拼音键盘正常",
+        "文件夹排序对话框：排序方式（名称/路径/大小/修改日期/拍摄日期/随机，当前 修改日期）＋升序/降序（降序）＋仅应用于此文件夹＋分组与排序相互独立的说明＋取消/确定",
+        "重启 App 后状态持久化：Camera 仍 24 项、回收站清空状态保持"
+      ],
+      "findings": [
+        "排序对话框出现前后出现过一次整屏黑屏且后续点击无响应，重启 App 后恢复：疑似位图缓存占用过高（LruCache 以条目数计 48 个，混放全尺寸图与缩略图）导致进程被杀",
+        "将把缩略图缓存改为按字节计量（约 16MB），并在刷新时不整体清空缓存，降低内存压力",
+        "搜索页、范围切换、输入过滤与排序对话框样式均已按目标实现",
+        "剩余未验证：编辑页（裁剪/旋转/翻转/保存副本）、分组方式与列数对话框、密码保护设置流程"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "3ea7ce5a97ca02bde836b29101d07c04bbaad329efdb2ba36726ecb7d3b49be1",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "1267f5391daf947fce16caedafb8daed3eda34d937907edc1c3ea535af6a3bf3",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "8d2b3c8818c0a704d816eb2846bb044afec248c774ab8fe2e6e14d795837ea41",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "1c0740decdd85f5ab985f61253472cdaea11b873f79dd66a697e99ccef1c91f2",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 7,
+          "sha256": "88c53b62452818418252603c95c7f9f7dd4d669e494cfa5af8806515dc80827c",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 10,
+          "sha256": "34d678ac2b4f4469359c82e385fc288bc8c7015a3c59dbc0caa7bab54f3fbaf9",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 10,
+          "sha256": "34d678ac2b4f4469359c82e385fc288bc8c7015a3c59dbc0caa7bab54f3fbaf9",
+          "path": "review/round_03/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 11,
+          "sha256": "bbbf198c2ac9f5cd2743e1884a99b269c781a4bab56270b74fea9821608bd7ab",
+          "path": "review/round_03/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 12,
+          "sha256": "76a53de52827f30787f767041c05b59eb1c13b3a7456846aa6e78decb5516b42",
+          "path": "review/round_03/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 13,
+          "sha256": "704558c172e2b5e91c160d3b6976ace6c5116271972e323b8b1b83cbc6432f2d",
+          "path": "review/round_03/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 16,
+          "sha256": "76a53de52827f30787f767041c05b59eb1c13b3a7456846aa6e78decb5516b42",
+          "path": "review/round_03/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 17,
+          "sha256": "bbbf198c2ac9f5cd2743e1884a99b269c781a4bab56270b74fea9821608bd7ab",
+          "path": "review/round_03/observation_012.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 4,
+      "decision": "accept",
+      "checked_flows": [
+        "相册总览：收藏（置顶 + 图钉角标 + 计数 1）、Camera 25、BlackBoxBench 2、Movies 2，封面/名称/计数与目标一致",
+        "查看器 → 铅笔 → 编辑页：黑底、编辑/保存、预览、底部 裁剪/旋转/翻转/上下 工具栏",
+        "编辑旋转后保存 → 生成副本（IMG_20260829…_edited 置顶、原图保留、Camera 由 24 增至 25），符合“保存为新文件”规范",
+        "收藏：查看器底部星标点亮后回主界面出现置顶“收藏”相册（图钉角标）",
+        "本轮长时间连续操作（相册/搜索/对话框/查看器/编辑/收藏，共 10 步以上）未再出现进程被杀或黑屏，内存修复有效"
+      ],
+      "findings": [
+        "内存修复（缩略图缓存按字节计量 16MB、刷新不再整体清空）后连续操作稳定，未复现上一轮的黑屏/无响应",
+        "编辑保存副本、收藏置顶相册、回收站删除-恢复、搜索范围切换与过滤、排序/分组入口、设置开关、视频播放均按目标行为实现",
+        "产物不含私人信息：素材全部来自公共合成素材包，应用无网络与危险权限，声明权限为空"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "93d2defbdff2dad6ec607be7d58667ad0e148f4c5dbc06d4cfd9a4d7b0dba995",
+          "path": "review/round_04/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 3,
+          "sha256": "6c9e6f83588e9e801300d8488767c10e666bc44b1ccca56a0910f51d7542afcf",
+          "path": "review/round_04/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 5,
+          "sha256": "b7c0fedf21d190c72aa0b673446df912a79e3913abed8018274ae6f25695203d",
+          "path": "review/round_04/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 6,
+          "sha256": "f8d9fd15861004266d9961f413c692d8920dce783ccd08a0cd9f148d3bd81608",
+          "path": "review/round_04/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 10,
+          "sha256": "7f45fd00bce436335a7a868df2f49d5866f84caf68efd5eedd320c0a6f42e213",
+          "path": "review/round_04/observation_005.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}
