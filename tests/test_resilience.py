@@ -103,22 +103,27 @@ def test_initial_capture_failure_cleans_up_runtime(tmp_path, monkeypatch):
                (recorder._actions, recorder._obs, recorder._disc))
 
 
-def test_runtime_failure_freezes_budget_and_persists_reason(tmp_path):
-    """A dead environment ends the session and hands everything back."""
+def test_runtime_failure_is_a_fact_not_a_verdict(tmp_path):
+    """平台不替 Agent 判断会话存亡（2026-09-26 契约）。
+
+    旧行为：探测到设备"不健康"就 freeze 预算、status=failed、关会话 ✗。
+    新契约：任何运行时失败都只是"这一步没生效" —— 会话继续、预算继续、
+    运行时保留；完整技术细节仍写进 crash_report.json（审计用），交给 Agent
+    的永远只有一句中性事实。
+    """
     runtime = _Runtime(fail_click=True, healthy=False)
     session = Session("sess_failure", get_app("ecommerce_demo"), runtime,
                       tmp_path / "failure", Budget(10, 600, 10))
 
-    with pytest.raises(SessionClosed):
+    with pytest.raises(TransientEnvironmentError):
         session.execute(m.Action(type=m.ActionType.CLICK, x=10, y=10))
 
-    assert session.status == "failed"
-    assert session.budget.ended_at is not None
-    assert runtime.stopped
-    persisted = (session.dir / "session.json").read_text("utf-8")
-    assert "runtime error" in persisted
+    assert session.status == "running"
+    assert session.budget.ended_at is None
+    assert not runtime.stopped
     # The reason is kept locally for diagnosis, never handed to the Agent.
-    assert "click failed" in persisted
+    assert "click failed" in (session.dir / "crash_report.json").read_text("utf-8")
+    session.recorder.close()
 
 
 def test_recoverable_runtime_failure_keeps_the_session_alive(tmp_path):
@@ -410,25 +415,24 @@ def test_manager_close_releases_runtime_handle(tmp_path, monkeypatch):
     assert runtime.stopped
 
 
-def test_observe_failure_fails_session_and_releases_runtime(tmp_path):
-    """Capturing pixels is a runtime operation and can fail like any action.
+def test_observe_failure_is_reported_as_a_fact(tmp_path):
+    """取帧失败与其它动作失败同类：只回一句事实，会话与资源都保持原样。
 
-    It used to raise straight out of the controller, so the session stayed
-    "running" while its browser or emulator — and for Android its target lease
-    and port reservation — were already unusable and never handed back.
+    平台不替 Agent 判断"设备是否还可用"，所以这里不再结束会话、不再回收
+    运行时（要不要收尾是 Agent 的决定）；技术细节仍落盘供审计。
     """
     runtime = _Runtime(fail_screenshot=True, healthy=False)
     session = Session("sess_observe", get_app("ecommerce_demo"), runtime,
                       tmp_path / "observe", Budget(10, 600, 10))
 
-    with pytest.raises(SessionClosed):
+    with pytest.raises(TransientEnvironmentError):
         session.observe()
 
-    assert session.status == "failed"
-    assert session.budget.ended_at is not None
-    assert runtime.stopped
+    assert session.status == "running"
+    assert session.budget.ended_at is None
+    assert not runtime.stopped
     assert (session.dir / "crash_report.json").is_file()
-    assert "runtime error" in (session.dir / "session.json").read_text("utf-8")
+    session.recorder.close()
 
 
 def test_agent_never_sees_internal_failure_detail(tmp_path):

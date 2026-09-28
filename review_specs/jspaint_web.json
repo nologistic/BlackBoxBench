@@ -771,33 +771,39 @@
   "exclusions": [
     {
       "feature": "File → Upload to Imgur",
-      "treatment": "Exclude",
-      "reason": "需要接入外部 Imgur 服务和网络上传能力，不影响 JS Paint 的核心本地绘图、编辑和导出工作流；官方明确把它作为 Web 扩展功能。 GitHub"
+      "treatment": "Hard Exclude",
+      "reason": "需要接入外部 Imgur 服务和网络上传能力，不影响 JS Paint 的核心本地绘图、编辑和导出工作流；官方明确把它作为 Web 扩展功能。 GitHub",
+      "covered_by": []
     },
     {
       "feature": "File → Load From URL / URL 粘贴加载中的跨域代理",
-      "treatment": "Exclude",
-      "reason": "本地 Open 应完整实现；但任意公网 URL 加载可能需要 CORS 代理，官方部署文档也说明可选依赖 CORS Anywhere，因此复现时可以排除跨域代理和任意网络图片抓取。 GitHub"
+      "treatment": "Hard Exclude",
+      "reason": "本地 Open 应完整实现；但任意公网 URL 加载可能需要 CORS 代理，官方部署文档也说明可选依赖 CORS Anywhere，因此复现时可以排除跨域代理和任意网络图片抓取。 GitHub",
+      "covered_by": []
     },
     {
       "feature": "多人实时协作 session",
-      "treatment": "Exclude",
-      "reason": "当前实现依赖 Firebase，而且官方本身将该功能描述为较粗糙的实验性多人协作；不属于经典 Paint 核心编辑体验。 GitHub"
+      "treatment": "Hard Exclude",
+      "reason": "当前实现依赖 Firebase，而且官方本身将该功能描述为较粗糙的实验性多人协作；不属于经典 Paint 核心编辑体验。 GitHub",
+      "covered_by": []
     },
     {
       "feature": "Head Tracker / Speech Recognition / Dwell Clicker 等高级无障碍控制",
-      "treatment": "Exclude",
-      "reason": "属于 Extras 中面向眼动、头部追踪、语音控制等特殊设备或浏览器能力的附加功能；普通鼠标、键盘和触控编辑完整实现即可。 GitHub"
+      "treatment": "Default Exclude",
+      "reason": "属于 Extras 中面向眼动、头部追踪、语音控制等特殊设备或浏览器能力的附加功能；普通鼠标、键盘和触控编辑完整实现即可。 GitHub",
+      "covered_by": []
     },
     {
       "feature": "File → Set As Wallpaper 的真实操作系统壁纸写入",
-      "treatment": "Exclude",
-      "reason": "浏览器网页无法稳定直接设置桌面壁纸；官方接口本身也允许退化为保存图片，因此不要求真正修改用户操作系统壁纸。 GitHub"
+      "treatment": "Default Exclude",
+      "reason": "浏览器网页无法稳定直接设置桌面壁纸；官方接口本身也允许退化为保存图片，因此不要求真正修改用户操作系统壁纸。 GitHub",
+      "covered_by": []
     },
     {
       "feature": "PWA / Electron 桌面端专属系统集成",
-      "treatment": "Exclude",
-      "reason": "当前目标是复现 jspaint.app Web 版本，不要求 Electron 文件关联、系统菜单、命令行启动、安装包、PWA 安装或原生桌面集成。"
+      "treatment": "Default Exclude",
+      "reason": "当前目标是复现 jspaint.app Web 版本，不要求 Electron 文件关联、系统菜单、命令行启动、安装包、PWA 安装或原生桌面集成。",
+      "covered_by": []
     }
   ]
 }

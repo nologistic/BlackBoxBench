@@ -315,62 +315,82 @@
     {
       "feature": "AI 创建入口\nAI 写作 / 生成内容 / AI 助手创建",
       "treatment": "Hard Exclude",
-      "reason": "生成式结果非确定性，测到的是模型而非 Agent 操作能力（对照 excalidraw「Text to Diagram AI」排除）"
+      "reason": "生成式结果非确定性，测到的是模型而非 Agent 操作能力（对照 excalidraw「Text to Diagram AI」排除）",
+      "covered_by": []
     },
     {
       "feature": "点赞/评论的跨用户同步\n用户 B 操作 → 作者侧收到影响",
       "treatment": "Hard Exclude",
-      "reason": "需要第二用户与跨账户状态传播，单 Agent 无法稳定验证（对照 Calendar「Add guests」）"
+      "reason": "需要第二用户与跨账户状态传播，单 Agent 无法稳定验证（对照 Calendar「Add guests」）",
+      "covered_by": []
     },
     {
       "feature": "@ 提及与消息投递\n评论文档 @某用户 → 被 @ 用户收到消息",
       "treatment": "Hard Exclude",
-      "reason": "需要第二账号接收、消息系统与送达链路（对照 Google Forms「Response receipts by email」）"
+      "reason": "需要第二账号接收、消息系统与送达链路（对照 Google Forms「Response receipts by email」）",
+      "covered_by": []
     },
     {
       "feature": "他人行为驱动的通知生成\n他人点赞/评论/关注事件 → 生成通知",
       "treatment": "Hard Exclude",
-      "reason": "依赖他人产生业务事件与异步通知基础设施（对照 Spotify「Notifications」）；状态机可用预置 fixture 测试"
+      "reason": "依赖他人产生业务事件与异步通知基础设施（对照 Spotify「Notifications」）；状态机可用预置 fixture 测试",
+      "covered_by": []
     },
     {
       "feature": "访问申请审批工作流\n申请人申请 → Owner 批准/拒绝 → 权限变化",
       "treatment": "Hard Exclude",
-      "reason": "完整多用户审批链与权限传播（对照 Calendar「Guest permissions」），超出单 Agent 范围"
+      "reason": "完整多用户审批链与权限传播（对照 Calendar「Guest permissions」），超出单 Agent 范围",
+      "covered_by": []
     },
     {
       "feature": "关注/粉丝社交关系\n关注、粉丝列表、社交图谱聚合",
       "treatment": "Hard Exclude",
-      "reason": "社交图谱与多用户基础设施（对照 Spotify「Social / Friends」）"
+      "reason": "社交图谱与多用户基础设施（对照 Spotify「Social / Friends」）",
+      "covered_by": []
     },
     {
       "feature": "他人互动统计\n作者侧阅读量/点赞量/评论量/互动用户",
       "treatment": "Hard Exclude",
-      "reason": "数据来源是他人行为（对照 Spotify「fan analytics」），无确定性 fixture 时不可复现"
+      "reason": "数据来源是他人行为（对照 Spotify「fan analytics」），无确定性 fixture 时不可复现",
+      "covered_by": []
     },
     {
       "feature": "花园/公开页的外部可见性验证\n外部用户可见/不可访问的真实效果",
       "treatment": "Conditional Exclude",
-      "reason": "只验证发布状态切换、保存与本地失效；不验证「外部用户可见/不可见」"
+      "reason": "只验证发布状态切换、保存与本地失效；不验证「外部用户可见/不可见」",
+      "covered_by": []
     },
     {
       "feature": "权限设置的运行时效果\n访问控制、申请流的真实权限传播",
       "treatment": "Conditional Exclude",
-      "reason": "设置项 UI 与保存可测；权限传播效果依赖多账户"
+      "reason": "设置项 UI 与保存可测；权限传播效果依赖多账户；保留面：settings_behavior_link 配置与运行时行为联动",
+      "covered_by": [
+        "settings_behavior_link"
+      ]
     },
     {
       "feature": "通知状态机的真实事件源\n新通知的真实产生过程",
       "treatment": "Conditional Include",
-      "reason": "未读/已读/分类计数/全部已读/Deep Link 可测，需预置固定通知 fixture"
+      "reason": "未读/已读/分类计数/全部已读/Deep Link 可测，需预置固定通知 fixture；保留面：notification_read_state 未读/已读通知状态机, mark_all_read 「全部已读」批量状态同步, notification_deep_link 通知 Deep Link 与业务上下文恢复",
+      "covered_by": [
+        "notification_deep_link",
+        "notification_read_state",
+        "mark_all_read"
+      ]
     },
     {
       "feature": "消息/提醒偏好对真实业务事件的联动\n真实事件触发时偏好生效",
       "treatment": "Conditional Include",
-      "reason": "偏好配置与展示行为可测，真实事件需 fixture 预置"
+      "reason": "偏好配置与展示行为可测，真实事件需 fixture 预置；保留面：settings_behavior_link 配置与运行时行为联动",
+      "covered_by": [
+        "settings_behavior_link"
+      ]
     },
     {
       "feature": "官方模板库 / 花园示例内容完整复刻\n复刻官方全部模板与示例内容",
       "treatment": "Default Exclude",
-      "reason": "内容数据集不是功能能力；机制测试用固定 fixture 即可（对照 Desmos「Gallery 完整复刻」排除）"
+      "reason": "内容数据集不是功能能力；机制测试用固定 fixture 即可（对照 Desmos「Gallery 完整复刻」排除）",
+      "covered_by": []
     }
   ]
 }

@@ -56,9 +56,34 @@ COPY docker/runtime_rpc_server.py /app/runtime_rpc_server.py
 COPY docker/internal_gateway.py /app/internal_gateway.py
 COPY docker/reference_entrypoint.sh /app/reference_entrypoint.sh
 
+# --- pristine S0 seed dir ---------------------------------------------------
+# reference_entrypoint.sh builds /data/live by copying ${BBB_DATA_SEED}
+# (= /app/sample_apps/<APP_ID>/seed) and runtime_rpc_server.py re-copies it on
+# /reset. Both hard-fail when the directory is absent, so materialise it here
+# for every sample app that ships a state.py: the app's own Store writes the
+# deterministic build_seed() into state.json on first use, which makes the copy
+# an exact S0 snapshot.
+RUN python3 - <<'PY'
+import pathlib, sys
+sys.path.insert(0, "/app")
+from importlib import import_module
+
+apps = pathlib.Path("/app/sample_apps")
+for app_dir in sorted(p for p in apps.iterdir() if p.is_dir()):
+    if not (app_dir / "state.py").is_file() or (app_dir / "seed").is_dir():
+        continue
+    import_module(f"sample_apps.{app_dir.name}.state").Store(str(app_dir / "seed"))
+    print(f"[seed] materialised {app_dir.name}/seed")
+PY
+
 # --- non-root runtime user + writable data dir (T6) -------------------------
+# /tmp/.X11-unix must exist with the sticky bit BEFORE dropping to `bbb`:
+# Xvfb runs as the non-root user and cannot create the directory itself, and
+# reference_entrypoint.sh hard-fails when it sees no DISPLAY socket.
+# (Same reason Dockerfile.reference_raw pre-creates it.)
 RUN useradd --create-home --uid 1000 bbb \
-    && mkdir -p /data \
+    && mkdir -p /data /tmp/.X11-unix \
+    && chmod 1777 /tmp/.X11-unix \
     && chmod 0755 /app/reference_entrypoint.sh \
     && chown -R bbb:bbb /app /data
 USER bbb

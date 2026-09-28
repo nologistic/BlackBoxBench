@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -40,8 +41,22 @@ class AndroidReproductionReview:
         # an offline judge (see the app_evaluation/session.py fix of
         # 2026-09-10 for the identical issue on the judge side).
         self.network_policy = network_policy
+        # 审查设备必须在客户端（agent CLI 的 MCP 桥）单次调用容忍度内启动：
+        # 超时会被放弃连接 → stdio 断开 → server 进程退出并丢掉全部内存态
+        # （2026-09-25 实测：agent 因此陷入"新建工作区→再试"的死循环）。
+        # 给一个显式、可调、且远小于客户端容忍度的预算；失败时 start_round
+        # 还会自愈重试一次，对模型完全透明。
+        self.boot_timeout = int(os.environ.get("BBB_REVIEW_BOOT_TIMEOUT_S", "150"))
         self.runtime_factory = runtime_factory or (
-            lambda spec, directory: AndroidEmulatorRuntime(spec, directory))
+            lambda spec, directory: AndroidEmulatorRuntime(
+                spec, directory, boot_timeout=self.boot_timeout))
+        # MCP 侧在 finalize 之后会后台预热（预启动审查设备 + 预构建 APK）。
+        # 这样 start_reproduction_review 的耗时从"构建+启设备"降到接近 0 ——
+        # 客户端对单次调用的容忍度只有 1-2 分钟，长调用会被放弃并重置连接
+        # （2026-09-25 实测：agent 因此陷入"调用失败→重建工作区"的循环）。
+        self.warm_runtime = None      # 已被预热好的运行时（直接接管）
+        self.warm_build = None        # 预构建结果（仅当工程指纹未变才用）
+        self.warm_fingerprint = ""
         self.runtime = None
         self.active = False
         self.accepted = False
@@ -70,17 +85,96 @@ class AndroidReproductionReview:
         current = self.workspace.project_fingerprint()
         if self._last_revise_hash and current == self._last_revise_hash:
             raise ValueError("Android project did not change after revise decision")
-        build = self.workspace.build_apk()
+        build = self._take_warm_build()
         number = len(self.rounds) + 1
         work = self.workspace.review_dir / f"round_{number:02d}" / "runtime"
-        self.runtime = self.runtime_factory(self._spec(), work)
-        self.runtime.start()
+        self._start_runtime(work)
         self.active = True
         self.observations = []
         self.actions = []
         png, meta = self.observe()
         meta["build"] = build
         return png, meta
+
+    def _start_runtime(self, work: Path) -> None:
+        """启动审查运行时；失败时丢掉半成品设备自愈重试一次。
+
+        半成品设备会继续占端口并拖慢后续 boot（实测残留过孤儿模拟器 5556），
+        丢掉重来比把失败暴露给模型便宜——下一次 start() 自带孤儿清扫与端口重选。
+        """
+        if self.warm_runtime is not None:
+            # 接管 MCP 侧在 finalize 之后后台预热好的设备：把"起设备"从这次
+            # 调用里彻底拿掉（客户端对单次调用只有 1-2 分钟容忍度）。
+            self.runtime, self.warm_runtime = self.warm_runtime, None
+            # 预热设备里装的是【预热那一刻】的构建（通常是脚手架 APK ✗）；agent
+            # 之后才写代码 ⇒ 直接接管会让首轮看到旧占位（2026-09-27 minesweeper
+            # 单实测：首轮 2 帧、agent 自述"预热阶段构建的旧占位 APK"）。所以按
+            # 当前构建重装一次并重启目标应用，保证首轮就是 agent 的代码。
+            try:
+                apk = self.workspace.artifacts_dir / "app-debug.apk"
+                if apk.is_file():
+                    self.runtime._run("install", "-r", "-t", str(apk),
+                                      timeout=180)   # type: ignore[union-attr]
+                    self.runtime.restart_app()       # type: ignore[union-attr]
+            except Exception:
+                pass
+            return
+        self.runtime = self.runtime_factory(self._spec(), work)
+        try:
+            self.runtime.start()
+        except Exception:
+            self._discard_runtime()
+            self.runtime = self.runtime_factory(self._spec(), work)
+            self.runtime.start()
+
+    def _take_warm_build(self) -> dict:
+        """用预热好的构建结果（仅当工程指纹未变），否则现构建。"""
+        build, fingerprint = self.warm_build, self.warm_fingerprint
+        self.warm_build, self.warm_fingerprint = None, ""
+        if build is not None and fingerprint:
+            try:
+                if fingerprint == self.workspace.project_fingerprint():
+                    return build
+            except Exception:
+                pass
+        return self.workspace.build_apk()
+
+    def _discard_runtime(self) -> None:
+        runtime, self.runtime = self.runtime, None
+        if runtime is None:
+            return
+        for name in ("stop", "close", "_kill_emulator_process"):
+            closer = getattr(runtime, name, None)
+            if callable(closer):
+                try:
+                    closer()
+                    return
+                except Exception:
+                    continue
+
+    def resume_active_round(self) -> None:
+        """客户端重连后（server 进程被换掉）静默续接进行中的 round。
+
+        观察截图按序号落盘在 round_NN/ 下，这里只重建运行时并从磁盘恢复观察
+        清单；模型端完全无感，不需要 agent 做任何重试。
+        """
+        number = len(self.rounds) + 1
+        directory = self.workspace.review_dir / f"round_{number:02d}"
+        directory.mkdir(parents=True, exist_ok=True)
+        self._start_runtime(directory / "runtime")
+        self.active = True
+        if not self.observations:
+            restored: list[_Observation] = []
+            for path in sorted(directory.glob("observation_*.png")):
+                try:
+                    seen = int(path.stem.rsplit("_", 1)[-1])
+                except ValueError:
+                    continue
+                restored.append(_Observation(
+                    seen, len(self.actions),
+                    hashlib.sha256(path.read_bytes()).hexdigest(),
+                    path.relative_to(self.workspace.output_dir).as_posix()))
+            self.observations = restored
 
     def observe(self) -> tuple[bytes, dict]:
         if not self.active or self.runtime is None:

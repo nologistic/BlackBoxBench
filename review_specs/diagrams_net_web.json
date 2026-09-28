@@ -428,73 +428,93 @@
   "exclusions": [
     {
       "feature": "Real-time Collaboration / Share\nInvite other users → Simultaneous multi-user editing → Presence, cursor synchronization, comments, or remote conflict handling",
-      "treatment": "Exclude",
-      "reason": "依赖多人账号、实时网络同步和远端协作基础设施；主要测的是协作后端而非单 Agent 的图形编辑能力，因此预先排除"
+      "treatment": "Hard Exclude",
+      "reason": "依赖多人账号、实时网络同步和远端协作基础设施；主要测的是协作后端而非单 Agent 的图形编辑能力，因此预先排除",
+      "covered_by": []
     },
     {
       "feature": "Google Drive / OneDrive / Dropbox / GitHub Storage\nOpen from or save directly into third-party cloud storage → Synchronize changes with an external provider",
-      "treatment": "Exclude",
-      "reason": "依赖第三方 OAuth、账户权限和外部存储 API。Benchmark 可用本地保存 / 打开替代，从而仍然覆盖文件持久化"
+      "treatment": "Hard Exclude",
+      "reason": "依赖第三方 OAuth、账户权限和外部存储 API。Benchmark 可用本地保存 / 打开替代，从而仍然覆盖文件持久化",
+      "covered_by": []
     },
     {
       "feature": "Publish / Public Link / Embed\nPublish a diagram → Generate public URL → Embed into another site",
-      "treatment": "Exclude",
-      "reason": "依赖托管、网络访问和公开权限管理，不属于图形编辑器本身的核心交互"
+      "treatment": "Hard Exclude",
+      "reason": "依赖托管、网络访问和公开权限管理，不属于图形编辑器本身的核心交互",
+      "covered_by": []
     },
     {
       "feature": "External Plugins\nInstall or configure plugins → Run third-party plugin commands",
-      "treatment": "Exclude",
-      "reason": "插件环境、版本和外部代码不可控，复现结果不稳定；对应能力应由原生图形、布局、编辑 Task 覆盖"
+      "treatment": "Hard Exclude",
+      "reason": "插件环境、版本和外部代码不可控，复现结果不稳定；对应能力应由原生图形、布局、编辑 Task 覆盖",
+      "covered_by": []
     },
     {
       "feature": "External Shape Libraries Requiring Network\nLoad remote vendor libraries or externally hosted custom stencil packs",
-      "treatment": "Exclude",
-      "reason": "外部资源可能变化或不可访问；Benchmark 只使用应用内置且可稳定获得的 Basic / Flowchart / UML / ER 等图形库"
+      "treatment": "Hard Exclude",
+      "reason": "外部资源可能变化或不可访问；Benchmark 只使用应用内置且可稳定获得的 Basic / Flowchart / UML / ER 等图形库",
+      "covered_by": []
     },
     {
       "feature": "AI / Generated Diagram Features\nGenerate diagrams or content from prompts where third-party or AI services are involved",
-      "treatment": "Exclude",
-      "reason": "需要独立模型或远端推理组件，测到的是生成模型能力而不是 Agent 对 diagrams.net UI 和图结构的操作能力"
+      "treatment": "Hard Exclude",
+      "reason": "需要独立模型或远端推理组件，测到的是生成模型能力而不是 Agent 对 diagrams.net UI 和图结构的操作能力",
+      "covered_by": []
     },
     {
       "feature": "Account / Subscription / Team Administration\nLogin, billing, workspace, organization, team, license, or account settings",
-      "treatment": "Exclude",
-      "reason": "与绘图任务本身无直接关系，同时依赖账户状态；不适合作为复现 diagrams.net 核心能力的 benchmark"
+      "treatment": "Hard Exclude",
+      "reason": "与绘图任务本身无直接关系，同时依赖账户状态；不适合作为复现 diagrams.net 核心能力的 benchmark",
+      "covered_by": []
     },
     {
       "feature": "Email / Notification / Social Functions\nSend invitations, notifications, email links, social sharing",
-      "treatment": "Exclude",
-      "reason": "属于外围通信能力，不考察图形编辑、关系构建、布局和持久化"
+      "treatment": "Default Exclude",
+      "reason": "属于外围通信能力，不考察图形编辑、关系构建、布局和持久化",
+      "covered_by": []
     },
     {
       "feature": "Print to Physical Printer\nConfigure printer driver → Select physical printer → Complete OS-level print workflow",
-      "treatment": "Exclude",
-      "reason": "强依赖操作系统、硬件和打印驱动；使用 PDF 导出即可覆盖页面设置和输出能力"
+      "treatment": "Hard Exclude",
+      "reason": "强依赖操作系统、硬件和打印驱动；使用 PDF 导出即可覆盖页面设置和输出能力",
+      "covered_by": []
     },
     {
       "feature": "Browser / OS File-dialog Specific Behavior\nRequire exact native file picker layout, download shelf behavior, or OS-specific save dialog navigation",
-      "treatment": "Exclude",
-      "reason": "这些界面由浏览器和操作系统控制，不属于目标网站实现；只验证“最终文件成功保存 / 打开 / 导出”"
+      "treatment": "Default Exclude",
+      "reason": "这些界面由浏览器和操作系统控制，不属于目标网站实现；只验证“最终文件成功保存 / 打开 / 导出”",
+      "covered_by": []
     },
     {
       "feature": "Full Format Compatibility Matrix\nImport and perfectly reproduce every Visio, Lucidchart, Gliffy, SVG, XML, or proprietary format",
-      "treatment": "Exclude",
-      "reason": "涉及大量第三方格式兼容边界，容易把 benchmark 变成转换器测试；仅保留必要的本地 editable file 与 PNG / SVG / PDF 输出"
+      "treatment": "Hard Exclude",
+      "reason": "涉及大量第三方格式兼容边界，容易把 benchmark 变成转换器测试；仅保留必要的本地 editable file 与 PNG / SVG / PDF 输出；保留面：f26 Export PNG / SVG, f27 Multi-page PDF Export, f30 End-to-end Architecture Diagram",
+      "covered_by": [
+        "f26",
+        "f27",
+        "f30"
+      ]
     },
     {
       "feature": "Embedded Web Content / External URLs\nEmbed live webpages or depend on external URLs rendering inside the diagram",
-      "treatment": "Exclude",
-      "reason": "依赖目标站点的网络状态、安全策略和跨域行为；普通超链接或文本对象可由基础编辑 Task 覆盖"
+      "treatment": "Hard Exclude",
+      "reason": "依赖目标站点的网络状态、安全策略和跨域行为；普通超链接或文本对象可由基础编辑 Task 覆盖",
+      "covered_by": []
     },
     {
       "feature": "Presentation / Remote Slideshow Integrations\nPublish and remotely present diagrams to other participants",
-      "treatment": "Exclude",
-      "reason": "更接近协作和分发系统，不是核心绘图能力；页面、缩放和视图状态已有独立 Task 覆盖"
+      "treatment": "Default Exclude",
+      "reason": "更接近协作和分发系统，不是核心绘图能力；页面、缩放和视图状态已有独立 Task 覆盖",
+      "covered_by": []
     },
     {
       "feature": "Exact Theme / Language / Cosmetic Preference Replication\nSwitch every theme, locale, menu preference, or purely cosmetic UI setting",
-      "treatment": "Exclude",
-      "reason": "可保留浅色/深色等基本可用性测试，但不应作为主 benchmark；核心评分应放在对象、关系、布局、页面和文件状态上"
+      "treatment": "Default Exclude",
+      "reason": "可保留浅色/深色等基本可用性测试，但不应作为主 benchmark；核心评分应放在对象、关系、布局、页面和文件状态上；保留面：f29 Reference Diagram Revision",
+      "covered_by": [
+        "f29"
+      ]
     }
   ]
 }

@@ -57,6 +57,13 @@ services:
     networks:
       - refnet
       - agentnet
+      # Docker only programs published-port rules for a container that is ALSO
+      # attached to a non-internal network, so 7800 is unreachable from the
+      # host while the controller sits on refnet/agentnet alone
+      # (HostConfig.PortBindings gets the mapping, NetworkSettings.Ports stays
+      # null). opsnet exists purely to make `ports:` below effective; only the
+      # controller joins it.
+      - opsnet
     depends_on:
       reference:
         condition: service_healthy
@@ -86,3 +93,8 @@ networks:
   agentnet:
     driver: bridge
     internal: true
+  # NOT internal: the operator API publish path (see the controller service).
+  # Nothing but the controller is attached, so this does not widen the
+  # reference app's or the agent's reachability.
+  opsnet:
+    driver: bridge

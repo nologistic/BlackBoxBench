@@ -698,33 +698,39 @@
   "exclusions": [
     {
       "feature": "上传到第三方服务器 / “上传”在线托管",
-      "treatment": "Exclude",
-      "reason": "Kleki 的核心编辑能力不依赖云端；复现时没有必要建设图片托管服务器。按钮可以保留为不可用状态或直接不实现。"
+      "treatment": "Hard Exclude",
+      "reason": "Kleki 的核心编辑能力不依赖云端；复现时没有必要建设图片托管服务器。按钮可以保留为不可用状态或直接不实现。",
+      "covered_by": []
     },
     {
       "feature": "在线分享 / 生成公开分享链接",
-      "treatment": "Exclude",
-      "reason": "涉及外部托管、链接生成和长期资源可访问性，不属于本地绘图与图像编辑核心流程。建议排除真正的公网分享后端。"
+      "treatment": "Hard Exclude",
+      "reason": "涉及外部托管、链接生成和长期资源可访问性，不属于本地绘图与图像编辑核心流程。建议排除真正的公网分享后端。",
+      "covered_by": []
     },
     {
       "feature": "社交平台分享集成",
-      "treatment": "Exclude",
-      "reason": "若原站分享按钮会调用系统 Share API 或外部社交平台，可不复现具体第三方平台集成；最多保留复制文件/本地分享入口。"
+      "treatment": "Hard Exclude",
+      "reason": "若原站分享按钮会调用系统 Share API 或外部社交平台，可不复现具体第三方平台集成；最多保留复制文件/本地分享入口。",
+      "covered_by": []
     },
     {
       "feature": "极端高分辨率、大尺寸图像的性能一致性",
-      "treatment": "Exclude",
-      "reason": "不要求与原站在数千万像素、超大图层数下保持完全相同的性能、内存占用和处理速度；正常桌面图片尺寸可正确使用即可。"
+      "treatment": "Default Exclude",
+      "reason": "不要求与原站在数千万像素、超大图层数下保持完全相同的性能、内存占用和处理速度；正常桌面图片尺寸可正确使用即可。",
+      "covered_by": []
     },
     {
       "feature": "各滤镜与 Kleki 原版逐像素完全一致",
-      "treatment": "Exclude",
-      "reason": "亮度/对比度、曲线、模糊、USM、噪音、图案、变形、消失点等需要功能和交互存在且效果方向正确，但不要求算法输出与原站逐像素一致。"
+      "treatment": "Hard Exclude",
+      "reason": "亮度/对比度、曲线、模糊、USM、噪音、图案、变形、消失点等需要功能和交互存在且效果方向正确，但不要求算法输出与原站逐像素一致。",
+      "covered_by": []
     },
     {
       "feature": "浏览器/操作系统原生文件选择器与下载对话框 UI",
-      "treatment": "Exclude",
-      "reason": "只需调用标准文件打开和下载能力，不需要复刻 Chrome、Windows、macOS 自身的文件选择器或保存窗口外观。"
+      "treatment": "Hard Exclude",
+      "reason": "只需调用标准文件打开和下载能力，不需要复刻 Chrome、Windows、macOS 自身的文件选择器或保存窗口外观。",
+      "covered_by": []
     }
   ]
 }

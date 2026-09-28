@@ -182,113 +182,135 @@
   "exclusions": [
     {
       "feature": "Real Spotify music catalog\nDo not require the replica to contain Spotify's real worldwide catalog, exact search ranking, artist popularity counts, release availability, or market-specific catalog state",
-      "treatment": "Exclude",
-      "reason": "External licensed dataset; use a frozen synthetic catalog instead"
+      "treatment": "Default Exclude",
+      "reason": "External licensed dataset; use a frozen synthetic catalog instead",
+      "covered_by": []
     },
     {
       "feature": "Real copyrighted audio streaming\nDo not require full Spotify tracks, DRM, Spotify CDN playback, Premium playback authorization, or Spotify Connect",
-      "treatment": "Exclude",
-      "reason": "Requires licensed audio, account state, and external playback infrastructure"
+      "treatment": "Default Exclude",
+      "reason": "Requires licensed audio, account state, and external playback infrastructure",
+      "covered_by": []
     },
     {
       "feature": "Real lyrics / synchronized lyrics\nDo not require Spotify's real lyric provider, exact lyric text, or timestamp synchronization",
-      "treatment": "Exclude",
-      "reason": "Copyrighted/external dataset; synthetic fixture lyrics may be used only if playback UI needs testing"
+      "treatment": "Default Exclude",
+      "reason": "Copyrighted/external dataset; synthetic fixture lyrics may be used only if playback UI needs testing",
+      "covered_by": []
     },
     {
       "feature": "Recommendation / personalization engine\nExclude Discover Weekly, Daily Mix, personalized Home ranking, “Made for You”, recommended tracks, recommendation learning, and user-specific ranking",
-      "treatment": "Exclude",
-      "reason": "Requires large-scale recommendation models and private behavioral data"
+      "treatment": "Default Exclude",
+      "reason": "Requires large-scale recommendation models and private behavioral data",
+      "covered_by": []
     },
     {
       "feature": "Dynamic charts and editorial ranking\nDo not require real Top 50, Viral, trending, new-release, regional chart, or editorial ranking data to match Spotify",
-      "treatment": "Exclude",
-      "reason": "Continuously changing external data; use seeded static category content"
+      "treatment": "Default Exclude",
+      "reason": "Continuously changing external data; use seeded static category content",
+      "covered_by": []
     },
     {
       "feature": "Radio / Autoplay recommendation generation\nExclude generating artist radio, song radio, endless autoplay, recommendation chains, or algorithmic next-track selection",
-      "treatment": "Exclude",
-      "reason": "Recommendation-system dependency"
+      "treatment": "Default Exclude",
+      "reason": "Recommendation-system dependency",
+      "covered_by": []
     },
     {
       "feature": "Music videos / Canvas / video content\nExclude MV playback, Canvas looping video, creator videos, and external video delivery",
-      "treatment": "Exclude",
-      "reason": "Separate media pipeline and licensed video assets"
+      "treatment": "Default Exclude",
+      "reason": "Separate media pipeline and licensed video assets",
+      "covered_by": []
     },
     {
       "feature": "Podcasts / Audiobooks / Live Events\nDo not require complete podcast, audiobook, concert, or live-event ecosystems unless a separate benchmark explicitly targets them",
-      "treatment": "Exclude",
-      "reason": "Separate product domains rather than the core music-player benchmark"
+      "treatment": "Default Exclude",
+      "reason": "Separate product domains rather than the core music-player benchmark",
+      "covered_by": []
     },
     {
       "feature": "Premium / Subscription / Billing\nExclude Premium upgrades, trials, plans, billing, checkout, payment methods, subscription state, and plan-specific restrictions",
-      "treatment": "Exclude",
-      "reason": "Commerce infrastructure is unrelated to core music interaction"
+      "treatment": "Default Exclude",
+      "reason": "Commerce infrastructure is unrelated to core music interaction",
+      "covered_by": []
     },
     {
       "feature": "Offline download\nExclude downloading encrypted tracks for offline playback, device storage limits, and download synchronization",
-      "treatment": "Exclude",
-      "reason": "Requires native client, DRM, storage, and licensed content"
+      "treatment": "Default Exclude",
+      "reason": "Requires native client, DRM, storage, and licensed content",
+      "covered_by": []
     },
     {
       "feature": "Spotify Connect / Device handoff\nExclude discovering physical devices, transferring playback between browser/mobile/speaker, remote device control, and multi-device synchronization",
-      "treatment": "Exclude",
-      "reason": "Requires real devices and external Spotify infrastructure"
+      "treatment": "Default Exclude",
+      "reason": "Requires real devices and external Spotify infrastructure",
+      "covered_by": []
     },
     {
       "feature": "Social / Friends\nExclude Friend Activity, follower graphs, social presence, listening activity visibility, profile-based recommendation, and friend discovery",
-      "treatment": "Exclude",
-      "reason": "Social graph and multi-user infrastructure"
+      "treatment": "Default Exclude",
+      "reason": "Social graph and multi-user infrastructure",
+      "covered_by": []
     },
     {
       "feature": "Collaborative Playlist / Jam / Blend\nExclude real-time playlist collaboration, invitations, shared listening sessions, Blend, Jam, and synchronized multiplayer playback",
-      "treatment": "Exclude",
-      "reason": "Requires multi-user and realtime collaboration infrastructure"
+      "treatment": "Default Exclude",
+      "reason": "Requires multi-user and realtime collaboration infrastructure",
+      "covered_by": []
     },
     {
       "feature": "Sharing outside the replica\nExclude external share sheets, social-network publishing, messaging apps, public Spotify URLs, QR/Spotify Codes, and deep-link interoperability",
-      "treatment": "Exclude",
-      "reason": "Third-party integration rather than core app state"
+      "treatment": "Default Exclude",
+      "reason": "Third-party integration rather than core app state",
+      "covered_by": []
     },
     {
       "feature": "Real artist follow ecosystem\nFollowing an artist may be represented as a local boolean if useful, but do not require real follower counts, artist notifications, fan analytics, or artist-profile social state",
-      "treatment": "Exclude",
-      "reason": "External social/content infrastructure"
+      "treatment": "Default Exclude",
+      "reason": "External social/content infrastructure",
+      "covered_by": []
     },
     {
       "feature": "Notifications\nExclude release alerts, push notifications, email notifications, followed-artist updates, and notification delivery",
-      "treatment": "Exclude",
-      "reason": "Requires asynchronous notification infrastructure"
+      "treatment": "Default Exclude",
+      "reason": "Requires asynchronous notification infrastructure",
+      "covered_by": []
     },
     {
       "feature": "Account / Authentication complexity\nDo not benchmark signup, login recovery, MFA, account linking, region migration, password management, account deletion, or session security",
-      "treatment": "Exclude",
-      "reason": "Identity infrastructure rather than music-product behavior"
+      "treatment": "Default Exclude",
+      "reason": "Identity infrastructure rather than music-product behavior",
+      "covered_by": []
     },
     {
       "feature": "Desktop application integration\nExclude “Open in desktop app”, installer flows, OS media keys, native Windows/macOS audio enhancements, system equalizer integration, and desktop-specific controls",
-      "treatment": "Exclude",
-      "reason": "Depends on native OS capabilities"
+      "treatment": "Default Exclude",
+      "reason": "Depends on native OS capabilities",
+      "covered_by": []
     },
     {
       "feature": "Audio quality / normalization / equalizer internals\nSettings UI may be visually reproduced, but do not require real codec switching, loudness normalization algorithms, EQ DSP, lossless delivery, or hardware-specific audio processing",
-      "treatment": "Exclude",
-      "reason": "Requires real audio pipeline/DSP rather than frontend interaction"
+      "treatment": "Default Exclude",
+      "reason": "Requires real audio pipeline/DSP rather than frontend interaction",
+      "covered_by": []
     },
     {
       "feature": "Advertisements\nExclude ad targeting, ad insertion, frequency capping, sponsored recommendations, and ad measurement",
-      "treatment": "Exclude",
-      "reason": "Advertising infrastructure and targeting data"
+      "treatment": "Default Exclude",
+      "reason": "Advertising infrastructure and targeting data",
+      "covered_by": []
     },
     {
       "feature": "AI features\nExclude AI DJ, AI Playlist, generated recommendations, conversational music discovery, or any generative Spotify feature",
-      "treatment": "Exclude",
-      "reason": "Requires unavailable model/service dependencies"
+      "treatment": "Default Exclude",
+      "reason": "Requires unavailable model/service dependencies",
+      "covered_by": []
     },
     {
       "feature": "Exact Spotify metadata and artwork\nDo not score whether artist biographies, monthly listener counts, album covers, editorial descriptions, credits, or related-MV cards exactly match production Spotify",
-      "treatment": "Exclude",
-      "reason": "Benchmark should evaluate interaction logic, not proprietary content parity"
+      "treatment": "Default Exclude",
+      "reason": "Benchmark should evaluate interaction logic, not proprietary content parity",
+      "covered_by": []
     }
   ]
 }

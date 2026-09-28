@@ -446,62 +446,86 @@
     {
       "feature": "真实预订与支付\n支付网关、真实交易、商家/供应商接单",
       "treatment": "Hard Exclude",
-      "reason": "依赖支付与供应链系统（对照淘宝「真实支付」）；订单生成流程本地化"
+      "reason": "依赖支付与供应链系统（对照淘宝「真实支付」）；订单生成流程本地化",
+      "covered_by": []
     },
     {
       "feature": "实时价格与库存\n酒店/机票/火车票/邮轮的实时价格与库存",
       "treatment": "Conditional Exclude",
-      "reason": "价格与库存用预置 fixture 呈现；筛选/排序/预订流程保留"
+      "reason": "价格与库存用预置 fixture 呈现；筛选/排序/预订流程保留",
+      "covered_by": []
     },
     {
       "feature": "实时航班动态\n航班延误/取消的实时状态更新",
       "treatment": "Conditional Exclude",
-      "reason": "航班状态用静态快照（对照 Google Maps「实时交通」）；查询与展示保留"
+      "reason": "航班状态用静态快照（对照 Google Maps「实时交通」）；查询与展示保留",
+      "covered_by": []
     },
     {
       "feature": "真实值机与航司渠道\n航司侧值机、选座的实际办理",
       "treatment": "Conditional Exclude",
-      "reason": "值机入口与上下文保持可测（预置渠道）；不验证真实航司办理"
+      "reason": "值机入口与上下文保持可测（预置渠道）；不验证真实航司办理；保留面：f19 值机选座",
+      "covered_by": [
+        "f19"
+      ]
     },
     {
       "feature": "退票退款真实到账\n退款资金流转",
       "treatment": "Conditional Exclude",
-      "reason": "退改规则与状态流转可测（fixture 票规）；真实资金流排除"
+      "reason": "退改规则与状态流转可测（fixture 票规）；真实资金流排除；保留面：f20 退票改签",
+      "covered_by": [
+        "f20"
+      ]
     },
     {
       "feature": "通知的真实事件源\n订单/行程事件的真实产生",
       "treatment": "Conditional Include",
-      "reason": "通知状态机（未读/跳转/已读）可测，需预置通知 fixture"
+      "reason": "通知状态机（未读/跳转/已读）可测，需预置通知 fixture；保留面：f13 通知状态与跳转",
+      "covered_by": [
+        "f13"
+      ]
     },
     {
       "feature": "低价与推荐的算法引擎\n低价航线计算、个性化推荐",
       "treatment": "Conditional Exclude",
-      "reason": "低价/推荐列表用预置 fixture；浏览与切换交互保留"
+      "reason": "低价/推荐列表用预置 fixture；浏览与切换交互保留",
+      "covered_by": []
     },
     {
       "feature": "地图实时数据与导航\n实时路况、街景、专有地图瓦片",
       "treatment": "Conditional Exclude",
-      "reason": "地图展示与列表联动可测（开源地图/静态数据）；不要求专有地图数据（对照 Google Maps 排除）"
+      "reason": "地图展示与列表联动可测（开源地图/静态数据）；不要求专有地图数据（对照 Google Maps 排除）；保留面：f05 在地图上展示, f27 旅游地图",
+      "covered_by": [
+        "f05",
+        "f27"
+      ]
     },
     {
       "feature": "积分与权益真实结算\n积分商城真实发货、礼品卡资金",
       "treatment": "Conditional Exclude",
-      "reason": "积分规则与兑换流程可测（本地计算）；真实履约与资金排除"
+      "reason": "积分规则与兑换流程可测（本地计算）；真实履约与资金排除；保留面：f09 我的积分, f10 积分兑换好礼",
+      "covered_by": [
+        "f09",
+        "f10"
+      ]
     },
     {
       "feature": "乘机规则引擎\n航司真实票规与实时校验",
       "treatment": "Conditional Exclude",
-      "reason": "儿童/婴儿乘机规则用预置规则；乘客组合计算保留"
+      "reason": "儿童/婴儿乘机规则用预置规则；乘客组合计算保留",
+      "covered_by": []
     },
     {
       "feature": "邮轮舱房真实库存\n供应商实时舱位数据",
       "treatment": "Conditional Exclude",
-      "reason": "舱房类型/库存/价格用 fixture；选舱与分配流程保留"
+      "reason": "舱房类型/库存/价格用 fixture；选舱与分配流程保留",
+      "covered_by": []
     },
     {
       "feature": "真实旅游内容资产\n真实游记、攻略、商户数据",
       "treatment": "Default Exclude",
-      "reason": "使用合成 fixture 内容（对照 Spotify「Real catalog」）"
+      "reason": "使用合成 fixture 内容（对照 Spotify「Real catalog」）",
+      "covered_by": []
     }
   ]
 }

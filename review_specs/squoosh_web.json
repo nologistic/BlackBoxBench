@@ -440,28 +440,33 @@
   "exclusions": [
     {
       "feature": "Google Analytics / 使用情况统计",
-      "treatment": "Exclude",
-      "reason": "官方仓库说明线上版本会收集基本访问数据、压缩前后文件大小以及 PWA 安装信息，但这与图片压缩本身完全无关；复现时不需要实现遥测或接入 Google Analytics。GitHub"
+      "treatment": "Hard Exclude",
+      "reason": "官方仓库说明线上版本会收集基本访问数据、压缩前后文件大小以及 PWA 安装信息，但这与图片压缩本身完全无关；复现时不需要实现遥测或接入 Google Analytics。GitHub",
+      "covered_by": []
     },
     {
       "feature": "PWA 安装、安装时间统计与完整 Service Worker 生命周期",
-      "treatment": "Exclude",
-      "reason": "可以把网页做成普通 Web 应用并正常本地处理图片；不要求复制“安装为应用”、升级缓存、PWA 安装统计等浏览器应用生命周期功能。"
+      "treatment": "Default Exclude",
+      "reason": "可以把网页做成普通 Web 应用并正常本地处理图片；不要求复制“安装为应用”、升级缓存、PWA 安装统计等浏览器应用生命周期功能。",
+      "covered_by": []
     },
     {
       "feature": "WebP v2 / WebP2 unstable 的真实完整编码实现",
-      "treatment": "Exclude",
-      "reason": "当前界面自己已经标记为 unstable；可保留选项或直接排除，不应作为核心验收项。官方 CLI 也把它作为独立实验性编码器。Npm"
+      "treatment": "Default Exclude",
+      "reason": "当前界面自己已经标记为 unstable，整项纳入排除范围，不应作为核心验收项。官方 CLI 也把它作为独立实验性编码器。Npm",
+      "covered_by": []
     },
     {
       "feature": "不同浏览器下编码结果的字节级完全一致",
-      "treatment": "Exclude",
-      "reason": "Browser JPEG / Browser PNG 本身依赖浏览器原生编码实现，因此不同浏览器可能产生不同字节结果；复现要求应是格式、尺寸、主要参数和视觉结果正确，而不是生成文件逐字节一致。"
+      "treatment": "Hard Exclude",
+      "reason": "Browser JPEG / Browser PNG 本身依赖浏览器原生编码实现，因此不同浏览器可能产生不同字节结果；复现要求应是格式、尺寸、主要参数和视觉结果正确，而不是生成文件逐字节一致。",
+      "covered_by": []
     },
     {
       "feature": "批量压缩 / 文件队列",
-      "treatment": "Exclude",
-      "reason": "当前 squoosh.app 的核心界面是单图片编辑与下载，不需要额外实现多文件批处理后台或队列系统；CLI 的批量能力属于另一个产品入口。"
+      "treatment": "Hard Exclude",
+      "reason": "当前 squoosh.app 的核心界面是单图片编辑与下载，不需要额外实现多文件批处理后台或队列系统；CLI 的批量能力属于另一个产品入口。",
+      "covered_by": []
     }
   ]
 }

@@ -295,62 +295,74 @@
     {
       "feature": "Team collaboration and assignments\nAssigning tasks to other users, shared projects",
       "treatment": "Hard Exclude",
-      "reason": "Multi-user infrastructure (cf. notion \"Members\")"
+      "reason": "Multi-user infrastructure (cf. notion \"Members\")",
+      "covered_by": []
     },
     {
       "feature": "Pro plan features\nReminder history, extra filters, backups per plan",
       "treatment": "Hard Exclude",
-      "reason": "Plan-gated features (cf. Spotify \"Premium / Billing\")"
+      "reason": "Plan-gated features (cf. Spotify \"Premium / Billing\")",
+      "covered_by": []
     },
     {
       "feature": "Real-time sync across devices\nCross-device state sync, presence",
       "treatment": "Hard Exclude",
-      "reason": "Real-time sync infrastructure; local persistence testable"
+      "reason": "Real-time sync infrastructure; local persistence testable",
+      "covered_by": []
     },
     {
       "feature": "Natural-language date parsing full grammar\nComplete NL date grammar parity with Todoist",
       "treatment": "Conditional Exclude",
-      "reason": "Common NL date inputs (tomorrow, next Friday, every weekday) testable; full parser grammar coverage excluded"
+      "reason": "Common NL date inputs (tomorrow, next Friday, every weekday) testable; full parser grammar coverage excluded",
+      "covered_by": []
     },
     {
       "feature": "Push/email notification delivery\nReal notification delivery",
       "treatment": "Conditional Exclude",
-      "reason": "In-app reminder states testable; delivery excluded (cf. Spotify \"Notifications\")"
+      "reason": "In-app reminder states testable; delivery excluded (cf. Spotify \"Notifications\")",
+      "covered_by": []
     },
     {
       "feature": "Calendar sync and integrations\nGoogle/Outlook calendar sync, ICS feeds",
       "treatment": "Conditional Exclude",
-      "reason": "In-app scheduling testable; external sync excluded"
+      "reason": "In-app scheduling testable; external sync excluded",
+      "covered_by": []
     },
     {
       "feature": "Location-based reminders\nGeofencing triggers and real GPS",
       "treatment": "Conditional Exclude",
-      "reason": "Location reminder configuration testable; real geofencing excluded (cf. Google Maps \"location sharing\")"
+      "reason": "Location reminder configuration testable; real geofencing excluded (cf. Google Maps \"location sharing\")",
+      "covered_by": []
     },
     {
       "feature": "Cloud backup export/import\nCloud storage sync of backups",
       "treatment": "Conditional Exclude",
-      "reason": "Local export/import testable; cloud sync excluded (cf. diagrams.net \"Storage\")"
+      "reason": "Local export/import testable; cloud sync excluded (cf. diagrams.net \"Storage\")",
+      "covered_by": []
     },
     {
       "feature": "Karma productivity algorithm\nExact karma scoring rules",
       "treatment": "Conditional Exclude",
-      "reason": "Karma display testable; scoring algorithm details excluded"
+      "reason": "Karma display testable; scoring algorithm details excluded",
+      "covered_by": []
     },
     {
       "feature": "Wear OS / mobile-specific behaviors\nWearable and native mobile interactions",
       "treatment": "Conditional Exclude",
-      "reason": "Desktop web behaviors tested (cf. Desmos \"mobile gestures\")"
+      "reason": "Desktop web behaviors tested (cf. Desmos \"mobile gestures\")",
+      "covered_by": []
     },
     {
       "feature": "Template gallery content\nOfficial template library",
       "treatment": "Default Exclude",
-      "reason": "Content dataset; template usage flow preserved"
+      "reason": "Content dataset; template usage flow preserved",
+      "covered_by": []
     },
     {
       "feature": "Real task content assets\nReal projects/tasks data",
       "treatment": "Default Exclude",
-      "reason": "Use synthetic fixture content (cf. Spotify \"Real catalog\")"
+      "reason": "Use synthetic fixture content (cf. Spotify \"Real catalog\")",
+      "covered_by": []
     }
   ]
 }

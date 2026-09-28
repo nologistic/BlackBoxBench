@@ -60,3 +60,37 @@
 > 09-21 磁盘危机处置：glm × nonogram（复现中断）、kimi × librera（复现中断）两条会话
 > 已按操作员指令清理作废；同日已根治中间缓存写盘路径（迁至 `/storage/dzj/tmp`，
 > 见 `docs/evaluation_contract.md` §1.2）。
+
+## 表三 · 新平台（de-policy 生效后，2026-09-27）
+> **平台版本自本表起成为对照维度**：2026-09-26 15:29 CST 控制器重启并首次加载
+> 去策略化代码（移除运行时前台守卫与自愈重启、去掉 retry 建议、去掉会话存亡 triage；
+> 详见当日处置记录）。表一 / 表二 的全部历史成绩均出自**旧平台**，不得与本表混用。
+> 数据源：`app_output/sess_20260926_*` 与 `runs/sess_20260926_*/session_summary.json`。
+
+| 目标 | 模型（CLI） | 步 | 帧 | 探索用时 | 抖动 | 审查 | APK | handoff |
+|---|---|---|---|---|---|---|---|---|
+| vinyl | deepseek-v4.1f（dsh） | 222 | 410 | 27 min | 0 | ✅ 2 轮 | 10.3 MB | `sess_20260926_072941_7f9323-7ebfbf` |
+| fossify_gallery | deepseek-v4.1f（dsh） | 196 | 373 | 32 min | 0 | ✅ 3 轮 | 9.6 MB | `sess_20260926_072942_213ea2-828533` |
+| tasks | deepseek-v4.1f（dsh） | 410 | 673 | 51 min | 0 | ✅ 4 轮 | 9.7 MB | `sess_20260926_072942_6915bf-9bd6ce` |
+| minesweeper | deepseek-v4.1f（dsh） | 113 | 189 | 19 min | 0 | ✅ 3 轮 | 9.8 MB | `sess_20260926_202603_5a84eb-e0ec87` |
+
+| nonogram | deepseek-v4.1f（dsh） | 187 | 296 | 22 min | 0 | ✅ 3 轮（2 修订） | 9.8 MB | `sess_20260927_135453_85db84-73d1d2` |
+| minesweeper（**nograph 条件**） | deepseek-v4.1f（dsh） | 93 | 160 | 17 min | 0 | ✅ 2 轮 | 9.8 MB | `sess_20260927_141055_3a88b3-eab2b6` |
+
+> 2026-09-27 夜补记：
+> · nonogram 的新平台单：187 步 / 296 帧 / 22 min，审查 3 轮 2 修订，**抖动 0、平台侧错误 0**
+>   （错误 14 条全是 agent 自己的 record_* 422）；各轮帧数 [20, 17, 14] —— 验证了「预热接管后
+>   按当前构建重装 APK」的修复 ✓（此前同类单首轮只有 2 帧的脚手架画面）。
+> · minesweeper 的 **nograph 条件**（消融：不要求生成拓扑）首条新平台记录：93 步 / 160 帧 /
+>   17 min，审查 2 轮 accept，**抖动 0、平台侧错误 0、拓扑 0KB**（消融如预期不产图）；
+>   该条件与新 baseline 的唯一差异 = 移除 7 个记录类工具（record_* / resolve_hypothesis / revise），
+>   平台层与 MCP 稳定性能力（预热 / 静默续接 / 状态落盘 / 审计）已同步，skill 描述已中性化
+>   （不含"消融/变体/退化"字样），并用专用 profile（headless-nograph）保证条件隔离。
+
+> 抖动 = `actions.jsonl` 的 `environment_blip` 次数（**跨平台版本可比** ✓）；新平台四单全为 0 ✓，
+> 对照旧平台同目标（vinyl / fossify_gallery 各 34 ✗）。
+> **astra 测评：四单均未测评 ✗** —— 判分模型 `gpt-6-astra` 受账号 Pro 过期所限（400
+> `not supported when using Codex with a ChatGPT account`），续费后按 §1.1 契约补测。
+> 旧平台 v4.1f 已有 5 个目标的 astra 报告（minesweeper 18/1/3/0、nonogram 10/7/0/0、
+> fossify_gallery 5/14/1/2、vinyl 2/13/3/4、tasks 3/8/0/9）；markor 与 09-25 之后的重跑
+> 尚未测评，同样待补。

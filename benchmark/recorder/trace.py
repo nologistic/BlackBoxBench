@@ -20,6 +20,14 @@ def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+# 句柄名 → 文件名（_write_locked 重开用）
+_LOG_FILES = {
+    "_actions": "actions.jsonl",
+    "_obs": "observations.jsonl",
+    "_disc": "discovery.jsonl",
+}
+
+
 class TraceRecorder:
     def __init__(self, session_dir: Path):
         self.dir = Path(session_dir)
@@ -56,22 +64,44 @@ class TraceRecorder:
 
     # ------------------------------------------------------------ logs
 
+    def _write_locked(self, handle_name: str, text: str) -> None:
+        """写一行日志（调用方已持锁）。句柄若已被关掉就重开再写。
+
+        会话 close 之后仍有记录写进来时，原来会抛
+        ``ValueError: I/O operation on closed file`` → 控制器 500/503，
+        把整条 agent 链路带崩（2026-09-25 实测：一次误关源会话即触发）。
+        重开追加是无痛续写：记录不丢，链路不崩。
+        """
+        handle = getattr(self, handle_name)
+        try:
+            handle.write(text)
+            handle.flush()
+            return
+        except (ValueError, OSError):
+            pass
+        try:
+            handle.close()
+        except Exception:
+            pass
+        handle = open(self.dir / _LOG_FILES[handle_name], "a",
+                      encoding="utf-8")
+        setattr(self, handle_name, handle)
+        handle.write(text)
+        handle.flush()
+
     def log_action(self, rec: ActionRecord) -> None:
         with self._lock:
-            self._actions.write(rec.model_dump_json() + "\n")
-            self._actions.flush()
+            self._write_locked("_actions", rec.model_dump_json() + "\n")
 
     def log_observation(self, rec: ObservationRecord) -> None:
         with self._lock:
-            self._obs.write(rec.model_dump_json() + "\n")
-            self._obs.flush()
+            self._write_locked("_obs", rec.model_dump_json() + "\n")
 
     def log_discovery(self, op: str, payload: dict) -> None:
         with self._lock:
-            self._disc.write(json.dumps(
+            self._write_locked("_disc", json.dumps(
                 {"ts": utc_now(), "op": op, "payload": payload},
                 ensure_ascii=False) + "\n")
-            self._disc.flush()
 
     def log_discovery_rejected(self, op: str, reason: str,
                                request: dict | None = None) -> None:
@@ -86,19 +116,17 @@ class TraceRecorder:
         exactly the same error it did before.
         """
         with self._lock:
-            self._disc.write(json.dumps(
+            self._write_locked("_disc", json.dumps(
                 {"ts": utc_now(), "op": op, "accepted": False,
                  "reason": reason, "request": request or {}},
                 ensure_ascii=False) + "\n")
-            self._disc.flush()
 
     def log_event(self, kind: str, payload: dict | None = None) -> None:
         """Lifecycle events (reset, close...) into actions.jsonl."""
         with self._lock:
-            self._actions.write(json.dumps(
+            self._write_locked("_actions", json.dumps(
                 {"event": kind, "ts": utc_now(), **(payload or {})},
                 ensure_ascii=False) + "\n")
-            self._actions.flush()
 
     # ------------------------------------------------------------ reads
 

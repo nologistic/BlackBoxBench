@@ -259,152 +259,182 @@
     {
       "feature": "Shared",
       "treatment": "Hard Exclude",
-      "reason": "依赖第二用户、邀请接受状态及权限传播，不适合单 Agent 确定性测评。"
+      "reason": "依赖第二用户、邀请接受状态及权限传播，不适合单 Agent 确定性测评。",
+      "covered_by": []
     },
     {
       "feature": "Share",
       "treatment": "Hard Exclude",
-      "reason": "同上，核心变成跨账户协作而不是文件管理。"
+      "reason": "同上，核心变成跨账户协作而不是文件管理。",
+      "covered_by": []
     },
     {
       "feature": "Manage permissions",
       "treatment": "Hard Exclude",
-      "reason": "需要额外账号验证 viewer/editor 等权限状态。"
+      "reason": "需要额外账号验证 viewer/editor 等权限状态。",
+      "covered_by": []
     },
     {
       "feature": "Invite members",
       "treatment": "Hard Exclude",
-      "reason": "团队成员邀请属于多人协作和账户体系。"
+      "reason": "团队成员邀请属于多人协作和账户体系。",
+      "covered_by": []
     },
     {
       "feature": "Copy link / Shared links",
       "treatment": "Default Exclude",
-      "reason": "虽可生成链接，但真正验证访问权限需要独立浏览会话或第二身份。"
+      "reason": "虽可生成链接，但真正验证访问权限需要独立浏览会话或第二身份。",
+      "covered_by": []
     },
     {
       "feature": "File requests",
       "treatment": "Hard Exclude",
-      "reason": "Dropbox File requests 设计上就是让其他人上传文件；完整验证需要外部提交者。Dropbox帮助中心"
+      "reason": "Dropbox File requests 设计上就是让其他人上传文件；完整验证需要外部提交者。Dropbox帮助中心",
+      "covered_by": []
     },
     {
       "feature": "Import from Google Drive",
       "treatment": "Hard Exclude",
-      "reason": "需要连接 Google 账户和外部数据源。"
+      "reason": "需要连接 Google 账户和外部数据源。",
+      "covered_by": []
     },
     {
       "feature": "Import from OneDrive",
       "treatment": "Hard Exclude",
-      "reason": "需要 Microsoft 账户和外部数据源。"
+      "reason": "需要 Microsoft 账户和外部数据源。",
+      "covered_by": []
     },
     {
       "feature": "Integrations",
       "treatment": "Hard Exclude",
-      "reason": "第三方应用连接产生不可控依赖。"
+      "reason": "第三方应用连接产生不可控依赖。",
+      "covered_by": []
     },
     {
       "feature": "Email to Dropbox",
       "treatment": "Hard Exclude",
-      "reason": "依赖外部邮件发送和收件处理。"
+      "reason": "依赖外部邮件发送和收件处理。",
+      "covered_by": []
     },
     {
       "feature": "Dropbox AI / Ask Dash",
       "treatment": "Hard Exclude",
-      "reason": "模型输出存在非确定性，也可能具有套餐、区域和服务依赖。"
+      "reason": "模型输出存在非确定性，也可能具有套餐、区域和服务依赖。",
+      "covered_by": []
     },
     {
       "feature": "Dynamic filters",
       "treatment": "Hard Exclude",
-      "reason": "当前该功能由 Dropbox 内部 AI 生成，而且存在套餐、地区和语言限制，不适合统一 benchmark。Dropbox帮助中心"
+      "reason": "当前该功能由 Dropbox 内部 AI 生成，而且存在套餐、地区和语言限制，不适合统一 benchmark。Dropbox帮助中心",
+      "covered_by": []
     },
     {
       "feature": "Full-text search / OCR",
       "treatment": "Conditional Exclude",
-      "reason": "文件内容搜索和 OCR 存在套餐及语言限制；benchmark 默认只测试 filename、folder、type、extension 等确定性搜索。Dropbox帮助中心"
+      "reason": "文件内容搜索和 OCR 存在套餐及语言限制；benchmark 默认只测试 filename、folder、type、extension 等确定性搜索。Dropbox帮助中心",
+      "covered_by": []
     },
     {
       "feature": "Content suggestions / Recommended",
       "treatment": "Hard Exclude",
-      "reason": "推荐结果由用户历史行为决定，不具备确定性。"
+      "reason": "推荐结果由用户历史行为决定，不具备确定性。",
+      "covered_by": []
     },
     {
       "feature": "Dropbox Transfer",
       "treatment": "Default Exclude",
-      "reason": "更偏文件交付产品，且涉及链接、邮箱接收方及部分套餐配置。"
+      "reason": "更偏文件交付产品，且涉及链接、邮箱接收方及部分套餐配置。",
+      "covered_by": []
     },
     {
       "feature": "Dropbox Sign",
       "treatment": "Hard Exclude",
-      "reason": "属于相邻产品，不是 Dropbox 文件系统核心。"
+      "reason": "属于相邻产品，不是 Dropbox 文件系统核心。",
+      "covered_by": []
     },
     {
       "feature": "Dropbox Paper",
       "treatment": "Default Exclude",
-      "reason": "文档协作编辑属于另一功能体系，会显著扩大 benchmark 范围。"
+      "reason": "文档协作编辑属于另一功能体系，会显著扩大 benchmark 范围。",
+      "covered_by": []
     },
     {
       "feature": "Desktop app installation",
       "treatment": "Hard Exclude",
-      "reason": "依赖操作系统、安装权限及本地客户端。"
+      "reason": "依赖操作系统、安装权限及本地客户端。",
+      "covered_by": []
     },
     {
       "feature": "Desktop sync",
       "treatment": "Hard Exclude",
-      "reason": "涉及本地 filesystem、同步进程和网络状态，不再是纯网页 Agent benchmark。"
+      "reason": "涉及本地 filesystem、同步进程和网络状态，不再是纯网页 Agent benchmark。",
+      "covered_by": []
     },
     {
       "feature": "Online-only / Offline files",
       "treatment": "Hard Exclude",
-      "reason": "依赖 desktop client 和设备本地状态。"
+      "reason": "依赖 desktop client 和设备本地状态。",
+      "covered_by": []
     },
     {
       "feature": "Rewind",
       "treatment": "Hard Exclude",
-      "reason": "套餐受限，而且会一次性回滚大量账户状态，容易破坏 benchmark fixture。"
+      "reason": "套餐受限，而且会一次性回滚大量账户状态，容易破坏 benchmark fixture。",
+      "covered_by": []
     },
     {
       "feature": "Permanent delete",
       "treatment": "Hard Exclude",
-      "reason": "不可逆；普通 Delete → Restore 足够测试生命周期理解。"
+      "reason": "不可逆；普通 Delete → Restore 足够测试生命周期理解。",
+      "covered_by": []
     },
     {
       "feature": "Delete account",
       "treatment": "Hard Exclude",
-      "reason": "高破坏性且与核心文件管理无关。"
+      "reason": "高破坏性且与核心文件管理无关。",
+      "covered_by": []
     },
     {
       "feature": "Subscription / Upgrade",
       "treatment": "Hard Exclude",
-      "reason": "商业套餐流程，不测。"
+      "reason": "商业套餐流程，不测。",
+      "covered_by": []
     },
     {
       "feature": "Account / Security / Notification preferences",
-      "treatment": "Exclude",
-      "reason": "属于账户设置而不是文件管理能力。"
+      "treatment": "Hard Exclude",
+      "reason": "属于账户设置而不是文件管理能力。",
+      "covered_by": []
     },
     {
       "feature": "Language / Theme / Appearance",
-      "treatment": "Exclude",
-      "reason": "UI 偏好，不体现文件系统推理能力。"
+      "treatment": "Default Exclude",
+      "reason": "UI 偏好，不体现文件系统推理能力。",
+      "covered_by": []
     },
     {
       "feature": "Watermark",
       "treatment": "Default Exclude",
-      "reason": "存在套餐限制；不是基础媒体编辑核心。"
+      "reason": "存在套餐限制；不是基础媒体编辑核心。",
+      "covered_by": []
     },
     {
       "feature": "Enhance / Upscale / Auto-straighten / Color correct",
       "treatment": "Hard Exclude",
-      "reason": "包含 ML 图像处理，不适合要求严格复现输出。Dropbox 官方也明确说明其中部分 Enhance 功能使用 machine learning。Dropbox帮助中心"
+      "reason": "包含 ML 图像处理，不适合要求严格复现输出。Dropbox 官方也明确说明其中部分 Enhance 功能使用 machine learning。Dropbox帮助中心",
+      "covered_by": []
     },
     {
       "feature": "Video / audio transcription",
       "treatment": "Hard Exclude",
-      "reason": "涉及媒体编码和生成式/语音处理组件。"
+      "reason": "涉及媒体编码和生成式/语音处理组件。",
+      "covered_by": []
     },
     {
       "feature": "Team account management",
       "treatment": "Hard Exclude",
-      "reason": "多人、角色、组织权限与单 Agent 文件管理 benchmark 无关。"
+      "reason": "多人、角色、组织权限与单 Agent 文件管理 benchmark 无关。",
+      "covered_by": []
     }
   ]
 }

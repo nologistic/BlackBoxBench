@@ -100,8 +100,12 @@ log "starting Xvfb on ${DISPLAY} (${SCREEN})"
 Xvfb "$DISPLAY" -screen 0 "$SCREEN" -nolisten tcp &
 PIDS+=($!)
 
-DISPLAY_SOCK="/tmp/.X11-unix/X${DISPLAY#*:}"
-DISPLAY_SOCK="${DISPLAY_SOCK%%.*}"
+# Strip the optional screen suffix (":99.0" -> "99") BEFORE building the path.
+# Doing it on the assembled path would truncate at the dot inside ".X11-unix"
+# and yield "/tmp/", so the -S check below would never succeed.
+DISPLAY_NUMBER="${DISPLAY#*:}"
+DISPLAY_NUMBER="${DISPLAY_NUMBER%%.*}"
+DISPLAY_SOCK="/tmp/.X11-unix/X${DISPLAY_NUMBER}"
 for _ in $(seq 1 50); do
   [ -S "$DISPLAY_SOCK" ] && break
   sleep 0.1

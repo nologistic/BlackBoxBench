@@ -356,137 +356,172 @@
     {
       "feature": "实时协作",
       "treatment": "Hard Exclude",
-      "reason": "需要多客户端、网络同步、presence、冲突解决。"
+      "reason": "需要多客户端、网络同步、presence、冲突解决。",
+      "covered_by": []
     },
     {
       "feature": "邀请协作者",
       "treatment": "Hard Exclude",
-      "reason": "涉及第二账号、权限和服务器状态。"
+      "reason": "涉及第二账号、权限和服务器状态。",
+      "covered_by": []
     },
     {
       "feature": "分享协作链接",
       "treatment": "Hard Exclude",
-      "reason": "依赖外部服务和多用户状态。"
+      "reason": "依赖外部服务和多用户状态。",
+      "covered_by": []
     },
     {
       "feature": "Excalidraw+",
       "treatment": "Hard Exclude",
-      "reason": "属于额外云端产品，不是基础 editor。"
+      "reason": "属于额外云端产品，不是基础 editor。",
+      "covered_by": []
     },
     {
       "feature": "Plus 云端 workspace",
       "treatment": "Hard Exclude",
-      "reason": "需要账号、云存储和订阅系统。"
+      "reason": "需要账号、云存储和订阅系统。",
+      "covered_by": []
     },
     {
       "feature": "Text to Diagram AI",
       "treatment": "Hard Exclude",
-      "reason": "生成式结果不确定。官方也将其归入 Generative AI。Excalidraw+"
+      "reason": "生成式结果不确定。官方也将其归入 Generative AI。Excalidraw+",
+      "covered_by": []
     },
     {
       "feature": "Wireframe to Code AI",
       "treatment": "Hard Exclude",
-      "reason": "需要生成模型和代码执行能力。Excalidraw+"
+      "reason": "需要生成模型和代码执行能力。Excalidraw+",
+      "covered_by": []
     },
     {
       "feature": "AI 文字至图表",
       "treatment": "Hard Exclude",
-      "reason": "同上。"
+      "reason": "同上。",
+      "covered_by": []
     },
     {
       "feature": "Mermaid → Excalidraw",
       "treatment": "Conditional Exclude",
-      "reason": "可以实现 deterministic parser，但它不是核心白板交互能力；默认不考。"
+      "reason": "可以实现 deterministic parser，但它不是核心白板交互能力；默认不考。",
+      "covered_by": []
     },
     {
       "feature": "公共素材库浏览",
       "treatment": "Hard Exclude",
-      "reason": "内容来自网络，资产可能随时间变化。"
+      "reason": "内容来自网络，资产可能随时间变化。",
+      "covered_by": []
     },
     {
       "feature": "Library 云同步",
       "treatment": "Hard Exclude",
-      "reason": "外部内容和账户状态。"
+      "reason": "外部内容和账户状态。",
+      "covered_by": []
     },
     {
       "feature": "本地 Library item",
       "treatment": "Conditional Include",
-      "reason": "若 benchmark 预置固定 library fixture，可以测试插入。"
+      "reason": "若 benchmark 预置固定 library fixture，可以测试插入；保留面：f11 Roughness / line style, f29 Local image import, f33 Bucket fill",
+      "covered_by": [
+        "f29",
+        "f11",
+        "f33"
+      ]
     },
     {
       "feature": "嵌入网页",
       "treatment": "Hard Exclude",
-      "reason": "iframe / 外部网站可用性不可控。"
+      "reason": "iframe / 外部网站可用性不可控。",
+      "covered_by": []
     },
     {
       "feature": "远程图片 URL",
       "treatment": "Hard Exclude",
-      "reason": "网络依赖。"
+      "reason": "网络依赖。",
+      "covered_by": []
     },
     {
       "feature": "本地图片插入",
-      "treatment": "Include",
-      "reason": "如果 benchmark 提供固定本地图片，是确定性的。"
+      "treatment": "Conditional Include",
+      "reason": "如果 benchmark 提供固定本地图片，是确定性的。",
+      "covered_by": []
     },
     {
       "feature": "实时网页预览",
       "treatment": "Hard Exclude",
-      "reason": "外部网络状态不可控。"
+      "reason": "外部网络状态不可控。",
+      "covered_by": []
     },
     {
       "feature": "Discord / GitHub / Follow links",
       "treatment": "Hard Exclude",
-      "reason": "产品外链接。"
+      "reason": "产品外链接。",
+      "covered_by": []
     },
     {
       "feature": "Sign up / Login",
       "treatment": "Hard Exclude",
-      "reason": "账户系统不是 editor 核心。"
+      "reason": "账户系统不是 editor 核心。",
+      "covered_by": []
     },
     {
       "feature": "账号语言同步",
       "treatment": "Hard Exclude",
-      "reason": "非场景编辑能力。"
+      "reason": "非场景编辑能力。",
+      "covered_by": []
     },
     {
       "feature": "Presentation / Plus-only 云功能",
       "treatment": "Default Exclude",
-      "reason": "如果依赖 Plus 后端则排除。"
+      "reason": "如果依赖 Plus 后端则排除。",
+      "covered_by": []
     },
     {
       "feature": "跨设备同步",
       "treatment": "Hard Exclude",
-      "reason": "需要真实云端和多设备。"
+      "reason": "需要真实云端和多设备。",
+      "covered_by": []
     },
     {
       "feature": "浏览器 storage 持久化细节",
       "treatment": "Default Exclude",
-      "reason": "不要求精确模拟 IndexedDB/localStorage 实现，只要求用户可见的 reopen 行为。"
+      "reason": "不要求精确模拟 IndexedDB/localStorage 实现，只要求用户可见的 reopen 行为。",
+      "covered_by": []
     },
     {
       "feature": "打印",
       "treatment": "Hard Exclude",
-      "reason": "浏览器 / OS 打印框。"
+      "reason": "浏览器 / OS 打印框。",
+      "covered_by": []
     },
     {
       "feature": "系统剪贴板跨应用行为",
       "treatment": "Conditional Exclude",
-      "reason": "可以测试内部 copy/paste，但不要要求与外部应用互操作。"
+      "reason": "可以测试内部 copy/paste，但不要要求与外部应用互操作；保留面：f13 Rounded corners, f19 Multi-step binding, f22 Frame containment",
+      "covered_by": [
+        "f13",
+        "f19",
+        "f22"
+      ]
     },
     {
       "feature": "字体渲染像素完全一致",
-      "treatment": "Exclude from scoring",
-      "reason": "浏览器、OS 字体渲染存在差异。"
+      "treatment": "Default Exclude",
+      "reason": "浏览器、OS 字体渲染存在差异。",
+      "covered_by": []
     },
     {
       "feature": "自由手绘像素级一致",
-      "treatment": "Exclude from scoring",
-      "reason": "鼠标轨迹天然存在微小偏差。"
+      "treatment": "Default Exclude",
+      "reason": "鼠标轨迹天然存在微小偏差。",
+      "covered_by": []
     },
     {
       "feature": "复杂 AI 自动排版",
       "treatment": "Hard Exclude",
-      "reason": "不确定性且非核心。"
+      "reason": "不确定性且非核心。",
+      "covered_by": []
     }
   ]
 }

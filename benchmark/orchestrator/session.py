@@ -37,18 +37,15 @@ class TransientEnvironmentError(Exception):
     A device or browser that drops one operation while remaining healthy is an
     environment artefact, not an observation about the Agent. Ending an
     exploration dozens of steps in because of it discards real work, so the
-    Agent is told this single step did not go through and may simply continue.
+    Agent is told this single step did not go through and the session lives on.
 
-    ``retry_after_s`` is a server-computed hint for when the step is worth
-    retrying — a boot under way or a momentarily busy device answers "not
-    yet" with a number instead of leaving the Agent to guess at one, which is
-    what the agent-side wait/retry loops used to do (one 8+ minute stretch of
-    pure retries was observed during a parallel-boot window).
+    平台只陈述事实：不附带「何时重试」之类的建议（原先服务端会计算一个
+    ``retry_after_s`` 交给 Agent，等于替它决定何时重试；2026-09-26 按
+    「平台只支持探索、不替 Agent 做任何决策」的原则移除）。
     """
 
-    def __init__(self, message: str, retry_after_s: int = 10):
+    def __init__(self, message: str):
         super().__init__(message)
-        self.retry_after_s = max(1, int(retry_after_s))
 
 
 def _iso_utc(ts: float) -> str:
@@ -408,34 +405,26 @@ class Session:
             })
 
     def _classify_runtime_failure(self, exc: Exception) -> Exception:
-        """Decide whether one runtime failure ends the session.
+        """Report one runtime failure as a fact; the session is not ended here.
 
-        The environment sometimes drops a single operation while staying
-        perfectly usable. Ending an exploration at step 85 because of one such
-        blip throws away real work and records an environment artefact as if it
-        were a limit of the Agent. So: ask the runtime whether it is still
-        healthy, and only give up when it is not.
+        平台不替 Agent 判断会话存亡：原先会先探测设备健康（``recoverable`` /
+        ``runtime.health()``）再决定"续跑"还是"关闭会话"，那是替 Agent 做决定。
+        现在任何运行时失败都只回一句事实：这一步没有生效、会话继续；由 Agent
+        自己决定重试、绕开还是收尾。会话只因 Agent 自己 finalize 或预算耗尽
+        （测量边界）而结束。
 
-        Either way the Agent receives a neutral sentence — never an adb command
-        line, CDP method or host path.
+        The Agent receives a neutral sentence — never an adb command line,
+        CDP method or host path.
         """
-        recoverable = bool(getattr(exc, "recoverable", False))
-        if not recoverable:
-            # Not every runtime tags its errors; ask the runtime directly.
-            try:
-                recoverable = bool(self.runtime.health())
-            except Exception:
-                recoverable = False
         detail = getattr(exc, "detail", None) or repr(exc)
-        if recoverable:
-            self.recorder.log_event("environment_blip", {
-                "step": self.step, "detail": str(detail)[:500],
-                "recovered": True})
-            retry_after = int(getattr(exc, "retry_after_s", 0) or 10)
-            return TransientEnvironmentError(_agent_safe_message(exc),
-                                             retry_after_s=retry_after)
-        self._fail(exc, f"runtime error: {detail}")
-        return SessionClosed(_agent_safe_message(exc))
+        self.recorder.log_event("environment_blip", {
+            "step": self.step, "detail": str(detail)[:500],
+            "session": "continues"})
+        # 诊断材料照旧落盘（审计用，不是决策）：crash_report.json 存完整技术
+        # 细节，session.json 存会话元信息；交给 Agent 的只有中性事实句。
+        self._write_crash(exc)
+        self._write_session_meta()
+        return TransientEnvironmentError(_agent_safe_message(exc))
 
     def _validate(self, a: m.Action) -> None:
         info = self.runtime.info()

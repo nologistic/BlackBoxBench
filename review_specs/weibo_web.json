@@ -390,62 +390,91 @@
     {
       "feature": "个性化推荐引擎\n行为驱动的推荐排序与内容分发",
       "treatment": "Hard Exclude",
-      "reason": "需要推荐模型与行为数据（对照 Spotify「Recommendation engine」）；内容流结构可用预置 fixture"
+      "reason": "需要推荐模型与行为数据（对照 Spotify「Recommendation engine」）；内容流结构可用预置 fixture",
+      "covered_by": []
     },
     {
       "feature": "热搜与榜单实时数据\n实时热度计算、排名动态调整、新热点标记",
       "treatment": "Conditional Exclude",
-      "reason": "热搜/榜单用静态快照呈现（对照 Spotify「Dynamic charts」）；浏览与跳转交互保留"
+      "reason": "热搜/榜单用静态快照呈现（对照 Spotify「Dynamic charts」）；浏览与跳转交互保留",
+      "covered_by": []
     },
     {
       "feature": "跨用户互动反馈\n原作者通知、他人回复、作者侧数据变化",
       "treatment": "Conditional Exclude",
-      "reason": "单用户互动状态可测；跨用户送达与反馈不在验证范围"
+      "reason": "单用户互动状态可测；跨用户送达与反馈不在验证范围；保留面：f22 互动体系 · 点赞闭环",
+      "covered_by": [
+        "f22"
+      ]
     },
     {
       "feature": "粉丝关系真实变化\n他人关注当前用户的真实事件",
       "treatment": "Conditional Exclude",
-      "reason": "粉丝列表展示与回粉操作可测（预置列表）；不模拟他人关注行为"
+      "reason": "粉丝列表展示与回粉操作可测（预置列表）；不模拟他人关注行为；保留面：f26 用户关系 · 粉丝列表与回粉",
+      "covered_by": [
+        "f26"
+      ]
     },
     {
       "feature": "私信真实对端\n真实用户消息收发、对方读取状态",
       "treatment": "Conditional Exclude",
-      "reason": "会话与消息状态可测（预置会话）；不验证真实对端与已读回执"
+      "reason": "会话与消息状态可测（预置会话）；不验证真实对端与已读回执；保留面：f28 私信体系 · 会话管理",
+      "covered_by": [
+        "f28"
+      ]
     },
     {
       "feature": "通知的真实事件源\n提及/评论/点赞/群消息的真实产生",
       "treatment": "Conditional Include",
-      "reason": "消息状态机（未读/分类/已读）可测，需预置消息 fixture"
+      "reason": "消息状态机（未读/分类/已读）可测，需预置消息 fixture；保留面：f27 消息中心 · 提及、评论与群通知",
+      "covered_by": [
+        "f27"
+      ]
     },
     {
       "feature": "视频平台处理与转码\n转码管线、媒体处理状态",
       "treatment": "Conditional Exclude",
-      "reason": "上传与发布流程可测；不要求真实处理管线（对照 youtube「转码/CDN」）"
+      "reason": "上传与发布流程可测；不要求真实处理管线（对照 youtube「转码/CDN」）；保留面：f17 内容发布 · 视频微博发布",
+      "covered_by": [
+        "f17"
+      ]
     },
     {
       "feature": "直播内容\n直播管理、推流、直播间互动",
       "treatment": "Hard Exclude",
-      "reason": "实时流媒体依赖（对照 youtube「直播」排除）；定时微博等内容管理保留"
+      "reason": "实时流媒体依赖（对照 youtube「直播」排除）；定时微博等内容管理保留；保留面：f30 创作者体系 · 数据与内容管理",
+      "covered_by": [
+        "f30"
+      ]
     },
     {
       "feature": "创作者收益体系\n广告共享、创作激励、赞赏、问答收益",
       "treatment": "Hard Exclude",
-      "reason": "商业化与支付体系（对照 Spotify「Premium / Billing」）；创作者数据与内容管理保留"
+      "reason": "商业化与支付体系（对照 Spotify「Premium / Billing」）；创作者数据与内容管理保留；保留面：f30 创作者体系 · 数据与内容管理",
+      "covered_by": [
+        "f30"
+      ]
     },
     {
       "feature": "影响力榜与创作热点\n实时排名、热度趋势数据",
       "treatment": "Conditional Exclude",
-      "reason": "榜单数据用静态快照（对照榜单实时数据排除）"
+      "reason": "榜单数据用静态快照（对照榜单实时数据排除）",
+      "covered_by": []
     },
     {
       "feature": "关注者信息流的他人侧验证\n关注者是否真实收到内容",
       "treatment": "Conditional Exclude",
-      "reason": "发布后自己视角的信息流可见可测；不验证他人侧收到"
+      "reason": "发布后自己视角的信息流可见可测；不验证他人侧收到；保留面：f01 内容消费 · 全部关注信息流, f03 关注体系 · 特别关注信息流",
+      "covered_by": [
+        "f01",
+        "f03"
+      ]
     },
     {
       "feature": "真实内容资产\n真实微博内容、热搜数据、用户数据",
       "treatment": "Default Exclude",
-      "reason": "使用合成 fixture 内容（对照 Spotify「Real catalog」）"
+      "reason": "使用合成 fixture 内容（对照 Spotify「Real catalog」）",
+      "covered_by": []
     }
   ]
 }

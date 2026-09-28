@@ -377,62 +377,74 @@
     {
       "feature": "Personalized recommendation engine\nFeed composition from user signals, inferred interests",
       "treatment": "Hard Exclude",
-      "reason": "Requires recommendation models and behavioral data (cf. Spotify \"Recommendation engine\"); feed structure testable with preloaded fixture"
+      "reason": "Requires recommendation models and behavioral data (cf. Spotify \"Recommendation engine\"); feed structure testable with preloaded fixture",
+      "covered_by": []
     },
     {
       "feature": "Quora+ subscription and payments\nPlan selection, checkout, payment method, renewal, entitlements",
       "treatment": "Hard Exclude",
-      "reason": "Commerce and subscription infrastructure (cf. Spotify \"Premium / Billing\")"
+      "reason": "Commerce and subscription infrastructure (cf. Spotify \"Premium / Billing\")",
+      "covered_by": []
     },
     {
       "feature": "Cross-user answer requests\nReal users receiving requests and their state changes",
       "treatment": "Conditional Exclude",
-      "reason": "Request UI and state records testable with preloaded request list; real delivery excluded"
+      "reason": "Request UI and state records testable with preloaded request list; real delivery excluded",
+      "covered_by": []
     },
     {
       "feature": "Cross-user Space invitations\nReal invitees joining, contributor/follower growth",
       "treatment": "Conditional Exclude",
-      "reason": "Admin tools and people list testable with fixture; real invitation delivery excluded"
+      "reason": "Admin tools and people list testable with fixture; real invitation delivery excluded",
+      "covered_by": []
     },
     {
       "feature": "Negative preference feedback loop\nPass persisting as recommendation signal",
       "treatment": "Conditional Exclude",
-      "reason": "Pass removes question from queue; recommendation-side feedback excluded"
+      "reason": "Pass removes question from queue; recommendation-side feedback excluded",
+      "covered_by": []
     },
     {
       "feature": "Recommended comment sorting\nAlgorithmic comment recommendation",
       "treatment": "Conditional Exclude",
-      "reason": "Comment loading and expansion preserved; sorting uses deterministic rules"
+      "reason": "Comment loading and expansion preserved; sorting uses deterministic rules",
+      "covered_by": []
     },
     {
       "feature": "Similar-question detection engine\nReal-time semantic search while typing",
       "treatment": "Conditional Exclude",
-      "reason": "Similar-question flow testable with fixture matching rules"
+      "reason": "Similar-question flow testable with fixture matching rules",
+      "covered_by": []
     },
     {
       "feature": "Notification real event sources\nQuestion activity, requests, follows actually occurring",
       "treatment": "Conditional Include",
-      "reason": "Notification states testable with preloaded notifications"
+      "reason": "Notification states testable with preloaded notifications",
+      "covered_by": []
     },
     {
       "feature": "Real follower counts and topic activity\nLive follower numbers, trending topics",
       "treatment": "Conditional Exclude",
-      "reason": "Counts and metadata use fixture data"
+      "reason": "Counts and metadata use fixture data",
+      "covered_by": []
     },
     {
       "feature": "Credentials verification\nEmployment/education credential authenticity",
       "treatment": "Conditional Exclude",
-      "reason": "Credential selection and display preserved; real verification excluded"
+      "reason": "Credential selection and display preserved; real verification excluded",
+      "covered_by": []
     },
     {
       "feature": "Quora+ content paywall engine\nEntitlement rules over eligible content",
       "treatment": "Hard Exclude",
-      "reason": "Subscription-gated content engine; excluded together with Quora+ subscription"
+      "reason": "Subscription-gated content engine; excluded together with Quora+ subscription",
+      "covered_by": []
     },
     {
       "feature": "Real content assets\nReal answers, posts, Spaces content",
       "treatment": "Default Exclude",
-      "reason": "Use synthetic fixture content (cf. Spotify \"Real catalog\")"
+      "reason": "Use synthetic fixture content (cf. Spotify \"Real catalog\")",
+      "covered_by": []
     }
   ]
 }

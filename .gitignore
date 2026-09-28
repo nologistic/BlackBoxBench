@@ -71,3 +71,8 @@ Thumbs.db
 # ---- local backups (never upload) ----
 review_specs_backup_exclusions/
 *.bak-*
+
+# ---- 2026-09-28 本机保留：三份 k3 测评报告不上云（新旧 baseline 与 nograph）----
+app_output/evaluations/eval_16315e903d/
+app_output/evaluations/eval_4a41f33e07/
+app_output/evaluations/eval_e770bf3961/
