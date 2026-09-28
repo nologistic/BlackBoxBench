@@ -331,62 +331,74 @@
     {
       "feature": "Team board collaboration\nMulti-user editing, member assignment, mention notifications",
       "treatment": "Hard Exclude",
-      "reason": "Real-time collaboration and multi-user infrastructure (cf. excalidraw \"Real-time collaboration\")"
+      "reason": "Real-time collaboration and multi-user infrastructure (cf. excalidraw \"Real-time collaboration\")",
+      "covered_by": []
     },
     {
       "feature": "Workspace member management\nTeam creation, member roles, invitations",
       "treatment": "Hard Exclude",
-      "reason": "Multi-user administration (cf. notion \"Members and Workspace Invitations\")"
+      "reason": "Multi-user administration (cf. notion \"Members and Workspace Invitations\")",
+      "covered_by": []
     },
     {
       "feature": "Power-Ups and integrations\nThird-party Power-Ups, external service connections",
       "treatment": "Hard Exclude",
-      "reason": "External plugins and OAuth (cf. diagrams.net \"External Plugins\")"
+      "reason": "External plugins and OAuth (cf. diagrams.net \"External Plugins\")",
+      "covered_by": []
     },
     {
       "feature": "Real-time sync across clients\nPresence, multi-device live sync",
       "treatment": "Hard Exclude",
-      "reason": "Real-time infrastructure; local board state persistence is testable"
+      "reason": "Real-time infrastructure; local board state persistence is testable",
+      "covered_by": []
     },
     {
       "feature": "Premium automation quotas\nButler command limits per plan",
       "treatment": "Hard Exclude",
-      "reason": "Plan-gated features (cf. Spotify \"Premium / Billing\")"
+      "reason": "Plan-gated features (cf. Spotify \"Premium / Billing\")",
+      "covered_by": []
     },
     {
       "feature": "Board sharing and guest access\nPublic boards, guest invitations, cross-user access verification",
       "treatment": "Conditional Exclude",
-      "reason": "Board visibility settings testable; cross-user access verification excluded"
+      "reason": "Board visibility settings testable; cross-user access verification excluded",
+      "covered_by": []
     },
     {
       "feature": "Email-to-board and notification delivery\nEmail integration, push notification delivery",
       "treatment": "Conditional Exclude",
-      "reason": "In-app notification states testable; external delivery excluded (cf. Spotify \"Notifications\")"
+      "reason": "In-app notification states testable; external delivery excluded (cf. Spotify \"Notifications\")",
+      "covered_by": []
     },
     {
       "feature": "Butler natural-language commands\nNatural-language command interpretation",
       "treatment": "Conditional Exclude",
-      "reason": "Rule builder and automation flows testable; NL command parsing excluded"
+      "reason": "Rule builder and automation flows testable; NL command parsing excluded",
+      "covered_by": []
     },
     {
       "feature": "Calendar / map view external sync\nExternal calendar integration, map data",
       "treatment": "Conditional Exclude",
-      "reason": "In-app views testable; external sync and map data excluded (cf. Google Maps)"
+      "reason": "In-app views testable; external sync and map data excluded (cf. Google Maps)",
+      "covered_by": []
     },
     {
       "feature": "Template gallery content\nOfficial template marketplace content",
       "treatment": "Default Exclude",
-      "reason": "Content dataset; template creation flow itself preserved"
+      "reason": "Content dataset; template creation flow itself preserved",
+      "covered_by": []
     },
     {
       "feature": "Visual cosmetic parity\nPixel-perfect card covers, board styling replication",
       "treatment": "Default Exclude",
-      "reason": "Functional equivalence over pixel parity (cf. Desmos \"pixel-level rendering\")"
+      "reason": "Functional equivalence over pixel parity (cf. Desmos \"pixel-level rendering\")",
+      "covered_by": []
     },
     {
       "feature": "Real board content assets\nReal boards/cards from production workspaces",
       "treatment": "Default Exclude",
-      "reason": "Use synthetic fixture content (cf. Spotify \"Real catalog\")"
+      "reason": "Use synthetic fixture content (cf. Spotify \"Real catalog\")",
+      "covered_by": []
     }
   ]
 }

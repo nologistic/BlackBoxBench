@@ -1,12 +1,10 @@
 ---
 name: baseline-nograph
-description: 仅通过 Android App 可见截图和坐标级触控进行黑盒功能探索（探索记录完全自由、不要求任何结构化记录），并在隔离环境中生成和复验可安装 APK。用于 Android baseline-nograph 消融实验，不用于网页。
+description: 仅通过 Android App 可见截图和坐标级触控进行黑盒功能探索，并在隔离环境中生成和复验可安装 APK。用于 Android 托管基线实验，不用于网页。
 ---
 
-你是 Android 黑盒探索与复现 Benchmark 的 **baseline-nograph** 条件 Agent
-（baseline 的"无图"消融变体：流程与 baseline 完全一致，唯一差异是不再有
-"按指定 DAG 方式记录探索发现"的要求）。只能使用 `android-blackboxbench-nograph`
-MCP 提供的工具完成整个任务。
+你是 Android 黑盒探索与复现 Benchmark 的探索 Agent。只能使用
+`android-blackboxbench-nograph` MCP 提供的工具完成整个任务。
 
 ## 开始
 
@@ -36,19 +34,16 @@ MCP 提供的工具完成整个任务。
   写入后的持久化。每次动作后用 `observe` 核对真实结果。
 - 尽可能深度探索，不要遗漏任何核心功能。
 
-## 记录方式（自由）
+## 探索方式
 
-- 本条件（消融）**不提供**任何结构化记录工具，也**不要求**你按任何特定形式记录探索
-  发现——没有 record_state / record_feature / record_data / record_edge /
-  record_hypothesis 等工具，系统也不会校验你的任何记录。
-- 你可以按自己认为合适的方式记录（或完全不记录）——自然语言笔记、列表、表格、
-  自拟结构均可。唯一要求：**复现阶段所需的知识必须来自你亲眼验证过的行为**
+- 你自行决定如何组织探索过程——自然语言笔记、列表、表格、自拟结构均可。
+- 唯一要求：**复现阶段所需的知识必须来自你亲眼验证过的行为**
   （复现时无法回看探索截图，探索即记忆）。
 
 ## APK 复现
 
 充分探索后调用 `finalize`。它会结束探索并立即建立独立 Android 复现工作区
-（本条件不要求功能拓扑定稿，也不会因记录缺失拒绝交接）；不要在此停止。
+（工作区随即就绪）；不要在此停止。
 
 - **finalize 前的会话一致性自检（必做）**：若你在探索中途重建过会话（budget 耗尽、
   会话失效后 `start_session` 重开），当前绑定的续接会话往往只有零星几帧——直接
@@ -60,7 +55,7 @@ MCP 提供的工具完成整个任务。
 - 修改已有文件时优先用 `workspace_patch`（精确搜索-替换，`old_text` 需与文件内容
   完全一致且全文件唯一）；只有新建文件或大改才用 `workspace_write` 整文件重写——
   大参数工具调用一旦在流式传输中被中断，整个会话会被终止。
-- 基于你探索阶段的记忆理解布局与行为（本条件不提供探索截图证据的读取通道）；
+- 基于你探索阶段的记忆理解布局与行为（复现时无法回看探索截图——探索即记忆）；
   优先用 `input_list`/`input_read` 读取 `/materials/app` 的目标专属
   补充素材与非实体信息（先读其中的 CATALOG.md 与 SUPPLEMENT.md），再使用
   `/materials/common` 和 `/materials/mobile` 的虚构内容、图片、音视频和数据库。

@@ -274,78 +274,98 @@
   "exclusions": [
     {
       "feature": "多人实时协作 / 共享编辑\n排除多人同时编辑、远程光标、实时同步、冲突处理等",
-      "treatment": "Exclude",
-      "reason": "依赖账户、多人会话、WebSocket/实时同步服务，不属于三维数学绘图核心能力"
+      "treatment": "Hard Exclude",
+      "reason": "依赖账户、多人会话、WebSocket/实时同步服务，不属于三维数学绘图核心能力",
+      "covered_by": []
     },
     {
       "feature": "外部分享链路\n排除社交分享、公开链接权限体系、邮件分享等",
-      "treatment": "Exclude",
-      "reason": "主要依赖外部身份与分享基础设施，无法有效衡量三维绘图 Agent"
+      "treatment": "Hard Exclude",
+      "reason": "主要依赖外部身份与分享基础设施，无法有效衡量三维绘图 Agent",
+      "covered_by": []
     },
     {
       "feature": "完整账户系统\n排除注册、登录、头像、账号安全、账号恢复等",
-      "treatment": "Exclude",
-      "reason": "身份系统不是 Desmos 3D 核心计算与绘图能力"
+      "treatment": "Default Exclude",
+      "reason": "身份系统不是 Desmos 3D 核心计算与绘图能力",
+      "covered_by": []
     },
     {
       "feature": "精确复现 Desmos 云端保存基础设施\n保留“保存/重新打开后状态恢复”的本地或模拟实现；不要求复现真正 Desmos 云数据库",
-      "treatment": "Exclude",
-      "reason": "benchmark 应测试状态持久化，而不是 Desmos 后端账户架构"
+      "treatment": "Hard Exclude",
+      "reason": "benchmark 应测试状态持久化，而不是 Desmos 后端账户架构；保留面：f01 三维曲面表达式, f19 保存与重新打开图表",
+      "covered_by": [
+        "f19",
+        "f01"
+      ]
     },
     {
       "feature": "版本历史完整实现\n可以排除完整历史版本浏览、云端恢复策略和跨设备版本同步",
-      "treatment": "Exclude",
-      "reason": "需要复杂持久化基础设施，对三维绘图核心能力贡献较低"
+      "treatment": "Hard Exclude",
+      "reason": "需要复杂持久化基础设施，对三维绘图核心能力贡献较低",
+      "covered_by": []
     },
     {
       "feature": "物理键盘 / IME 全平台兼容矩阵\n不要求覆盖所有 Windows、macOS、Linux、移动端输入法差异",
-      "treatment": "Exclude",
-      "reason": "复现成本高且与核心数学功能关系弱；页面内置辅助数学键盘不能排除"
+      "treatment": "Default Exclude",
+      "reason": "复现成本高且与核心数学功能关系弱；页面内置辅助数学键盘不能排除",
+      "covered_by": []
     },
     {
       "feature": "屏幕阅读器 / Braille / 音频图形\n排除高级无障碍音频反馈、Braille 设备、专用辅助硬件",
-      "treatment": "Exclude",
-      "reason": "需要额外平台能力；但普通键盘操作和页面内数学键盘仍应保留"
+      "treatment": "Hard Exclude",
+      "reason": "需要额外平台能力；但普通键盘操作和页面内数学键盘仍应保留；保留面：f09 辅助数学键盘",
+      "covered_by": [
+        "f09"
+      ]
     },
     {
       "feature": "数学引擎全部极端边界\n不要求完整复现 Desmos 对所有特殊函数、奇点、超大数值、浮点边界和数值稳定性的内部算法",
-      "treatment": "Exclude",
-      "reason": "应复现主流函数和核心表达式语义，但不应把 benchmark 变成完整 CAS/数值分析引擎重写"
+      "treatment": "Default Exclude",
+      "reason": "应复现主流函数和核心表达式语义，但不应把 benchmark 变成完整 CAS/数值分析引擎重写",
+      "covered_by": []
     },
     {
       "feature": "所有高级统计 / 概率函数全集\n不要求将 Calculator 中全部统计分布、推断函数完整搬到 3D benchmark",
-      "treatment": "Exclude",
-      "reason": "3D 产品核心是三维函数和空间交互，应只保留能够支撑代表性数据任务的部分"
+      "treatment": "Default Exclude",
+      "reason": "3D 产品核心是三维函数和空间交互，应只保留能够支撑代表性数据任务的部分",
+      "covered_by": []
     },
     {
       "feature": "精确 GPU 渲染一致性\n不要求材质、抗锯齿、光照、透明度排序与官方逐像素一致",
-      "treatment": "Exclude",
-      "reason": "视觉效果应正确表达三维关系，但不应以像素级 WebGL 一致性作为功能成败标准"
+      "treatment": "Default Exclude",
+      "reason": "视觉效果应正确表达三维关系，但不应以像素级 WebGL 一致性作为功能成败标准",
+      "covered_by": []
     },
     {
       "feature": "移动端手势与响应式全集\n排除所有手机/平板特有布局、双指旋转、移动端软键盘等",
-      "treatment": "Exclude",
-      "reason": "当前 benchmark 可限定桌面网页环境，避免设备差异污染结果"
+      "treatment": "Default Exclude",
+      "reason": "当前 benchmark 可限定桌面网页环境，避免设备差异污染结果",
+      "covered_by": []
     },
     {
       "feature": "国际化全集\n不要求所有语言、RTL、区域数字格式完整支持",
-      "treatment": "Exclude",
-      "reason": "可固定一种语言环境；国际化不是三维绘图核心链路"
+      "treatment": "Default Exclude",
+      "reason": "可固定一种语言环境；国际化不是三维绘图核心链路",
+      "covered_by": []
     },
     {
       "feature": "帮助中心 / 教程 / 外部文档\n排除帮助页、产品教学、外链文档",
-      "treatment": "Exclude",
-      "reason": "属于内容支持系统，不体现三维绘图本身"
+      "treatment": "Default Exclude",
+      "reason": "属于内容支持系统，不体现三维绘图本身",
+      "covered_by": []
     },
     {
       "feature": "精确品牌视觉资产\n不要求完全复现 Desmos Logo、官方图标素材和非功能性视觉细节",
-      "treatment": "Exclude",
-      "reason": "benchmark 应关注结构与交互，不应受品牌版权素材限制"
+      "treatment": "Default Exclude",
+      "reason": "benchmark 应关注结构与交互，不应受品牌版权素材限制",
+      "covered_by": []
     },
     {
       "feature": "后台遥测 / 埋点 / 推荐系统\n排除分析埋点、A/B Test、个性化推荐",
-      "treatment": "Exclude",
-      "reason": "用户不可直接观察，也与数学绘图无关"
+      "treatment": "Default Exclude",
+      "reason": "用户不可直接观察，也与数学绘图无关",
+      "covered_by": []
     }
   ]
 }

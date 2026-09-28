@@ -120,39 +120,37 @@ def test_android_runtime_translates_only_coordinate_commands(tmp_path):
     assert calls == [("shell", "input", "text", "'hello;%sid'")]
 
 
-def test_android_runtime_restores_unknown_or_foreign_foreground(tmp_path):
+def test_android_screenshot_never_polices_or_restarts_the_foreground(
+        tmp_path, monkeypatch):
+    """平台不替 Agent 拉起应用：取帧只取帧（2026-09-26 契约）。
+
+    删除了运行时"前台守卫"：dumpsys 查前台 → 不在白名单就 force-stop + 重启
+    目标应用 → 仍不行则抛 'target App could not be restored to foreground'。
+    实测代价：vinyl 一单 34 次抖动、19 分钟全耗在这套自愈上，且 force-stop
+    抹掉了 Agent 正在看的菜单。新契约：screenshot 不发 dumpsys、不重启应用。
+    """
     spec = SimpleNamespace(package_name="com.example.app",
                            launch_activity=".MainActivity")
     runtime = AndroidEmulatorRuntime(spec, tmp_path)
-    responses = iter([
-        SimpleNamespace(stdout="mCurrentFocus=null", returncode=0),
-        SimpleNamespace(stdout="mResumedActivity: null", returncode=0),
-        SimpleNamespace(stdout="mCurrentFocus=null", returncode=0),
-        SimpleNamespace(
-            stdout=("topResumedActivity=ActivityRecord{617e498 u0 "
-                    "com.example.app/.MainActivity t8}"), returncode=0),
-    ])
-    runtime._run = lambda *args, **kwargs: next(responses)
-    restarted = []
+    runtime.serial = "emulator-5554"
+    monkeypatch.setattr("benchmark.android.runtime.time.sleep", lambda _s: None)
+    commands: list[tuple] = []
+
+    def fake_run(*args, **kwargs):
+        commands.append(args)
+        return SimpleNamespace(stdout=b"", returncode=0)
+
+    restarted: list[bool] = []
+    runtime._run = fake_run
     runtime.restart_app = lambda: restarted.append(True)
-    runtime._enforce_foreground()
-    assert restarted == [True]
+    try:
+        runtime.screenshot()
+    except Exception:
+        pass   # 拿不到像素时如实报错是允许的；不允许的是替 Agent 拉起应用
+    assert restarted == []
+    assert not any("dumpsys" in " ".join(str(a) for a in args)
+                   for args in commands)
 
-
-def test_android_runtime_accepts_android_35_resumed_activity(tmp_path):
-    spec = SimpleNamespace(package_name="com.example.app",
-                           launch_activity=".MainActivity")
-    runtime = AndroidEmulatorRuntime(spec, tmp_path)
-    responses = iter([
-        SimpleNamespace(stdout="", returncode=0),
-        SimpleNamespace(
-            stdout=("topResumedActivity=ActivityRecord{617e498 u0 "
-                    "com.example.app/.MainActivity t8}"), returncode=0),
-    ])
-    runtime._run = lambda *args, **kwargs: next(responses)
-    runtime.restart_app = lambda: (_ for _ in ()).throw(
-        AssertionError("visible target must not be restarted"))
-    runtime._enforce_foreground()
 
 
 def test_android_runtime_stop_removes_explore_clone_but_keeps_login(
@@ -283,13 +281,6 @@ def test_android_restart_app_retries_before_reporting_failure(tmp_path,
     with pytest.raises(RuntimeError, match="could not be relaunched"):
         runtime.restart_app()
 
-
-def _responsive_runtime(tmp_path):
-    spec = SimpleNamespace(package_name="com.example.app",
-                           launch_activity=".MainActivity")
-    runtime = AndroidEmulatorRuntime(spec, tmp_path)
-    runtime.serial = "emulator-5554"
-    return runtime
 
 
 def test_android_probe_silence_reads_recoverable_not_terminal(tmp_path,

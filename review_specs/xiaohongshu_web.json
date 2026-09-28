@@ -369,67 +369,112 @@
     {
       "feature": "个性化推荐引擎\n兴趣行为驱动的瀑布流排序与内容推荐",
       "treatment": "Hard Exclude",
-      "reason": "需要推荐模型与行为数据（对照 Spotify「Recommendation / personalization engine」）；瀑布流结构可用预置 fixture"
+      "reason": "需要推荐模型与行为数据（对照 Spotify「Recommendation / personalization engine」）；瀑布流结构可用预置 fixture",
+      "covered_by": []
     },
     {
       "feature": "直播\n直播创建、推流、直播间实时互动、直播生命周期",
       "treatment": "Hard Exclude",
-      "reason": "实时流媒体依赖（对照 youtube「直播」排除）；直播列表浏览（分类筛选）可保留"
+      "reason": "实时流媒体依赖（对照 youtube「直播」排除）；直播列表浏览（分类筛选）可保留；保留面：f05 直播发现与分类浏览",
+      "covered_by": [
+        "f05"
+      ]
     },
     {
       "feature": "内容审核系统\n真实审核队列、审核结果判定、审核时长",
       "treatment": "Conditional Exclude",
-      "reason": "审核状态机与状态联动可测；审核结果用预置 fixture 驱动"
+      "reason": "审核状态机与状态联动可测；审核结果用预置 fixture 驱动；保留面：f17 笔记管理与状态筛选, f18 内容审核状态与状态联动",
+      "covered_by": [
+        "f18",
+        "f17"
+      ]
     },
     {
       "feature": "他人互动事件源\n评论/提及/点赞/收藏/关注的真实产生",
       "treatment": "Conditional Include",
-      "reason": "通知分类/跳转/已读状态机可测，需预置通知 fixture"
+      "reason": "通知分类/跳转/已读状态机可测，需预置通知 fixture；保留面：f19 通知分类与互动事件聚合",
+      "covered_by": [
+        "f19"
+      ]
     },
     {
       "feature": "私信真实对端\n真实用户消息收发与实时推送",
       "treatment": "Conditional Exclude",
-      "reason": "会话列表/未读/历史加载可测（预置会话）；不验证真实对端"
+      "reason": "会话列表/未读/历史加载可测（预置会话）；不验证真实对端；保留面：f21 私信会话与群聊管理",
+      "covered_by": [
+        "f21"
+      ]
     },
     {
       "feature": "关注关系的双向传播\n对方粉丝数变化、对方侧统计更新",
       "treatment": "Conditional Exclude",
-      "reason": "本侧关注状态可测；对端数据用 fixture 呈现"
+      "reason": "本侧关注状态可测；对端数据用 fixture 呈现；保留面：f10 关注关系与列表状态同步",
+      "covered_by": [
+        "f10"
+      ]
     },
     {
       "feature": "外部可见性验证\n其他用户访问私密笔记、公开内容流验证",
       "treatment": "Conditional Exclude",
-      "reason": "可见性设置保存与状态回显可测；不验证外部访问效果"
+      "reason": "可见性设置保存与状态回显可测；不验证外部访问效果；保留面：f12 私密笔记可见性设置, f17 笔记管理与状态筛选, f18 内容审核状态与状态联动",
+      "covered_by": [
+        "f12",
+        "f17",
+        "f18"
+      ]
     },
     {
       "feature": "粉丝画像计算\n画像算法与真实用户数据聚合",
       "treatment": "Conditional Exclude",
-      "reason": "画像展示与空状态可测；画像数据用预置 fixture"
+      "reason": "画像展示与空状态可测；画像数据用预置 fixture；保留面：f25 粉丝画像展示",
+      "covered_by": [
+        "f25"
+      ]
     },
     {
       "feature": "账号诊断与提升建议\n算法诊断结果、生成式建议",
       "treatment": "Hard Exclude",
-      "reason": "生成式/算法输出非确定性；指标汇总与对比展示（预置基准）可保留"
+      "reason": "生成式/算法输出非确定性；指标汇总与对比展示（预置基准）可保留；保留面：f26 账号数据汇总与同类对比",
+      "covered_by": [
+        "f26"
+      ]
     },
     {
       "feature": "创作者后台真实统计引擎\n曝光/观看/涨粉等指标的实时计算",
       "treatment": "Conditional Include",
-      "reason": "指标展示、周期切换、排序导出可测；数据用预置 fixture"
+      "reason": "指标展示、周期切换、排序导出可测；数据用预置 fixture；保留面：f22 创作者首页数据总览, f23 单篇笔记内容效果分析, f26 账号数据汇总与同类对比",
+      "covered_by": [
+        "f22",
+        "f23",
+        "f26"
+      ]
     },
     {
       "feature": "热门话题实时数据\n真实参与人数、浏览量、热度排名",
       "treatment": "Conditional Exclude",
-      "reason": "话题浏览与进入创作可测；热度数据用静态快照（对照 Spotify「Dynamic charts」）"
+      "reason": "话题浏览与进入创作可测；热度数据用静态快照（对照 Spotify「Dynamic charts」）；保留面：f03 瀑布流持续浏览与位置恢复, f27 创作灵感与热门话题浏览",
+      "covered_by": [
+        "f27",
+        "f03"
+      ]
     },
     {
       "feature": "视频转码与平台处理\n媒体处理管线、转码状态",
       "treatment": "Conditional Exclude",
-      "reason": "上传与发布流程可测；不要求真实处理管线（对照 youtube「转码/CDN」）"
+      "reason": "上传与发布流程可测；不要求真实处理管线（对照 youtube「转码/CDN」）；保留面：f14 图文笔记创作与发布, f15 视频笔记上传与发布, f16 笔记草稿与发布状态管理",
+      "covered_by": [
+        "f15",
+        "f14",
+        "f16"
+      ]
     },
     {
       "feature": "真实内容资产\n真实笔记内容、用户数据、活动运营内容",
       "treatment": "Default Exclude",
-      "reason": "使用合成 fixture 内容（对照 Spotify「Real catalog」）；活动收藏交互可保留"
+      "reason": "使用合成 fixture 内容（对照 Spotify「Real catalog」）；活动收藏交互可保留；保留面：f28 创作者活动参与与收藏",
+      "covered_by": [
+        "f28"
+      ]
     }
   ]
 }

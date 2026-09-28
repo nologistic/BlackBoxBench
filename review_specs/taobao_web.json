@@ -383,62 +383,89 @@
     {
       "feature": "个性化推荐引擎\n猜你喜欢排序、用户画像驱动推荐",
       "treatment": "Hard Exclude",
-      "reason": "需要推荐模型与行为数据（对照 Spotify「Recommendation / personalization engine」）；Feed 结构可用预置 fixture"
+      "reason": "需要推荐模型与行为数据（对照 Spotify「Recommendation / personalization engine」）；Feed 结构可用预置 fixture",
+      "covered_by": []
     },
     {
       "feature": "真实支付与交易结算\n支付网关、资金流转、真实交易",
       "treatment": "Hard Exclude",
-      "reason": "依赖支付系统；订单流程本地化后只验证用户可见状态"
+      "reason": "依赖支付系统；订单流程本地化后只验证用户可见状态",
+      "covered_by": []
     },
     {
       "feature": "商家/平台侧处理流程\n发货、退款审核、投诉仲裁、开票处理",
       "treatment": "Conditional Exclude",
-      "reason": "用户侧申请与状态展示可测；处理结果用预置 fixture 驱动"
+      "reason": "用户侧申请与状态展示可测；处理结果用预置 fixture 驱动；保留面：f18 订单状态机与状态分类视图, f23 退款/售后工作流（用户侧）, f25 投诉/维权工作流（用户侧）",
+      "covered_by": [
+        "f18",
+        "f23",
+        "f25"
+      ]
     },
     {
       "feature": "物流实时数据\n真实快递轨迹、派送状态",
       "treatment": "Conditional Exclude",
-      "reason": "物流轨迹用固定 fixture 呈现；不接真实快递接口"
+      "reason": "物流轨迹用固定 fixture 呈现；不接真实快递接口",
+      "covered_by": []
     },
     {
       "feature": "真实商品与商家数据\n真实商品库、价格、库存、店铺评分",
       "treatment": "Default Exclude",
-      "reason": "使用合成商品 fixture（对照 Spotify「Real catalog」）；不要求真实平台数据"
+      "reason": "使用合成商品 fixture（对照 Spotify「Real catalog」）；不要求真实平台数据",
+      "covered_by": []
     },
     {
       "feature": "库存/促销的实时引擎\n平台级库存计算、动态促销规则",
       "treatment": "Conditional Include",
-      "reason": "库存与促销条件可用预置规则；测联动逻辑不测平台引擎"
+      "reason": "库存与促销条件可用预置规则；测联动逻辑不测平台引擎",
+      "covered_by": []
     },
     {
       "feature": "以图搜图的相似度算法\n视觉相似度计算与排序",
       "treatment": "Conditional Exclude",
-      "reason": "上传→结果链路可测；相似结果用预置映射（不评估 CV 模型）"
+      "reason": "上传→结果链路可测；相似结果用预置映射（不评估 CV 模型）；保留面：f04 图片搜索链路",
+      "covered_by": [
+        "f04"
+      ]
     },
     {
       "feature": "打印\n物理打印机、浏览器打印对话框",
       "treatment": "Conditional Exclude",
-      "reason": "用导出（文件/PDF）替代（对照 diagrams.net「Print to Physical Printer」）"
+      "reason": "用导出（文件/PDF）替代（对照 diagrams.net「Print to Physical Printer」）",
+      "covered_by": []
     },
     {
       "feature": "账号安全与支付绑定\n密码、手机号、支付宝绑定",
       "treatment": "Hard Exclude",
-      "reason": "账号与支付身份属外部体系（对照 Spotify「Account / Authentication complexity」）；个人资料编辑保留"
+      "reason": "账号与支付身份属外部体系（对照 Spotify「Account / Authentication complexity」）；个人资料编辑保留；保留面：f29 个人资料与交易配置",
+      "covered_by": [
+        "f29"
+      ]
     },
     {
       "feature": "直播频道内容\n直播列表、推流、直播间互动",
       "treatment": "Hard Exclude",
-      "reason": "实时流媒体依赖（对照 youtube「直播」排除）；频道入口导航可保留"
+      "reason": "实时流媒体依赖（对照 youtube「直播」排除）；频道入口导航可保留；保留面：f05 全频道与垂直业务入口编排",
+      "covered_by": [
+        "f05"
+      ]
     },
     {
       "feature": "客服的真实商家响应\n商家端实时回复与会话路由",
       "treatment": "Conditional Exclude",
-      "reason": "会话 UI/未读/切换可测（预置联系人）；不验证商家端实时响应"
+      "reason": "会话 UI/未读/切换可测（预置联系人）；不验证商家端实时响应；保留面：f27 商家客服会话系统",
+      "covered_by": [
+        "f27"
+      ]
     },
     {
       "feature": "消息的真实事件源\n商家/物流/服务消息的真实产生",
       "treatment": "Conditional Include",
-      "reason": "消息中心状态机可测，需预置消息 fixture"
+      "reason": "消息中心状态机可测，需预置消息 fixture；保留面：f18 订单状态机与状态分类视图, f28 消息中心与全局未读 Badge 联动",
+      "covered_by": [
+        "f28",
+        "f18"
+      ]
     }
   ]
 }

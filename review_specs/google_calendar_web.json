@@ -277,132 +277,170 @@
     {
       "feature": "Tasks / My Tasks / Task lists",
       "treatment": "Hard Exclude",
-      "reason": "属于 Google Tasks 的任务管理能力，只是嵌入 Calendar UI，并不是 Calendar 的核心事件模型。"
+      "reason": "属于 Google Tasks 的任务管理能力，只是嵌入 Calendar UI，并不是 Calendar 的核心事件模型。",
+      "covered_by": []
     },
     {
       "feature": "Google Keep",
       "treatment": "Hard Exclude",
-      "reason": "独立产品侧边栏集成，与日历核心能力无关。"
+      "reason": "独立产品侧边栏集成，与日历核心能力无关。",
+      "covered_by": []
     },
     {
       "feature": "Google Contacts",
       "treatment": "Hard Exclude",
-      "reason": "独立联系人产品，不应把联系人管理能力混入 Calendar benchmark。"
+      "reason": "独立联系人产品，不应把联系人管理能力混入 Calendar benchmark。",
+      "covered_by": []
     },
     {
       "feature": "Google Maps side panel",
       "treatment": "Hard Exclude",
-      "reason": "外部地图产品能力；Calendar 中简单填写 Location 可以测试，但不要测试地图搜索、路线或地点详情。"
+      "reason": "外部地图产品能力；Calendar 中简单填写 Location 可以测试，但不要测试地图搜索、路线或地点详情；保留面：f17 Calendar settings, f22 Calendar settings / Notifications, f23 Calendar settings / Notifications",
+      "covered_by": [
+        "f17",
+        "f22",
+        "f23"
+      ]
     },
     {
       "feature": "Google Meet video conferencing",
       "treatment": "Hard Exclude",
-      "reason": "会引入 Meet、会议链接生成和外部会议系统，无法单纯反映 Calendar Agent 能力。"
+      "reason": "会引入 Meet、会议链接生成和外部会议系统，无法单纯反映 Calendar Agent 能力。",
+      "covered_by": []
     },
     {
       "feature": "Add guests / guest invitations / RSVP",
       "treatment": "Hard Exclude",
-      "reason": "需要第二真实用户和邮件邀请链路才能端到端验证。"
+      "reason": "需要第二真实用户和邮件邀请链路才能端到端验证。",
+      "covered_by": []
     },
     {
       "feature": "Guest permissions",
       "treatment": "Hard Exclude",
-      "reason": "Modify event、Invite others、See guest list 等需要多用户场景，单 Agent benchmark 难稳定验证。"
+      "reason": "Modify event、Invite others、See guest list 等需要多用户场景，单 Agent benchmark 难稳定验证。",
+      "covered_by": []
     },
     {
       "feature": "Share calendar with people or groups",
       "treatment": "Hard Exclude",
-      "reason": "依赖第二账户、权限和邀请状态。Calendar 权限本身有多层访问级别，但这更适合作为多人协同 benchmark。Google 帮助"
+      "reason": "依赖第二账户、权限和邀请状态。Calendar 权限本身有多层访问级别，但这更适合作为多人协同 benchmark。Google 帮助",
+      "covered_by": []
     },
     {
       "feature": "Public calendar / public sharing link",
       "treatment": "Hard Exclude",
-      "reason": "会引入公开互联网访问和外部浏览会话，不利于隔离 Agent 本身能力。"
+      "reason": "会引入公开互联网访问和外部浏览会话，不利于隔离 Agent 本身能力。",
+      "covered_by": []
     },
     {
       "feature": "Google Drive attachments",
       "treatment": "Hard Exclude",
-      "reason": "依赖 Drive 文件、文件权限和外部资源。"
+      "reason": "依赖 Drive 文件、文件权限和外部资源。",
+      "covered_by": []
     },
     {
       "feature": "Booking page external booking",
       "treatment": "Hard Exclude",
-      "reason": "Appointment schedule 的配置可以测，但不要让“第二个人真正预约”成为成功条件。"
+      "reason": "Appointment schedule 的配置可以测，但不要让“第二个人真正预约”成为成功条件；保留面：f24 Appointment schedule, f25 Appointment schedule, f29 Appointment schedule",
+      "covered_by": [
+        "f24",
+        "f25",
+        "f29"
+      ]
     },
     {
       "feature": "Appointment schedule co-hosts",
       "treatment": "Hard Exclude",
-      "reason": "需要第二账户并涉及其他人的可用时间。"
+      "reason": "需要第二账户并涉及其他人的可用时间。",
+      "covered_by": []
     },
     {
       "feature": "Paid appointments",
       "treatment": "Hard Exclude",
-      "reason": "涉及支付系统和付费套餐。"
+      "reason": "涉及支付系统和付费套餐。",
+      "covered_by": []
     },
     {
       "feature": "Booking-page email reminders",
       "treatment": "Hard Exclude",
-      "reason": "依赖邮件送达，而且部分功能受付费套餐限制。"
+      "reason": "依赖邮件送达，而且部分功能受付费套餐限制。",
+      "covered_by": []
     },
     {
       "feature": "Focus time",
       "treatment": "Default Exclude",
-      "reason": "属于特定 Workspace 账户功能，并且涉及 Chat 通知、自动拒绝会议等跨产品行为。Google 帮助"
+      "reason": "属于特定 Workspace 账户功能，并且涉及 Chat 通知、自动拒绝会议等跨产品行为。Google 帮助",
+      "covered_by": []
     },
     {
       "feature": "Out of office",
       "treatment": "Default Exclude",
-      "reason": "Workspace/组织账户环境差异较大，而且自动拒绝邀请又引入邀请系统。"
+      "reason": "Workspace/组织账户环境差异较大，而且自动拒绝邀请又引入邀请系统。",
+      "covered_by": []
     },
     {
       "feature": "Working location",
       "treatment": "Default Exclude",
-      "reason": "更偏 Workspace 协同场景，账号权限和组织设置差异较明显。"
+      "reason": "更偏 Workspace 协同场景，账号权限和组织设置差异较明显。",
+      "covered_by": []
     },
     {
       "feature": "Browse calendars of interest",
-      "treatment": "Exclude",
-      "reason": "宗教节日、体育赛事、月相等属于 Google 提供的外部数据源，不考察用户数据操作能力。"
+      "treatment": "Hard Exclude",
+      "reason": "宗教节日、体育赛事、月相等属于 Google 提供的外部数据源，不考察用户数据操作能力。",
+      "covered_by": []
     },
     {
       "feature": "Holiday calendars",
-      "treatment": "Exclude",
-      "reason": "与上一项相同，属于外部预置数据，不适合作为 Agent 构建能力 benchmark。"
+      "treatment": "Hard Exclude",
+      "reason": "与上一项相同，属于外部预置数据，不适合作为 Agent 构建能力 benchmark。",
+      "covered_by": []
     },
     {
       "feature": "Subscribe to calendar",
       "treatment": "Default Exclude",
-      "reason": "需要外部 Calendar ID / 第三方 calendar。"
+      "reason": "需要外部 Calendar ID / 第三方 calendar。",
+      "covered_by": []
     },
     {
       "feature": "Add calendar by URL",
       "treatment": "Default Exclude",
-      "reason": "依赖外部 URL 和网络源。"
+      "reason": "依赖外部 URL 和网络源。",
+      "covered_by": []
     },
     {
       "feature": "Import / Export",
       "treatment": "Conditional Exclude",
-      "reason": "只有 benchmark 显式提供固定 .ics / .csv fixture 时才允许，否则依赖外部文件。"
+      "reason": "只有 benchmark 显式提供固定 .ics / .csv fixture 时才允许，否则依赖外部文件。",
+      "covered_by": []
     },
     {
       "feature": "Notification delivery",
       "treatment": "Hard Exclude",
-      "reason": "可以测试“notification configuration”，但不要以桌面通知或邮件是否真实送达作为成功条件。"
+      "reason": "可以测试“notification configuration”，但不要以桌面通知或邮件是否真实送达作为成功条件；保留面：f12 Notifications, f22 Calendar settings / Notifications, f23 Calendar settings / Notifications",
+      "covered_by": [
+        "f12",
+        "f22",
+        "f23"
+      ]
     },
     {
       "feature": "Google Workspace smart features",
       "treatment": "Hard Exclude",
-      "reason": "智能功能具有账号、组织或模型依赖，不属于确定性的 Calendar UI benchmark。"
+      "reason": "智能功能具有账号、组织或模型依赖，不属于确定性的 Calendar UI benchmark。",
+      "covered_by": []
     },
     {
       "feature": "Appearance / theme / density",
-      "treatment": "Exclude",
-      "reason": "虽然 Calendar 官方支持 appearance 和信息密度调整，但它们不体现核心日历任务能力。Google 帮助"
+      "treatment": "Default Exclude",
+      "reason": "虽然 Calendar 官方支持 appearance 和信息密度调整，但它们不体现核心日历任务能力。Google 帮助",
+      "covered_by": []
     },
     {
       "feature": "Language / region formatting",
-      "treatment": "Usually Exclude",
-      "reason": "可作为环境初始化设置，但不值得占用主要 benchmark task 配额。"
+      "treatment": "Default Exclude",
+      "reason": "可作为环境初始化设置，但不值得占用主要 benchmark task 配额。",
+      "covered_by": []
     }
   ]
 }

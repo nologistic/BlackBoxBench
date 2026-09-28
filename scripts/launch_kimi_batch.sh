@@ -12,9 +12,11 @@
 set -euo pipefail
 
 GAP=60
-KIMI="/home/dzj/.kimi-code/bin/kimi"
+KIMI="${KIMI_BIN:-$(command -v kimi || echo "$HOME/.kimi-code/bin/kimi")}"
 
-RUN_DIR="${RUN_DIR:-/storage/dzj/runs}"
+# Agent cwd (NOT the repo's evidence runs/): BBB_EXPLORE_CWD > <repo>/../runs.
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+RUN_DIR="${RUN_DIR:-${BBB_EXPLORE_CWD:-$REPO/../scratch/explore}}"
 mkdir -p "$RUN_DIR"
 cd "$RUN_DIR"
 

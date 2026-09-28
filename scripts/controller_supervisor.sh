@@ -14,20 +14,41 @@
 # the controller alone will just make the supervisor restart it.
 #
 # Env:
-#   BBB_PYTHON          python to run (default: the project env's python3.12)
+#   BBB_PYTHON          python to run (default: vendor/python/bin/python3, then
+#                       the historical fixed interpreter path)
+#   BBB_SG_GROUP        run the controller under `sg <group>` (e.g. kvm, so a
+#                       controller started before the group was granted can
+#                       still open /dev/kvm for Android emulators)
 #   BBB_CONTROLLER_LOG  log path (default /tmp/bbb_controller.log)
 set -u
 
 PORT="${1:-7800}"
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
-PY="${BBB_PYTHON:-/home/dzj/ENTER/envs/app/bin/python3.12}"
+PY="${BBB_PYTHON:-}"
+if [ -z "$PY" ]; then
+  if [ -x "$REPO/vendor/python/bin/python3" ]; then
+    PY="$REPO/vendor/python/bin/python3"
+  elif [ -x "$REPO/vendor/python/python.exe" ]; then
+    PY="$REPO/vendor/python/python.exe"
+  else
+    PY="/home/dzj/ENTER/envs/app/bin/python3.12"
+  fi
+fi
 LOG="${BBB_CONTROLLER_LOG:-/tmp/bbb_controller.log}"
+
+run_controller() {
+  if [ -n "${BBB_SG_GROUP:-}" ]; then
+    sg "$BBB_SG_GROUP" -c "exec \"$PY\" -m benchmark.server --port $PORT"
+  else
+    "$PY" -m benchmark.server --port "$PORT"
+  fi
+}
 
 cd "$REPO"
 backoff=2
 while true; do
   echo "[supervisor] $(date '+%F %T') starting controller on :$PORT" >>"$LOG"
-  "$PY" -m benchmark.server --port "$PORT" >>"$LOG" 2>&1
+  run_controller >>"$LOG" 2>&1
   code=$?
   echo "[supervisor] $(date '+%F %T') controller exited (code $code);" \
        "restarting in ${backoff}s" >>"$LOG"

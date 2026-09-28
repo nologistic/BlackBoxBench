@@ -289,62 +289,74 @@
     {
       "feature": "Workspace member invitations\nInvite links, member joining, role-based access grants",
       "treatment": "Hard Exclude",
-      "reason": "Requires second user and invitation acceptance flow (cf. Calendar \"Members/Invitations\")"
+      "reason": "Requires second user and invitation acceptance flow (cf. Calendar \"Members/Invitations\")",
+      "covered_by": []
     },
     {
       "feature": "Cross-user permission policies\nDifferent users attempting actions per workspace policy",
       "treatment": "Hard Exclude",
-      "reason": "Multi-user permission verification; policy configuration itself can be preserved"
+      "reason": "Multi-user permission verification; policy configuration itself can be preserved",
+      "covered_by": []
     },
     {
       "feature": "Guest access and sharing delivery\nRecipients gaining/losing access to shared pages",
       "treatment": "Conditional Exclude",
-      "reason": "Share settings and shared-state display testable; recipient-side access verification excluded (cf. diagrams.net \"Publish/Public Link\")"
+      "reason": "Share settings and shared-state display testable; recipient-side access verification excluded (cf. diagrams.net \"Publish/Public Link\")",
+      "covered_by": []
     },
     {
       "feature": "Teamspace member visibility\nMembers seeing pages per access rules",
       "treatment": "Conditional Exclude",
-      "reason": "Teamspace creation and access-rule configuration testable; member-side views excluded"
+      "reason": "Teamspace creation and access-rule configuration testable; member-side views excluded",
+      "covered_by": []
     },
     {
       "feature": "Real-time collaboration\nMulti-user editing, presence, comments sync",
       "treatment": "Hard Exclude",
-      "reason": "Real-time collaboration infrastructure (cf. excalidraw \"Real-time collaboration\")"
+      "reason": "Real-time collaboration infrastructure (cf. excalidraw \"Real-time collaboration\")",
+      "covered_by": []
     },
     {
       "feature": "Version history backend infrastructure\nCloud revision storage and sync",
       "treatment": "Conditional Exclude",
-      "reason": "Version browse and restore testable with local history; cloud backend excluded (cf. Desmos \"cloud backend\")"
+      "reason": "Version browse and restore testable with local history; cloud backend excluded (cf. Desmos \"cloud backend\")",
+      "covered_by": []
     },
     {
       "feature": "Permanent deletion retention engine\nServer-side retention enforcement",
       "treatment": "Conditional Exclude",
-      "reason": "Trash lifecycle and restore testable; retention expiry simulated with fixture"
+      "reason": "Trash lifecycle and restore testable; retention expiry simulated with fixture",
+      "covered_by": []
     },
     {
       "feature": "New member onboarding flows\nNewly joined members entering via landing page",
       "treatment": "Conditional Exclude",
-      "reason": "Landing page configuration testable; member-side entry excluded"
+      "reason": "Landing page configuration testable; member-side entry excluded",
+      "covered_by": []
     },
     {
       "feature": "API integrations and connections\nThird-party service connections, API keys",
       "treatment": "Hard Exclude",
-      "reason": "External OAuth and integration infrastructure (cf. diagrams.net \"External Plugins\")"
+      "reason": "External OAuth and integration infrastructure (cf. diagrams.net \"External Plugins\")",
+      "covered_by": []
     },
     {
       "feature": "Notion AI features\nAI writing blocks, Q&A, autofill",
       "treatment": "Hard Exclude",
-      "reason": "Generative non-determinism (cf. Google Forms \"Gemini\" exclusion)"
+      "reason": "Generative non-determinism (cf. Google Forms \"Gemini\" exclusion)",
+      "covered_by": []
     },
     {
       "feature": "Paid plan gating\nTeam/enterprise plan features, billing",
       "treatment": "Hard Exclude",
-      "reason": "Commerce infrastructure (cf. Spotify \"Premium / Billing\")"
+      "reason": "Commerce infrastructure (cf. Spotify \"Premium / Billing\")",
+      "covered_by": []
     },
     {
       "feature": "Real content assets\nReal templates, workspace content",
       "treatment": "Default Exclude",
-      "reason": "Use synthetic fixture content (cf. Spotify \"Real catalog\")"
+      "reason": "Use synthetic fixture content (cf. Spotify \"Real catalog\")",
+      "covered_by": []
     }
   ]
 }

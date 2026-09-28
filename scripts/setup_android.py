@@ -79,6 +79,15 @@ def _install_tools(sdk: Path) -> None:
         extracted = Path(temp) / "unpacked"
         with zipfile.ZipFile(archive) as package:
             package.extractall(extracted)
+        # zipfile does not restore the Unix mode bits stored in the archive, so
+        # the sdkmanager/avdmanager launchers land as 0644 and the very next
+        # exec dies with PermissionError (same class of bug as the bundled
+        # Chrome crashpad handler, see scripts/bootstrap.py). Restore +x for
+        # every launcher under bin/.
+        if os.name != "nt":
+            for entry in extracted.rglob("*"):
+                if entry.is_file() and entry.parent.name == "bin":
+                    entry.chmod(entry.stat().st_mode | 0o111)
         source = extracted / "cmdline-tools"
         latest.parent.mkdir(parents=True, exist_ok=True)
         if latest.exists():

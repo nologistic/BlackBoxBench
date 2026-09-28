@@ -382,67 +382,101 @@
     {
       "feature": "个性化推荐引擎\n根据行为和兴趣变化的 Feed 排序、内容推荐",
       "treatment": "Hard Exclude",
-      "reason": "需要推荐模型与行为数据（对照 Spotify「Recommendation / personalization engine」）；Feed 结构可用预置 fixture"
+      "reason": "需要推荐模型与行为数据（对照 Spotify「Recommendation / personalization engine」）；Feed 结构可用预置 fixture",
+      "covered_by": []
     },
     {
       "feature": "热榜实时热度\n真实热度计算、实时排名变化",
       "treatment": "Conditional Exclude",
-      "reason": "热榜用静态快照呈现（对照 Spotify「Dynamic charts and editorial ranking」）；不要求实时热度引擎"
+      "reason": "热榜用静态快照呈现（对照 Spotify「Dynamic charts and editorial ranking」）；不要求实时热度引擎",
+      "covered_by": []
     },
     {
       "feature": "回答推荐排名算法\n质量/关系等因素的排序算法",
       "treatment": "Conditional Exclude",
-      "reason": "排序切换与状态保持可测；排序用确定性规则（时间/赞同数）"
+      "reason": "排序切换与状态保持可测；排序用确定性规则（时间/赞同数）；保留面：f17 回答排序与列表状态保持",
+      "covered_by": [
+        "f17"
+      ]
     },
     {
       "feature": "邀请的真实送达与响应\n被邀请用户收到通知、接受邀请",
       "treatment": "Conditional Exclude",
-      "reason": "邀请操作与状态展示可测（预置用户列表）；不验证跨用户送达"
+      "reason": "邀请操作与状态展示可测（预置用户列表）；不验证跨用户送达；保留面：f16 邀请回答工作流",
+      "covered_by": [
+        "f16"
+      ]
     },
     {
       "feature": "用户关注的双向传播\n对方粉丝数变化、对方侧关系更新",
       "treatment": "Conditional Exclude",
-      "reason": "本侧关注状态可测；对端数据用 fixture 呈现"
+      "reason": "本侧关注状态可测；对端数据用 fixture 呈现；保留面：f21 关注关系与列表状态同步, f22 关注者 / 粉丝列表状态管理",
+      "covered_by": [
+        "f21",
+        "f22"
+      ]
     },
     {
       "feature": "私信的真实对端\n真实用户消息收发与实时推送",
       "treatment": "Conditional Exclude",
-      "reason": "会话 UI/未读/隔离可测（预置会话）；不验证真实对端与推送"
+      "reason": "会话 UI/未读/隔离可测（预置会话）；不验证真实对端与推送；保留面：f24 私信会话与未读状态隔离",
+      "covered_by": [
+        "f24"
+      ]
     },
     {
       "feature": "通知的真实事件源\n邀请/互动/关系变化的真实产生",
       "treatment": "Conditional Include",
-      "reason": "通知状态机（Badge/跳转/已读）可测，需预置通知 fixture"
+      "reason": "通知状态机（Badge/跳转/已读）可测，需预置通知 fixture；保留面：f23 通知事件中心与业务对象跳转",
+      "covered_by": [
+        "f23"
+      ]
     },
     {
       "feature": "实名认证流程\n认证申请、审核、状态流转",
       "treatment": "Hard Exclude",
-      "reason": "依赖外部身份审核体系；个人资料编辑保留"
+      "reason": "依赖外部身份审核体系；个人资料编辑保留；保留面：f27 个人资料编辑",
+      "covered_by": [
+        "f27"
+      ]
     },
     {
       "feature": "视频转码 Processing\n媒体处理管线与转码状态",
       "treatment": "Conditional Exclude",
-      "reason": "上传与发布流程可测；不要求真实转码管线（对照 youtube「转码/CDN」）"
+      "reason": "上传与发布流程可测；不要求真实转码管线（对照 youtube「转码/CDN」）；保留面：f11 富文本回答编辑与发布配置",
+      "covered_by": [
+        "f11"
+      ]
     },
     {
       "feature": "作者侧数据变化\n他人赞同带来的作者成就/数据更新",
       "treatment": "Conditional Exclude",
-      "reason": "自身赞同状态可测；作者侧统计不在单 Agent 验证范围"
+      "reason": "自身赞同状态可测；作者侧统计不在单 Agent 验证范围；保留面：f18 赞同互动与回答状态同步",
+      "covered_by": [
+        "f18"
+      ]
     },
     {
       "feature": "内容安全与审核策略\n敏感内容过滤、审核队列",
       "treatment": "Hard Exclude",
-      "reason": "依赖平台审核系统与策略数据；屏蔽/黑名单（用户侧设置）保留"
+      "reason": "依赖平台审核系统与策略数据；屏蔽/黑名单（用户侧设置）保留；保留面：f29 屏蔽 / 黑名单 / 隐私偏好驱动运行时行为",
+      "covered_by": [
+        "f29"
+      ]
     },
     {
       "feature": "「等你来答」问题推荐\n基于用户画像的问题推荐",
       "treatment": "Hard Exclude",
-      "reason": "推荐系统依赖（对照推荐引擎排除）；创作中心指标保留"
+      "reason": "推荐系统依赖（对照推荐引擎排除）；创作中心指标保留；保留面：f28 创作中心与内容数据",
+      "covered_by": [
+        "f28"
+      ]
     },
     {
       "feature": "真实内容资产\n真实问答内容、用户头像与资料数据",
       "treatment": "Default Exclude",
-      "reason": "使用合成 fixture 内容（对照 Spotify「Real catalog」）"
+      "reason": "使用合成 fixture 内容（对照 Spotify「Real catalog」）",
+      "covered_by": []
     }
   ]
 }

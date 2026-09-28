@@ -346,67 +346,91 @@
     {
       "feature": "个性化推荐引擎\n根据用户行为变化推荐结果、个性化 Feed 排序",
       "treatment": "Hard Exclude",
-      "reason": "需要大规模推荐模型与私有行为数据（对照 Spotify「Recommendation / personalization engine」）；Feed 结构可用预置 fixture 测试"
+      "reason": "需要大规模推荐模型与私有行为数据（对照 Spotify「Recommendation / personalization engine」）；Feed 结构可用预置 fixture 测试",
+      "covered_by": []
     },
     {
       "feature": "推荐频道 / 相关内容推荐算法\n推荐频道卡、相关视频推荐排序",
       "treatment": "Conditional Include",
-      "reason": "推荐列表可用固定 fixture 呈现；不评估推荐质量与个性化逻辑"
+      "reason": "推荐列表可用固定 fixture 呈现；不评估推荐质量与个性化逻辑",
+      "covered_by": []
     },
     {
       "feature": "直播\n创建直播、推流、实时状态迁移、Live 观看",
       "treatment": "Hard Exclude",
-      "reason": "依赖实时流媒体基础设施与推流协议（对照 Spotify「Live Events」）；无法脱离推流端到端验证"
+      "reason": "依赖实时流媒体基础设施与推流协议（对照 Spotify「Live Events」）；无法脱离推流端到端验证",
+      "covered_by": []
     },
     {
       "feature": "Google 账号体系与多账号切换\n注册、登录、身份切换、多账号上下文",
       "treatment": "Hard Exclude",
-      "reason": "账号与身份服务属外部基础设施（对照 Spotify「Account / Authentication complexity」）"
+      "reason": "账号与身份服务属外部基础设施（对照 Spotify「Account / Authentication complexity」）",
+      "covered_by": []
     },
     {
       "feature": "真实视频转码 / CDN 分发 / 内容审核",
       "treatment": "Hard Exclude",
-      "reason": "依赖专有媒体处理管线与审核系统；上传流程本地化后只验证用户可见状态"
+      "reason": "依赖专有媒体处理管线与审核系统；上传流程本地化后只验证用户可见状态",
+      "covered_by": []
     },
     {
       "feature": "离线下载与 DRM 播放\n真实离线访问、加密媒体、设备存储管理",
       "treatment": "Conditional Exclude",
-      "reason": "下载状态管理（列表/删除）可测；不要求真实离线播放与 DRM（对照 Spotify「Offline download」）"
+      "reason": "下载状态管理（列表/删除）可测；不要求真实离线播放与 DRM（对照 Spotify「Offline download」）；保留面：f05 搜索建议与查询状态管理, f24 下载状态管理",
+      "covered_by": [
+        "f24",
+        "f05"
+      ]
     },
     {
       "feature": "第三方平台分享集成\n分享到外部社交平台、跨平台跳转",
       "treatment": "Conditional Exclude",
-      "reason": "链接生成与 Deep Link 定位可测；不验证第三方平台集成"
+      "reason": "链接生成与 Deep Link 定位可测；不验证第三方平台集成；保留面：f28 通知状态与业务对象跳转",
+      "covered_by": [
+        "f28"
+      ]
     },
     {
       "feature": "广告系统\n广告投放、定向、竞价、频次控制",
       "treatment": "Hard Exclude",
-      "reason": "广告基础设施与定向数据（对照 Spotify「Advertisements」）；广告位结构可作为 Feed 混排 fixture"
+      "reason": "广告基础设施与定向数据（对照 Spotify「Advertisements」）；广告位结构可作为 Feed 混排 fixture",
+      "covered_by": []
     },
     {
       "feature": "通知的真实事件源\n订阅更新/互动的真实事件产生",
       "treatment": "Conditional Include",
-      "reason": "通知状态机（未读/已读/Deep Link）可测，需预置通知 fixture（对照 Spotify「Notifications」）"
+      "reason": "通知状态机（未读/已读/Deep Link）可测，需预置通知 fixture（对照 Spotify「Notifications」）；保留面：f28 通知状态与业务对象跳转",
+      "covered_by": [
+        "f28"
+      ]
     },
     {
       "feature": "评论的跨用户互动\n他人回复/点赞的通知投递、@ 提及送达",
       "treatment": "Conditional Exclude",
-      "reason": "单用户评论发布与层级可测；不验证跨用户送达与消息系统"
+      "reason": "单用户评论发布与层级可测；不验证跨用户送达与消息系统；保留面：f20 评论发布与线程组织",
+      "covered_by": [
+        "f20"
+      ]
     },
     {
       "feature": "实时统计数据\n观看数/点赞数实时变化、直播在线人数",
       "treatment": "Conditional Exclude",
-      "reason": "统计数据可用固定快照；不要求实时同步与真实计数"
+      "reason": "统计数据可用固定快照；不要求实时同步与真实计数",
+      "covered_by": []
     },
     {
       "feature": "位置 / 受限模式内容策略\n地理定位内容、内容分级与审核策略",
       "treatment": "Hard Exclude",
-      "reason": "依赖外部地理数据与内容分级系统；主题/语言等显示偏好保留"
+      "reason": "依赖外部地理数据与内容分级系统；主题/语言等显示偏好保留；保留面：f27 显示偏好配置驱动界面变化",
+      "covered_by": [
+        "f27"
+      ]
     },
     {
       "feature": "版权内容与真实媒体资产\n真实视频内容、音乐版权素材",
       "treatment": "Default Exclude",
-      "reason": "真实内容非 benchmark 资产（对照 Spotify「Real copyrighted audio streaming」）；使用合成 fixture 媒体"
+      "reason": "真实内容非 benchmark 资产（对照 Spotify「Real copyrighted audio streaming」）；使用合成 fixture 媒体",
+      "covered_by": []
     }
   ]
 }

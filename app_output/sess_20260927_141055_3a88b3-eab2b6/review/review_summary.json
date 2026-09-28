@@ -1,0 +1,340 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "c2624e4835d9e0df2de6a04033fe940da9648f1a0f69d5b7442008c0ef1ad9b1",
+  "accepted_apk_hash": "83e32cc82bff8c98e8da69d06125b793c321d4b216250559ed98d14d299379eb",
+  "revision_count": 1,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "cold launch initial screen (counter 010, smiley, timer 00:00, 9x9 Easy board, Licenses)",
+        "tap reveal with flood-fill and timer start",
+        "long-press flag/unflag with mine counter decrement",
+        "difficulty switching Easy 9x9/10, Medium 12x12/40 + 5:00, Hard 14x14/50 + 3:00",
+        "Custom dialog sliders, toggles, Cancel and Start",
+        "Custom 16x16 game start",
+        "win flow with banner and auto-flagged mines",
+        "mine loss flow with Game Over banner and revealed mines",
+        "Licenses dialog scroll and Close"
+      ],
+      "findings": [
+        "Custom Game 'Mines' percentage is rounded (40/256 renders 16%), while the target shows the truncated value 15%. Fix by floor/integer division."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "50769aa3977a08ed57ea7df9b581d9a2593de3fbeb45b49b88e7d9a43448928e",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "3b7ff0efc822bc55b88cb5ae357d14183baf476b91f783517878cfa40b54c17c",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "1021c208549d33e421eaaac428cfe8939300915a73dcb681dda30deda5b2cbc0",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "e8e59a3dadfb4a4b85ee050bf40209a44e885a58a2a023408b3a912096550166",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "6455c7605c6d090e916c1bd22e4390cf4ed54d09d044c21b8ab1ed5326eb51df",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "9656fb21a2799a13eb2788290b41137fe8b63baccf470dfbad3e649a6a062f0d",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 6,
+          "sha256": "14df4f8fb12d6a81e4f72818f4e44774c2f0cf68258e8306dfc40fa983926d97",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 7,
+          "sha256": "e375eeb92086525c092828b9d9ae7b38cdfd07e4eeb5f0fe609fb62102cf2945",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 8,
+          "sha256": "265cfb29c1e71df9523b93d67850da3abfb04ef08975334c297b315c4d301485",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 10,
+          "sha256": "0a61737cc2f0f5bdb6d2f4f13d86dfe4ffa4212312d60b27c4a72f05f3f9a0e1",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 11,
+          "sha256": "f481a0284155987abca94d8af74608f353e22c282a5b7a6b8cbd12456ee5fc30",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 14,
+          "sha256": "f481a0284155987abca94d8af74608f353e22c282a5b7a6b8cbd12456ee5fc30",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 15,
+          "sha256": "5ce7942207d1cb18e7498593728195552b343ce909577312cc312400d575c4eb",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 21,
+          "sha256": "e2ba0b90d479e1a5b47039e42c65ba95a1cb6c53bb3d8927909a1093d27cbcc3",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 22,
+          "sha256": "56cb18d8bb83a2860929be35ef066e0c8981e81a5566920e8be5714adf91b5df",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 23,
+          "sha256": "a1ca95cf885569ec22a1fc24a8317618d783ab84b8fef7ed17d5529404917c27",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 24,
+          "sha256": "0671b056fbdb15fa2909f94b8d507a43f1d21ffa3495223b34b0d48148d832ab",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 25,
+          "sha256": "d5dea9dd3b691324237172c8f98020878f59c6288adbd0b2e27e1647e58c9347",
+          "path": "review/round_01/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 26,
+          "sha256": "4f58088dc1fbcf1e22c9e806ea29dbfc49d915ef334ef1be0f58ba1d0e5dd2ea",
+          "path": "review/round_01/observation_019.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "accept",
+      "checked_flows": [
+        "cold launch initial screen: counter 010, smiley reset, timer 00:00, 9x9 Easy board, difficulty row, Licenses link",
+        "Custom Game dialog: title, Grid size 16 x 16 slider, Mines 40 (15%) truncated percentage (fix verified), Fog of war off, Safe first tap on, Cancel, Start",
+        "tap reveal with flood-fill cascade and count-up timer start",
+        "long-press flag with mine counter decrement 010 -> 009 and flag icon",
+        "difficulty switching: Medium 12x12/040/5:00, Hard 14x14/050/3:00",
+        "loss flow on Hard: Game Over banner, revealed mines, exploded mine highlight, dead smiley",
+        "custom game start 5x5/1 with Custom highlighted",
+        "win flow verified in prior round: You Win banner and auto-flagged mines"
+      ],
+      "findings": [
+        "Custom Game mines percentage now truncates to 15% (was 16%), matching the target.",
+        "All other checked flows match the target app: dark navy theme, red 7-segment counter/timer, teal selected difficulty button, board geometry, flag/mine icons, win/loss banners.",
+        "No private or sensitive data is present in the reproduction."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "aa594f5872454d7fec93ea8298d630056689467ca2880a1bde96f425251c21b4",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "185da085d4a6f807b386c227e5f16043e0b4f512eb5f80507a49371b0e2d0fba",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "0b95cc0cda66b173aeae21cde7f0842fbbb1364a5395a195f21a6a03b35c7cb1",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "0117ca977dfd69daee0db8d89a8578a2e283cd43415ae3b351d7f605481cb1df",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 10,
+          "sha256": "e1bcc0dd6a01cf2051f2af417c4ea10c1a11922ae1d71cf86fb782058b9926df",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 13,
+          "sha256": "30afdf69fdd3469bada7df8af4f0cc3f04b8df000353a27c6dafca117ab58366",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 15,
+          "sha256": "f174db9c83c3d7b69b1b2ae0298b9e212439ca8880c6a25e1e1b9e92eaab22d7",
+          "path": "review/round_02/observation_007.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

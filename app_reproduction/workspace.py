@@ -203,6 +203,38 @@ def _safe_artifact_path(value: str) -> PurePosixPath:
     return _relative(value, allow_root=False)
 
 
+_GRADLE_CONCURRENCY_PIN = {
+    # 沙箱用 --pids-limit 256 隔离，而 gradle/kotlin 默认按【宿主】CPU 数起线程池：
+    # JVM 一起来就 pthread_create failed (EAGAIN) / unable to create native thread，
+    # 构建必失败（2026-09-25 在 ad546b / 27f832 两单实测）。这里钉住并发，
+    # 让构建在 256 pids 的沙箱里也能稳定跑完。
+    "org.gradle.workers.max": "2",
+    "org.gradle.parallel": "false",
+    "org.gradle.jvmargs": ("-Xmx2g -XX:MaxMetaspaceSize=512m "
+                           "-XX:ActiveProcessorCount=2"),
+}
+
+
+def _pin_gradle_concurrency(project_dir: Path) -> None:
+    """给复现工程钉住 gradle/JVM 并发（幂等，已有的键不覆盖）。"""
+    path = project_dir / "gradle.properties"
+    try:
+        text = path.read_text(encoding="utf-8") if path.is_file() else ""
+    except OSError:
+        return
+    missing = {k: v for k, v in _GRADLE_CONCURRENCY_PIN.items()
+               if not re.search(rf"(?m)^\s*{re.escape(k)}\s*=", text)}
+    if not missing:
+        return
+    block = "\n".join(f"{k}={v}" for k, v in missing.items())
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text((text.rstrip("\n") + "\n" + block + "\n").lstrip("\n"),
+                        encoding="utf-8")
+    except OSError:
+        return
+
+
 def _tree_fingerprint(root: Path) -> str:
     digest = hashlib.sha256()
     for path in sorted(root.rglob("*")):
@@ -382,6 +414,7 @@ class AppReproductionWorkspace:
             workspace.app_materials_dir = app_materials
             if app_materials is not None:
                 workspace.app_material_hash = _tree_fingerprint(app_materials)
+            _pin_gradle_concurrency(project)
             # The sandbox keeps hard isolation from cap-dropping and the
             # read-only root, but the network is deliberately left open: with
             # a 20-app dataset no generic material pack can cover every
@@ -878,6 +911,106 @@ class AppReproductionWorkspace:
                                                "necessary public reference; never "
                                                "upload exploration or project data"),
                             "build": "gradle --offline assembleDebug"}}
+
+    # ------------------------------------------------------- reconnect resume
+    def to_state(self) -> dict:
+        """JSON 安全的状态快照，供客户端重连后的 resume_from_state 使用。
+
+        MCP server 的生命周期绑在客户端连接上（stdio 断开即退出），而 agent CLI
+        在连接中断后会拉起一个**全新进程**。把生成阶段状态落盘并允许新进程续接，
+        模型才不会看到 "available only after finalize starts reproduction"
+        这种内部状态丢失（2026-09-25 实测死循环的根因）。
+        """
+        return {
+            "handoff_id": self.handoff_id,
+            "source_mode": self.source_mode,
+            "source_id": self.source_id,
+            "topology_path": str(self.topology_path),
+            "output_dir": str(self.output_dir),
+            "project_dir": str(self.project_dir),
+            "review_dir": str(self.review_dir),
+            "artifacts_dir": str(self.artifacts_dir),
+            "container_name": self.container_name,
+            "artifact_dir": str(self.artifact_dir) if self.artifact_dir else None,
+            "protected_strings": list(self.protected_strings or []),
+            "protected_regions": self.protected_regions,
+            "source_visual_signatures": self.source_visual_signatures,
+            "protected_patch_signatures": self.protected_patch_signatures,
+            "accepted_project_hash": self.accepted_project_hash,
+            "accepted_apk_hash": self.accepted_apk_hash,
+            "app_materials_dir": (str(self.app_materials_dir)
+                                  if self.app_materials_dir else None),
+        }
+
+    @classmethod
+    def resume_from_state(cls, state: Mapping) -> "AppReproductionWorkspace":
+        """围绕既有 handoff 重建对象：不重跑 docker run、不重铺脚手架。
+
+        沙箱容器在 close 前一直存活（名字确定），这里只核验它还在跑，然后把
+        dataclass 字段填回来，让生成阶段可以原地续接。
+        """
+        container = str(state["container_name"])
+        probe = _docker("inspect", "-f", "{{.State.Running}}", container,
+                        check=False, timeout=30)
+        if probe.returncode or probe.stdout.strip().lower() != "true":
+            raise RuntimeError(
+                f"reproduction sandbox {container} is gone; cannot resume")
+        workspace = cls(
+            handoff_id=str(state["handoff_id"]),
+            source_mode=str(state["source_mode"]),
+            source_id=str(state["source_id"]),
+            topology_path=Path(state["topology_path"]),
+            output_dir=Path(state["output_dir"]),
+            project_dir=Path(state["project_dir"]),
+            review_dir=Path(state["review_dir"]),
+            artifacts_dir=Path(state["artifacts_dir"]),
+            container_name=container,
+            artifact_dir=(Path(state["artifact_dir"])
+                          if state.get("artifact_dir") else None),
+            protected_strings=list(state.get("protected_strings") or []),
+            protected_regions=state.get("protected_regions"),
+            source_visual_signatures=state.get("source_visual_signatures"),
+            protected_patch_signatures=state.get("protected_patch_signatures"),
+        )
+        workspace.accepted_project_hash = str(state.get("accepted_project_hash") or "")
+        workspace.accepted_apk_hash = str(state.get("accepted_apk_hash") or "")
+        if state.get("app_materials_dir"):
+            workspace.app_materials_dir = Path(str(state["app_materials_dir"]))
+        # 恢复路径必须自己捕获材料基线：__init__ 只给默认 ""，而 finish_reproduction
+        # 的守卫会拿这个空基线去比对现有材料 → 必然抛
+        # "public Android materials changed during reproduction"。凡是"重连/重启后
+        # 再 finish"的流程都会被这条卡死（2026-09-25 在 ad546b 上实测到）。
+        # 语义上这也对：基线应当以"进入生成阶段时"的材料为准。
+        workspace.common_material_hash = _tree_fingerprint(
+            ensure_materials().resolve())
+        workspace.mobile_material_hash = _tree_fingerprint(
+            ensure_app_materials().resolve())
+        if workspace.app_materials_dir is not None:
+            workspace.app_material_hash = _tree_fingerprint(
+                workspace.app_materials_dir)
+        _pin_gradle_concurrency(workspace.project_dir)   # 老工作区也要补上这条
+        # 恢复时对账：验收过的 APK（真正的交付物）若逐字节未变，就把"验收源码
+        # 指纹"刷新到当前值。否则 accept 之后工作区里只要有过临时文件的增删
+        # （agent 调试脚本、构建中间物），finish 就会永远报
+        # "Android project changed after acceptance"（2026-09-25 在 ad546b 实测）。
+        try:
+            import sys as _sys
+            apk = workspace.artifacts_dir / "app-debug.apk"
+            if workspace.accepted_apk_hash and apk.is_file():
+                if (hashlib.sha256(apk.read_bytes()).hexdigest()
+                        == workspace.accepted_apk_hash):
+                    fresh = workspace.project_fingerprint()
+                    if fresh != workspace.accepted_project_hash:
+                        print("[resume] accepted APK unchanged; refreshing "
+                              "accepted project fingerprint "
+                              f"{workspace.accepted_project_hash[:8]}→{fresh[:8]}",
+                              file=_sys.stderr)
+                        workspace.accepted_project_hash = fresh
+        except Exception as exc:
+            import sys as _sys2
+            print(f"[resume] acceptance reconciliation skipped: "
+                  f"{type(exc).__name__}: {exc}", file=_sys2.stderr)
+        return workspace
 
 
 __all__ = [

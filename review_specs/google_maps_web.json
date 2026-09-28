@@ -289,143 +289,175 @@
   "exclusions": [
     {
       "feature": "Street View / 街景\n进入道路街景 → 360° 全景移动 → 道路级连续导航",
-      "treatment": "Exclude",
-      "reason": "需要大规模全景图像采集、道路与全景节点匹配及专有影像数据，不适合作为通用 Agent 复现 benchmark"
+      "treatment": "Hard Exclude",
+      "reason": "需要大规模全景图像采集、道路与全景节点匹配及专有影像数据，不适合作为通用 Agent 复现 benchmark",
+      "covered_by": []
     },
     {
       "feature": "实时交通\n显示实时拥堵颜色 → 根据当前路况动态改变路线和 ETA",
-      "treatment": "Exclude",
-      "reason": "依赖实时车辆与交通数据；免费静态 OSM 数据无法稳定复现，benchmark 结果也会随时间变化"
+      "treatment": "Hard Exclude",
+      "reason": "依赖实时车辆与交通数据；免费静态 OSM 数据无法稳定复现，benchmark 结果也会随时间变化",
+      "covered_by": []
     },
     {
       "feature": "实时公共交通\n实时公交/地铁到站时间、延误、车辆当前位置",
-      "treatment": "Exclude",
-      "reason": "依赖城市实时 GTFS-RT 或运营商接口；不同城市覆盖程度不一致，不利于统一 benchmark"
+      "treatment": "Hard Exclude",
+      "reason": "依赖城市实时 GTFS-RT 或运营商接口；不同城市覆盖程度不一致，不利于统一 benchmark",
+      "covered_by": []
     },
     {
       "feature": "实时路线 ETA\n根据当天交通状况动态预测实际驾车时间",
-      "treatment": "Exclude",
-      "reason": "需要实时交通和历史速度模型；benchmark 应改用固定道路权重和确定性预计时间"
+      "treatment": "Hard Exclude",
+      "reason": "需要实时交通和历史速度模型；benchmark 应改用固定道路权重和确定性预计时间",
+      "covered_by": []
     },
     {
       "feature": "Street View 用户照片导航\n地点详情中的 360° 用户照片、Photo Sphere、连续全景跳转",
-      "treatment": "Exclude",
-      "reason": "强依赖用户生成图像和 Google 托管资产"
+      "treatment": "Hard Exclude",
+      "reason": "强依赖用户生成图像和 Google 托管资产",
+      "covered_by": []
     },
     {
       "feature": "Google 商家评论\n真实评分、评论正文、评论者资料、点赞等",
-      "treatment": "Exclude",
-      "reason": "Google Reviews 数据不是开放数据；不应要求 Agent 抓取或复制"
+      "treatment": "Default Exclude",
+      "reason": "Google Reviews 数据不是开放数据；不应要求 Agent 抓取或复制",
+      "covered_by": []
     },
     {
       "feature": "Google 商家照片\n用户上传商家照片、真实地点图库、照片作者信息",
-      "treatment": "Exclude",
-      "reason": "图片版权与 UGC 数据源不稳定；benchmark 可只提供少量自带占位图片"
+      "treatment": "Default Exclude",
+      "reason": "图片版权与 UGC 数据源不稳定；benchmark 可只提供少量自带占位图片",
+      "covered_by": []
     },
     {
       "feature": "商家实时繁忙程度\n热门时段 / 当前繁忙程度 / 通常停留时间",
-      "treatment": "Exclude",
-      "reason": "依赖 Google 用户位置聚合数据，不存在可靠开放替代来源"
+      "treatment": "Hard Exclude",
+      "reason": "依赖 Google 用户位置聚合数据，不存在可靠开放替代来源",
+      "covered_by": []
     },
     {
       "feature": "酒店实时价格和库存\n酒店卡片价格、房型、可订状态、供应商报价",
-      "treatment": "Exclude",
-      "reason": "依赖 Booking/Expedia/酒店等商业 API 和实时库存，不属于地图核心能力"
+      "treatment": "Hard Exclude",
+      "reason": "依赖 Booking/Expedia/酒店等商业 API 和实时库存，不属于地图核心能力",
+      "covered_by": []
     },
     {
       "feature": "餐厅在线预订 / 外卖 / 点餐\n通过地图直接完成预约、订餐或购买",
-      "treatment": "Exclude",
-      "reason": "依赖第三方交易系统和支付/预订接口"
+      "treatment": "Hard Exclude",
+      "reason": "依赖第三方交易系统和支付/预订接口",
+      "covered_by": []
     },
     {
       "feature": "加油站实时油价\n显示某个加油站当前 Regular/Premium 价格",
-      "treatment": "Exclude",
-      "reason": "实时商业数据来源不稳定；可在测试数据中使用固定静态价格，但不测试实时同步"
+      "treatment": "Hard Exclude",
+      "reason": "实时商业数据来源不稳定；可在测试数据中使用固定静态价格，但不测试实时同步",
+      "covered_by": []
     },
     {
       "feature": "电动车充电桩实时空闲数量\n例如 4 个可用，共 8 个",
-      "treatment": "Exclude",
-      "reason": "需要充电网络运营商实时 API；benchmark 只保留充电站位置和静态规格"
+      "treatment": "Hard Exclude",
+      "reason": "需要充电网络运营商实时 API；benchmark 只保留充电站位置和静态规格；保留面：f02 地图定位 / 重置视图, f04 商家搜索, f17 自定义保存列表",
+      "covered_by": [
+        "f02",
+        "f17",
+        "f04"
+      ]
     },
     {
       "feature": "用户贡献\n您的贡献 / 添加缺失地点 / 修改地图 / 提供修改建议 / 上传照片",
-      "treatment": "Exclude",
-      "reason": "需要审核、用户身份、后台数据库及社区治理系统，不属于地图浏览核心"
+      "treatment": "Hard Exclude",
+      "reason": "需要审核、用户身份、后台数据库及社区治理系统，不属于地图浏览核心",
+      "covered_by": []
     },
     {
       "feature": "位置共享\n实时向其他用户分享当前位置、查看他人位置",
-      "treatment": "Exclude",
-      "reason": "需要多用户账户、实时定位和持续连接，超出单 Agent benchmark"
+      "treatment": "Hard Exclude",
+      "reason": "需要多用户账户、实时定位和持续连接，超出单 Agent benchmark",
+      "covered_by": []
     },
     {
       "feature": "时间轴 / Timeline\n根据历史 GPS 数据恢复用户每天去过的位置",
-      "treatment": "Exclude",
-      "reason": "强依赖真实用户长期位置历史，同时涉及隐私和账户数据"
+      "treatment": "Hard Exclude",
+      "reason": "强依赖真实用户长期位置历史，同时涉及隐私和账户数据",
+      "covered_by": []
     },
     {
       "feature": "Google Maps 历史记录跨设备同步\n搜索、浏览、路线历史在多个设备间同步",
-      "treatment": "Exclude",
-      "reason": "需要 Google 账户和云端同步；benchmark 只要求当前本地会话或本地持久化"
+      "treatment": "Hard Exclude",
+      "reason": "需要 Google 账户和云端同步；benchmark 只要求当前本地会话或本地持久化",
+      "covered_by": []
     },
     {
       "feature": "发送到手机\n将地点或路线推送至用户手机",
-      "treatment": "Exclude",
-      "reason": "需要账户、移动设备、Push 服务和跨设备通信"
+      "treatment": "Hard Exclude",
+      "reason": "需要账户、移动设备、Push 服务和跨设备通信",
+      "covered_by": []
     },
     {
       "feature": "真实分享链接 / 社交分享\n将地图内容发送到第三方应用或联系人",
-      "treatment": "Exclude",
-      "reason": "可实现本地复制链接，但不要求真正调用外部社交平台"
+      "treatment": "Hard Exclude",
+      "reason": "可实现本地复制链接，但不要求真正调用外部社交平台",
+      "covered_by": []
     },
     {
       "feature": "打印地图 / 打印路线\n调用系统打印服务并输出纸质地图",
-      "treatment": "Exclude",
-      "reason": "与地图核心交互关系弱，同时受浏览器和操作系统打印环境影响"
+      "treatment": "Default Exclude",
+      "reason": "与地图核心交互关系弱，同时受浏览器和操作系统打印环境影响",
+      "covered_by": []
     },
     {
       "feature": "Google 个性化推荐\n根据用户历史生成 为你推荐、个性化餐厅或兴趣地点",
-      "treatment": "Exclude",
-      "reason": "需要真实长期用户行为和推荐模型；难以保证 benchmark 可重复"
+      "treatment": "Hard Exclude",
+      "reason": "需要真实长期用户行为和推荐模型；难以保证 benchmark 可重复",
+      "covered_by": []
     },
     {
       "feature": "广告 / Sponsored Places\n地图中的推广商家、广告排序和商业推荐",
-      "treatment": "Exclude",
-      "reason": "依赖广告系统、竞价和商业数据，不应进入功能复现评分"
+      "treatment": "Hard Exclude",
+      "reason": "依赖广告系统、竞价和商业数据，不应进入功能复现评分",
+      "covered_by": []
     },
     {
       "feature": "用户账户管理\nGoogle 登录、头像、账户切换、隐私中心等",
-      "treatment": "Exclude",
-      "reason": "属于 Google Account 系统，而不是 Maps 核心地图功能"
+      "treatment": "Default Exclude",
+      "reason": "属于 Google Account 系统，而不是 Maps 核心地图功能",
+      "covered_by": []
     },
     {
       "feature": "离线地图 / 下载区域\n下载某地区到移动设备并在无网络下使用",
-      "treatment": "Exclude",
-      "reason": "浏览器版 benchmark 没有必要复制移动端离线地图基础设施"
+      "treatment": "Hard Exclude",
+      "reason": "浏览器版 benchmark 没有必要复制移动端离线地图基础设施",
+      "covered_by": []
     },
     {
       "feature": "Google Earth / 3D Photorealistic 模型\n真实城市 3D 建筑、倾斜摄影、沉浸式视图",
-      "treatment": "Exclude",
-      "reason": "需要专有 3D Tiles、航空摄影和巨量渲染数据，开发成本远超 benchmark 价值"
+      "treatment": "Hard Exclude",
+      "reason": "需要专有 3D Tiles、航空摄影和巨量渲染数据，开发成本远超 benchmark 价值",
+      "covered_by": []
     },
     {
       "feature": "沉浸式路线 / Immersive View\n以真实 3D 城市模拟时间、天气和路线",
-      "treatment": "Exclude",
-      "reason": "依赖 Google 专有影像、3D 建模、天气和生成式系统"
+      "treatment": "Hard Exclude",
+      "reason": "依赖 Google 专有影像、3D 建模、天气和生成式系统",
+      "covered_by": []
     },
     {
       "feature": "实时天气\n城市卡片中的当前温度、天气状态",
-      "treatment": "Exclude",
-      "reason": "属于外部实时天气源，不是地图基本功能；可以固定占位值但不纳入评分"
+      "treatment": "Hard Exclude",
+      "reason": "属于外部实时天气源，不是地图基本功能；可以固定占位值但不纳入评分",
+      "covered_by": []
     },
     {
       "feature": "完整全球 POI 数据一致性\n要求所有现实世界商家、道路和地址都与 Google Maps 一致",
-      "treatment": "Exclude",
-      "reason": "不现实且涉及专有数据库；benchmark 应限定一个固定城市/区域和固定 OSM 数据快照"
+      "treatment": "Default Exclude",
+      "reason": "不现实且涉及专有数据库；benchmark 应限定一个固定城市/区域和固定 OSM 数据快照",
+      "covered_by": []
     },
     {
       "feature": "Google 专有地图样式完全像素级复刻\n道路颜色、标签优先级、建筑细节与 Google 完全一致",
-      "treatment": "Exclude",
-      "reason": "Google 地图样式和数据并非开放资源；应评价交互结构和功能，而不是要求地图瓦片像素完全一致"
+      "treatment": "Default Exclude",
+      "reason": "Google 地图样式和数据并非开放资源；应评价交互结构和功能，而不是要求地图瓦片像素完全一致",
+      "covered_by": []
     }
   ]
 }

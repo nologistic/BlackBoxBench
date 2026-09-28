@@ -440,62 +440,95 @@
     {
       "feature": "智能排序算法\n「智能」排序的个性化 rank 模型",
       "treatment": "Conditional Exclude",
-      "reason": "智能排序依赖算法模型；好评/人气/评价数等确定性排序保留"
+      "reason": "智能排序依赖算法模型；好评/人气/评价数等确定性排序保留；保留面：f11 商户列表排序切换",
+      "covered_by": [
+        "f11"
+      ]
     },
     {
       "feature": "真实支付与交易结算\n支付网关、资金流转",
       "treatment": "Hard Exclude",
-      "reason": "依赖支付系统（对照淘宝「真实支付」排除）；订单与券码流程本地化（模拟支付）"
+      "reason": "依赖支付系统（对照淘宝「真实支付」排除）；订单与券码流程本地化（模拟支付）",
+      "covered_by": []
     },
     {
       "feature": "真实预订/订座的商家侧确认\n商家接单、确认、到店流程",
       "treatment": "Conditional Exclude",
-      "reason": "进入订座上下文与表单可测；商家侧确认与结果用 fixture"
+      "reason": "进入订座上下文与表单可测；商家侧确认与结果用 fixture；保留面：f15 预约订座",
+      "covered_by": [
+        "f15"
+      ]
     },
     {
       "feature": "商户与点评的真实数据\n真实商户信息、评分、点评内容",
       "treatment": "Default Exclude",
-      "reason": "使用合成 fixture 商户与点评数据（对照 Spotify「Real catalog」）"
+      "reason": "使用合成 fixture 商户与点评数据（对照 Spotify「Real catalog」）",
+      "covered_by": []
     },
     {
       "feature": "消息的真实事件源\n业务事件真实产生消息",
       "treatment": "Conditional Include",
-      "reason": "消息状态机（未读/分类/已读/批量操作）可测，需预置消息 fixture"
+      "reason": "消息状态机（未读/分类/已读/批量操作）可测，需预置消息 fixture；保留面：f30 消息中心状态管理, f31 消息分类展示, f32 消息设置 / 全部忽略 / 批量删除",
+      "covered_by": [
+        "f30",
+        "f31",
+        "f32"
+      ]
     },
     {
       "feature": "关注的对方侧变化\n对方粉丝数变化、对方收到通知",
       "treatment": "Conditional Exclude",
-      "reason": "本侧关注状态可测；对端数据用 fixture 呈现"
+      "reason": "本侧关注状态可测；对端数据用 fixture 呈现；保留面：f29 关注与个人统计同步",
+      "covered_by": [
+        "f29"
+      ]
     },
     {
       "feature": "他人点赞点评的真实事件\n他人对点评的点赞产生",
       "treatment": "Conditional Exclude",
-      "reason": "获赞数量展示可测（预置）；不模拟他人点赞行为"
+      "reason": "获赞数量展示可测（预置）；不模拟他人点赞行为；保留面：f29 关注与个人统计同步",
+      "covered_by": [
+        "f29"
+      ]
     },
     {
       "feature": "地理位置与实时距离\n基于真实 GPS 的距离计算、到店导航",
       "treatment": "Conditional Exclude",
-      "reason": "距离展示可用预置数据；导航跳转保留入口（对照 Google Maps「实时导航」处理思路）"
+      "reason": "距离展示可用预置数据；导航跳转保留入口（对照 Google Maps「实时导航」处理思路）",
+      "covered_by": []
     },
     {
       "feature": "优惠券真实核销\n到店核销、商家验证流程",
       "treatment": "Conditional Exclude",
-      "reason": "券码状态展示可测；真实核销流程依赖商家侧"
+      "reason": "券码状态展示可测；真实核销流程依赖商家侧；保留面：f34 团购订单与券码状态",
+      "covered_by": [
+        "f34"
+      ]
     },
     {
       "feature": "电话真实拨打\ntel: 链接的实际通话",
       "treatment": "Conditional Exclude",
-      "reason": "电话入口存在与上下文保持可测；不要求真实通话（浏览器/OS 行为）"
+      "reason": "电话入口存在与上下文保持可测；不要求真实通话（浏览器/OS 行为）；保留面：f14 地址 / 距离 / 电话服务",
+      "covered_by": [
+        "f14"
+      ]
     },
     {
       "feature": "城市实时运营数据\n各城市真实商户/团购/活动数据",
       "treatment": "Conditional Exclude",
-      "reason": "城市切换与内容重建可测（预置城市数据集）；不要求真实全量数据"
+      "reason": "城市切换与内容重建可测（预置城市数据集）；不要求真实全量数据；保留面：f01 城市切换与本地内容重建",
+      "covered_by": [
+        "f01"
+      ]
     },
     {
       "feature": "签到真实到店验证\nLBS 到店打卡验证",
       "treatment": "Conditional Exclude",
-      "reason": "签到记录与时间线可测；不验证真实地理位置"
+      "reason": "签到记录与时间线可测；不验证真实地理位置；保留面：f25 签到, f28 最近动态",
+      "covered_by": [
+        "f25",
+        "f28"
+      ]
     }
   ]
 }

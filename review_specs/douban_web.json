@@ -492,62 +492,92 @@
     {
       "feature": "个性化推荐引擎\n推荐话题/小组/内容的算法排序与个性化分发",
       "treatment": "Conditional Exclude",
-      "reason": "推荐列表可用预置 fixture 呈现；不评估推荐质量与个性化逻辑"
+      "reason": "推荐列表可用预置 fixture 呈现；不评估推荐质量与个性化逻辑",
+      "covered_by": []
     },
     {
       "feature": "实时热度榜单\n热门讨论实时排名、热度动态变化",
       "treatment": "Conditional Exclude",
-      "reason": "榜单用静态快照呈现（对照 Spotify「Dynamic charts」）；浏览与跳转交互保留"
+      "reason": "榜单用静态快照呈现（对照 Spotify「Dynamic charts」）；浏览与跳转交互保留",
+      "covered_by": []
     },
     {
       "feature": "第三方账号绑定\n外部 OAuth 授权、账号关联",
       "treatment": "Hard Exclude",
-      "reason": "依赖外部身份服务与授权流程（对照 diagrams.net「Google Drive/OneDrive」排除）；设置页绑定状态展示可保留"
+      "reason": "依赖外部身份服务与授权流程（对照 diagrams.net「Google Drive/OneDrive」排除）；整项纳入排除范围，不保留任何子项",
+      "covered_by": []
     },
     {
       "feature": "隐私设置的他人视角验证\n从其他用户视角查看资料可见性效果",
       "treatment": "Conditional Exclude",
-      "reason": "公开状态设置与回显可测；不验证他人视角访问效果"
+      "reason": "公开状态设置与回显可测；不验证他人视角访问效果；保留面：f13 个人资料隐私设置",
+      "covered_by": [
+        "f13"
+      ]
     },
     {
       "feature": "留言板的真实他人留言\n其他用户真实留言与通知",
       "treatment": "Conditional Exclude",
-      "reason": "留言板展示与处理可测（预置留言）；不模拟他人留言行为"
+      "reason": "留言板展示与处理可测（预置留言）；不模拟他人留言行为；保留面：f16 个人留言板管理",
+      "covered_by": [
+        "f16"
+      ]
     },
     {
       "feature": "被回复者互动链路\n他人收到回复通知并继续互动",
       "treatment": "Conditional Exclude",
-      "reason": "回复层级与引用展示可测；不验证跨用户互动送达"
+      "reason": "回复层级与引用展示可测；不验证跨用户互动送达；保留面：f28 楼层回复与引用",
+      "covered_by": [
+        "f28"
+      ]
     },
     {
       "feature": "管理员/平台处理流程\n精华设置、举报处理、成员管理动作",
       "treatment": "Conditional Exclude",
-      "reason": "精华状态展示、举报提交与记录可测；处理动作用预置状态驱动"
+      "reason": "精华状态展示、举报提交与记录可测；处理动作用预置状态驱动；保留面：f34 小组精华讨论筛选, f35 帖子举报（用户侧）",
+      "covered_by": [
+        "f34",
+        "f35"
+      ]
     },
     {
       "feature": "站外传播方式\n分享到外部平台、跨站传播",
       "treatment": "Conditional Exclude",
-      "reason": "站内转发（到自己的动态）可测；不验证外部平台集成"
+      "reason": "站内转发（到自己的动态）可测；不验证外部平台集成；保留面：f31 帖子转发",
+      "covered_by": [
+        "f31"
+      ]
     },
     {
       "feature": "豆邮真实投递\n真实用户发送邮件与到达",
       "treatment": "Conditional Exclude",
-      "reason": "收件箱管理/筛选/黑名单可测（预置邮件）；不验证真实投递"
+      "reason": "收件箱管理/筛选/黑名单可测（预置邮件）；不验证真实投递；保留面：f17 豆邮收件箱管理, f19 豆邮垃圾箱与黑名单管理",
+      "covered_by": [
+        "f17",
+        "f19"
+      ]
     },
     {
       "feature": "小组成员真实动态\n成员加入/退出/最近加入的实时变化",
       "treatment": "Conditional Exclude",
-      "reason": "成员数与列表展示可测（fixture）；不模拟真实成员变化"
+      "reason": "成员数与列表展示可测（fixture）；不模拟真实成员变化；保留面：f37 小组成员与最近加入",
+      "covered_by": [
+        "f37"
+      ]
     },
     {
       "feature": "帖子状态随平台处理变化\n举报后原帖状态的真实改变",
       "treatment": "Conditional Exclude",
-      "reason": "举报提交与记录可测；处理结果用预置状态"
+      "reason": "举报提交与记录可测；处理结果用预置状态；保留面：f35 帖子举报（用户侧）",
+      "covered_by": [
+        "f35"
+      ]
     },
     {
       "feature": "真实内容资产\n真实小组内容、话题数据、用户资料",
       "treatment": "Default Exclude",
-      "reason": "使用合成 fixture 内容（对照 Spotify「Real catalog」）"
+      "reason": "使用合成 fixture 内容（对照 Spotify「Real catalog」）",
+      "covered_by": []
     }
   ]
 }

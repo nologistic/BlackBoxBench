@@ -298,108 +298,133 @@
   "exclusions": [
     {
       "feature": "实时多人协作\n排除多用户实时光标、同时编辑、冲突合并、在线协作房间",
-      "treatment": "Exclude",
-      "reason": "依赖 WebSocket / Presence / 多账户基础设施，不适合作为单 Agent 网页复现 benchmark"
+      "treatment": "Hard Exclude",
+      "reason": "依赖 WebSocket / Presence / 多账户基础设施，不适合作为单 Agent 网页复现 benchmark",
+      "covered_by": []
     },
     {
       "feature": "分享权限与公开协作\n排除邀请成员、链接权限、所有者/编辑者权限、公开发布",
-      "treatment": "Exclude",
-      "reason": "属于云端账号和权限系统，而非几何构造核心能力"
+      "treatment": "Default Exclude",
+      "reason": "属于云端账号和权限系统，而非几何构造核心能力",
+      "covered_by": []
     },
     {
       "feature": "登录 / 注册 / 账户管理\n排除账号注册、密码恢复、第三方登录、用户安全设置",
-      "treatment": "Exclude",
-      "reason": "缺少真实身份服务时无法稳定复现，也不考察几何 Agent 能力"
+      "treatment": "Hard Exclude",
+      "reason": "缺少真实身份服务时无法稳定复现，也不考察几何 Agent 能力",
+      "covered_by": []
     },
     {
       "feature": "Graphing Calculator 完整高级能力\n不要求 Geometry 同时复现 Desmos Calculator 中全部统计、分布、推断、列表高级函数",
-      "treatment": "Exclude",
-      "reason": "Geometry 虽内嵌代数/绘图能力，但 benchmark 应只保留支撑几何构造的代表性表达式能力"
+      "treatment": "Default Exclude",
+      "reason": "Geometry 虽内嵌代数/绘图能力，但 benchmark 应只保留支撑几何构造的代表性表达式能力；保留面：f01 点—线段依赖构造, f05 几何交点依赖链, f07 几何与函数叠加",
+      "covered_by": [
+        "f01",
+        "f05",
+        "f07"
+      ]
     },
     {
       "feature": "完整数学函数全集\n排除逐个实现全部统计函数、概率分布、假设检验、特殊函数与所有边缘语法",
-      "treatment": "Exclude",
-      "reason": "会把 benchmark 变成数学解析器兼容测试，而不是端到端 Geometry Agent 测试"
+      "treatment": "Default Exclude",
+      "reason": "会把 benchmark 变成数学解析器兼容测试，而不是端到端 Geometry Agent 测试",
+      "covered_by": []
     },
     {
       "feature": "3D Calculator\n排除三维点、曲面、三维旋转、3D 相机与三维几何",
-      "treatment": "Exclude",
-      "reason": "是独立 Desmos 产品，不属于 Geometry 平面几何范围"
+      "treatment": "Default Exclude",
+      "reason": "是独立 Desmos 产品，不属于 Geometry 平面几何范围",
+      "covered_by": []
     },
     {
       "feature": "Desmos Classroom / Activity Builder\n排除教师课堂、学生 Session、活动创建、课堂代码、作业管理",
-      "treatment": "Exclude",
-      "reason": "需要完整教育平台、多账户和课堂数据"
+      "treatment": "Hard Exclude",
+      "reason": "需要完整教育平台、多账户和课堂数据",
+      "covered_by": []
     },
     {
       "feature": "版本历史完整后端\n排除跨版本 diff、任意时间点恢复、完整云端 revision 历史",
-      "treatment": "Exclude",
-      "reason": "benchmark 只需验证保存与重新打开的最终可见状态"
+      "treatment": "Default Exclude",
+      "reason": "benchmark 只需验证保存与重新打开的最终可见状态",
+      "covered_by": []
     },
     {
       "feature": "图片云资源管理\n排除图片云端图库、图片 CDN、远程 URL 权限、跨账户图片共享",
-      "treatment": "Exclude",
-      "reason": "本 benchmark 只需要本地选择图片并在 Geometry 中使用"
+      "treatment": "Hard Exclude",
+      "reason": "本 benchmark 只需要本地选择图片并在 Geometry 中使用",
+      "covered_by": []
     },
     {
       "feature": "几何 Gallery / 示例库完整复刻\n排除官方全部 Equilateral Triangle、Euler Line、Pythagorean Theorem 等 Gallery 内容",
-      "treatment": "Exclude",
-      "reason": "属于内容数据集而不是 Geometry 编辑器本身；官方 Gallery 确有大量示例，但无需逐个复制。Desmos"
+      "treatment": "Default Exclude",
+      "reason": "属于内容数据集而不是 Geometry 编辑器本身；官方 Gallery 确有大量示例，但无需逐个复制。Desmos",
+      "covered_by": []
     },
     {
       "feature": "穷举所有 Geometry Commands\n不逐个测试全部 intersection()、glider()、radius() 等命令的所有参数形式和异常输入",
-      "treatment": "Exclude",
-      "reason": "选择代表性的求交、距离、面积等即可覆盖对象引用与依赖计算"
+      "treatment": "Hard Exclude",
+      "reason": "选择代表性的求交、距离、面积等即可覆盖对象引用与依赖计算",
+      "covered_by": []
     },
     {
       "feature": "极端数值精度一致性\n排除和 Desmos 在浮点误差、交点逼近、曲线采样、超小尺度构造上的逐位一致",
-      "treatment": "Exclude",
-      "reason": "实现成本极高，且不影响主要 Agent 操作与状态管理能力"
+      "treatment": "Default Exclude",
+      "reason": "实现成本极高，且不影响主要 Agent 操作与状态管理能力",
+      "covered_by": []
     },
     {
       "feature": "像素级渲染一致性\n不要求曲线抗锯齿、字体、控制点大小、填充透明度、线宽与官方逐像素一致",
-      "treatment": "Exclude",
-      "reason": "应测语义结构、动态关系和用户可见功能结果，而非 renderer 复制"
+      "treatment": "Default Exclude",
+      "reason": "应测语义结构、动态关系和用户可见功能结果，而非 renderer 复制",
+      "covered_by": []
     },
     {
       "feature": "高级无障碍硬件与辅助技术\n排除 Braille、屏幕阅读器深度适配、语音/音频导航、专用辅助硬件集成；不排除 Desmos 页面内置数学辅助键盘",
-      "treatment": "Exclude",
-      "reason": "页面内置数学键盘属于核心输入组件，应实现；真正依赖额外辅助硬件或专用无障碍运行环境的能力才排除"
+      "treatment": "Hard Exclude",
+      "reason": "页面内置数学键盘属于核心输入组件，应实现；真正依赖额外辅助硬件或专用无障碍运行环境的能力才排除",
+      "covered_by": []
     },
     {
       "feature": "操作系统级输入法兼容全集\n不要求复现所有物理键盘布局、IME、移动端软键盘和系统快捷键差异",
-      "treatment": "Exclude",
-      "reason": "benchmark 只要求网页内部数学键盘和常见文本键盘输入正常"
+      "treatment": "Default Exclude",
+      "reason": "benchmark 只要求网页内部数学键盘和常见文本键盘输入正常",
+      "covered_by": []
     },
     {
       "feature": "完整移动端手势\n排除触屏专用拖拽、双指缩放、移动端键盘与原生 App 行为",
-      "treatment": "Exclude",
-      "reason": "benchmark 固定桌面 Web 环境"
+      "treatment": "Default Exclude",
+      "reason": "benchmark 固定桌面 Web 环境",
+      "covered_by": []
     },
     {
       "feature": "导出 / 打印基础设施\n排除高质量 PDF/SVG/打印布局、打印机适配及浏览器打印差异",
-      "treatment": "Exclude",
-      "reason": "属于输出基础设施，不是几何建模核心"
+      "treatment": "Hard Exclude",
+      "reason": "属于输出基础设施，不是几何建模核心",
+      "covered_by": []
     },
     {
       "feature": "社区内容 / 公共搜索\n排除搜索其他用户的公开 Geometry、社区作品、推荐算法",
-      "treatment": "Exclude",
-      "reason": "依赖外部内容数据库和搜索索引"
+      "treatment": "Hard Exclude",
+      "reason": "依赖外部内容数据库和搜索索引",
+      "covered_by": []
     },
     {
       "feature": "全部国际化\n排除所有语言 UI、RTL、所有 locale 数字格式与键盘布局",
-      "treatment": "Exclude",
-      "reason": "benchmark 固定一个 UI 语言即可"
+      "treatment": "Default Exclude",
+      "reason": "benchmark 固定一个 UI 语言即可",
+      "covered_by": []
     },
     {
       "feature": "帮助中心 / 教程视频\n排除帮助文档、教学视频、客服入口及教程内容",
-      "treatment": "Exclude",
-      "reason": "属于支持内容系统，不是几何编辑器功能"
+      "treatment": "Default Exclude",
+      "reason": "属于支持内容系统，不是几何编辑器功能",
+      "covered_by": []
     },
     {
       "feature": "第三方嵌入\n排除 LMS、Google Classroom、外部网站 Embed 与第三方授权",
-      "treatment": "Exclude",
-      "reason": "依赖外部平台，不利于稳定、可重复 benchmark"
+      "treatment": "Hard Exclude",
+      "reason": "依赖外部平台，不利于稳定、可重复 benchmark",
+      "covered_by": []
     }
   ]
 }
