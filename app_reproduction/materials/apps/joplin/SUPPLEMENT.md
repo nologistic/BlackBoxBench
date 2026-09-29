@@ -1,40 +1,40 @@
-# Joplin 复现补充信息（非实体素材）
+# Joplin reproduction supplementary information (non-entity materials)
 
-## 数据模型
+## Data model
 
-| 对象 | 字段 | 说明 |
+| Object | Fields | Description |
 |---|---|---|
-| 笔记本 | 名称、父笔记本 | 两级及以上嵌套；左侧树形栏 |
-| 笔记 | 标题、正文（Markdown）、标签、置顶、待办开关 | 列表按更新时间倒序 |
-| 待办 | 同笔记 + 勾选框 | 在笔记列表中以勾选状态区分 |
-| 标签 | 名称 | 多对多挂到笔记；标签栏横向归类 |
-| 附件 | 图片/文件 | 存资源库，正文 `![标题](资源id)` 引用 |
+| Notebook | Name, parent notebook | Two or more levels of nesting; tree sidebar on the left |
+| Note | Title, body (Markdown), tags, pin, to-do toggle | List ordered by update time |
+| To-do | Same as note + checkbox | Distinguished by checkbox state in the note list |
+| Tag | Name | Many-to-many onto notes; a tag bar groups across lists |
+| Attachment | Image/file | Stored in the resource library, referenced in the body as `![title](resource id)` |
 
-- 待办勾选状态与正文 `- [ ]` / `- [x]` 列表语法同步。
+- The to-do checkbox state stays in sync with the `- [ ]` / `- [x]` list syntax in the body.
 
-## Markdown 渲染范围（复现必须支持）
+## Markdown rendering scope (must be supported)
 
-- 标题 `#`~`######`、段落、**粗体**、*斜体*、`行内代码`
-- 无序/有序列表、任务列表（勾选框可交互回写源码）
-- 链接、引用块 `>`、水平线 `---`
-- 表格（GFM）、围栏代码块（含语言标签着色可简化）
-- 图片（应用内资源，沙盒不要求外链加载）
+- Headings `#`–`######`, paragraphs, **bold**, *italic*, `inline code`
+- Unordered/ordered lists, task lists (checkboxes interactive and written back to the source)
+- Links, blockquotes `>`, horizontal rules `---`
+- Tables (GFM), fenced code blocks (language-tag coloring may be simplified)
+- Images (in-app resources; external loading not required in the sandbox)
 
-## 交互要点
+## Interaction highlights
 
-- 编辑器 ↔ 预览切换（渲染实时/按钮切换均可，状态一致）。
-- 搜索：标题与正文全文匹配，结果列表高亮关键词。
-- 「全部笔记」聚合视图 + 按笔记本/标签过滤。
-- 笔记排序：更新时间/标题/手动置顶。
-- 回收站：删除的笔记进入回收站，可恢复或彻底删除。
+- Editor ↔ preview switching (live rendering or a button toggle both fine, states consistent).
+- Search: full-text match on titles and bodies, with keyword highlighting in the results.
+- An "All notes" aggregated view + filtering by notebook/tag.
+- Note sorting: update time/title/manual pinning.
+- Recycle bin: deleted notes go there and can be restored or removed permanently.
 
-## 同步与安全（沙盒简化语义）
+## Sync and security (sandbox-simplified semantics)
 
-- 端到端加密与 WebDAV 同步在沙盒内不可用（无网络账户）；
-  本地数据完整持久化即为合格，设置页显示同步未配置状态。
+- End-to-end encryption and WebDAV sync are unavailable in the sandbox (no network account);
+  full local persistence is sufficient, and the settings page shows sync as unconfigured.
 
-## 复现行为要点
+## Key reproduction behaviors
 
-- 新建笔记 → 输入 Markdown → 预览正确渲染 → 退出重进内容与渲染一致。
-- 待办勾选往返（勾上 → 重进仍是勾上）。
-- 标签过滤与笔记本树导航是主要浏览路径。
+- New note → type Markdown → preview renders correctly → leaving and re-entering keeps content and rendering identical.
+- To-do checkbox round trip (check it → still checked on re-entry).
+- Tag filtering and notebook-tree navigation are the main browsing paths.

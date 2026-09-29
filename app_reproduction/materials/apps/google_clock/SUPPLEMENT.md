@@ -1,46 +1,46 @@
-# Google Clock 复现补充信息（非实体素材）
+# Google Clock reproduction supplementary information (non-entity materials)
 
-## 重复规则摘要文案
+## Repeat-rule summary text
 
-闹钟选择周一~周日的任意组合后，列表条目生成摘要：
+After selecting any combination of Monday–Sunday for an alarm, the list row shows a summary:
 
-| 星期组合 | 摘要 |
+| Weekday combination | Summary |
 |---|---|
-| 全部七天 | 每天 |
-| 仅一次（未来最近的可选日） | 仅一次 |
-| 周一~周五 | 周一至周五 |
-| 仅周六、周日 | 周六、周日 |
-| 其他组合 | 点选的星期列表（如「周一、周三、周五」） |
+| All seven days | Every day |
+| Once only (nearest future day) | Once |
+| Monday–Friday | Mon–Fri |
+| Saturday and Sunday only | Sat, Sun |
+| Other combinations | The list of selected weekdays (e.g. "Mon, Wed, Fri") |
 
-- 修改星期后摘要同步更新。
+- The summary updates when the weekdays change.
 
-## 下一次触发计算
+## Next-trigger computation
 
 ```
-下一次触发 = 下一个「今天或以后」且星期 ∈ 选中集合的日期，
-            取闹钟时刻；若今天该时刻尚未过去，则今天即可触发。
+Next trigger = the next date that is "today or later" with weekday ∈ the selected set,
+                at the alarm time; if that time has not yet passed today, today counts.
 ```
 
-- 「下一次响铃」显示为：明早 7:00 / 3 小时后响铃 / 今晚 10:00。
-- 关闭闹钟开关后：不参与「下一次闹钟」的计算，配置保留；
-  重新开启后恢复参与并重新计算。
-- 重复闹钟选择「暂停」：设定开始/结束日期，区间内不触发，
-  区间结束后自动恢复原重复规则（**不是删除**）。
+- "Next ring" is shown as: 7:00 AM tomorrow / rings in 3 hours / 10:00 PM tonight.
+- When the alarm toggle is off: it is excluded from the "next alarm" computation while its configuration stays;
+  turning it back on restores participation and recomputes.
+- "Pause" for a repeating alarm: set start/end dates; it does not fire within the range,
+  and the original repeat rule resumes automatically after the range ends (**not deleted**).
 
-## 世界时钟与家乡时间
+## World clock and home time
 
-- 从时钟页「+」添加城市 → 保存后出现在时钟页，显示城市名、
-  当前时间与相对本地时间的差（「晚 6 小时」）。
-- 家乡时间：开启「自动显示家所在地点时间」后，当设备时区与家乡
-  时区不同才显示额外一行；相同时不显示。
-- 时区表见 `world_clocks.json`；跨时区换算按 UTC 偏移。
+- Add a city via "+" on the clock page → after saving it appears there with the city name,
+  current time, and offset from local time ("6 hours behind").
+- Home time: after enabling "automatically show home location time", the extra row shows only
+  when the device time zone differs from home; not shown when identical.
+- Time-zone table in `world_clocks.json`; cross-zone conversion uses UTC offsets.
 
-## 计时器与秒表
+## Timer and stopwatch
 
-- 计时器：数字键盘输入 HH:MM:SS，退格删末位，空时间不能启动；
-  Start → 倒计时 → Pause 冻结 → Resume 继续 → 切走再回来剩余时间
-  保持 → Reset 回到输入值（非零初始态）。
-- 归零 → 完成态（响铃 + 停止/加时按钮），结束提醒后状态清理。
-- 秒表：开始 → 持续累计 → 暂停冻结 → 再开始从原值继续 →
-  Reset 回 00:00（同一实例，不新建）。
-- 时钟页当前时间持续更新（含秒可选），日期与星期同步。
+- Timer: numeric keypad enters HH:MM:SS, backspace removes the last digit, empty time cannot start;
+  Start → count down → Pause freezes → Resume continues → switching away and back keeps
+  the remaining time → Reset returns to the entered value (non-zero initial state).
+- At zero → finished state (ringing + stop/extend buttons); state clears after dismissing.
+- Stopwatch: start → keeps accumulating → pause freezes → start resumes from the value →
+  Reset returns to 00:00 (same instance, not a new one).
+- The clock page's current time updates continuously (seconds optional), with date and weekday in sync.

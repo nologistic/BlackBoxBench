@@ -1,19 +1,19 @@
-# Google Clock 复现补充素材
+# Google Clock reproduction supplementary materials
 
-本目录是 `google_clock` 复现工作区的目标专属素材包，挂载为只读的
-`/materials/app`。所有内容均为虚构与公开规范。
+This directory is the target-specific material pack for the `google_clock` reproduction workspace, mounted read-only as
+`/materials/app`. All content is fictional or public specification.
 
-## 实体素材
+## Entity materials
 
-- `world_clocks.json`：24 个虚构友好城市与 UTC 偏移表，覆盖整点与
-  半点时区，用于世界时钟/家乡时间功能。
+- `world_clocks.json`: 24 fictional friendly cities with UTC offsets, covering on-the-hour and
+  half-hour time zones, for the world clock / home time feature.
 
-## 非实体补充信息
+## Non-entity supplementary information
 
-见 `SUPPLEMENT.md`：重复闹钟的摘要文案生成规则、下一次触发计算、
-世界时钟与家乡时间语义、计时器/秒表行为规范。
+See `SUPPLEMENT.md`: the summary-text generation rules for repeating alarms, next-trigger computation,
+world-clock and home-time semantics, and timer/stopwatch behavior specs.
 
-## 使用规则
+## Usage rules
 
-不要修改本目录。需要使用时将文件复制进 `/workspace` 工程内再引用；
-闹钟铃声可复用 `/materials/mobile/audio/` 的 WAV 样本。
+Do not modify this directory. To use a file, copy it into the `/workspace` project first and reference it there;
+alarm sounds can reuse the WAV samples in `/materials/mobile/audio/`.

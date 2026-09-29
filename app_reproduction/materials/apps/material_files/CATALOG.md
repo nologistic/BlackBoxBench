@@ -1,19 +1,19 @@
-# Material Files 复现补充素材
+# Material Files reproduction supplementary materials
 
-本目录是 `material_files`（文件管理器）复现工作区的目标专属素材包，
-挂载为只读的 `/materials/app`。所有内容均为虚构测试数据。
+This directory is the target-specific material pack for the `material_files` (file manager) reproduction workspace,
+mounted read-only as `/materials/app`. All content is fictional test data.
 
-## 实体素材
+## Entity materials
 
-- `sample_tree.json`：一棵虚构目录树（文档/图片/压缩包/隐藏文件/
-  空目录），带大小与修改时间，用于浏览、排序与隐藏文件功能演示。
+- `sample_tree.json`: a fictional directory tree (documents/images/archives/hidden files/
+  empty dirs) with sizes and mtimes, for browsing, sorting, and hidden-file demos.
 
-## 非实体补充信息
+## Non-entity supplementary information
 
-见 `SUPPLEMENT.md`：存储模型、排序/视图切换、压缩包行为、书签、
-隐藏文件规则、新建/重命名/删除的语义。
+See `SUPPLEMENT.md`: the storage model, sorting/view switching, archive behavior, bookmarks,
+hidden-file rules, and the semantics of create/rename/delete.
 
-## 使用规则
+## Usage rules
 
-不要修改本目录。需要使用时将文件复制进 `/workspace` 工程内再引用；
-可下钻展示的假文件可复用 `/materials/mobile/file_picker/` 的样例。
+Do not modify this directory. To use a file, copy it into the `/workspace` project first and reference it there;
+drill-down fake files can reuse the samples in `/materials/mobile/file_picker/`.

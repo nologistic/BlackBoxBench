@@ -1,59 +1,59 @@
 {
-  "note": "虚构曲库。duration 为秒。所有艺人/专辑/曲目均为虚构；同一 album 名自动聚合为一张专辑。",
+  "note": "Fictional music library. duration is in seconds. All artists/albums/tracks are fictional; the same album name aggregates into one album.",
   "artists": [
     {
-      "name": "夜航电台",
+      "name": "Night Flight Radio",
       "albums": [
-        {"title": "北纬四十", "year": 2024, "genre": "合成器流行", "tracks": [
-          {"no": 1, "title": "起飞检查单", "duration": 214},
-          {"no": 2, "title": "跑道灯", "duration": 198},
-          {"no": 3, "title": "云层之上", "duration": 243},
-          {"no": 4, "title": "夜间巡航", "duration": 261},
-          {"no": 5, "title": "穿越颠簸", "duration": 187},
-          {"no": 6, "title": "降落信号", "duration": 225},
-          {"no": 7, "title": "行李转盘", "duration": 176},
-          {"no": 8, "title": "时差", "duration": 232}
+        {"title": "Forty North", "year": 2024, "genre": "Synth-pop", "tracks": [
+          {"no": 1, "title": "Preflight checklist", "duration": 214},
+          {"no": 2, "title": "Runway lights", "duration": 198},
+          {"no": 3, "title": "Above the clouds", "duration": 243},
+          {"no": 4, "title": "Night cruise", "duration": 261},
+          {"no": 5, "title": "Through turbulence", "duration": 187},
+          {"no": 6, "title": "Landing signal", "duration": 225},
+          {"no": 7, "title": "Baggage carousel", "duration": 176},
+          {"no": 8, "title": "Jet lag", "duration": 232}
         ]},
-        {"title": "信号塔", "year": 2026, "genre": "合成器流行", "tracks": [
-          {"no": 1, "title": "载波", "duration": 205},
-          {"no": 2, "title": "静默频道", "duration": 189},
-          {"no": 3, "title": "握手协议", "duration": 221},
-          {"no": 4, "title": "掉线", "duration": 168}
+        {"title": "Signal Tower", "year": 2026, "genre": "Synth-pop", "tracks": [
+          {"no": 1, "title": "Carrier wave", "duration": 205},
+          {"no": 2, "title": "Silent channel", "duration": 189},
+          {"no": 3, "title": "Handshake protocol", "duration": 221},
+          {"no": 4, "title": "Dropped connection", "duration": 168}
         ]}
       ]
     },
     {
-      "name": "林间合唱团",
+      "name": "Forest Choir",
       "albums": [
-        {"title": "叶脉", "year": 2023, "genre": "民谣", "tracks": [
-          {"no": 1, "title": "早春序曲", "duration": 256},
-          {"no": 2, "title": "橡树下的信", "duration": 232},
-          {"no": 3, "title": "六月的雨", "duration": 274},
-          {"no": 4, "title": "采蘑菇的人", "duration": 208},
-          {"no": 5, "title": "落叶归根", "duration": 245},
-          {"no": 6, "title": "冬眠", "duration": 298}
+        {"title": "Leaf veins", "year": 2023, "genre": "Folk", "tracks": [
+          {"no": 1, "title": "Early-spring prelude", "duration": 256},
+          {"no": 2, "title": "A letter under the oak", "duration": 232},
+          {"no": 3, "title": "June rain", "duration": 274},
+          {"no": 4, "title": "The mushroom gatherer", "duration": 208},
+          {"no": 5, "title": "Fallen leaves return", "duration": 245},
+          {"no": 6, "title": "Hibernation", "duration": 298}
         ]}
       ]
     },
     {
-      "name": "像素猫",
+      "name": "Pixel Cat",
       "albums": [
-        {"title": "8-bit 心跳", "year": 2025, "genre": "电子", "tracks": [
-          {"no": 1, "title": "开机音", "duration": 96},
-          {"no": 2, "title": "满血复活", "duration": 142},
-          {"no": 3, "title": "隐藏关卡", "duration": 171}
+        {"title": "8-bit heartbeat", "year": 2025, "genre": "Electronic", "tracks": [
+          {"no": 1, "title": "Boot chime", "duration": 96},
+          {"no": 2, "title": "Back to full health", "duration": 142},
+          {"no": 3, "title": "Secret level", "duration": 171}
         ]},
-        {"title": "街机黄昏", "year": 2026, "genre": "电子", "tracks": [
-          {"no": 1, "title": "投币口", "duration": 188}
+        {"title": "Arcade dusk", "year": 2026, "genre": "Electronic", "tracks": [
+          {"no": 1, "title": "Coin slot", "duration": 188}
         ]}
       ]
     },
     {
-      "name": "山地静默",
+      "name": "Mountain Silence",
       "albums": [
-        {"title": "长曝光", "year": 2024, "genre": "后摇", "tracks": [
-          {"no": 1, "title": "快门开启", "duration": 402},
-          {"no": 2, "title": "星轨", "duration": 468}
+        {"title": "Long exposure", "year": 2024, "genre": "Post-rock", "tracks": [
+          {"no": 1, "title": "Shutter open", "duration": 402},
+          {"no": 2, "title": "Star trails", "duration": 468}
         ]}
       ]
     }

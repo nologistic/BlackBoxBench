@@ -1,54 +1,54 @@
-# Loop Habit Tracker 复现补充信息（非实体素材）
+# Loop Habit Tracker reproduction supplementary information (non-entity materials)
 
-## 习惯类型与频率
+## Habit types and frequency
 
-| 类型 | 说明 | 打卡形态 |
+| Type | Description | Check-in form |
 |---|---|---|
-| 布尔型（是/否） | 做了就算完成 | 勾选 |
-| 可量化 | 带单位与目标值 | 输入数值，达标才算完成 |
+| Boolean (yes/no) | Done counts as complete | A checkmark |
+| Measurable | With a unit and target value | Enter a number; only reaching the target completes it |
 
-- 频率模型：
-  - 每天（一天一次）
-  - 每周 N 次（周内任意 N 天完成即达标，色环按周聚合）
-  - 每周指定日（如仅周一/三/五，只在这些日子计入）
-- 目标值：可量化习惯的目标与方向（≥ 目标为完成）；单位自由文本
-  （页、分钟、km…）。
+- Frequency model:
+  - Daily (once a day)
+  - N times per week (complete any N days within the week; the color ring aggregates by week)
+  - Specific weekdays (e.g. only Mon/Wed/Fri; only those days count)
+- Target value: the target and direction for measurable habits (≥ target = complete); the unit is free text
+  (pages, minutes, km…).
 
-## 打卡语义
+## Check-in semantics
 
-- 当天重复点击 = 增加一次记录（可量化型累加数值）；长按或详情页
-  可撤销/删除记录。
-- 今天已完成的主列表显示勾选/色环闭合；未完成显示进度。
-- 一天的多次记录在详情日历里计数展示。
+- Repeated taps on the same day add a record (accumulating the value for measurable habits); long-press or the details page
+  allows undoing/deleting records.
+- A completed today shows a checkmark/closed color ring in the main list; otherwise it shows progress.
+- Multiple records in one day are shown as a count in the details calendar.
 
-## Score（习惯强度）
+## Score (habit strength)
 
-Score 衡量近期坚持度，取值 0–100：
+Score measures recent consistency, ranging 0–100:
 
 ```
-score_today = (1 - λ) × score_yesterday + λ × (今天完成 ? 1 : 0)
-λ ≈ 0.05（新鲜度权重，约两周半衰期）
+score_today = (1 - λ) × score_yesterday + λ × (completed today ? 1 : 0)
+λ ≈ 0.05 (freshness weight, about a two-week half-life)
 ```
 
-- 连续完成 → Score 逐渐逼近 100；连续漏做 → 逐渐降到 0。
-- **修改过去某天的记录后，Score 与连击按新历史重新计算**（语义上
-  等价于重放到今天）。
-- 连击（streak）：连续满足频率要求的天/周数；每周 N 次的习惯按周
-  判定，连击按周计。
+- Consistent completion → Score approaches 100; repeated misses → it decays toward 0.
+- **After editing a past day's record, Score and streak are recomputed from the new history** (semantically
+  equivalent to replaying up to today).
+- Streak: consecutive days/weeks meeting the frequency; N-per-week habits are judged
+  by week, with streaks counted in weeks.
 
-## 历史回填与修正
+## History backfill and correction
 
-- 详情页进入日历/历史：可给过去任意一天补卡或撤销误卡。
-- 回填立即反映到主列表的 Score、连击与当月统计。
+- The details page opens a calendar/history: back-fill any past day or undo a mistaken check.
+- Backfill reflects immediately in the main list's Score, streak, and monthly statistics.
 
-## 归档与提醒
+## Archiving and reminders
 
-- 归档：不再跟踪的习惯从主列表隐藏（过滤器可显示归档项），
-  历史数据保留；取消归档即恢复跟踪。
-- 提醒：每天固定时间通知；今日未完成时触发，完成后当日不再提醒。
+- Archive: habits no longer tracked disappear from the main list (a filter can show archived items),
+  history is kept; unarchiving resumes tracking.
+- Reminder: a notification at a fixed daily time; fires when today is incomplete and not again after completion.
 
-## 复现行为要点
+## Key reproduction behaviors
 
-- 主列表：习惯名、频率摘要、今天状态（勾/色环）、Score、连击。
-- 详情页：30 天/一年日历热图、月统计、历史回填入口。
-- 写操作（打卡/回填/归档/修改习惯配置）重启后保持。
+- Main list: habit name, frequency summary, today's state (check/color ring), Score, streak.
+- Details page: 30-day/year calendar heatmap, monthly statistics, a history-backfill entry.
+- Write operations (check-in/backfill/archive/edit habit configuration) survive a restart.

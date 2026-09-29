@@ -1,43 +1,43 @@
-# VLC 复现补充信息（非实体素材）
+# VLC reproduction supplementary information (non-entity materials)
 
-## 媒体库
+## Media library
 
-- 分组：视频 / 音频 / 播放列表 / 文件浏览（本地目录树）。
-- 媒体文件被扫描后进入库；按标题/时长/添加时间显示。
-- 「文件」页直接浏览目录并点开播放。
+- Groups: Video / Audio / Playlists / File browsing (local directory tree).
+- Media files enter the library after scanning; shown by title/duration/added time.
+- The "Files" page browses directories directly and plays on tap.
 
-## 播放器手势（全屏时）
+## Player gestures (fullscreen)
 
-| 手势 | 行为 |
+| Gesture | Behavior |
 |---|---|
-| 单指左右滑 | 快进/快退（带预览时间提示） |
-| 左半屏上下滑 | 亮度 |
-| 右半屏上下滑 | 音量 |
-| 双击 | 播放/暂停（可选） |
+| One-finger horizontal swipe | Seek forward/backward (with a time preview) |
+| Vertical swipe on the left half | Brightness |
+| Vertical swipe on the right half | Volume |
+| Double tap | Play/pause (optional) |
 
-- 进度条拖动跳转；±10 秒按钮；倍速 0.5x–2.0x 即时生效。
+- Drag the progress bar to seek; ±10-second buttons; speed 0.5x–2.0x takes effect instantly.
 
-## 字幕与音轨
+## Subtitles and audio tracks
 
-- 外挂 SRT：文件名与视频同名自动加载，或从菜单手动选择。
-- 字幕轨开关、大小同步变化；延迟可调。
-- 多音轨文件可切换音轨。
+- External SRT: auto-loaded when the file name matches the video, or picked manually from the menu.
+- Subtitle-track toggle, size changes in sync; delay adjustable.
+- Multi-track files can switch audio tracks.
 
-## 均衡器与音频
+## Equalizer and audio
 
-- 均衡器：开关 + 预设（流行/古典/摇滚…）+ 手动调节频段；
-  设置持久化。
-- A-B 循环：标记 A、B 两点后区间循环；再次点击清除。
-- 随机播放 / 顺序循环 / 单曲循环三态。
+- Equalizer: toggle + presets (Pop/Classical/Rock…) + manual band adjustment;
+  settings persist.
+- A-B loop: mark A and B to loop the range; tap again to clear.
+- Shuffle / repeat-all / repeat-one, three states.
 
-## 播放列表
+## Playlists
 
-- 当前播放列表实时显示正在播放项；从库中「添加到播放列表」；
-  M3U 导入按标题匹配。
-- 播放记忆：退出后回来从上次位置继续（进度条状态保持）。
+- The current playlist shows the playing item live; "add to playlist" from the library;
+  M3U import matches by title.
+- Playback memory: returning after exit resumes from the last position (progress state kept).
 
-## 复现行为要点
+## Key reproduction behaviors
 
-- 视频能起播、进度条走动、暂停冻结、手势有即时视觉反馈。
-- 字幕加载后画面出现字幕行；关闭即消失。
-- 写操作（播放列表、均衡器预设、播放进度）重启后保持。
+- Video starts, progress advances, pause freezes, gestures give instant visual feedback.
+- After a subtitle loads, a subtitle line appears on screen; turning it off hides it.
+- Write operations (playlists, equalizer presets, playback progress) survive a restart.

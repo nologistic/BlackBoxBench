@@ -1,56 +1,56 @@
-# AnkiDroid 复现补充信息（非实体素材）
+# AnkiDroid reproduction supplementary information (non-entity materials)
 
-## 牌组层级
+## Deck hierarchy
 
-- 牌组用 `::` 分隔层级：`语言::日语::五十音` 是三级牌组。
-- 同名路径合并；显示为可折叠树，父牌组的到期数 = 自身 + 全部子牌组。
-- 卡片永远属于叶子或任意一级牌组，父级统计做聚合。
+- Decks separate levels with `::`: `Language::Japanese::Kana` is a three-level deck.
+- Same-named paths merge; shown as a collapsible tree, a parent deck's due count = itself + all child decks.
+- Cards always belong to a leaf or any level; parent levels aggregate statistics.
 
-## 笔记与卡片
+## Notes and cards
 
-- 一条**笔记**（note）是字段集合（正面/背面/附加字段）；
-- 一张**卡片**（card）由笔记 + 模板生成。基本模板一条笔记生成 1 张卡
-  （正→反）；“基本（含反向卡）”生成 2 张（正→反、反→正）。
-- 填空模板在文本中挖空：`{{c1::东京}}是日本首都` 正面显示
-  `[…]是日本首都`，背面显示完整句。同一句可有多个空 `c1/c2/c3`，
-  每个空生成独立卡片。
+- A **note** is a set of fields (front/back/extra fields);
+- A **card** is generated from a note + a template. The Basic template makes 1 card per note
+  (front→back); "Basic (and reversed card)" makes 2 (front→back, back→front).
+- The cloze template blanks text: `{{c1::Tokyo}} is the capital of Japan` shows
+  `[…] is the capital of Japan` on the front and the full sentence on the back. One sentence can have several blanks `c1/c2/c3`,
+  and each blank generates its own card.
 
-## 调度（SM-2 简化模型）
+## Scheduling (simplified SM-2)
 
-卡片状态：新卡 → 学习中 → 复习中。
+Card states: new → learning → review.
 
-- **新卡队列**：每天按设定上限（默认 20）逐张进入学习。
-- **学习中**：短间隔步骤（1 分钟 → 10 分钟），答错回到第一步。
-- **复习中**：间隔按天计（1 天 → 3 天 → 7 天 → 2 周 → 1 月…），
-  随评分倍增或回落。
-- 四个评分按钮：
+- **New-card queue**: enters learning one by one up to the daily cap (default 20).
+- **Learning**: short-step intervals (1 min → 10 min); a wrong answer goes back to the first step.
+- **Review**: intervals in days (1 day → 3 days → 7 days → 2 weeks → 1 month…),
+  multiplied or reduced by the rating.
+- Four rating buttons:
 
-| 按钮 | 含义 | 对间隔的影响 |
+| Button | Meaning | Effect on interval |
 |---|---|---|
-| 忘记（Again） | 答错 | 间隔重置，回到学习中（1 分钟） |
-| 困难（Hard） | 答对但吃力 | 间隔小幅增长（约 ×1.2） |
-| 良好（Good） | 正常答对 | 间隔按倍增（约 ×2.5） |
-| 简单（Easy） | 秒答 | 间隔大幅增长（约 ×4） |
+| Again | Wrong answer | Interval resets, back to learning (1 min) |
+| Hard | Right but struggled | Interval grows slightly (about ×1.2) |
+| Good | Normal correct answer | Interval multiplies (about ×2.5) |
+| Easy | Instant answer | Interval grows strongly (about ×4) |
 
-- 每张卡有自己的到期日；“今日到期”徽标 = 到期日 ≤ 今天的复习卡 +
-  今日新卡配额。答完一张，下一张自动出现（正面 → 点击显示背面 →
-  四按钮评分）。
-- **评分必须影响下一次到期日**：Again 的卡当天会再次出现。
+- Each card has its own due date; the "due today" badge = review cards due ≤ today +
+  today's new-card quota. After one is answered the next appears automatically (front → tap to show back →
+  rate with the four buttons).
+- **Ratings must affect the next due date**: an "Again" card reappears the same day.
 
-## 浏览器与统计
+## Browser and statistics
 
-- 浏览器可按牌组/标签/模板/到期筛选，列表列含问题、答案、牌组、到期。
-- 排序键：牌组、卡片模板、到期日，升降序可切。
-- 统计页：今日学习量（新学/复习/重新学习）、正确率、未来 30 天到期曲线。
+- The browser filters by deck/tag/template/due; list columns show question, answer, deck, due.
+- Sort keys: deck, card template, due date, ascending or descending.
+- Statistics page: today's study volume (new/review/relearning), accuracy, and a 30-day due forecast.
 
-## 导入导出
+## Import and export
 
-- TSV 导入：每行一条笔记，制表符分字段，首行可选 `#separator:tab`
-  等指令；可指定目标牌组与是否含标签列。
-- 导出：选中牌组的笔记集合可再导入还原（round-trip 集合不变）。
+- TSV import: one note per line, fields separated by tabs, optional first line with directives
+  such as `#separator:tab`; the target deck and whether a tag column exists can be specified.
+- Export: the selected deck's note set can be re-imported unchanged (round-trip set equality).
 
-## 复现行为要点
+## Key reproduction behaviors
 
-- 不要求实现真实 SM-2 算法；但四按钮对“下一次出现时间”的定性影响
-  （Again 立刻重见、Good 间隔变长）必须可观察。
-- 牌组树聚合数字、今日到期徽标、学习流程（翻面→评分）是核心可见行为。
+- A real SM-2 implementation is not required; but the four buttons' qualitative effect on "when a card appears next"
+  (Again = back immediately, Good = longer interval) must be observable.
+- Deck-tree aggregate numbers, the due-today badge, and the study flow (flip → rate) are the core visible behaviors.

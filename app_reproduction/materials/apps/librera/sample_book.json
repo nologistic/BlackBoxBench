@@ -1,29 +1,29 @@
 {
-  "note": "虚构 EPUB 的章节结构与段落样例。阅读器按章节渲染、TOC 跳转、书签定位到 chapter+paragraph。",
+  "note": "Chapter structure and paragraph samples of a fictional EPUB. The reader renders by chapter, jumps via TOC, and locates bookmarks at chapter+paragraph.",
   "book": {
     "id": "bk001",
-    "title": "确定性生成手册",
-    "author": "林汐",
+    "title": "Deterministic Generation Handbook",
+    "author": "Lin Xi",
     "language": "zh",
     "chapters": [
-      {"no": 1, "title": "第一章 种子", "paragraphs": [
-        "一切都是从一个数字开始的。给定相同的种子，宇宙会沿着同一条路径展开——这是确定性生成的第一信条。",
-        "种子进入伪随机序列，逐行铺开文本、逐块填上颜色。没有人真正'创造'了这些内容；它们只是被'找到'了。",
-        "本章末尾的练习：把种子换成你的生日，看看世界有什么不同。"
+      {"no": 1, "title": "Chapter 1: Seeds", "paragraphs": [
+        "Everything begins with a number. Given the same seed, the universe unfolds along the same path — the first creed of deterministic generation.",
+        "The seed enters a pseudo-random sequence, spreading text line by line and filling colors block by block. No one truly 'creates' this content; it is merely 'found'.",
+        "Exercise at the end of this chapter: swap the seed for your birthday and see how the world differs."
       ]},
-      {"no": 2, "title": "第二章 纹理", "paragraphs": [
-        "纹理是重复与扰动之和。完全重复显得机械，完全随机显得嘈杂；介于两者之间的，我们称之为'自然'。",
-        "柏林噪声给出了这中间道路的经典答案：分形叠加，每一层把频率加倍、振幅减半。"
+      {"no": 2, "title": "Chapter 2: Texture", "paragraphs": [
+        "Texture is repetition plus perturbation. Pure repetition looks mechanical; pure randomness looks noisy; the middle ground is what we call 'natural'.",
+        "Perlin noise gives the classic answer to this middle path: fractal layering, each octave doubling the frequency and halving the amplitude."
       ]},
-      {"no": 3, "title": "第三章 名字", "paragraphs": [
-        "给虚构的人起名字是最微妙的环节：要普通到可信，又不能撞上真实的邻居。",
-        "本手册示例人物全部来自六个虚构姓氏的组合，它们不属于任何真实的人。"
+      {"no": 3, "title": "Chapter 3: Names", "paragraphs": [
+        "Naming fictional people is the most delicate step: common enough to be believable, yet never colliding with a real neighbor.",
+        "All sample characters in this handbook come from combinations of six fictional surnames; they belong to no real person."
       ]},
-      {"no": 4, "title": "第四章 验收", "paragraphs": [
-        "生成只是开始。验收清单逐条核对：内容合法、分布均匀、边界情况不崩、重启后完全一致。",
-        "最后一项最重要——一致性是对确定性世界唯一的忠诚。"
+      {"no": 4, "title": "Chapter 4: Acceptance", "paragraphs": [
+        "Generation is only the beginning. The acceptance checklist verifies item by item: content legal, distribution even, edges do not crash, identical after restart.",
+        "The last item matters most — consistency is the only loyalty to a deterministic world."
       ]}
     ],
-    "toc_note": "目录（TOC）由章节标题构成，点击跳转到对应章节。"
+    "toc_note": "The table of contents (TOC) is built from chapter titles; tapping jumps to the chapter."
   }
 }

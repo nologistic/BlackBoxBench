@@ -1,32 +1,32 @@
-# 欢迎使用笔记
+# Welcome to Notes
 
-这是一篇虚构的入门笔记，覆盖复现需要支持的常用 Markdown 语法。
+This is a fictional getting-started note covering the common Markdown syntax the reproduction must support.
 
-## 文本样式
+## Text styles
 
-**粗体文本**、*斜体文本*、`行内代码`，以及普通段落。
+**Bold text**, *italic text*, `inline code`, and a plain paragraph.
 
-## 列表
+## Lists
 
-- 无序列表项一
-- 无序列表项二
-  - 缩进子项
+- Unordered item one
+- Unordered item two
+  - Nested sub-item
 
-1. 有序列表项一
-2. 有序列表项二
+1. Ordered item one
+2. Ordered item two
 
-## 待办
+## To-dos
 
-- [x] 阅读欢迎笔记
-- [ ] 创建第一个笔记本
-- [ ] 尝试标签过滤
+- [x] Read the welcome note
+- [ ] Create your first notebook
+- [ ] Try tag filtering
 
-## 链接与引用
+## Links and quotes
 
-[内部链接示例](./project-notes.md)
+[Internal link example](./project-notes.md)
 
-> 引用块：笔记的价值在于重新找到它。
+> Blockquote: a note's value is in finding it again.
 
 ---
 
-以上语法在预览中应正确渲染；勾选框可交互。
+The syntax above should render correctly in preview; checkboxes are interactive.

@@ -1,28 +1,28 @@
-# Fossify Paint 复现补充信息（非实体素材）
+# Fossify Paint reproduction supplementary information (non-entity materials)
 
-## 画笔与颜色
+## Brushes and colors
 
-- 笔刷：拖动滑块改变粗细，**下一次笔画立即生效**；已画笔迹不变。
-- 橡皮擦：拖动经过的区域恢复为画布背景色（不是变透明）。
-- 颜色：点击当前颜色块 → 颜色选择器 → 预设色板 + 二维色板/色相条
-  → 确认后当前颜色块更新，后续笔画使用新颜色。
-- 自定义颜色保存到「最近使用」，重新打开仍在。
+- Brush: drag the slider to change thickness, **taking effect from the next stroke**; existing strokes stay.
+- Eraser: dragging clears the area back to the canvas background color (not transparent).
+- Color: tap the current color swatch → color picker → preset palette + 2D palette/hue bar
+  → after confirming, the swatch updates and later strokes use the new color.
+- Custom colors are saved to "Recently used" and are still there after reopening.
 
-## 画布与撤销
+## Canvas and undo
 
-- 画布初始为纯色背景（可改背景色，已有笔迹保留在前景）。
-- 撤销/重做以笔画为粒度；清空画布需确认。
+- The canvas starts as a solid background (the background color is changeable; existing strokes stay in the foreground).
+- Undo/redo is per stroke; clearing the canvas asks for confirmation.
 
-## 导入与导出
+## Import and export
 
-- 「打开文件」：从文件选择器载入 PNG/JPG 作为新画布内容。
-- 「导入为背景」：图片垫底，新笔画画在其上。
-- 保存/导出：输入文件名 → PNG 或 JPG；保存后在系统相册/文件中可见
-  （沙盒内可保存到应用私有目录并显示成功态）。
-- 分享：调出系统分享面板（沙盒内可展示面板或成功提示）。
+- "Open file": load a PNG/JPG from the file picker as new canvas content.
+- "Import as background": the image sits underneath and new strokes are drawn on top.
+- Save/export: enter a file name → PNG or JPG; after saving it is visible in the system gallery/files
+  (in the sandbox it can save to the app-private directory and show a success state).
+- Share: opens the system share sheet (in the sandbox, showing the sheet or a success notice is fine).
 
-## 复现行为要点
+## Key reproduction behaviors
 
-- 画一笔 → 屏幕出现笔迹；改粗细/颜色 → 再画一笔，两笔样式不同；
-  橡皮擦 → 只擦除经过区域；撤销 → 最后一笔消失。
-- 背景色更改 + 图片导入 + 导出是写路径闭环的关键观察点。
+- Draw a stroke → it appears on screen; change thickness/color → draw again and the two strokes differ in style;
+  eraser → only the area it passes is erased; undo → the last stroke disappears.
+- Background-color change + image import + export are the key observation points of the write-path loop.

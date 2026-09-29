@@ -1,21 +1,21 @@
-# AnkiDroid 复现补充素材
+# AnkiDroid reproduction supplementary materials
 
-本目录是 `ankidroid`（间隔重复记忆卡片）复现工作区的目标专属素材包，
-挂载为只读的 `/materials/app`。所有内容均为虚构测试数据。
+This directory is the target-specific material pack for the `ankidroid` (spaced-repetition flashcards) reproduction workspace,
+mounted read-only as `/materials/app`. All content is fictional test data.
 
-## 实体素材
+## Entity materials
 
-- `sample_cards.txt`：TSV 格式的示例卡片（牌组、标签、正面、背面），
-  与 AnkiDroid 的文本导入格式一致，共 12 条，覆盖三个牌组分支。
-- `cloze_cards.txt`：填空（cloze）卡片样例 5 条，演示 `{{c1::}}` 语法。
-- `deck_tree.json`：牌组层级结构（含每层卡片数），对应浏览器里的
-  牌组树视图。
+- `sample_cards.txt`: sample cards in TSV format (deck, tags, front, back),
+  matching AnkiDroid's text-import format; 12 entries covering three deck branches.
+- `cloze_cards.txt`: 5 cloze cards demonstrating the `{{c1::}}` syntax.
+- `deck_tree.json`: the deck hierarchy (with card counts per level), matching the
+  deck-tree view in the browser.
 
-## 非实体补充信息
+## Non-entity supplementary information
 
-见 `SUPPLEMENT.md`：牌组层级语法、笔记与卡片的关系、四种评分按钮的
-调度行为、到期与新卡队列、导入导出与统计口径。
+See `SUPPLEMENT.md`: deck-hierarchy syntax, the relation between notes and cards, scheduling behavior
+for the four rating buttons, due/new-card queues, and import/export with statistics conventions.
 
-## 使用规则
+## Usage rules
 
-不要修改本目录。需要使用时将文件复制进 `/workspace` 工程内再引用。
+Do not modify this directory. To use a file, copy it into the `/workspace` project first and reference it there.

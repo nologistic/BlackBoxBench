@@ -1,21 +1,21 @@
-# Librera Reader 复现补充素材
+# Librera Reader reproduction supplementary materials
 
-本目录是 `librera`（电子书阅读器）复现工作区的目标专属素材包，
-挂载为只读的 `/materials/app`。所有内容均为虚构测试数据。
+This directory is the target-specific material pack for the `librera` (e-book reader) reproduction workspace,
+mounted read-only as `/materials/app`. All content is fictional test data.
 
-## 实体素材
+## Entity materials
 
-- `library.json`：虚构书库（12 本书，覆盖 EPUB/PDF/FB2/MOBI 四种
-  格式、多作者、不同阅读进度与标签），是书库功能的**必要数据**。
-- `sample_book.json`：一本虚构 EPUB 的章节结构与正文段落样例，
-  阅读器渲染可直接以此组织内容。
+- `library.json`: a fictional library (12 books covering EPUB/PDF/FB2/MOBI,
+  multiple authors, various reading progress and tags) — **necessary data** for the library feature.
+- `sample_book.json`: chapter structure and body-paragraph samples of a fictional EPUB;
+the reader can render content organized from it directly.
 
-## 非实体补充信息
+## Non-entity supplementary information
 
-见 `SUPPLEMENT.md`：格式支持矩阵、书库扫描与「文件夹作为书籍」、
-阅读模式与翻页、书签/高亮、TTS、配置 Profile、备份迁移。
+See `SUPPLEMENT.md`: the format-support matrix, library scanning and "folder as book",
+reading modes and page turning, bookmarks/highlights, TTS, configuration profiles, and backup migration.
 
-## 使用规则
+## Usage rules
 
-不要修改本目录。需要使用时将文件复制进 `/workspace` 工程内再引用；
-书籍封面可复用 `/materials/mobile/images/covers/` 的虚构封面图。
+Do not modify this directory. To use a file, copy it into the `/workspace` project first and reference it there;
+book covers can reuse the fictional cover images in `/materials/mobile/images/covers/`.

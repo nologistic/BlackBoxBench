@@ -1,18 +1,18 @@
-# Fossify Paint 复现补充素材
+# Fossify Paint reproduction supplementary materials
 
-本目录是 `fossify_paint`（数字绘图）复现工作区的目标专属素材包，
-挂载为只读的 `/materials/app`。本包以非实体信息为主。
+This directory is the target-specific material pack for the `fossify_paint` (digital drawing) reproduction workspace,
+mounted read-only as `/materials/app`. This pack is mainly non-entity information.
 
-## 实体素材
+## Entity materials
 
-- 无专属实体素材。画布与导出示例可复用 `/materials/mobile/images/`
-    的虚构图片（导入为背景、另存为导出示例）。
+- No target-specific entity materials. Canvas and export examples can reuse the fictional
+  images in `/materials/mobile/images/` (imported as backgrounds, saved as export examples).
 
-## 非实体补充信息
+## Non-entity supplementary information
 
-见 `SUPPLEMENT.md`：画笔/颜色/画布行为规范、撤销与重做、
-背景与导入、导出格式与分享。
+See `SUPPLEMENT.md`: brush/color/canvas behavior specs, undo and redo,
+background and import, export formats and sharing.
 
-## 使用规则
+## Usage rules
 
-不要修改本目录。
+Do not modify this directory.
