@@ -3,273 +3,273 @@
   "platform": "android",
   "features": [
     {
-      "name": "空列表与主页面状态",
+      "name": "Empty list and main-page state",
       "steps": [
-        "首次进入 Aegis",
-        "数据库中没有验证条目",
-        "显示“未找到条目”空状态",
-        "添加第一个条目后空状态消失并显示验证码卡片",
-        "删除最后一个条目后重新恢复空状态"
+        "First launch of Aegis",
+        "No verification entries in the database",
+        "Show the \"No entries found\" empty state",
+        "After adding the first entry the empty state disappears and the verification-card view is shown",
+        "After deleting the last entry the empty state returns"
       ],
-      "expected": "删除最后一个条目后重新恢复空状态",
+      "expected": "After deleting the last entry the empty state returns",
       "persistence": false,
       "multi_user": false,
       "id": "f01"
     },
     {
-      "name": "添加入口与三种添加方式",
+      "name": "Add entry point and the three add methods",
       "steps": [
-        "点击右下角“+”",
-        "展开“扫描二维码 / 扫描本地图片 / 手动输入”三个入口",
-        "选择其中一种进入对应流程",
-        "关闭菜单时恢复原页面且不产生条目"
+        "Tap the \"+\" in the bottom-right corner",
+        "Expand the three entry points: \"Scan QR code / Scan local image / Manual input\"",
+        "Choose one of them to enter the corresponding flow",
+        "Closing the menu restores the original page and creates no entry"
       ],
-      "expected": "关闭菜单时恢复原页面且不产生条目",
+      "expected": "Closing the menu restores the original page and creates no entry",
       "persistence": false,
       "multi_user": false,
       "id": "f02"
     },
     {
-      "name": "手动创建 TOTP 条目",
+      "name": "Manually create a TOTP entry",
       "steps": [
-        "进入“手动输入”",
-        "填写名称、服务商、分组、备注和密钥",
-        "默认/选择 TOTP 参数",
-        "保存",
-        "条目出现在主列表",
-        "重新进入该条目时数据保持一致"
+        "Open \"Manual input\"",
+        "Fill in name, issuer, group, notes, and secret",
+        "Use the default/selected TOTP parameters",
+        "Save",
+        "The entry appears in the main list",
+        "Re-entering the entry keeps the data consistent"
       ],
-      "expected": "重新进入该条目时数据保持一致",
+      "expected": "Re-entering the entry keeps the data consistent",
       "persistence": true,
       "multi_user": false,
       "id": "f03"
     },
     {
-      "name": "高级 OTP 参数配置",
+      "name": "Advanced OTP parameter configuration",
       "steps": [
-        "在新增/编辑条目中展开高级设置",
-        "配置类型、哈希函数、时间间隔、位数等参数",
-        "保存",
-        "OTP 生成逻辑使用新的参数",
-        "重新进入编辑界面时参数保持"
+        "Expand advanced settings in the new/edit entry screen",
+        "Configure parameters such as type, hash function, time step, and digits",
+        "Save",
+        "The OTP generation logic uses the new parameters",
+        "Parameters are preserved when re-entering the edit screen"
       ],
-      "expected": "重新进入编辑界面时参数保持",
+      "expected": "Parameters are preserved when re-entering the edit screen",
       "persistence": true,
       "multi_user": false,
       "id": "f04"
     },
     {
-      "name": "TOTP 6 位验证码与 30 秒周期刷新",
+      "name": "TOTP 6-digit code with 30-second cycle refresh",
       "steps": [
-        "创建默认 TOTP 条目",
-        "主列表展示当前 6 位验证码",
-        "圆形进度根据当前 30 秒周期持续减少",
-        "周期结束时验证码自动切换为下一组",
-        "不需要用户刷新页面"
+        "Create a default TOTP entry",
+        "The main list shows the current 6-digit code",
+        "The circular progress decreases continuously over the current 30-second cycle",
+        "When the cycle ends, the code automatically switches to the next one",
+        "The user does not need to refresh the page"
       ],
-      "expected": "不需要用户刷新页面",
+      "expected": "The user does not need to refresh the page",
       "persistence": false,
       "multi_user": false,
       "id": "f05"
     },
     {
-      "name": "OTP 时间边界一致性",
+      "name": "OTP time-boundary consistency",
       "steps": [
-        "在同一个 30 秒时间窗口内重复进入条目/切换页面",
-        "验证码保持相同",
-        "到时间边界后统一切换",
-        "倒计时与验证码变化保持同步，避免验证码已经更新而圆盘仍显示旧周期"
+        "Repeatedly enter the entry / switch pages within the same 30-second window",
+        "The code stays the same",
+        "All entries switch together at the time boundary",
+        "The countdown stays in sync with code changes, avoiding the case where the code has already updated while the dial still shows the old cycle"
       ],
-      "expected": "倒计时与验证码变化保持同步，避免验证码已经更新而圆盘仍显示旧周期",
+      "expected": "The countdown stays in sync with code changes, avoiding the case where the code has already updated while the dial still shows the old cycle",
       "persistence": false,
       "multi_user": false,
       "id": "f06"
     },
     {
-      "name": "多条 OTP 独立状态",
+      "name": "Independent state of multiple OTPs",
       "steps": [
-        "创建多个验证条目",
-        "每个条目根据自己的密钥和 OTP 参数生成验证码",
-        "某个条目的编辑、刷新或删除不影响其他条目",
-        "页面刷新/重启后全部条目仍存在"
+        "Create multiple verification entries",
+        "Each entry generates its code from its own secret and OTP parameters",
+        "Editing, refreshing, or deleting one entry does not affect the others",
+        "After a page refresh/restart all entries still exist"
       ],
-      "expected": "页面刷新/重启后全部条目仍存在",
+      "expected": "After a page refresh/restart all entries still exist",
       "persistence": true,
       "multi_user": false,
       "id": "f07"
     },
     {
-      "name": "条目搜索",
+      "name": "Entry search",
       "steps": [
-        "点击搜索",
-        "输入名称、服务商等关键词",
-        "主列表实时缩小到匹配条目",
-        "清空搜索恢复完整列表",
-        "搜索无匹配时展示正确空结果状态而不是“数据库为空”状态"
+        "Tap search",
+        "Enter keywords such as name or issuer",
+        "The main list narrows in real time to matching entries",
+        "Clearing the search restores the full list",
+        "When nothing matches, the correct no-results state is shown instead of the \"database is empty\" state"
       ],
-      "expected": "搜索无匹配时展示正确空结果状态而不是“数据库为空”状态",
+      "expected": "When nothing matches, the correct no-results state is shown instead of the \"database is empty\" state",
       "persistence": false,
       "multi_user": false,
       "id": "f08"
     },
     {
-      "name": "搜索行为配置",
+      "name": "Search behavior configuration",
       "steps": [
-        "在“行为”设置中修改搜索匹配方式",
-        "返回主列表搜索同一关键词",
-        "搜索结果按照配置字段匹配",
-        "设置在重启后仍生效"
+        "Change the search matching mode under \"Behavior\" settings",
+        "Return to the main list and search the same keyword",
+        "Search results match according to the configured fields",
+        "The setting still applies after a restart"
       ],
-      "expected": "设置在重启后仍生效",
+      "expected": "The setting still applies after a restart",
       "persistence": true,
       "multi_user": false,
       "id": "f09"
     },
     {
-      "name": "多维排序",
+      "name": "Multi-dimensional sorting",
       "steps": [
-        "打开排序菜单",
-        "在“自定义 / 账户 A-Z / 账户 Z-A / 服务商 A-Z / 服务商 Z-A / 使用计数 / 上次使用”等排序方式间切换",
-        "列表顺序立即重算",
-        "条目内容本身不被修改"
+        "Open the sort menu",
+        "Switch between sort modes such as \"Custom / Account A-Z / Account Z-A / Issuer A-Z / Issuer Z-A / Usage count / Last used\"",
+        "The list order is recalculated immediately",
+        "The entry contents themselves are not modified"
       ],
-      "expected": "条目内容本身不被修改",
+      "expected": "The entry contents themselves are not modified",
       "persistence": false,
       "multi_user": false,
       "id": "f10"
     },
     {
-      "name": "自定义排序持久化",
+      "name": "Custom sort persistence",
       "steps": [
-        "选择“自定义”排序",
-        "调整条目的用户定义顺序",
-        "离开页面并返回",
-        "顺序保持",
-        "切换到其他排序规则后再切回自定义仍恢复此前人工顺序"
+        "Select the \"Custom\" sort mode",
+        "Adjust the user-defined order of entries",
+        "Leave the page and return",
+        "The order is preserved",
+        "After switching to another sort rule and back to Custom, the previous manual order is restored"
       ],
-      "expected": "切换到其他排序规则后再切回自定义仍恢复此前人工顺序",
+      "expected": "After switching to another sort rule and back to Custom, the previous manual order is restored",
       "persistence": false,
       "multi_user": false,
       "id": "f11"
     },
     {
-      "name": "分组与多选行为",
+      "name": "Grouping and multi-select behavior",
       "steps": [
-        "为条目设置分组",
-        "根据“多选分组”等行为配置决定是否可同时选择多个分组",
-        "变更分组后主列表中的组织关系同步更新",
-        "条目不会因分组变化被复制"
+        "Assign a group to an entry",
+        "Whether several groups can be selected at once depends on behavior settings such as \"multi-select grouping\"",
+        "After changing groups, the organization in the main list updates accordingly",
+        "Entries are not duplicated because of group changes"
       ],
-      "expected": "条目不会因分组变化被复制",
+      "expected": "Entries are not duplicated because of group changes",
       "persistence": false,
       "multi_user": false,
       "id": "f12"
     },
     {
-      "name": "条目复制交互",
+      "name": "Entry copy interaction",
       "steps": [
-        "点击验证码条目",
-        "根据“点击显示 / 复制时最小化 / 复制令牌到剪贴板 / 触觉反馈”等行为设置执行复制",
-        "剪贴板获得当前验证码",
-        "必要时产生震动或页面最小化",
-        "OTP 数据本身不被改变"
+        "Tap a verification-code entry",
+        "Perform the copy according to behavior settings such as \"reveal on tap / minimize on copy / copy token to clipboard / haptic feedback\"",
+        "The clipboard receives the current verification code",
+        "Vibration or page minimization occurs when applicable",
+        "The OTP data itself is not modified"
       ],
-      "expected": "OTP 数据本身不被改变",
+      "expected": "The OTP data itself is not modified",
       "persistence": false,
       "multi_user": false,
       "id": "f13"
     },
     {
-      "name": "条目显示与隐私行为",
+      "name": "Entry display and privacy behavior",
       "steps": [
-        "开启/关闭“点击显示”等安全/行为设置",
-        "验证码默认隐藏或显示",
-        "点击条目后临时显示验证码",
-        "若配置显示时限，到期重新隐藏",
-        "再次进入页面遵循同一规则"
+        "Enable/disable security and behavior settings such as \"reveal on tap\"",
+        "The verification code is hidden or shown by default",
+        "Tapping the entry temporarily reveals the code",
+        "If a display timeout is configured, the code is hidden again when it expires",
+        "Re-entering the page follows the same rule"
       ],
-      "expected": "再次进入页面遵循同一规则",
+      "expected": "Re-entering the page follows the same rule",
       "persistence": true,
       "multi_user": false,
       "id": "f14"
     },
     {
-      "name": "外观与条目视觉配置",
+      "name": "Appearance and entry visual configuration",
       "steps": [
-        "修改主题、动态色彩、语言、视图模式、显示图标、提前显示下一组代码、代码即将过期提示、验证码分组方式、账户名称位置等配置",
-        "返回列表",
-        "所有条目按照新配置统一渲染",
-        "数据内容不改变"
+        "Change settings such as theme, dynamic color, language, view mode, icon display, showing the next group early, expiring-code warning, code grouping, and account-name position",
+        "Return to the list",
+        "All entries are rendered uniformly according to the new configuration",
+        "The data content does not change"
       ],
-      "expected": "数据内容不改变",
+      "expected": "The data content does not change",
       "persistence": false,
       "multi_user": false,
       "id": "f15"
     },
     {
-      "name": "数据库加密与解锁",
+      "name": "Database encryption and unlock",
       "steps": [
-        "在“安全”中启用数据库加密",
-        "设置密码/生物识别验证要求",
-        "重新进入应用时必须通过对应认证后才能读取验证条目",
-        "认证失败不能泄露密钥或验证码"
+        "Enable database encryption under \"Security\"",
+        "Set the password/biometric verification requirement",
+        "When re-entering the app, verification entries can only be read after passing the corresponding authentication",
+        "A failed authentication must not leak keys or verification codes"
       ],
-      "expected": "认证失败不能泄露密钥或验证码",
+      "expected": "A failed authentication must not leak keys or verification codes",
       "persistence": true,
       "multi_user": false,
       "id": "f16"
     },
     {
-      "name": "屏幕安全",
+      "name": "Screen security",
       "steps": [
-        "开启“屏幕安全”",
-        "应用进入受保护状态",
-        "截图或系统级画面捕获行为受到限制",
-        "关闭该设置后恢复正常",
-        "该设置跨重启保持"
+        "Enable \"Screen security\"",
+        "The app enters a protected state",
+        "Screenshots or system-level screen-capture behavior is restricted",
+        "Disabling the setting restores normal behavior",
+        "The setting persists across restarts"
       ],
-      "expected": "该设置跨重启保持",
+      "expected": "The setting persists across restarts",
       "persistence": true,
       "multi_user": false,
       "id": "f17"
     },
     {
-      "name": "导入与导出生命周期",
+      "name": "Import and export lifecycle",
       "steps": [
-        "进入“导入 & 导出”",
-        "可从文件导入、从其他验证器导入或导出数据库",
-        "成功导入后生成对应条目",
-        "导出后产生可再次导入的数据",
-        "重复导入时应避免静默破坏已有数据库"
+        "Open \"Import & Export\"",
+        "Can import from a file, import from another authenticator, or export the database",
+        "A successful import creates the corresponding entries",
+        "The export produces data that can be imported again",
+        "Repeated imports must not silently corrupt the existing database"
       ],
-      "expected": "重复导入时应避免静默破坏已有数据库",
+      "expected": "Repeated imports must not silently corrupt the existing database",
       "persistence": true,
       "multi_user": false,
       "id": "f18"
     },
     {
-      "name": "Google 身份验证器兼容导出",
+      "name": "Google Authenticator-compatible export",
       "steps": [
-        "选择“Google 身份验证器导出”",
-        "将 Aegis 中兼容的验证条目编码成二维码数据",
-        "用兼容流程重新导入",
-        "名称、服务商、密钥及 OTP 参数在可表示范围内保持一致"
+        "Select \"Google Authenticator export\"",
+        "Encode Aegis-compatible verification entries into QR-code data",
+        "Re-import using a compatible flow",
+        "Name, issuer, secret, and OTP parameters stay consistent within the representable range"
       ],
-      "expected": "名称、服务商、密钥及 OTP 参数在可表示范围内保持一致",
+      "expected": "Name, issuer, secret, and OTP parameters stay consistent within the representable range",
       "persistence": false,
       "multi_user": false,
       "id": "f19"
     },
     {
-      "name": "备份与审计日志",
+      "name": "Backups and audit log",
       "steps": [
-        "配置备份提醒/自动备份/Android 云备份",
-        "根据安全条件决定功能是否可用",
-        "发生重要应用事件后在“审计日志”中形成记录",
-        "无事件时显示“没有报告的事件”空状态",
-        "备份和日志状态重进页面后保持"
+        "Configure backup reminder / automatic backup / Android cloud backup",
+        "Whether a feature is available depends on the security conditions",
+        "After important app events, records are created in the \"Audit log\"",
+        "When there are no events, the \"No reported events\" empty state is shown",
+        "Backup and log state are preserved after re-entering the page"
       ],
-      "expected": "备份和日志状态重进页面后保持",
+      "expected": "Backup and log state are preserved after re-entering the page",
       "persistence": true,
       "multi_user": false,
       "id": "f20"

@@ -4,272 +4,272 @@
   "features": [
     {
       "id": "f01",
-      "name": "日历多视图与统一日期",
+      "name": "Calendar multi-view with a unified date",
       "steps": [
-        "状态在日视图、周视图、月视图、月视图+日视图、年视图、简单活动列表之间切换",
-        "当前日期保持一致",
-        "同一活动在所有适用视图中出现",
-        "从某视图打开活动后返回时仍回到合理日期上下文"
+        "Switch the state between the day view, week view, month view, month view + day view, year view, and simple event list",
+        "The current date stays consistent",
+        "The same event appears in all applicable views",
+        "After opening an event from a view and returning, the reasonable date context is restored"
       ],
-      "expected": "各视图必须共享同一日期与事件数据源，切换视图不能跳回今天或丢失当前日期；同一活动需在所有适用视图中出现；从活动详情返回后应回到原视图与原日期。",
+      "expected": "All views must share the same date and event data source, and switching views must not jump back to today or lose the current date; the same event must appear in all applicable views; after returning from the event details the original view and date are restored.",
       "persistence": false
     },
     {
       "id": "f02",
-      "name": "月份与日期导航",
+      "name": "Month and date navigation",
       "steps": [
-        "月视图通过左右箭头切换月份",
-        "跨年时年份正确变化",
-        "点击某天进入该日活动视图",
-        "使用“转到日期”直接选择年月",
-        "确认后所有视图定位到目标日期"
+        "The month view switches months with the left/right arrows",
+        "The year changes correctly across year boundaries",
+        "Tap a day to enter that day's event view",
+        "Use \"Go to date\" to pick the year and month directly",
+        "After confirming, all views jump to the target date"
       ],
-      "expected": "跨年翻月时年月必须正确联动（12 月后进入次年 1 月）；点击某天需进入该日活动视图；“转到日期”确认后所有视图定位到目标日期，取消则保持原位。",
+      "expected": "When paging months across a year boundary the year and month must link correctly (after December comes January of the next year); tapping a day must enter that day's event view; after confirming \"go to date\" all views jump to the target date, and cancelling keeps the current position.",
       "persistence": false
     },
     {
       "id": "f03",
-      "name": "普通活动完整生命周期",
+      "name": "Full lifecycle of an ordinary event",
       "steps": [
-        "点击 +",
-        "活动",
-        "输入标题、地点、描述",
-        "设置开始/结束日期时间、日历、颜色",
-        "保存",
-        "活动出现在对应日期",
-        "月视图显示摘要",
-        "日视图显示完整信息",
-        "编辑后所有视图同步",
-        "删除后所有视图同时消失"
+        "Tap +",
+        "Events",
+        "Enter the title, location, and description",
+        "Set the start/end date and time, calendar, and color",
+        "Save",
+        "The event appears on the corresponding date",
+        "The month view shows a summary",
+        "The day view shows the complete information",
+        "After editing, all views sync",
+        "After deletion it disappears from all views at the same time"
       ],
-      "expected": "保存后活动必须出现在所选日期的全部视图且信息一致；编辑需同步到所有视图而非生成副本；删除后各视图与搜索同时消失；结束早于开始等非法时间应被拒绝。",
+      "expected": "After saving, the event must appear in all views of the selected date with consistent information; editing must sync to all views rather than creating copies; after deletion it disappears from all views and search at the same time; invalid times such as an end before the start should be rejected.",
       "persistence": false
     },
     {
       "id": "f04",
-      "name": "全天活动与定时活动转换",
+      "name": "Converting between all-day and timed events",
       "steps": [
-        "创建普通定时活动",
-        "开启“全天”后时间输入转换为日期范围",
-        "保存后在日/周视图顶部区域呈现",
-        "再编辑为定时活动",
-        "恢复明确起止时间，且日期范围不发生错误偏移"
+        "Create an ordinary timed event",
+        "After enabling \"all-day\" the time input converts to a date range",
+        "After saving it appears at the top area of the day/week views",
+        "Then edit it into a timed event",
+        "The explicit start and end times are restored without incorrect date-range shifts"
       ],
-      "expected": "全天活动必须按日期范围存储并显示在视图顶部，不能带具体时刻；两种类型来回切换时日期与结束日不能偏移或丢失；各视图显示类型保持一致。",
+      "expected": "All-day events must be stored as a date range and displayed at the top of the view without a specific time; when switching between the two types the date and end date must not shift or be lost; the displayed type is consistent across views.",
       "persistence": false
     },
     {
       "id": "f05",
-      "name": "跨日活动",
+      "name": "Cross-day events",
       "steps": [
-        "创建例如 23:00–次日 01:00 的活动",
-        "月/日/周视图正确覆盖两个日期",
-        "开启“在顶部栏显示跨越午夜的活动”后周视图布局随设置变化",
-        "编辑结束时间后占用区间重新计算"
+        "Create an event such as 23:00–01:00 the next day",
+        "The month/day/week views correctly cover both dates",
+        "After enabling \"show cross-midnight events in the top bar\" the week-view layout changes with the setting",
+        "After editing the end time the occupied interval is recomputed"
       ],
-      "expected": "跨午夜活动必须在两个日期上都被标出且时长计算正确（23:00→01:00 约 2 小时）；顶部栏显示开关需真实改变周视图呈现；修改结束时间后跨天区间同步重算。",
+      "expected": "A cross-midnight event must be marked on both dates with a correct duration (23:00→01:00 is about 2 hours); the top-bar display toggle must genuinely change the week-view presentation; after editing the end time the cross-day interval is recomputed in sync.",
       "persistence": false
     },
     {
       "id": "f06",
-      "name": "重复活动状态机",
+      "name": "Recurring-event state machine",
       "steps": [
-        "创建活动",
-        "设置每日/每周/每月或自定义重复规则",
-        "系统生成后续 occurrence",
-        "打开其中一个实例",
-        "修改单次实例或整个系列时产生不同结果",
-        "删除单次 occurrence 不应删除整个系列"
+        "Create an event",
+        "Set a daily/weekly/monthly or custom recurrence rule",
+        "The system generates future occurrences",
+        "Open one of the instances",
+        "Modifying a single instance or the whole series produces different results",
+        "Deleting a single occurrence must not delete the whole series"
       ],
-      "expected": "修改单次实例只影响该次，修改整个系列才影响全部后续；删除单次 occurrence 不能删除系列；重复规则需持久化并在各视图正确展开后续实例。",
+      "expected": "Modifying a single instance affects only that occurrence while modifying the whole series affects all future ones; deleting a single occurrence must not delete the series; the recurrence rule must persist and expand future instances correctly in all views.",
       "persistence": false
     },
     {
       "id": "f07",
-      "name": "重复活动日期边界",
+      "name": "Recurring-event date boundaries",
       "steps": [
-        "创建“每周”“每月第 N 个星期”等重复活动",
-        "跨月、跨年继续计算",
-        "改变“一周开始于”不应破坏已存重复规则",
-        "月份天数不同的情况下 occurrence 仍落在合理日期"
+        "Create recurring events such as \"weekly\" and \"the Nth weekday of each month\"",
+        "Calculations continue across months and years",
+        "Changing \"week starts on\" must not break the stored recurrence rules",
+        "The occurrence still falls on a reasonable date when months have different numbers of days"
       ],
-      "expected": "重复实例必须按规则跨月跨年连续生成，日期始终合法（如每月 31 日在短月中不能产生非法日期）；修改“一周开始于”不能破坏已保存的重复规则。",
+      "expected": "Recurring instances must be generated continuously across months and years according to the rule with always-valid dates (e.g. the 31st of each month must not produce an invalid date in shorter months); changing \"week starts on\" must not break the stored recurrence rules.",
       "persistence": false
     },
     {
       "id": "f08",
-      "name": "活动多提醒与通知调度",
+      "name": "Multiple event reminders and notification scheduling",
       "steps": [
-        "创建活动",
-        "设置“10 分钟前”提醒",
-        "添加第二个不同时间提醒",
-        "保存",
-        "到达各提醒时间分别触发",
-        "修改活动时间后提醒触发时间同步重新计算",
-        "删除活动后相关提醒取消"
+        "Create an event",
+        "Set a \"10 minutes before\" reminder",
+        "Add a second reminder at a different time",
+        "Save",
+        "Each reminder triggers at its own time",
+        "After changing the event time the notification trigger times are recomputed in sync",
+        "After deleting an event the related reminders are cancelled"
       ],
-      "expected": "多个提醒必须各自在设定时间触发且互不覆盖；修改活动时间后提醒时间需重新计算；删除活动必须取消其全部提醒，不能残留通知。",
+      "expected": "Multiple reminders must each trigger at their set times without overriding one another; after changing the event time the reminder times must be recomputed; deleting an event must cancel all its reminders without leaving stray notifications.",
       "persistence": false
     },
     {
       "id": "f09",
-      "name": "提醒行为全局配置",
+      "name": "Global reminder-behavior configuration",
       "steps": [
-        "修改提醒声音流、振动、循环提醒直到关闭、统一延迟时间、延迟时长等",
-        "后续通知使用新规则",
-        "对通知执行延迟后按配置重新提醒",
-        "重启后配置保持"
+        "Change the notification sound stream, vibration, repeating notifications until dismissed, uniform delay time, delay duration, etc.",
+        "Subsequent notifications use the new rules",
+        "After a delay is applied to the notification it reminds again according to the configuration",
+        "The configuration is preserved after a restart"
       ],
-      "expected": "全局提醒设置必须作用于之后创建的活动提醒；执行延迟后需按配置的时间再次提醒；配置跨重启持久化，各选项不能互相覆盖。",
+      "expected": "Global reminder settings must apply to notifications of events created afterwards; after a delay is applied it must notify again at the configured time; the configuration persists across restarts and the options must not override one another.",
       "persistence": true
     },
     {
       "id": "f10",
-      "name": "新活动默认值",
+      "name": "New-event defaults",
       "steps": [
-        "设置默认开始时间、默认时长、默认日历，并开启“使用上一活动的提醒作为新活动默认值”",
-        "创建新活动",
-        "表单自动带入相应默认值",
-        "用户覆盖后仅本次改变，之后创建仍按配置规则初始化"
+        "Set the default start time, default duration, and default calendar, and enable \"use the previous event's reminders as the new event's defaults\"",
+        "Create a new event",
+        "The form automatically carries the corresponding default values",
+        "A user override changes only this instance; later creations still initialize from the configured rules"
       ],
-      "expected": "新活动表单必须按配置预填开始时间、时长与日历；用户本次覆盖不能写回默认配置；开启继承后新活动应带出上一条活动的提醒设置。",
+      "expected": "The new-event form must prefill the start time, duration, and calendar according to the configuration; a one-time user override must not be written back to the defaults; with inheritance enabled, a new event should carry over the previous event's reminder settings.",
       "persistence": false
     },
     {
       "id": "f11",
-      "name": "任务创建与完成生命周期",
+      "name": "Task creation and completion lifecycle",
       "steps": [
         "+",
-        "任务",
-        "输入标题、描述",
-        "设置日期/时间、提醒、重复、日历和任务颜色",
-        "保存",
-        "任务出现在对应日期",
-        "标记完成",
-        "状态变为完成",
-        "根据“淡化已完成任务”设置改变表现",
-        "重新打开仍保持完成状态"
+        "Tasks",
+        "Enter the title and description",
+        "Set the date/time, reminders, recurrence, calendar, and task color",
+        "Save",
+        "The task appears on the corresponding date",
+        "Mark as complete",
+        "The state becomes completed",
+        "The presentation changes according to the \"dim completed tasks\" setting",
+        "The completed state is preserved after reopening"
       ],
-      "expected": "任务完成后状态需持久化并可在视图中辨识；“淡化已完成任务”开关应真实改变显示；重新打开或重启后完成状态不能丢失。",
+      "expected": "After a task is completed its state must persist and be identifiable in the views; the \"dim completed tasks\" toggle should genuinely change the display; the completion state must not be lost after reopening or restarting.",
       "persistence": true
     },
     {
       "id": "f12",
-      "name": "重复任务与任务提醒",
+      "name": "Recurring tasks and task reminders",
       "steps": [
-        "创建周期任务",
-        "设置重复规则及提醒",
-        "完成当前 occurrence",
-        "后续 occurrence 仍按规则存在",
-        "当前实例完成状态不应把整个重复系列永久完成",
-        "到期提醒随对应任务实例触发"
+        "Create a recurring task",
+        "Set the recurrence rule and reminders",
+        "Complete the current occurrence",
+        "The future occurrences still exist according to the rule",
+        "Completing the current instance must not permanently complete the whole recurring series",
+        "Due reminders trigger with the corresponding task instance"
       ],
-      "expected": "完成一次实例只能标记该次，后续实例必须继续存在；任务提醒需随对应实例时间触发；单次完成不能把整个重复系列永久标记完成。",
+      "expected": "Completing one instance may only mark that occurrence and future instances must continue to exist; task reminders must trigger at the corresponding instance's time; completing a single occurrence must not permanently mark the whole recurring series as done.",
       "persistence": false
     },
     {
       "id": "f13",
-      "name": "活动与任务并存",
+      "name": "Events and tasks coexist",
       "steps": [
-        "同一天同时创建活动和任务",
-        "两者均显示但保留各自类型",
-        "完成任务不改变 Event",
-        "删除活动不影响 Task",
-        "关闭“允许创建任务”后隐藏任务创建入口，但已有活动数据不受影响"
+        "Create an event and a task on the same day",
+        "Both are displayed while keeping their own types",
+        "Completing a task does not change the Event",
+        "Deleting an event does not affect Tasks",
+        "After disabling \"allow creating tasks\" the task-creation entry is hidden, but existing event data is unaffected"
       ],
-      "expected": "活动与任务必须保持独立类型与数据，操作一类不能影响另一类；关闭“允许创建任务”后入口隐藏但已有任务数据保留；两类对象在视图中可区分。",
+      "expected": "Events and tasks must keep independent types and data, and operating on one must not affect the other; after disabling \"allow creating tasks\" the entry is hidden but existing task data is kept; the two object types are distinguishable in the views.",
       "persistence": false
     },
     {
       "id": "f14",
-      "name": "多日历与颜色归属",
+      "name": "Multiple calendars and color ownership",
       "steps": [
-        "创建/管理多个本地日历",
-        "创建 Event/Task 时选择目标日历",
-        "每个日历拥有独立颜色或资源属性",
-        "修改对象所属日历后月/日视图颜色与分类同步改变",
-        "删除一个日历时按产品规则处理其条目"
+        "Create/manage multiple local calendars",
+        "Choose the target calendar when creating an Event/Task",
+        "Each calendar has its own color or resource attributes",
+        "After changing the calendar an object belongs to, the colors and categorization in the month/day views change in sync",
+        "When deleting a calendar, handle its entries according to the product rules"
       ],
-      "expected": "条目颜色必须由其所属日历派生，切换日历后颜色与分类立即更新；删除日历时其条目需按规则处理，不能遗留孤立数据；日历配置需持久化。",
+      "expected": "An entry's color must be derived from its calendar, and the color and categorization update immediately after switching calendars; when deleting a calendar its entries must be handled according to the rules without leaving orphaned data; the calendar configuration must persist.",
       "persistence": false
     },
     {
       "id": "f15",
-      "name": "活动与任务搜索",
+      "name": "Event and task search",
       "steps": [
-        "创建若干标题、地点、描述不同的 Event/Task",
-        "使用顶部搜索",
-        "查询标题得到匹配项",
-        "查询地点/描述得到相应结果",
-        "点击结果跳转到对应日期/对象",
-        "清空搜索恢复日历视图"
+        "Create several Events/Tasks with different titles, locations, and descriptions",
+        "Use the search at the top",
+        "Query by title to get matching results",
+        "Query by location/description to get the corresponding results",
+        "Tapping a result jumps to the corresponding date/object",
+        "Clearing the search restores the calendar view"
       ],
-      "expected": "搜索必须覆盖标题、地点、描述等字段并返回真实匹配项；点击结果需跳转到对应日期与对象；清空查询后恢复原日历视图状态。",
+      "expected": "The search must cover fields such as title, location, and description and return real matches; tapping a result must jump to the corresponding date and object; clearing the query restores the original calendar view state.",
       "persistence": false
     },
     {
       "id": "f16",
-      "name": "周/月视图显示配置",
+      "name": "Week/month view display configuration",
       "steps": [
-        "修改“一周开始于”、24 小时制、突出显示周末、显示第几周、显示网格、每天开始时间、自定义周视图天数等",
-        "返回日历",
-        "日期排列、周号、时间轴和布局按配置重新渲染",
-        "事件日期本身不改变"
+        "Change \"week starts on\", 24-hour format, highlight weekends, show week number, show grid, day start time, custom week-view days, etc.",
+        "Return to the calendar",
+        "The date arrangement, week numbers, timeline, and layout are re-rendered according to the configuration",
+        "The event date itself does not change"
       ],
-      "expected": "一周起始、24 小时制等设置必须真实改变日期排列与时间显示；事件日期与数据不能被显示配置改变；配置需持久化并在各视图一致生效。",
+      "expected": "Settings such as week start and 24-hour format must genuinely change the date arrangement and time display; event dates and data must not be changed by display settings; the configuration must persist and take effect consistently across views.",
       "persistence": false
     },
     {
       "id": "f17",
-      "name": "活动列表与历史窗口",
+      "name": "Event list and history window",
       "steps": [
-        "设置“显示过去的活动 1 天/更多”",
-        "简单活动列表根据窗口重新计算",
-        "开启显示描述/地点或“将活动描述替换为地点”后列表内容改变",
-        "原 Event 数据保持完整"
+        "Set \"show past events for 1 day/more\"",
+        "The simple event list is recomputed for the window",
+        "After enabling description/location display or \"replace the event description with the location\" the list content changes",
+        "The original event data stays intact"
       ],
-      "expected": "活动列表必须按历史窗口过滤，改变天数后列表范围同步变化；显示描述或地点等选项只改变呈现，不能修改或丢失原始活动数据。",
+      "expected": "The event list must be filtered by the history window, and changing the number of days updates the list range in sync; options such as showing the description or location only change the presentation and must not alter or lose the original event data.",
       "persistence": false
     },
     {
       "id": "f18",
-      "name": ".ics 导出 → 导入 Round Trip",
+      "name": ".ics export → import round trip",
       "steps": [
-        "创建多个普通活动、重复活动和任务",
-        "导出为 .ics",
-        "清理/使用新环境",
-        "从 .ics 导入",
-        "恢复标题、日期时间、描述、地点、重复规则、提醒等可表示字段",
-        "导入结果重新出现在正确日期。官方明确支持 .ics 导入导出，更新日志也记录了任务导入导出和 ICS 兼容修复。"
+        "Create several ordinary events, recurring events, and tasks",
+        "Export as .ics",
+        "Clean up / use a new environment",
+        "Import from .ics",
+        "Restore the representable fields such as title, date/time, description, location, recurrence rule, and reminders",
+        "The import result reappears on the correct dates. The official documentation explicitly supports .ics import/export, and the changelog also records task import/export and ICS compatibility fixes."
       ],
-      "expected": "导出必须生成有效 .ics 文件；导入后标题、时间、描述、地点、重复规则与提醒需与导出时一致并出现在正确日期；重复活动需按原规则重新展开。",
+      "expected": "The export must produce a valid .ics file; after importing, the titles, times, descriptions, locations, recurrence rules, and reminders must match the exported state and appear on the correct dates; recurring events must expand again according to the original rule.",
       "persistence": false
     },
     {
       "id": "f19",
-      "name": "自动备份与恢复",
+      "name": "Automatic backup and restore",
       "steps": [
-        "开启自动备份",
-        "产生备份后新增/修改/删除若干活动和任务",
-        "从旧备份恢复",
-        "数据回到备份时间点",
-        "视图、搜索结果和提醒计划根据恢复后的数据重新建立"
+        "Enable automatic backup",
+        "After creating the backup, add/modify/delete several events and tasks",
+        "Restore from an old backup",
+        "The data returns to the backup point in time",
+        "The views, search results, and reminder schedules are rebuilt from the restored data"
       ],
-      "expected": "恢复后活动与任务必须回到备份时间点的状态，备份之后的新增或删除不应残留；视图、搜索与提醒需基于恢复数据重建；备份文件需真实存在。",
+      "expected": "After restoring, the events and tasks must return to the backup point in time without leftovers from additions or deletions made afterwards; the views, search, and reminders must be rebuilt from the restored data; the backup file must genuinely exist.",
       "persistence": false
     },
     {
       "id": "f20",
-      "name": "CalDAV 日历同步",
+      "name": "CalDAV calendar sync",
       "steps": [
-        "启用 CalDAV",
-        "本地创建/修改活动",
-        "同步后远端日历获得更新",
-        "从远端新增/修改事件后再次同步",
-        "本地视图更新",
-        "重复事件和全天事件保持合理日期语义。官方明确支持 Google Calendar、Outlook、Nextcloud 等 CalDAV 日历。"
+        "Enable CalDAV",
+        "Create/modify events locally",
+        "After syncing, the remote calendar is updated",
+        "After adding/modifying events remotely, sync again",
+        "Local view update",
+        "Recurring and all-day events keep reasonable date semantics. The official documentation explicitly supports CalDAV calendars such as Google Calendar, Outlook, and Nextcloud."
       ],
-      "expected": "本地变更必须同步到远端且不产生重复事件；远端变更需在下次同步后反映到本地视图；重复与全天事件在同步往返后保持原日期语义。",
+      "expected": "Local changes must sync to the remote without creating duplicate events; remote changes must be reflected in the local views after the next sync; recurring and all-day events keep their original date semantics after a sync round trip.",
       "persistence": false
     }
   ]

@@ -14,6 +14,7 @@ WATCH = (
     ("mcp-android-baseline", "agents.android_baseline.mcp_server"),
     ("mcp-android-nograph", "agents.baseline_nograph.mcp_server"),
     ("mcp-web-baseline", "agents.cli_explorer.mcp_server"),
+    ("mcp-web-nograph", "agents.web_nograph.mcp_server"),
     ("mcp-app-review", "agents.app_review.mcp_server"),
     ("mcp-web-review", "agents.web_review.mcp_server"),
     ("emulator", "emulator.exe"),

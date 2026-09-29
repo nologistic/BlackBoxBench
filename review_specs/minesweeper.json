@@ -4,278 +4,278 @@
   "features": [
     {
       "id": "f01",
-      "name": "新游戏与基础棋盘初始化",
+      "name": "New game and basic board initialization",
       "steps": [
-        "启动 App",
-        "默认进入 Easy",
-        "显示未揭开的棋盘、剩余雷计数、计时器、中央表情",
-        "首次点击任意格子开始游戏"
+        "Launch the app",
+        "Default to Easy",
+        "Show the unrevealed board, remaining-mine count, timer, and center emoji",
+        "Tap any cell for the first time to start the game"
       ],
-      "expected": "Easy 截图明确为 9×9、10 雷；开始前计时应为 00:00；棋盘生成后地雷位置、数字和空白格必须相互一致；首次有效操作后开始计时",
+      "expected": "The Easy screenshot is explicitly 9×9 with 10 mines; the timer should be 00:00 before starting; after the board is generated the mine positions, numbers, and blank cells must be mutually consistent; timing starts after the first valid action",
       "persistence": false
     },
     {
       "id": "f02",
-      "name": "单格揭开与数字生成",
+      "name": "Single-cell reveal and number generation",
       "steps": [
-        "点击一个非雷格",
-        "显示该格内容",
-        "若周围存在地雷则显示数字 1–8",
-        "连续点击不同位置验证数字"
+        "Tap a non-mine cell",
+        "Show that cell's content",
+        "If there are surrounding mines a number 1–8 is shown",
+        "Tap different positions repeatedly to verify the numbers"
       ],
-      "expected": "数字必须等于该格周围最多 8 个相邻格中的地雷总数；不能随机显示数字；截图可见 1、2、3 等数字具有不同颜色",
+      "expected": "The number must equal the total mines in at most 8 neighboring cells; numbers must not be displayed randomly; the screenshot shows that numbers such as 1, 2, and 3 have different colors",
       "persistence": false
     },
     {
       "id": "f03",
-      "name": "空白区域连锁展开",
+      "name": "Chain expansion in the blank region",
       "steps": [
-        "点击一个周围没有地雷的空白格",
-        "自动展开连续的零雷区域",
-        "同时展开这些区域边界上的数字格"
+        "Tap a blank cell with no surrounding mines",
+        "Automatically expand connected zero-mine regions",
+        "Also expand the numbered cells on the boundaries of these regions"
       ],
-      "expected": "Minesweeper 最核心业务逻辑之一；需要 Flood Fill/BFS/DFS 式连锁展开；遇到有数字的边界格停止继续扩散，不能穿越地雷或旗帜",
+      "expected": "One of Minesweeper's most core pieces of business logic; requires Flood Fill/BFS/DFS-style chain expansion; it stops spreading at numbered boundary cells and must not pass through mines or flags",
       "persistence": false
     },
     {
       "id": "f04",
-      "name": "标记旗帜与取消旗帜",
+      "name": "Flag and unflag cells",
       "steps": [
-        "对未揭开的可疑格执行标记操作",
-        "显示旗帜",
-        "剩余雷计数相应变化",
-        "再次操作取消旗帜",
-        "计数恢复"
+        "Perform the marking operation on an unrevealed suspicious cell",
+        "Show the flags",
+        "The remaining-mine counter changes accordingly",
+        "Operate again to cancel the flag",
+        "The count is restored"
       ],
-      "expected": "旗帜只能用于未揭开格；旗帜格不能被普通揭开；标记/取消必须维护全局剩余雷计数；截图胜利棋盘中可见多处橙色旗帜",
+      "expected": "Flags may only be used on unrevealed cells; a flagged cell must not be revealed normally; flagging/unflagging must maintain the global remaining-mine count; the winning board in the screenshot shows several orange flags",
       "persistence": false
     },
     {
       "id": "f05",
-      "name": "正确完成一局游戏",
+      "name": "Correctly complete a game",
       "steps": [
-        "根据数字逻辑逐步揭开安全格并标记雷",
-        "所有非雷格均被揭开",
-        "自动进入 You Win! 状态"
+        "Gradually reveal safe cells and mark mines according to the number logic",
+        "All non-mine cells are revealed",
+        "Automatically enter the \"You Win!\" state"
       ],
-      "expected": "胜利条件应基于所有安全格已揭开，而不是单纯旗帜数等于地雷数；胜利后中央表情切换为 😎，出现绿色 You Win! 条幅，计时冻结，棋盘保持最终状态",
+      "expected": "The win condition should be based on all safe cells being revealed rather than simply the number of flags equalling the number of mines; after winning the center emoji switches to 😎, a green \"You Win!\" banner appears, the timer freezes, and the board keeps its final state",
       "persistence": true
     },
     {
       "id": "f06",
-      "name": "踩雷与失败状态",
+      "name": "Mine hit and failure state",
       "steps": [
-        "开始新局",
-        "连续揭格",
-        "点击实际地雷",
-        "显示爆炸格及其他雷位置",
-        "出现 Game Over"
+        "Start a new game",
+        "Reveal cells repeatedly",
+        "Tap an actual mine",
+        "Show the exploded cell and the other mine positions",
+        "Game Over appears"
       ],
-      "expected": "触雷后当前格显示明显爆炸效果，其他雷显示炸弹；中央表情变为失败状态；出现红色 Game Over 条幅；计时停止，之后不能继续正常揭格",
+      "expected": "After hitting a mine the current cell shows an obvious explosion and the other mines show bombs; the center emoji changes to the failure state; a red Game Over banner appears; the timer stops and no further normal revealing is possible",
       "persistence": false
     },
     {
       "id": "f07",
-      "name": "游戏中状态反馈与重新开始",
+      "name": "In-game state feedback and restarting",
       "steps": [
-        "开始游戏",
-        "进行若干操作",
-        "观察雷计数、计时和表情",
-        "点击顶部中央表情按钮重新开始",
-        "新棋盘恢复初始状态"
+        "Start the game",
+        "Perform several operations",
+        "Observe the mine count, timer, and emoji",
+        "Tap the emoji button in the top center to restart",
+        "The new board returns to the initial state"
       ],
-      "expected": "表情承担游戏状态与 Restart 入口；重新开始后需重置计时、格子、旗帜、剩余雷计数和胜负状态；不能残留上一局数据",
+      "expected": "The emoji carries the game state and the Restart entry; after restarting the timer, cells, flags, remaining-mine count, and win/lose state must be reset; no data from the previous game may remain",
       "persistence": false
     },
     {
       "id": "f08",
-      "name": "Easy 预设难度",
+      "name": "Easy preset difficulty",
       "steps": [
-        "选择 Easy",
-        "开始并完成/失败一局",
-        "再次选择 Easy 开启另一局"
+        "Select Easy",
+        "Start and complete/fail a game",
+        "Select Easy again to start another game"
       ],
-      "expected": "截图明确 Easy 为 9×9 / 10 雷；不同新局的雷布局应重新生成；难度按钮选中态需要正确变化",
+      "expected": "The screenshot explicitly shows Easy as 9×9 / 10 mines; mine layouts must be regenerated for different new games; the difficulty button's selected state must change correctly",
       "persistence": false
     },
     {
       "id": "f09",
-      "name": "Medium / Hard 预设难度切换",
+      "name": "Medium / Hard preset difficulty switching",
       "steps": [
         "Easy",
-        "切换 Medium",
-        "验证棋盘尺寸和参数变化",
-        "开始一局",
-        "再切换 Hard",
-        "验证更大棋盘/更高复杂度"
+        "Switch to Medium",
+        "Verify the board size and parameter changes",
+        "Start a game",
+        "Then switch to Hard",
+        "Verify a larger board/higher complexity"
       ],
-      "expected": "三档预设不能只是修改标题；棋盘尺寸、雷密度或规则参数必须随难度切换；切换难度时应开启对应的新局并重置游戏状态",
+      "expected": "The three presets must not merely change the title; the board size, mine density, or rule parameters must switch with the difficulty; switching difficulty should start the corresponding new game and reset the game state",
       "persistence": false
     },
     {
       "id": "f10",
-      "name": "不同难度下核心规则一致性",
+      "name": "Core rule consistency across difficulties",
       "steps": [
-        "分别在 Easy、Medium、Hard 进行揭格、旗帜、空白扩散、踩雷和获胜操作"
+        "Perform reveal, flag, blank expansion, mine-hit, and win operations on Easy, Medium, and Hard respectively"
       ],
-      "expected": "不论棋盘尺寸如何，邻雷计数、连锁展开、旗帜和胜负逻辑必须一致；大棋盘不能出现边界越界或邻居统计错误",
+      "expected": "Regardless of board size, the adjacent-mine counts, chain expansion, flags, and win/lose logic must be consistent; a large board must not have out-of-bounds errors or neighbor-count mistakes",
       "persistence": false
     },
     {
       "id": "f11",
-      "name": "Custom 自定义棋盘",
+      "name": "Custom custom board",
       "steps": [
-        "点击 Custom",
-        "打开 Custom Game",
-        "修改 Grid size",
-        "修改 Mines 数量/比例",
+        "Tap Custom",
+        "Open Custom Game",
+        "Change the Grid size",
+        "Change the Mines count/density",
         "Start",
-        "生成对应棋盘"
+        "Generate the corresponding board"
       ],
-      "expected": "截图明确支持自定义 Grid size 与 Mines；示例为 20×20、40 雷（10%）；生成棋盘的实际格数、雷数必须与配置一致",
+      "expected": "The screenshot explicitly supports custom Grid size and Mines; the example is 20×20 with 40 mines (10%); the generated board's actual cell count and mine count must match the configuration",
       "persistence": false
     },
     {
       "id": "f12",
-      "name": "Custom 参数联动与边界约束",
+      "name": "Custom parameter linkage and boundary constraints",
       "steps": [
-        "在 Custom 中逐步改变棋盘尺寸",
-        "改变地雷数量",
-        "观察雷百分比",
-        "尝试较小/较大配置",
-        "启动游戏"
+        "Gradually change the board size in Custom",
+        "Change the mine count",
+        "Observe the mine percentage",
+        "Try smaller/larger configurations",
+        "Start the game"
       ],
-      "expected": "雷数与百分比需要正确联动；必须避免雷数 ≥ 总格数等非法配置；滑杆、数值显示和最终生成结果必须一致",
+      "expected": "The mine count and percentage must link correctly; illegal configurations such as mines ≥ total cells must be avoided; the slider, the numeric display, and the final generated result must be consistent",
       "persistence": false
     },
     {
       "id": "f13",
-      "name": "Safe first tap 安全首击",
+      "name": "Safe first tap",
       "steps": [
         "Custom",
-        "开启 Safe first tap",
-        "开始多局",
-        "每局第一次点击不同格子",
-        "验证第一次点击不会立即踩雷"
+        "Enable Safe first tap",
+        "Start several games",
+        "Click a different cell for the first tap in each game",
+        "Verify that the first tap does not immediately hit a mine"
       ],
-      "expected": "这是非常好的 benchmark 状态逻辑。不能简单在 UI 上显示开关；生成/调整雷区时必须保证首个被点击格安全，同时其余棋盘仍保持设定雷数",
+      "expected": "This is excellent benchmark state logic. It must not merely show a switch in the UI; when generating/adjusting the minefield the first clicked cell must be safe while the rest of the board keeps the configured mine count",
       "persistence": true
     },
     {
       "id": "f14",
-      "name": "关闭 Safe first tap 的行为",
+      "name": "Behavior with Safe first tap disabled",
       "steps": [
         "Custom",
-        "关闭 Safe first tap",
-        "开始多局",
-        "首次点击不再受到强制保护"
+        "Disable Safe first tap",
+        "Start several games",
+        "The first tap is no longer force-protected"
       ],
-      "expected": "开关关闭后不能继续偷偷套用首击保护；同时仍需满足正常随机布雷逻辑",
+      "expected": "After the toggle is disabled the first-tap protection must not continue to be applied secretly; normal random mine placement logic must still be satisfied",
       "persistence": true
     },
     {
       "id": "f15",
-      "name": "Fog of War 自定义规则",
+      "name": "Fog of War custom rules",
       "steps": [
         "Custom",
-        "开启 Fog of War",
-        "开始游戏",
-        "揭开部分区域",
-        "比较普通模式与 Fog 模式的显示/信息可见性",
-        "再关闭后重试"
+        "Enable Fog of War",
+        "Start the game",
+        "Reveal part of the region",
+        "Compare the display/information visibility between normal mode and Fog mode",
+        "Retry after closing again"
       ],
-      "expected": "重点测试规则开关真正影响棋盘显示和交互状态；不能只是持久化一个布尔值。具体视觉表现按目标 App 实际可观察结果复刻",
+      "expected": "Focus on verifying that the rule toggles genuinely affect the board display and interaction state; merely persisting a boolean is not enough. The specific visual presentation is reproduced per the target app's actual observable results",
       "persistence": true
     },
     {
       "id": "f16",
-      "name": "Custom 组合配置",
+      "name": "Custom combination configuration",
       "steps": [
-        "设置较大 Grid",
-        "调整较高/较低雷密度",
-        "同时组合 Fog of War 与 Safe first tap",
-        "开始",
-        "完成部分游戏流程"
+        "Set a larger Grid",
+        "Adjust to a higher/lower mine density",
+        "Combine Fog of War with Safe first tap",
+        "Start",
+        "Complete part of the gameplay"
       ],
-      "expected": "多参数状态组合；需保证棋盘生成、首击保护、Fog 显示、邻雷计算和胜负条件共同工作，不能因规则叠加出现不一致",
+      "expected": "A multi-parameter state combination; board generation, first-tap protection, Fog display, adjacent-mine counting, and the win/lose conditions must all work together without inconsistency from the stacked rules",
       "persistence": false
     },
     {
       "id": "f17",
-      "name": "雷区随机生成正确性",
+      "name": "Random minefield generation correctness",
       "steps": [
-        "使用相同难度连续重新开始多局",
-        "比较地雷布局",
-        "对每一局随机抽查多个数字格与实际周围地雷"
+        "Restart several games in a row with the same difficulty",
+        "Compare the mine layouts",
+        "Randomly spot-check several numbered cells against the actual surrounding mines in each game"
       ],
-      "expected": "每局应生成新的有效布局；总雷数固定；数字必须从本局实际雷位置计算，而不是使用预制视觉模板",
+      "expected": "Each game should generate a new valid layout; the total mine count is fixed; the numbers must be computed from that game's actual mine positions rather than using a pre-made visual template",
       "persistence": false
     },
     {
       "id": "f18",
-      "name": "边界 / 角落邻雷计算",
+      "name": "Boundary / corner adjacent-mine computation",
       "steps": [
-        "构造或随机找到角格、边缘格、内部格",
-        "分别揭开",
-        "对照周围地雷数量"
+        "Construct or randomly find corner, edge, and interior cells",
+        "Reveal separately",
+        "Check against the surrounding mine count"
       ],
-      "expected": "角落最多只有 3 个邻居，边缘最多 5 个，内部最多 8 个；非常适合检测复现实现中数组越界和 neighbor enumeration 错误",
+      "expected": "A corner has at most 3 neighbors, an edge at most 5, and the interior at most 8; this is excellent for detecting array-out-of-bounds and neighbor-enumeration errors in the reproduction",
       "persistence": false
     },
     {
       "id": "f19",
-      "name": "Flag 与揭格冲突状态",
+      "name": "Flag and reveal conflict state",
       "steps": [
-        "标记某格为旗帜",
-        "尝试普通揭开",
-        "应保持旗帜",
-        "取消旗帜后再揭开",
-        "正常展示格子内容"
+        "Mark a cell as flagged",
+        "Try a normal reveal",
+        "The flag should be preserved",
+        "Reveal after cancelling the flag",
+        "Cell contents are displayed normally"
       ],
-      "expected": "测试同一 Cell 的状态机：Hidden → Flagged → Hidden → Revealed；不能同时处于 Flagged 与 Revealed",
+      "expected": "Test the same cell's state machine: Hidden → Flagged → Hidden → Revealed; it must not be Flagged and Revealed at the same time",
       "persistence": false
     },
     {
       "id": "f20",
-      "name": "胜负状态锁定",
+      "name": "Win/lose state locking",
       "steps": [
-        "赢得一局",
-        "再点击棋盘；输掉一局",
-        "再点击棋盘",
-        "分别验证游戏不会继续发生逻辑变化",
-        "Restart 后恢复"
+        "Win a game",
+        "Then tap the board; lose a game",
+        "Then tap the board",
+        "Verify separately that the game no longer changes logically",
+        "Restored after Restart"
       ],
-      "expected": "Win/Lose 均属于终止状态；Timer 应冻结；不能在 Game Over 后继续移动旗帜或揭开格子导致二次胜利",
+      "expected": "Both Win and Lose are terminal states; the timer should freeze; after Game Over the user must not continue flagging or revealing to cause a second win",
       "persistence": false
     },
     {
       "id": "f21",
-      "name": "大棋盘性能与交互",
+      "name": "Large-board performance and interaction",
       "steps": [
-        "Custom 选择 20×20 / 40 mines 或较大配置",
-        "快速连续揭格/标记",
-        "触发空白连锁展开",
-        "继续操作"
+        "Custom select 20×20 / 40 mines or a larger configuration",
+        "Fast repeated reveal/flag",
+        "Trigger the blank chain expansion",
+        "Continue operating"
       ],
-      "expected": "测试复现 App 在数百格状态下的渲染和状态更新；Flood Fill、邻雷计算和全局胜负检测不应明显卡顿或遗漏",
+      "expected": "Test the reproduction app's rendering and state updates with hundreds of cells; Flood Fill, adjacent-mine counting, and global win/lose detection should not noticeably lag or be missed",
       "persistence": false
     },
     {
       "id": "f22",
-      "name": "完整综合游戏流程",
+      "name": "Complete comprehensive gameplay flow",
       "steps": [
-        "Easy 新局",
-        "展开空白区域",
-        "标旗",
-        "故意失败",
+        "New Easy game",
+        "Expand the blank region",
+        "Flag",
+        "Fail on purpose",
         "Restart",
-        "成功通关",
+        "Successfully complete the level",
         "Medium",
         "Hard",
         "Custom 20×20 + Safe first tap",
-        "开始新局"
+        "Start a new game"
       ],
-      "expected": "最适合作为综合 E2E：一次验证棋盘生成、数字计算、Flood Fill、旗帜、计时、雷计数、Lose、Restart、Win、难度切换、自定义参数和状态重置",
+      "expected": "Best used as a comprehensive E2E: verify board generation, number computation, Flood Fill, flags, timing, mine count, Lose, Restart, Win, difficulty switching, custom parameters, and state reset in one pass",
       "persistence": false
     }
   ]

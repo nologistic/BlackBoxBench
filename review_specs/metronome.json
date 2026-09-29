@@ -4,308 +4,308 @@
   "features": [
     {
       "id": "f01",
-      "name": "基础节拍器启动与停止",
+      "name": "Basic metronome start and stop",
       "steps": [
-        "保持默认参数",
-        "点击底部播放按钮",
-        "连续运行若干拍",
-        "观察顶部节拍圆点与声音",
-        "再次点击停止"
+        "Keep the default parameters",
+        "Tap the play button at the bottom",
+        "Run continuously for several beats",
+        "Observe the top beat dots and the sound",
+        "Tap stop again"
       ],
-      "expected": "播放后必须按照当前 BPM 周期性发声；顶部节拍可视化同步变化；停止后声音立即停止并重置/冻结当前节拍状态；不能出现重复计时器导致越来越快",
+      "expected": "After starting it must sound periodically at the current BPM; the top beat visualization changes in sync; after stopping the sound stops immediately and the current beat state is reset/frozen; duplicate timers causing acceleration must not occur",
       "persistence": false
     },
     {
       "id": "f02",
-      "name": "调整 BPM 滑杆",
+      "name": "Adjust the BPM slider",
       "steps": [
-        "默认 BPM 80",
-        "拖动“每分钟节奏”滑杆提高至另一值",
-        "启动节拍器",
-        "再降低 BPM",
-        "比较实际节奏"
+        "Default BPM 80",
+        "Drag the \"beats per minute\" slider to another value",
+        "Start the metronome",
+        "Then lower the BPM",
+        "Compare the actual tempo"
       ],
-      "expected": "BPM 数字与滑杆位置双向同步；改变 BPM 后音频间隔必须随之改变；例如 120 BPM 理论主拍周期约 0.5 秒；不能只更新数字而不更新计时器",
+      "expected": "The BPM number and the slider position sync in both directions; after changing the BPM the audio interval must change accordingly; e.g. 120 BPM implies a main beat period of about 0.5 seconds; updating only the number without updating the timer is not allowed",
       "persistence": false
     },
     {
       "id": "f03",
-      "name": "直接输入 BPM",
+      "name": "Direct BPM input",
       "steps": [
-        "点击右侧 BPM 数值框",
-        "调出数字键盘",
-        "输入目标 BPM",
-        "确认",
-        "启动节拍器"
+        "Tap the BPM number box on the right",
+        "Bring up the numeric keypad",
+        "Enter the target BPM",
+        "Confirm",
+        "Start the metronome"
       ],
-      "expected": "文本框、滑杆、实际播放速度三者必须一致；输入完成后键盘正确关闭；重新进入输入框显示当前值",
+      "expected": "The text box, slider, and actual playback speed must agree; the keyboard closes correctly after input completes; re-entering the input box shows the current value",
       "persistence": true
     },
     {
       "id": "f04",
-      "name": "BPM 加减微调",
+      "name": "BPM increment/decrement fine tuning",
       "steps": [
-        "设置一个中间 BPM",
-        "连续点击 + 多次",
-        "验证 BPM 逐步增加",
-        "连续点击 −",
-        "验证减少",
-        "启动播放"
+        "Set a medium BPM",
+        "Tap + several times",
+        "Verify that the BPM increases gradually",
+        "Tap − several times",
+        "Verify the decrease",
+        "Start playback"
       ],
-      "expected": "每次点击改变固定步长；数字、滑杆及实际速度同步更新；接近上下限时不能越界",
+      "expected": "Each tap changes by a fixed step; the number, slider, and actual speed update in sync; the bounds must not be exceeded near the limits",
       "persistence": false
     },
     {
       "id": "f05",
-      "name": "Tap Tempo 敲击测速",
+      "name": "Tap Tempo tapping speed measurement",
       "steps": [
-        "点击中间鼓形 Tap Tempo 按钮",
-        "按稳定节奏连续敲击多次",
-        "观察 BPM 自动改变",
-        "以更快/更慢节奏重新敲击"
+        "Tap the drum-shaped Tap Tempo button in the middle",
+        "Tap repeatedly at a steady tempo",
+        "Observe the BPM changing automatically",
+        "Tap again at a faster/slower tempo"
       ],
-      "expected": "根据相邻或近期敲击时间间隔推算 BPM；多次敲击后数值应趋近人工节奏；过长停顿后应重新建立 Tap 序列；公开功能说明明确包含 Tap Tempo。F-Droid",
+      "expected": "Derive the BPM from the intervals between adjacent or recent taps; after several taps the value should approach the human tempo; after a long pause the Tap sequence should be re-established; the public feature description explicitly includes Tap Tempo. F-Droid",
       "persistence": false
     },
     {
       "id": "f06",
-      "name": "调整每小节拍数",
+      "name": "Adjust the beats per bar",
       "steps": [
-        "将“拍子”从默认 4 调整到其他值",
-        "观察顶部圆点数量变化",
-        "启动播放",
-        "完整播放多个小节"
+        "Change \"beats\" from the default 4 to another value",
+        "Observe the change in the number of top dots",
+        "Start playback",
+        "Play several complete bars"
       ],
-      "expected": "顶部圆点数量应随拍数变化；每个小节严格循环 1 → 2 → … → N → 1；第一拍与后续拍状态需要明确区分；修改过程中不能产生多拍/漏拍",
+      "expected": "The number of top dots should change with the beat count; each bar strictly cycles 1 → 2 → … → N → 1; the first beat must be clearly distinguished from the subsequent beats; extra or missed beats must not occur during modification",
       "persistence": false
     },
     {
       "id": "f07",
-      "name": "拍数直接输入",
+      "name": "Direct beat-count input",
       "steps": [
-        "点击“拍子”右侧数值框",
-        "输入其他有效数字",
-        "确认",
-        "查看滑杆与顶部圆点",
-        "启动播放"
+        "Tap the number box to the right of \"beats\"",
+        "Enter another valid number",
+        "Confirm",
+        "View the slider and the top dots",
+        "Start playback"
       ],
-      "expected": "输入、滑杆和可视化拍数同步；非法值/超范围值必须限制或拒绝；截图中的数值框属于可编辑输入而非静态标签",
+      "expected": "The input, slider, and visualized beat count sync; illegal/out-of-range values must be limited or rejected; the number box in the screenshot is an editable input rather than a static label",
       "persistence": false
     },
     {
       "id": "f08",
-      "name": "调整小节/细分参数",
+      "name": "Adjust the bar/subdivision parameters",
       "steps": [
-        "修改“小节”滑杆或数值",
-        "设为不同于默认值的参数",
-        "启动播放",
-        "与默认值比较节奏结构"
+        "Change the \"bar\" slider or value",
+        "Set parameters different from the defaults",
+        "Start playback",
+        "Compare the rhythm structure with the default value"
       ],
-      "expected": "该参数需要真实作用于节拍结构，而不是仅显示数值；公开功能说明确认应用支持 adjustable subdivisions，因此复现时需要覆盖不同细分状态。GitHub",
+      "expected": "This parameter must genuinely affect the beat structure rather than only displaying a value; the public feature description confirms that the app supports adjustable subdivisions, so the reproduction must cover different subdivision states. GitHub",
       "persistence": false
     },
     {
       "id": "f09",
-      "name": "拍子与细分组合",
+      "name": "Beat and subdivision combination",
       "steps": [
-        "分别设置多组“拍子 + 小节/细分”组合，例如低拍数+低细分、高拍数+多细分",
-        "每组运行完整多个循环"
+        "Set several \"beats + bars/subdivisions\" combinations, e.g. low beats + low subdivisions and high beats + many subdivisions",
+        "Run several complete loops for each group"
       ],
-      "expected": "两个参数存在组合状态；需要保证主拍、小节边界、细分声音和顶部可视化长期运行后仍不漂移；切换组合后旧调度器必须正确清理",
+      "expected": "There is a combined state of the two parameters; the main beats, bar boundaries, subdivision sounds, and the top visualization must not drift after long runs; after switching the combination the old scheduler must be cleaned up correctly",
       "persistence": false
     },
     {
       "id": "f10",
-      "name": "第一拍强调",
+      "name": "First-beat accent",
       "steps": [
-        "设置",
-        "开启“强调第一个拍子”",
-        "返回主页",
-        "设置多拍小节",
-        "播放多个完整小节",
-        "再关闭此选项比较"
+        "Settings",
+        "Enable \"emphasize the first beat\"",
+        "Return to the home page",
+        "Set a multi-beat bar",
+        "Play several complete bars",
+        "Then close this option to compare"
       ],
-      "expected": "每个小节的第 1 拍必须拥有明显不同的声音/强调，而不是只在第一次播放时强调；每次新小节都重新强调第 1 拍",
+      "expected": "The first beat of each bar must have a clearly different sound/accent rather than being accented only on the first playback; the first beat must be re-accented in every new bar",
       "persistence": false
     },
     {
       "id": "f11",
-      "name": "节拍视觉循环",
+      "name": "Beat visual loop",
       "steps": [
-        "设置 4 拍",
-        "开始播放",
-        "连续观察顶部 4 个圆点",
-        "等待多个小节",
-        "改成其他拍数再次播放"
+        "Set 4 beats",
+        "Start playback",
+        "Observe the top 4 dots continuously",
+        "Wait several bars",
+        "Change to another beat count and play again"
       ],
-      "expected": "当前拍的圆点状态逐拍移动；截图可见播放中圆点由实心/空心状态区分；声音和视觉不能错一拍；停止后状态合理恢复",
+      "expected": "The current beat's dot state moves beat by beat; the screenshot shows that dots are distinguished as filled/hollow while playing; the sound and visuals must not be off by one beat; the state is reasonably restored after stopping",
       "persistence": false
     },
     {
       "id": "f12",
-      "name": "音频与视觉严格同步",
+      "name": "Audio and visuals strictly synchronized",
       "steps": [
-        "选择明显 BPM",
-        "播放",
-        "同时观察圆点切换和监听 tick",
-        "连续运行较长时间"
+        "Select an obvious BPM",
+        "Play",
+        "Observe the dot switching and listen to the ticks at the same time",
+        "Run continuously for a longer time"
       ],
-      "expected": "每一次视觉拍点应对应一次实际声音事件；不能随着运行时间产生明显累积漂移；屏幕刷新与音频调度应解耦但保持同一时钟逻辑",
+      "expected": "Each visual beat should correspond to one actual sound event; no noticeable cumulative drift over runtime; the screen refresh and audio scheduling should be decoupled but share the same clock logic",
       "persistence": true
     },
     {
       "id": "f13",
-      "name": "播放过程中实时修改 BPM",
+      "name": "Change the BPM in real time during playback",
       "steps": [
-        "启动 80 BPM",
-        "不停止播放直接修改至 96 或其他值",
-        "继续运行",
-        "再修改"
+        "Start at 80 BPM",
+        "Modify to 96 or another value directly without stopping playback",
+        "Keep running",
+        "Modify again"
       ],
-      "expected": "新 BPM 应平滑接管下一拍/合理时间点；不能出现同时运行两套 BPM、短时间重复 tick、暂停很久或拍序错位",
+      "expected": "The new BPM should take over smoothly at the next beat/reasonable moment; running two BPMs at once, repeated ticks within a short time, long pauses, or a misplaced beat order must not occur",
       "persistence": false
     },
     {
       "id": "f14",
-      "name": "播放过程中修改拍数",
+      "name": "Change the beat count during playback",
       "steps": [
-        "启动 4 拍",
-        "播放至中间拍",
-        "将拍数改为其他值",
-        "观察顶部圆点和下一小节"
+        "Start with 4 beats",
+        "Play to the middle beat",
+        "Change the beat count to another value",
+        "Observe the top dots and the next bar"
       ],
-      "expected": "UI 必须即时适应新拍数；当前循环如何过渡需保持一致；不能出现圆点索引越界或声音继续按旧拍数循环",
+      "expected": "The UI must immediately adapt to the new beat count; how the current loop transitions must stay consistent; the dot index must not go out of range and the sound must not keep looping at the old beat count",
       "persistence": true
     },
     {
       "id": "f15",
-      "name": "播放过程中修改细分",
+      "name": "Change the subdivision during playback",
       "steps": [
-        "节拍器运行",
-        "修改“小节/细分”",
-        "继续监听",
-        "再恢复原值"
+        "The metronome is running",
+        "Change the \"bars/subdivisions\"",
+        "Keep listening",
+        "Then restore the original value"
       ],
-      "expected": "音频调度应立即或从合理边界切换至新结构；主 BPM 不应被错误改变",
+      "expected": "Audio scheduling should switch to the new structure immediately or from a reasonable boundary; the main BPM must not be wrongly changed",
       "persistence": false
     },
     {
       "id": "f16",
-      "name": "四种音色切换",
+      "name": "Switch between the four timbres",
       "steps": [
-        "设置",
-        "音色",
-        "分别选择“强烈哔声 / 柔和哔声 / 合成鼓声 / 拨弦声”",
-        "每选择一种返回主页播放数拍"
+        "Settings",
+        "Timbre",
+        "Choose \"intense beep / soft beep / synthesized drum / plucked string\" respectively",
+        "Return to the home page after selecting each and play a few beats"
       ],
-      "expected": "四种选项均需拥有可听辨的不同音色；选中状态持久化；播放中的节奏速度不能因音色资源加载发生改变",
+      "expected": "All four options must have audibly different timbres; the selected state persists; the playback tempo must not change because of loading timbre resources",
       "persistence": true
     },
     {
       "id": "f17",
-      "name": "播放过程中切换音色",
+      "name": "Switch the timbre during playback",
       "steps": [
-        "开始播放",
-        "进入设置切换音色",
-        "返回/继续播放",
-        "再切换另一种"
+        "Start playback",
+        "Enter the settings and switch the timbre",
+        "Return/continue playback",
+        "Then switch to another"
       ],
-      "expected": "下一拍或合理边界开始采用新音色；不能叠加旧音色；切换不能重置 BPM、拍数等其他参数",
+      "expected": "The new timbre starts at the next beat or a reasonable boundary; the old timbre must not be layered on; switching must not reset other parameters such as the BPM and beat count",
       "persistence": false
     },
     {
       "id": "f18",
-      "name": "Gap Ticks / 间歇节拍",
+      "name": "Gap Ticks / intermittent beats",
       "steps": [
-        "配置 Gap Ticks 对应参数",
-        "开始播放",
-        "观察正常有声阶段与预定静音阶段交替",
-        "连续运行多个周期"
+        "Configure the parameters corresponding to Gap Ticks",
+        "Start playback",
+        "Observe the alternation between the normal audible phase and the scheduled mute phase",
+        "Run several cycles continuously"
       ],
-      "expected": "这是当前版本公开列出的核心功能，不属于额外扩展。关键是静音阶段计时仍继续，恢复声音后节拍相位必须准确，不能因静音暂停内部时钟。F-Droid",
+      "expected": "This is a core feature publicly listed for the current version and not an extra extension. The key is that timing continues during the mute phase and the beat phase must be accurate after the sound resumes; the internal clock must not pause because of muting. F-Droid",
       "persistence": false
     },
     {
       "id": "f19",
-      "name": "BPM 音乐速度文字",
+      "name": "BPM music-tempo text",
       "steps": [
-        "在较低、中等、较高 BPM 间切换",
-        "观察 BPM 左侧/旁边的 Andante 等速度术语",
-        "再通过直接输入改变 BPM"
+        "Switch between lower, medium, and higher BPM values",
+        "Observe the tempo term such as Andante to the left of/beside the BPM",
+        "Then change the BPM by direct input"
       ],
-      "expected": "BPM 所属区间变化时音乐速度描述应同步更新；同一区间内改变 BPM 时术语保持不变；这是 BPM 的派生 UI 状态",
+      "expected": "When the BPM range changes the music-tempo description should update in sync; within the same range the term stays unchanged; this is derived UI state for the BPM",
       "persistence": true
     },
     {
       "id": "f20",
-      "name": "参数边界与非法输入",
+      "name": "Parameter boundaries and invalid input",
       "steps": [
-        "分别点击拍子、小节/BPM 数值框",
-        "尝试空值、0、过大数字等",
-        "确认",
-        "再使用 +/- 到边界"
+        "Tap the beat and the bar/BPM number fields respectively",
+        "Try empty values, 0, overly large numbers, etc.",
+        "Confirm",
+        "Then use +/- to the boundary"
       ],
-      "expected": "不允许产生 0 拍、负 BPM 等无意义运行状态；应限制、回退或校正；异常输入不能导致崩溃或计时器失控",
+      "expected": "Meaningless running states such as 0 beats or a negative BPM must not be produced; they should be limited, rolled back, or corrected; abnormal input must not crash or let the timer run wild",
       "persistence": false
     },
     {
       "id": "f21",
-      "name": "参数状态持久化",
+      "name": "Parameter-state persistence",
       "steps": [
-        "设置非默认 BPM、拍数、小节/细分、音色和第一拍强调",
-        "完全退出 App",
-        "重新打开"
+        "Set a non-default BPM, beat count, bars/subdivisions, timbre, and first-beat accent",
+        "Fully exit the app",
+        "Reopen"
       ],
-      "expected": "重新启动后应按照目标版本实际行为恢复用户配置；各字段不能互相覆盖；滑杆、数字框和设置项显示一致",
+      "expected": "After restarting the user configuration should be restored according to the target version's actual behavior; the fields must not override one another; the slider, number box, and setting display stay consistent",
       "persistence": false
     },
     {
       "id": "f22",
-      "name": "系统主题跟随",
+      "name": "System-theme following",
       "steps": [
-        "设置",
-        "“主题”选择跟随系统",
-        "将 Android 系统从浅色切换到深色",
-        "返回/重新进入 App"
+        "Settings",
+        "The \"theme\" selection follows the system",
+        "Switch the Android system from light to dark",
+        "Return to/re-enter the app"
       ],
-      "expected": "应随系统主题切换；文字、背景、控件、状态栏等保持足够对比度",
+      "expected": "It should follow the system theme switch; text, background, controls, and the status bar keep sufficient contrast",
       "persistence": true
     },
     {
       "id": "f23",
-      "name": "浅色/深色主题",
+      "name": "Light/dark theme",
       "steps": [
-        "设置",
-        "将主题分别切换为浅色、深色",
-        "返回主页",
-        "检查主页和设置页"
+        "Settings",
+        "Switch the theme to light and dark respectively",
+        "Return to the home page",
+        "Check the home page and the settings page"
       ],
-      "expected": "该应用公开说明包含 Light/Dark Theme；主题改变不能重置节拍参数或播放配置。GitHub",
+      "expected": "The app's public description includes Light/Dark Theme; changing the theme must not reset the beat parameters or playback configuration. GitHub",
       "persistence": false
     },
     {
       "id": "f24",
-      "name": "前后台节拍连续性",
+      "name": "Beat continuity in the foreground and background",
       "steps": [
-        "启动节拍器",
-        "切换到其他 App/回到桌面",
-        "等待一段时间",
-        "返回节拍器",
-        "停止"
+        "Start the metronome",
+        "Switch to another app / return to the desktop",
+        "Wait for a period of time",
+        "Return to the metronome",
+        "Stop"
       ],
-      "expected": "当前版本声明媒体播放前台服务相关能力，因此可作为较高难度状态任务；后台期间节拍不能明显漂移或被启动多份，返回后视觉应重新与当前拍同步。IzzySoft Apt Repositories",
+      "expected": "The current version declares media-playback foreground-service capabilities, so it can serve as a higher-difficulty state task; the beats must not drift noticeably in the background or be started multiple times, and after returning the visuals should resync with the current beat. IzzySoft Apt Repositories",
       "persistence": false
     },
     {
       "id": "f25",
-      "name": "长时间稳定运行",
+      "name": "Run stably for a long time",
       "steps": [
-        "选择非默认 BPM 与多拍配置",
-        "连续运行数分钟",
-        "记录开始/结束节拍相位",
-        "停止后重新播放"
+        "Select a non-default BPM and multi-beat configuration",
+        "Run continuously for several minutes",
+        "Record the start/end beat phase",
+        "Replay after stopping"
       ],
-      "expected": "测试定时器精度、音频调度、资源释放以及累计漂移；这是复现节拍器最能区分“UI 仿制”和“真实功能实现”的任务",
+      "expected": "Test the timer precision, audio scheduling, resource release, and cumulative drift; this is the task that best distinguishes a \"UI imitation\" from a genuine functional implementation of the metronome",
       "persistence": false
     }
   ]

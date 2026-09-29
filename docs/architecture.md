@@ -197,7 +197,7 @@ IP 的 loopback proxy 出网，同时给 tool_builder 普通出网，其网络�
 
 `benchmark/android/` 把本地 APK 注册为受保护目标，并以可信 Emulator Runtime 实现
 pixels-in/touch-out。通用 Session、Recorder 和 Topology 只增加平台元数据与触控动作，
-网页 Runtime 和两个网页条件保持原行为。
+网页 Runtime 和既有网页条件保持原行为（2026-09-29 起网页侧新增 no-graph 消融 `agents/web_nograph/`：与 `agents/cli_explorer/` 互不 import，工具面仅裁掉 7 个记录工具，消融口径与 Android 的 `baseline_nograph` 对齐）。
 
 Android 方法层位于两个互不 import 的目录：`agents/android_baseline/` 与
 `agents/baseline_nograph/`。二者共享 `app_reproduction/` 的中立 Compose 脚手架、

@@ -4,398 +4,398 @@
   "features": [
     {
       "id": "f01",
-      "name": "个性化首页商品 Feed 与运营内容编排",
+      "name": "Personalized home product feed and merchandising content",
       "steps": [
-        "用户进入淘宝首页",
-        "混合展示商品推荐、猜你喜欢、活动位、品牌/频道入口",
-        "各模块结构正确呈现",
-        "模块间不串位"
+        "The user enters the Taobao home page",
+        "A mix of product recommendations, \"recommended for you\", campaign slots, and brand/channel entries",
+        "Each module's structure is presented correctly",
+        "Modules do not cross positions"
       ],
-      "expected": "首页必须按混排结构展示商品推荐、活动位、品牌 / 频道入口等模块；各模块内容可区分且不串位；滚动加载不重复不丢失。",
+      "expected": "The home page must present product recommendations, campaign slots, and brand/channel entries in a mixed structure; each module's content is distinguishable and does not cross positions; scrolling loads without duplication or loss.",
       "persistence": false
     },
     {
       "id": "f02",
-      "name": "多级商品类目 Mega Menu 导航",
+      "name": "Multi-level product category Mega Menu navigation",
       "steps": [
-        "Hover/点击一级类目",
-        "展开对应二三级商品分类",
-        "切换不同一级类目时内容动态变化",
-        "点击具体类目进入正确商品集合"
+        "Hover/click a first-level category",
+        "Expand the advanced settings",
+        "Switching between different first-level categories changes the content dynamically",
+        "Tapping a specific category enters the correct product set"
       ],
-      "expected": "Hover / 点击一级类目必须展开对应二三级分类；切换类目时内容正确替换；点击具体类目进入对应商品集合且筛选条件正确。",
+      "expected": "Hovering/clicking a first-level category must expand the corresponding second- and third-level categories; when switching categories the content is correctly replaced; clicking a specific category enters the corresponding product set with the correct filter conditions.",
       "persistence": false
     },
     {
       "id": "f03",
-      "name": "全局商品搜索与查询上下文",
+      "name": "Global product search and query context",
       "steps": [
-        "输入关键词",
-        "搜索",
-        "得到商品结果",
-        "调整查询/进入商品",
-        "返回后仍保持原搜索关键词和上下文"
+        "Enter keywords",
+        "Search",
+        "Get the product results",
+        "Adjust the query / enter the product",
+        "The original search keyword and context are still preserved after returning"
       ],
-      "expected": "搜索结果必须与关键词匹配；调整查询后结果同步变化；进入商品后返回必须保持原搜索关键词与结果状态。",
+      "expected": "The search results must match the keyword; after adjusting the query the results change in sync; after entering a product and returning, the original search keyword and result state must be preserved.",
       "persistence": true
     },
     {
       "id": "f04",
-      "name": "图片搜索链路",
+      "name": "Image-search chain",
       "steps": [
-        "从搜索栏相机入口或商品「按图找相似」",
-        "上传/选择图片",
-        "展示相似商品结果（预置映射）",
-        "点击结果",
-        "返回后保留视觉查询上下文"
+        "From the camera entry in the search bar or \"find similar by image\" on a product",
+        "Upload/select an image",
+        "Show the readable fields such as the real file path, size, audio format, bitrate, sample rate, added/modified time, Track/Disc, Title, Artist, Album, Album Artist, Genre, Year, Duration, and ReplayGain",
+        "Tap the result",
+        "The visual-query context is preserved after returning"
       ],
-      "expected": "从相机入口 / 按图找相似必须能上传 / 选择图片；展示相似商品结果（预置映射）；点击结果返回后保留视觉查询上下文。",
+      "expected": "The camera entry / find-similar-by-image must upload/select an image; similar-product results are shown (preset mappings); after tapping a result and returning, the visual-query context is preserved.",
       "persistence": true
     },
     {
       "id": "f05",
-      "name": "全频道与垂直业务入口编排",
+      "name": "All-channel and vertical-business entry orchestration",
       "steps": [
-        "打开“全部频道”",
-        "浏览天猫、直播、企业采购、司法拍卖、超市、补贴、优惠等垂直频道",
-        "点击后进入对应业务空间"
+        "Open \"all channels\"",
+        "Browse vertical channels such as Tmall, live, enterprise procurement, judicial auction, supermarket, subsidy, and discounts",
+        "Tapping enters the corresponding business space"
       ],
-      "expected": "「全部频道」必须展示各垂直频道入口；点击后进入对应业务空间；返回后频道列表状态保持；入口不能指向错误空间。",
+      "expected": "\"All channels\" must show the entries of each vertical channel; tapping enters the corresponding business space; after returning the channel-list state is preserved; the entries must not point to the wrong space.",
       "persistence": false
     },
     {
       "id": "f06",
-      "name": "浏览足迹自动记录与按时间聚合",
+      "name": "Automatic browsing-footprint recording and time-based aggregation",
       "steps": [
-        "浏览商品 A/B",
-        "商品自动进入“我的足迹”",
-        "按日期分组",
-        "再次访问更新行为",
-        "可搜索/批量删除足迹"
+        "Browse products A/B",
+        "The product automatically enters \"My footprints\"",
+        "Group by date",
+        "Visit again to update the behavior",
+        "Footprints can be searched/batch-deleted"
       ],
-      "expected": "浏览的商品必须自动进入「我的足迹」；按日期分组正确；再次访问更新时间与分组；搜索 / 批量删除后列表同步变化。",
+      "expected": "Browsed products must automatically enter \"My footprints\"; date grouping is correct; revisiting updates the time and grouping; the list changes in sync after search/batch delete.",
       "persistence": true
     },
     {
       "id": "f07",
-      "name": "购买店铺历史聚合",
+      "name": "Purchase-shop history aggregation",
       "steps": [
-        "完成不同店铺的交易",
-        "“购买过的店铺”自动形成",
-        "按数码/美食/家居等类目聚合",
-        "可重新进入店铺或联系客服"
+        "After completing a transaction the shop must automatically appear under \"shops purchased from\"; category aggregation is correct; the shop can be re-entered; the shop information matches the transaction records.",
+        "\"Shops purchased from\" is formed automatically",
+        "Aggregate by category such as digital/food/home",
+        "You can re-enter the shop or contact customer service"
       ],
-      "expected": "完成交易后店铺必须自动出现在「购买过的店铺」；按类目聚合正确；可重新进入店铺；店铺信息与交易记录关联一致。",
+      "expected": "After completing, the completion time is recorded and the task is hidden, kept, or moved to the bottom according to the list settings; un-completing restores the normal state; after deletion the main list, tags, places, and list counts update in sync; clearing completed only deletes completed tasks in the current scope.",
       "persistence": true
     },
     {
       "id": "f08",
-      "name": "店铺关注关系与动态管理",
+      "name": "Extend receipt or confirm receipt",
       "steps": [
-        "在店铺/购买记录中关注店铺",
-        "进入“关注店铺”",
-        "按最近关注/特别关注/有上新等状态查看",
-        "取消或调整关注后同步"
+        "Follow the shop in the shop/purchase records",
+        "Enter \"followed shops\"",
+        "View by state such as recently followed / specially followed / has new items",
+        "Cancelling or adjusting the follow syncs"
       ],
-      "expected": "关注后店铺出现在「关注店铺」；各状态分组（最近 / 特别关注 / 有上新）结果正确；取消关注后同步移除；状态需持久化。",
+      "expected": "After following, the shop appears under \"followed shops\"; the results in each state group (recent / specially followed / has new items) are correct; after unfollowing it is removed in sync; the state must persist.",
       "persistence": false
     },
     {
       "id": "f09",
-      "name": "商品收藏及跨页面状态同步",
+      "name": "Product favorites and cross-page state sync",
       "steps": [
-        "商品页收藏某商品",
-        "“宝贝收藏”出现",
-        "收藏按钮保持激活",
-        "从收藏页取消",
-        "返回商品页状态同步恢复"
+        "Favorite a product on the product page",
+        "\"Favorite items\" appears",
+        "The favorite button stays active",
+        "Unfavorite from the favorites page",
+        "Returning to the product page restores the state in sync"
       ],
-      "expected": "收藏后按钮保持激活且「宝贝收藏」出现该商品；从收藏页取消后商品页状态同步恢复；两处状态必须始终一致。",
+      "expected": "After favoriting, the button stays active and the product appears in \"favorite items\"; after unfavoriting from the favorites page the product page state syncs back; the two states must always be consistent.",
       "persistence": true
     },
     {
       "id": "f10",
-      "name": "收藏商品多维管理与商品状态感知",
+      "name": "Multi-dimensional management of favorited products and product-state awareness",
       "steps": [
-        "进入收藏",
-        "按有降价/类目/商品状态/收藏时间/排序筛选",
-        "商品失效或降价后标签变化",
-        "批量操作仍保持筛选逻辑"
+        "Enter favorites",
+        "Filter by price drop / category / product state / favorite time / sort",
+        "The tags change after a product becomes unavailable or its price drops",
+        "Batch operations still respect the filter logic"
       ],
-      "expected": "各维度筛选（降价 / 类目 / 状态 / 时间）必须正确作用于收藏集合；商品降价或失效后标签同步变化；批量操作后筛选逻辑保持。",
+      "expected": "Each dimension's filters (price drop / category / state / time) must correctly apply to the favorites collection; after a product's price drops or it becomes unavailable the tags change in sync; the filter logic is preserved after batch operations.",
       "persistence": true
     },
     {
       "id": "f11",
-      "name": "购物车商品加入与 SKU 上下文保持",
+      "name": "Adding cart products and preserving the SKU context",
       "steps": [
-        "商品选择颜色/尺码/规格",
-        "加入购物车",
-        "购物车显示正确 SKU、价格、店铺和数量",
-        "再次进入仍保持同一规格"
+        "Select the product's color/size/specification",
+        "Add to cart",
+        "The cart shows the correct SKU, price, shop, and quantity",
+        "Re-entering keeps the same specification"
       ],
-      "expected": "购物车条目的 SKU（颜色 / 尺码）、价格、店铺、数量必须与所选一致；再次进入同一商品仍保持所选规格；切换规格后条目同步更新。",
+      "expected": "The cart entry's SKU (color/size), price, shop, and quantity must match the selection; re-entering the same product keeps the selected specification; after changing the specification the entry updates in sync.",
       "persistence": true
     },
     {
       "id": "f12",
-      "name": "购物车按店铺分组与多选结算",
+      "name": "Cart grouping by shop and multi-select checkout",
       "steps": [
-        "多个店铺商品进入购物车",
-        "按店铺分组",
-        "单选/店铺全选/全选",
-        "结算区只统计当前选中商品"
+        "Products from several shops enter the cart",
+        "Group by shop",
+        "Single select / select all in a shop / select all",
+        "The checkout area only counts the currently selected products"
       ],
-      "expected": "购物车必须按店铺正确分组；单选 / 店铺全选 / 全选的选择状态联动正确；结算区金额只统计当前选中商品。",
+      "expected": "The cart must be correctly grouped by shop; the selection states for single select / select all in a shop / select all link correctly; the checkout amount only counts the currently selected products.",
       "persistence": false
     },
     {
       "id": "f13",
-      "name": "购物车数量、规格、库存与价格联动",
+      "name": "The cart count, specification, stock, and price are linked",
       "steps": [
-        "修改数量或重新选择规格",
-        "校验库存/商品状态",
-        "单项价格与结算金额重新计算",
-        "无效规格阻止正常结算"
+        "Change the quantity or re-select the specification",
+        "Validate the stock/product state",
+        "The unit price and total are recomputed",
+        "An invalid specification blocks normal checkout"
       ],
-      "expected": "修改数量或规格后单项价格与结算金额必须重新计算；库存 / 商品状态校验生效；无效规格必须阻止结算并给出提示。",
+      "expected": "After changing the quantity or specification the unit price and total must be recomputed; stock/product-state validation takes effect; an invalid specification must block checkout and give a notice.",
       "persistence": false
     },
     {
       "id": "f14",
-      "name": "购物车批量操作与收藏迁移",
+      "name": "Batch cart operations and favorites migration",
       "steps": [
-        "选择一个或多个购物车商品",
-        "删除 / 移入收藏",
-        "购物车数量、收藏列表和顶部购物车 Badge 同步变化"
+        "Select one or more cart products",
+        "Delete / move to favorites",
+        "The cart count, favorites list, and top cart badge change in sync"
       ],
-      "expected": "删除 / 移入收藏后购物车列表、收藏列表与顶部 Badge 必须同步变化；批量操作只作用于选中项；迁移后商品数据不丢失。",
+      "expected": "After deleting/moving to favorites the cart list, favorites list, and top badge must change in sync; batch operations only affect the selected items; product data is not lost after the migration.",
       "persistence": false
     },
     {
       "id": "f15",
-      "name": "购物车结算明细与动态金额计算",
+      "name": "Cart checkout details and dynamic amount computation",
       "steps": [
-        "用户选择多个商品",
-        "数量/规格/促销条件变化",
-        "右侧结算明细实时重新计算",
-        "未选商品不计入金额"
+        "The user selects several products",
+        "The quantity/specification/promotion conditions change",
+        "The checkout details on the right are recomputed in real time",
+        "Unselected products do not count toward the amount"
       ],
-      "expected": "结算明细必须随数量 / 规格 / 促销条件实时重算；未选商品不计入金额；明细金额与购物车选中项保持一致。",
+      "expected": "The checkout details must be recomputed in real time with quantity/specification/promotion changes; unselected products do not count toward the amount; the detail amount stays consistent with the cart's selected items.",
       "persistence": false
     },
     {
       "id": "f16",
-      "name": "收货地址簿与默认地址策略",
+      "name": "Shipping address book and default-address policy",
       "steps": [
-        "添加多个地址",
-        "编辑地址",
-        "设置默认 / 置顶",
-        "删除或取消默认",
-        "后续交易使用正确默认地址"
+        "Add several addresses",
+        "Edit the address",
+        "Set default / pin",
+        "Delete or cancel the default",
+        "Subsequent purchases use the correct default address"
       ],
-      "expected": "新增 / 编辑地址后列表同步更新；默认与置顶策略正确生效；删除或取消默认后后续交易使用正确的默认地址。",
+      "expected": "After adding/editing an address the list updates in sync; the default and pinned policies take effect correctly; after deleting or cancelling the default, subsequent purchases use the correct default address.",
       "persistence": false
     },
     {
       "id": "f17",
-      "name": "购物车结算到订单创建的交易闭环",
+      "name": "The transaction loop from cart checkout to order creation",
       "steps": [
-        "购物车选择商品",
-        "点击结算",
-        "选择地址/确认商品和金额",
-        "提交订单",
-        "生成订单",
-        "购物车对应商品移除",
-        "订单中心出现新订单"
+        "Selecting products in the cart",
+        "Tap checkout",
+        "Choose the address / confirm the products and amount",
+        "Submit the order",
+        "Generate an order",
+        "The corresponding cart products are removed",
+        "The new order appears in the order center"
       ],
-      "expected": "提交订单后必须生成新订单；购物车对应商品同步移除；订单中心出现该订单；订单金额与结算页确认金额一致。",
+      "expected": "After submitting the order a new order must be generated; the corresponding products are removed from the cart in sync; the order appears in the order center; the order amount matches the amount confirmed on the checkout page.",
       "persistence": false
     },
     {
       "id": "f18",
-      "name": "订单状态机与状态分类视图",
+      "name": "Order state machine and state-category views",
       "steps": [
-        "订单生成",
-        "待付款",
-        "待发货",
-        "待收货",
-        "待评价/完成",
-        "不同阶段自动进入对应 Tab，并决定允许的操作"
+        "Order generation",
+        "Pending payment",
+        "To be shipped",
+        "To be received",
+        "To be reviewed/completed",
+        "Each stage automatically enters the corresponding tab and determines the allowed operations"
       ],
-      "expected": "各状态订单必须自动进入对应 Tab；状态流转决定可执行操作；操作后状态与 Tab 归属同步变化；已完成状态不能被误操作回退。",
+      "expected": "Each state's orders must automatically enter the corresponding tabs; the state flow determines the available operations; after an operation the state and tab membership change in sync; a completed state must not be reverted by a wrong operation.",
       "persistence": false
     },
     {
       "id": "f19",
-      "name": "订单搜索、筛选、分页与导出",
+      "name": "Order search, filtering, pagination, and export",
       "steps": [
-        "在订单中心按商品/订单号/店铺/快递等查询",
-        "组合筛选",
-        "分页",
-        "导出订单文件",
-        "当前查询条件正确作用于结果"
+        "Query in the order center by product/order number/shop/courier, etc.",
+        "Combined filtering",
+        "Pagination",
+        "The corresponding tag and task count appear in the tags area of the navigation drawer",
+        "The current query conditions correctly apply to the results"
       ],
-      "expected": "查询条件必须正确作用于结果；组合筛选取交集；分页数据不重复不丢失；导出文件内容与当前查询结果一致。",
+      "expected": "The query conditions must correctly apply to the results; combined filters intersect; paginated data is neither duplicated nor lost; the exported file content matches the current query results.",
       "persistence": false
     },
     {
       "id": "f20",
-      "name": "物流跟踪与确认收货",
+      "name": "Logistics tracking and receipt confirmation",
       "steps": [
-        "已发货订单",
-        "查看物流（预置轨迹）",
-        "包裹状态呈现",
-        "延长收货或确认收货",
-        "订单状态与可操作项同步改变"
+        "The same start and end points already exist",
+        "View the logistics (preset track)",
+        "Order-status rendering",
+        "Build a play queue with at least three songs",
+        "The order state and available actions change in sync"
       ],
-      "expected": "物流轨迹（预置）必须正确呈现；延长收货 / 确认收货后订单状态与可操作项同步变化；操作结果需持久化。",
+      "expected": "The logistics track (preset) must be presented correctly; after extending or confirming receipt the order state and available actions change in sync; the operation results must persist.",
       "persistence": false
     },
     {
       "id": "f21",
-      "name": "订单后的再购买与商品回流购物车",
+      "name": "Re-purchase after an order and products flowing back into the cart",
       "steps": [
-        "从历史订单点击“再买一单”/“加入购物车”",
-        "使用原商品信息重新形成购买上下文",
-        "商品失效时进行适当降级处理"
+        "Tap \"buy again\" / \"add to cart\" from a past order",
+        "Rebuild the purchase context using the original product information",
+        "Appropriate degradation when a product becomes unavailable"
       ],
-      "expected": "「再买一单」必须使用原商品信息重建购买上下文；商品失效时降级处理明确；加入购物车后条目信息正确。",
+      "expected": "\"Buy again\" must rebuild the purchase context using the original product information; degradation is clear when the product is unavailable; after adding to the cart the item information is correct.",
       "persistence": false
     },
     {
       "id": "f22",
-      "name": "购买后评价与评价状态管理",
+      "name": "Post-purchase reviews and review-state management",
       "steps": [
-        "已完成订单",
-        "进入待评价",
-        "提交评价",
-        "待评价数量减少",
-        "评价管理中可找到记录",
-        "不允许重复有效评价"
+        "The elapsed time keeps increasing",
+        "Enter pending review",
+        "Submit the review",
+        "The pending-review count decreases",
+        "The record can be found in review management",
+        "Duplicate valid reviews are not allowed"
       ],
-      "expected": "提交评价后待评价数量减少；评价记录出现在评价管理；不允许对同一订单重复有效评价；评价内容需持久化。",
+      "expected": "After submitting a review the pending-review count decreases; the review record appears in review management; repeated valid reviews for the same order are not allowed; the review content must persist.",
       "persistence": false
     },
     {
       "id": "f23",
-      "name": "退款/售后工作流（用户侧）",
+      "name": "Refund/after-sales workflow (user side)",
       "steps": [
-        "从订单申请退款",
-        "选择服务类型",
-        "创建售后单",
-        "状态流转（预置处理结果）",
-        "成功/失败/取消",
-        "退款金额和订单状态正确同步"
+        "Request a refund from an order",
+        "Choose the service type",
+        "Create an after-sales ticket",
+        "State transitions (preset handling results)",
+        "Success/failure/cancel",
+        "The refund amount and order state sync correctly"
       ],
-      "expected": "创建售后单后状态按预置流程流转；退款金额与订单状态正确同步；成功 / 失败 / 取消各分支状态明确。",
+      "expected": "After creating an after-sales ticket the state follows the preset flow; the refund amount and order state sync correctly; the success/failure/cancel branches have clear states.",
       "persistence": false
     },
     {
       "id": "f24",
-      "name": "售后记录多条件查询与平台介入状态",
+      "name": "Multi-condition after-sales record queries and platform-intervention state",
       "steps": [
-        "退款管理",
-        "按退款类型、时间、退款状态、垫付状态、平台介入等组合筛选",
-        "打开服务详情",
-        "返回保持原查询"
+        "Refund management",
+        "Filter by combinations such as refund type, time, refund state, advance-payment state, and platform intervention",
+        "Open the service details",
+        "The original query is preserved on return"
       ],
-      "expected": "各条件组合筛选正确作用于售后记录；平台介入等状态字段正确展示；打开详情返回后保持原查询条件。",
+      "expected": "The combined conditions correctly filter the after-sales records; state fields such as platform intervention are correctly displayed; the original query conditions are preserved after opening the details and returning.",
       "persistence": true
     },
     {
       "id": "f25",
-      "name": "投诉/维权工作流（用户侧）",
+      "name": "Complaint/rights-protection workflow (user side)",
       "steps": [
-        "针对订单/商家发起投诉",
-        "选择投诉原因",
-        "生成投诉单",
-        "状态流转（预置处理结果）",
-        "投诉成立/不成立",
-        "可查看详情及历史记录"
+        "File a complaint about an order/merchant",
+        "Choose the complaint reason",
+        "Generate a complaint ticket",
+        "State transitions (preset handling results)",
+        "Complaint upheld/rejected",
+        "The details and history are viewable"
       ],
-      "expected": "发起投诉后生成投诉单且状态按预置流转；成立 / 不成立结果正确反映；历史记录可查看且内容一致。",
+      "expected": "After filing a complaint a complaint ticket is generated and the state follows the preset flow; the upheld/rejected results are correctly reflected; the history is viewable and consistent.",
       "persistence": false
     },
     {
       "id": "f26",
-      "name": "电子发票申请与订单关联",
+      "name": "E-invoice requests and order linkage",
       "steps": [
-        "已购买商品",
-        "申请发票",
-        "填写/选择发票抬头",
-        "开票状态流转（预置）",
-        "查看/下载发票文件",
-        "发票始终关联正确订单"
+        "The divider remains effective after panning; both sides' views share the same coordinates.",
+        "Request an invoice",
+        "Fill in/choose the invoice title",
+        "Invoice-status transitions (preset)",
+        "View/download the invoice file",
+        "The invoice is always linked to the correct order"
       ],
-      "expected": "申请后开票状态按预置流转；发票文件可查看 / 下载；发票始终关联正确订单；不能出现订单与发票错配。",
+      "expected": "After the request the invoicing state follows the preset flow; the invoice file can be viewed/downloaded; the invoice is always linked to the correct order; order-invoice mismatches must not occur.",
       "persistence": false
     },
     {
       "id": "f27",
-      "name": "商家客服会话系统",
+      "name": "Merchant customer-service session system",
       "steps": [
-        "从订单/店铺点击客服",
-        "打开对应商家会话（预置联系人）",
-        "发送文字/图片消息",
-        "未读数量更新",
-        "切换联系人后各会话上下文隔离"
+        "Contact customer service from an order/shop",
+        "Open the corresponding merchant session (preset contacts)",
+        "Send a text/image message",
+        "The unread count updates",
+        "After switching contacts each session's context is isolated"
       ],
-      "expected": "点击客服必须打开对应商家的会话（预置联系人）；发送消息后会话内正确显示；未读数量同步更新；切换联系人后各会话上下文隔离。",
+      "expected": "Tapping customer service must open the corresponding merchant's session (preset contacts); after sending a message it is correctly displayed in the session; the unread count updates in sync; after switching contacts each session's context is isolated.",
       "persistence": false
     },
     {
       "id": "f28",
-      "name": "消息中心与全局未读 Badge 联动",
+      "name": "Message center linked with the global unread badge",
       "steps": [
-        "预置消息（商家/物流/服务）",
-        "顶部和侧边栏 Badge 更新",
-        "打开消息",
-        "定位对应业务对象",
-        "阅读后未读数减少"
+        "Preset messages (merchant/logistics/service)",
+        "The top and sidebar badges update",
+        "Open a message",
+        "The countdown starts at the set time",
+        "The unread count decreases after reading"
       ],
-      "expected": "预置消息必须使顶部 / 侧边栏 Badge 显示未读；打开消息定位到正确业务对象；阅读后未读数同步减少；各处计数保持一致。",
+      "expected": "The preset messages must make the top/sidebar badges show unread; opening a message locates the correct business object; the unread count decreases in sync after reading; the counts stay consistent everywhere.",
       "persistence": false
     },
     {
       "id": "f29",
-      "name": "个人资料与交易配置",
+      "name": "Personal profile and transaction configuration",
       "steps": [
-        "修改头像/昵称等个人资料",
-        "编辑收货地址等交易配置",
-        "后续场景读取最新配置"
+        "Edit personal information such as the avatar/nickname",
+        "Edit transaction configurations such as shipping addresses",
+        "Subsequent screens read the latest configuration"
       ],
-      "expected": "修改资料 / 配置后保存成功；后续场景（订单 / 地址选择）读取最新配置；修改结果需持久化，刷新后保持。",
+      "expected": "After modifying the profile/configuration it saves successfully; subsequent screens (orders/address selection) read the latest configuration; the modification must persist and stay after a refresh.",
       "persistence": false
     },
     {
       "id": "f30",
-      "name": "全局行为/交易事件的一致性传播",
+      "name": "Consistent propagation of global behavior/transaction events",
       "steps": [
-        "收藏、加购、购买、退款、关注、浏览等行为发生",
-        "Badge、收藏、购物车、订单、足迹、店铺关系等受影响区域保持一致"
+        "Actions such as favoriting, adding to cart, purchasing, refunding, following, and browsing occur",
+        "Affected areas such as badges, favorites, the cart, orders, footprints, and shop relationships stay consistent"
       ],
-      "expected": "收藏 / 加购 / 购买 / 退款 / 关注 / 浏览等行为发生后，Badge、收藏、购物车、订单、足迹、店铺关系等受影响区域必须保持一致；不能出现单点更新遗漏。",
+      "expected": "After actions such as favoriting / adding to cart / purchasing / refunding / following / browsing occur, the affected areas (badges, favorites, cart, orders, footprints, shop relationships) must stay consistent; single-point update omissions must not occur.",
       "persistence": true
     }
   ],
   "exclusions": [
     {
-      "feature": "个性化推荐引擎\n猜你喜欢排序、用户画像驱动推荐",
+      "feature": "Personalized recommendation engine\n\"Recommended for you\" ranking and user-profile-driven recommendations",
       "treatment": "Hard Exclude",
-      "reason": "需要推荐模型与行为数据（对照 Spotify「Recommendation / personalization engine」）；Feed 结构可用预置 fixture",
+      "reason": "Requires a recommendation model and behavior data (cf. Spotify \"Recommendation / personalization engine\"); the feed structure can use preset fixtures",
       "covered_by": []
     },
     {
-      "feature": "真实支付与交易结算\n支付网关、资金流转、真实交易",
+      "feature": "Real payment and transaction settlement\nPayment gateways, fund flows, and real transactions",
       "treatment": "Hard Exclude",
-      "reason": "依赖支付系统；订单流程本地化后只验证用户可见状态",
+      "reason": "Depends on the payment system; after localizing the order flow only the user-visible state is verified",
       "covered_by": []
     },
     {
-      "feature": "商家/平台侧处理流程\n发货、退款审核、投诉仲裁、开票处理",
+      "feature": "Merchant/platform handling flows\nShipping, refund review, complaint arbitration, and invoicing",
       "treatment": "Conditional Exclude",
-      "reason": "用户侧申请与状态展示可测；处理结果用预置 fixture 驱动；保留面：f18 订单状态机与状态分类视图, f23 退款/售后工作流（用户侧）, f25 投诉/维权工作流（用户侧）",
+      "reason": "User-side requests and state display are testable; the handling results are driven by preset fixtures; retained surface: f18 order state machine and state-category views, f23 refund/after-sales workflow (user side), f25 complaint/rights-protection workflow (user side)",
       "covered_by": [
         "f18",
         "f23",
@@ -403,65 +403,65 @@
       ]
     },
     {
-      "feature": "物流实时数据\n真实快递轨迹、派送状态",
+      "feature": "Real-time logistics data\nReal courier tracks and delivery states",
       "treatment": "Conditional Exclude",
-      "reason": "物流轨迹用固定 fixture 呈现；不接真实快递接口",
+      "reason": "The logistics track is presented with fixed fixtures; no real courier API is used",
       "covered_by": []
     },
     {
-      "feature": "真实商品与商家数据\n真实商品库、价格、库存、店铺评分",
+      "feature": "Real product and merchant data\nReal product catalogs, prices, stock, and shop ratings",
       "treatment": "Default Exclude",
-      "reason": "使用合成商品 fixture（对照 Spotify「Real catalog」）；不要求真实平台数据",
+      "reason": "Use synthetic product fixtures (cf. Spotify \"Real catalog\"); real platform data is not required",
       "covered_by": []
     },
     {
-      "feature": "库存/促销的实时引擎\n平台级库存计算、动态促销规则",
+      "feature": "Inventory and promotion conditions can use preset rules; the linkage logic is tested, not the platform engine",
       "treatment": "Conditional Include",
-      "reason": "库存与促销条件可用预置规则；测联动逻辑不测平台引擎",
+      "reason": "The app rebuilds its internal song database",
       "covered_by": []
     },
     {
-      "feature": "以图搜图的相似度算法\n视觉相似度计算与排序",
+      "feature": "Image-similarity search algorithms\nVisual similarity computation and ranking",
       "treatment": "Conditional Exclude",
-      "reason": "上传→结果链路可测；相似结果用预置映射（不评估 CV 模型）；保留面：f04 图片搜索链路",
+      "reason": "The upload→result chain is testable; similar results use preset mappings (the CV model is not evaluated); retained surface: f04 image-search chain",
       "covered_by": [
         "f04"
       ]
     },
     {
-      "feature": "打印\n物理打印机、浏览器打印对话框",
+      "feature": "Print\nPhysical printers and the browser print dialog",
       "treatment": "Conditional Exclude",
-      "reason": "用导出（文件/PDF）替代（对照 diagrams.net「Print to Physical Printer」）",
+      "reason": "Substitute export (file/PDF) (cf. the diagrams.net \"Print to Physical Printer\" exclusion)",
       "covered_by": []
     },
     {
-      "feature": "账号安全与支付绑定\n密码、手机号、支付宝绑定",
+      "feature": "Account security and payment binding\nPasswords, phone numbers, and Alipay binding",
       "treatment": "Hard Exclude",
-      "reason": "账号与支付身份属外部体系（对照 Spotify「Account / Authentication complexity」）；个人资料编辑保留；保留面：f29 个人资料与交易配置",
+      "reason": "Accounts and payment identity belong to external systems (cf. Spotify \"Account / Authentication complexity\"); personal profile editing is kept; retained surface: f29 personal profile and transaction configuration",
       "covered_by": [
         "f29"
       ]
     },
     {
-      "feature": "直播频道内容\n直播列表、推流、直播间互动",
+      "feature": "Live-channel content\nLive lists, streaming, and live-room interactions",
       "treatment": "Hard Exclude",
-      "reason": "实时流媒体依赖（对照 youtube「直播」排除）；频道入口导航可保留；保留面：f05 全频道与垂直业务入口编排",
+      "reason": "Adjust in real time",
       "covered_by": [
         "f05"
       ]
     },
     {
-      "feature": "客服的真实商家响应\n商家端实时回复与会话路由",
+      "feature": "Width and height can be edited independently",
       "treatment": "Conditional Exclude",
-      "reason": "会话 UI/未读/切换可测（预置联系人）；不验证商家端实时响应；保留面：f27 商家客服会话系统",
+      "reason": "Session UI/unread/switching are testable (preset contacts); real-time merchant-side responses are not verified; retained surface: f27 merchant customer-service session system",
       "covered_by": [
         "f27"
       ]
     },
     {
-      "feature": "消息的真实事件源\n商家/物流/服务消息的真实产生",
+      "feature": "The real event source of messages\nReal generation of merchant/logistics/service messages",
       "treatment": "Conditional Include",
-      "reason": "消息中心状态机可测，需预置消息 fixture；保留面：f18 订单状态机与状态分类视图, f28 消息中心与全局未读 Badge 联动",
+      "reason": "The message-center state machine is testable and requires preset message fixtures; retained surface: f18 order state machine and state-category views, f28 message center linked with the global unread badge",
       "covered_by": [
         "f28",
         "f18"

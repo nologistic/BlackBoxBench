@@ -4,259 +4,259 @@
   "features": [
     {
       "id": "f01",
-      "name": "首页财务总览与模块联动",
+      "name": "Home-page financial overview and module linkages",
       "steps": [
-        "首页显示当前财务账户、预算、趋势图和近期交易",
-        "新增交易后账户余额、预算、趋势图和交易列表同时变化",
-        "在“全部 / 支出 / 收入”之间切换时列表及统计按照真实交易数据重新计算"
+        "The home page shows the current financial accounts, budgets, trend chart, and recent transactions",
+        "After adding a transaction the account balance, budgets, trend chart, and transaction list all change together",
+        "When switching between \"All / Expenses / Income\" the list and statistics are recomputed from real transaction data"
       ],
-      "expected": "新增交易后账户余额、预算、趋势图与列表必须同步更新且数值互相一致；切换“全部、支出、收入”只改变统计范围，不能修改或隐藏原始交易数据。",
+      "expected": "After adding a transaction the account balance, budgets, trend chart, and list must update in sync and be numerically consistent; switching between \"All, Expenses, Income\" only changes the statistics scope and must not modify or hide the raw transaction data.",
       "persistence": false
     },
     {
       "id": "f02",
-      "name": "财务账户完整生命周期",
+      "name": "Full lifecycle of a financial account",
       "steps": [
-        "创建新的 Bank/Cash 等账户",
-        "设置名称、颜色和货币",
-        "出现在首页账户区域",
-        "修改后所有交易和统计继续关联同一账户",
-        "归档/删除时相关界面同步更新；官方也支持账户创建、编辑、排序和归档。"
+        "Create a new Bank/Cash account",
+        "Set the name, color, and currency",
+        "It appears in the accounts section of the home page",
+        "After editing, all transactions and statistics still refer to the same account",
+        "When archiving/deleting, the related screens update in sync; the official app also supports account creation, editing, sorting, and archiving."
       ],
-      "expected": "账户创建后需出现在首页并可作为交易目标；修改名称或颜色不能断开与已有交易的关联；归档或删除后相关交易与统计同步更新，不遗留孤立引用。",
+      "expected": "After creation an account must appear on the home page and be usable as a transaction target; changing its name or color must not break the association with existing transactions; after archiving or deleting, the related transactions and statistics update in sync without leaving orphaned references.",
       "persistence": false
     },
     {
       "id": "f03",
-      "name": "主账户与多币种",
+      "name": "Main account and multiple currencies",
       "steps": [
-        "不同账户选择 USD、EUR、JPY、CNY 等货币",
-        "选择主账户",
-        "新交易默认使用主账户",
-        "全局汇总以主账户定义的基础货币表达",
-        "切换主账户后默认账户和基础货币语义同步改变。"
+        "Different accounts choose currencies such as USD, EUR, JPY, and CNY",
+        "Choose the main account",
+        "New transactions use the main account by default",
+        "Global aggregates are expressed in the base currency defined by the main account",
+        "After switching the main account the default account and base-currency semantics change in sync."
       ],
-      "expected": "主账户必须唯一并决定默认交易账户与全局汇总币种；切换主账户后汇总口径与默认账户同步改变；各账户余额仍按其自身货币记账。",
+      "expected": "The main account must be unique and determines the default transaction account and the global aggregation currency; after switching the main account, the aggregation basis and the default account change in sync; each account's balance is still kept in its own currency.",
       "persistence": false
     },
     {
       "id": "f04",
-      "name": "账户余额校正与账户合并",
+      "name": "Account balance correction and account merging",
       "steps": [
-        "对账户执行“校正总余额”",
-        "账户达到指定余额，但不把差值错误算作普通收入/支出；执行“合并账户”后源账户交易迁移到目标账户，汇总和交易数量重新计算。官方将 Balance Correction 定义为影响余额但不计入常规收入/支出的特殊类型。"
+        "Use \"Correct total balance\" on an account",
+        "The account reaches the specified balance, but the difference is not wrongly counted as ordinary income/expense; after \"merge accounts\" the source account's transactions move to the target account and the aggregates and transaction counts are recalculated. The official documentation defines Balance Correction as a special type that affects the balance but does not count as regular income/expense."
       ],
-      "expected": "余额校正必须使账户余额等于目标值，且差额不能计入收入或支出统计；账户合并后交易全部迁移到目标账户、源账户不再出现，总净资产不变。",
+      "expected": "A balance correction must make the account balance equal the target value, and the difference must not count as income or expense; after merging accounts all transactions move to the target account, the source account no longer appears, and the total net worth stays unchanged.",
       "persistence": false
     },
     {
       "id": "f05",
-      "name": "支出 / 收入交易生命周期",
+      "name": "Expense / income transaction lifecycle",
       "steps": [
-        "点击 +",
-        "选择支出或收入",
-        "设置金额、日期时间、标题、类别等",
-        "保存",
-        "交易进入对应月份及账户",
-        "编辑金额/日期/账户后所有统计重新计算",
-        "删除后余额、预算和图表同步回滚"
+        "Tap +",
+        "Choose expense or income",
+        "Set the amount, date/time, title, category, etc.",
+        "Save",
+        "The transaction enters the corresponding month and account",
+        "After editing the amount/date/account all statistics are recomputed",
+        "After deletion the balance, budgets, and charts roll back in sync"
       ],
-      "expected": "交易保存后必须同时反映在账户余额、对应月份列表与统计中；编辑金额、日期或账户后各统计重新计算；删除后余额、预算与图表完整回滚。",
+      "expected": "After a transaction is saved it must be reflected at the same time in the account balance, the corresponding month list, and the statistics; after editing the amount, date, or account all statistics are recomputed; after deletion the balance, budgets, and charts roll back completely.",
       "persistence": false
     },
     {
       "id": "f06",
-      "name": "类别、子类别与常用标题",
+      "name": "Categories, subcategories, and frequently used titles",
       "steps": [
-        "创建/选择 Groceries、Dining、Shopping 等类别",
-        "类别具有默认支出/收入方向",
-        "可建立子类别",
-        "同类标题可辅助复用类别",
-        "修改类别后历史交易仍正确关联；官方明确类别驱动统计和预算。"
+        "Create/select categories such as Groceries, Dining, and Shopping",
+        "Categories have a default expense/income direction",
+        "Subcategories can be created",
+        "A recurring title can help reuse a category",
+        "After editing a category, historical transactions are still correctly associated; the official documentation makes clear that categories drive statistics and budgets."
       ],
-      "expected": "类别必须带收入或支出方向并据此筛选交易；子类别应归属父类别并在统计中正确汇总；重命名或调整类别不能断开历史交易的关联。",
+      "expected": "A category must carry an income or expense direction and filter transactions accordingly; subcategories should belong to a parent category and aggregate correctly in statistics; renaming or adjusting categories must not break the association with historical transactions.",
       "persistence": false
     },
     {
       "id": "f07",
-      "name": "交易富信息",
+      "name": "Rich transaction information",
       "steps": [
-        "交易除金额外可填写标题、备注和附件",
-        "保存后在交易详情恢复",
-        "修改或移除附件/备注不会改变金额和分类关系",
-        "复制/编辑交易时字段状态保持正确"
+        "Besides the amount, a transaction can have a title, notes, and attachments",
+        "They are restored in the transaction details after saving",
+        "Modifying or removing attachments/notes does not change the amount or the category relationship",
+        "The field state stays correct when copying/editing a transaction"
       ],
-      "expected": "备注与附件必须随交易持久化并在详情中恢复；删除附件不能改变金额、类别与账户；复制交易时应保留可复用字段且不产生重复记录。",
+      "expected": "Notes and attachments must persist with the transaction and be restored in the details; deleting an attachment must not change the amount, category, or account; copying a transaction should keep the reusable fields without creating duplicate records.",
       "persistence": true
     },
     {
       "id": "f08",
-      "name": "账户间转账",
+      "name": "Transfers between accounts",
       "steps": [
-        "两个账户之间转账",
-        "转出账户减少、转入账户增加",
-        "系统形成相互关联的转出/转入记录",
-        "总净资产不因同币种内部转账而凭空改变",
-        "编辑转账关系时双方保持一致。官方说明一次转账会创建两条 Balance Correction 交易，净额为 0；跨币种时还可存在汇率。"
+        "Transfer between two accounts",
+        "The source account decreases and the destination account increases",
+        "The system creates mutually linked outgoing/incoming records",
+        "Total net worth does not change out of nowhere because of an internal same-currency transfer",
+        "When editing the transfer relationship both sides stay consistent. The official documentation states that one transfer creates two Balance Correction transactions with a net of 0; for cross-currency transfers an exchange rate can also apply."
       ],
-      "expected": "转账必须生成成对记录并使转出与转入账户同步变化；同币种转账不能改变总净资产，也不能计入收入或支出；编辑一方时另一方需保持一致。",
+      "expected": "A transfer must generate a paired record and change the source and destination accounts in sync; a same-currency transfer must not change total net worth or count as income or expense; editing one side must keep the other side consistent.",
       "persistence": false
     },
     {
       "id": "f09",
-      "name": "即将到来 / 订阅 / 重复交易状态机",
+      "name": "Upcoming / subscription / recurring transaction state machine",
       "steps": [
-        "新建交易时选择“即将到来 / 订阅 / 重复”",
-        "未支付的未来交易不计入已完成总额",
-        "到期或手动标记 Paid 后进入真实财务统计",
-        "重复交易再生成下一周期实例",
-        "Skip 与 Paid 产生不同状态结果。官方对这套状态机有明确说明。"
+        "Choose \"upcoming / subscription / recurring\" when creating a transaction",
+        "Unpaid future transactions do not count toward the completed total",
+        "When due or manually marked Paid it enters the real financial statistics",
+        "A recurring transaction generates the next-period instance",
+        "Skip and Paid produce different state results. The official documentation gives a clear description of this state machine."
       ],
-      "expected": "未支付的即将到来交易不能计入余额与已完成统计；标记 Paid 后必须计入并生成下一周期实例；Skip 与 Paid 需产生不同状态与后续实例结果。",
+      "expected": "An unpaid upcoming transaction must not count toward the balance or completed statistics; after marking it Paid it must count and generate the next-period instance; Skip and Paid must produce different states and subsequent-instance results.",
       "persistence": false
     },
     {
       "id": "f10",
-      "name": "交易月份导航、搜索与组合过滤",
+      "name": "Transaction month navigation, search, and combined filtering",
       "steps": [
-        "在交易页切换七月/八月/九月等月份",
-        "仅显示当前周期记录",
-        "搜索标题",
-        "再叠加账户、类别、收入/支出、日期等过滤",
-        "结果表示条件交集",
-        "清除部分条件后即时重新计算。官方也明确支持多条件交易搜索与过滤。"
+        "Switch between months such as July/August/September on the transactions page",
+        "Only the current period's records are shown",
+        "Search by title",
+        "Then add filters such as account, category, income/expense, and date",
+        "The results represent the intersection of the conditions",
+        "After clearing part of the conditions they are recomputed immediately. The official documentation also explicitly supports multi-condition transaction search and filtering."
       ],
-      "expected": "月份切换必须只显示该周期交易；多条件过滤取交集，清除任一条件后结果即时扩大；搜索与过滤不能修改任何原始交易数据。",
+      "expected": "Switching months must show only that period's transactions; multiple filters are intersected, and clearing any condition immediately widens the results; searching and filtering must not modify any raw transaction data.",
       "persistence": false
     },
     {
       "id": "f11",
-      "name": "收支分析与派生图表",
+      "name": "Income/expense analysis and derived charts",
       "steps": [
-        "创建多笔不同类别的收入/支出",
-        "首页趋势图、账户详情圆环图、收支总额随数据变化",
-        "切换“外向/传入”或“全部/支出/收入”只改变统计范围，不修改原交易"
+        "Create several income/expense transactions in different categories",
+        "The home trend chart, the account-detail donut chart, and the income/expense totals change with the data",
+        "Switching \"Outgoing/Incoming\" or \"All/Expenses/Income\" only changes the statistics scope and does not modify the original transactions"
       ],
-      "expected": "图表与收支总额必须由真实交易聚合得出，并随新增、编辑、删除同步变化；切换统计范围只改变视图口径，不能修改或隐藏原始交易。",
+      "expected": "Charts and income/expense totals must be aggregated from real transactions and change in sync with additions, edits, and deletions; switching the statistics scope only changes the view and must not modify or hide the raw transactions.",
       "persistence": false
     },
     {
       "id": "f12",
-      "name": "费用预算 / 储蓄预算创建",
+      "name": "Creating an expense budget / savings budget",
       "steps": [
-        "新建预算",
-        "选择费用预算或储蓄预算",
-        "设置名称、目标金额、颜色、开始日期和周期",
-        "保存",
-        "预算卡片显示当前周期范围和进度",
-        "到下一周期时按规则进入新的周期"
+        "Create a new budget",
+        "Choose an expense budget or a savings budget",
+        "Set the name, target amount, color, start date, and period",
+        "Save",
+        "The budget card shows the current period range and progress",
+        "At the next period it enters a new period according to the rules"
       ],
-      "expected": "预算必须按设定的开始日期与周期界定当前周期范围并显示进度；周期结束后自动进入新周期并重置当期进度；费用与储蓄预算的进度方向应各自正确。",
+      "expected": "A budget must define the current period range by its configured start date and period and show progress; when the period ends it automatically enters a new period and resets the current progress; expense and savings budgets must each show progress in the correct direction.",
       "persistence": false
     },
     {
       "id": "f13",
-      "name": "“仅限已添加”预算",
+      "name": "\"Added only\" budget",
       "steps": [
-        "创建 Added Only 预算",
-        "普通交易默认不计入",
-        "在添加/编辑交易时明确选择该预算",
-        "预算进度增加",
-        "从预算移除该交易后预算下降，但账户余额和交易本身保持不变。官方定义该预算只统计手动加入的交易。"
+        "Create an Added Only budget",
+        "Ordinary transactions do not count by default",
+        "Explicitly select the budget when adding/editing a transaction",
+        "The budget progress increases",
+        "After removing the transaction from the budget the budget decreases while the account balance and the transaction itself stay unchanged. The official definition says this budget only counts manually added transactions."
       ],
-      "expected": "普通交易不得自动计入该预算，只有显式关联的交易才计入；移除关联后预算进度回退，但交易与账户余额必须保持不变。",
+      "expected": "Ordinary transactions must not automatically count toward this budget; only explicitly linked transactions count; after removing the link the budget progress rolls back while the transaction and account balance must stay unchanged.",
       "persistence": false
     },
     {
       "id": "f14",
-      "name": "“所有交易”动态预算规则",
+      "name": "\"All transactions\" dynamic budget rules",
       "steps": [
-        "创建 All Transactions 预算",
-        "配置包含的交易类型、账户和类别，并可排除类别",
-        "之后任何符合规则的新交易自动计入",
-        "不符合规则的不计入",
-        "修改过滤器后历史交易集合重新评估。"
+        "Create an All Transactions budget",
+        "Configure the included transaction types, accounts, and categories, and exclude categories",
+        "Afterwards any new transaction matching the rules counts automatically",
+        "Those that do not match do not count",
+        "After changing the filter the historical transaction set is re-evaluated."
       ],
-      "expected": "符合过滤规则的交易必须自动计入，不符合的不能计入；修改过滤器后已有交易集合需重新评估而非只影响新交易；排除条件应优先于包含条件。",
+      "expected": "Transactions matching the filter rules must automatically count and those that do not match must not; after changing the filter the existing transaction set must be re-evaluated rather than only affecting new transactions; exclusion conditions should take precedence over inclusion conditions.",
       "persistence": false
     },
     {
       "id": "f15",
-      "name": "预算实时进度与可花额度",
+      "name": "Real-time budget progress and spendable allowance",
       "steps": [
-        "¥1000 月预算",
-        "加入 ¥200、¥100 等支出",
-        "已用百分比和剩余额度同步变化",
-        "“每天还可以花/存多少”根据剩余金额和剩余天数重新计算",
-        "修改或删除交易后图表、百分比和每日建议同时重算"
+        "A ¥1000 monthly budget",
+        "Add expenses such as ¥200 and ¥100",
+        "The used percentage and remaining allowance change in sync",
+        "\"How much can still be spent/saved per day\" is recalculated from the remaining amount and remaining days",
+        "After editing or deleting a transaction the chart, percentage, and daily suggestion are all recomputed together"
       ],
-      "expected": "已用百分比必须等于当期支出与预算金额之比，剩余额度为两者之差；每日可花金额按剩余额度与剩余天数计算；交易变动后三项数值同步重算。",
+      "expected": "The used percentage must equal the ratio of current-period spending to the budget amount, and the remaining allowance is the difference between the two; the daily spendable amount is computed from the remaining allowance and remaining days; after a transaction change all three values are recomputed in sync.",
       "persistence": false
     },
     {
       "id": "f16",
-      "name": "周期预算与历史",
+      "name": "Periodic budgets and history",
       "steps": [
-        "月度/周度等重复预算跨越周期边界",
-        "新周期重置当期进度但保留过去周期记录",
-        "通过历史入口查看过去周期的支出分解",
-        "当前周期与历史周期共享同一预算定义。官方说明周期预算会重复，过去周期可查看历史。"
+        "Recurring budgets such as monthly/weekly cross period boundaries",
+        "A new period resets the current progress while keeping past-period records",
+        "View the past periods' spending breakdown through the history entry",
+        "The current period and historical periods share the same budget definition. The official documentation states that periodic budgets repeat and past periods can be viewed as history."
       ],
-      "expected": "新周期开始后当期进度必须归零，过去周期的支出与进度记录保留可查；历史周期与当前周期共享同一预算定义，删除预算时历史处理需一致。",
+      "expected": "When a new period starts the current progress must reset to zero while past periods' spending and progress records remain viewable; historical and current periods share the same budget definition, and deleting a budget must handle history consistently.",
       "persistence": false
     },
     {
       "id": "f17",
-      "name": "首页模块自定义",
+      "name": "Home-page module customization",
       "steps": [
-        "进入“编辑主页”",
-        "启用/关闭账户、预算、目标、收支、趋势、支出图表、饼图、热力图、交易列表等模块",
-        "拖动调整顺序",
-        "返回主页后完全按照新结构排列",
-        "数据内容不因隐藏模块而被删除。官方文档确认模块可排序和显隐。"
+        "Open \"Edit home page\"",
+        "Enable/disable modules such as accounts, budgets, goals, income/expense, trends, spending charts, pie chart, heatmap, and transaction list",
+        "Drag to reorder",
+        "After returning to the home page it is arranged entirely according to the new structure",
+        "Data content is not deleted by hiding modules. The official documentation confirms that modules can be reordered and shown/hidden."
       ],
-      "expected": "首页必须按配置的顺序与可见性渲染模块，隐藏的模块不再显示；配置需持久化，重启后保持；隐藏模块不能删除底层数据，重新启用后数据完整。",
+      "expected": "The home page must render modules in the configured order and visibility, and hidden modules are no longer shown; the configuration must persist and be preserved after a restart; hiding a module must not delete the underlying data, and re-enabling it keeps the data intact.",
       "persistence": false
     },
     {
       "id": "f18",
-      "name": "账单分摊",
+      "name": "Bill splitting",
       "steps": [
-        "创建新账单",
-        "添加参与人姓名",
-        "添加项目，设置价格与数量",
-        "开启“均匀拆分”时按参与人数分配",
-        "多项目累计到总账单",
-        "修改项目金额/数量后个人应付额与已分配总额同步重新计算"
+        "Create a new bill",
+        "Add participant names",
+        "Add items and set prices and quantities",
+        "With \"even split\" enabled the amount is divided by the number of participants",
+        "Multiple items accumulate into the bill total",
+        "After changing an item's amount/quantity the individual shares and the allocated total are recomputed in sync"
       ],
-      "expected": "项目小计必须等于单价乘数量，账单总额为各项目之和；均匀拆分时每人应付按人数正确分配且合计与总额一致；修改项目后个人分摊额同步重算。",
+      "expected": "An item's subtotal must equal unit price times quantity, and the bill total is the sum of the items; with even splitting each person's share is correctly allocated by headcount and the shares sum to the total; after modifying an item the individual shares are recomputed in sync.",
       "persistence": false
     },
     {
       "id": "f19",
-      "name": "CSV 交易导入 / 导出",
+      "name": "CSV transaction import / export",
       "steps": [
-        "导出现有交易 CSV",
-        "在外部或测试文件中准备日期、金额、类别等列",
-        "导入时映射 CSV 列到 Cashew 字段",
-        "正数形成收入、负数形成支出",
-        "缺失主类别可按规则创建",
-        "导入后账户和统计更新。CSV 面向交易迁移，不等价于完整应用备份。"
+        "Export the existing transactions as CSV",
+        "Prepare columns such as date, amount, and category in an external or test file",
+        "Map the CSV columns to Cashew fields during import",
+        "Positive numbers become income and negative numbers become expenses",
+        "A missing main category can be created according to the rules",
+        "After the import, accounts and statistics update. CSV targets transaction migration and is not equivalent to a full app backup."
       ],
-      "expected": "列映射必须决定字段写入位置；正数需生成收入、负数生成支出；导入后账户余额与统计按新交易更新；无效行应被跳过或报错而非静默写入错误数据。",
+      "expected": "The column mapping must determine where fields are written; positive numbers must create income and negative numbers expenses; after importing, account balances and statistics update with the new transactions; invalid rows should be skipped or reported rather than silently writing wrong data.",
       "persistence": false
     },
     {
       "id": "f20",
-      "name": "完整数据文件备份与恢复",
+      "name": "Full data-file backup and restore",
       "steps": [
-        "创建本地 Cashew Data File",
-        "此后修改账户、预算、交易及设置",
-        "导入旧数据文件",
-        "当前数据库整体恢复到备份时间点",
-        "首页、预算和统计根据恢复数据重建。官方说明该文件是数据库直接副本，恢复会覆盖当前数据，且与 CSV 的部分数据迁移语义不同。"
+        "Create a local Cashew Data File",
+        "Afterwards change accounts, budgets, transactions, and settings",
+        "Import the old data file",
+        "The current database as a whole returns to the backup point in time",
+        "The home page, budgets, and statistics are rebuilt from the restored data. The official documentation states that this file is a direct copy of the database, that restoring overwrites the current data, and that its semantics differ from CSV partial data migration."
       ],
-      "expected": "恢复必须覆盖当前数据库并回到备份时间点，备份之后的改动不应残留；首页、预算与统计需按恢复数据重建；该文件包含完整数据，语义不同于 CSV 部分迁移。",
+      "expected": "A restore must overwrite the current database and return to the backup point in time, and changes made after the backup should not remain; the home page, budgets, and statistics must be rebuilt from the restored data; this file contains full data and differs semantically from CSV partial migration.",
       "persistence": false
     }
   ]

@@ -23,6 +23,9 @@ Examples:
     # web baseline instead of Android (4th token = condition)
     scripts/launch_batch.py explore codex ecommerce_demo web
 
+    # web no-graph ablation (no discovery-recording tools)
+    scripts/launch_batch.py explore kimi ecommerce_demo web-nograph
+
 With ``--jobs FILE`` a JSON list of tasks may be used instead:
 
     [{"kind": "eval", "target": "vinyl",
@@ -91,6 +94,13 @@ SKILLS = {
     "android": "android-blackbox-explorer",   # Android baseline
     "web": "blackbox-explorer",               # 网页 baseline
     "nograph": "baseline-nograph",            # Android 消融（不要求记录）
+    "web-nograph": "web-nograph",             # 网页消融（不要求记录）
+}
+
+# 消融条件 → dsh 专用 profile（条件隔离：只挂各自消融版的 MCP）。
+_DSH_ABLATION_PROFILE = {
+    "nograph": "headless-nograph",
+    "web-nograph": "headless-web-nograph",
 }
 
 # Judge settings are pinned so every evaluation is comparable (see
@@ -128,11 +138,13 @@ class Task:
             if EXPLORE_MODEL and self.agent in ("codex", "opencode", "zcode"):
                 self.command += ["-m", EXPLORE_MODEL]
             self.command.append(skill)
-            # nograph 条件必须只挂 nograph 的 MCP（条件隔离）：
+            # nograph / web-nograph 条件必须只挂各自消融版的 MCP（条件隔离）：
             # 换成专用 profile —— 否则 agent 会拿到 baseline 的记录工具面 ✗
-            # （2026-09-27 实测：误连 baseline MCP，消融失效）。
-            if self.agent == "dsh" and self.condition == "nograph":
-                self.command = ["headless-nograph" if c == "headless" else c
+            # （2026-09-27 实测：误连 baseline MCP，消融失效；
+            #   2026-09-29 起 web-nograph 使用 headless-web-nograph profile）。
+            if self.agent == "dsh" and self.condition in _DSH_ABLATION_PROFILE:
+                profile = _DSH_ABLATION_PROFILE[self.condition]
+                self.command = [profile if c == "headless" else c
                                 for c in self.command]
             self.cwd = EXPLORE_CWD
             suffix = "" if self.condition == "android" else f"_{self.condition}"

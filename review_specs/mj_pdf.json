@@ -4,975 +4,975 @@
   "features": [
     {
       "id": "f01",
-      "name": "打开本地 PDF",
+      "name": "Open a local PDF",
       "steps": [
-        "启动 App",
-        "点击右下角文件夹按钮",
-        "调起系统文件选择器",
-        "进入 Download 等目录",
-        "选择一个多页 PDF",
-        "打开阅读器",
-        "返回主页"
+        "Launch the app",
+        "Tap the folder button in the bottom-right corner",
+        "Bring up the system file picker",
+        "Enter a directory such as Download",
+        "Select a multi-page PDF",
+        "Open the reader",
+        "Return to the home page"
       ],
-      "expected": "验证能够通过 Android 文件选择器选择 PDF；正确显示文档；返回后 PDF 出现在“最近”和资料库中；保留页数、文件大小、最近打开信息",
+      "expected": "Verify that a PDF can be selected through the Android file picker; the document is displayed correctly; after returning the PDF appears in \"recent\" and the library; the page count, file size, and recent-open information are preserved",
       "persistence": false
     },
     {
       "id": "f02",
-      "name": "最近阅读列表",
+      "name": "Recently read list",
       "steps": [
-        "首次启动确认“最近”为空",
-        "打开 PDF",
-        "返回主页",
-        "切换“最近”",
-        "确认文档卡片出现",
-        "再次点击卡片打开"
+        "On first launch confirm that \"recent\" is empty",
+        "Open the PDF",
+        "Return to the home page",
+        "Toggle \"recent\"",
+        "Confirm the document card appears",
+        "Tap the card again to open"
       ],
-      "expected": "最近记录需要持久化；缩略图、标题、阅读进度等随阅读状态变化；重新启动 App 后仍存在",
+      "expected": "Recent records must persist; thumbnails, titles, and reading progress change with the reading state; they still exist after restarting the app",
       "persistence": true
     },
     {
       "id": "f03",
-      "name": "资料库自动收录",
+      "name": "Library auto-indexing",
       "steps": [
-        "打开一个 PDF",
-        "返回主页",
-        "切换“资料库”",
-        "验证文件出现在“所有文件”中"
+        "Open a PDF",
+        "Return to the home page",
+        "Toggle \"library\"",
+        "Verify that the file appears in \"all files\""
       ],
-      "expected": "“最近”和“资料库”不是同一状态；从最近记录移除不能直接删除资料库记录",
+      "expected": "\"Recent\" and \"Library\" are not the same state; removing from recent records must not directly delete the library record",
       "persistence": false
     },
     {
       "id": "f04",
-      "name": "文件夹视图浏览",
+      "name": "Folder-view browsing",
       "steps": [
-        "切换“文件夹”",
-        "进入存储位置",
-        "进入包含 PDF 的文件夹",
-        "查看 PDF",
-        "返回上级目录"
+        "Toggle \"folders\"",
+        "Enter the storage location",
+        "Enter a folder containing PDFs",
+        "View the PDF",
+        "Return to the parent directory"
       ],
-      "expected": "需要维护当前路径、目录层级和返回行为；显示文档缩略图、页数、文件大小",
+      "expected": "The current path, directory hierarchy, and back behavior must be maintained; document thumbnails, page counts, and file sizes are shown",
       "persistence": false
     },
     {
       "id": "f05",
-      "name": "文件夹层级 / 平铺模式",
+      "name": "Folder hierarchy / tile mode",
       "steps": [
-        "文件夹页",
-        "更多菜单",
-        "“文件夹视图”",
-        "在“层级”和“平铺”之间切换",
-        "返回检查文件组织方式变化"
+        "Folders page",
+        "More menu",
+        "\"Folder view\"",
+        "Switch between \"hierarchy\" and \"tiles\"",
+        "Return to check the change in file organization"
       ],
-      "expected": "两种模式需要产生实际布局/导航变化，并持久化配置",
+      "expected": "The two modes need to produce actual layout/navigation changes and persist the configuration",
       "persistence": true
     },
     {
       "id": "f06",
-      "name": "PDF 基础连续滚动阅读",
+      "name": "Basic continuous-scroll PDF reading",
       "steps": [
-        "打开多页 PDF",
-        "向下连续滑动",
-        "跨越多页",
-        "再向上返回",
-        "观察页面连续衔接"
+        "Open a multi-page PDF",
+        "Swipe down continuously",
+        "Spans multiple pages",
+        "Then go back up",
+        "Observe the continuous page transitions"
       ],
-      "expected": "核心 PDF 渲染能力；需要正确处理多页、加载、滚动位置和页面边界；不能把整份 PDF 当静态长图",
+      "expected": "Core PDF rendering capability; multiple pages, loading, scroll position, and page boundaries must be handled correctly; the whole PDF must not be treated as one static long image",
       "persistence": false
     },
     {
       "id": "f07",
-      "name": "阅读进度保存与恢复",
+      "name": "Reading-progress save and restore",
       "steps": [
-        "打开 30+ 页 PDF",
-        "滚动至中间页面",
-        "退出文档",
-        "返回主页观察进度",
-        "再次打开"
+        "Open a 30+ page PDF",
+        "Scroll to the middle page",
+        "Exit the document",
+        "Return to the home page and observe the progress",
+        "Open again"
       ],
-      "expected": "需要恢复之前阅读位置；主页卡片应显示对应页码/百分比；进度属于文件状态而非一次会话",
+      "expected": "The previous reading position must be restored; the home card should show the corresponding page number/percentage; progress is file state rather than a single session",
       "persistence": false
     },
     {
       "id": "f08",
-      "name": "阅读状态管理",
+      "name": "Reading-state management",
       "steps": [
-        "资料库",
-        "打开文档操作面板",
-        "“设置状态”",
-        "分别设置为“待读 / 阅读中 / 暂停 / 已完成 / 已放弃”",
-        "切换资料库筛选"
+        "Library",
+        "Open the document action panel",
+        "\"Settings state\"",
+        "Set to \"to read / reading / paused / finished / abandoned\" respectively",
+        "Switch the library filter"
       ],
-      "expected": "资料库提供“所有文件、待读、阅读中、暂停、已完成、已放弃”；状态变化必须立即影响筛选结果并持久化",
+      "expected": "The library provides \"all files, to read, reading, paused, finished, abandoned\"; state changes must immediately affect the filtered results and persist",
       "persistence": true
     },
     {
       "id": "f09",
-      "name": "搜索资料库",
+      "name": "Search the library",
       "steps": [
-        "首页搜索框",
-        "输入文件标题关键字",
-        "查看匹配结果",
-        "清空关键词"
+        "Home-page search box",
+        "Enter a file-title keyword",
+        "View the matching results",
+        "Clear the keyword"
       ],
-      "expected": "实时或提交后过滤；无结果时显示合理空状态；搜索不能破坏资料库原有状态",
+      "expected": "Filter in real time or after submitting; show a reasonable empty state when there are no results; searching must not damage the library's original state",
       "persistence": false
     },
     {
       "id": "f10",
-      "name": "从最近记录移除",
+      "name": "Remove from recent records",
       "steps": [
-        "文档卡片菜单",
-        "“从最近记录中移除”",
-        "回到最近页检查消失",
-        "资料库页确认文件仍存在"
+        "Document card menu",
+        "\"Remove from recent records\"",
+        "Return to the recent page to check it disappeared",
+        "Confirm on the library page that the file still exists"
       ],
-      "expected": "明确区分“最近记录”和“资料库”；不应删除真实 PDF",
+      "expected": "Clearly distinguish \"recent records\" from \"library\"; the real PDF must not be deleted",
       "persistence": false
     },
     {
       "id": "f11",
-      "name": "从资料库隐藏",
+      "name": "Hide from the library",
       "steps": [
-        "文档卡片菜单",
-        "“从资料库中隐藏”",
-        "返回资料库确认隐藏",
-        "仍可从文件夹找到并打开"
+        "Document card menu",
+        "\"Hide from library\"",
+        "Return to the library to confirm it is hidden",
+        "It can still be found and opened from the folder"
       ],
-      "expected": "这是资料库可见性状态，不是文件删除；重新打开文件后的行为应符合设定",
+      "expected": "This is a library-visibility state, not file deletion; the behavior after reopening the file should match the setting",
       "persistence": false
     },
     {
       "id": "f12",
-      "name": "无痕模式打开",
+      "name": "Open in incognito mode",
       "steps": [
-        "文档卡片菜单",
-        "“以无痕模式打开”",
-        "阅读若干页",
-        "退出",
-        "检查最近记录、进度等是否未被正常历史机制记录"
+        "Document card menu",
+        "\"Open in incognito mode\"",
+        "Read several pages",
+        "Exit",
+        "Check whether recent records, progress, etc. are not recorded by the normal history mechanism"
       ],
-      "expected": "无痕模式需要与普通模式隔离阅读历史/进度等持久状态",
+      "expected": "Incognito mode must be isolated from normal mode for persistent states such as reading history and progress",
       "persistence": true
     },
     {
       "id": "f13",
-      "name": "重命名 PDF",
+      "name": "Rename the PDF",
       "steps": [
-        "文档卡片菜单",
-        "“重命名”",
-        "输入新名称",
-        "保存",
-        "返回资料库/文件夹确认名称更新"
+        "Document card menu",
+        "\"Rename\"",
+        "Enter a new name",
+        "Save",
+        "Return to the library/folders to confirm the name update"
       ],
-      "expected": "需要修改实际文件名或对应文件状态；非法文件名、重复名称等应有合理处理",
+      "expected": "It must modify the actual file name or the corresponding file state; illegal file names, duplicate names, etc. should be handled reasonably",
       "persistence": false
     },
     {
       "id": "f14",
-      "name": "删除 PDF",
+      "name": "Delete the PDF",
       "steps": [
-        "文档卡片菜单",
-        "“删除 PDF”",
-        "确认删除",
-        "检查资料库、最近和文件夹"
+        "Document card menu",
+        "\"Delete the PDF\"",
+        "Confirm the deletion",
+        "Check the library, recent, and folders"
       ],
-      "expected": "删除是破坏性操作；文件、资料库记录和最近记录需要一致更新；取消操作不能改变状态",
+      "expected": "Deletion is a destructive operation; files, library records, and recent records need to update consistently; cancelling must not change the state",
       "persistence": false
     },
     {
       "id": "f15",
-      "name": "分享 PDF 文件",
+      "name": "Share the PDF file",
       "steps": [
-        "文档操作面板",
-        "“分享 PDF 文件”",
-        "调起 Android 分享面板",
-        "返回 App"
+        "Document action panel",
+        "\"Share the PDF file\"",
+        "Bring up the Android share sheet",
+        "Return to the app"
       ],
-      "expected": "应共享原 PDF 文件，而非截图或文本；取消分享后 App 状态不变",
+      "expected": "The original PDF file should be shared rather than a screenshot or text; the app state is unchanged after cancelling the share",
       "persistence": false
     },
     {
       "id": "f16",
-      "name": "文档属性",
+      "name": "Document properties",
       "steps": [
-        "阅读器菜单",
-        "“文档属性”",
-        "查看标题、文件信息/页面等元数据",
-        "返回"
+        "Reader menu",
+        "\"Document properties\"",
+        "View metadata such as the title and file information/pages",
+        "Back"
       ],
-      "expected": "属性应和当前打开文件一致；不同 PDF 信息需动态变化",
+      "expected": "The properties should match the currently open file; different PDFs' information must change dynamically",
       "persistence": false
     },
     {
       "id": "f17",
-      "name": "深色阅读模式",
+      "name": "Dark reading mode",
       "steps": [
-        "打开 PDF",
-        "阅读器菜单",
-        "开启“深色模式”",
-        "检查文档视觉变化",
-        "再关闭"
+        "Open the PDF",
+        "Reader menu",
+        "Enable \"dark mode\"",
+        "Check the document's visual changes",
+        "Close again"
       ],
-      "expected": "区分 App UI 主题与 PDF 阅读页面主题；切换应实时作用于当前文档",
+      "expected": "Distinguish the app UI theme from the PDF reading-page theme; switching should affect the current document in real time",
       "persistence": false
     },
     {
       "id": "f18",
-      "name": "全屏阅读",
+      "name": "Full-screen reading",
       "steps": [
-        "打开 PDF",
-        "菜单点击“全屏”",
-        "隐藏主要系统/阅读控件",
-        "操作唤出控件",
-        "退出全屏"
+        "Open the PDF",
+        "Tap \"full screen\" in the menu",
+        "Hide the main system/reading controls",
+        "Operations reveal the controls",
+        "Exit full screen"
       ],
-      "expected": "全屏状态、系统栏、工具栏显示/隐藏需要正确恢复；手势后 UI 状态不能错乱",
+      "expected": "The full-screen state, system bars, and toolbar visibility must be correctly restored; the UI state must not become disordered after gestures",
       "persistence": false
     },
     {
       "id": "f19",
-      "name": "控件自动隐藏",
+      "name": "Controls auto-hide",
       "steps": [
-        "设置",
-        "自定义控件",
-        "配置“控件隐藏延迟”",
-        "打开 PDF",
-        "停止操作",
-        "等待设定时间",
-        "验证工具栏隐藏",
-        "点击页面重新显示"
+        "Settings",
+        "Custom controls",
+        "Configure the \"control hide delay\"",
+        "Open the PDF",
+        "Stop the operation",
+        "Wait for the set time",
+        "Verify that the toolbar is hidden",
+        "Tap the page to show it again"
       ],
-      "expected": "涉及计时状态；用户交互需要重置隐藏计时器",
+      "expected": "Involves the timing state; user interaction needs to reset the hidden timer",
       "persistence": false
     },
     {
       "id": "f20",
-      "name": "打开另一份 PDF",
+      "name": "Open another PDF",
       "steps": [
-        "阅读器菜单",
-        "“打开另一个 PDF 文档”",
-        "系统文件选择器选择另一 PDF",
-        "确认切换文档"
+        "Reader menu",
+        "\"Open another PDF document\"",
+        "Select another PDF with the system file picker",
+        "Confirm the document switch"
       ],
-      "expected": "原文档状态需保存；新文档应正确初始化/恢复自身阅读状态",
+      "expected": "The original document's state must be saved; a new document should correctly initialize/restore its own reading state",
       "persistence": false
     },
     {
       "id": "f21",
-      "name": "单独窗口打开多个 PDF",
+      "name": "Open several PDFs in separate windows",
       "steps": [
-        "设置",
-        "高级",
-        "开启“在单独窗口中打开 PDF”",
-        "依次打开多个 PDF",
-        "使用 Android 最近任务查看多个文档任务",
-        "关闭其中一个"
+        "Settings",
+        "Advanced",
+        "Enable \"open PDFs in a separate window\"",
+        "Open several PDFs in turn",
+        "Use Android recent tasks to view several document tasks",
+        "Disable one of them"
       ],
-      "expected": "涉及 Android Activity/Task 生命周期；不同 PDF 的阅读位置和窗口状态应隔离",
+      "expected": "Involves the Android Activity/Task lifecycle; different PDFs' reading positions and window states should be isolated",
       "persistence": false
     },
     {
       "id": "f22",
-      "name": "页面跳转",
+      "name": "Page jumping",
       "steps": [
-        "阅读器菜单",
-        "“前往页面”",
-        "输入一个有效页码",
-        "跳转",
-        "再输入首页/末页附近页码"
+        "Reader menu",
+        "\"Go to page\"",
+        "Enter a valid page number",
+        "Jump",
+        "Then enter a page number near the first/last page"
       ],
-      "expected": "页码范围验证；1 ≤ page ≤ 总页数；非法页码不能导致崩溃",
+      "expected": "Page-number range validation; 1 ≤ page ≤ total pages; an illegal page number must not cause a crash",
       "persistence": false
     },
     {
       "id": "f23",
-      "name": "文档内文本搜索",
+      "name": "In-document text search",
       "steps": [
-        "打开文本型 PDF",
-        "点击“搜索”",
-        "输入关键词",
-        "查看匹配结果",
-        "前往下一个/上一个结果",
-        "清除搜索"
+        "Open a text-based PDF",
+        "Tap \"search\"",
+        "Enter a keyword",
+        "View the matching results",
+        "Go to the next/previous result",
+        "Clear the search"
       ],
-      "expected": "需要解析 PDF 文字层；高亮匹配内容；保存当前位置；无匹配结果需反馈",
+      "expected": "The PDF text layer must be parsed; matching content is highlighted; the current position is saved; no-match results need feedback",
       "persistence": false
     },
     {
       "id": "f24",
-      "name": "搜索结果自动缩放",
+      "name": "Zoom to search results",
       "steps": [
-        "设置",
-        "文字与搜索",
-        "开启“缩放至搜索结果”",
-        "搜索页面中较小文字",
-        "切换不同匹配项"
+        "Settings",
+        "Text and search",
+        "Enable \"zoom to search results\"",
+        "Search for smaller text on the page",
+        "Switch between different matches"
       ],
-      "expected": "开启后视图应自动定位并放大匹配文字；关闭时只需居中定位",
+      "expected": "When enabled the view should automatically locate and zoom to the matching text; when disabled it only needs to center the position",
       "persistence": false
     },
     {
       "id": "f25",
-      "name": "忽略重音字符搜索",
+      "name": "Accent-insensitive search",
       "steps": [
-        "设置",
-        "文字与搜索",
-        "启用/关闭“忽略重音字母”",
-        "使用包含 é/č/ž 等字符的 PDF 搜索无重音形式"
+        "Settings",
+        "Text and search",
+        "Enable/disable \"ignore accented letters\"",
+        "Search for an unaccented form in a PDF containing characters such as é/č/ž"
       ],
-      "expected": "搜索标准化规则需随开关变化，例如 é ↔ e；这是非常好的可验证逻辑任务",
+      "expected": "The search normalization rules must change with the toggle, e.g. é ↔ e; this is an excellent verifiable logic task",
       "persistence": false
     },
     {
       "id": "f26",
-      "name": "PDF 页面文字选择",
+      "name": "PDF page text selection",
       "steps": [
-        "设置",
-        "文字与搜索",
-        "开启“在 PDF 页面上启用文字选择”",
-        "长按页面文本",
-        "调整选择范围",
-        "取消"
+        "Settings",
+        "Text and search",
+        "Enable \"enable text selection on PDF pages\"",
+        "Long-press the page text",
+        "Adjust the selection range",
+        "Cancel"
       ],
-      "expected": "需要精确命中文字层并显示选择范围；缩放、滚动后选择位置仍应正确",
+      "expected": "The text layer must be hit precisely and the selection range shown; the selection position must still be correct after zooming and scrolling",
       "persistence": false
     },
     {
       "id": "f27",
-      "name": "复制页面文字",
+      "name": "Copy page text",
       "steps": [
-        "阅读器菜单",
-        "“复制页面文字”",
-        "复制当前页文本",
-        "粘贴到可验证输入框"
+        "Reader menu",
+        "\"Copy page text\"",
+        "Copy the current page's text",
+        "Paste into a verifiable input box"
       ],
-      "expected": "复制内容应对应当前页真实文字顺序，而不是整份文档或截图 OCR",
+      "expected": "The copied content should correspond to the real text order of the current page rather than the whole document or OCR of a screenshot",
       "persistence": false
     },
     {
       "id": "f28",
-      "name": "文字模式阅读",
+      "name": "Text-mode reading",
       "steps": [
-        "阅读器菜单",
-        "“文字模式”",
-        "以重排文本阅读当前 PDF",
-        "滚动",
-        "返回普通 PDF 页面模式"
+        "Reader menu",
+        "\"Text mode\"",
+        "Read the current PDF as reflowed text",
+        "Scroll",
+        "Return to the normal PDF page mode"
       ],
-      "expected": "需要从 PDF 解析文字内容并生成重新排版视图；与普通页面渲染模式状态切换",
+      "expected": "It must parse the text content from the PDF and generate a reflowed view, switching state with the normal page-rendering mode",
       "persistence": false
     },
     {
       "id": "f29",
-      "name": "文档链接浏览",
+      "name": "Document link browsing",
       "steps": [
-        "打开包含链接的 PDF",
-        "阅读器菜单",
-        "“文档中的链接”",
-        "查看链接列表",
-        "点击其中一个链接/内部跳转",
-        "返回"
+        "Open a PDF containing links",
+        "Reader menu",
+        "\"Links in the document\"",
+        "View the link list",
+        "Tap one of the links/internal jumps",
+        "Back"
       ],
-      "expected": "区分内部页链接和外部 URL；返回栈要正确",
+      "expected": "Distinguish internal page links from external URLs; the back stack must be correct",
       "persistence": false
     },
     {
       "id": "f30",
-      "name": "添加书签",
+      "name": "Add a bookmark",
       "steps": [
-        "打开某页",
-        "阅读器菜单",
-        "“添加书签”",
-        "翻到另一页再添加",
-        "打开“书签”",
-        "点击书签跳回对应页"
+        "Open a certain page",
+        "Reader menu",
+        "\"Add bookmark\"",
+        "Turn to another page and add it",
+        "Open \"bookmarks\"",
+        "Tap the bookmark to jump back to the corresponding page"
       ],
-      "expected": "书签与文件、页码绑定；多份 PDF 不能串数据；退出重进仍存在",
+      "expected": "Bookmarks are bound to the file and page number; multiple PDFs must not mix data; they still exist after exiting and re-entering",
       "persistence": true
     },
     {
       "id": "f31",
-      "name": "我的书签集合",
+      "name": "My bookmarks collection",
       "steps": [
-        "对多个 PDF 创建书签",
-        "打开菜单“书签”/对应管理入口",
-        "查看列表",
-        "选择书签进入对应文件和页码"
+        "Create bookmarks for several PDFs",
+        "Open the \"bookmarks\" menu/the corresponding management entry",
+        "View the list",
+        "Select a bookmark to open the corresponding file and page"
       ],
-      "expected": "跨文档持久化索引；文件被删除时需处理失效书签",
+      "expected": "A cross-document persistent index; invalid bookmarks must be handled when files are deleted",
       "persistence": true
     },
     {
       "id": "f32",
-      "name": "添加高亮",
+      "name": "Add a highlight",
       "steps": [
-        "打开文本型 PDF",
-        "选择一段文字",
-        "选择高亮颜色",
-        "创建高亮",
-        "退出再打开 PDF"
+        "Open a text-based PDF",
+        "Select a piece of text",
+        "Select the highlight color",
+        "Create a highlight",
+        "Exit and reopen the PDF"
       ],
-      "expected": "高亮必须绑定文字范围和页面坐标；缩放/旋转/重新加载后仍正确显示",
+      "expected": "A highlight must be bound to the text range and page coordinates; it must still display correctly after zooming/rotating/reloading",
       "persistence": false
     },
     {
       "id": "f33",
-      "name": "检测已有高亮",
+      "name": "Detect existing highlights",
       "steps": [
-        "设置",
-        "高亮",
-        "开启“检测已有高亮”",
-        "选择已经高亮过的完全相同文字"
+        "Settings",
+        "Highlight",
+        "Enable \"detect existing highlights\"",
+        "Select exactly the same text that was already highlighted"
       ],
-      "expected": "应显示已有高亮相关操作，而不是重复创建新标记",
+      "expected": "Existing highlight-related actions should be shown rather than creating duplicate new marks",
       "persistence": false
     },
     {
       "id": "f34",
-      "name": "高亮颜色切换",
+      "name": "Highlight-color switching",
       "steps": [
-        "设置",
-        "高亮",
-        "“高亮颜色”",
-        "在提供的多种颜色间选择",
-        "创建不同颜色的高亮"
+        "Settings",
+        "Highlight",
+        "\"Highlight color\"",
+        "Choose among the several colors provided",
+        "Create highlights in different colors"
       ],
-      "expected": "高亮颜色立即影响新创建高亮；已有高亮不应被无条件全部改色",
+      "expected": "The highlight color immediately affects newly created highlights; existing highlights must not be unconditionally recolored",
       "persistence": false
     },
     {
       "id": "f35",
-      "name": "我的高亮",
+      "name": "My highlights",
       "steps": [
-        "创建多个页面高亮",
-        "菜单“我的高亮”",
-        "查看列表",
-        "选择其中一项",
-        "自动跳至对应页面及位置"
+        "Create highlights on several pages",
+        "Menu \"my highlights\"",
+        "View the list",
+        "Select one of the items",
+        "Automatically jump to the corresponding page and position"
       ],
-      "expected": "列表与文档坐标双向关联；删除高亮后列表同步更新",
+      "expected": "The list and document coordinates are linked in both directions; after deleting a highlight the list updates in sync",
       "persistence": false
     },
     {
       "id": "f36",
-      "name": "我的笔记",
+      "name": "My notes",
       "steps": [
-        "在 PDF 阅读过程中创建/打开与文档相关的笔记",
-        "从菜单进入“我的笔记”",
-        "选择记录并返回相应文档位置"
+        "Create/open notes related to the document while reading the PDF",
+        "Enter \"My notes\" from the menu",
+        "Select a record and return to the corresponding document position"
       ],
-      "expected": "笔记需关联 PDF；重启后仍存在；删除文件时关联状态需要合理处理",
+      "expected": "The note must be linked to the PDF; it still exists after a restart; when the file is deleted the link state must be handled reasonably",
       "persistence": true
     },
     {
       "id": "f37",
-      "name": "PDF 内签名",
+      "name": "In-PDF signature",
       "steps": [
-        "阅读器菜单",
-        "“添加签名”",
-        "创建/选择签名",
-        "在页面上放置",
-        "确认"
+        "Reader menu",
+        "\"Add signature\"",
+        "Create/choose a signature",
+        "Place on the page",
+        "Confirm"
       ],
-      "expected": "需要绘制层与 PDF 页面坐标转换；移动/缩放后位置保持；取消不能产生修改",
+      "expected": "Coordinate conversion between the drawing layer and the PDF page is required; the position is preserved after moving/scaling; cancelling must not produce modifications",
       "persistence": true
     },
     {
       "id": "f38",
-      "name": "PDF 页面截图",
+      "name": "PDF page screenshot",
       "steps": [
-        "打开某页",
-        "阅读器菜单",
-        "“截图”",
-        "选择/生成当前页面截图",
-        "返回 App"
+        "Open a certain page",
+        "Reader menu",
+        "\"Screenshot\"",
+        "Select/generate a screenshot of the current page",
+        "Return to the app"
       ],
-      "expected": "截图应对应当前页面可见内容或页面输出；不能错误截取其他页",
+      "expected": "The screenshot should correspond to the visible content of the current page or the page output; other pages must not be captured by mistake",
       "persistence": false
     },
     {
       "id": "f39",
-      "name": "隐藏 PDF 页边距",
+      "name": "Hide PDF page margins",
       "steps": [
-        "阅读器菜单",
-        "“隐藏页边距”或设置“始终隐藏页边距”",
-        "对有明显空白边缘的 PDF 前后比较"
+        "Reader menu",
+        "\"Hide page margins\" or set \"always hide page margins\"",
+        "Compare a PDF with obvious blank margins before and after"
       ],
-      "expected": "首次分析页边界；裁切后文档内容区域扩大；不能裁掉正文",
+      "expected": "First analyze the page boundaries; after cropping the document content area expands; the body text must not be cropped away",
       "persistence": false
     },
     {
       "id": "f40",
-      "name": "页面间空白显示",
+      "name": "Blank space between pages",
       "steps": [
-        "设置",
-        "外观",
-        "开/关“页面之间的空白”",
-        "连续滚动多页 PDF"
+        "Settings",
+        "Appearance",
+        "Turn \"blank space between pages\" on/off",
+        "Continuously scroll through a multi-page PDF"
       ],
-      "expected": "页面间距应即时变化，不能改变页面内容坐标或阅读页码",
+      "expected": "The page spacing should change immediately without changing the page content coordinates or the reading page number",
       "persistence": false
     },
     {
       "id": "f41",
-      "name": "抗锯齿渲染",
+      "name": "Anti-aliased rendering",
       "steps": [
-        "设置",
-        "外观",
-        "开/关“抗锯齿”",
-        "放大文字/图形边缘比较"
+        "Settings",
+        "Appearance",
+        "Turn \"anti-aliasing\" on/off",
+        "Compare the edges at magnified text/graphics"
       ],
-      "expected": "渲染管线状态变化可视；不能影响布局和文字内容",
+      "expected": "The rendering-pipeline state changes are visible; the layout and text content must not be affected",
       "persistence": false
     },
     {
       "id": "f42",
-      "name": "高质量渲染",
+      "name": "High-quality rendering",
       "steps": [
-        "设置",
-        "外观",
-        "开启“高品质渲染”",
-        "打开包含图片/彩色图表的 PDF",
-        "放大查看"
+        "Settings",
+        "Appearance",
+        "Enable \"high-quality rendering\"",
+        "Open a PDF containing images/color charts",
+        "Zoom in to view"
       ],
-      "expected": "设置页说明 ARGB_8888 / RGB_565；测试重点是开关状态、重新渲染以及视觉差异和持久化",
+      "expected": "The settings page mentions ARGB_8888 / RGB_565; the key test points are the toggle state, re-rendering, visual differences, and persistence",
       "persistence": true
     },
     {
       "id": "f43",
-      "name": "UI / PDF 独立主题",
+      "name": "Independent UI / PDF themes",
       "steps": [
-        "设置",
-        "外观",
-        "UI 选择系统/浅色/深色",
-        "PDF 主题单独选择系统/浅色/深色",
-        "返回阅读器"
+        "Settings",
+        "Appearance",
+        "The UI selects system/light/dark",
+        "The PDF theme can be set separately to system/light/dark",
+        "Return to the reader"
       ],
-      "expected": "App UI 与 PDF 页面主题是两个独立状态；组合状态必须正确",
+      "expected": "The app UI and the PDF page theme are two independent states; the combined states must be correct",
       "persistence": false
     },
     {
       "id": "f44",
-      "name": "阅读模式切换",
+      "name": "Reading-mode switching",
       "steps": [
-        "设置",
-        "阅读",
-        "切换“连续滚动”等阅读模式",
-        "打开 PDF",
-        "比较页面切换方式"
+        "Settings",
+        "Read",
+        "Switch reading modes such as \"continuous scroll\"",
+        "Open the PDF",
+        "Compare the page-switching methods"
       ],
-      "expected": "不同模式应改变分页/滚动行为，同时保持当前页和缩放状态尽可能一致",
+      "expected": "Different modes should change the paging/scrolling behavior while keeping the current page and zoom state as consistent as possible",
       "persistence": true
     },
     {
       "id": "f45",
-      "name": "页面适应方式",
+      "name": "Page-fitting method",
       "steps": [
-        "设置",
-        "阅读",
-        "修改“页面适应”",
-        "打开不同尺寸 PDF",
-        "查看页面宽度/高度适配变化"
+        "Settings",
+        "Read",
+        "Change \"fit page\"",
+        "Open PDFs of different sizes",
+        "View the page width/height adaptation changes"
       ],
-      "expected": "适配算法作用于不同页尺寸；避免页面被异常裁切",
+      "expected": "The fitting algorithm works on different page sizes; pages must not be cropped abnormally",
       "persistence": false
     },
     {
       "id": "f46",
-      "name": "首页面单独显示",
+      "name": "Show only on the home page",
       "steps": [
-        "设置",
-        "阅读",
-        "开启“仅首页单独显示”",
-        "打开多页 PDF",
-        "检查首页与后续成对布局关系"
+        "Settings",
+        "Read",
+        "Enable \"show only on the home page separately\"",
+        "Open a multi-page PDF",
+        "Check the layout relationship between the home page and the subsequent screens in pairs"
       ],
-      "expected": "这是布局型状态，页码和页面顺序必须保持正确",
+      "expected": "This is a layout-type state; the page numbers and page order must stay correct",
       "persistence": true
     },
     {
       "id": "f47",
-      "name": "类浏览器滚动",
+      "name": "Browser-like scrolling",
       "steps": [
-        "设置",
-        "阅读",
-        "开启“类浏览器滚动”",
-        "对宽页面垂直滚动",
-        "检查是否避免意外横向漂移"
+        "Settings",
+        "Read",
+        "Enable \"browser-like scrolling\"",
+        "Scroll vertically on a wide page",
+        "Check that accidental horizontal drift is avoided"
       ],
-      "expected": "手势方向锁定是重点；明显横滑时才应发生横向移动",
+      "expected": "Gesture direction locking is the key point; horizontal movement should only occur on an obvious horizontal swipe",
       "persistence": false
     },
     {
       "id": "f48",
-      "name": "页面滚动对齐",
+      "name": "Page-scroll alignment",
       "steps": [
-        "设置",
-        "阅读",
-        "开启“页面对齐”",
-        "快速滚动后松手",
-        "验证视口自动停靠在页面"
+        "Settings",
+        "Read",
+        "Enable \"page alignment\"",
+        "Release after a fast scroll",
+        "Verify that the viewport automatically docks to the page"
       ],
-      "expected": "涉及滚动结束后的吸附逻辑",
+      "expected": "Involves the snap logic after a scroll ends",
       "persistence": false
     },
     {
       "id": "f49",
-      "name": "页面快速滚动",
+      "name": "Fast page scrolling",
       "steps": [
-        "设置",
-        "阅读",
-        "开启“页面快速滚动”",
-        "进行快速滑动",
-        "验证直接跳到下一页"
+        "Settings",
+        "Read",
+        "Enable \"fast page scrolling\"",
+        "Perform a fast swipe",
+        "Verify that it jumps directly to the next page"
       ],
-      "expected": "与普通惯性滚动不同；需要识别快速滑动并分页",
+      "expected": "Unlike ordinary inertial scrolling; fast swipes must be recognized and paged",
       "persistence": false
     },
     {
       "id": "f50",
-      "name": "工具栏主 / 次按钮自定义",
+      "name": "Toolbar primary/secondary button customization",
       "steps": [
-        "设置",
-        "自定义控件",
-        "修改“主要工具栏按钮”“次要工具栏按钮”",
-        "返回阅读器"
+        "Settings",
+        "Custom controls",
+        "Change the \"primary toolbar buttons\" and \"secondary toolbar buttons\"",
+        "Return to the reader"
       ],
-      "expected": "工具栏结构应按照配置变化；不能仅保存设置不反映 UI",
+      "expected": "The toolbar structure should change according to the configuration; merely saving the setting without reflecting it in the UI is not enough",
       "persistence": false
     },
     {
       "id": "f51",
-      "name": "快捷栏操作自定义",
+      "name": "Quick-bar action customization",
       "steps": [
-        "设置",
-        "自定义控件",
-        "选择快捷栏需要显示的操作",
-        "返回阅读器唤出快捷栏"
+        "Settings",
+        "Custom controls",
+        "Select the actions the quick bar should show",
+        "Return to the reader and bring up the quick bar"
       ],
-      "expected": "操作集合、顺序和可见性需要持久化",
+      "expected": "The operation set, order, and visibility must persist",
       "persistence": true
     },
     {
       "id": "f52",
-      "name": "全屏操作自定义",
+      "name": "Customize the full-screen operations",
       "steps": [
-        "设置",
-        "自定义控件",
-        "配置“全屏操作”",
-        "进入全屏",
-        "检查相应操作入口"
+        "Settings",
+        "Custom controls",
+        "Configure the \"full-screen operations\"",
+        "Enter full screen",
+        "Check the corresponding action entries"
       ],
-      "expected": "全屏和普通模式可拥有不同控件集合",
+      "expected": "Full-screen and normal modes can have different control sets",
       "persistence": false
     },
     {
       "id": "f53",
-      "name": "音量键翻页",
+      "name": "Volume-key page turning",
       "steps": [
-        "设置",
-        "自定义控件",
-        "开启“使用音量键翻页”",
-        "打开 PDF",
-        "按音量加/减"
+        "Settings",
+        "Custom controls",
+        "Enable \"use volume keys to turn pages\"",
+        "Open the PDF",
+        "Press volume up/down"
       ],
-      "expected": "按键事件用于上/下一页而不是仅调节音量；离开 PDF 后不能持续拦截",
+      "expected": "The key events are used for previous/next page rather than only adjusting volume; interception must not continue after leaving the PDF",
       "persistence": false
     },
     {
       "id": "f54",
-      "name": "鼠标前进/后退键翻页",
+      "name": "Mouse forward/back keys turn pages",
       "steps": [
-        "设置",
-        "开启“使用鼠标按钮翻页”",
-        "使用带前进/后退键输入设备",
-        "翻页"
+        "Settings",
+        "Enable \"use mouse buttons to turn pages\"",
+        "Use an input device with forward/back keys",
+        "Page turning"
       ],
-      "expected": "硬件输入映射；关闭选项后后退按钮应恢复退出/系统行为",
+      "expected": "Hardware-key mapping; after disabling the option the back button should restore its exit/system behavior",
       "persistence": false
     },
     {
       "id": "f55",
-      "name": "自动进入全屏",
+      "name": "Automatically enter full screen",
       "steps": [
-        "设置",
-        "自定义控件",
-        "开启“自动全屏”",
-        "重新打开 PDF"
+        "Settings",
+        "Custom controls",
+        "Enable \"auto full screen\"",
+        "Reopen the PDF"
       ],
-      "expected": "每次打开文件后自动进入全屏；退出后行为一致",
+      "expected": "The file automatically enters full screen each time it is opened; the behavior is consistent after exiting",
       "persistence": true
     },
     {
       "id": "f56",
-      "name": "阅读历史管理",
+      "name": "Reading-history management",
       "steps": [
-        "连续打开多个 PDF 并改变阅读位置",
-        "设置",
-        "历史记录与隐私",
-        "“阅读历史”",
-        "查看保存记录"
+        "Open several PDFs in succession and change the reading positions",
+        "Settings",
+        "History and privacy",
+        "\"Reading history\"",
+        "View the saved records"
       ],
-      "expected": "需要记录文件、阅读位置以及按文件设置；历史与真实 PDF 文件分离",
+      "expected": "The file, reading position, and per-file settings must be recorded; the history is separate from the real PDF files",
       "persistence": false
     },
     {
       "id": "f57",
-      "name": "清除阅读历史",
+      "name": "Clear the reading history",
       "steps": [
-        "设置",
-        "历史记录与隐私",
-        "“清除阅读历史”",
-        "确认",
-        "返回最近/资料库"
+        "Settings",
+        "History and privacy",
+        "\"Clear reading history\"",
+        "Confirm",
+        "Return to recent/library"
       ],
-      "expected": "清除文件、位置、保存密码/按文档设置等记忆，但不能删除 PDF 文件本身",
+      "expected": "Clear memories such as files, locations, saved passwords/per-document settings, but the PDF files themselves must not be deleted",
       "persistence": false
     },
     {
       "id": "f58",
-      "name": "清除保存密码",
+      "name": "Clear the saved password",
       "steps": [
-        "打开需要密码的 PDF 并保存密码",
-        "设置",
-        "历史记录与隐私",
-        "“清除已保存的密码”",
-        "再次打开"
+        "Open a password-protected PDF and save the password",
+        "Settings",
+        "History and privacy",
+        "\"Clear saved passwords\"",
+        "Open again"
       ],
-      "expected": "清除后应重新要求输入密码；其他阅读数据保持",
+      "expected": "After clearing, the password should be required again; other reading data is preserved",
       "persistence": true
     },
     {
       "id": "f59",
-      "name": "清除全部书签",
+      "name": "Clear all bookmarks",
       "steps": [
-        "对多个 PDF 创建书签",
-        "设置",
-        "历史记录与隐私",
-        "“清除所有书签”",
-        "检查所有文件"
+        "Create bookmarks for several PDFs",
+        "Settings",
+        "History and privacy",
+        "\"Clear all bookmarks\"",
+        "Check all the files"
       ],
-      "expected": "属于全局破坏性状态修改；不应只清当前文件",
+      "expected": "It is a global destructive state change; it should not clear only the current file",
       "persistence": false
     },
     {
       "id": "f60",
-      "name": "清除高亮恢复数据 / 已保存签名",
+      "name": "Clear the highlight-restoration data / saved signatures",
       "steps": [
-        "创建高亮/签名",
-        "设置",
-        "历史记录与隐私",
-        "对应清除项",
-        "重进文件检查"
+        "Create a highlight/signature",
+        "Settings",
+        "History and privacy",
+        "The corresponding clear items",
+        "Re-enter to check the file"
       ],
-      "expected": "注意这是全局数据管理，不应删除 PDF 原文件",
+      "expected": "Note that this is global data management and must not delete the original PDF files",
       "persistence": false
     },
     {
       "id": "f61",
-      "name": "保留共享文件副本",
+      "name": "Keep a copy of the shared file",
       "steps": [
-        "从其他 App 通过 Android 分享/打开方式把 PDF 交给 MJ PDF",
-        "根据设置保留副本",
-        "再次打开"
+        "Hand a PDF to MJ PDF from another app via Android share/open",
+        "Keep a copy according to the setting",
+        "Open again"
       ],
-      "expected": "涉及 content:// URI 生命周期；需要决定是否将临时共享文件复制到私有存储，避免 URI 失效",
+      "expected": "Involves the content:// URI lifecycle; it must be decided whether to copy temporarily shared files into private storage to avoid invalid URIs",
       "persistence": false
     },
     {
       "id": "f62",
-      "name": "PDF 重新加载",
+      "name": "PDF reload",
       "steps": [
-        "打开文档",
-        "阅读器菜单",
-        "“重新加载 PDF 文档”",
-        "保持当前文档并重新渲染"
+        "Open the document",
+        "Reader menu",
+        "\"Reload the PDF document\"",
+        "Keep the current document and re-render"
       ],
-      "expected": "页面缓存重新构建；阅读位置不应无故归零",
+      "expected": "The page cache is rebuilt; the reading position should not reset to zero for no reason",
       "persistence": false
     },
     {
       "id": "f63",
-      "name": "打印 PDF",
+      "name": "Print the PDF",
       "steps": [
-        "阅读器菜单",
-        "“打印文档”",
-        "调起 Android 打印界面",
-        "取消/返回"
+        "Reader menu",
+        "\"Print the document\"",
+        "Bring up the Android print UI",
+        "Cancel/back"
       ],
-      "expected": "正确向系统 Print Framework 提供当前 PDF；取消后保持当前阅读状态",
+      "expected": "Correctly provide the current PDF to the system Print Framework; the current reading state is preserved after cancelling",
       "persistence": true
     },
     {
       "id": "f64",
-      "name": "在线 PDF",
+      "name": "Online PDF",
       "steps": [
-        "阅读器菜单",
-        "“在线 PDF”",
-        "输入/打开 PDF URL",
-        "在阅读器中加载"
+        "Reader menu",
+        "\"Online PDF\"",
+        "Enter/open a PDF URL",
+        "Load in the reader"
       ],
-      "expected": "这是截图中明确存在的功能，但 Benchmark 可以作为联网可选任务；加载失败要有状态反馈",
+      "expected": "This is a feature clearly present in the screenshot, but the benchmark can treat it as an optional networked task; a load failure must give state feedback",
       "persistence": false
     },
     {
       "id": "f65",
-      "name": "备份与恢复",
+      "name": "Backup and restore",
       "steps": [
-        "设置",
-        "“备份与恢复”",
-        "导出设置、阅读历史、书签等",
-        "修改若干状态",
-        "导入备份",
-        "检查恢复"
+        "Settings",
+        "\"Backup and restore\"",
+        "Export the settings, reading history, bookmarks, etc.",
+        "Modify several states",
+        "Import a backup",
+        "Check the restoration"
       ],
-      "expected": "跨多个状态域；非常适合验证完整业务状态持久化和序列化",
+      "expected": "Spans multiple state domains; excellent for verifying full business-state persistence and serialization",
       "persistence": true
     },
     {
       "id": "f66",
-      "name": "资料库统计",
+      "name": "Library statistics",
       "steps": [
-        "文件夹页更多菜单",
-        "“资料库统计”",
-        "查看统计信息",
-        "返回"
+        "The folders page's more menu",
+        "\"Library statistics\"",
+        "View the statistics",
+        "Back"
       ],
-      "expected": "数量等统计应根据当前资料库动态变化",
+      "expected": "Statistics such as counts should change dynamically with the current library",
       "persistence": false
     },
     {
       "id": "f67",
-      "name": "扫描位置管理",
+      "name": "Scan-location management",
       "steps": [
-        "文件夹页更多菜单",
-        "“扫描位置”",
-        "添加/修改扫描目录",
-        "回到资料库检查文件发现结果"
+        "The folders page's more menu",
+        "\"Scan location\"",
+        "Add/modify scan directories",
+        "Return to the library to check the file-discovery result"
       ],
-      "expected": "新增目录后应重新发现 PDF；删除扫描路径不等于删除原文件",
+      "expected": "After adding a directory PDFs should be rediscovered; deleting a scan path is not the same as deleting the original files",
       "persistence": false
     },
     {
       "id": "f68",
-      "name": "禁用主页资料库",
+      "name": "Disable the home library",
       "steps": [
-        "设置",
-        "主页",
-        "开启“禁用主页资料库”",
-        "重启 App"
+        "Settings",
+        "Home",
+        "Enable \"disable home library\"",
+        "Restart the app"
       ],
-      "expected": "启动时应直接调起系统文件选择器，不再显示“最近/资料库/文件夹”主页面",
+      "expected": "On launch it should invoke the system file picker directly instead of showing the \"recent/library/folders\" home screen",
       "persistence": false
     },
     {
       "id": "f69",
-      "name": "PDF 标题显示规则",
+      "name": "PDF title display rules",
       "steps": [
-        "设置",
-        "主页",
-        "开/关“显示 PDF 标题”",
-        "返回资料库比较卡片名称"
+        "Settings",
+        "Home",
+        "Turn \"show PDF title\" on/off",
+        "Return to the library and compare the card name"
       ],
-      "expected": "开启时优先使用 PDF 元数据标题；关闭时使用文件名",
+      "expected": "When enabled the PDF metadata title is preferred; when disabled the file name is used",
       "persistence": false
     },
     {
       "id": "f70",
-      "name": "资料库卡片标题行数 / 截断",
+      "name": "Library card title rows / truncation",
       "steps": [
-        "设置",
-        "主页",
-        "修改网格标题行数、列表标题行数、标题截断方式",
-        "返回资料库"
+        "Settings",
+        "Home",
+        "Change the grid header rows, list header rows, and title-truncation mode",
+        "Return to the library"
       ],
-      "expected": "长文件名的行数和省略位置要明显变化",
+      "expected": "The line count and ellipsis position for long file names must change noticeably",
       "persistence": false
     },
     {
       "id": "f71",
-      "name": "阅读进度指示器",
+      "name": "Reading-progress indicator",
       "steps": [
-        "阅读 PDF 若干页",
-        "返回主页",
-        "查看资料库卡片的百分比/进度环",
-        "继续阅读",
-        "再返回"
+        "Read several pages of the PDF",
+        "Return to the home page",
+        "View the percentage/progress ring on library cards",
+        "Continue reading",
+        "Then return"
       ],
-      "expected": "进度必须随阅读位置实时更新",
+      "expected": "The progress must update in real time with the reading position",
       "persistence": false
     },
     {
       "id": "f72",
-      "name": "在滚动手柄/工具栏显示页数",
+      "name": "Show the page count in the scroll handle/toolbar",
       "steps": [
-        "设置",
-        "外观",
-        "分别开启“在滚动手柄中显示页数”“在工具栏中显示页码”",
-        "阅读 PDF"
+        "Settings",
+        "Appearance",
+        "Enable \"show page count in the scroll handle\" and \"show the page number in the toolbar\" respectively",
+        "Read the PDF"
       ],
-      "expected": "应显示当前页/总页数或对应页码；翻页后即时更新",
+      "expected": "The current page/total pages or the corresponding page number should be shown and update immediately after paging",
       "persistence": false
     },
     {
       "id": "f73",
-      "name": "导航返回/前进",
+      "name": "Navigate back/forward",
       "steps": [
-        "在 PDF 内通过链接、搜索、目录等进行多次跳转",
-        "使用“跳转返回 / 跳转前进”"
+        "Make several jumps within a PDF via links, search, and the table of contents",
+        "Use \"jump back / jump forward\""
       ],
-      "expected": "需要独立维护文档内部导航栈，而不是 Android Activity 返回栈",
+      "expected": "The in-document navigation stack must be maintained independently rather than using the Android Activity back stack",
       "persistence": false
     },
     {
       "id": "f74",
-      "name": "导航历史",
+      "name": "Navigation history",
       "steps": [
-        "进行多次页面跳转",
-        "阅读器菜单",
-        "“导航历史”",
-        "选择历史位置"
+        "Make several page jumps",
+        "Reader menu",
+        "\"Navigation history\"",
+        "Select a historical position"
       ],
-      "expected": "每个历史节点要恢复对应页和视图位置",
+      "expected": "Each history entry must restore the corresponding page and view position",
       "persistence": false
     },
     {
       "id": "f75",
-      "name": "目录导航",
+      "name": "Directory navigation",
       "steps": [
-        "打开含 Outline/TOC 的 PDF",
-        "阅读器菜单",
-        "“目录”",
-        "展开层级",
-        "选择章节"
+        "Open a PDF with an Outline/TOC",
+        "Reader menu",
+        "\"Table of contents\"",
+        "Expand the hierarchy",
+        "Select a chapter"
       ],
-      "expected": "支持嵌套目录；点击章节准确跳页",
+      "expected": "Nested directories are supported; tapping a chapter jumps to the correct page precisely",
       "persistence": false
     },
     {
       "id": "f76",
-      "name": "打开文档链接 / 前后跳转综合",
+      "name": "Open document links / combined forward and backward jumps",
       "steps": [
-        "在目录进入章节 A",
-        "搜索关键词跳到章节 B",
-        "点击内部链接进入 C",
-        "连续使用后退/前进"
+        "Enter chapter A in the directory",
+        "Search for the keyword and jump to chapter B",
+        "Tap the internal link to enter C",
+        "Use back/forward repeatedly"
       ],
-      "expected": "综合验证导航历史、页面状态、搜索状态与内部链接状态是否统一",
+      "expected": "Comprehensively verify that the navigation history, page state, search state, and internal-link state are unified",
       "persistence": false
     },
     {
       "id": "f77",
-      "name": "设置持久化",
+      "name": "Setting persistence",
       "steps": [
-        "修改主题、滚动模式、工具栏、搜索、高亮等多个配置",
-        "完全关闭 App",
-        "重新启动"
+        "Change multiple settings such as the theme, scroll mode, toolbar, search, and highlight",
+        "Fully close the app",
+        "Restart"
       ],
-      "expected": "所有用户设置必须跨进程持久化；不同设置之间不能互相覆盖",
+      "expected": "All user settings must persist across processes; different settings must not override one another",
       "persistence": true
     }
   ]
