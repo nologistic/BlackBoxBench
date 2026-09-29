@@ -4,432 +4,432 @@
   "features": [
     {
       "id": "f01",
-      "name": "个性化首页内容 Feed 编排",
+      "name": "Personalized home content feed orchestration",
       "steps": [
-        "进入首页",
-        "加载预置内容流",
-        "普通视频 / Shorts / 广告位按混排结构呈现",
-        "各类型卡片正确区分"
+        "Open the home page",
+        "Load the preset content stream",
+        "Normal videos / Shorts / ad slots are presented in a mixed structure",
+        "Each card type is correctly distinguished"
       ],
-      "expected": "首页必须加载内容流并按混排结构展示普通视频 / Shorts / 广告位；各类型卡片可正确区分（时长角标 / 布局差异）；滚动可加载更多内容；不能出现空白卡片或模块串位。",
+      "expected": "The home page must load the content stream and present normal videos / Shorts / ad slots in a mixed structure; each card type is correctly distinguishable (duration badge / layout differences); scrolling loads more content; blank cards or module crossings must not occur.",
       "persistence": false
     },
     {
       "id": "f02",
-      "name": "推荐主题动态筛选",
+      "name": "Dynamic filtering of recommended topics",
       "steps": [
-        "首页推荐",
-        "点击“音乐 / 直播 / 游戏 / 最近上传”等 Topic Chip",
-        "Feed 重排",
-        "切回“全部”"
+        "Home recommendations",
+        "Tap topic chips such as \"music / live / games / recently uploaded\"",
+        "Feed reordering",
+        "Switch back to \"all\""
       ],
-      "expected": "点击 Topic Chip 后 Feed 必须切换为对应主题内容；各 Chip 结果集合可区分；切回「全部」后恢复原 Feed；筛选过程不能丢失已加载内容或滚动位置。",
+      "expected": "After tapping a topic chip the feed must switch to the corresponding topic's content; each chip's result set is distinguishable; switching back to \"all\" restores the original feed; the filtering process must not lose loaded content or the scroll position.",
       "persistence": false
     },
     {
       "id": "f03",
-      "name": "连续内容发现与分页加载",
+      "name": "Continuous content discovery and paginated loading",
       "steps": [
-        "浏览首页",
-        "向下滚动",
-        "持续加载新推荐",
-        "打开视频",
-        "返回后恢复原 Feed 位置"
+        "Browse the home page",
+        "Scroll down",
+        "Continuously load new recommendations",
+        "Open the video",
+        "The original feed position is restored after returning"
       ],
-      "expected": "向下滚动必须持续加载新内容且不重复不丢失；打开视频后返回必须恢复原 Feed 位置与已加载内容；加载过程不能触发全页重载。",
+      "expected": "Scrolling down must keep loading new content without duplication or loss; after opening a video and returning the original feed position and loaded content must be restored; the loading must not trigger a full-page reload.",
       "persistence": true
     },
     {
       "id": "f04",
-      "name": "全局视频搜索与结果召回",
+      "name": "Global video search and result recall",
       "steps": [
-        "输入关键词",
-        "搜索",
-        "返回视频/频道等结果",
-        "打开结果",
-        "返回搜索结果保持查询上下文"
+        "Enter a keyword",
+        "Search",
+        "Return video/channel and other results",
+        "Open the result",
+        "Returning to the search results preserves the query context"
       ],
-      "expected": "搜索结果必须与关键词匹配且包含视频 / 频道等类型；打开结果后返回必须保持原查询词与结果列表状态；结果为空时应有明确空状态。",
+      "expected": "The search results must match the keyword and include types such as videos/channels; after opening a result and returning the original query term and result-list state must be preserved; when the results are empty there should be a clear empty state.",
       "persistence": true
     },
     {
       "id": "f05",
-      "name": "搜索建议与查询状态管理",
+      "name": "Search suggestions and query-state management",
       "steps": [
-        "输入部分关键词",
-        "获取建议",
-        "选择建议/直接搜索",
-        "历史查询可复用"
+        "Enter a partial keyword",
+        "Get suggestions",
+        "Choose a suggestion / search directly",
+        "History queries can be reused"
       ],
-      "expected": "输入部分关键词必须出现建议且随输入变化；选择建议后直接进入对应搜索结果；历史查询可复用；清空历史后状态持久保持。",
+      "expected": "Suggestions must appear for partial keywords and change with the input; selecting a suggestion goes directly to the corresponding search results; historical queries can be reused; after clearing the history the state persists.",
       "persistence": false
     },
     {
       "id": "f06",
-      "name": "订阅关系建立与解除",
+      "name": "Establishing and dissolving the subscription relationship",
       "steps": [
-        "视频页/频道页",
-        "订阅频道",
-        "频道状态变化",
-        "订阅 Feed 出现其内容",
-        "取消订阅后同步变化"
+        "Videos page / channel page",
+        "Subscribe to the channel",
+        "The channel state changes",
+        "Its content appears in the subscription feed",
+        "It changes in sync after unsubscribing"
       ],
-      "expected": "订阅后频道按钮状态必须立即变化；订阅 Feed 必须出现该频道内容；取消订阅后对应内容同步移除；订阅关系需持久化，刷新后保持。",
+      "expected": "After subscribing, the channel button state must change immediately; the channel's content must appear in the subscription feed; after unsubscribing the corresponding content is removed in sync; the subscription relationship must persist across refreshes.",
       "persistence": false
     },
     {
       "id": "f07",
-      "name": "订阅 Feed 聚合",
+      "name": "Subscription-feed aggregation",
       "steps": [
-        "进入“订阅”",
-        "聚合已订阅频道的新内容",
-        "按频道/时间呈现",
-        "点击进入视频"
+        "Enter \"subscriptions\"",
+        "Aggregate new content from subscribed channels",
+        "Presented by channel/time",
+        "Tapping opens the video"
       ],
-      "expected": "订阅页必须聚合已订阅频道的新内容；按频道 / 时间呈现方式切换时集合正确重组；点击内容进入正确视频；无订阅时显示空状态。",
+      "expected": "The subscription page must aggregate new content from subscribed channels; switching the presentation by channel/time correctly reorganizes the set; tapping content opens the correct video; with no subscriptions an empty state is shown.",
       "persistence": false
     },
     {
       "id": "f08",
-      "name": "订阅频道发现与扩展",
+      "name": "Subscribed-channel discovery and expansion",
       "steps": [
-        "订阅页展示预置频道集合",
-        "按主题分组呈现",
-        "直接订阅",
-        "卡片状态立即变化"
+        "The subscription page shows the preset channel set",
+        "Presented grouped by theme",
+        "Subscribe directly",
+        "The card state changes immediately"
       ],
-      "expected": "订阅页必须展示预置频道集合并按主题分组；直接订阅后卡片状态立即变化；分组切换结果正确；不能出现重复频道卡片。",
+      "expected": "The subscription page must show the preset channel set grouped by theme; after subscribing directly the card state changes immediately; group switching gives correct results; duplicate channel cards must not appear.",
       "persistence": false
     },
     {
       "id": "f09",
-      "name": "观看历史自动记录",
+      "name": "Watch history is recorded automatically",
       "steps": [
-        "打开视频",
-        "达到观看条件",
-        "自动进入历史记录",
-        "再次播放记录更新"
+        "Open the video",
+        "The watch condition is met",
+        "It automatically enters the history",
+        "Playing again updates the record"
       ],
-      "expected": "达到观看条件的视频必须自动进入历史记录；再次播放后记录时间 / 进度更新；历史按时间排序；不满足条件的播放不能写入记录。",
+      "expected": "Videos meeting the watch condition must automatically enter the history; after playing again the record time/progress updates; the history is sorted by time; playback not meeting the condition must not be written into the records.",
       "persistence": true
     },
     {
       "id": "f10",
-      "name": "观看进度与断点续播",
+      "name": "Watch progress and resume playback",
       "steps": [
-        "播放视频到某时间点",
-        "离开",
-        "从历史重新进入",
-        "从接近原进度继续"
+        "Play the video to a certain time point",
+        "Leave",
+        "Re-enter from the history",
+        "Continue from close to the original progress"
       ],
-      "expected": "离开后重新进入必须从接近原进度处继续播放；进度需持久化（刷新 / 重开浏览器后保持）；从头播放后进度正确重置。",
+      "expected": "After leaving and re-entering, playback must continue from close to the original progress; the progress must persist (kept after refreshing/reopening the browser); after playing from the beginning the progress resets correctly.",
       "persistence": true
     },
     {
       "id": "f11",
-      "name": "稍后观看工作流",
+      "name": "Watch-later workflow",
       "steps": [
-        "在 Feed/视频页将视频加入“稍后观看”",
-        "稍后观看列表出现",
-        "播放/移除后同步"
+        "Add the video to \"watch later\" from the feed/video page",
+        "It appears in the watch-later list",
+        "Syncs after playing/removing"
       ],
-      "expected": "加入后视频必须出现在「稍后观看」列表；从列表播放或移除后原视频页状态同步更新；列表内容需持久化，刷新后保持。",
+      "expected": "After adding, the video must appear in the \"watch later\" list; after playing or removing it from the list the original video page state updates in sync; the list content must persist across refreshes.",
       "persistence": false
     },
     {
       "id": "f12",
-      "name": "播放列表内容组织与播放上下文",
+      "name": "Playlist content organization and playback context",
       "steps": [
-        "将不同视频加入播放列表",
-        "打开列表",
-        "顺序播放",
-        "上一条/下一条保持 Playlist Context"
+        "Add different videos to a playlist",
+        "Open the list",
+        "Sequential playback",
+        "Previous/next keeps the playlist context"
       ],
-      "expected": "加入播放列表后顺序正确保存；顺序播放时上一条 / 下一条严格按列表顺序切换；播放器需显示当前处于该列表的上下文。",
+      "expected": "After adding to a playlist the order is saved correctly; during sequential playback previous/next strictly follow the list order; the player must show the context of being in that list.",
       "persistence": true
     },
     {
       "id": "f13",
-      "name": "点赞行为与个人内容聚合",
+      "name": "Like behavior and personal content aggregation",
       "steps": [
-        "视频页点赞",
-        "点赞数/状态变化",
-        "“赞过的视频”出现",
-        "取消点赞后双向同步"
+        "Like on the videos page",
+        "The like count/state changes",
+        "\"Liked videos\" appears",
+        "Both sides sync after unliking"
       ],
-      "expected": "点赞后按钮状态与计数立即变化；「赞过的视频」出现该视频；取消点赞后两处同步撤销；状态需持久化，刷新后保持。",
+      "expected": "After liking, the button state and count change immediately; the video appears in \"liked videos\"; after unliking both places are undone in sync; the state must persist across refreshes.",
       "persistence": false
     },
     {
       "id": "f14",
-      "name": "视频播放器生命周期",
+      "name": "Video player lifecycle",
       "steps": [
-        "打开视频",
-        "初始化",
-        "播放 / 暂停 / Seek",
-        "页面离开",
-        "释放/保持必要状态"
+        "Open the video",
+        "Initialize",
+        "Play / pause / seek",
+        "Leaving the page",
+        "Release/keep the necessary state"
       ],
-      "expected": "打开视频后播放器必须完成初始化并开始播放；播放 / 暂停 / Seek 状态正确响应；离开页面后必要状态（进度）保留、资源正确释放；返回后可继续播放。",
+      "expected": "After opening the video the player must initialize and start playing; the play/pause/seek states respond correctly; after leaving the page the necessary state (progress) is preserved and resources are released correctly; playback can continue after returning.",
       "persistence": true
     },
     {
       "id": "f15",
-      "name": "播放器高级控制",
+      "name": "Advanced player controls",
       "steps": [
-        "音量、静音、进度、字幕、设置、全屏等",
-        "调整后播放器实时变化"
+        "Volume, mute, progress, subtitles, settings, full screen, etc.",
+        "The player changes in real time after the adjustment"
       ],
-      "expected": "音量 / 静音 / 字幕 / 全屏等控制必须实时作用于播放器；设置面板状态与实际播放状态一致；调整后不能导致播放中断或进度跳变。",
+      "expected": "Controls such as volume/mute/subtitles/full screen must act on the player in real time; the settings panel state matches the actual playback state; the adjustment must not cause playback interruption or progress jumps.",
       "persistence": false
     },
     {
       "id": "f16",
-      "name": "播放结束后的连续观看",
+      "name": "Continuous watching after playback ends",
       "steps": [
-        "当前视频播放结束",
-        "按预置播放上下文（队列/播放列表）进入下一视频",
-        "历史同时记录"
+        "The current video finishes playing",
+        "Enter the next video according to the preset playback context (queue/playlist)",
+        "The history is also recorded"
       ],
-      "expected": "播放结束后必须按预置播放上下文进入下一视频；切换过程不能丢失播放历史记录；队列 / 列表边界处行为明确（停止或循环）。",
+      "expected": "After playback ends it must enter the next video according to the preset playback context; the switching must not lose the play-history record; the behavior at the queue/list boundary is well defined (stop or loop).",
       "persistence": false
     },
     {
       "id": "f17",
-      "name": "视频详情与相关内容联动",
+      "name": "Video details linked with related content",
       "steps": [
-        "视频播放",
-        "标题/作者/数据/描述呈现",
-        "右侧相关视频列表（预置）",
-        "点击新视频",
-        "Player 与详情整体切换"
+        "Video playback",
+        "Title/author/data/description presentation",
+        "The related-video list on the right (preset)",
+        "Tap the new video",
+        "The player and details switch as a whole"
       ],
-      "expected": "标题 / 作者 / 数据 / 描述必须与当前视频一致；右侧相关视频列表正确呈现；点击新视频后播放器与详情整体切换，不能出现旧视频信息残留。",
+      "expected": "The title/author/data/description must match the current video; the related-video list on the right is presented correctly; after tapping a new video the player and details switch as a whole without leftover information from the old video.",
       "persistence": false
     },
     {
       "id": "f18",
-      "name": "Shorts 垂直连续消费流",
+      "name": "Shorts vertical continuous consumption stream",
       "steps": [
-        "进入 Shorts",
-        "纵向播放",
-        "滑动切下一条",
-        "当前暂停/销毁",
-        "下一条自动播放"
+        "Enter Shorts",
+        "Vertical playback",
+        "Swipe to the next item",
+        "The current one pauses/is destroyed",
+        "The next item plays automatically"
       ],
-      "expected": "纵向滑动必须切换到下一条并自动播放；当前视频暂停 / 销毁、下一条从开头播放；连续切换多条后播放状态始终正确。",
+      "expected": "Vertical swiping must switch to the next item and play automatically; the current video pauses/is destroyed and the next plays from the beginning; after switching several items in succession the playback state is always correct.",
       "persistence": false
     },
     {
       "id": "f19",
-      "name": "Shorts 互动状态持续同步",
+      "name": "Shorts interaction state stays in sync continuously",
       "steps": [
-        "Shorts 点赞/评论/分享/订阅",
-        "切换下一条",
-        "再返回时状态保留"
+        "Shorts like/comment/share/subscribe",
+        "Switch to the next item",
+        "The state is preserved when returning again"
       ],
-      "expected": "点赞 / 评论 / 订阅等状态在切换下一条后保留；返回上一条时状态与操作前一致；状态需持久化，刷新后保持。",
+      "expected": "Like/comment/subscribe states are preserved after switching to the next item; when returning to the previous one the state matches the pre-operation state; the state must persist across refreshes.",
       "persistence": false
     },
     {
       "id": "f20",
-      "name": "评论发布与线程组织",
+      "name": "Comment publishing and thread organization",
       "steps": [
-        "视频页",
-        "发布评论",
-        "评论列表立即出现",
-        "回复形成层级结构",
-        "刷新仍存在"
+        "Videos page",
+        "Publish the comment",
+        "The comment list appears immediately",
+        "Replies form a hierarchy",
+        "It still exists after a refresh"
       ],
-      "expected": "发布的评论必须立即出现在评论区；回复形成正确层级结构；刷新后评论与层级仍存在；评论计数同步更新。",
+      "expected": "The published comment must appear in the comment area immediately; replies form the correct hierarchy; after a refresh the comments and hierarchy still exist; the comment count updates in sync.",
       "persistence": true
     },
     {
       "id": "f21",
-      "name": "评论互动与排序",
+      "name": "Comment interaction and sorting",
       "steps": [
-        "点赞评论 / 回复",
-        "评论统计变化",
-        "切换排序方式",
-        "Thread 结构不丢失"
+        "Like a comment / reply",
+        "The comment statistics change",
+        "Change the sort mode",
+        "The Thread structure is not lost"
       ],
-      "expected": "点赞评论后计数与状态立即变化；切换排序方式后 Thread 层级结构不丢失；排序结果符合所选规则；刷新后状态保持。",
+      "expected": "After liking a comment the count and state change immediately; after switching the sort mode the thread hierarchy is not lost; the sort results match the selected rule; the state is preserved after a refresh.",
       "persistence": false
     },
     {
       "id": "f22",
-      "name": "评论回复与上下文定位",
+      "name": "Comment replies and context location",
       "steps": [
-        "回复某评论",
-        "建立 parent relation / mention 标记",
-        "点击上下文链接可定位到原评论",
-        "刷新后层级保持"
+        "Reply to a comment",
+        "Establish the parent relation / mention markers",
+        "Tapping the context link locates the original comment",
+        "The hierarchy is preserved after a refresh"
       ],
-      "expected": "回复必须建立正确的 parent relation / mention 标记；点击上下文链接可定位到原评论；刷新后层级与标记保持。",
+      "expected": "A reply must establish the correct parent relation / mention markers; tapping the context link locates the original comment; the hierarchy and markers are preserved after a refresh.",
       "persistence": true
     },
     {
       "id": "f23",
-      "name": "视频链接与可恢复定位",
+      "name": "Video links and recoverable positioning",
       "steps": [
-        "复制视频链接（可带时间点）",
-        "通过链接重新打开",
-        "定位正确视频和播放位置"
+        "Copy the video link (optionally with a time point)",
+        "Reopen via the link",
+        "Locate the correct video and playback position"
       ],
-      "expected": "复制的链接必须能重新打开对应视频；带时间点的链接必须定位到正确播放位置；链接解析失败时给出明确反馈。",
+      "expected": "A copied link must be able to reopen the corresponding video; a link with a time point must locate the correct playback position; clear feedback is given when link parsing fails.",
       "persistence": false
     },
     {
       "id": "f24",
-      "name": "下载状态管理",
+      "name": "Download-state management",
       "steps": [
-        "触发下载（模拟）",
-        "下载状态变化",
-        "「下载内容」列表出现",
-        "删除后同步移除"
+        "Trigger the download (simulated)",
+        "The download state changes",
+        "The \"downloaded content\" list appears",
+        "Removed in sync after deletion"
       ],
-      "expected": "触发下载后状态必须按流程变化；「下载内容」列表出现对应条目；删除后列表同步移除；状态需持久化，刷新后保持。",
+      "expected": "After triggering a download the state must change according to the flow; the \"downloaded content\" list shows the corresponding entry; after deletion it is removed from the list in sync; the state must persist across refreshes.",
       "persistence": false
     },
     {
       "id": "f25",
-      "name": "内容创建入口编排",
+      "name": "Content-creation entry orchestration",
       "steps": [
-        "点击「创建」",
-        "上传视频 / 发帖",
-        "进入不同工作流",
-        "返回"
+        "Tap \"create\"",
+        "Upload a video / post",
+        "Enter different workflows",
+        "Back"
       ],
-      "expected": "各创建入口必须进入对应工作流；不同入口的工作流可区分；返回后首页状态保持；不能出现入口串位。",
+      "expected": "Each creation entry must enter the corresponding workflow; different entries' workflows are distinguishable; the home-page state is preserved after returning; entries must not cross positions.",
       "persistence": false
     },
     {
       "id": "f26",
-      "name": "视频上传与发布流程",
+      "name": "Video upload and publishing flow",
       "steps": [
-        "选择本地视频文件",
-        "上传进度",
-        "填写元数据",
-        "可见性等配置",
-        "发布",
-        "出现在「我的视频」"
+        "Select a local video file",
+        "Upload progress",
+        "Fill in the metadata",
+        "Configurations such as visibility",
+        "Publish",
+        "It appears in \"my videos\""
       ],
-      "expected": "选择本地视频后必须显示上传进度；元数据与可见性配置正确保存；发布后视频出现在「我的视频」；上传失败时给出明确状态。",
+      "expected": "After selecting a local video the upload progress must be shown; the metadata and visibility configuration are saved correctly; after publishing the video appears in \"my videos\"; a clear state is given when the upload fails.",
       "persistence": false
     },
     {
       "id": "f27",
-      "name": "显示偏好配置驱动界面变化",
+      "name": "Display-preference configuration driving UI changes",
       "steps": [
-        "修改主题 / 语言",
-        "站点 UI 随之变化",
-        "刷新后保持"
+        "Change the theme / language",
+        "The site UI changes accordingly",
+        "It is preserved after a refresh"
       ],
-      "expected": "修改主题 / 语言后站点 UI 必须随之变化；配置需持久化，刷新后保持；切换过程不能丢失当前浏览状态。",
+      "expected": "After changing the theme/language the site UI must change accordingly; the configuration must persist across refreshes; the switching must not lose the current browsing state.",
       "persistence": true
     },
     {
       "id": "f28",
-      "name": "通知状态与业务对象跳转",
+      "name": "Notification state and business-object navigation",
       "steps": [
-        "预置通知（订阅更新/互动）",
-        "Bell 未读状态",
-        "打开通知",
-        "Deep Link 到目标内容",
-        "标记已读"
+        "Preset notifications (subscription updates/interactions)",
+        "Bell unread state",
+        "Open the notification",
+        "Deep Link to the target content",
+        "Mark as read"
       ],
-      "expected": "预置通知必须使 Bell 显示未读状态；打开通知后 Deep Link 到正确目标内容；标记已读后未读计数同步减少；返回后状态保持。",
+      "expected": "The preset notifications must make the Bell show an unread state; opening a notification deep-links to the correct target content; after marking it read the unread count decreases in sync; the state is preserved after returning.",
       "persistence": false
     }
   ],
   "exclusions": [
     {
-      "feature": "个性化推荐引擎\n根据用户行为变化推荐结果、个性化 Feed 排序",
+      "feature": "Personalized recommendation engine\nRecommendation results and personalized feed ranking that change with user behavior",
       "treatment": "Hard Exclude",
-      "reason": "需要大规模推荐模型与私有行为数据（对照 Spotify「Recommendation / personalization engine」）；Feed 结构可用预置 fixture 测试",
+      "reason": "Requires a large-scale recommendation model and private behavior data (cf. Spotify \"Recommendation / personalization engine\"); the feed structure can be tested with preset fixtures",
       "covered_by": []
     },
     {
-      "feature": "推荐频道 / 相关内容推荐算法\n推荐频道卡、相关视频推荐排序",
+      "feature": "Recommended channels / related-content recommendation algorithm\nRecommended-channel cards and related-video recommendation ranking",
       "treatment": "Conditional Include",
-      "reason": "推荐列表可用固定 fixture 呈现；不评估推荐质量与个性化逻辑",
+      "reason": "The recommendation list can be presented with fixed fixtures; recommendation quality and personalization logic are not evaluated",
       "covered_by": []
     },
     {
-      "feature": "直播\n创建直播、推流、实时状态迁移、Live 观看",
+      "feature": "Live\nCreate a live stream, push the stream, real-time state transitions, and live viewing",
       "treatment": "Hard Exclude",
-      "reason": "依赖实时流媒体基础设施与推流协议（对照 Spotify「Live Events」）；无法脱离推流端到端验证",
+      "reason": "Depends on real-time streaming infrastructure and streaming protocols (cf. Spotify \"Live Events\"); cannot be verified end to end without a streaming source",
       "covered_by": []
     },
     {
-      "feature": "Google 账号体系与多账号切换\n注册、登录、身份切换、多账号上下文",
+      "feature": "Google account system and multi-account switching\nRegistration, login, identity switching, multi-account contexts",
       "treatment": "Hard Exclude",
-      "reason": "账号与身份服务属外部基础设施（对照 Spotify「Account / Authentication complexity」）",
+      "reason": "Accounts and identity services are external infrastructure (cf. Spotify \"Account / Authentication complexity\")",
       "covered_by": []
     },
     {
-      "feature": "真实视频转码 / CDN 分发 / 内容审核",
+      "feature": "Real video transcoding / CDN distribution / content moderation",
       "treatment": "Hard Exclude",
-      "reason": "依赖专有媒体处理管线与审核系统；上传流程本地化后只验证用户可见状态",
+      "reason": "Depends on a proprietary media pipeline and moderation system; after localizing the upload flow only the user-visible state is verified",
       "covered_by": []
     },
     {
-      "feature": "离线下载与 DRM 播放\n真实离线访问、加密媒体、设备存储管理",
+      "feature": "Offline download and DRM playback\nReal offline access, encrypted media, and device storage management",
       "treatment": "Conditional Exclude",
-      "reason": "下载状态管理（列表/删除）可测；不要求真实离线播放与 DRM（对照 Spotify「Offline download」）；保留面：f05 搜索建议与查询状态管理, f24 下载状态管理",
+      "reason": "Download-state management (list/delete) is testable; real offline playback and DRM are not required (cf. Spotify \"Offline download\"); retained surface: f05 search suggestions and query-state management, f24 download-state management",
       "covered_by": [
         "f24",
         "f05"
       ]
     },
     {
-      "feature": "第三方平台分享集成\n分享到外部社交平台、跨平台跳转",
+      "feature": "Third-party platform sharing integration\nSharing to external social platforms and cross-platform navigation",
       "treatment": "Conditional Exclude",
-      "reason": "链接生成与 Deep Link 定位可测；不验证第三方平台集成；保留面：f28 通知状态与业务对象跳转",
+      "reason": "Link generation and deep-link positioning are testable; third-party platform integration is not verified; retained surface: f28 notification state and business-object navigation",
       "covered_by": [
         "f28"
       ]
     },
     {
-      "feature": "广告系统\n广告投放、定向、竞价、频次控制",
+      "feature": "Advertising system\nAd delivery, targeting, bidding, and frequency capping",
       "treatment": "Hard Exclude",
-      "reason": "广告基础设施与定向数据（对照 Spotify「Advertisements」）；广告位结构可作为 Feed 混排 fixture",
+      "reason": "Ad infrastructure and targeting data (cf. Spotify \"Advertisements\"); the ad-slot structure can serve as feed-mixing fixtures",
       "covered_by": []
     },
     {
-      "feature": "通知的真实事件源\n订阅更新/互动的真实事件产生",
+      "feature": "The real event source of notifications\nReal event generation for subscription updates/interactions",
       "treatment": "Conditional Include",
-      "reason": "通知状态机（未读/已读/Deep Link）可测，需预置通知 fixture（对照 Spotify「Notifications」）；保留面：f28 通知状态与业务对象跳转",
+      "reason": "The notification state machine (unread/read/deep link) is testable and requires preset notification fixtures (cf. Spotify \"Notifications\"); retained surface: f28 notification state and business-object navigation",
       "covered_by": [
         "f28"
       ]
     },
     {
-      "feature": "评论的跨用户互动\n他人回复/点赞的通知投递、@ 提及送达",
+      "feature": "Cross-user comment interaction\nNotification delivery for others' replies/likes and @ mention delivery",
       "treatment": "Conditional Exclude",
-      "reason": "单用户评论发布与层级可测；不验证跨用户送达与消息系统；保留面：f20 评论发布与线程组织",
+      "reason": "Single-user comment publishing and hierarchy are testable; cross-user delivery and the messaging system are not verified; retained surface: f20 comment publishing and thread organization",
       "covered_by": [
         "f20"
       ]
     },
     {
-      "feature": "实时统计数据\n观看数/点赞数实时变化、直播在线人数",
+      "feature": "Real-time statistics\nViews/likes changing in real time and live viewer counts",
       "treatment": "Conditional Exclude",
-      "reason": "统计数据可用固定快照；不要求实时同步与真实计数",
+      "reason": "The statistics can use fixed snapshots; real-time sync and real counts are not required",
       "covered_by": []
     },
     {
-      "feature": "位置 / 受限模式内容策略\n地理定位内容、内容分级与审核策略",
+      "feature": "Location / restricted-mode content policy\nGeolocated content, content rating, and moderation policy",
       "treatment": "Hard Exclude",
-      "reason": "依赖外部地理数据与内容分级系统；主题/语言等显示偏好保留；保留面：f27 显示偏好配置驱动界面变化",
+      "reason": "Depends on external geographic data and content-rating systems; display preferences such as theme/language are kept; retained surface: f27 display-preference configuration driving UI changes",
       "covered_by": [
         "f27"
       ]
     },
     {
-      "feature": "版权内容与真实媒体资产\n真实视频内容、音乐版权素材",
+      "feature": "Copyrighted content and real media assets\nReal video content and licensed music assets",
       "treatment": "Default Exclude",
-      "reason": "真实内容非 benchmark 资产（对照 Spotify「Real copyrighted audio streaming」）；使用合成 fixture 媒体",
+      "reason": "Real content is not a benchmark asset (cf. Spotify \"Real copyrighted audio streaming\"); use synthetic fixture media",
       "covered_by": []
     }
   ]

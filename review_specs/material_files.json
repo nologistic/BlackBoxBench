@@ -4,265 +4,265 @@
   "features": [
     {
       "id": "f01",
-      "name": "文件系统目录浏览",
+      "name": "File-system directory browsing",
       "steps": [
-        "从内部存储根目录进入一个系统常见文件夹，例如 Download",
-        "查看其中的文件和子文件夹",
-        "再进入二级、三级目录",
-        "顶部标题或路径状态随当前目录变化",
-        "使用返回键逐层回退",
-        "回到父目录后原来的文件和目录仍保持正确。对空目录应显示空状态而不是错误。"
+        "Enter a common system folder such as Download from the root of internal storage",
+        "View the files and subfolders inside",
+        "Then enter second- and third-level directories",
+        "The top title or path state changes with the current directory",
+        "Use the back key to step back level by level",
+        "After returning to the parent directory the original files and directories are still correct. An empty directory should show an empty state rather than an error."
       ],
-      "expected": "标题或路径随当前目录变化；返回键逐层回退到正确父目录；空目录显示空状态；列表内容与实际文件系统一致。",
+      "expected": "The title or path changes with the current directory; the back key steps back level by level to the correct parent directory; an empty directory shows an empty state; the list content matches the actual file system.",
       "persistence": true
     },
     {
       "id": "f02",
-      "name": "存储位置与文档源切换",
+      "name": "Storage location and document-source switching",
       "steps": [
-        "打开左侧导航抽屉",
-        "在“最近、图片、视频、音频、文档、下载、内部存储”等入口间切换",
-        "选择内部存储后展示真实根目录",
-        "再选择由其他应用提供的文档源时，浏览内容切换到对应 provider",
-        "返回内部存储后恢复本地文件树。不同来源不能被错误合并为同一个物理目录。"
+        "Open the left navigation drawer",
+        "Switch between entries such as \"recent, images, videos, audio, documents, downloads, and internal storage\"",
+        "After selecting internal storage the real root directory is shown",
+        "When selecting a document source provided by another app, the browsing content switches to the corresponding provider",
+        "Returning to internal storage restores the local file tree. Different sources must not be wrongly merged into the same physical directory."
       ],
-      "expected": "各入口切换后展示对应来源的真实内容；内部存储显示真实根目录；不同文档源内容不能被合并；返回内部存储恢复本地文件树。",
+      "expected": "After switching entries the real content of the corresponding source is shown; internal storage shows the real root directory; content from different document sources must not be merged; returning to internal storage restores the local file tree.",
       "persistence": false
     },
     {
       "id": "f03",
-      "name": "新建文件夹",
+      "name": "Create a new folder",
       "steps": [
-        "在某个可写目录点击菜单“新建文件夹”",
-        "输入合法目录名",
-        "确认",
-        "当前目录立即出现新文件夹",
-        "进入该文件夹确认它为空",
-        "返回父目录后仍存在",
-        "完全退出并重新打开文件管理器后仍存在。对于同名目录、非法名称等情况应给出合理反馈而不是创建异常目录。"
+        "Tap \"new folder\" in the menu in a writable directory",
+        "Enter a legal directory name",
+        "Confirm",
+        "The new folder appears in the current directory immediately",
+        "Enter that folder to confirm it is empty",
+        "It still exists after returning to the parent directory",
+        "It still exists after fully exiting and reopening the file manager. For duplicate directory names, illegal names, etc. reasonable feedback should be given rather than creating an abnormal directory."
       ],
-      "expected": "新文件夹必须真实写入文件系统，退出重进后仍存在；同名或非法名称给出合理反馈；失败时不能留下异常目录。",
+      "expected": "The new folder must genuinely be written to the file system and still exist after exiting and re-entering; duplicate or illegal names give reasonable feedback; a failure must not leave an abnormal directory.",
       "persistence": true
     },
     {
       "id": "f04",
-      "name": "文件与文件夹重命名",
+      "name": "Renaming files and folders",
       "steps": [
-        "选中一个普通文件或自建文件夹",
-        "选择“重命名”",
-        "输入新名称",
-        "确认后列表中的名称更新",
-        "文件内容和目录内容不能丢失",
-        "重新进入目录后新名称仍存在。若只修改扩展名，文件应保留原始字节内容；目录重命名后其子目录树仍完整。"
+        "Select an ordinary file or a self-created folder",
+        "Select \"rename\"",
+        "Enter a new name",
+        "After confirming, the name in the list updates",
+        "The file content and directory content must not be lost",
+        "After re-entering the directory the new name still exists. If only the extension was changed the file should keep its original byte content; after renaming a directory its subtree is still intact."
       ],
-      "expected": "重命名后名称真实更新且文件内容不丢失；仅改扩展名时字节内容不变；目录重命名后子目录树完整；重名时应给出反馈。",
+      "expected": "After renaming the name genuinely updates without losing the file content; when only the extension is changed the byte content stays the same; after renaming a directory its subtree is intact; a duplicate name should give feedback.",
       "persistence": true
     },
     {
       "id": "f05",
-      "name": "文件复制",
+      "name": "File copy",
       "steps": [
-        "准备一个源文件",
-        "选中并执行“复制到…”或复制",
-        "选择另一个目标目录，例如从 Download 复制到 Documents",
-        "操作完成后源文件仍存在",
-        "目标目录出现一个内容一致的副本",
-        "两个文件之后可以独立修改。复制文件夹时应递归复制内部层级和文件。"
+        "Prepare a source file",
+        "Select and use \"copy to…\" or copy",
+        "Select another target directory, e.g. copy from Download to Documents",
+        "After the operation completes the source file still exists",
+        "A copy with identical content appears in the target directory",
+        "The two files can be modified independently afterwards. Copying a folder should recursively copy its internal hierarchy and files."
       ],
-      "expected": "源文件保留且目标目录出现内容一致的副本；两个文件可独立修改；复制文件夹时递归复制内部层级。",
+      "expected": "The source file is preserved and a copy with identical content appears in the target directory; the two files can be modified independently; copying a folder recursively copies its internal hierarchy.",
       "persistence": true
     },
     {
       "id": "f06",
-      "name": "文件移动",
+      "name": "File move",
       "steps": [
-        "选中一个文件或文件夹",
-        "执行“移动到…”或剪切",
-        "选择目标目录",
-        "移动完成后源目录中对象消失",
-        "目标目录中出现对象",
-        "文件内容保持一致",
-        "文件夹移动时内部所有子目录和文件一起移动",
-        "返回原位置不能再看到旧副本。"
+        "Select a file or folder",
+        "Use \"move to…\" or cut",
+        "Select the target directory",
+        "After the move completes the object disappears from the source directory",
+        "The object appears in the target directory",
+        "The file content stays consistent",
+        "When a folder is moved all its subdirectories and files move with it",
+        "The old copy is no longer visible at the original location."
       ],
-      "expected": "移动后源位置消失、目标位置出现且内容一致；文件夹内部内容整体移动；返回原位置看不到旧副本。",
+      "expected": "After moving, the source location disappears, the target location appears with identical content; the folder's internal contents move as a whole; the old copy is not visible at the original location.",
       "persistence": false
     },
     {
       "id": "f07",
-      "name": "剪切 / 复制 / 粘贴闭环",
+      "name": "Cut / copy / paste loop",
       "steps": [
-        "选择一个对象",
-        "执行复制或剪切",
-        "导航到另一目录",
-        "“粘贴”状态变为可用",
-        "粘贴",
-        "复制模式下源和目标同时存在，剪切模式下源消失",
-        "重复粘贴、取消操作以及切换目录时剪贴板状态合理保持或失效。"
+        "Select an object",
+        "Perform copy or cut",
+        "Navigate to another directory",
+        "The \"paste\" state becomes available",
+        "Paste",
+        "In copy mode the source and target both exist while in cut mode the source disappears",
+        "Repeated pasting, cancelling, and switching directories preserve or invalidate the clipboard state reasonably."
       ],
-      "expected": "粘贴仅在剪贴板有内容时可用；复制模式源与目标同时存在，剪切模式源消失；重复粘贴结果符合模式；切换目录时剪贴板状态合理保持或失效。",
+      "expected": "Paste is only available when the clipboard has content; in copy mode the source and target both exist while in cut mode the source disappears; repeated pasting matches the mode; the clipboard state is reasonably preserved or invalidated when switching directories.",
       "persistence": false
     },
     {
       "id": "f08",
-      "name": "删除文件与目录",
+      "name": "Delete files and directories",
       "steps": [
-        "创建用于测试的文件和子文件夹",
-        "单选或多选",
-        "删除",
-        "出现确认流程",
-        "确认后对象从真实目录中消失",
-        "刷新、重新进入目录后仍不存在。删除非空目录时应连同内部内容正确处理；点击取消时不能发生任何实际删除。"
+        "Create files and subfolders for testing",
+        "Single or multiple selection",
+        "Delete",
+        "A confirmation flow appears",
+        "After confirming, the object disappears from the real directory",
+        "It still does not exist after refreshing and re-entering the directory. Deleting a non-empty directory should handle its contents too; clicking cancel must not actually delete anything."
       ],
-      "expected": "确认后对象从真实目录消失且刷新后不再出现；删除非空目录时连同内部内容处理；点击取消不能发生任何删除。",
+      "expected": "After confirming, the object disappears from the real directory and does not reappear after refreshing; deleting a non-empty directory handles its contents too; clicking cancel must not delete anything.",
       "persistence": true
     },
     {
       "id": "f09",
-      "name": "多选与批量文件操作",
+      "name": "Multi-select and batch file operations",
       "steps": [
-        "长按一个文件进入选择模式",
-        "再点击多个文件/文件夹",
-        "选择数量实时变化",
-        "使用“全选”选中当前目录所有可选项目",
-        "对多选结果执行复制、移动、删除或分享",
-        "操作应用于全部选中对象",
-        "完成或取消后退出选择状态。"
+        "Long-press a file to enter selection mode",
+        "Then tap several files/folders",
+        "The selection count changes in real time",
+        "Use \"select all\" to select all selectable items in the current directory",
+        "Perform copy, move, delete, or share on the multi-selected results",
+        "The operation applies to all selected objects",
+        "Exit the selection state after completing or cancelling."
       ],
-      "expected": "选择数量实时准确；全选包含当前目录所有可选项目；批量操作应用于全部选中对象；完成或取消后退出选择状态。",
+      "expected": "The selection count is accurate in real time; select-all includes all selectable items in the current directory; batch operations apply to all selected objects; the selection state exits after completing or cancelling.",
       "persistence": false
     },
     {
       "id": "f10",
-      "name": "文件搜索",
+      "name": "File search",
       "steps": [
-        "在内部存储建立名称可区分的文件和目录",
-        "点击搜索",
-        "输入完整名称或名称片段",
-        "结果实时收敛",
-        "搜索结果能够包含匹配的文件及目录",
-        "点击结果进入对应对象",
-        "清空搜索后恢复正常浏览。搜索不能只是当前屏幕文字过滤，而应至少覆盖当前搜索范围内真实可访问的文档。"
+        "Create files and directories with distinguishable names in internal storage",
+        "Tap search",
+        "Enter the full name or a name fragment",
+        "The results converge in real time",
+        "The search results can include matching files and directories",
+        "Tapping a result opens the corresponding object",
+        "Clearing the search restores normal browsing. The search must not merely filter the current screen's text but should at least cover the genuinely accessible documents within the current search scope."
       ],
-      "expected": "结果覆盖真实可访问的文档而非仅当前屏幕文字；输入名称片段即可收敛结果；点击结果进入对应对象；清空搜索恢复正常浏览。",
+      "expected": "The results cover genuinely accessible documents rather than only the current screen's text; entering a name fragment converges the results; tapping a result opens the corresponding object; clearing the search restores normal browsing.",
       "persistence": false
     },
     {
       "id": "f11",
-      "name": "类型与快捷筛选",
+      "name": "Type and quick filtering",
       "steps": [
-        "在存储中准备图片、视频、音频、普通文档及其他类型文件",
-        "依次点击顶部“图片、音频、视频、文档”等筛选 Chip",
-        "当前结果只保留相应 MIME/媒体类型",
-        "切换“大型文件”时按文件大小条件筛选",
-        "切换“本周”时按时间条件筛选",
-        "取消筛选后恢复全部内容。"
+        "Prepare images, videos, audio, ordinary documents, and other file types in storage",
+        "Tap the \"images, audio, video, documents\" filter chips at the top in turn",
+        "The current results keep only the corresponding MIME/media type",
+        "When \"large files\" is toggled, filter by the file-size condition",
+        "When \"this week\" is toggled, filter by the time condition",
+        "All content is restored after clearing the filters."
       ],
-      "expected": "各筛选只保留对应 MIME 或媒体类型；大型文件与本周按大小和时间条件生效；取消筛选恢复全部内容；筛选不修改文件。",
+      "expected": "Each filter keeps only the corresponding MIME or media type; large files and this week take effect by size and time conditions; clearing the filters restores all content; filtering does not modify files.",
       "persistence": false
     },
     {
       "id": "f12",
-      "name": "排序规则",
+      "name": "Sort rules",
       "steps": [
-        "在同一目录准备名称、大小、修改时间和类型各不相同的若干项目",
-        "打开“排序方式”",
-        "依次测试文件名 A",
+        "Prepare several items with different names, sizes, modification times, and types in the same directory",
+        "Open \"sort mode\"",
+        "Test file name A in turn",
         "Z / Z",
-        "A、修改日期新",
-        "旧 / 旧",
-        "新、类型 A",
+        "A, newer modification date",
+        "Old / old",
+        "New, type A",
         "Z / Z",
-        "A、大小大",
-        "小 / 小",
-        "大",
-        "每次排序后可观察顺序发生符合规则的变化",
-        "目录本身内容不被修改。"
+        "A, larger size",
+        "Small / small",
+        "Large",
+        "After each sort an order change consistent with the rule can be observed",
+        "The directory's own content is not modified."
       ],
-      "expected": "每种排序方式真实改变顺序且符合规则，正序与逆序结果相反；排序不修改目录内容；排序状态在目录切换后保持一致。",
+      "expected": "Each sort mode genuinely changes the order and matches the rule, with forward and reverse giving opposite results; sorting does not modify the directory content; the sort state stays consistent after switching directories.",
       "persistence": false
     },
     {
       "id": "f13",
-      "name": "网格与列表显示",
+      "name": "Grid and list display",
       "steps": [
-        "在包含目录、普通文件和图片的目录中",
-        "点击右侧视图切换按钮",
-        "网格布局切换为列表布局",
-        "再切回网格",
-        "文件和目录集合保持完全一致",
-        "图片在支持缩略图时显示缩略图，普通文件显示类型图标",
-        "切换模式不能改变排序、当前目录或实际文件。"
+        "In a directory containing folders, ordinary files, and images",
+        "Tap the view-switch button on the right",
+        "Switch the grid layout to the list layout",
+        "Then switch back to grid",
+        "The file and directory sets stay exactly consistent",
+        "Images show a thumbnail when thumbnails are supported, and ordinary files show a type icon",
+        "Switching modes must not change the sort, current directory, or actual files."
       ],
-      "expected": "网格与列表显示同一文件集合，切换不改变排序与当前目录；图片显示缩略图、普通文件显示类型图标；切换后文件集合完全一致。",
+      "expected": "Grid and list show the same file set and switching does not change the sort or current directory; images show thumbnails and ordinary files show type icons; the file set is exactly the same after switching.",
       "persistence": false
     },
     {
       "id": "f14",
-      "name": "隐藏文件显示",
+      "name": "Hidden-file display",
       "steps": [
-        "在可访问目录准备普通文件和隐藏文件",
-        "默认状态按应用当前规则展示",
-        "菜单选择“显示隐藏的文件”",
-        "隐藏对象出现",
-        "再选择“不显示隐藏文件”后消失",
-        "隐藏状态切换只能改变显示结果，不能删除、移动或重命名隐藏文件。"
+        "Prepare ordinary and hidden files in an accessible directory",
+        "The default state is displayed according to the app's current rules",
+        "Select \"show hidden files\" in the menu",
+        "Hidden objects appear",
+        "Then select \"don't show hidden files\" and it disappears",
+        "Toggling the hidden state may only change the display result and must not delete, move, or rename hidden files."
       ],
-      "expected": "切换后隐藏对象出现或消失；只改变显示而不删除、移动或重命名隐藏文件；重新进入目录后状态与设置一致。",
+      "expected": "After toggling, hidden objects appear or disappear; only the display changes and hidden files are not deleted, moved, or renamed; after re-entering the directory the state matches the setting.",
       "persistence": false
     },
     {
       "id": "f15",
-      "name": "文件 / 文件夹信息查看",
+      "name": "Viewing file/folder information",
       "steps": [
-        "选择一个文件夹",
-        "“获取信息”",
-        "信息页显示名称、类型、修改时间、项目数量等",
-        "对普通文件则显示相应文件类型、大小等元数据",
-        "信息与实际对象一致。对于 provider 暴露的对象，还应根据其能力正确反映是否支持 create、delete、move、rename、metadata 等，而不能全部硬编码为同一组值。"
+        "Select a folder",
+        "\"Get info\"",
+        "The info page shows the name, type, modification time, item count, etc.",
+        "For an ordinary file show the corresponding file type, size, and other metadata",
+        "The information matches the actual object. For objects exposed by a provider, it should also correctly reflect whether create, delete, move, rename, metadata, etc. are supported according to its capabilities, rather than hard-coding the same set of values for all."
       ],
-      "expected": "信息页数据与实际对象一致；文件夹显示项目数量、文件显示类型与大小；不同文档源的能力标记需真实反映而不能全部硬编码。",
+      "expected": "The info page data matches the actual object; folders show the item count while files show the type and size; the capability flags of different document sources must be truly reflected rather than all hard-coded.",
       "persistence": false
     },
     {
       "id": "f16",
-      "name": "文件打开与“打开方式”",
+      "name": "File opening and \"open with\"",
       "steps": [
-        "选择一个具有明确类型的文件",
-        "点击打开",
-        "系统根据 MIME 类型列出能够处理该文件的应用",
-        "选择目标应用",
-        "内容传递给目标应用并能够读取",
-        "返回文件管理器后仍停留在合理目录状态。对不同类型文件，候选应用集合应不同。"
+        "Select a file with a clear type",
+        "Tap open",
+        "The system lists the apps able to handle the file by MIME type",
+        "Select the target app",
+        "The content is passed to the target app and can be read",
+        "After returning to the file manager it is still in a reasonable directory state. The candidate app sets should differ for different file types."
       ],
-      "expected": "按 MIME 类型列出能够处理该文件的应用，不同类型候选集合不同；内容正确传递给目标应用；返回后仍停留在合理目录状态。",
+      "expected": "List the apps able to handle the file by MIME type, with different candidate sets per type; the content is correctly passed to the target app; after returning it remains in a reasonable directory state.",
       "persistence": false
     },
     {
       "id": "f17",
-      "name": "最近文件聚合",
+      "name": "Recent-file aggregation",
       "steps": [
-        "先分别访问不同目录中的多个文件",
-        "打开“最近”",
-        "最近访问/生成的文件出现在聚合视图，而不要求用户知道其原始文件夹",
-        "可以从最近页面直接打开文件",
-        "文件仍对应原始存储对象，而不是产生额外副本",
-        "删除原文件后，“最近”不能永久留下一个可正常打开的虚假条目。"
+        "First visit several files in different directories",
+        "Open \"recent\"",
+        "Recently accessed/generated files appear in an aggregated view without requiring the user to know their original folder",
+        "Files can be opened directly from the recent page",
+        "The file still corresponds to the original storage object rather than producing an extra copy",
+        "After the original file is deleted, \"recent\" must not permanently keep a fake entry that still opens normally."
       ],
-      "expected": "最近列表对应原始存储对象而非副本；可从最近直接打开文件；删除原文件后最近不能留下可正常打开的虚假条目。",
+      "expected": "The recent list corresponds to the original storage object rather than a copy; files can be opened directly from recent; after the original file is deleted, recent must not keep a fake entry that still opens normally.",
       "persistence": false
     },
     {
       "id": "f18",
-      "name": "系统文件选择 / 保存闭环",
+      "name": "System file pick/save loop",
       "steps": [
-        "从另一个应用触发“打开文件”或“另存为”",
-        "DocumentsUI 以系统选择器模式启动",
-        "可在“最近、下载、内部存储、其他文档源”间导航",
-        "打开模式下选择已有文件并将正确 URI 返回调用方；保存模式下输入文件名、选择目录并保存",
-        "回到文件管理器验证新文件真实存在。若调用方请求的是目录选择，则只能确认合法目录而不能把普通文件当目录返回。"
+        "Trigger \"open file\" or \"save as\" from another app",
+        "DocumentsUI launches in the system picker mode",
+        "Can navigate between \"recent, downloads, internal storage, and other document sources\"",
+        "In open mode, select an existing file and return the correct URI to the caller; in save mode, enter the file name, choose a directory, and save",
+        "Return to the file manager to verify the new file genuinely exists. If the caller requested directory selection, only a legal directory may be confirmed and an ordinary file must not be returned as a directory."
       ],
-      "expected": "打开模式将正确文件 URI 返回调用方；保存模式新文件真实写入所选目录；目录选择只能返回合法目录；取消时调用方收到明确结果。",
+      "expected": "Open mode returns the correct file URI to the caller; save mode genuinely writes the new file into the chosen directory; directory selection may only return a legal directory; on cancel the caller receives an explicit result.",
       "persistence": false
     }
   ]

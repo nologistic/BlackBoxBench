@@ -4,471 +4,471 @@
   "features": [
     {
       "id": "f01",
-      "name": "城市切换与本地内容重建",
+      "name": "City switching and local content rebuilding",
       "steps": [
-        "当前城市为深圳",
-        "点击“更换”",
-        "选择鞍山/上海等城市",
-        "顶部城市变化",
-        "首页分类、商圈、搜索结果、预约商户等切换到新城市上下文"
+        "The current city is Shenzhen",
+        "Tap \"Change\"",
+        "Select a city such as Anshan/Shanghai",
+        "The top city changes",
+        "The home categories, business districts, search results, and booked merchants switch to the new city context"
       ],
-      "expected": "切换城市后顶部城市必须更新；首页分类、商圈、搜索结果、预约商户等必须全部切换到新城市上下文；切换过程不能残留旧城市数据。",
+      "expected": "After switching cities the top city must update; the home categories, business districts, search results, and booked merchants must all switch to the new city context; the switch must not leave any residual old-city data.",
       "persistence": false
     },
     {
       "id": "f02",
-      "name": "国内城市 / 国外城市选择",
+      "name": "Domestic city / overseas city selection",
       "steps": [
-        "打开城市选择",
-        "国内城市/国外城市切换",
-        "按省份、城市、热门城市、字母索引或直接搜索定位城市",
-        "完成切换"
+        "Open city selection",
+        "Domestic/overseas city switching",
+        "Locate a city by province, city, popular city, alphabetical index, or direct search",
+        "Complete the switch"
       ],
-      "expected": "国内 / 国外切换后城市列表正确变化；按省份 / 热门 / 索引 / 搜索定位均可正确完成切换；选中城市后正确回显。",
+      "expected": "After switching between domestic/overseas the city list changes correctly; switching works via province / popular / index / search; the selected city is correctly reflected.",
       "persistence": false
     },
     {
       "id": "f03",
-      "name": "全部分类多级导航",
+      "name": "Full multi-level category navigation",
       "steps": [
-        "打开“全部分类”",
-        "美食/休闲娱乐/酒店/丽人/运动健身等一级分类",
-        "Hover 某一级分类",
-        "展开对应二级/三级分类",
-        "点击进入对应频道"
+        "Open \"All categories\"",
+        "First-level categories such as food/entertainment/hotels/beauty/fitness",
+        "Hover over a first-level category",
+        "Expand the corresponding second-/third-level categories",
+        "Tap to enter the corresponding channel"
       ],
-      "expected": "一级分类必须展开对应二三级分类；切换一级分类时内容正确替换；点击具体分类进入对应频道且筛选正确。",
+      "expected": "A first-level category must expand into the corresponding second- and third-level categories; when switching first-level categories the content is correctly replaced; tapping a specific category enters the corresponding channel with the correct filtering.",
       "persistence": false
     },
     {
       "id": "f04",
-      "name": "热门分类与热门商圈发现",
+      "name": "Popular category and business-district discovery",
       "steps": [
-        "首页展示热门分类与热门商圈",
-        "点击某分类或商圈",
-        "自动形成相应的频道和地点过滤条件",
-        "进入商户列表"
+        "The home page shows popular categories and business districts",
+        "Tap a category or business district",
+        "The corresponding channel and location filter conditions are formed automatically",
+        "Enter the merchant list"
       ],
-      "expected": "点击热门分类 / 商圈后必须形成正确的频道与地点过滤条件；进入商户列表结果与条件一致。",
+      "expected": "After tapping a popular category / business district the correct channel and location filter conditions must be formed; the merchant-list results match the conditions.",
       "persistence": false
     },
     {
       "id": "f05",
-      "name": "首页推荐内容浏览",
+      "name": "Browsing recommended home-page content",
       "steps": [
-        "进入首页",
-        "混合浏览美食、探店、商场、生活方式等推荐内容",
-        "点击内容卡进入对应内容/商户",
-        "返回后继续原位置浏览"
+        "Enter the home page",
+        "Browse a mix of recommended content such as food, store visits, malls, and lifestyle",
+        "Tapping a content card enters the corresponding content/merchant",
+        "After returning, browsing continues from the original position"
       ],
-      "expected": "首页必须混合展示推荐内容；点击内容卡进入正确内容 / 商户；返回后继续原位置浏览；内容与预置一致。",
+      "expected": "The home page must show a mix of recommended content; tapping a content card enters the correct content/merchant; after returning, browsing continues from the original position; the content matches the preset.",
       "persistence": true
     },
     {
       "id": "f06",
-      "name": "商户名 / 地址 / 菜名搜索",
+      "name": "Search by merchant name / address / dish name",
       "steps": [
-        "输入商户名、地址、菜名等关键词",
-        "搜索",
-        "返回匹配商户",
-        "点击商户",
-        "返回后保留关键词和搜索结果状态"
+        "Enter keywords such as a merchant name, address, or dish name",
+        "Search",
+        "Matching merchants are returned",
+        "Tap the merchant",
+        "After returning the keyword and search-result state are preserved"
       ],
-      "expected": "搜索结果必须匹配关键词（商户名 / 地址 / 菜名）；点击商户进入详情；返回后保留关键词与结果状态。",
+      "expected": "Search results must match the keyword (merchant name / address / dish name); tapping a merchant opens the details; after returning the keyword and result state are preserved.",
       "persistence": true
     },
     {
       "id": "f07",
-      "name": "频道搜索 / 全站搜索切换",
+      "name": "Channel search / site-wide search switching",
       "steps": [
-        "当前位于景点/美食等频道",
-        "输入关键词",
-        "选择“频道搜索”仅搜索当前频道，或选择“全站搜索”跨频道搜索",
-        "得到不同结果集合"
+        "Currently in a channel such as attractions/food",
+        "Enter a keyword",
+        "Choose \"channel search\" to search only the current channel, or \"site-wide search\" to search across channels",
+        "Different result sets are obtained"
       ],
-      "expected": "频道搜索必须仅返回当前频道结果；全站搜索跨频道返回；两种模式结果集合可区分；切换后查询条件保持。",
+      "expected": "Channel search must return only the current channel's results; site-wide search returns across channels; the two modes' result sets are distinguishable; after switching, the query conditions are preserved.",
       "persistence": false
     },
     {
       "id": "f08",
-      "name": "频道与分类组合筛选",
+      "name": "Combined channel and category filtering",
       "steps": [
-        "搜索/频道列表",
-        "在美食、酒店、休闲娱乐、丽人、景点等频道间切换",
-        "再选择细分类别",
-        "商户集合重新计算"
+        "Search / channel list",
+        "Switch between channels such as food, hotels, entertainment, beauty, and attractions",
+        "Then select a subcategory",
+        "The merchant set is recomputed"
       ],
-      "expected": "频道切换后商户集合重新计算；再选细分类别后结果进一步收窄；组合条件同时生效。",
+      "expected": "After switching channels the merchant set is recomputed; selecting a subcategory further narrows the results; the combined conditions take effect together.",
       "persistence": false
     },
     {
       "id": "f09",
-      "name": "地点 / 热门商区 / 行政区筛选",
+      "name": "Location / popular district / administrative district filtering",
       "steps": [
-        "商户列表",
-        "选择热门商区/行政区/地铁线等地点条件",
-        "列表更新",
-        "更换地点条件",
-        "原频道条件继续保留"
+        "Merchant list",
+        "Select location conditions such as a popular district / administrative district / subway line",
+        "The list updates",
+        "Change the location conditions",
+        "The original channel conditions continue to be preserved"
       ],
-      "expected": "地点条件必须正确作用于列表；更换地点后列表更新；原频道条件继续保留；多条件组合结果正确。",
+      "expected": "The location conditions must correctly apply to the list; changing the location updates the list; the original channel conditions are preserved; combined conditions give correct results.",
       "persistence": false
     },
     {
       "id": "f10",
-      "name": "有团购 / 可订座筛选",
+      "name": "Group-buy / table-reservation filtering",
       "steps": [
-        "商户列表",
-        "勾选“有团购”或“可订座”",
-        "只显示符合服务能力的商户",
-        "取消条件后恢复完整结果"
+        "Merchant list",
+        "Check \"group-buy\" or \"table reservation\"",
+        "Only merchants matching the service capability are shown",
+        "After clearing the conditions the full results are restored"
       ],
-      "expected": "勾选后只显示符合服务能力的商户；取消后恢复完整结果；筛选状态可辨识。",
+      "expected": "After checking, only merchants matching the service capability are shown; unchecking restores the full results; the filter state is identifiable.",
       "persistence": false
     },
     {
       "id": "f11",
-      "name": "商户列表排序切换",
+      "name": "Merchant-list sort switching",
       "steps": [
-        "商户结果",
-        "从好评、人气、评价最多、总分、人均等确定性排序切换",
-        "列表顺序重新计算",
-        "筛选条件保持不变"
+        "Merchant results",
+        "Switch between deterministic sorts such as top-rated, popularity, most reviews, total score, and per-capita spend",
+        "The list order is recomputed",
+        "The filter conditions stay unchanged"
       ],
-      "expected": "切换排序方式后列表顺序必须按所选规则重新计算；筛选条件保持不变；排序结果与规则一致。",
+      "expected": "After switching the sort mode the list order must be recomputed by the selected rule; the filter conditions stay unchanged; the sorted result matches the rule.",
       "persistence": true
     },
     {
       "id": "f12",
-      "name": "无结果与相关商户推荐",
+      "name": "The no-results state and related-merchant recommendations",
       "steps": [
-        "设置过窄条件",
-        "没有符合条件的商户",
-        "页面进入无结果状态",
-        "根据已有频道/地点条件展示相关商户",
-        "点击推荐继续浏览"
+        "Set an overly narrow condition",
+        "No merchants match the conditions",
+        "The page enters the no-results state",
+        "Show related merchants according to the existing channel/location conditions",
+        "Tap a recommendation to continue browsing"
       ],
-      "expected": "过窄条件必须进入无结果状态并给出明确提示；相关商户推荐按已有条件展示；点击推荐可继续浏览。",
+      "expected": "An overly narrow condition must enter a no-results state with a clear prompt; related-merchant recommendations are shown according to the existing conditions; tapping a recommendation continues browsing.",
       "persistence": false
     },
     {
       "id": "f13",
-      "name": "商户详情信息聚合",
+      "name": "Merchant detail information aggregation",
       "steps": [
-        "从列表进入商户",
-        "聚合展示商户名称、星级、点评数、口味/环境/服务、品类、营业时间、标签、地址和图片等信息"
+        "Enter the merchant from the list",
+        "Aggregate and display information such as the merchant name, star rating, review count, taste/environment/service, category, business hours, tags, address, and photos"
       ],
-      "expected": "商户名称 / 星级 / 点评数 / 口味环境服务 / 品类 / 营业时间 / 标签 / 地址 / 图片必须完整展示；信息与列表数据一致。",
+      "expected": "The merchant name / star rating / review count / taste-environment-service / category / business hours / tags / address / photos must be fully displayed; the information is consistent with the list data.",
       "persistence": false
     },
     {
       "id": "f14",
-      "name": "地址 / 距离 / 电话服务",
+      "name": "Address / distance / phone service",
       "steps": [
-        "商户详情",
-        "查看详细地址和距离信息",
-        "使用电话入口或位置相关入口",
-        "始终保持当前商户上下文"
+        "Merchant details",
+        "View the detailed address and distance information",
+        "Use the phone entry or location-related entries",
+        "Always keep the current merchant context"
       ],
-      "expected": "详细地址与距离正确展示；电话与位置入口可正常触发；操作后始终保持在当前商户上下文。",
+      "expected": "The detailed address and distance are displayed correctly; the phone and location entries can be triggered normally; after the operation the current merchant context is always preserved.",
       "persistence": true
     },
     {
       "id": "f15",
-      "name": "预约订座",
+      "name": "Table reservation",
       "steps": [
-        "进入“预约订座”",
-        "浏览最近可订餐厅",
-        "查看评分、口味/环境/服务、地址",
-        "选择目标商户",
-        "进入对应订座上下文"
+        "Enter \"Table reservation\"",
+        "Browse recently reservable restaurants",
+        "View the rating, taste/environment/service, and address",
+        "Select the target merchant",
+        "Enter the corresponding reservation context"
       ],
-      "expected": "可订餐厅列表正确展示评分 / 口味环境服务 / 地址；选择商户后进入正确订座上下文。",
+      "expected": "The restaurant list correctly shows the rating / taste-environment-service / address; after selecting a merchant the correct reservation context is entered.",
       "persistence": false
     },
     {
       "id": "f16",
-      "name": "优惠券与优惠商户联动",
+      "name": "Coupons and discounted merchants are linked",
       "steps": [
-        "商户列表展示“优惠”“券”等状态",
-        "优先筛选有优惠商户",
-        "进入对应商户/优惠",
-        "返回列表后优惠筛选与商户状态保持"
+        "The merchant list shows states such as \"discount\" and \"coupon\"",
+        "Prefer merchants that have discounts",
+        "Enter the corresponding merchant/discount",
+        "After returning to the list the discount filter and merchant state are preserved"
       ],
-      "expected": "优惠状态正确展示；筛选后只显示有优惠商户；进入商户 / 优惠后返回，筛选与状态保持。",
+      "expected": "The discount state is displayed correctly; after filtering only discounted merchants are shown; entering a merchant/discount and returning preserves the filter and state.",
       "persistence": true
     },
     {
       "id": "f17",
-      "name": "我的点评",
+      "name": "My reviews",
       "steps": [
-        "用户进入个人中心",
-        "“我的点评”",
-        "聚合历史点评",
-        "查看对应商户、星级、正文、图片、时间",
-        "点击商户重新进入详情"
+        "The user enters the personal center",
+        "\"My reviews\"",
+        "Aggregate historical reviews",
+        "View the corresponding merchant, star rating, body, photos, and time",
+        "Tap the merchant to reopen the details"
       ],
-      "expected": "历史点评必须按时间聚合展示（商户 / 星级 / 正文 / 图片 / 时间）；点击商户可重新进入详情；数据一致。",
+      "expected": "Historical reviews must be aggregated and displayed by time (merchant / star rating / body / photos / time); tapping the merchant reopens the detail page; the data is consistent.",
       "persistence": true
     },
     {
       "id": "f18",
-      "name": "写点评",
+      "name": "Write a review",
       "steps": [
-        "从商户/订单/个人主页进入写点评",
-        "选择星级",
-        "输入点评正文",
-        "添加图片",
-        "发布",
-        "新点评出现在“我的点评”和商户评价中"
+        "Write a review from the merchant/order/profile page",
+        "Select the star rating",
+        "Enter the review body",
+        "Add an image",
+        "Publish",
+        "The new review appears in \"My reviews\" and on the merchant's reviews"
       ],
-      "expected": "发布后新点评必须出现在「我的点评」与商户评价中；星级 / 正文 / 图片正确保存；内容需持久化。",
+      "expected": "After publishing, the new review must appear in \"My reviews\" and on the merchant's reviews page; the star rating / body / photos are saved correctly; the content must persist.",
       "persistence": false
     },
     {
       "id": "f19",
-      "name": "点评点赞与回复",
+      "name": "Liking and replying to reviews",
       "steps": [
-        "浏览某条点评",
-        "点赞",
-        "点赞数及状态变化",
-        "回复点评",
-        "回复关联正确点评",
-        "再进入时状态仍存在"
+        "Browse a review",
+        "Like",
+        "Like count and state changes",
+        "Reply to a review",
+        "The reply is linked to the correct review",
+        "The state still exists when re-entering"
       ],
-      "expected": "点赞后数量与状态变化；回复必须关联正确点评；再次进入状态仍存在；数据需持久化。",
+      "expected": "After liking, the count and state change; a reply must be linked to the correct review; the state still exists when re-entering; the data must persist.",
       "persistence": false
     },
     {
       "id": "f20",
-      "name": "点评与图片关联",
+      "name": "Reviews linked to photos",
       "steps": [
-        "发布点评时加入多张图片",
-        "图片与对应点评、商户建立关联",
-        "点评页显示图片",
-        "个人“图片”页同步出现"
+        "Add several photos when publishing a review",
+        "The photo is linked to the corresponding review and merchant",
+        "The review page shows the photos",
+        "It also appears on the personal \"Photos\" page"
       ],
-      "expected": "图片必须与对应点评、商户正确关联；点评页显示图片；个人「图片」页同步出现；关联关系不丢失。",
+      "expected": "Photos must be correctly linked to the corresponding review and merchant; the review page shows the photos; they also appear on the personal \"Photos\" page; the links are not lost.",
       "persistence": false
     },
     {
       "id": "f21",
-      "name": "我的图片",
+      "name": "My photos",
       "steps": [
-        "个人主页",
-        "“图片”",
-        "聚合历史上传的商户图片",
-        "查看时间和来源",
-        "删除图片",
-        "对应个人图片列表及关联内容同步变化"
+        "Personal profile",
+        "\"Photos\"",
+        "Aggregate the historically uploaded merchant photos",
+        "View the time and source",
+        "Delete the image",
+        "The corresponding personal photo list and related content change in sync"
       ],
-      "expected": "历史图片正确聚合（时间 / 来源）；删除后个人图片列表与关联内容同步变化；操作需持久化。",
+      "expected": "Historical photos are correctly aggregated (by time / source); after deletion the personal photo list and related content change in sync; the operation must persist.",
       "persistence": false
     },
     {
       "id": "f22",
-      "name": "我的收藏跨类型聚合",
+      "name": "My favorites aggregated across types",
       "steps": [
-        "收藏商户/帖子/点评",
-        "进入“我的收藏”",
-        "在收藏商户、收藏帖子、收藏评价之间切换",
-        "点击内容恢复到原始对象"
+        "Favorite merchants/posts/reviews",
+        "Enter \"My favorites\"",
+        "Switch between favorited merchants, posts, and reviews",
+        "Tapping the content returns to the original object"
       ],
-      "expected": "各类型（商户 / 帖子 / 点评）正确分类展示；点击内容恢复到原始对象；类型切换结果正确。",
+      "expected": "Each type (merchant / post / review) is correctly categorized and displayed; tapping the content returns to the original object; switching types gives the correct results.",
       "persistence": false
     },
     {
       "id": "f23",
-      "name": "收藏商户分类与城市筛选",
+      "name": "Favorite-merchant category and city filtering",
       "steps": [
-        "收藏商户",
-        "按美食等类别、深圳/西安等城市筛选",
-        "可勾选“优先显示有优惠的商户”",
-        "结果动态变化"
+        "Favorite a merchant",
+        "Filter by category such as food and by city such as Shenzhen/Xi'an",
+        "\"Prefer merchants with discounts\" can be checked",
+        "The result changes dynamically"
       ],
-      "expected": "类别与城市筛选正确作用于收藏集合；「优先显示有优惠」勾选后结果正确排序；筛选组合生效。",
+      "expected": "Category and city filtering correctly apply to the favorites collection; after checking \"prefer discounted\" the results are sorted correctly; combined filters take effect.",
       "persistence": false
     },
     {
       "id": "f24",
-      "name": "收藏与取消收藏状态同步",
+      "name": "The favorite and unfavorite states sync",
       "steps": [
-        "商户页收藏",
-        "收藏商户出现",
-        "从收藏页取消/删除",
-        "再次进入商户",
-        "收藏状态必须同步恢复为未收藏"
+        "Favorite on the merchant page",
+        "The favorited merchant appears",
+        "Unfavorite/delete from the favorites page",
+        "Enter the merchant again",
+        "The favorite state must return to not-favorited in sync"
       ],
-      "expected": "从收藏页取消后商户页状态必须同步恢复为未收藏；两处状态始终一致；关系需持久化。",
+      "expected": "After unfavoriting from the favorites page the merchant page state must return to not-favorited in sync; the two states must always be consistent; the relationship must persist.",
       "persistence": true
     },
     {
       "id": "f25",
-      "name": "签到",
+      "name": "Check-in",
       "steps": [
-        "到访商户",
-        "执行签到/打卡",
-        "产生包含时间、商户和地址的签到记录",
-        "个人“签到”按时间线展示"
+        "Visit a merchant",
+        "Perform a check-in",
+        "A check-in record containing time, merchant, and address is produced",
+        "The personal \"Check-ins\" are shown as a timeline"
       ],
-      "expected": "签到后必须产生包含时间 / 商户 / 地址的记录；个人「签到」按时间线正确展示；记录需持久化。",
+      "expected": "After checking in, a record containing the time / merchant / address must be produced; the personal \"Check-ins\" are correctly displayed as a timeline; the record must persist.",
       "persistence": false
     },
     {
       "id": "f26",
-      "name": "签到回复互动",
+      "name": "Check-in reply interactions",
       "steps": [
-        "在签到记录下展开回复",
-        "输入内容",
-        "发布回复",
-        "回复关联当前签到",
-        "折叠/重新进入后仍然存在"
+        "Expand the replies under a check-in record",
+        "Enter content",
+        "Post a reply",
+        "The reply is linked to the current check-in",
+        "It still exists after collapsing/re-entering"
       ],
-      "expected": "发布回复后必须关联当前签到；折叠 / 重新进入后仍存在；回复内容正确显示。",
+      "expected": "After posting a reply it must be linked to the current check-in; it still exists after collapsing/re-entering; the reply content is displayed correctly.",
       "persistence": true
     },
     {
       "id": "f27",
-      "name": "个人主页",
+      "name": "Personal profile",
       "steps": [
-        "打开个人主页",
-        "聚合头像、等级、关注、粉丝、获赞、注册时间、点评、签到、图片和最近动态",
-        "各模块数据保持一致"
+        "Open the personal profile",
+        "Aggregate the avatar, level, following, followers, likes received, registration time, reviews, check-ins, photos, and recent activity",
+        "The data across modules stays consistent"
       ],
-      "expected": "头像 / 等级 / 关注 / 粉丝 / 获赞 / 注册时间 / 点评 / 签到 / 图片 / 最近动态必须正确聚合；各模块数据一致。",
+      "expected": "Avatar / level / following / followers / likes received / registration time / reviews / check-ins / photos / recent activity must be correctly aggregated; the data across modules is consistent.",
       "persistence": true
     },
     {
       "id": "f28",
-      "name": "最近动态",
+      "name": "Recent activity",
       "steps": [
-        "用户写点评、签到、收藏/添加商户等行为发生",
-        "“最近动态”自动产生对应行为记录",
-        "按时间排序展示",
-        "点击动态进入对应业务对象"
+        "The user performs actions such as writing a review, checking in, and favoriting/adding a merchant",
+        "The \"Recent activity\" feed automatically produces the corresponding behavior records",
+        "Display sorted by time",
+        "Tapping an activity enters the corresponding business object"
       ],
-      "expected": "各行为（写点评 / 签到 / 收藏等）必须自动产生动态记录；按时间排序；点击动态进入正确业务对象。",
+      "expected": "Each behavior (writing a review / check-in / favoriting, etc.) must automatically produce an activity record; sorted by time; tapping the activity enters the correct business object.",
       "persistence": false
     },
     {
       "id": "f29",
-      "name": "关注与个人统计同步",
+      "name": "Following and personal statistics stay in sync",
       "steps": [
-        "用户关注其他用户",
-        "自己的关注数与列表变化",
-        "获赞数量展示（预置数据）",
-        "个人主页统计与列表一致"
+        "A user follows another user",
+        "One's own following count and list change",
+        "Likes-received display (preset data)",
+        "The profile statistics are consistent with the lists"
       ],
-      "expected": "关注后关注数与列表变化；个人主页统计与列表一致；获赞数据正确展示。",
+      "expected": "After following, the following count and the list change; the profile statistics are consistent with the lists; the likes-received data is displayed correctly.",
       "persistence": false
     },
     {
       "id": "f30",
-      "name": "消息中心状态管理",
+      "name": "Message-center state management",
       "steps": [
-        "预置消息",
-        "顶部「消息」未读数字",
-        "进入消息中心",
-        "打开对应消息",
-        "未读状态变化",
-        "顶部数字同步减少"
+        "Preset messages",
+        "The unread number on \"Messages\" at the top",
+        "Enter the message center",
+        "Open the corresponding message",
+        "The unread state changes",
+        "The top number decreases in sync"
       ],
-      "expected": "预置消息使顶部未读数字正确显示；打开消息后未读状态变化；顶部数字同步减少。",
+      "expected": "The preset messages make the top unread number display correctly; after opening a message the unread state changes; the top number decreases in sync.",
       "persistence": false
     },
     {
       "id": "f31",
-      "name": "消息分类展示",
+      "name": "Message category display",
       "steps": [
-        "进入消息中心（预置各类消息）",
-        "在提醒、互动、订阅之间切换",
-        "不同类型消息进入正确分类",
-        "阅读后分类与总未读数同步更新"
+        "Enter the message center (with preset messages of each type)",
+        "Switch between reminders, interactions, and subscriptions",
+        "Messages of different types enter the correct categories",
+        "After reading, the category counts and the total unread count update in sync"
       ],
-      "expected": "各类型消息进入正确分类；阅读后分类与总未读数同步更新；分类计数与列表一致。",
+      "expected": "Messages of each type enter the correct categories; after reading, the category counts and the total unread count update in sync; the category counts are consistent with the lists.",
       "persistence": false
     },
     {
       "id": "f32",
-      "name": "消息设置 / 全部忽略 / 批量删除",
+      "name": "Message settings / ignore all / batch delete",
       "steps": [
-        "消息中心存在多条消息",
-        "设置消息偏好或选择全部忽略/批量删除",
-        "当前列表、分类计数和顶部消息状态同时变化"
+        "Multiple messages exist in the message center",
+        "Change message preferences or choose ignore-all/batch delete",
+        "The current list, category counts, and top message state change at the same time"
       ],
-      "expected": "设置偏好或批量操作后当前列表、分类计数与顶部状态同时变化；操作结果需持久化。",
+      "expected": "After changing preferences or performing batch operations the current list, category counts, and top state change at the same time; the operation result must persist.",
       "persistence": false
     },
     {
       "id": "f33",
-      "name": "团购频道与团购分类",
+      "name": "The group-buy channel and group-buy categories",
       "steps": [
-        "进入“团购”",
-        "在团购首页、美食、丽人、结婚、亲子、家装等分类间切换",
-        "搜索或浏览对应团购商品"
+        "Enter \"Group buy\"",
+        "Switch between the group-buy home, food, beauty, wedding, parenting, and home-decoration categories",
+        "Search or browse the corresponding group-buy product"
       ],
-      "expected": "各分类切换后展示对应团购商品；搜索 / 浏览结果与分类一致。",
+      "expected": "After switching categories the corresponding group-buy products are shown; the search/browse results are consistent with the category.",
       "persistence": false
     },
     {
       "id": "f34",
-      "name": "团购订单与券码状态",
+      "name": "Group-buy orders and voucher-code state",
       "steps": [
-        "购买团购商品（模拟支付）",
-        "生成团购订单",
-        "生成一个或多个券码",
-        "展示数量、金额、有效期和交易状态",
-        "后续仍可查询"
+        "Buy a group-buy product (simulated payment)",
+        "Generate a group-buy order",
+        "Generate one or more voucher codes",
+        "Show the quantity, amount, validity period, and transaction status",
+        "It can still be queried afterwards"
       ],
-      "expected": "生成订单后必须生成正确数量的券码；数量 / 金额 / 有效期 / 交易状态正确展示；后续仍可查询。",
+      "expected": "After generating an order the correct number of voucher codes must be generated; the quantity / amount / validity period / transaction status are displayed correctly; it can still be queried afterwards.",
       "persistence": false
     },
     {
       "id": "f35",
-      "name": "团购券 / 团购订单 / 新餐饮订单",
+      "name": "Group-buy vouchers / group-buy orders / new restaurant orders",
       "steps": [
-        "进入“我的订单”",
-        "在团购券、团购订单、新餐饮订单之间切换",
-        "查看不同订单类型",
-        "支付状态、券码、过期时间、金额和详情保持各自业务规则"
+        "Enter \"My orders\"",
+        "Switch between group-buy vouchers, group-buy orders, and new restaurant orders",
+        "View different order types",
+        "The payment status, voucher code, expiry time, amount, and details follow their own business rules"
       ],
-      "expected": "各订单类型正确分类展示；支付状态 / 券码 / 过期时间 / 金额 / 详情遵循各自业务规则；切换类型结果正确。",
+      "expected": "Each order type is correctly categorized and displayed; the payment status / voucher code / expiry time / amount / details follow their own business rules; switching types gives the correct results.",
       "persistence": true
     }
   ],
   "exclusions": [
     {
-      "feature": "智能排序算法\n「智能」排序的个性化 rank 模型",
+      "feature": "The smart-sorting algorithm\nThe personalized ranking model behind the \"Smart\" sort",
       "treatment": "Conditional Exclude",
-      "reason": "智能排序依赖算法模型；好评/人气/评价数等确定性排序保留；保留面：f11 商户列表排序切换",
+      "reason": "Smart sorting depends on an algorithmic model; deterministic sorts such as rating/popularity/review count are kept; retained surface: f11 merchant-list sort switching",
       "covered_by": [
         "f11"
       ]
     },
     {
-      "feature": "真实支付与交易结算\n支付网关、资金流转",
+      "feature": "Real payment and transaction settlement\nPayment gateways and fund flows",
       "treatment": "Hard Exclude",
-      "reason": "依赖支付系统（对照淘宝「真实支付」排除）；订单与券码流程本地化（模拟支付）",
+      "reason": "Depends on a payment system (cf. Taobao \"real payment\" exclusion); the order and voucher-code flow is localized (simulated payment)",
       "covered_by": []
     },
     {
-      "feature": "真实预订/订座的商家侧确认\n商家接单、确认、到店流程",
+      "feature": "Real booking/reservation merchant-side confirmation\nMerchant acceptance, confirmation, and arrival flow",
       "treatment": "Conditional Exclude",
-      "reason": "进入订座上下文与表单可测；商家侧确认与结果用 fixture；保留面：f15 预约订座",
+      "reason": "Entering the reservation context and the form are testable; merchant-side confirmation and results use fixtures; retained surface: f15 table reservation",
       "covered_by": [
         "f15"
       ]
     },
     {
-      "feature": "商户与点评的真实数据\n真实商户信息、评分、点评内容",
+      "feature": "Real merchant and review data\nReal merchant information, ratings, and review content",
       "treatment": "Default Exclude",
-      "reason": "使用合成 fixture 商户与点评数据（对照 Spotify「Real catalog」）",
+      "reason": "Use synthetic fixture merchants and review data (cf. Spotify \"Real catalog\")",
       "covered_by": []
     },
     {
-      "feature": "消息的真实事件源\n业务事件真实产生消息",
+      "feature": "The real event source of messages\nBusiness events genuinely produce messages",
       "treatment": "Conditional Include",
-      "reason": "消息状态机（未读/分类/已读/批量操作）可测，需预置消息 fixture；保留面：f30 消息中心状态管理, f31 消息分类展示, f32 消息设置 / 全部忽略 / 批量删除",
+      "reason": "The message state machine (unread/category/read/batch operations) is testable and requires preset message fixtures; retained surface: f30 message-center state management, f31 message category display, f32 message settings / ignore all / batch delete",
       "covered_by": [
         "f30",
         "f31",
@@ -476,55 +476,55 @@
       ]
     },
     {
-      "feature": "关注的对方侧变化\n对方粉丝数变化、对方收到通知",
+      "feature": "Changes on the other side of a follow\nChanges in the other user's follower count and notifications they receive",
       "treatment": "Conditional Exclude",
-      "reason": "本侧关注状态可测；对端数据用 fixture 呈现；保留面：f29 关注与个人统计同步",
+      "reason": "The local following state is testable; the other side's data is presented via fixtures; retained surface: f29 following and personal statistics sync",
       "covered_by": [
         "f29"
       ]
     },
     {
-      "feature": "他人点赞点评的真实事件\n他人对点评的点赞产生",
+      "feature": "Real events of other users liking a review\nAnother user likes the review",
       "treatment": "Conditional Exclude",
-      "reason": "获赞数量展示可测（预置）；不模拟他人点赞行为；保留面：f29 关注与个人统计同步",
+      "reason": "The likes-received display is testable (preset); other users' liking behavior is not simulated; retained surface: f29 following and personal statistics sync",
       "covered_by": [
         "f29"
       ]
     },
     {
-      "feature": "地理位置与实时距离\n基于真实 GPS 的距离计算、到店导航",
+      "feature": "Geolocation and real-time distance\nReal-GPS-based distance calculation and in-store navigation",
       "treatment": "Conditional Exclude",
-      "reason": "距离展示可用预置数据；导航跳转保留入口（对照 Google Maps「实时导航」处理思路）",
+      "reason": "The distance display can use preset data; the navigation jump keeps its entry (cf. the treatment of Google Maps \"real-time navigation\")",
       "covered_by": []
     },
     {
-      "feature": "优惠券真实核销\n到店核销、商家验证流程",
+      "feature": "Real coupon redemption\nIn-store redemption and merchant verification flow",
       "treatment": "Conditional Exclude",
-      "reason": "券码状态展示可测；真实核销流程依赖商家侧；保留面：f34 团购订单与券码状态",
+      "reason": "The coupon-code state display is testable; the real redemption flow depends on the merchant side; retained surface: f34 group-buy orders and coupon-code state",
       "covered_by": [
         "f34"
       ]
     },
     {
-      "feature": "电话真实拨打\ntel: 链接的实际通话",
+      "feature": "Real phone dialing\nThe actual call behind a tel: link",
       "treatment": "Conditional Exclude",
-      "reason": "电话入口存在与上下文保持可测；不要求真实通话（浏览器/OS 行为）；保留面：f14 地址 / 距离 / 电话服务",
+      "reason": "The existence of the phone entry and context preservation are testable; real calls (browser/OS behavior) are not required; retained surface: f14 address / distance / phone service",
       "covered_by": [
         "f14"
       ]
     },
     {
-      "feature": "城市实时运营数据\n各城市真实商户/团购/活动数据",
+      "feature": "Real-time city operational data\nReal merchant/group-buy/activity data per city",
       "treatment": "Conditional Exclude",
-      "reason": "城市切换与内容重建可测（预置城市数据集）；不要求真实全量数据；保留面：f01 城市切换与本地内容重建",
+      "reason": "City switching and content rebuilding are testable (preset city dataset); full real-world data is not required; retained surface: f01 city switching and local content rebuilding",
       "covered_by": [
         "f01"
       ]
     },
     {
-      "feature": "签到真实到店验证\nLBS 到店打卡验证",
+      "feature": "Real in-store check-in verification\nLBS-based in-store punch-in verification",
       "treatment": "Conditional Exclude",
-      "reason": "签到记录与时间线可测；不验证真实地理位置；保留面：f25 签到, f28 最近动态",
+      "reason": "Check-in records and the timeline are testable; real geolocation is not verified; retained surface: f25 check-in, f28 recent activity",
       "covered_by": [
         "f25",
         "f28"

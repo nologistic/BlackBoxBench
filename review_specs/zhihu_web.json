@@ -4,478 +4,478 @@
   "features": [
     {
       "id": "f01",
-      "name": "个性化推荐 Feed 编排",
+      "name": "Personalized recommendation feed orchestration",
       "steps": [
-        "用户进入「推荐」",
-        "混排问题、回答、文章、视频、想法等内容",
-        "各内容类型结构正确呈现",
-        "模块间不串位"
+        "The user enters \"recommended\"",
+        "A mix of questions, answers, articles, videos, thoughts, etc.",
+        "Each content type's structure is presented correctly",
+        "Modules do not cross positions"
       ],
-      "expected": "「推荐」必须按混排结构展示问题 / 回答 / 文章 / 视频 / 想法等内容；各类型卡片可区分；模块间不串位；滚动加载不重复。",
+      "expected": "\"Recommended\" must present questions/answers/articles/videos/thoughts in a mixed structure; each card type is distinguishable; modules do not cross positions; scrolling loads without duplication.",
       "persistence": false
     },
     {
       "id": "f02",
-      "name": "关注 Feed 聚合",
+      "name": "Follow-feed aggregation",
       "steps": [
-        "用户关注多个创作者/问题/内容",
-        "进入“关注”",
-        "聚合这些对象的新动态",
-        "取消关注后对应内容关系同步变化"
+        "The user follows several creators/questions/content",
+        "Enter \"following\"",
+        "Aggregate new activity from these objects",
+        "After unfollowing the corresponding content relationships change in sync"
       ],
-      "expected": "「关注」必须聚合已关注对象的新动态；取消关注后对应内容同步移除；关注关系变化后 Feed 集合正确更新；状态需持久化。",
+      "expected": "\"Following\" must aggregate new activity from followed objects; after unfollowing the corresponding content is removed in sync; after a follow-relationship change the feed set updates correctly; the state must persist.",
       "persistence": false
     },
     {
       "id": "f03",
-      "name": "热榜展示与内容跳转",
+      "name": "Ranking display and content navigation",
       "steps": [
-        "进入「热榜」",
-        "展示预置热榜数据（按热度排序快照）",
-        "点击某条进入对应内容详情",
-        "返回保持列表位置"
+        "Enter the \"hot ranking\"",
+        "Show the preset hot-list data (ranking snapshot by popularity)",
+        "Tapping an item opens the corresponding content details",
+        "Returning preserves the list position"
       ],
-      "expected": "热榜必须按预置快照展示排名；点击条目进入正确内容详情；返回后保持列表位置；快照数据与展示一致。",
+      "expected": "The ranking must show according to the preset snapshot; tapping an entry opens the correct content details; the list position is preserved after returning; the snapshot data matches the display.",
       "persistence": true
     },
     {
       "id": "f04",
-      "name": "专栏发现与订阅",
+      "name": "Column discovery and subscription",
       "steps": [
-        "进入“专栏”",
-        "浏览热门/推荐专栏",
-        "订阅某专栏",
-        "订阅数与按钮状态变化",
-        "后续可以持续消费其内容"
+        "Enter \"columns\"",
+        "Browse popular/recommended columns",
+        "Subscribe to a column",
+        "The subscriber count and button state change",
+        "Their content can continue to be consumed afterwards"
       ],
-      "expected": "订阅后按钮状态与订阅数立即变化；后续可消费该专栏内容；取消订阅后同步恢复；订阅状态需持久化。",
+      "expected": "After subscribing, the button state and subscriber count change immediately; the column's content can then be consumed; after unsubscribing it syncs back; the subscription state must persist.",
       "persistence": false
     },
     {
       "id": "f05",
-      "name": "圈子发现、加入与圈内内容流",
+      "name": "Circle discovery, joining, and the in-circle content stream",
       "steps": [
-        "进入“圈子”",
-        "浏览圈子",
-        "加入某圈子",
-        "圈子成员状态变化",
-        "圈内内容进入可消费范围",
-        "退出后同步恢复"
+        "Enter \"circles\"",
+        "Browse circles",
+        "Join a circle",
+        "The circle membership state changes",
+        "The circle's content enters the consumable range",
+        "It syncs back after leaving"
       ],
-      "expected": "加入圈子后成员状态变化；圈内内容进入可消费范围；退出后同步恢复；加入 / 退出状态需持久化。",
+      "expected": "After joining a circle the membership state changes; the circle's content enters the consumable range; after leaving it syncs back; the join/leave state must persist.",
       "persistence": false
     },
     {
       "id": "f06",
-      "name": "搜索建议与搜索历史管理",
+      "name": "Search suggestions and search-history management",
       "steps": [
-        "聚焦搜索框",
-        "展示“搜索发现”和历史关键词",
-        "输入内容",
-        "建议动态变化",
-        "搜索完成写入历史",
-        "清空历史后状态持久化"
+        "Focus the search box",
+        "Show \"search discovery\" and historical keywords",
+        "Enter content",
+        "The suggestions change dynamically",
+        "Completing the search writes it into the history",
+        "The state persists after clearing the history"
       ],
-      "expected": "输入时必须出现建议且随内容变化；搜索完成后写入历史；历史可清空；清空后状态持久化，刷新不恢复。",
+      "expected": "Suggestions must appear while typing and change with the content; completing the search writes it into the history; the history can be cleared; the cleared state persists and does not return after a refresh.",
       "persistence": true
     },
     {
       "id": "f07",
-      "name": "全局搜索与查询上下文恢复",
+      "name": "Global search and query-context restoration",
       "steps": [
-        "输入关键词",
-        "搜索问题/回答/用户/文章等",
-        "点击结果",
-        "返回搜索页",
-        "查询词、结果状态与滚动位置保持"
+        "Enter a keyword",
+        "Search questions/answers/users/articles, etc.",
+        "Tap the result",
+        "Return to the search page",
+        "The query term, result state, and scroll position are preserved"
       ],
-      "expected": "搜索结果覆盖问题 / 回答 / 用户 / 文章等类型；点击结果后返回必须保持查询词、结果状态与滚动位置。",
+      "expected": "The search results cover types such as questions/answers/users/articles; after tapping a result and returning the query term, result state, and scroll position must be preserved.",
       "persistence": true
     },
     {
       "id": "f08",
-      "name": "多形态创作入口编排",
+      "name": "Multi-form creation entry orchestration",
       "steps": [
-        "点击“+”或首页创作入口",
-        "提问题 / 写回答 / 发想法 / 写文章 / 发视频",
-        "根据内容类型进入不同创作工作流"
+        "Tap \"+\" or the creation entry on the home page",
+        "Ask a question / write an answer / post a thought / write an article / post a video",
+        "Different creation workflows are entered according to the content type"
       ],
-      "expected": "各创作入口（提问 / 回答 / 想法 / 文章 / 视频）必须进入对应工作流；不同工作流可区分；返回后首页状态保持。",
+      "expected": "Each creation entry (questions / answers / thoughts / articles / videos) must enter the corresponding workflow; different workflows are distinguishable; the home-page state is preserved after returning.",
       "persistence": false
     },
     {
       "id": "f09",
-      "name": "想法发布与圈子同步",
+      "name": "Thought publishing and circle sync",
       "steps": [
-        "首页输入想法",
-        "添加图片/视频/话题",
-        "可选择同步到圈子",
-        "发布",
-        "Feed 与个人主页同时出现",
-        "圈子中按配置同步"
+        "Enter a thought on the home page",
+        "Add images/videos/topics",
+        "Syncing to a circle can be selected",
+        "Publish",
+        "Appears in both the feed and the profile",
+        "It syncs within the circle according to the configuration"
       ],
-      "expected": "发布后想法必须同时出现在 Feed 与个人主页；选择同步圈子后圈子内可见；按配置的同步范围正确执行。",
+      "expected": "After publishing, the thought must appear in both the feed and the profile; with a sync circle selected it is visible within the circle; it is executed according to the configured sync scope.",
       "persistence": false
     },
     {
       "id": "f10",
-      "name": "问题发布与主题组织",
+      "name": "Question publishing and theme organization",
       "steps": [
-        "提问题",
-        "输入标题/描述",
-        "绑定话题",
-        "发布",
-        "生成独立 Question",
-        "可被关注、回答、邀请回答"
+        "Ask a question",
+        "Enter the title/description",
+        "Bind the topic",
+        "Publish",
+        "Generate an independent Question",
+        "It can be followed, answered, and have people invited to answer"
       ],
-      "expected": "发布后生成独立 Question；话题绑定正确；新问题可被关注 / 回答；问题信息在列表中正确展示。",
+      "expected": "After publishing an independent Question is generated; the topic binding is correct; the new question can be followed/answered; the question information is displayed correctly in the list.",
       "persistence": false
     },
     {
       "id": "f11",
-      "name": "富文本回答编辑与发布配置",
+      "name": "Rich-text answer editing and publishing configuration",
       "steps": [
-        "针对问题写回答",
-        "使用标题、列表、引用、代码、公式、图片、视频、链接、附件等编辑能力",
-        "配置转载/评论/来源",
-        "发布回答"
+        "Write an answer to the question",
+        "Use editing capabilities such as titles, lists, quotes, code, formulas, images, videos, links, and attachments",
+        "Configure reposting/comments/source",
+        "Publish the answer"
       ],
-      "expected": "富文本编辑能力（标题 / 列表 / 引用 / 代码 / 公式 / 图片等）正确渲染；发布配置（转载 / 评论 / 来源）正确保存；发布后回答完整呈现。",
+      "expected": "Rich-text editing capabilities (titles / lists / quotes / code / formulas / images, etc.) render correctly; the publishing configuration (reposting / comments / source) is saved correctly; after publishing the answer is presented in full.",
       "persistence": false
     },
     {
       "id": "f12",
-      "name": "文章 / 视频等长内容发布工作流",
+      "name": "Long-content publishing workflows such as articles/videos",
       "steps": [
-        "选择文章或视频",
-        "编辑主体内容",
-        "上传媒体",
-        "配置发布属性",
-        "发布",
-        "内容进入个人主页和内容 Feed"
+        "Select an article or video",
+        "Edit the main content",
+        "Upload media",
+        "Configure the publishing properties",
+        "Publish",
+        "The content enters the profile and the content feed"
       ],
-      "expected": "编辑内容与上传媒体后正确保存；发布属性生效；发布后内容出现在个人主页与内容 Feed；失败时给出明确状态。",
+      "expected": "After editing the content and uploading media it saves correctly; the publishing properties take effect; after publishing the content appears on the profile and in the content feed; a clear state is given on failure.",
       "persistence": false
     },
     {
       "id": "f13",
-      "name": "草稿自动保存与恢复",
+      "name": "Draft auto-save and restore",
       "steps": [
-        "编辑回答/文章过程中产生内容",
-        "自动进入草稿箱",
-        "离开页面",
-        "再次进入恢复编辑状态",
-        "发布后草稿状态正确迁移"
+        "Content is produced while editing an answer/article",
+        "It automatically enters the draft box",
+        "Leave the page",
+        "Re-entering restores the editing state",
+        "After publishing the draft state migrates correctly"
       ],
-      "expected": "编辑过程中草稿自动保存；离开后再次进入恢复编辑状态；发布后草稿状态正确迁移；草稿内容不丢失。",
+      "expected": "The draft is auto-saved during editing; after leaving and re-entering the editing state is restored; after publishing the draft state migrates correctly; the draft content is not lost.",
       "persistence": true
     },
     {
       "id": "f14",
-      "name": "问题详情多对象聚合",
+      "name": "Multi-object aggregation in the question details",
       "steps": [
-        "打开问题",
-        "加载标题、话题、描述、关注人数、浏览量、回答数、回答列表、相关问题等",
-        "各区域针对同一 Question Context 保持一致"
+        "Open the question",
+        "Load the title, topic, description, follower count, view count, answer count, answer list, related questions, etc.",
+        "All areas stay consistent for the same Question Context"
       ],
-      "expected": "标题 / 话题 / 描述 / 关注人数 / 浏览量 / 回答数 / 回答列表 / 相关问题等区域必须针对同一 Question 保持一致；数据与真实内容匹配。",
+      "expected": "The title/topic/description/follower count/view count/answer count/answer list/related questions and other areas must stay consistent for the same Question; the data matches the real content.",
       "persistence": true
     },
     {
       "id": "f15",
-      "name": "关注问题与问题关系同步",
+      "name": "Follow questions and sync question relationships",
       "steps": [
-        "打开问题",
-        "点击关注问题",
-        "关注状态和关注人数变化",
-        "个人关注的问题中出现",
-        "取消关注后两侧同步消失"
+        "Open the question",
+        "Tap to follow the question",
+        "The follow state and follower count change",
+        "It appears among the personally followed questions",
+        "After unfollowing both sides disappear in sync"
       ],
-      "expected": "关注后按钮状态与关注人数变化；问题出现在个人关注列表；取消关注后两侧同步消失；状态需持久化。",
+      "expected": "After following, the button state and follower count change; the question appears in the personal following list; after unfollowing both sides disappear in sync; the state must persist.",
       "persistence": false
     },
     {
       "id": "f16",
-      "name": "邀请回答工作流",
+      "name": "Invite-to-answer workflow",
       "steps": [
         "Question A",
-        "打开邀请面板（预置可邀请用户列表）",
-        "发送邀请",
-        "邀请状态记录",
-        "在问题页可查看邀请状态"
+        "Open the invitation panel (preset invitable-user list)",
+        "Send an invitation",
+        "The invitation state is recorded",
+        "The invitation state can be viewed on the question page"
       ],
-      "expected": "打开邀请面板展示预置可邀请用户列表；发送邀请后邀请状态正确记录；问题页可查看邀请状态；不能出现重复邀请。",
+      "expected": "Opening the invitation panel shows the preset list of invitable users; after sending an invitation the invitation state is recorded correctly; the invitation state can be viewed on the question page; duplicate invitations must not occur.",
       "persistence": false
     },
     {
       "id": "f17",
-      "name": "回答排序与列表状态保持",
+      "name": "Answer sorting and list-state preservation",
       "steps": [
-        "一个问题存在大量回答",
-        "切换默认/时间等排序",
-        "结果按确定性规则重新组织",
-        "排序改变但回答互动状态不丢失"
+        "A question has many answers",
+        "Switch between default/time and other sorts",
+        "The results are reorganized by deterministic rules",
+        "The sort changes but the answers' interaction state is not lost"
       ],
-      "expected": "切换排序方式后结果按确定性规则重新组织；排序改变不影响回答的互动状态（赞同 / 评论数）；返回后排序选择保持。",
+      "expected": "After switching the sort mode the results are reorganized by deterministic rules; the sort change does not affect the answers' interaction state (upvotes/comment count); the sort selection is preserved after returning.",
       "persistence": false
     },
     {
       "id": "f18",
-      "name": "赞同互动与回答状态同步",
+      "name": "Upvote interaction and answer-state sync",
       "steps": [
-        "用户赞同回答",
-        "按钮状态和赞同数变化",
-        "再次访问仍保持",
-        "取消赞同后数据回滚"
+        "The user upvotes the answer",
+        "The button state and upvote count change",
+        "It is still preserved on the next visit",
+        "The data rolls back after cancelling the upvote"
       ],
-      "expected": "赞同后按钮状态与赞同数立即变化；再次访问仍保持；取消赞同后数据正确回滚；状态需持久化。",
+      "expected": "After upvoting, the button state and upvote count change immediately; revisiting keeps them; after cancelling the upvote the data rolls back correctly; the state must persist.",
       "persistence": true
     },
     {
       "id": "f19",
-      "name": "收藏与个人内容库聚合",
+      "name": "Favorites and personal content-library aggregation",
       "steps": [
-        "对回答/文章等执行收藏",
-        "个人收藏区域出现",
-        "从个人主页重新进入",
-        "取消收藏后原内容与收藏列表同步"
+        "Favorite answers/articles, etc.",
+        "It appears in the personal favorites area",
+        "Re-enter from the profile",
+        "After unfavoriting the original content and the favorites list sync"
       ],
-      "expected": "收藏后个人收藏区域出现该内容；从个人主页可重新进入；取消收藏后原内容与收藏列表同步更新。",
+      "expected": "After favoriting, the content appears in the personal favorites area; it can be re-entered from the profile; after unfavoriting the original content and the favorites list update in sync.",
       "persistence": true
     },
     {
       "id": "f20",
-      "name": "评论与多级回复线程",
+      "name": "Comments and multi-level reply threads",
       "steps": [
-        "对回答发表评论",
-        "回复某评论",
-        "展开全部回复",
-        "默认/最新排序",
-        "点赞评论",
-        "Thread 关系刷新后仍保持"
+        "Comment on an answer",
+        "Reply to a comment",
+        "Expand all replies",
+        "Default/latest sorting",
+        "Like the comment",
+        "The Thread relationship is preserved after a refresh"
       ],
-      "expected": "发表评论后出现在评论区；回复形成正确层级；展开全部回复与排序切换不破坏 Thread 关系；点赞评论状态正确；刷新后保持。",
+      "expected": "After posting a comment it appears in the comment area; replies form the correct hierarchy; expanding all replies and switching sorts does not break the thread relationship; the like state on comments is correct; it is preserved after a refresh.",
       "persistence": true
     },
     {
       "id": "f21",
-      "name": "关注关系与列表状态同步",
+      "name": "Follow relationships and list-state sync",
       "steps": [
-        "关注某用户",
-        "进入「我关注的人」",
-        "关注状态变化",
-        "该用户内容进入关注 Feed 可消费范围",
-        "取消关注后同步恢复"
+        "Follow a user",
+        "Enter \"people I follow\"",
+        "The follow state changes",
+        "That user's content enters the follow feed's consumable range",
+        "It syncs back after unfollowing"
       ],
-      "expected": "关注后状态变化；用户内容进入关注 Feed 可消费范围；「我关注的人」列表正确展示；取消关注后同步恢复。",
+      "expected": "After following, the state changes; the user's content enters the follow feed's consumable range; \"people I follow\" displays correctly; after unfollowing it syncs back.",
       "persistence": false
     },
     {
       "id": "f22",
-      "name": "关注者 / 粉丝列表状态管理",
+      "name": "Follower / following list-state management",
       "steps": [
-        "查看「我关注的人」和「关注我的人」",
-        "区分已关注、关注你、相互关注（关系数据预置）",
-        "在列表直接关注/取消",
-        "本侧状态实时更新"
+        "View \"people I follow\" and \"people who follow me\"",
+        "Distinguish following, follows you, and mutual follow (relationship data preset)",
+        "Follow/unfollow directly in the list",
+        "The local state updates in real time"
       ],
-      "expected": "正确区分已关注 / 关注你 / 相互关注（关系数据预置）；列表内直接关注 / 取消后本侧状态实时更新；各分组结果正确。",
+      "expected": "Correctly distinguish following / follows you / mutual follow (relationship data preset); following/unfollowing directly in the list updates the local state in real time; each group's results are correct.",
       "persistence": false
     },
     {
       "id": "f23",
-      "name": "通知事件中心与业务对象跳转",
+      "name": "Notification event center and business-object navigation",
       "steps": [
-        "预置通知（邀请/互动/关系变化）",
-        "顶部消息 Badge 增加",
-        "打开通知",
-        "点击进入对应问题/回答/用户",
-        "通知标记已读"
+        "Preset notifications (invitations/interactions/relationship changes)",
+        "The top message badge increases",
+        "Open the notification",
+        "Tapping opens the corresponding question/answer/user",
+        "Mark the notification as read"
       ],
-      "expected": "预置通知使顶部 Badge 增加；点击通知进入正确目标（问题 / 回答 / 用户）；通知标记已读；未读计数同步减少。",
+      "expected": "The preset notifications increase the top badge; tapping a notification opens the correct target (question/answer/user); the notification is marked read; the unread count decreases in sync.",
       "persistence": false
     },
     {
       "id": "f24",
-      "name": "私信会话与未读状态隔离",
+      "name": "Private-message sessions and unread-state isolation",
       "steps": [
-        "进入私信",
-        "与不同联系人建立会话（预置）",
-        "切换联系人",
-        "消息历史独立保存",
-        "新消息未读 Badge",
-        "阅读后清除对应未读"
+        "Enter private messages",
+        "Establish sessions with different contacts (preset)",
+        "Switch the contact",
+        "Message histories are saved independently",
+        "The new-message unread badge",
+        "The corresponding unread is cleared after reading"
       ],
-      "expected": "不同联系人的会话历史独立保存；切换联系人上下文正确切换；新消息未读 Badge 正确显示；阅读后对应未读清除。",
+      "expected": "Each contact's session history is saved independently; switching contacts switches the context correctly; the new-message unread badge is shown correctly; after reading the corresponding unread is cleared.",
       "persistence": false
     },
     {
       "id": "f25",
-      "name": "最近浏览自动记录与历史管理",
+      "name": "Automatic recent-browsing recording and history management",
       "steps": [
-        "浏览问题/回答/用户等",
-        "自动进入最近浏览",
-        "按今天/昨天/更早聚合",
-        "可单条删除、批量删除、清空或关闭最近浏览"
+        "Browse questions/answers/users, etc.",
+        "It automatically enters recent browsing",
+        "Aggregated by today/yesterday/earlier",
+        "Single deletion, batch deletion, clearing, or disabling of recent browsing is available"
       ],
-      "expected": "浏览内容自动进入最近浏览；按今天 / 昨天 / 更早正确聚合；单条 / 批量删除与清空正确生效；关闭后不再记录。",
+      "expected": "Browsed content automatically enters recent browsing; it is correctly aggregated by today/yesterday/earlier; single/batch deletion and clearing take effect correctly; after disabling it is no longer recorded.",
       "persistence": false
     },
     {
       "id": "f26",
-      "name": "个人主页多内容类型聚合",
+      "name": "Profile aggregation of multiple content types",
       "steps": [
-        "进入个人主页",
-        "动态 / 回答 / 视频 / 提问 / 文章 / 专栏 / 想法 / 收藏等按 Tab 聚合",
-        "数量、内容和排序与真实数据一致"
+        "Open the profile",
+        "Aggregate dynamics / answers / videos / questions / articles / columns / thoughts / favorites, etc. by tab",
+        "The counts, content, and sorting match the real data"
       ],
-      "expected": "各 Tab（动态 / 回答 / 视频 / 提问 / 文章 / 专栏 / 想法 / 收藏）内容与数量必须与真实数据一致；切换 Tab 状态保持；排序正确。",
+      "expected": "The content and counts of each tab (dynamics / answers / videos / questions / articles / columns / thoughts / favorites) must match the real data; the tab state is preserved when switching; sorting is correct.",
       "persistence": false
     },
     {
       "id": "f27",
-      "name": "个人资料编辑",
+      "name": "Profile editing",
       "steps": [
-        "修改头像/昵称/一句话介绍/居住地/行业/职业/教育/简介",
-        "保存",
-        "个人主页即时更新"
+        "Change the avatar/nickname/one-line bio/residence/industry/occupation/education/introduction",
+        "Save",
+        "The profile updates immediately"
       ],
-      "expected": "修改资料后保存成功；个人主页即时更新；结果需持久化，刷新后保持；非法输入应被拒绝。",
+      "expected": "After editing the profile it saves successfully; the profile updates immediately; the result must persist across refreshes; invalid input should be rejected.",
       "persistence": false
     },
     {
       "id": "f28",
-      "name": "创作中心与内容数据",
+      "name": "Creator center and content data",
       "steps": [
-        "用户进入创作中心",
-        "查看阅读/播放、赞同等创作指标",
-        "进入草稿箱",
-        "创作行为反向更新指标"
+        "The user enters the creator center",
+        "View creation metrics such as reads/plays and upvotes",
+        "Enter the draft box",
+        "Creation behavior reverse-updates the metrics"
       ],
-      "expected": "创作指标（阅读 / 播放 / 赞同等）正确展示；草稿箱内容与状态一致；创作行为后指标同步更新。",
+      "expected": "Creation metrics (reads/plays/upvotes, etc.) are displayed correctly; the draft box content matches the state; the metrics update in sync after creation behavior.",
       "persistence": false
     },
     {
       "id": "f29",
-      "name": "屏蔽 / 黑名单 / 隐私偏好驱动运行时行为",
+      "name": "Block / blacklist / privacy preferences driving runtime behavior",
       "steps": [
-        "设置屏蔽关键词、用户黑名单、话题黑名单、不看某用户动态",
-        "返回推荐/关注 Feed",
-        "对应内容被过滤",
-        "撤销后重新可见"
+        "Set blocked keywords, a user blacklist, a topic blacklist, and hiding a user's activity",
+        "Return to the recommended/following feed",
+        "The corresponding content is filtered",
+        "It becomes visible again after undoing"
       ],
-      "expected": "设置屏蔽后推荐 / 关注 Feed 中对应内容被过滤；撤销后重新可见；设置需持久化，刷新后保持。",
+      "expected": "After blocking, the corresponding content is filtered from the recommended/following feeds; after undoing it becomes visible again; the settings must persist across refreshes.",
       "persistence": false
     },
     {
       "id": "f30",
-      "name": "全局行为事件与跨模块一致性",
+      "name": "Global behavior events and cross-module consistency",
       "steps": [
-        "用户赞同、关注、收藏、回答、评论、浏览等行为发生",
-        "关注 Feed 互动状态、问题详情、个人主页、通知、创作数据、关系数量等所有相关区域保持一致"
+        "The user performs upvote, follow, favorite, answer, comment, browse, and other behaviors",
+        "The follow feed's interaction state, question details, profile, notifications, creator data, relationship counts, and all related areas stay consistent"
       ],
-      "expected": "赞同 / 关注 / 收藏 / 回答 / 评论 / 浏览等行为发生后，关注 Feed 互动状态、问题详情、个人主页、通知、创作数据、关系数量等区域必须保持一致；不能出现单点遗漏。",
+      "expected": "After upvote/follow/favorite/answer/comment/browse behaviors occur, the follow-feed interaction state, question details, profile, notifications, creator data, and relationship counts must stay consistent; single-point omissions must not occur.",
       "persistence": true
     }
   ],
   "exclusions": [
     {
-      "feature": "个性化推荐引擎\n根据行为和兴趣变化的 Feed 排序、内容推荐",
+      "feature": "Personalized recommendation engine\nFeed ranking and content recommendation that change with behavior and interests",
       "treatment": "Hard Exclude",
-      "reason": "需要推荐模型与行为数据（对照 Spotify「Recommendation / personalization engine」）；Feed 结构可用预置 fixture",
+      "reason": "Requires a recommendation model and behavior data (cf. Spotify \"Recommendation / personalization engine\"); the feed structure can use preset fixtures",
       "covered_by": []
     },
     {
-      "feature": "热榜实时热度\n真实热度计算、实时排名变化",
+      "feature": "Real-time ranking popularity\nReal popularity computation and real-time ranking changes",
       "treatment": "Conditional Exclude",
-      "reason": "热榜用静态快照呈现（对照 Spotify「Dynamic charts and editorial ranking」）；不要求实时热度引擎",
+      "reason": "The ranking is presented as a static snapshot (cf. Spotify \"Dynamic charts and editorial ranking\"); a real-time popularity engine is not required",
       "covered_by": []
     },
     {
-      "feature": "回答推荐排名算法\n质量/关系等因素的排序算法",
+      "feature": "Answer recommendation ranking algorithm\nThe ranking algorithm based on factors such as quality and relationships",
       "treatment": "Conditional Exclude",
-      "reason": "排序切换与状态保持可测；排序用确定性规则（时间/赞同数）；保留面：f17 回答排序与列表状态保持",
+      "reason": "Sort switching and state preservation are testable; the sort uses deterministic rules (time/upvotes); retained surface: f17 answer sorting and list-state preservation",
       "covered_by": [
         "f17"
       ]
     },
     {
-      "feature": "邀请的真实送达与响应\n被邀请用户收到通知、接受邀请",
+      "feature": "Real delivery and response of invitations\nInvited users receive the notification and accept the invitation",
       "treatment": "Conditional Exclude",
-      "reason": "邀请操作与状态展示可测（预置用户列表）；不验证跨用户送达；保留面：f16 邀请回答工作流",
+      "reason": "The invitation operation and state display are testable (preset user list); cross-user delivery is not verified; retained surface: f16 invite-to-answer workflow",
       "covered_by": [
         "f16"
       ]
     },
     {
-      "feature": "用户关注的双向传播\n对方粉丝数变化、对方侧关系更新",
+      "feature": "Two-way propagation of the user's follow\nThe other party's follower count changes and their side's relationships update",
       "treatment": "Conditional Exclude",
-      "reason": "本侧关注状态可测；对端数据用 fixture 呈现；保留面：f21 关注关系与列表状态同步, f22 关注者 / 粉丝列表状态管理",
+      "reason": "The local follow state is testable; the other side's data is presented via fixtures; retained surface: f21 follow relationships and list-state sync, f22 follower/following list-state management",
       "covered_by": [
         "f21",
         "f22"
       ]
     },
     {
-      "feature": "私信的真实对端\n真实用户消息收发与实时推送",
+      "feature": "Real peers in private messages\nReal user message send/receive and real-time push",
       "treatment": "Conditional Exclude",
-      "reason": "会话 UI/未读/隔离可测（预置会话）；不验证真实对端与推送；保留面：f24 私信会话与未读状态隔离",
+      "reason": "The session UI/unread/isolation is testable (preset sessions); real peers and push are not verified; retained surface: f24 private-message sessions and unread-state isolation",
       "covered_by": [
         "f24"
       ]
     },
     {
-      "feature": "通知的真实事件源\n邀请/互动/关系变化的真实产生",
+      "feature": "The real event source of notifications\nReal generation of invitations/interactions/relationship changes",
       "treatment": "Conditional Include",
-      "reason": "通知状态机（Badge/跳转/已读）可测，需预置通知 fixture；保留面：f23 通知事件中心与业务对象跳转",
+      "reason": "The notification state machine (badge/navigation/read) is testable and requires preset notification fixtures; retained surface: f23 notification event center and business-object navigation",
       "covered_by": [
         "f23"
       ]
     },
     {
-      "feature": "实名认证流程\n认证申请、审核、状态流转",
+      "feature": "Real-name verification flow\nVerification requests, review, and state transitions",
       "treatment": "Hard Exclude",
-      "reason": "依赖外部身份审核体系；个人资料编辑保留；保留面：f27 个人资料编辑",
+      "reason": "Depends on an external identity-verification system; personal profile editing is kept; retained surface: f27 personal profile editing",
       "covered_by": [
         "f27"
       ]
     },
     {
-      "feature": "视频转码 Processing\n媒体处理管线与转码状态",
+      "feature": "Video transcoding Processing\nMedia-processing pipelines and transcoding states",
       "treatment": "Conditional Exclude",
-      "reason": "上传与发布流程可测；不要求真实转码管线（对照 youtube「转码/CDN」）；保留面：f11 富文本回答编辑与发布配置",
+      "reason": "The upload and publish flow is testable; a real transcoding pipeline is not required (cf. YouTube \"transcoding/CDN\"); retained surface: f11 rich-text answer editing and publishing configuration",
       "covered_by": [
         "f11"
       ]
     },
     {
-      "feature": "作者侧数据变化\n他人赞同带来的作者成就/数据更新",
+      "feature": "Author-side data changes\nAuthor achievements/data updates from others' upvotes",
       "treatment": "Conditional Exclude",
-      "reason": "自身赞同状态可测；作者侧统计不在单 Agent 验证范围；保留面：f18 赞同互动与回答状态同步",
+      "reason": "The local upvote state is testable; author-side statistics are out of single-agent scope; retained surface: f18 upvote interaction and answer-state sync",
       "covered_by": [
         "f18"
       ]
     },
     {
-      "feature": "内容安全与审核策略\n敏感内容过滤、审核队列",
+      "feature": "Content safety and moderation policy\nSensitive-content filtering and moderation queues",
       "treatment": "Hard Exclude",
-      "reason": "依赖平台审核系统与策略数据；屏蔽/黑名单（用户侧设置）保留；保留面：f29 屏蔽 / 黑名单 / 隐私偏好驱动运行时行为",
+      "reason": "Depends on the platform moderation system and policy data; blocking/blacklist (user-side settings) is kept; retained surface: f29 block / blacklist / privacy preferences driving runtime behavior",
       "covered_by": [
         "f29"
       ]
     },
     {
-      "feature": "「等你来答」问题推荐\n基于用户画像的问题推荐",
+      "feature": "\"Waiting for you to answer\" question recommendations\nUser-profile-based question recommendations",
       "treatment": "Hard Exclude",
-      "reason": "推荐系统依赖（对照推荐引擎排除）；创作中心指标保留；保留面：f28 创作中心与内容数据",
+      "reason": "Depends on the recommendation system (cf. the recommendation-engine exclusion); the creator-center metrics are kept; retained surface: f28 creator center and content data",
       "covered_by": [
         "f28"
       ]
     },
     {
-      "feature": "真实内容资产\n真实问答内容、用户头像与资料数据",
+      "feature": "Real content assets\nReal Q&A content and user avatar and profile data",
       "treatment": "Default Exclude",
-      "reason": "使用合成 fixture 内容（对照 Spotify「Real catalog」）",
+      "reason": "Use synthetic fixture content (cf. Spotify \"Real catalog\")",
       "covered_by": []
     }
   ]

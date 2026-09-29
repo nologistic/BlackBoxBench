@@ -4,374 +4,374 @@
   "features": [
     {
       "id": "multi_entry_creation",
-      "name": "多入口内容创建编排",
+      "name": "Multi-entry content creation orchestration",
       "steps": [
-        "首页",
-        "新建文档 / 知识库 / 模板",
-        "不同创建流程",
-        "创建结果进入正确上下文"
+        "Home page",
+        "Create a document / knowledge base / template",
+        "Different creation flows",
+        "The creation result enters the correct context"
       ],
-      "expected": "各入口创建结果进入正确上下文（新文档、新知识库、模板实例各归其位）",
+      "expected": "The creation results of each entry enter the correct context (new documents, new knowledge bases, and template instances each go to their place)",
       "persistence": false
     },
     {
       "id": "doc_edit_persistence",
-      "name": "文档编辑与持久化闭环",
+      "name": "Document editing and persistence loop",
       "steps": [
-        "创建文档",
-        "编辑标题/正文",
-        "自动或手动保存",
-        "离开",
-        "再进入",
-        "内容保持"
+        "Create a document",
+        "Edit the title/body",
+        "Automatic or manual saving",
+        "Leave",
+        "Enter again",
+        "The content is preserved"
       ],
-      "expected": "再次进入后标题与正文内容保持编辑后状态",
+      "expected": "After re-entering, the title and body keep the edited state",
       "persistence": true
     },
     {
       "id": "template_instantiation",
-      "name": "模板实例化与内容隔离",
+      "name": "Template instantiation and content isolation",
       "steps": [
-        "模板中心",
-        "选择模板",
-        "生成文档",
-        "修改新文档",
-        "原模板不受影响"
+        "Template center",
+        "Choose a template",
+        "Generate the document",
+        "Modify the new document",
+        "The original template is unaffected"
       ],
-      "expected": "新文档可正常生成与编辑，原模板内容不受实例化修改的影响",
+      "expected": "The new document can be generated and edited normally, and the original template content is unaffected by instance modifications",
       "persistence": false
     },
     {
       "id": "repo_create_init",
-      "name": "知识库创建与初始化",
+      "name": "Knowledge base creation and initialization",
       "steps": [
-        "新建知识库",
-        "配置信息",
-        "可见性/类型",
-        "创建",
-        "自动进入知识库",
-        "设置值正确回显"
+        "Create a knowledge base",
+        "Configuration information",
+        "Visibility/type",
+        "Create",
+        "It automatically enters the knowledge base",
+        "The setting values are correctly reflected"
       ],
-      "expected": "创建后自动进入新知识库，且可在其中继续创建内容",
+      "expected": "After creation it automatically enters the new knowledge base, where content can continue to be created",
       "persistence": false
     },
     {
       "id": "note_capture_publish",
-      "name": "小记快速捕获与发布",
+      "name": "Rapid note capture and publishing",
       "steps": [
-        "输入即时内容",
-        "Ctrl+Enter/按钮发布",
-        "新小记出现",
-        "输入区复位",
-        "刷新仍存在"
+        "Enter instant content",
+        "Ctrl+Enter/button to publish",
+        "The new note appears",
+        "The input area resets",
+        "It still exists after a refresh"
       ],
-      "expected": "发布后新小记出现在列表且输入区复位；刷新后小记仍存在",
+      "expected": "After publishing, the new note appears in the list and the input area resets; the note still exists after a refresh",
       "persistence": true
     },
     {
       "id": "hierarchy_navigation",
-      "name": "知识层级组织与导航",
+      "name": "Knowledge hierarchy organization and navigation",
       "steps": [
-        "用户空间",
-        "知识库",
-        "目录/分组",
-        "文档",
-        "通过层级路径返回"
+        "User space",
+        "Knowledge base",
+        "Directory/grouping",
+        "Document",
+        "Return via the hierarchy path"
       ],
-      "expected": "层级路径可逐级导航返回，各层级列表内容正确",
+      "expected": "The hierarchy path can be navigated back level by level, and each level's list content is correct",
       "persistence": false
     },
     {
       "id": "doc_move_sync",
-      "name": "文档归属迁移与路径同步",
+      "name": "Document ownership migration and path sync",
       "steps": [
-        "文档属于知识库 A",
-        "调整归属",
-        "移至知识库 B",
-        "首页/路径/搜索结果同步更新"
+        "The document belongs to knowledge base A",
+        "Adjust the ownership",
+        "Move to knowledge base B",
+        "The home page/paths/search results update in sync"
       ],
-      "expected": "迁移后首页、路径与搜索结果同步显示新归属，无旧位置的残留引用",
+      "expected": "After the migration the home page, paths, and search results show the new ownership in sync, with no residual references to the old location",
       "persistence": false
     },
     {
       "id": "behavior_aggregation",
-      "name": "行为驱动的内容聚合",
+      "name": "Behavior-driven content aggregation",
       "steps": [
-        "阅读/编辑/点赞/评论某文档",
-        "首页「浏览过/编辑过/点赞过/评论过」动态出现对应内容"
+        "Read/edit/like/comment on a document",
+        "The corresponding content dynamically appears under the home \"browsed/edited/liked/commented\" sections"
       ],
-      "expected": "首页「浏览过 / 编辑过 / 点赞过 / 评论过」分别动态出现该文档",
+      "expected": "The document dynamically appears under the home \"browsed / edited / liked / commented\" sections respectively",
       "persistence": false
     },
     {
       "id": "multi_filter",
-      "name": "多维组合筛选",
+      "name": "Multi-dimensional combined filtering",
       "steps": [
-        "类型",
-        "归属",
-        "创建者",
-        "多条件组合",
-        "删除某条件",
-        "结果实时重新计算"
+        "Type",
+        "Ownership",
+        "Creator",
+        "Combining multiple conditions",
+        "Delete a condition",
+        "The results are recomputed in real time"
       ],
-      "expected": "多条件组合时结果实时收敛；删除条件后结果实时重新计算",
+      "expected": "Combining conditions converges the results in real time; after deleting a condition the results are recomputed in real time",
       "persistence": false
     },
     {
       "id": "global_search",
-      "name": "全局知识搜索与召回",
+      "name": "Global knowledge search and recall",
       "steps": [
-        "输入关键词",
-        "搜索多个知识对象",
-        "排序/筛选",
-        "点击结果",
-        "定位正确资源"
+        "Enter a keyword",
+        "Search multiple knowledge objects",
+        "Sorting/filtering",
+        "Tap the result",
+        "Locate the correct resource"
       ],
-      "expected": "搜索覆盖多个知识对象；结果可排序筛选；点击后定位到正确资源",
+      "expected": "The search covers multiple knowledge objects; the results can be sorted and filtered; tapping locates the correct resource",
       "persistence": false
     },
     {
       "id": "nav_state_restore",
-      "name": "导航上下文与列表状态恢复",
+      "name": "Navigation-context and list-state restoration",
       "steps": [
-        "设置 Tab/筛选/滚动位置",
-        "打开文档",
-        "浏览器返回",
-        "原状态完整恢复"
+        "Set the tab/filter/scroll position",
+        "Open the document",
+        "Browser back",
+        "The original state is fully restored"
       ],
-      "expected": "返回后原 Tab、筛选与滚动位置完整恢复",
+      "expected": "After returning the original tab, filters, and scroll position are fully restored",
       "persistence": false
     },
     {
       "id": "like_cross_sync",
-      "name": "文档点赞状态多视图同步",
+      "name": "The document's like state syncs across views",
       "steps": [
-        "点赞文档",
-        "列表/详情/首页「点赞过」状态与计数一致",
-        "取消点赞",
-        "各处同步撤销"
+        "Like the document",
+        "The \"liked\" state and count are consistent across the list/details/home",
+        "Unlike",
+        "It is undone in sync everywhere"
       ],
-      "expected": "点赞状态与计数在文档详情、列表、首页「点赞过」三处一致；取消点赞后各处同步撤销",
+      "expected": "The like state and count are consistent across the document details, the list, and the home \"liked\" section; after unliking they are undone in sync everywhere",
       "persistence": false
     },
     {
       "id": "comment_mention_loop",
-      "name": "文档评论创建与持久化",
+      "name": "Document comment creation and persistence",
       "steps": [
-        "评论文档",
-        "评论出现在评论区",
-        "编辑/删除评论",
-        "刷新后保持"
+        "Comment on the document",
+        "The comment appears in the comment area",
+        "Edit/delete the comment",
+        "It is preserved after a refresh"
       ],
-      "expected": "评论出现在评论区；编辑或删除后状态正确更新；刷新后保持",
+      "expected": "The comment appears in the comment area; after editing or deleting the state updates correctly; it is preserved after a refresh",
       "persistence": false
     },
     {
       "id": "favorite_aggregation",
-      "name": "跨类型收藏聚合",
+      "name": "Cross-type favorites aggregation",
       "steps": [
-        "收藏文档/表格/其他知识对象",
-        "收藏页统一呈现",
-        "点击恢复到原始对象"
+        "Favorite documents/spreadsheets/other knowledge objects",
+        "Unified presentation on the favorites page",
+        "Tapping restores the original object"
       ],
-      "expected": "收藏页统一呈现不同类型的收藏对象；点击后恢复到原始对象",
+      "expected": "The favorites page presents different types of favorited objects uniformly; tapping restores the original object",
       "persistence": false
     },
     {
       "id": "favorite_sorting_sync",
-      "name": "收藏组织、排序与双向状态",
+      "name": "Favorite organization, sorting, and two-way state",
       "steps": [
-        "收藏对象",
-        "按名称/收藏时间排序",
-        "从收藏页取消",
-        "原对象收藏 Icon 同步变化"
+        "Favorite the object",
+        "Sort by name/favorite time",
+        "Unfavorite from the favorites page",
+        "The original object's favorite icon changes in sync"
       ],
-      "expected": "排序正确生效；取消收藏后原对象的收藏图标同步变化",
+      "expected": "The sort takes effect correctly; after unfavoriting the original object's favorite icon changes in sync",
       "persistence": false
     },
     {
       "id": "notification_read_state",
-      "name": "未读/已读通知状态机",
+      "name": "Unread/read notification state machine",
       "steps": [
-        "预置未读通知",
-        "打开通知",
-        "状态变为已读",
-        "已读 Tab 可找到"
+        "Preset unread notifications",
+        "Open the notification",
+        "The state becomes read",
+        "It can be found in the read tab"
       ],
-      "expected": "预置未读通知打开后转为已读，并出现在已读 Tab；未读计数同步减少",
+      "expected": "Opening a preset unread notification turns it read and it appears in the read tab; the unread count decreases in sync",
       "persistence": false
     },
     {
       "id": "notification_counts",
-      "name": "通知分类与计数联动",
+      "name": "Notification categories linked with counts",
       "steps": [
-        "预置多类通知",
-        "全部消息 / 点赞 / @评论 / 系统通知等分别计算数量",
-        "单条已读后多处计数同步"
+        "Preset notifications of several types",
+        "Counts are computed separately for all messages / likes / @comments / system notifications, etc.",
+        "After a single item is read the counts in several places update in sync"
       ],
-      "expected": "各分类分别计算数量；单条已读后分类计数与总数同步更新",
+      "expected": "The counts are computed per category; after a single item is read the category count and total update in sync",
       "persistence": false
     },
     {
       "id": "mark_all_read",
-      "name": "「全部已读」批量状态同步",
+      "name": "\"Mark all as read\" batch state sync",
       "steps": [
-        "预置多分类未读",
-        "点击全部已读",
-        "所有通知更新",
-        "顶部 badge、分类数字、Tab 同步刷新"
+        "Preset unread across several categories",
+        "Tap mark all as read",
+        "All notifications update",
+        "The top badge, category numbers, and tabs refresh in sync"
       ],
-      "expected": "全部已读后所有通知更新，顶部 badge、分类数字、Tab 同步刷新",
+      "expected": "After marking all as read all notifications update, and the top badge, category numbers, and tabs refresh in sync",
       "persistence": false
     },
     {
       "id": "notification_deep_link",
-      "name": "通知 Deep Link 与业务上下文恢复",
+      "name": "Notification deep link and business-context restoration",
       "steps": [
-        "预置点赞/评论通知",
-        "点击跳至具体文档",
-        "返回消息中心仍保留上下文"
+        "Preset like/comment notifications",
+        "Tapping jumps to the specific document",
+        "The context is still preserved when returning to the message center"
       ],
-      "expected": "点击通知跳至对应文档；返回消息中心后仍保留上下文",
+      "expected": "Tapping the notification jumps to the corresponding document; the context is still preserved when returning to the message center",
       "persistence": false
     },
     {
       "id": "garden_visibility",
-      "name": "花园公开/私密发布状态",
+      "name": "Garden public/private publishing state",
       "steps": [
-        "花园 Private ↔ Public 状态切换",
-        "设置保存",
-        "状态正确回显",
-        "关闭后本地立即失效"
+        "Garden private ↔ public state switching",
+        "The settings are saved",
+        "The state is correctly reflected",
+        "It becomes invalid locally immediately after disabling"
       ],
-      "expected": "状态切换保存后正确回显；关闭后本地立即失效",
+      "expected": "The state toggle is correctly reflected after saving; it becomes invalid locally immediately after disabling",
       "persistence": false
     },
     {
       "id": "garden_curation",
-      "name": "公开知识内容选择性策展",
+      "name": "Selective curation of public knowledge content",
       "steps": [
-        "私有知识库很多",
-        "选择部分加入公开花园",
-        "花园列表反映选择",
-        "移除后消失"
+        "There are many private knowledge bases",
+        "Select some to add to the public garden",
+        "The garden list reflects the selection",
+        "It disappears after removal"
       ],
-      "expected": "选择的私有内容出现在公开花园列表；移除后消失",
+      "expected": "The selected private content appears in the public garden list; it disappears after removal",
       "persistence": false
     },
     {
       "id": "profile_aggregation",
-      "name": "个人主页与内容聚合",
+      "name": "Profile and content aggregation",
       "steps": [
-        "个人信息 + 自定义介绍 + 公开知识库 + 活跃度组合成个人主页"
+        "Personal information + custom bio + public knowledge bases + activity form the profile"
       ],
-      "expected": "个人信息、介绍、公开知识库与活跃度正确聚合展示",
+      "expected": "Personal information, bio, public knowledge bases, and activity are correctly aggregated and displayed",
       "persistence": false
     },
     {
       "id": "creation_stats",
-      "name": "创作数据动态聚合",
+      "name": "Dynamic aggregation of creation data",
       "steps": [
-        "创建/编辑文档、小记",
-        "创作天数、创作字数、内容更新等指标重新计算"
+        "Create/edit documents and notes",
+        "Metrics such as creation days, word count, and content updates are recomputed"
       ],
-      "expected": "创作行为后各统计指标重新计算并更新",
+      "expected": "After creation behavior each statistical metric is recomputed and updated",
       "persistence": false
     },
     {
       "id": "asset_stats",
-      "name": "知识资产结构统计",
+      "name": "Knowledge asset structure statistics",
       "steps": [
-        "文档/知识库/小记变化",
-        "「X 文档 / Y 知识库 / Z 小记」等数据动态变化"
+        "Changes in documents/knowledge bases/notes",
+        "Data such as \"X documents / Y knowledge bases / Z notes\" changes dynamically"
       ],
-      "expected": "文档、知识库、小记数量随内容变化动态更新",
+      "expected": "The document, knowledge-base, and note counts update dynamically with the content",
       "persistence": false
     },
     {
       "id": "creation_heatmap",
-      "name": "时间序列创作指数 / Heatmap",
+      "name": "Time-series creation index / heatmap",
       "steps": [
-        "每日创建、编辑、发布行为",
-        "聚合到日期",
-        "生成年度活跃度 Heatmap",
-        "日期切换仍正确"
+        "Daily creation, editing, and publishing behavior",
+        "Aggregated by date",
+        "Generate the annual activity heatmap",
+        "It is still correct after switching dates"
       ],
-      "expected": "创作行为聚合到正确日期；日期切换后数据仍正确；Heatmap 与指标一致",
+      "expected": "Creation behavior aggregates to the correct date; the data stays correct after switching dates; the heatmap matches the metrics",
       "persistence": false
     },
     {
       "id": "settings_behavior_link",
-      "name": "配置与运行时行为联动",
+      "name": "Configuration linked with runtime behavior",
       "steps": [
-        "修改消息/提醒等设置",
-        "后续通知展示行为遵循配置"
+        "Change the message/reminder settings",
+        "Subsequent notification behavior follows the configuration"
       ],
-      "expected": "修改消息/提醒设置后，后续通知展示行为遵循配置",
+      "expected": "After changing the message/reminder settings, subsequent notification behavior follows the configuration",
       "persistence": false
     }
   ],
   "exclusions": [
     {
-      "feature": "AI 创建入口\nAI 写作 / 生成内容 / AI 助手创建",
+      "feature": "AI creation entries\nAI writing / content generation / AI assistant creation",
       "treatment": "Hard Exclude",
-      "reason": "生成式结果非确定性，测到的是模型而非 Agent 操作能力（对照 excalidraw「Text to Diagram AI」排除）",
+      "reason": "The generative result is non-deterministic and what gets tested is the model rather than the agent's operating capability (cf. the Excalidraw \"Text to Diagram AI\" exclusion)",
       "covered_by": []
     },
     {
-      "feature": "点赞/评论的跨用户同步\n用户 B 操作 → 作者侧收到影响",
+      "feature": "Cross-user sync of likes/comments\nUser B acts → the author's side receives the effect",
       "treatment": "Hard Exclude",
-      "reason": "需要第二用户与跨账户状态传播，单 Agent 无法稳定验证（对照 Calendar「Add guests」）",
+      "reason": "Requires a second user and cross-account state propagation, which a single agent cannot verify reliably (cf. Calendar \"Add guests\")",
       "covered_by": []
     },
     {
-      "feature": "@ 提及与消息投递\n评论文档 @某用户 → 被 @ 用户收到消息",
+      "feature": "@ mentions and message delivery\nCommenting on a document with @user → the mentioned user receives a message",
       "treatment": "Hard Exclude",
-      "reason": "需要第二账号接收、消息系统与送达链路（对照 Google Forms「Response receipts by email」）",
+      "reason": "Requires a second account to receive, a messaging system, and a delivery chain (cf. Google Forms \"Response receipts by email\")",
       "covered_by": []
     },
     {
-      "feature": "他人行为驱动的通知生成\n他人点赞/评论/关注事件 → 生成通知",
+      "feature": "Notification generation driven by others' behavior\nOthers' likes/comments/follows → generate notifications",
       "treatment": "Hard Exclude",
-      "reason": "依赖他人产生业务事件与异步通知基础设施（对照 Spotify「Notifications」）；状态机可用预置 fixture 测试",
+      "reason": "Depends on business events generated by others and asynchronous notification infrastructure (cf. Spotify \"Notifications\"); the state machine can be tested with preset fixtures",
       "covered_by": []
     },
     {
-      "feature": "访问申请审批工作流\n申请人申请 → Owner 批准/拒绝 → 权限变化",
+      "feature": "Access-request approval workflow\nRequester applies → Owner approves/rejects → permission changes",
       "treatment": "Hard Exclude",
-      "reason": "完整多用户审批链与权限传播（对照 Calendar「Guest permissions」），超出单 Agent 范围",
+      "reason": "The full multi-user approval chain and permission propagation (cf. Calendar \"Guest permissions\") are beyond a single-agent scope",
       "covered_by": []
     },
     {
-      "feature": "关注/粉丝社交关系\n关注、粉丝列表、社交图谱聚合",
+      "feature": "Following/follower social relationships\nFollowing, follower lists, and social-graph aggregation",
       "treatment": "Hard Exclude",
-      "reason": "社交图谱与多用户基础设施（对照 Spotify「Social / Friends」）",
+      "reason": "Social graph and multi-user infrastructure (cf. Spotify \"Social / Friends\")",
       "covered_by": []
     },
     {
-      "feature": "他人互动统计\n作者侧阅读量/点赞量/评论量/互动用户",
+      "feature": "Others' interaction statistics\nAuthor-side reads/likes/comments/interacting users",
       "treatment": "Hard Exclude",
-      "reason": "数据来源是他人行为（对照 Spotify「fan analytics」），无确定性 fixture 时不可复现",
+      "reason": "The data source is others' behavior (cf. Spotify \"fan analytics\") and is not reproducible without deterministic fixtures",
       "covered_by": []
     },
     {
-      "feature": "花园/公开页的外部可见性验证\n外部用户可见/不可访问的真实效果",
+      "feature": "External visibility verification for the garden/public pages\nThe real effect of external users' visibility/inaccessibility",
       "treatment": "Conditional Exclude",
-      "reason": "只验证发布状态切换、保存与本地失效；不验证「外部用户可见/不可见」",
+      "reason": "Only the publish-state switching, saving, and local invalidation are verified; \"visible/invisible to external users\" is not verified",
       "covered_by": []
     },
     {
-      "feature": "权限设置的运行时效果\n访问控制、申请流的真实权限传播",
+      "feature": "The runtime effect of permission settings\nAccess control and real permission propagation in the request flow",
       "treatment": "Conditional Exclude",
-      "reason": "设置项 UI 与保存可测；权限传播效果依赖多账户；保留面：settings_behavior_link 配置与运行时行为联动",
+      "reason": "The settings UI and saving are testable; the permission-propagation effect depends on multiple accounts; retained surface: settings_behavior_link configuration linked with runtime behavior",
       "covered_by": [
         "settings_behavior_link"
       ]
     },
     {
-      "feature": "通知状态机的真实事件源\n新通知的真实产生过程",
+      "feature": "The real event source of the notification state machine\nThe real generation process of new notifications",
       "treatment": "Conditional Include",
-      "reason": "未读/已读/分类计数/全部已读/Deep Link 可测，需预置固定通知 fixture；保留面：notification_read_state 未读/已读通知状态机, mark_all_read 「全部已读」批量状态同步, notification_deep_link 通知 Deep Link 与业务上下文恢复",
+      "reason": "Unread/read/category counts/mark-all-read/deep link are testable and require fixed preset notification fixtures; retained surface: notification_read_state unread/read notification state machine, mark_all_read \"mark all as read\" batch state sync, notification_deep_link notification deep link and business-context restoration",
       "covered_by": [
         "notification_deep_link",
         "notification_read_state",
@@ -379,17 +379,17 @@
       ]
     },
     {
-      "feature": "消息/提醒偏好对真实业务事件的联动\n真实事件触发时偏好生效",
+      "feature": "Message/reminder preferences linked with real business events\nPreferences take effect when real events trigger",
       "treatment": "Conditional Include",
-      "reason": "偏好配置与展示行为可测，真实事件需 fixture 预置；保留面：settings_behavior_link 配置与运行时行为联动",
+      "reason": "Preference configuration and display behavior are testable, and real events require preset fixtures; retained surface: settings_behavior_link configuration linked with runtime behavior",
       "covered_by": [
         "settings_behavior_link"
       ]
     },
     {
-      "feature": "官方模板库 / 花园示例内容完整复刻\n复刻官方全部模板与示例内容",
+      "feature": "Full replication of the official template library / garden examples\nReplicating all official templates and example content",
       "treatment": "Default Exclude",
-      "reason": "内容数据集不是功能能力；机制测试用固定 fixture 即可（对照 Desmos「Gallery 完整复刻」排除）",
+      "reason": "The content dataset is not a functional capability; fixed fixtures suffice for mechanism tests (cf. the Desmos \"full Gallery replication\" exclusion)",
       "covered_by": []
     }
   ]

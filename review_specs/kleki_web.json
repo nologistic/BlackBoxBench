@@ -4,732 +4,732 @@
   "features": [
     {
       "id": "f01",
-      "name": "新建画布",
+      "name": "Create a new canvas",
       "steps": [
-        "打开“新建”",
-        "选择当前大小、适应页面、大画布、正方形、横向尺寸或纵向尺寸等预设之一",
-        "也可以直接填写画布宽度和高度",
-        "在白色、黑色、透明背景之间切换",
-        "创建新画布",
-        "新画布尺寸和背景与设置一致"
+        "Open \"new\"",
+        "Choose one of the presets such as current size, fit to page, large canvas, square, landscape size, or portrait size",
+        "The canvas width and height can also be filled in directly",
+        "Switch between white, black, and transparent backgrounds",
+        "Create a new canvas",
+        "The new canvas size and background match the settings"
       ],
-      "expected": "新画布尺寸与背景必须与所选设置一致；预设与自定义宽高正确应用。",
+      "expected": "The new canvas's size and background must match the selected settings; the preset and custom width/height are applied correctly.",
       "persistence": false
     },
     {
       "id": "f02",
-      "name": "基础画笔绘制",
+      "name": "Basic brush drawing",
       "steps": [
-        "选择普通画笔",
-        "设置画笔大小、透明度、Scatter 等参数",
-        "在画布连续拖动绘制",
-        "修改颜色后继续绘制",
-        "新笔迹使用新的颜色和参数，已有内容保持不变"
+        "Select the normal brush",
+        "Set parameters such as the brush size, opacity, and scatter",
+        "Draw by dragging continuously on the canvas",
+        "Continue drawing after changing the color",
+        "New strokes use the new color and parameters while existing content stays unchanged"
       ],
-      "expected": "画笔大小 / 透明度 / Scatter 参数必须生效；修改颜色后新笔迹使用新参数，已有内容保持不变。",
+      "expected": "The brush size/opacity/scatter parameters must take effect; after changing the color new strokes use the new parameters while existing content stays unchanged.",
       "persistence": true
     },
     {
       "id": "f03",
-      "name": "多种笔刷模式",
+      "name": "Multiple brush modes",
       "steps": [
-        "在笔刷工具顶部切换不同画笔类型",
-        "分别调整画笔大小、透明度、晕染、网格长度、压力/散射等该笔刷支持的参数",
-        "在同一画布上绘制",
-        "不同笔刷产生明显不同的纹理或笔触效果"
+        "Switch between different brush types at the top of the brush tool",
+        "Adjust the brush size, opacity, smudge, grid length, pressure/scatter, and other parameters that brush supports",
+        "Draw on the same canvas",
+        "Different brushes produce clearly different textures or stroke effects"
       ],
-      "expected": "不同笔刷类型必须产生明显不同的纹理或笔触效果；各笔刷参数独立生效。",
+      "expected": "Different brush types must produce clearly different textures or stroke effects; each brush's parameters take effect independently.",
       "persistence": false
     },
     {
       "id": "f04",
-      "name": "笔刷锁定与辅助参数",
+      "name": "Brush locking and auxiliary parameters",
       "steps": [
-        "进入支持锁定的笔刷",
-        "设置画笔大小和透明度",
-        "启用或关闭“锁定”等选项",
-        "绘制多段笔迹",
-        "工具状态和对应参数在当前笔刷会话中保持"
+        "Enter a brush that supports locking",
+        "Set the brush size and opacity",
+        "Enable or disable options such as \"lock\"",
+        "Draw several strokes",
+        "The tool state and corresponding parameters are preserved within the current brush session"
       ],
-      "expected": "锁定等选项状态必须在当前笔刷会话中保持；绘制多段笔迹后工具状态一致。",
+      "expected": "The state of options such as locking must be preserved within the current brush session; the tool state stays consistent after drawing several strokes.",
       "persistence": true
     },
     {
       "id": "f05",
-      "name": "橡皮擦",
+      "name": "Eraser",
       "steps": [
-        "先在画布上建立已有笔迹",
-        "切换橡皮擦",
-        "设置橡皮大小和透明度",
-        "在已有内容上拖动",
-        "对应区域被擦除或降低透明度，而未经过区域保持不变"
+        "First create existing strokes on the canvas",
+        "Switch to the eraser",
+        "Set the eraser size and opacity",
+        "Drag on top of existing content",
+        "The corresponding area is erased or its opacity lowered while unpassed areas stay unchanged"
       ],
-      "expected": "橡皮擦必须只作用于经过区域（擦除或降透明度）；未经过区域保持不变。",
+      "expected": "The eraser must only affect the passed area (erasing or lowering opacity); unpassed areas stay unchanged.",
       "persistence": true
     },
     {
       "id": "f06",
-      "name": "颜色选择",
+      "name": "Color selection",
       "steps": [
-        "打开颜色面板",
-        "在二维颜色区域选择明度和饱和度",
-        "在色相条切换色相",
-        "使用当前颜色继续画笔或填充操作",
-        "新绘制内容使用所选颜色"
+        "Open the color panel",
+        "Choose the lightness and saturation in the 2D color area",
+        "Switch the hue on the hue bar",
+        "Continue brushing or filling with the current color",
+        "Newly drawn content uses the selected color"
       ],
-      "expected": "颜色选择（明度 / 饱和度 / 色相）必须生效；新绘制内容使用所选颜色。",
+      "expected": "The color selection (lightness/saturation/hue) must take effect; newly drawn content uses the selected color.",
       "persistence": false
     },
     {
       "id": "f07",
-      "name": "吸管取色",
+      "name": "Eyedropper color picking",
       "steps": [
-        "画布中先存在多种颜色",
-        "使用吸管工具",
-        "点击已有画面中的某个颜色",
-        "当前前景色更新为取样颜色",
-        "再使用画笔或填充验证颜色已经改变"
+        "Several colors already exist on the canvas",
+        "Use the eyedropper tool",
+        "Tap a color already in the image",
+        "The current foreground color updates to the sampled color",
+        "Then use the brush or fill to verify the color has changed"
       ],
-      "expected": "吸管必须取到点击位置的真实颜色；前景色更新后画笔 / 填充验证一致。",
+      "expected": "The eyedropper must pick the real color at the tapped position; after the foreground color updates, the brush/fill verifies consistently.",
       "persistence": false
     },
     {
       "id": "f08",
-      "name": "填充工具",
+      "name": "Fill tool",
       "steps": [
-        "切换油漆桶/填充工具",
-        "选择颜色",
-        "设置不透明度、容差、采样方式、填充扩展、连续区域等参数",
-        "点击目标区域",
-        "只有符合条件的连通区域被填色"
+        "Switch to the paint bucket/fill tool",
+        "Choose the color",
+        "Set parameters such as opacity, tolerance, sampling mode, fill expansion, and contiguous",
+        "Tap the target area",
+        "Only the connected region matching the conditions is filled"
       ],
-      "expected": "填充只作用于符合条件的连通区域；容差 / 扩展 / 连续区域参数实际影响结果。",
+      "expected": "The fill only affects the qualifying connected region; the tolerance/expansion/contiguous parameters genuinely affect the result.",
       "persistence": false
     },
     {
       "id": "f09",
-      "name": "填充工具高级状态",
+      "name": "Advanced fill-tool states",
       "steps": [
-        "在填充工具中切换“连续的”、采样范围、橡皮擦等选项",
-        "对相同图像的不同区域执行填充",
-        "比较不同参数下受影响区域",
-        "参数变化应实际影响填充结果"
+        "Toggle options such as \"contiguous\", sampling range, and eraser in the fill tool",
+        "Fill different areas of the same image",
+        "Compare the affected areas under different parameters",
+        "Parameter changes should genuinely affect the fill result"
       ],
-      "expected": "不同参数（连续 / 采样范围 / 橡皮擦）必须产生可比较的不同填充结果。",
+      "expected": "Different parameters (contiguous / sampling range / eraser) must produce comparable yet different fill results.",
       "persistence": false
     },
     {
       "id": "f10",
-      "name": "平移与缩放画布",
+      "name": "Pan and zoom the canvas",
       "steps": [
-        "切换手形工具",
-        "拖动画布进行平移",
-        "使用放大、缩小控制改变视图比例",
-        "使用适应/重置视图恢复视口",
-        "画面内容本身不被修改"
+        "Switch to the hand tool",
+        "Drag the canvas to pan",
+        "Change the view scale with the zoom-in and zoom-out controls",
+        "Use fit/reset view to restore the viewport",
+        "The image content itself is not modified"
       ],
-      "expected": "平移与缩放只改变视图；画面内容本身不被修改；重置视图正确恢复。",
+      "expected": "Panning and zooming only change the view; the image content itself is not modified; resetting the view restores it correctly.",
       "persistence": false
     },
     {
       "id": "f11",
-      "name": "画布视图旋转",
+      "name": "Canvas view rotation",
       "steps": [
-        "进入手形/视图工具",
-        "调整画布旋转角度或使用旋转控制",
-        "画布视图方向改变",
-        "重置后返回默认方向",
-        "图像像素本身不因视图旋转被永久改变"
+        "Enter the hand/view tool",
+        "Adjust the canvas rotation angle or use the rotation control",
+        "The canvas view orientation changes",
+        "Resetting returns to the default orientation",
+        "The image pixels themselves are not permanently changed by rotating the view"
       ],
-      "expected": "视图旋转只改变显示方向；重置后恢复默认；图像像素不被永久改变。",
+      "expected": "Rotating the view only changes the display orientation; resetting restores the default; the image pixels are not permanently changed.",
       "persistence": false
     },
     {
       "id": "f12",
-      "name": "撤销与重做",
+      "name": "Undo and redo",
       "steps": [
-        "连续执行绘画、填充或变换操作",
-        "点击撤销逐步回退",
-        "再点击重做恢复",
-        "操作历史按正确顺序前后切换"
+        "Perform drawing, filling, or transformation operations in succession",
+        "Tap undo to step back",
+        "Then tap redo to restore it",
+        "Step forward and back through the operation history in the correct order"
       ],
-      "expected": "撤销必须按历史逆序逐步回退；重做正确恢复；顺序无误。",
+      "expected": "Undo must step back through the history in reverse; redo restores correctly; the order is correct.",
       "persistence": false
     },
     {
       "id": "f13",
-      "name": "新建图层",
+      "name": "Create a new layer",
       "steps": [
-        "进入图层面板",
-        "新增图层",
-        "在新图层上绘制内容",
-        "图层列表显示至少两个独立图层",
-        "下层原内容不被直接修改"
+        "Enter the layer panel",
+        "Add a layer",
+        "Draw content on the new layer",
+        "The layer list shows at least two independent layers",
+        "The original content below is not directly modified"
       ],
-      "expected": "新图层必须独立可绘制；至少两个图层并存；下层原内容不被直接修改。",
+      "expected": "The new layer must be independently drawable; at least two layers coexist; the lower layer's original content is not directly modified.",
       "persistence": false
     },
     {
       "id": "f14",
-      "name": "复制图层",
+      "name": "Duplicate layer",
       "steps": [
-        "建立一个带内容的图层",
-        "点击复制图层",
-        "生成名称带“副本”的新图层",
-        "隐藏其中任意一个",
-        "可以确认两层内容彼此独立"
+        "Create a layer with content",
+        "Tap duplicate layer",
+        "Produce a new layer named with \"copy\"",
+        "Hide either one of them",
+        "It can be confirmed that the two layers' contents are independent"
       ],
-      "expected": "复制图层必须生成独立副本（名称带「副本」）；隐藏任一层可确认独立性。",
+      "expected": "Duplicating a layer must produce an independent copy (named with \"copy\"); hiding either layer confirms their independence.",
       "persistence": false
     },
     {
       "id": "f15",
-      "name": "删除与清空图层",
+      "name": "Delete and clear layers",
       "steps": [
-        "创建多个图层",
-        "选择某一图层",
-        "分别测试删除图层与 Clear layer/清空图层",
-        "删除时图层条目消失；清空时图层仍存在但像素内容被清除"
+        "Create several layers",
+        "Select a layer",
+        "Test deleting a layer and Clear layer separately",
+        "On delete the layer entry disappears; on clear the layer still exists but the pixel content is cleared"
       ],
-      "expected": "删除图层后条目消失；清空图层后条目保留但像素被清除；两者行为可区分。",
+      "expected": "After deleting a layer the entry disappears; after clearing the layer the entry remains but the pixels are cleared; the two behaviors are distinguishable.",
       "persistence": false
     },
     {
       "id": "f16",
-      "name": "图层可见性",
+      "name": "Layer visibility",
       "steps": [
-        "建立两个以上图层",
-        "点击图层前的可见性开关",
-        "对应图层从合成画面中隐藏",
-        "再次打开",
-        "内容恢复显示"
+        "Create two or more layers",
+        "Tap the visibility toggle in front of the layer",
+        "The corresponding layer is hidden from the composite",
+        "Open it again",
+        "The content is restored and displayed"
       ],
-      "expected": "可见性开关必须真实隐藏 / 显示对应图层；其他图层不受影响。",
+      "expected": "The visibility toggle must genuinely hide/show the corresponding layer; other layers are unaffected.",
       "persistence": true
     },
     {
       "id": "f17",
-      "name": "图层不透明度",
+      "name": "Layer opacity",
       "steps": [
-        "选中有内容的图层",
-        "调整图层不透明度滑杆",
-        "实时观察该图层与下层的混合强度变化",
-        "其他图层不透明度保持不变"
+        "Select a layer with content",
+        "Adjust the layer-opacity slider",
+        "Observe the blend strength between that layer and the one below in real time",
+        "The other layers' opacity stays unchanged"
       ],
-      "expected": "图层不透明度必须实时改变混合强度；其他图层不透明度保持不变。",
+      "expected": "The layer opacity must change the blend strength in real time; other layers' opacity stays unchanged.",
       "persistence": true
     },
     {
       "id": "f18",
-      "name": "图层混合模式",
+      "name": "Layer blend mode",
       "steps": [
-        "创建包含不同颜色内容的上下图层",
-        "打开混合模式下拉框",
-        "从“正常”切换到其他可用模式",
-        "合成画面随模式改变",
-        "切回正常时恢复普通叠加效果"
+        "Create upper and lower layers containing content of different colors",
+        "Open the blend-mode dropdown",
+        "Switch from \"Normal\" to another available mode",
+        "The composited image changes with the mode",
+        "When switching back to normal the ordinary overlay effect is restored"
       ],
-      "expected": "混合模式切换必须改变合成效果；切回正常恢复普通叠加。",
+      "expected": "Switching the blend mode must change the composite; switching back to normal restores the ordinary overlay.",
       "persistence": false
     },
     {
       "id": "f19",
-      "name": "图层顺序",
+      "name": "Layer order",
       "steps": [
-        "建立多个可区分的图层",
-        "使用图层上移/下移或相关排序按钮改变叠放关系",
-        "画面遮挡关系同步变化",
-        "图层列表顺序与最终合成顺序一致"
+        "Create several distinguishable layers",
+        "Change the stacking with the move-layer-up/down or related ordering buttons",
+        "The occlusion relationship changes in sync",
+        "The layer-list order matches the final composite order"
       ],
-      "expected": "上移 / 下移后画面遮挡关系与列表顺序必须一致。",
+      "expected": "After moving up/down the occlusion relationship must match the list order.",
       "persistence": false
     },
     {
       "id": "f20",
-      "name": "合并图层",
+      "name": "Merge layers",
       "steps": [
-        "建立至少两个有内容的图层",
-        "使用合并/合并全部功能",
-        "图层数量减少",
-        "合并后的视觉结果与合并前组合状态基本一致"
+        "Create at least two layers with content",
+        "Use the merge/merge-all features",
+        "The layer count decreases",
+        "The merged visual result is essentially consistent with the pre-merge combined state"
       ],
-      "expected": "合并后图层数量减少；合并结果与合并前组合视觉基本一致。",
+      "expected": "After merging the layer count decreases; the merged result is essentially visually consistent with the pre-merge combination.",
       "persistence": false
     },
     {
       "id": "f21",
-      "name": "选择区域",
+      "name": "Select the area",
       "steps": [
-        "进入选择工具",
-        "在矩形、椭圆或自由形状等选择模式之间切换",
-        "在画布创建选区",
-        "选区边界正确显示",
-        "重置/取消选择后选区消失"
+        "Enter the selection tool",
+        "Switch between selection modes such as rectangle, ellipse, and free-form",
+        "Create a selection on the canvas",
+        "The selection boundary is displayed correctly",
+        "The selection disappears after reset/deselect"
       ],
-      "expected": "选择模式（矩形 / 椭圆 / 自由）必须正确创建选区；边界显示正确；取消后消失。",
+      "expected": "The selection modes (rectangle / ellipse / free) must create selections correctly; the boundary displays correctly; it disappears after cancelling.",
       "persistence": false
     },
     {
       "id": "f22",
-      "name": "选区反转、全部选择与重置",
+      "name": "Invert the selection, select all, and reset",
       "steps": [
-        "建立局部选区",
-        "使用“全部”“翻转/反选”“重置”等操作",
-        "选区范围相应变化",
-        "后续填充或擦除只作用于当前选区"
+        "Create a local selection",
+        "Use operations such as \"All\", \"Invert/Invert selection\", and \"Reset\"",
+        "The selection range changes accordingly",
+        "Subsequent filling or erasing only affects the current selection"
       ],
-      "expected": "全部 / 反选 / 重置必须正确改变选区范围；后续操作只作用于当前选区。",
+      "expected": "All / invert / reset must correctly change the selection range; subsequent operations only affect the current selection.",
       "persistence": false
     },
     {
       "id": "f23",
-      "name": "选区擦除与填充",
+      "name": "Selection erasing and filling",
       "steps": [
-        "建立一个局部选区",
-        "使用“擦除”或“填充”",
-        "只修改选中的区域",
-        "选区以外的像素保持不变"
+        "Create a local selection",
+        "Use \"Erase\" or \"Fill\"",
+        "Only the selected area is modified",
+        "Pixels outside the selection stay unchanged"
       ],
-      "expected": "擦除 / 填充只修改选中区域；选区外像素保持不变。",
+      "expected": "Erase/fill only modifies the selected area; pixels outside the selection stay unchanged.",
       "persistence": true
     },
     {
       "id": "f24",
-      "name": "选区变换",
+      "name": "Selection transformation",
       "steps": [
-        "建立选区",
-        "点击“变换”",
-        "拖动边界控制点缩放",
-        "使用顶部旋转控制旋转",
-        "应用变换",
-        "只有被选中的内容改变位置、比例或角度"
+        "Create a selection",
+        "Tap \"transform\"",
+        "Drag the boundary control points to scale",
+        "Rotate with the rotation control at the top",
+        "Apply the transformation",
+        "Only the selected content changes position, scale, or angle"
       ],
-      "expected": "变换只改变被选中内容的位置 / 比例 / 角度；其余内容不变。",
+      "expected": "The transformation only changes the selected content's position/scale/angle; the rest stays unchanged.",
       "persistence": false
     },
     {
       "id": "f25",
-      "name": "选区快捷变换",
+      "name": "Quick selection transformations",
       "steps": [
-        "建立选区",
-        "进入变换",
-        "使用复制、翻转 X、翻转 Y、-90°、+90°、2×、1/2×、居中等快捷按钮",
-        "预览变化",
-        "应用后结果与所选操作一致"
+        "Create a selection",
+        "Enter the transformation",
+        "Use the quick buttons for copy, flip X, flip Y, -90°, +90°, 2×, 1/2×, center, etc.",
+        "The preview changes",
+        "After applying, the result matches the selected operation"
       ],
-      "expected": "各快捷变换按钮结果必须与所选操作一致；预览正确。",
+      "expected": "The results of the quick transformation buttons must match the selected operation; the preview is correct.",
       "persistence": false
     },
     {
       "id": "f26",
-      "name": "Warp / 变形选区",
+      "name": "Warp / deforming a selection",
       "steps": [
-        "建立选区",
-        "进入变换",
-        "启用 Warp",
-        "调整选区几何形状",
-        "保持/对齐等辅助选项仍可切换",
-        "应用后产生非刚性变换效果"
+        "Create a selection",
+        "Enter the transformation",
+        "Enable Warp",
+        "Adjust the selection's geometry",
+        "Helper options such as keep/align can still be toggled",
+        "Applying produces a non-rigid transformation effect"
       ],
-      "expected": "Warp 必须产生非刚性变换效果；保持 / 对齐选项可切换并生效。",
+      "expected": "Warp must produce a non-rigid transformation effect; the keep/align options can be toggled and take effect.",
       "persistence": true
     },
     {
       "id": "f27",
-      "name": "将变换内容移动到图层",
+      "name": "Move the transformed content to a layer",
       "steps": [
-        "建立选区并进入变换",
-        "使用“移到图层”目标选项",
-        "将变换结果输出到指定图层",
-        "原图层与目标图层的内容状态按选项正确变化"
+        "Create a selection and enter the transformation",
+        "Use the \"move to layer\" target option",
+        "Output the transformation result to the specified layer",
+        "The content states of the source and target layers change correctly according to the option"
       ],
-      "expected": "变换结果必须输出到指定图层；原图层与目标图层状态按选项正确变化。",
+      "expected": "The transformation result must be output to the specified layer; the source and target layers' states change correctly according to the option.",
       "persistence": false
     },
     {
       "id": "f28",
-      "name": "导入图片",
+      "name": "Import an image",
       "steps": [
-        "使用打开/导入入口选择图片",
-        "在“导入图像”窗口预览图片",
-        "缩放或平移预览",
-        "选择“作为图层”或“作为图像”",
-        "导入后图片出现在画布或新图层中"
+        "Choose an image via the open/import entry",
+        "Preview the image in the \"import image\" window",
+        "Zoom or pan the preview",
+        "Choose \"as layer\" or \"as image\"",
+        "After importing, the image appears on the canvas or in a new layer"
       ],
-      "expected": "导入图片必须正确预览；「作为图层 / 作为图像」两种方式结果正确。",
+      "expected": "The imported image must preview correctly; the \"as layer / as image\" modes give correct results.",
       "persistence": false
     },
     {
       "id": "f29",
-      "name": "图片作为新图层叠加",
+      "name": "The image is overlaid as a new layer",
       "steps": [
-        "当前画布已经有背景内容",
-        "导入第二张图片并选择“作为图层”",
-        "图层列表新增图像图层",
-        "原背景仍保留",
-        "可以独立调整新图片图层"
+        "The current canvas already has background content",
+        "Import a second image and choose \"as layer\"",
+        "An image layer is added to the layer list",
+        "The original background is still preserved",
+        "The new image layer can be adjusted independently"
       ],
-      "expected": "导入的图片必须作为新图层叠加；原背景保留；新图层可独立调整。",
+      "expected": "The imported image must be overlaid as a new layer; the original background is preserved; the new layer can be adjusted independently.",
       "persistence": false
     },
     {
       "id": "f30",
-      "name": "画布大小",
+      "name": "Canvas size",
       "steps": [
-        "打开“画布大小”",
-        "分别修改左、右、上、下扩展量",
-        "使用三分法辅助定位",
-        "设置新扩展区域的填充颜色或透明",
-        "确认后画布尺寸改变而原有内容位置关系正确"
+        "Open \"canvas size\"",
+        "Modify the left, right, top, and bottom expansion amounts separately",
+        "Use the rule of thirds to assist positioning",
+        "Set the fill color or transparency for the newly expanded area",
+        "After confirming, the canvas size changes with the existing content's positions correct"
       ],
-      "expected": "画布扩展量（左 / 右 / 上 / 下）正确应用；原有内容位置关系正确；扩展区域填充符合设置。",
+      "expected": "The canvas expansion amounts (left/right/top/bottom) are applied correctly; the existing content's positions are correct; the expanded area is filled according to the settings.",
       "persistence": false
     },
     {
       "id": "f31",
-      "name": "图像大小",
+      "name": "Image size",
       "steps": [
-        "打开“图像大小”",
-        "修改宽度或高度",
-        "开启“保持纵横比”",
-        "修改单一维度时另一维自动联动",
-        "应用后整张图像按照目标尺寸缩放"
+        "Open \"image size\"",
+        "Change the width or height",
+        "Enable \"keep aspect ratio\"",
+        "When changing one dimension the other links automatically",
+        "After applying, the whole image is scaled to the target size"
       ],
-      "expected": "修改单一维度时必须按保持纵横比联动；应用后整图按目标尺寸缩放。",
+      "expected": "When changing one dimension it must link while preserving the aspect ratio; after applying, the whole image is scaled to the target size.",
       "persistence": true
     },
     {
       "id": "f32",
-      "name": "水平/垂直翻转",
+      "name": "Horizontal/vertical flip",
       "steps": [
-        "打开翻转功能",
-        "对整张图像执行水平或垂直翻转",
-        "比较应用前后方向",
-        "再执行相反操作可以得到对应镜像结果"
+        "Open the flip feature",
+        "Flip the whole image horizontally or vertically",
+        "Compare the orientation before and after applying",
+        "Performing the opposite operation again gives the corresponding mirrored result"
       ],
-      "expected": "水平 / 垂直翻转方向正确；再执行相反操作可得到镜像恢复结果。",
+      "expected": "Horizontal/vertical flip directions are correct; performing the opposite operation again gives the mirrored restoration.",
       "persistence": false
     },
     {
       "id": "f33",
-      "name": "旋转图像",
+      "name": "Rotate the image",
       "steps": [
-        "打开旋转",
-        "使用左转 90° 或右转 90°",
-        "预览旋转后的画面",
-        "应用",
-        "画布图像方向改变且内容保持完整"
+        "Open rotate",
+        "Rotate 90° left or 90° right",
+        "Preview the rotated image",
+        "Apply",
+        "The canvas image orientation changes with the content kept complete"
       ],
-      "expected": "旋转 90° 后画面方向改变且内容完整。",
+      "expected": "After rotating 90° the image orientation changes and the content is complete.",
       "persistence": true
     },
     {
       "id": "f34",
-      "name": "自由变换整图",
+      "name": "Free-transform the whole image",
       "steps": [
-        "打开自由变换",
-        "设置 X、Y、旋转角度",
-        "使用翻转 X/Y、±90°、2×、1/2×、居中、复制等选项",
-        "在预览中检查结果",
-        "应用后整图变换生效"
+        "Open free transform",
+        "Set X, Y, and the rotation angle",
+        "Use options such as flip X/Y, ±90°, 2×, 1/2×, center, and copy",
+        "Check the result in the preview",
+        "After applying, the whole-image transformation takes effect"
       ],
-      "expected": "自由变换（X / Y / 旋转 / 翻转 / 缩放 / 居中 / 复制）结果与设置一致。",
+      "expected": "The free transform (X/Y/rotate/flip/scale/center/copy) results match the settings.",
       "persistence": false
     },
     {
       "id": "f35",
-      "name": "透视变换",
+      "name": "Perspective transformation",
       "steps": [
-        "打开“透视”",
-        "在“之前/之后”预览间切换",
-        "拖动四角控制点改变透视",
-        "确认",
-        "图像产生透视校正或梯形形变"
+        "Open \"perspective\"",
+        "Switch between the \"before/after\" previews",
+        "Drag the corner control points to change the perspective",
+        "Confirm",
+        "The image undergoes perspective correction or trapezoidal deformation"
       ],
-      "expected": "透视变换必须产生透视校正或梯形形变；四角控制点拖动生效；预览切换正确。",
+      "expected": "The perspective transformation must produce perspective correction or trapezoidal deformation; dragging the four corner control points takes effect; the preview toggling is correct.",
       "persistence": false
     },
     {
       "id": "f36",
-      "name": "亮度/对比度",
+      "name": "Brightness/contrast",
       "steps": [
-        "打开亮度/对比度",
-        "调整亮度值和对比度值",
-        "预览实时更新",
-        "确认后效果写入图像",
-        "取消则不改变原图"
+        "Open brightness/contrast",
+        "Adjust the brightness and contrast values",
+        "The preview updates in real time",
+        "After confirming, the effect is written into the image",
+        "Cancelling does not change the original image"
       ],
-      "expected": "亮度 / 对比度调整实时预览；确认后写入；取消不改变原图。",
+      "expected": "Brightness/contrast adjustments preview in real time; confirming writes them; cancelling does not change the original image.",
       "persistence": false
     },
     {
       "id": "f37",
-      "name": "曲线调整",
+      "name": "Curve adjustment",
       "steps": [
-        "打开“曲线”",
-        "在全部、红、绿、蓝通道之间切换",
-        "添加或移动曲线控制点",
-        "观察预览颜色和明暗变化",
-        "确认后应用曲线"
+        "Open \"curves\"",
+        "Switch between the all, red, green, and blue channels",
+        "Add or move curve control points",
+        "Observe the color and brightness changes in the preview",
+        "Apply the curves after confirming"
       ],
-      "expected": "曲线（RGB 通道切换、控制点）必须实时反映在预览；确认后应用。",
+      "expected": "The curves (RGB channel switching, control points) must be reflected in the preview in real time; they are applied after confirming.",
       "persistence": false
     },
     {
       "id": "f38",
-      "name": "色相/饱和度",
+      "name": "Hue/saturation",
       "steps": [
-        "打开“色相/饱和度”",
-        "调整色相与饱和度参数",
-        "查看实时预览",
-        "确认后整图颜色发生对应变化"
+        "Open \"hue/saturation\"",
+        "Adjust the hue and saturation parameters",
+        "View the live preview",
+        "After confirming, the whole image's colors change accordingly"
       ],
-      "expected": "色相 / 饱和度调整实时预览；确认后整图颜色对应变化。",
+      "expected": "The hue/saturation adjustments preview in real time; after confirming the whole image's colors change accordingly.",
       "persistence": false
     },
     {
       "id": "f39",
-      "name": "反相",
+      "name": "Invert",
       "steps": [
-        "对当前图层或图像执行反相",
-        "颜色转换为互补效果",
-        "撤销操作可以恢复应用前画面"
+        "Invert the current layer or image",
+        "The colors are converted to the complementary effect",
+        "Undo restores the image from before the application"
       ],
-      "expected": "反相必须转换为互补色；撤销可恢复原画面。",
+      "expected": "Invert must convert to complementary colors; undo restores the original image.",
       "persistence": false
     },
     {
       "id": "f40",
-      "name": "模糊",
+      "name": "Blur",
       "steps": [
-        "打开“模糊”",
-        "调整半径",
-        "观察细节逐渐柔化",
-        "确认",
-        "图像按指定半径完成模糊处理"
+        "Open \"blur\"",
+        "Adjust the radius",
+        "Observe the detail gradually softening",
+        "Confirm",
+        "The image is blurred by the specified radius"
       ],
-      "expected": "模糊半径必须真实影响柔化程度；确认后按半径完成处理。",
+      "expected": "The blur radius must genuinely affect the softening degree; the processing is completed by radius after confirming.",
       "persistence": false
     },
     {
       "id": "f41",
-      "name": "USM 锐化",
+      "name": "USM sharpening",
       "steps": [
-        "打开“USM 锐化”",
-        "调整半径和强度",
-        "比较预览中的边缘细节",
-        "确认后锐化应用到当前图像"
+        "Open \"USM sharpening\"",
+        "Adjust the radius and strength",
+        "Compare the edge detail in the preview",
+        "After confirming, the sharpening is applied to the current image"
       ],
-      "expected": "USM 锐化的半径与强度必须影响边缘细节；确认后应用。",
+      "expected": "The USM sharpening radius and strength must affect edge detail; it is applied after confirming.",
       "persistence": false
     },
     {
       "id": "f42",
-      "name": "位移 / Shift 效果",
+      "name": "Displacement / Shift effect",
       "steps": [
-        "打开移轴/位移类滤镜",
-        "调整梯度半径和模糊半径",
-        "移动两个控制点改变效果中心或方向",
-        "应用后图像局部保持清晰、周围产生对应模糊过渡"
+        "Open the tilt-shift/displacement filter",
+        "Adjust the gradient radius and blur radius",
+        "Move the two control points to change the effect center or direction",
+        "After applying, a local part of the image stays sharp with a corresponding blur transition around it"
       ],
-      "expected": "位移 / 移轴效果（梯度半径 / 模糊半径 / 控制点）必须产生局部清晰与过渡模糊。",
+      "expected": "The displacement / tilt-shift effect (gradient radius / blur radius / control point) must produce local sharpness and transitional blur.",
       "persistence": true
     },
     {
       "id": "f43",
-      "name": "变形滤镜",
+      "name": "Distortion filter",
       "steps": [
-        "打开“变形”",
-        "选择不同变形模式",
-        "设置图案大小 X/Y、强度 X/Y、相位 X/Y、步长及同步 XY",
-        "预览产生周期性波纹或扭曲",
-        "确认后应用"
+        "Open \"distort\"",
+        "Choose different distortion modes",
+        "Set the pattern size X/Y, strength X/Y, phase X/Y, step, and sync XY",
+        "The preview produces periodic ripples or twisting",
+        "Apply after confirming"
       ],
-      "expected": "变形滤镜各参数（图案大小 / 强度 / 相位 / 步长）必须产生周期性波纹或扭曲。",
+      "expected": "The distortion filter's parameters (pattern size / strength / phase / step) must produce periodic ripples or twisting.",
       "persistence": false
     },
     {
       "id": "f44",
-      "name": "网格效果",
+      "name": "Grid effect",
       "steps": [
-        "打开“网格”",
-        "设置 X、Y 分割数量、线条宽度和线条颜色",
-        "预览生成网格覆盖",
-        "应用后网格成为图像效果的一部分"
+        "Open \"grid\"",
+        "Set the X/Y division counts, line width, and line color",
+        "Preview the generated grid overlay",
+        "After applying, the grid becomes part of the image effect"
       ],
-      "expected": "网格分割数 / 线宽 / 颜色必须生效；应用后成为图像效果的一部分。",
+      "expected": "The grid divisions/line width/color must take effect; after applying they become part of the image effect.",
       "persistence": false
     },
     {
       "id": "f45",
-      "name": "噪音效果",
+      "name": "Noise effect",
       "steps": [
-        "打开“噪音”",
-        "选择噪音纹理",
-        "设置图案大小、不透明度",
-        "在 RGB 与 Alpha 之间切换",
-        "改变反向、混合模式和颜色",
-        "应用后得到对应噪点效果"
+        "Open \"noise\"",
+        "Choose the noise texture",
+        "Set the pattern size and opacity",
+        "Switch between RGB and Alpha",
+        "Change the inverse, blend mode, and color",
+        "After applying, the corresponding noise effect is produced"
       ],
-      "expected": "噪音纹理 / 大小 / 不透明度 / RGB-Alpha / 反向 / 混合模式必须正确组合生效。",
+      "expected": "The noise texture/size/opacity/RGB-Alpha/inverse/blend mode must combine and take effect correctly.",
       "persistence": false
     },
     {
       "id": "f46",
-      "name": "图案效果",
+      "name": "Pattern effect",
       "steps": [
-        "打开“图案”",
-        "设置 X、Y、宽度、高度及晕染",
-        "在之前/之后之间比较",
-        "调整采样区域后预览重复平铺图案",
-        "确认后应用"
+        "Open \"pattern\"",
+        "Set X, Y, width, height, and smudge",
+        "Compare between before/after",
+        "Adjust the sampling area and preview the repeating tiled pattern",
+        "Apply after confirming"
       ],
-      "expected": "图案参数（X/Y/宽高/晕染）与采样区域必须影响平铺预览；确认后应用。",
+      "expected": "The pattern parameters (X/Y/width & height/smudge) and the sampling area must affect the tiled preview; they are applied after confirming.",
       "persistence": false
     },
     {
       "id": "f47",
-      "name": "消失点效果",
+      "name": "Vanishing-point effect",
       "steps": [
-        "打开“消失点”",
-        "调整线条数量、消失点 X/Y、线条宽度和颜色",
-        "预览放射状透视线",
-        "确认后图像上生成对应消失点辅助效果"
+        "Open \"vanishing point\"",
+        "Adjust the line count, vanishing-point X/Y, line width, and color",
+        "Preview the radial perspective lines",
+        "After confirming, the corresponding vanishing-point guide effect is generated on the image"
       ],
-      "expected": "消失点参数（线条数 / 消失点位置 / 线宽 / 颜色）必须生成对应放射状透视线。",
+      "expected": "The vanishing-point parameters (line count / vanishing-point position / line width / color) must generate the corresponding radial perspective lines.",
       "persistence": false
     },
     {
       "id": "f48",
-      "name": "文本工具",
+      "name": "Text tool",
       "steps": [
-        "切换文本工具",
-        "在画布目标位置点击",
-        "输入文字",
-        "完成文字插入",
-        "文本结果显示在画面并能够参与后续图像编辑"
+        "Switch to the text tool",
+        "Tap the target position on the canvas",
+        "Enter text",
+        "Complete the text insertion",
+        "The text result is displayed on the canvas and can take part in later image editing"
       ],
-      "expected": "文本必须插入到点击位置；内容正确显示并可参与后续编辑。",
+      "expected": "The text must be inserted at the tapped position; the content displays correctly and can take part in later editing.",
       "persistence": false
     },
     {
       "id": "f49",
-      "name": "浏览器本地保存",
+      "name": "Browser local save",
       "steps": [
-        "切换到“文件”",
-        "在“保存至浏览器”区域保存当前作品",
-        "刷新或重新进入页面",
-        "从浏览器保存记录中打开",
-        "恢复保存时的作品内容"
+        "Switch to \"Files\"",
+        "Save the current artwork in the \"save to browser\" area",
+        "Refresh or re-enter the page",
+        "Open from the browser's saved records",
+        "Restore the artwork content from the saved state"
       ],
-      "expected": "保存到浏览器后刷新 / 重进可恢复保存时的作品内容。",
+      "expected": "After saving to the browser, refreshing/re-entering restores the saved artwork content.",
       "persistence": true
     },
     {
       "id": "f50",
-      "name": "覆盖浏览器保存记录",
+      "name": "Overwrite the browser saved record",
       "steps": [
-        "已有一份浏览器内保存",
-        "修改画布内容",
-        "点击“覆盖”",
-        "再次打开该记录",
-        "加载最新覆盖后的版本，而不是旧版本"
+        "A browser-saved copy already exists",
+        "Modify the canvas content",
+        "Tap \"overwrite\"",
+        "Open that record again",
+        "Load the latest overlaid version rather than an old one"
       ],
-      "expected": "覆盖后再次打开必须加载最新版本而不是旧版本。",
+      "expected": "After overwriting, reopening must load the latest version rather than the old one.",
       "persistence": true
     },
     {
       "id": "f51",
-      "name": "删除浏览器保存记录",
+      "name": "Delete the browser saved record",
       "steps": [
-        "保存作品到浏览器",
-        "在文件面板中选择“清除”",
-        "对应缩略图记录消失",
-        "当前正在编辑的画布不应因为删除保存记录而立即丢失"
+        "Save the artwork to the browser",
+        "Choose \"clear\" in the file panel",
+        "The corresponding thumbnail record disappears",
+        "The canvas currently being edited should not be lost immediately because a saved record is deleted"
       ],
-      "expected": "清除后缩略图记录消失；当前编辑画布不因删除保存记录而立即丢失。",
+      "expected": "After clearing, the thumbnail record disappears; the canvas currently being edited is not immediately lost because a saved record is deleted.",
       "persistence": false
     },
     {
       "id": "f52",
       "name": "Recover closed tabs",
       "steps": [
-        "产生可恢复的关闭项目状态",
-        "使用“Recover closed tabs”",
-        "最近关闭的画布重新出现在编辑器中",
-        "图像内容和基础编辑状态恢复"
+        "Produce a recoverable closed-item state",
+        "Use \"Recover closed tabs\"",
+        "The most recently closed canvas reappears in the editor",
+        "The image content and basic editing state are restored"
       ],
-      "expected": "Recover closed tabs 必须恢复最近关闭的画布内容与基础编辑状态。",
+      "expected": "Recover closed tabs must restore the most recently closed canvas content and the basic editing state.",
       "persistence": false
     },
     {
       "id": "f53",
-      "name": "文件保存 / 导出",
+      "name": "File save / export",
       "steps": [
-        "进入文件面板",
-        "选择保存格式下拉框",
-        "选择 PNG 等支持格式",
-        "执行保存",
-        "浏览器生成对应图像文件",
-        "输出图像与当前画布视觉内容一致"
+        "Enter the file panel",
+        "Open the save-format dropdown",
+        "Choose a supported format such as PNG",
+        "Save",
+        "The browser generates the corresponding image file",
+        "The output image is visually consistent with the current canvas content"
       ],
-      "expected": "导出格式（PNG 等）正确生成文件；输出图像与当前画布视觉一致。",
+      "expected": "The export format (PNG, etc.) produces a correct file; the output image is visually consistent with the current canvas.",
       "persistence": false
     },
     {
       "id": "f54",
-      "name": "完整编辑工作流",
+      "name": "Complete editing workflow",
       "steps": [
-        "新建指定尺寸画布",
-        "使用多种画笔绘制背景",
-        "新增图层",
-        "导入图片为独立图层",
-        "调整图层顺序与不透明度",
-        "对局部建立选区并自由变换",
-        "使用亮度/对比度或曲线",
-        "保存到浏览器",
-        "再打开确认状态",
-        "最终导出 PNG"
+        "Create a canvas of the specified size",
+        "Draw the background with several brushes",
+        "Add a layer",
+        "Import an image as an independent layer",
+        "Adjust the layer order and opacity",
+        "Create a selection on a local area and transform it freely",
+        "Use brightness/contrast or curves",
+        "Save to the browser",
+        "Open it again to confirm the state",
+        "Finally export the PNG"
       ],
-      "expected": "完整工作流（新建 / 多笔刷 / 图层 / 导入 / 选区变换 / 调色 / 保存 / 导出）每步正确；最终导出成功。",
+      "expected": "The complete workflow (new / multiple brushes / layers / import / selection transform / color adjustment / save / export) is correct at every step; the final export succeeds.",
       "persistence": false
     }
   ],
   "exclusions": [
     {
-      "feature": "上传到第三方服务器 / “上传”在线托管",
+      "feature": "Uploading to a third-party server / \"upload\" online hosting",
       "treatment": "Hard Exclude",
-      "reason": "Kleki 的核心编辑能力不依赖云端；复现时没有必要建设图片托管服务器。按钮可以保留为不可用状态或直接不实现。",
+      "reason": "Kleki's core editing capability does not depend on the cloud; there is no need to build an image-hosting server for the reproduction. The button can be kept disabled or simply not implemented.",
       "covered_by": []
     },
     {
-      "feature": "在线分享 / 生成公开分享链接",
+      "feature": "Online sharing / generating a public share link",
       "treatment": "Hard Exclude",
-      "reason": "涉及外部托管、链接生成和长期资源可访问性，不属于本地绘图与图像编辑核心流程。建议排除真正的公网分享后端。",
+      "reason": "It involves external hosting, link generation, and long-term resource availability and is not part of the core local drawing and image-editing flow. Excluding the actual public sharing backend is recommended.",
       "covered_by": []
     },
     {
-      "feature": "社交平台分享集成",
+      "feature": "Social-platform share integration",
       "treatment": "Hard Exclude",
-      "reason": "若原站分享按钮会调用系统 Share API 或外部社交平台，可不复现具体第三方平台集成；最多保留复制文件/本地分享入口。",
+      "reason": "If the original site's share button calls the system Share API or external social platforms, the specific third-party integration need not be reproduced; at most a copy-file/local-share entry is kept.",
       "covered_by": []
     },
     {
-      "feature": "极端高分辨率、大尺寸图像的性能一致性",
+      "feature": "Performance parity on extremely high-resolution, large images",
       "treatment": "Default Exclude",
-      "reason": "不要求与原站在数千万像素、超大图层数下保持完全相同的性能、内存占用和处理速度；正常桌面图片尺寸可正确使用即可。",
+      "reason": "Full parity with the original site in performance, memory usage, and processing speed at tens of millions of pixels and huge layer counts is not required; correct operation at normal desktop image sizes is enough.",
       "covered_by": []
     },
     {
-      "feature": "各滤镜与 Kleki 原版逐像素完全一致",
+      "feature": "Pixel-perfect parity of each filter with the original Kleki",
       "treatment": "Hard Exclude",
-      "reason": "亮度/对比度、曲线、模糊、USM、噪音、图案、变形、消失点等需要功能和交互存在且效果方向正确，但不要求算法输出与原站逐像素一致。",
+      "reason": "Brightness/contrast, curves, blur, USM, noise, pattern, warp, and vanishing point need the features and interactions to exist with effects in the correct direction, but the algorithm output is not required to be pixel-identical to the original site.",
       "covered_by": []
     },
     {
-      "feature": "浏览器/操作系统原生文件选择器与下载对话框 UI",
+      "feature": "The browser/OS native file-picker and download-dialog UI",
       "treatment": "Hard Exclude",
-      "reason": "只需调用标准文件打开和下载能力，不需要复刻 Chrome、Windows、macOS 自身的文件选择器或保存窗口外观。",
+      "reason": "Only the standard file-open and download capabilities need to be invoked; replicating the appearance of Chrome's, Windows', or macOS' own file picker or save dialog is not required.",
       "covered_by": []
     }
   ]

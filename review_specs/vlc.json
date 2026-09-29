@@ -4,367 +4,367 @@
   "features": [
     {
       "id": "f01",
-      "name": "媒体库扫描与更新",
+      "name": "Media library scanning and updating",
       "steps": [
-        "给设备加入若干视频和音频文件",
-        "启动 VLC",
-        "授予媒体访问权限",
-        "自动扫描媒体库",
-        "视频出现在“视频”页、音频出现在“音频”页",
-        "再向扫描目录加入或删除文件",
-        "重新进入/刷新",
-        "媒体库内容同步变化。"
+        "Add several video and audio files to the device",
+        "Launch VLC",
+        "Grant media access permission",
+        "Automatically scan the media library",
+        "Videos appear on the \"videos\" page and audio on the \"audio\" page",
+        "Then add or delete files in the scanned directory",
+        "Re-enter/refresh",
+        "The media library content changes in sync."
       ],
-      "expected": "授予媒体权限后必须自动完成扫描；视频与音频分别出现在对应分类页且数量与真实文件一致；新增或删除文件后刷新媒体库必须同步变化；扫描结果需持久化，重启 App 后不丢失。",
+      "expected": "After granting media permission the scan must complete automatically; videos and audio appear on their respective category pages with counts matching the real files; after adding or deleting files a media-library refresh must change in sync; the scan results must persist and not be lost after restarting the app.",
       "persistence": true
     },
     {
       "id": "f02",
-      "name": "视频媒体库浏览与播放",
+      "name": "Video media-library browsing and playback",
       "steps": [
-        "准备多个视频",
-        "进入“视频”",
-        "显示视频封面、标题及媒体信息",
-        "点击任意视频",
-        "打开播放器并开始播放",
-        "返回媒体库",
-        "再打开另一个视频",
-        "播放内容正确切换。"
+        "Prepare several videos",
+        "Enter \"videos\"",
+        "Show the video cover, title, and media information",
+        "Tap any video",
+        "Open the player and start playback",
+        "Return to the media library",
+        "Then open another video",
+        "The playback content switches correctly."
       ],
-      "expected": "列表必须显示封面、标题与媒体信息；点击视频必须真实进入播放器并播放该视频；返回媒体库后列表状态保持；再打开其他视频时播放内容必须切换。",
+      "expected": "The list must show the cover, title, and media information; tapping a video must genuinely open the player and play that video; after returning to the media library the list state is preserved; opening another video must switch the playback content.",
       "persistence": false
     },
     {
       "id": "f03",
-      "name": "视频搜索",
+      "name": "Video search",
       "steps": [
-        "视频库包含多个不同名称的媒体",
-        "点击搜索",
-        "输入标题关键字",
-        "列表只保留匹配媒体",
-        "修改搜索词实时改变结果",
-        "清空搜索",
-        "恢复完整媒体列表。"
+        "The video library contains several media with different names",
+        "Tap search",
+        "Enter a title keyword",
+        "The list keeps only matching media",
+        "Changing the search term changes the results in real time",
+        "Clear the search",
+        "The full media list is restored."
       ],
-      "expected": "结果必须按关键字过滤，只保留匹配媒体；修改搜索词结果实时变化；清空后恢复完整列表；无匹配时显示空状态；搜索不能删除或修改媒体数据。",
+      "expected": "The results must be filtered by keyword keeping only matching media; changing the search term changes the results in real time; clearing restores the full list; no match shows an empty state; searching must not delete or modify media data.",
       "persistence": false
     },
     {
       "id": "f04",
-      "name": "媒体库排序",
+      "name": "Media library sorting",
       "steps": [
-        "准备名称、艺术家、时长和时间属性不同的媒体",
-        "打开显示设置",
-        "分别选择“名称 / 艺术家名称 / 长度 / 发行时间 / 插入时间”",
-        "在正序和逆序之间切换",
-        "验证媒体排列顺序真实发生变化。"
+        "Prepare media with different names, artists, durations, and time attributes",
+        "Open the display settings",
+        "Select \"name / artist name / length / release time / insertion time\" respectively",
+        "Switch between ascending and descending",
+        "Verify that the media arrangement order genuinely changes."
       ],
-      "expected": "每种排序方式必须真实改变列表顺序，正序与逆序结果相反；排序状态需持久化，离开页面再返回仍按所选方式排列；不能只改变界面文字。",
+      "expected": "Each sort mode must genuinely change the list order with ascending and descending giving opposite results; the sort state must persist, and after leaving the page and returning it still sorts by the selected mode; merely changing the UI text is not enough.",
       "persistence": false
     },
     {
       "id": "f05",
-      "name": "列表显示与收藏过滤",
+      "name": "List display and favorites filtering",
       "steps": [
-        "在媒体库中切换“以列表形式显示”",
-        "布局由卡片/网格切换为列表",
-        "标记部分媒体为收藏",
-        "开启“只显示收藏”",
-        "非收藏媒体隐藏",
-        "关闭后恢复完整内容。"
+        "Switch to \"display as list\" in the media library",
+        "The layout switches from cards/grid to list",
+        "Mark some media as favorites",
+        "Enable \"show favorites only\"",
+        "Non-favorite media is hidden",
+        "The full content is restored after disabling."
       ],
-      "expected": "列表与网格布局必须真实切换且保留同一媒体集合；开启只显示收藏后非收藏媒体隐藏但数据不删除；关闭后完整恢复；收藏状态持久化。",
+      "expected": "The list and grid layouts must genuinely switch while keeping the same media set; with show-favorites-only enabled non-favorite media is hidden but its data is not deleted; disabling it restores everything; the favorite state persists.",
       "persistence": false
     },
     {
       "id": "f06",
-      "name": "音频分类浏览",
+      "name": "Audio category browsing",
       "steps": [
-        "导入具有不同歌手、专辑、轨道和流派元数据的音频",
-        "打开“音频”",
-        "在“艺术家 / 专辑 / 轨道 / 流派 / 播放列表”之间切换",
-        "每个页面按照对应元数据重新组织歌曲",
-        "点击歌曲开始播放。"
+        "Import audio with different artist, album, track, and genre metadata",
+        "Open \"audio\"",
+        "Switch between \"artists / albums / tracks / genres / playlists\"",
+        "Each page reorganizes the songs according to the corresponding metadata",
+        "Tap the song to start playback."
       ],
-      "expected": "艺术家、专辑、轨道、流派、播放列表各页面必须依据真实元数据分组，同一歌曲在不同分类中指向同一媒体；切换分类后列表内容对应变化；点击歌曲能进入播放。",
+      "expected": "The artists, albums, tracks, genres, and playlists pages must group by real metadata, with the same song pointing to the same media in different categories; after switching categories the list content changes accordingly; tapping a song enters playback.",
       "persistence": false
     },
     {
       "id": "f07",
-      "name": "本地文件浏览",
+      "name": "Local file browsing",
       "steps": [
-        "进入“浏览”",
-        "打开内部存储",
-        "逐级进入文件夹",
-        "定位视频或音频文件",
-        "点击文件直接播放",
-        "返回后仍保持之前的目录位置",
-        "可继续进入其他目录。"
+        "Enter \"browse\"",
+        "Open internal storage",
+        "Enter folders level by level",
+        "Locate the video or audio file",
+        "Tapping a file plays it directly",
+        "The previous directory position is still preserved after returning",
+        "Other directories can continue to be entered."
       ],
-      "expected": "目录层级必须反映真实文件系统；点击媒体文件能直接播放；返回后保持之前的目录位置；空目录应显示空状态而不是错误。",
+      "expected": "The directory hierarchy must reflect the real file system; tapping a media file plays it directly; after returning the previous directory position is preserved; an empty directory should show an empty state rather than an error.",
       "persistence": true
     },
     {
       "id": "f08",
-      "name": "常用文件夹收藏",
+      "name": "Favorites for frequently used folders",
       "steps": [
-        "在“浏览”中找到 Download、Movies、Music 或其他目录",
-        "将目录加入收藏",
-        "返回浏览首页",
-        "收藏区出现对应文件夹",
-        "点击收藏直接进入原目录",
-        "移除收藏后卡片消失。"
+        "Find Download, Movies, Music, or other directories under \"browse\"",
+        "Add the directory to favorites",
+        "Return to the browse home",
+        "The corresponding folder appears in the favorites area",
+        "Tapping a favorite jumps directly to the original directory",
+        "The card disappears after removing the favorite."
       ],
-      "expected": "收藏目录必须出现在浏览首页收藏区并可直达原目录；移除后卡片消失；收藏关系需持久化，重启后仍保留；不能把普通文件当文件夹收藏。",
+      "expected": "A favorited directory must appear in the favorites area of the browse home and be able to jump directly to the original directory; after removal the card disappears; the favorite relationship must persist across restarts; an ordinary file must not be favorited as a folder.",
       "persistence": false
     },
     {
       "id": "f09",
-      "name": "本地网络浏览",
+      "name": "Local network browsing",
       "steps": [
-        "打开“浏览网络”",
-        "在存在可访问局域网媒体源时显示服务器",
-        "进入服务器",
-        "浏览远程目录",
-        "选择媒体",
-        "直接在 VLC 播放",
-        "返回网络浏览页继续访问其他文件。"
+        "Open \"browse network\"",
+        "Show the server when an accessible LAN media source exists",
+        "Enter the server",
+        "Browse the remote directory",
+        "Select media",
+        "Play directly in VLC",
+        "Return to the network browsing page and continue accessing other files."
       ],
-      "expected": "存在可访问局域网媒体源时必须列出服务器；进入后可浏览真实远程目录并播放远程媒体；无可用服务器时应显示空状态而非崩溃。",
+      "expected": "When an accessible LAN media source exists the server must be listed; after entering, the real remote directory can be browsed and remote media played; when no server is available an empty state should be shown rather than crashing.",
       "persistence": false
     },
     {
       "id": "f10",
-      "name": "播放列表创建与管理",
+      "name": "Playlist creation and management",
       "steps": [
-        "从媒体条目菜单选择“添加到播放列表”",
-        "新建或选择播放列表",
-        "多个视频进入同一播放列表",
-        "打开“播放列表”页",
-        "显示名称、封面、轨道数量和总时长",
-        "点击开始顺序播放。"
+        "Choose \"add to playlist\" from the media item menu",
+        "Create or choose a playlist",
+        "Several videos enter the same playlist",
+        "Open the \"playlists\" page",
+        "Show the name, cover, track count, and total duration",
+        "Tap to start sequential playback."
       ],
-      "expected": "播放列表必须持久化保存；名称、封面、轨道数量与总时长与实际加入的媒体一致；点击播放按列表顺序进行；删除播放列表不影响原始媒体文件。",
+      "expected": "The playlist must persist; the name, cover, track count, and total duration match the media actually added; tapping play follows the list order; deleting a playlist does not affect the original media files.",
       "persistence": false
     },
     {
       "id": "f11",
-      "name": "播放列表随机播放",
+      "name": "Shuffle playback of a playlist",
       "steps": [
-        "准备包含至少 3 个媒体的播放列表",
-        "打开播放列表菜单",
-        "选择“随机”",
-        "开始播放",
-        "后续媒体顺序与原列表顺序不同",
-        "停止后重新进入仍能正常播放整个列表。"
+        "Prepare a playlist containing at least 3 media items",
+        "Open the playlist menu",
+        "Choose \"shuffle\"",
+        "Start playback",
+        "The subsequent media order differs from the original list order",
+        "After stopping and re-entering the whole list still plays normally."
       ],
-      "expected": "随机模式下播放顺序不能与列表顺序完全一致；队列应覆盖列表内媒体而不重复或遗漏；停止后重新播放整个列表仍正常。",
+      "expected": "In shuffle mode the playback order must not be exactly the list order; the queue should cover the media in the list without duplication or omission; after stopping, replaying the whole list still works normally.",
       "persistence": true
     },
     {
       "id": "f12",
-      "name": "媒体队列操作",
+      "name": "Media queue operations",
       "steps": [
-        "对某个媒体打开菜单",
-        "分别测试“添加到播放队列”和“插入为下一项”",
-        "打开当前播放队列",
-        "普通添加的媒体位于队列后方，“插入为下一项”的媒体位于当前媒体之后",
-        "当前播放结束后按新的队列顺序播放。"
+        "Open the menu on a media item",
+        "Test \"add to playback queue\" and \"insert as next item\" respectively",
+        "Open the current playback queue",
+        "Normally added media goes to the back of the queue, while media \"inserted as next item\" goes right after the current media",
+        "After the current playback ends it plays in the new queue order."
       ],
-      "expected": "添加到播放队列的媒体位于队列后方，插入为下一项的媒体紧跟当前媒体之后；当前播放结束后按新队列顺序播放；队列变化应立即可见。",
+      "expected": "Media added to the playback queue goes to the back, while media inserted as next item goes right after the current media; after the current playback ends it plays in the new queue order; queue changes should be immediately visible.",
       "persistence": false
     },
     {
       "id": "f13",
-      "name": "视频作为音频播放",
+      "name": "Play the video as audio",
       "steps": [
-        "对视频条目选择“作为音频播放”",
-        "不进入普通全屏视频播放界面或视频画面不作为主要输出",
-        "音轨继续播放",
-        "可以暂停、继续和切换播放进度",
-        "返回媒体库后音频播放状态保持。"
+        "Choose \"play as audio\" on a video item",
+        "It does not enter the normal full-screen video playback UI, and the video picture is not the main output",
+        "The audio track keeps playing",
+        "It can be paused, resumed, and seeked",
+        "The audio playback state is preserved after returning to the media library."
       ],
-      "expected": "选择后不能进入普通全屏视频播放界面；音轨必须持续播放且可暂停、继续、调整进度；返回媒体库后音频播放状态保持。",
+      "expected": "After selecting, it must not enter the normal full-screen video playback UI; the audio track must keep playing and can be paused, resumed, and seeked; the audio playback state is preserved after returning to the media library.",
       "persistence": true
     },
     {
       "id": "f14",
-      "name": "媒体收藏、重命名与删除",
+      "name": "Media favorites, renaming, and deletion",
       "steps": [
-        "对媒体打开条目菜单",
-        "加入收藏",
-        "收藏状态变化",
-        "执行重命名",
-        "媒体库中的名称同步更新",
-        "执行删除",
-        "文件从媒体库消失，并在重新扫描后仍不再出现。"
+        "Open the item menu on a media item",
+        "Add to favorites",
+        "The favorite state changes",
+        "Perform the renaming",
+        "The name in the media library updates in sync",
+        "Perform the deletion",
+        "The file disappears from the media library and does not reappear after rescanning."
       ],
-      "expected": "收藏状态需持久化；重命名后媒体库名称同步更新；删除后文件从媒体库消失且重新扫描后不再出现；取消操作不能修改文件。",
+      "expected": "The favorite state must persist; after renaming the media-library name updates in sync; after deletion the file disappears from the media library and does not reappear after rescanning; a cancelled operation must not modify the file.",
       "persistence": false
     },
     {
       "id": "f15",
-      "name": "播放历史",
+      "name": "Play history",
       "steps": [
-        "先播放多个不同视频/音频",
-        "进入“更多",
-        "历史”",
-        "历史记录按播放顺序出现",
-        "点击历史项可重新播放",
-        "关闭“播放历史”设置后继续播放新媒体",
-        "新媒体不再进入历史记录。"
+        "First play several different videos/audio files",
+        "Enter \"more",
+        "History\"",
+        "History records appear in playback order",
+        "Tapping a history item replays it",
+        "Continue playing new media after disabling the \"play history\" setting",
+        "New media no longer enters the history."
       ],
-      "expected": "历史记录按播放顺序出现且持久化；点击历史项可重新播放；关闭播放历史后新播放不再进入记录，但已有记录不应被无故清除。",
+      "expected": "History records appear in playback order and persist; tapping a history item replays it; after disabling play history new plays no longer enter the records, but existing records should not be cleared without reason.",
       "persistence": true
     },
     {
       "id": "f16",
-      "name": "网络串流播放",
+      "name": "Network streaming playback",
       "steps": [
-        "进入“更多",
-        "串流”",
-        "输入有效的 http://、mms:// 或 rtsp:// 媒体地址",
-        "提交",
-        "VLC 尝试建立连接",
-        "成功后进入播放器",
-        "可执行暂停、拖动进度等普通播放操作。"
+        "Enter \"more",
+        "streaming\"",
+        "Enter a valid http://, mms://, or rtsp:// media address",
+        "Submit",
+        "VLC attempts to establish a connection",
+        "After success it enters the player",
+        "Normal playback operations such as pause and dragging the progress are available."
       ],
-      "expected": "提交有效地址后必须尝试建立连接并进入播放器；可执行暂停、拖动进度等普通播放操作；无效地址需给出错误反馈而不是无响应。",
+      "expected": "After submitting a valid address it must attempt to connect and enter the player; normal playback operations such as pause and dragging the progress are available; an invalid address must give an error response rather than no response.",
       "persistence": false
     },
     {
       "id": "f17",
-      "name": "基础视频播放控制",
+      "name": "Basic video playback controls",
       "steps": [
-        "打开视频",
-        "播放器显示当前时间、总时长和进度条",
-        "点击播放/暂停",
-        "状态正确切换",
-        "点击上一项/下一项",
-        "在播放队列中跳转",
-        "拖动进度条",
-        "播放位置移动到目标时间。"
+        "Open the video",
+        "The player shows the current time, total duration, and progress bar",
+        "Tap play/pause",
+        "The state switches correctly",
+        "Tap previous/next",
+        "Jump within the playback queue",
+        "Drag the progress bar",
+        "The playback position moves to the target time."
       ],
-      "expected": "时间显示随播放推进且与总时长一致；播放与暂停必须真实切换音频状态；上一项与下一项切换队列中的媒体；拖动进度条后播放位置与显示时间一致。",
+      "expected": "The time display advances with playback and matches the total duration; play and pause must genuinely switch the audio state; previous and next switch the media in the queue; after dragging the progress bar the playback position matches the displayed time.",
       "persistence": false
     },
     {
       "id": "f18",
-      "name": "手势控制播放进度、音量和亮度",
+      "name": "Gestures control the playback progress, volume, and brightness",
       "steps": [
-        "播放视频",
-        "在允许手势的区域左右滑动",
-        "快退/快进播放位置",
-        "在对应区域上下滑动",
-        "调整音量或屏幕亮度",
-        "松手后新值生效",
-        "后续播放继续使用当前播放位置。"
+        "Play the video",
+        "Swipe left/right in the gesture-enabled area",
+        "Rewind/fast-forward the playback position",
+        "Swipe up/down in the corresponding area",
+        "Adjust the volume or screen brightness",
+        "The new value takes effect after releasing",
+        "Subsequent playback continues from the current position."
       ],
-      "expected": "左右滑动必须改变播放位置，快退快进方向与滑动方向一致；上下滑动分别调整音量与亮度；松手后新值生效并保持到后续播放。",
+      "expected": "Swiping left/right must change the playback position, with the rewind/fast-forward direction matching the swipe; swiping up/down adjusts the volume and brightness respectively; after releasing, the new values take effect and remain for subsequent playback.",
       "persistence": false
     },
     {
       "id": "f19",
-      "name": "双击与多点触控播放器操作",
+      "name": "Double-tap and multi-touch player operations",
       "steps": [
-        "开启对应控制设置",
-        "双击屏幕中央",
-        "播放/暂停切换",
-        "双击屏幕左右边缘",
-        "按设定时间快退或快进",
-        "双指缩放",
-        "视频显示比例发生变化",
-        "手势结束后播放继续。"
+        "Enable the corresponding control setting",
+        "Double-tap the center of the screen",
+        "Play/pause toggle",
+        "Double-tap the left/right edges of the screen",
+        "Rewind or fast-forward by the configured time",
+        "Pinch zoom",
+        "The video display scale changes",
+        "Playback continues after the gesture ends."
       ],
-      "expected": "双击中央切换播放与暂停；双击左右边缘按设定时间快退或快进；双指缩放必须改变视频显示比例；手势结束后播放继续且画面不跳变。",
+      "expected": "Double-tapping the center toggles play and pause; double-tapping the left/right edges rewinds or fast-forwards by the configured time; pinching must change the video display scale; after the gesture ends playback continues without the picture jumping.",
       "persistence": false
     },
     {
       "id": "f20",
-      "name": "播放速度与跳转时间",
+      "name": "Playback speed and jump time",
       "steps": [
-        "视频播放中打开更多菜单",
-        "选择“播放速度”",
-        "调整为非 1.0×",
-        "视频和音频播放速度同步变化",
-        "再选择“转到时间”",
-        "输入目标时间",
-        "播放头直接跳转到对应位置。"
+        "Open the more menu during video playback",
+        "Choose \"playback speed\"",
+        "Adjust to a non-1.0× value",
+        "The video and audio playback speed change in sync",
+        "Then choose \"go to time\"",
+        "Enter the target time",
+        "The playhead jumps directly to the corresponding position."
       ],
-      "expected": "改变播放速度后音视频同步变速，界面需显示当前速度值；转到时间跳转后播放位置与输入时间一致；超出总时长的输入应被限制。",
+      "expected": "After changing the playback speed the audio and video change speed in sync and the UI must show the current speed value; after a go-to-time jump the playback position matches the input time; input exceeding the total duration should be limited.",
       "persistence": false
     },
     {
       "id": "f21",
-      "name": "循环、随机与 A-B 循环",
+      "name": "Loop, shuffle, and A-B loop",
       "steps": [
-        "播放视频",
-        "开启循环模式",
-        "媒体结束后按循环规则重新播放",
-        "开启随机模式后队列播放顺序改变",
-        "进入 A-B 循环",
-        "设置 A 起点和 B 终点",
-        "播放位置只在 A/B 区间循环",
-        "取消后恢复正常播放。"
+        "Play the video",
+        "Enable loop mode",
+        "After the media ends it replays according to the loop rule",
+        "After enabling shuffle the queue playback order changes",
+        "Enter A-B loop",
+        "Set start point A and end point B",
+        "The playback position loops only within the A/B interval",
+        "Normal playback is restored after cancelling."
       ],
-      "expected": "循环模式下媒体结束后按规则重播；随机模式改变队列顺序；A-B 循环期间播放位置只能在 A/B 区间内循环，取消后恢复正常；A 点必须早于 B 点。",
+      "expected": "In loop mode the media replays according to the rule after ending; shuffle changes the queue order; during A-B loop the playback position can only loop within the A/B interval and returns to normal after cancelling; point A must be earlier than point B.",
       "persistence": false
     },
     {
       "id": "f22",
-      "name": "睡眠计时器",
+      "name": "Sleep timer",
       "steps": [
-        "播放视频或音频",
-        "打开更多菜单",
-        "进入“睡眠计时器”",
-        "设置一个结束时间/延迟",
-        "播放继续",
-        "时间到达后播放按照设置自动停止",
-        "重新开始播放时计时器状态按界面逻辑更新。"
+        "Play a video or audio",
+        "Open the more menu",
+        "Enter the \"sleep timer\"",
+        "Set an end time/delay",
+        "Playback continues",
+        "Playback stops automatically according to the setting when the time arrives",
+        "The timer state updates according to the UI logic when playback restarts."
       ],
-      "expected": "到达设定时间后播放必须自动停止；重新打开计时器应体现当前剩余时间状态；取消后不再自动停止；设置期间播放不受影响。",
+      "expected": "Playback must stop automatically when the set time arrives; reopening the timer should reflect the current remaining-time state; after cancelling it no longer stops automatically; playback is unaffected while the setting is active.",
       "persistence": false
     },
     {
       "id": "f23",
-      "name": "视频书签",
+      "name": "Video bookmarks",
       "steps": [
-        "播放长视频",
-        "跳转到某个时间点",
-        "打开“书签”",
-        "新增当前位置书签",
-        "继续播放至其他位置",
-        "再打开书签列表",
-        "点击之前的书签",
-        "播放位置准确回到保存时间点。"
+        "Play a long video",
+        "Jump to a certain time point",
+        "Open \"bookmarks\"",
+        "Add a bookmark at the current position",
+        "Continue playing to other positions",
+        "Reopen the bookmark list",
+        "Tap the previous bookmark",
+        "The playback position returns accurately to the saved time point."
       ],
-      "expected": "书签必须记录准确时间点并持久化；列表显示对应时间；点击书签后播放位置与保存时间一致；不同视频的书签不能串数据。",
+      "expected": "Bookmarks must record an accurate time point and persist; the list shows the corresponding time; after tapping a bookmark the playback position matches the saved time; different videos' bookmarks must not mix data.",
       "persistence": false
     },
     {
       "id": "f24",
-      "name": "弹出播放器 / 后台播放",
+      "name": "Floating player / background playback",
       "steps": [
-        "视频播放中选择“弹出播放器”或根据“背景/画中画模式”设置切换应用",
-        "视频缩为浮动播放窗口或进入配置的后台模式",
-        "切换到其他应用后媒体仍继续",
-        "返回 VLC",
-        "恢复普通播放器状态与原播放进度。"
+        "During video playback choose \"pop out player\" or switch apps according to the \"background/PiP mode\" setting",
+        "The video shrinks to a floating playback window or enters the configured background mode",
+        "Media continues after switching to another app",
+        "Return to VLC",
+        "The normal player state and original playback progress are restored."
       ],
-      "expected": "切换应用后媒体必须继续播放且不能中断或重复；弹出播放器显示为浮动窗口；返回 VLC 后恢复普通播放器并保持原播放进度。",
+      "expected": "After switching apps the media must continue playing without interruption or duplication; the player appears as a floating window; after returning to VLC it restores the normal player while keeping the original playback progress.",
       "persistence": false
     },
     {
       "id": "f25",
-      "name": "播放器控制设置与行为联动",
+      "name": "Player control settings and behavior linkage",
       "steps": [
-        "进入播放器“控制设置”",
-        "分别修改音频增强、音频延迟保存、继续播放视频、音量手势、亮度手势、记住亮度、滑动进退、双指缩放、双击进退、双击播放/暂停、快放、定位按钮、快进/快退时间、控制条自动隐藏时间等截图中出现的参数",
-        "返回播放器",
-        "逐项执行对应操作",
-        "播放器行为必须立即按照新设置变化，并在适当情况下跨媒体保持。"
+        "Enter the player's \"control settings\"",
+        "Modify the parameters shown in the screenshot such as audio boost, save audio delay, continue playing video, volume gestures, brightness gestures, remember brightness, swipe to seek, pinch zoom, double-tap to seek, double-tap play/pause, fast forward, locate button, fast-forward/rewind time, and control-bar auto-hide time",
+        "Return to the player",
+        "Perform the corresponding operations item by item",
+        "The player behavior must immediately change according to the new setting and persist across media where appropriate."
       ],
-      "expected": "各设置项必须真实改变对应播放行为，例如快进快退时间、手势开关、控制条自动隐藏时间；关闭某项手势后该手势不再生效；设置应跨媒体保持。",
+      "expected": "Each setting must genuinely change the corresponding playback behavior, such as fast-forward/rewind time, gesture toggles, and control-bar auto-hide time; after disabling a gesture it no longer takes effect; the settings should persist across media.",
       "persistence": false
     }
   ]

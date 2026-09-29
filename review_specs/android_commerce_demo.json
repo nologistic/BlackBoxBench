@@ -4,72 +4,107 @@
   "features": [
     {
       "id": "login",
-      "name": "登录校验",
-      "steps": ["输入错误账号尝试登录", "输入测试账号登录"],
-      "expected": "错误账号显示错误提示且停留在登录页；正确账号进入商品首页"
+      "name": "Login Validation",
+      "steps": [
+        "Attempt login with an invalid account",
+        "Log in with a test account"
+      ],
+      "expected": "Invalid account shows an error message and stays on the login page; valid account enters the product home page"
     },
     {
       "id": "catalog",
-      "name": "商品目录浏览",
-      "steps": ["浏览首页商品列表", "打开任一商品详情"],
-      "expected": "列表展示多个商品，可进入详情查看图片、价格与描述"
+      "name": "Product Catalog Browsing",
+      "steps": [
+        "Browse the product list on the home page",
+        "Open any product detail"
+      ],
+      "expected": "The list shows multiple products; you can open the detail to view the image, price, and description"
     },
     {
       "id": "search",
-      "name": "商品搜索",
-      "steps": ["输入关键词搜索", "输入无结果关键词"],
-      "expected": "列表按关键词过滤；无匹配时给出空状态而非报错"
+      "name": "Product Search",
+      "steps": [
+        "Search by entering a keyword",
+        "Enter a keyword with no results"
+      ],
+      "expected": "The list is filtered by keyword; when there is no match, an empty state is shown instead of an error"
     },
     {
       "id": "category_filter",
-      "name": "分类筛选",
-      "steps": ["切换商品分类"],
-      "expected": "列表随所选分类变化"
+      "name": "Category Filter",
+      "steps": [
+        "Switch product category"
+      ],
+      "expected": "The list changes according to the selected category"
     },
     {
       "id": "favorite",
-      "name": "收藏与持久化",
-      "steps": ["在详情或列表收藏商品", "查看收藏列表", "重启 App 后再看收藏"],
-      "expected": "收藏状态可见，收藏列表包含该商品，重启后仍保留",
+      "name": "Favorite and Persistence",
+      "steps": [
+        "Favorite a product from the detail or list",
+        "View the favorites list",
+        "Restart the App and check the favorites again"
+      ],
+      "expected": "The favorite state is visible, the favorites list contains the product, and it remains after restart",
       "persistence": true
     },
     {
       "id": "cart",
-      "name": "购物车增删",
-      "steps": ["加入购物车", "查看购物车合计", "移除商品"],
-      "expected": "加入后出现对应条目与正确合计；移除后条目和合计同步变化"
+      "name": "Cart Add and Remove",
+      "steps": [
+        "Add to cart",
+        "View the cart total",
+        "Remove the product"
+      ],
+      "expected": "After adding, the corresponding entry and correct total appear; after removal, the entry and total update together"
     },
     {
       "id": "checkout",
-      "name": "下单结算",
-      "steps": ["购物车内执行模拟结算", "查看订单页"],
-      "expected": "结算后购物车清空并生成新订单"
+      "name": "Checkout",
+      "steps": [
+        "Perform a simulated checkout in the cart",
+        "View the order page"
+      ],
+      "expected": "After checkout the cart is emptied and a new order is created"
     },
     {
       "id": "order_history",
-      "name": "订单记录与持久化",
-      "steps": ["查看订单列表", "确认订单编号与状态", "重启 App 后再看订单"],
-      "expected": "订单列表包含刚生成的订单编号和状态，重启后仍存在",
+      "name": "Order History and Persistence",
+      "steps": [
+        "View the order list",
+        "Confirm the order number and status",
+        "Restart the App and check the orders again"
+      ],
+      "expected": "The order list contains the just-created order number and status, and it still exists after restart",
       "persistence": true
     },
     {
       "id": "profile",
-      "name": "个人中心",
-      "steps": ["进入个人中心"],
-      "expected": "显示当前登录用户信息、收藏与订单数量，并提供媒体展示和退出登录操作"
+      "name": "Profile",
+      "steps": [
+        "Enter the profile"
+      ],
+      "expected": "Shows the current logged-in user information, the number of favorites and orders, and provides a media showcase and a log-out action"
     },
     {
       "id": "logout",
-      "name": "登出与会话状态",
-      "steps": ["在个人中心登出", "重启 App"],
-      "expected": "登出后回到登录页；重启后仍为未登录状态",
+      "name": "Logout and Session State",
+      "steps": [
+        "Log out from the profile",
+        "Restart the App"
+      ],
+      "expected": "After logout, return to the login page; after restart, still in the logged-out state",
       "persistence": true
     },
     {
       "id": "media",
-      "name": "离线媒体播放",
-      "steps": ["打开媒体展示页", "播放音频", "播放视频"],
-      "expected": "音频与视频均可在断网环境下播放，播放状态可见"
+      "name": "Offline Media Playback",
+      "steps": [
+        "Open the media showcase page",
+        "Play audio",
+        "Play video"
+      ],
+      "expected": "Both audio and video can be played offline, and the playback state is visible"
     }
   ]
 }

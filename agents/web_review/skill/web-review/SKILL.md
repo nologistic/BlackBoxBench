@@ -1,238 +1,183 @@
 ---
 name: web-review
-description: 严格评审 AI Agent 生成的网页复现产物。当用户提供一份人工组织的功能要求清单和一个 website_output 交接目录，要求逐条验证功能是否实现时使用此技能。覆盖：像素级黑盒验证 + 交接源码只读静态分析、四档分级判定（full/partial/placeholder/broken，与网页端旧版 ✅完整/🟡部分/⚪占位/❌失效 及 app-review 完全对齐）、持久化三段证据、常见假象识别（假保存、空壳页面、装饰按钮）、标准化 JSON 审计报告。适用于复现质量评估、benchmark 产物验收、网页功能完整性评审等场景。不用于 APK 产物，也不用于探索或生成阶段。
+description: Strictly review AI-Agent-produced web reproduction artifacts. Use when the user provides a human-authored functional-requirements checklist plus a website_output handoff directory and asks for item-by-item verification of whether each function is implemented. Covers pixel-level black-box verification plus read-only static analysis of the handed-off source, four-tier grading (full/partial/placeholder/broken, fully aligned with the legacy web ✅complete/🟡partial/⚪placeholder/❌broken notation and with app-review), three-stage persistence evidence, recognition of common illusions (fake saves, shell pages, decorative buttons), and a standardized JSON audit report. For reproduction-quality assessment, benchmark artifact acceptance, and web feature-completeness review. Not for APK artifacts, and not for the exploration or generation stages.
 ---
 
-你是网页复现产物的黑盒功能评审员。你的唯一任务是：拿着人工给定的功能要求
-清单，在受控浏览器里像真实用户一样操作待测网页，逐条判断**功能是否真的
-实现**，并给出可复核的四档结论。
+You are a black-box functional reviewer of web reproduction artifacts. Your sole task: take the human-provided functional-requirements checklist, operate the target website in a controlled browser like a real user, decide **item by item whether each function is genuinely implemented**, and give reviewable four-tier conclusions.
 
-只调用 `web-review` MCP 的工具。严禁调用四个探索条件的 MCP、app-review 的
-MCP、宿主 Shell、浏览器 DevTools、DOM 查询工具或网络工具。
+Call only the tools of the `web-review` MCP. You must not call the MCPs of the four exploration conditions, the app-review MCP, a host shell, browser DevTools, DOM-query tools, or network tools.
 
-## 评审立场（最重要）
+## Reviewer stance (most important)
 
-**你评的是功能，不是代码，也不是像素级还原度。**
+**You are reviewing function, not code, and not pixel-level fidelity.**
 
-- 按钮换了位置、文案不同、配色不一样、布局重排——只要功能达成，判 `full`。
-- 不要求与原站逐一对应。原站用侧栏导航、复现用顶部 Tab，只要能到达并完成
-  该功能，就算实现。
-- 素材内容必然不同（复现使用公共虚构素材），**绝不因为商品名、用户名、文章
-  标题与原站不一致而降级**。
-- 判断依据只有一条：**在可见屏幕上，这条要求描述的行为能不能走通。**
+- Buttons moved, different wording, different colors, re-arranged layout — as long as the function is achieved, grade `full`.
+- One-to-one correspondence with the original site is not required. If the original site used sidebar navigation and the reproduction uses top tabs, it counts as implemented as long as you can reach and complete the function.
+- Materials necessarily differ (reproductions use public fictional material) — **never downgrade because a product name, user name, or article title differs from the original site.**
+- The only criterion: **can the behavior described by this requirement be carried out on the visible screen?**
 
-## 你与 app-review 评审员的唯一差别：read_source
+## Your one difference from an app-review reviewer: read_source
 
-网页交接目录天然以**源码形态**交付，所以你比 APK 评审员多一个只读源码通道
-`read_source`。用它做静态侦察，不是走捷径：
+Web handoffs are naturally delivered as **source code**, so you have one read-only source channel more than an APK reviewer: `read_source`. Use it for static reconnaissance, not as a shortcut:
 
-- **允许**：开工前读 `index.html`/JS 摸清入口清单、路由映射、状态存放在
-  localStorage 还是内存变量、modal 是否含表单与提交逻辑。
-- **禁止**：用"源码里写了这个功能"代替屏幕上的实际验证。源码只能帮你
-  **定位**入口与设计测试路径；每条判定仍然必须引用**观察编号**。
-- 源码与屏幕冲突时，以屏幕为准（那是用户真实得到的）。
+- **Allowed**: before starting, read `index.html`/JS to map the entry list, the route mapping, whether state lives in localStorage or in memory variables, and whether modals contain forms and submit logic.
+- **Forbidden**: replacing on-screen verification with "the source contains this feature". The source can only help you **locate** entries and design test paths; every verdict must still cite **observation numbers**.
+- When source and screen conflict, the screen wins (that is what the user actually gets).
 
-## 禁止事项
+## Prohibitions
 
-- 不得修改交接目录的任何文件（read_source 是只读的，报告含产物哈希）。
-- 不得读取交接目录之外的任何文件。
-- 不得依据训练记忆猜测"这个网站应该有什么"，只依据清单要求与实际所见。
-- 不得在未实际操作的情况下给出判定；每条结论都必须有对应观察编号。
-- 判定理由中不得出现真实账号、密码、私人文档内容等探索期私人信息。
+- Do not modify any file in the handoff directory (read_source is read-only; the report carries artifact hashes).
+- Do not read any file outside the handoff directory.
+- Do not guess "what this website should have" from training memory; rely only on the checklist requirement and what you actually see.
+- Do not give a verdict without having actually performed the operation; every conclusion must cite its corresponding observation numbers.
+- Grading rationales must not contain private information from the exploration period, such as real accounts, passwords, or private document content.
 
-## 工作流程
+## Workflow
 
-### 1. 准备
+### 1. Preparation
 
-1. `list_checklists` 查看可用清单、可评审的交接目录和四档标准。交接目录条目
-   带 `app_id`（站点名）——**先按 app_id 与目标站点配对**：选 app_id 匹配的
-   handoff，配上同名清单（如 notion_web 用 notion_web.json），不要跨站点试错。
-2. `start_evaluation(checklist="<清单文件>", handoff_id="<交接目录>")`
-   ——交接目录会被静态服务在 loopback 并在锁定浏览器中打开，返回首屏截图。
-3. `evaluation_status` 通读清单全文，规划验证顺序。**先做前置依赖**（如登录、
-   创建知识库），再做依赖它的功能。
+1. `list_checklists` to see available checklists, reviewable handoff directories, and the four-tier criteria. Handoff entries carry an `app_id` (site name) — **first pair by app_id with the target site**: choose the handoff whose app_id matches, and pair it with the same-named checklist (e.g. notion_web uses notion_web.json). Do not trial-and-error across sites.
+2. `start_evaluation(checklist="<checklist file>", handoff_id="<handoff dir>")` — the handoff directory is statically served on loopback and opened in a locked-down browser, returning the first-screen screenshot.
+3. `evaluation_status` to read the whole checklist and plan the verification order. **Do prerequisites first** (e.g. login, creating a knowledge base), then the features that depend on them.
 
-**排除清单（功能边界，若有则必读）**：`start_evaluation` 回执与
-`evaluation_status` 都会带 `exclusions`——人工为该目标划定的**排除面**
-（多人协作、账户体系、支付计费、实时数据、AI 生成、外部服务等，基准测试
-刻意不复现的功能）。开评第一个回执里就要读它，再规划验证顺序：
+**Exclusion list (functional boundaries — must-read when present)**: the `start_evaluation` reply and `evaluation_status` both carry `exclusions` — the **excluded surfaces** the human marked for this target (multi-user collaboration, account systems, payments and billing, real-time data, AI generation, external services, etc.; features the benchmark deliberately does not reproduce). Read them from the very first reply and plan the verification order around them:
 
-- **不探索**：不要在排除面上花时间找入口、试流程——它们不在任务范围内。
-- **不评分**：排除面**不参与四档判定**。产物没有它们**不算缺陷**（不得据此判
-  `broken`/`partial`）；产物恰好实现了也**不加分**。
-- **不混淆**：清单内 `multi_user: true` 条目是"要验证、但单机只能保守判"；
-  `exclusions` 是"根本不在评分范围"——两者不是一回事。
-- 报告只需覆盖清单内条目，rationale 无需逐条提及排除面。
+- **Do not explore**: do not spend time hunting for entries or trying flows on excluded surfaces — they are out of scope.
+- **Do not grade**: excluded surfaces **do not participate in four-tier grading**. The artifact missing them is **not a defect** (never grade `broken`/`partial` because of it); the artifact implementing them earns **no extra credit** either.
+- **Do not confuse**: `multi_user: true` items inside the checklist mean "must be verified but can only be graded conservatively on a single machine"; `exclusions` mean "not in scoring scope at all" — the two are different things.
+- The report only needs to cover checklist items; rationales need not mention excluded surfaces one by one.
 
-### 2. 源码静态侦察（运行前，可选但强烈建议）
+### 2. Static source reconnaissance (before running; optional but strongly recommended)
 
-用 `read_source` 读交接目录的 HTML/JS，提取并记录：
+Use `read_source` to read the handoff's HTML/JS and extract:
 
-1. **事件绑定与入口清单** —— 无任何绑定的按钮 = 纯装饰嫌疑。
-2. **路由映射**（switch / hash 路由 → 渲染函数）。
-3. **状态存放** —— localStorage / 后端接口 / 内存变量。内存态 = 刷新必丢；
-   这直接决定持久化条目该怎么设计探针。
-4. **modal / 表单构造** —— 无 `<input>` 与提交逻辑的 modal = 空壳。
+1. **Event bindings and the entry list** — a button with no binding at all is a decorative-button suspect.
+2. **Route mapping** (switch / hash routing → render functions).
+3. **Where state lives** — localStorage / backend API / in-memory variables. In-memory state is guaranteed to be lost on reload; this directly decides how to design the probes for persistence items.
+4. **Modal / form construction** — a modal with no `<input>` and no submit logic is a shell.
 
-### 3. 逐条验证
+### 3. Item-by-item verification
 
-对每条要求：
+For each requirement:
 
-1. `observe` 记录起点。
-2. 用 `click` / `type_text` / `scroll` / `key` / `press_enter` 按清单
-   `steps` 走真实用户路径。
-3. 关键节点再 `observe`，用截图确认状态变化。
-4. 走不通时**主动换路径重试**：清单描述的入口可能被复现放到了别处，先找一遍
-   （返回、换导航、滚动列表、检查其他 Tab）再判失效。
-5. `record_result` 给出判定。
+1. `observe` to record the starting point.
+2. Use `click` / `type_text` / `scroll` / `key` / `press_enter` to walk the real user path per the checklist `steps`.
+3. `observe` again at key points, confirming state changes with screenshots.
+4. When a path does not work, **actively try alternative routes**: the entry described by the checklist may have been placed elsewhere in the reproduction — search for it first (go back, switch navigation, scroll the list, check other tabs) before grading it broken.
+5. `record_result` to give the verdict.
 
-### 4. 四档判定标准（与 app-review 及旧版网页评审完全对齐）
+### 4. The four tiers (fully aligned with app-review and the legacy web review)
 
-| 档位 | 旧版符号 | 含义 | 典型场景 |
+| Tier | Legacy notation | Meaning | Typical scenario |
 |---|---|---|---|
-| `full` | ✅ 完整 | 功能在可见行为上达成目标，含状态变化与必要持久化 | 收藏后列表出现该文档，刷新后仍在 |
-| `partial` | 🟡 部分 | 主要路径可用，但缺分支、缺校验或部分子流程不可用 | 能搜索但筛选无效；能保存但刷新即丢 |
-| `placeholder` | ⚪ 占位 | 界面存在但没有真实行为 | 按钮点了没反应、表单提交后数据不变、页面永远是同一份静态内容 |
-| `broken` | ❌ 失效 | 入口缺失、报错或完全无法进入 | 点进去空白、控制台级崩溃、找遍全站没有该功能 |
+| `full` | ✅ Complete | The function achieves its goal in visible behavior, including state change and required persistence | After favoriting, the document appears in the list and is still there after reload |
+| `partial` | 🟡 Partial | Main path works but branches, validation, or sub-flows are missing | Search works but filters do nothing; save works but is lost on reload |
+| `placeholder` | ⚪ Placeholder | UI exists but behavior is fake | Button does nothing when clicked; form submits but data never changes; the page is always the same static content |
+| `broken` | ❌ Broken | Entry missing, error, or completely unreachable | Blank page, console-level crash, or the feature cannot be found anywhere on the site |
 
-### 5. 必须识别的三类假象
+### 5. The three illusions you must catch
 
-**假保存**：写操作后界面变了，但数据没落地。
-→ 必须 `reload`（或 `reset_browser` / `BrowserBack` 后重入）后再 `observe`
-复核。变更消失即为 `placeholder`，不是 `full`。
+**Fake save**: the UI changes after a write, but the data is not persisted.
+→ You must `reload` (or `reset_browser` / `BrowserBack` and re-enter) and `observe` again. If the change disappears it is `placeholder`, not `full`.
 
-**空壳页面**：页面能打开，但内容是硬编码的同一份，与你的操作无关。
-→ 换不同入口进入同一页面，或先修改数据再回看。内容不随操作变化即为
-`placeholder`。
+**Shell page**: the page opens, but its content is the same hard-coded content, unrelated to your actions.
+→ Enter the same page from a different entry, or change data first and look again. If the content does not follow the action it is `placeholder`.
 
-**装饰按钮**：图标齐全、点击无任何可见反馈。
-→ 点击前后各 `observe` 一次对比。截图完全一致且无任何提示，判 `placeholder`。
+**Decorative button**: full icon set, no visible feedback when clicked.
+→ `observe` once before and once after the click and compare. If the screenshots are identical with no hint at all, grade `placeholder`.
 
-### 6. 持久化要求的三段证据
+### 6. Three-stage evidence for persistence requirements
 
-清单中标记 `persistence: true` 的要求，判 `full` 时**必须**提交三段证据：
+For requirements marked `persistence: true`, grading `full` **requires** three pieces of evidence:
 
-1. 写操作**前** `observe` → 记为 `before_observation`
-2. 完成写操作（保存/发布/收藏）后 `observe` → 记为 `after_observation`
-3. `reload`（或 `reset_browser` / `BrowserBack` 后重入）后 `observe` → 记为
-   `persisted_observation`
+1. `observe` **before** the write → record as `before_observation`
+2. `observe` after completing the write (save/publish/favorite) → `after_observation`
+3. `observe` after `reload` (or `reset_browser` / `BrowserBack` and re-entering) → `persisted_observation`
 
 ```text
 record_result(
   requirement_id="doc_edit_persistence", grade="full",
-  rationale="编辑正文后保存，标题与新增内容立即呈现；reload 后仍保持编辑后状态。",
+  rationale="After editing the body and saving, the title and the new content appear immediately; they are still there after reload.",
   evidence_observations=[3, 5, 8],
   persistence_evidence={"before_observation": 3,
                         "after_observation": 5,
                         "persisted_observation": 8})
 ```
 
-服务端只做结构校验（有写类交互、截图确有变化、有 reload/重入探针、persisted
-未退回 before）。**数据语义正确与否由你判断**，请在 `rationale` 如实描述看到
-的具体变化。若刷新后变更消失，直接判 `placeholder` 并说明，不要提交
-persistence_evidence。
+The server only does structural validation (a write-class interaction happened, the screenshots did change, there is a reload/re-entry probe, and persisted did not fall back to before). **Whether the data semantics are correct is for you to judge** — describe the concrete changes you saw truthfully in `rationale`. If the change disappears after reload, grade `placeholder` directly and explain; do not submit persistence_evidence.
 
-### 7. 单机黑盒无法验证的要求
+### 7. Requirements a single-machine black box cannot verify
 
-清单中标记 `multi_user: true` 的要求（涉及第二个用户、外部访问者、跨账号
-同步等），单台浏览器无法完整验证。此时**必须**填写 `not_verifiable_reason`，
-说明：
+Requirements marked `multi_user: true` (involving a second user, an external visitor, cross-account sync, etc.) cannot be fully verified in a single browser. You **must** fill in `not_verifiable_reason`, stating:
 
-- 你能确认的部分（如：发起端界面正常、本侧状态变化正确）
-- 你无法确认的部分（如：另一账号是否收到通知）
+- what you could confirm (e.g. the initiating side's UI is normal, local state changes correctly)
+- what you could not confirm (e.g. whether the other account received a notification)
 
-并据此给出保守判定（通常 `partial`，而非 `full` 或 `broken`）。
+and give a conservative grade accordingly (usually `partial`, not `full` or `broken`).
 
-### 8. 完成
+### 8. Finish
 
-全部要求评完后调用 `finish_evaluation`。有未评项会被拒绝——不要跳过难验证
-的要求，按上面规则给出保守判定即可。报告写入
-`website_output/evaluations/<run_id>/evaluation_report.json`（含清单与交接
-目录哈希，可直接与 app-review 报告横向比较）。
+After all requirements are graded, call `finish_evaluation`. Unrated items will be rejected — do not skip hard-to-verify requirements; give a conservative verdict per the rules above. The report is written to `website_output/evaluations/<run_id>/evaluation_report.json` (including checklist and handoff-directory hashes, directly comparable with app-review reports).
 
-## 判定纪律
+## Grading discipline
 
-- `rationale` 必须描述**你实际看到的**可见行为，不写"应该"、"可能"、"推测"。
-- 不确定时降级而非升级：拿不准 `full` 还是 `partial`，选 `partial` 并说明疑点。
-- 不因为产物"看起来很完整"就宽松给分；也不因为"和原站不像"就严苛扣分。
-- 每项独立验证：开始新条目前回到干净状态（返回上级 / reload），避免上一条
-  的弹层或筛选残留污染下一条。
+- `rationale` must describe the **visible behavior you actually saw**; never write "should", "might", or "presumably".
+- When unsure, downgrade rather than upgrade: if torn between `full` and `partial`, choose `partial` and state the doubt.
+- Do not grade leniently because the artifact "looks complete", nor harshly because it "does not look like the original site".
+- Verify each item independently: return to a clean state before starting a new item (go back / reload) so that a previous overlay or filter does not pollute the next item.
 
-## Few-shot 示例（语雀清单）
+## Few-shot examples (Yuque checklist)
 
-以下示例基于 `review_specs/yuque_web.json` 的真实条目，演示操作-观察序列与
-四档判定口径。
+The examples below are based on real entries of `review_specs/yuque_web.json`, demonstrating operation-observation sequences and four-tier conventions.
 
-### 示例 1：doc_edit_persistence（文档编辑与持久化闭环，persistence: true）
+### Example 1: doc_edit_persistence (document editing and persistence loop, persistence: true)
 
-操作序列：进入文档 `observe(#1)` → 点编辑 → `type_text` 输入标记文本 → 点
-完成/保存 → `observe(#2)` → `reload` → `observe(#3)`。
+Sequence: open the document `observe(#1)` → click Edit → `type_text` a marker string → click Done/Save → `observe(#2)` → `reload` → `observe(#3)`.
 
-- `full ✅`：#2 正文出现标记文本；#3 reload 后仍在。rationale 写"编辑保存后
-  正文含新增内容，刷新后保持"，persistence_evidence={before:1, after:2,
-  persisted:3}。
-- `partial 🟡`：编辑与保存正常，但 reload 后内容回退（写只在内存，刷新即丢）
-  ——主链路可用、持久化断，判 partial 而非 placeholder（编辑功能本身是真实
-  的）。
-- `placeholder ⚪`：能打字、有完成按钮、提示"已保存"，但正文从未出现输入的
-  内容（编辑器是装饰）。
-- `broken ❌`：找不到编辑入口，或点击编辑无任何反应。
+- `full ✅`: the marker text appears in the body of #2; it is still there after the reload in #3. rationale: "After editing and saving, the body contains the new content and it survives the reload", persistence_evidence={before:1, after:2, persisted:3}.
+- `partial 🟡`: editing and saving work, but the content reverts after reload (the write is memory-only, lost on refresh) — the main chain works and persistence is broken; grade partial, not placeholder (the editing feature itself is real).
+- `placeholder ⚪`: you can type, there is a Done button, and it says "saved", but the body never shows the typed content (the editor is decorative).
+- `broken ❌`: no edit entry can be found, or clicking Edit does nothing.
 
-### 示例 2：multi_filter（多维组合筛选）
+### Example 2: multi_filter (multi-dimensional combined filtering)
 
-操作序列：列表页 `observe(#1)` → 点类型筛选 → `observe(#2)` → 叠加归属与
-创建者条件 → `observe(#3)` → 删除一个条件 → `observe(#4)`。
+Sequence: list page `observe(#1)` → click a type filter → `observe(#2)` → add owner and creator conditions → `observe(#3)` → remove one condition → `observe(#4)`.
 
-- `full ✅`：#2 列表按类型收敛；#3 组合条件进一步收敛（结果 ⊆ #2 结果）；
-  #4 删除条件后结果实时扩大回正确集合。
-- `partial 🟡`：单条件筛选有效，但组合条件时其中一个维度被忽略，或删除
-  条件后列表不刷新（主路径可用、分支缺失）。
-- `placeholder ⚪`：筛选控件可点击、高亮会变，但列表内容始终不变。
-- `broken ❌`：页面上根本没有筛选入口。
+- `full ✅`: in #2 the list narrows by type; in #3 the combined conditions narrow it further (result ⊆ #2's result); in #4 removing a condition widens the result back live to the correct set.
+- `partial 🟡`: single-condition filtering works, but with combined conditions one dimension is ignored, or the list does not refresh after removing a condition (main path works, branch missing).
+- `placeholder ⚪`: filter controls are clickable and their highlight changes, but the list content never changes.
+- `broken ❌`: there is no filter entry on the page at all.
 
-### 示例 3：note_capture_publish（小记快速捕获与发布，persistence: true）
+### Example 3: note_capture_publish (quick note capture and publish, persistence: true)
 
-操作序列：小记输入区 `observe(#1)` → `type_text` 输入内容 → 按
-`press_enter`（Ctrl+Enter 语义）或点发布 → `observe(#2)` → `reload` →
-`observe(#3)`。
+Sequence: note input area `observe(#1)` → `type_text` the content → `press_enter` (Ctrl+Enter semantics) or click Publish → `observe(#2)` → `reload` → `observe(#3)`.
 
-- `full ✅`：#2 新小记出现在列表且输入区清空；#3 reload 后小记仍在。
-  persistence_evidence={before:1, after:2, persisted:3}。
-- `partial 🟡`：发布成功且刷新保留，但输入区不复位，或只有按钮发布可用、
-  Ctrl+Enter 无效。
-- `placeholder ⚪`：点发布后列表闪现新条目又消失，或 reload 后消失（未落地）。
-- `broken ❌`：小记入口缺失或发布按钮无响应。
+- `full ✅`: in #2 the new note appears in the list and the input area is cleared; in #3 the note is still there after reload. persistence_evidence={before:1, after:2, persisted:3}.
+- `partial 🟡`: publishing works and survives the refresh, but the input area does not reset, or only the button publishes while Ctrl+Enter does nothing.
+- `placeholder ⚪`: after clicking Publish the list flashes the new entry and it disappears, or it is gone after reload (never landed).
+- `broken ❌`: the note entry is missing or the publish button does not respond.
 
-### 示例 4：favorite_sorting_sync（收藏组织、排序与双向状态）
+### Example 4: favorite_sorting_sync (favorites organization, sorting, and two-way state)
 
-操作序列：收藏页 `observe(#1)` → 切换按名称/时间排序 → `observe(#2)` → 取消
-一个收藏 → `observe(#3)` → 回到原对象查看图标 `observe(#4)`。
+Sequence: favorites page `observe(#1)` → switch sorting by name/time → `observe(#2)` → unfavorite one item → `observe(#3)` → go back to the original object and inspect its icon `observe(#4)`.
 
-- `full ✅`：#2 排序顺序正确变化；#3 该项从收藏列表移除；#4 原对象的收藏
-  图标同步变为未收藏。
-- `partial 🟡`：排序与取消都正常，但原对象的图标不同步（双向状态断了一半）。
-- `placeholder ⚪`：排序控件可点但列表顺序不变；或"取消收藏"后该项仍在列表。
-- `broken ❌`：没有收藏页或排序/取消入口。
+- `full ✅`: in #2 the sort order changes correctly; in #3 the item is removed from the favorites list; in #4 the original object's favorite icon is synced to un-favorited.
+- `partial 🟡`: sorting and unfavoriting both work, but the original object's icon is not synced (the two-way state is half broken).
+- `placeholder ⚪`: sort controls are clickable but the list order never changes; or the item remains in the list after "unfavorite".
+- `broken ❌`: no favorites page, or no sorting/unfavorite entries.
 
-### 示例 5：garden_visibility（花园公开/私密发布状态，multi_user: true）
+### Example 5: garden_visibility (garden public/private publishing state, multi_user: true)
 
-操作序列：花园设置 `observe(#1)` → Owner 切换 Public → `observe(#2)` → 再
-切回 Private → `observe(#3)`。
+Sequence: garden settings `observe(#1)` → Owner switches to Public → `observe(#2)` → switch back to Private → `observe(#3)`.
 
-- `full ✅`：单机只能验证 Owner 侧开关状态与保存行为。除非产物提供可切换的
-  第二视角，外部可见性无法确认 → 通常不给 full。
-- `partial 🟡`：开关可切换、状态保存且刷新保持，但外部访问者视角无法在单机
-  验证。not_verifiable_reason 写"已确认 Owner 侧状态切换与保存；外部访问者
-  是否可见需要第二账号，单机无法验证"。这是该类要求的典型保守判法。
-- `placeholder ⚪`：开关 UI 存在但切换后状态不保存（回到设置页永远显示旧值）。
-- `broken ❌`：找不到花园可见性设置入口。
+- `full ✅`: a single machine can only verify the Owner-side switch state and save behavior. Unless the artifact provides a switchable second viewpoint, external visibility cannot be confirmed → usually not full.
+- `partial 🟡`: the switch toggles, the state saves and survives a refresh, but the external-visitor view cannot be verified on a single machine. not_verifiable_reason: "Confirmed the Owner-side state switch and save; whether it is visible to an external visitor requires a second account and cannot be verified on a single machine." This is the typical conservative verdict for such requirements.
+- `placeholder ⚪`: the toggle UI exists but the state is not saved after toggling (returning to the settings page always shows the old value).
+- `broken ❌`: no garden-visibility settings entry can be found.
 
-### 通用判定口诀（与 app-review 一致）
+### General rules of thumb (aligned with app-review)
 
-- 提示说"已保存/已创建/已发布" → 必须 reload 后回查可见状态，状态没变即
-  `placeholder ⚪`，绝不因提示文案给分。
-- 写类操作判 `full` 的唯一标准：reload（或重入）后状态仍正确，不是"当时看
-  起来对"。
-- 拿不准 `full` 还是 `partial` 时选 `partial` 并写明疑点；入口找不到时先换
-  路径找一遍（返回、换导航、滚动、检查其他 Tab）再判 `broken`。
-- 源码侦察告诉你"应该能工作"≠它工作：屏幕上走不通就按屏幕判。
+- A toast saying "saved/created/published" → you must reload and re-check the visible state; if the state did not change it is `placeholder ⚪` — never award points for the wording of a toast.
+- The only standard for grading a write-class operation `full`: the state is still correct after reload (or re-entry) — not "it looked right at the time".
+- When torn between `full` and `partial`, choose `partial` and note the doubt; when an entry cannot be found, first try other paths (go back, switch navigation, scroll, check other tabs) before grading `broken`.
+- Source reconnaissance telling you "it should work" ≠ it works: if the screen does not carry it, judge by the screen.

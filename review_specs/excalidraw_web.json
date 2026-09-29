@@ -4,425 +4,425 @@
   "features": [
     {
       "id": "f01",
-      "name": "基础图形",
+      "name": "Basic shapes",
       "steps": [
-        "在空画布创建一个矩形、菱形和椭圆，并保证三者互不重叠。"
+        "Create a rectangle, a diamond, and an ellipse on an empty canvas, ensuring they do not overlap."
       ],
-      "expected": "矩形、菱形和椭圆必须全部创建成功且互不重叠；三者类型正确可辨识。",
+      "expected": "The rectangle, diamond, and ellipse must all be created successfully without overlapping; the three types are correctly distinguishable.",
       "persistence": false
     },
     {
       "id": "f02",
-      "name": "基础线条",
+      "name": "Basic lines",
       "steps": [
-        "创建一条直线和一条带箭头的连接线。"
+        "Create a straight line and a connecting line with an arrowhead."
       ],
-      "expected": "直线和带箭头的连接线必须正确创建；箭头端点样式正确显示。",
+      "expected": "The straight line and the arrowed connector must be created correctly; the arrowhead style is displayed correctly.",
       "persistence": false
     },
     {
       "id": "f03",
-      "name": "文本",
+      "name": "Text",
       "steps": [
-        "创建文本 Start，设置为大号字体，并改为居中对齐。"
+        "Create the text Start, set a large font size, and change it to center alignment."
       ],
-      "expected": "文本 Start 必须创建为指定字体大小并居中对齐；样式设置生效。",
+      "expected": "The text Start must be created with the specified font size and center alignment; the style settings take effect.",
       "persistence": false
     },
     {
       "id": "f04",
-      "name": "自由绘制",
+      "name": "Freehand drawing",
       "steps": [
-        "使用自由绘制工具画出一条连续曲线。"
+        "Draw a continuous curve with the freehand tool."
       ],
-      "expected": "自由绘制必须生成一条连续曲线；不能断线或跳点。",
+      "expected": "Freehand drawing must produce one continuous curve; it must not break or skip points.",
       "persistence": false
     },
     {
       "id": "f05",
-      "name": "元素移动",
+      "name": "Moving elements",
       "steps": [
-        "创建三个对象，然后把中间对象移动到另外两个对象下方。"
+        "Create three objects, then move the middle object below the other two."
       ],
-      "expected": "三个对象正确创建；中间对象必须移动到另外两个下方；层级调整正确。",
+      "expected": "The three objects are created correctly; the middle object must be moved below the other two; the layer adjustment is correct.",
       "persistence": false
     },
     {
       "id": "f06",
       "name": "Resize",
       "steps": [
-        "创建一个矩形，将其宽度扩大、高度缩小，但保持对象类型不变。"
+        "Create a rectangle, increase its width and reduce its height while keeping the object type unchanged."
       ],
-      "expected": "矩形宽度扩大、高度缩小后对象类型保持不变；尺寸变化正确反映。",
+      "expected": "After increasing the rectangle's width and reducing its height the object type stays unchanged; the size changes are correctly reflected.",
       "persistence": true
     },
     {
       "id": "f07",
-      "name": "多选",
+      "name": "Multi-select",
       "steps": [
-        "创建四个对象，仅选中其中三个并整体移动，第四个保持原位置。"
+        "Create four objects, select only three of them and move them together while the fourth stays in place."
       ],
-      "expected": "仅三个对象被选中并整体移动；第四个保持原位置不变。",
+      "expected": "Only the three objects are selected and moved together; the fourth stays in its original position.",
       "persistence": true
     },
     {
       "id": "f08",
       "name": "Lasso selection",
       "steps": [
-        "使用套索选择跨越多个位置的三个对象，并同时移动它们。"
+        "Use the lasso to select three objects spread across several positions and move them together."
       ],
-      "expected": "套索必须准确选中跨越多个位置的三个对象；移动后位置正确。",
+      "expected": "The lasso must accurately select the three objects spread across several positions; after moving, the positions are correct.",
       "persistence": false
     },
     {
       "id": "f09",
       "name": "Stroke styling",
       "steps": [
-        "创建矩形并修改描边颜色、描边粗细和边框样式。"
+        "Create a rectangle and change its stroke color, stroke width, and border style."
       ],
-      "expected": "描边颜色、粗细和边框样式必须正确应用；其他属性不受影响。",
+      "expected": "The stroke color, width, and border style must be applied correctly; other properties are unaffected.",
       "persistence": false
     },
     {
       "id": "f10",
       "name": "Fill styling",
       "steps": [
-        "创建一个矩形，设置绿色背景填充，同时保留深色描边。"
+        "Create a rectangle, set a green background fill while keeping the dark stroke."
       ],
-      "expected": "绿色填充生效且深色描边保留；填充与描边互不覆盖。",
+      "expected": "The green fill takes effect while the dark stroke is kept; the fill and stroke do not override each other.",
       "persistence": false
     },
     {
       "id": "f11",
       "name": "Roughness / line style",
       "steps": [
-        "创建两个相同图形，一个使用较平滑风格，一个使用明显手绘风格。"
+        "Create two identical shapes, one with a smoother style and one with a clearly hand-drawn style."
       ],
-      "expected": "两个图形风格可明显区分（平滑 vs 手绘）；roughness 设置生效。",
+      "expected": "The two shapes have clearly distinguishable styles (smooth vs hand-drawn); the roughness setting takes effect.",
       "persistence": false
     },
     {
       "id": "f12",
       "name": "Opacity",
       "steps": [
-        "创建两个重叠图形，将上层图形透明度降低，使下层图形可见。"
+        "Create two overlapping shapes and lower the upper shape's transparency so the lower one becomes visible."
       ],
-      "expected": "上层图形透明度降低后下层图形可见；透明度设置正确。",
+      "expected": "After lowering the transparency of the upper shape the lower shape becomes visible; the transparency setting is correct.",
       "persistence": false
     },
     {
       "id": "f13",
       "name": "Rounded corners",
       "steps": [
-        "创建两个矩形，一个使用直角，一个使用圆角。"
+        "Create two rectangles, one with sharp corners and one with rounded corners."
       ],
-      "expected": "两个矩形的圆角设置正确区分（直角 / 圆角）。",
+      "expected": "The two rectangles' corner settings are correctly distinguished (sharp / rounded).",
       "persistence": false
     },
     {
       "id": "f14",
       "name": "Layer ordering",
       "steps": [
-        "创建三个重叠图形，通过 Bring forward / Send backward 调整最终层级，使指定对象位于最上方。"
+        "Create three overlapping shapes and adjust the final layering with Bring forward / Send backward so the specified object is on top."
       ],
-      "expected": "通过 Bring forward / Send backward 调整后，指定对象位于最上方；层级顺序正确。",
+      "expected": "After adjusting with Bring forward / Send backward the specified object is on top; the layer order is correct.",
       "persistence": false
     },
     {
       "id": "f15",
       "name": "Duplicate",
       "steps": [
-        "创建一个对象，复制两次，并将三个副本排列成一行。"
+        "Create one object, duplicate it twice, and arrange the three copies in a row."
       ],
-      "expected": "复制两次后共三个副本；排列成一行且位置正确。",
+      "expected": "After duplicating twice there are three copies; they are arranged in a row with correct positions.",
       "persistence": false
     },
     {
       "id": "f16",
       "name": "Delete + Undo",
       "steps": [
-        "创建三个对象，删除其中一个，再通过 Undo 恢复，并验证其位置和样式恢复。"
+        "Create three objects, delete one, restore it with Undo, and verify that its position and style are restored."
       ],
-      "expected": "Undo 恢复被删除对象；位置和样式与原状态一致。",
+      "expected": "Undo restores the deleted object; its position and style match the original state.",
       "persistence": false
     },
     {
       "id": "f17",
       "name": "Arrow styling",
       "steps": [
-        "创建一条箭头，设置弯曲路径、更换箭头端点样式，并修改线条粗细。"
+        "Create an arrow, set a curved path, change the arrowhead style, and modify the line width."
       ],
-      "expected": "箭头弯曲路径、端点样式和线条粗细必须正确应用。",
+      "expected": "The arrow's curved path, arrowhead style, and line width must be applied correctly.",
       "persistence": false
     },
     {
       "id": "f18",
       "name": "Connector binding",
       "steps": [
-        "创建两个矩形，用箭头连接两者；移动任意一个矩形后，箭头仍然连接到对应对象。"
+        "Create two rectangles and connect them with an arrow; after moving either rectangle the arrow remains connected to the corresponding object."
       ],
-      "expected": "箭头必须正确绑定两个矩形；移动任一矩形后箭头仍连接对应对象。",
+      "expected": "The arrow must be correctly bound to the two rectangles; after moving either rectangle the arrow remains connected to the corresponding object.",
       "persistence": false
     },
     {
       "id": "f19",
       "name": "Multi-step binding",
       "steps": [
-        "创建 A、B、C 三个节点，形成 A",
+        "Create three nodes A, B, and C forming A",
         "B",
-        "C；随后交换 B 和 C 的位置，并保持连接关系正确。"
+        "C; then swap the positions of B and C while keeping the connections correct."
       ],
-      "expected": "A → B → C 连接正确；交换 B 和 C 位置后连接关系保持正确。",
+      "expected": "A → B → C connections are correct; after swapping the positions of B and C the connections remain correct.",
       "persistence": true
     },
     {
       "id": "f20",
       "name": "Frame",
       "steps": [
-        "创建一个 Frame，并在 Frame 内放入文本、矩形和箭头三个元素。"
+        "Create a frame and put text, a rectangle, and an arrow inside it."
       ],
-      "expected": "Frame 内必须包含文本、矩形和箭头三个元素；归属正确。",
+      "expected": "The frame must contain three elements—text, a rectangle, and an arrow—with correct ownership.",
       "persistence": false
     },
     {
       "id": "f21",
       "name": "Frame movement",
       "steps": [
-        "创建一个 Frame 和三个内部对象；移动 Frame 后，内部元素应与 Frame 一起移动。"
+        "Create a frame and three objects inside it; when the frame is moved, the inner elements must move with it."
       ],
-      "expected": "移动 Frame 时内部元素必须一起移动；相对位置保持。",
+      "expected": "When the frame is moved its inner elements must move together; the relative positions are preserved.",
       "persistence": false
     },
     {
       "id": "f22",
       "name": "Frame containment",
       "steps": [
-        "创建两个 Frame，把一个对象从 Frame A 移入 Frame B，并验证最终只归属 B。"
+        "Create two frames, move an object from frame A into frame B, and verify that it finally belongs only to B."
       ],
-      "expected": "对象从 Frame A 移入 Frame B 后只归属 B；不能同时属于两个 Frame。",
+      "expected": "After an object is moved from frame A into frame B it belongs only to B; it cannot belong to two frames at once.",
       "persistence": false
     },
     {
       "id": "f23",
       "name": "Mixed diagram",
       "steps": [
-        "构建一个包含 Input",
+        "Build a flow containing Input",
         "Process",
-        "Output 的流程图，节点分别使用矩形、菱形和椭圆，并通过箭头正确连接。"
+        "An Output flow diagram whose nodes use rectangles, diamonds, and ellipses respectively, correctly connected by arrows."
       ],
-      "expected": "流程图三个节点类型正确（矩形 / 菱形 / 椭圆）且箭头连接正确。",
+      "expected": "The flow diagram's three node types are correct (rectangle / diamond / ellipse) and the arrows are connected correctly.",
       "persistence": false
     },
     {
       "id": "f24",
       "name": "Complex styling",
       "steps": [
-        "将三个流程节点分别设置不同填充色，但统一描边宽度、线条风格和字体。"
+        "Set different fill colors for the three flow nodes while unifying the stroke width, line style, and font."
       ],
-      "expected": "三个节点填充色不同但描边宽度、线条风格和字体统一；样式应用一致。",
+      "expected": "The three nodes have different fill colors but a uniform stroke width, line style, and font; the styling is applied consistently.",
       "persistence": false
     },
     {
       "id": "f25",
       "name": "Search on canvas",
       "steps": [
-        "创建多个文本元素，其中只有一个包含 Database，使用“在画布上查找”定位它。"
+        "Create several text elements, only one of which contains Database, and locate it with \"Find on canvas\"."
       ],
-      "expected": "「在画布上查找」必须准确定位包含 Database 的文本元素。",
+      "expected": "\"Find on canvas\" must accurately locate the text element containing Database.",
       "persistence": false
     },
     {
       "id": "f26",
       "name": "Zoom / pan",
       "steps": [
-        "在相距较远的位置创建两个对象，通过缩放和平移从一个对象导航到另一个对象，且不修改对象。"
+        "Create two objects far apart and navigate from one to the other by zooming and panning without modifying the objects."
       ],
-      "expected": "缩放和平移可导航到另一个对象；对象本身不被修改。",
+      "expected": "Zooming and panning allows navigation to the other object; the objects themselves are not modified.",
       "persistence": false
     },
     {
       "id": "f27",
       "name": "Theme",
       "steps": [
-        "将编辑器切换至深色主题，再切回浅色主题，确保场景元素未被修改。"
+        "Switch the editor to the dark theme and back to the light theme, ensuring the scene elements are not modified."
       ],
-      "expected": "主题切换（深色 / 浅色）不影响场景元素；元素属性保持不变。",
+      "expected": "Theme switching (dark / light) does not affect scene elements; element properties stay unchanged.",
       "persistence": false
     },
     {
       "id": "f28",
       "name": "Canvas background",
       "steps": [
-        "修改画布背景颜色，并验证已有元素的颜色和属性不发生变化。"
+        "Change the canvas background color and verify that existing elements' colors and properties do not change."
       ],
-      "expected": "画布背景颜色修改后已有元素的颜色和属性不变。",
+      "expected": "After changing the canvas background color the existing elements' colors and properties stay unchanged.",
       "persistence": false
     },
     {
       "id": "f29",
       "name": "Local image import",
       "steps": [
-        "给定 benchmark 本地图片 fixture，将图片插入画布，缩放并放入指定 Frame。"
+        "Given the benchmark's local image fixture, insert the image into the canvas, scale it, and place it into the specified frame."
       ],
-      "expected": "本地图片必须成功插入画布；缩放并放入指定 Frame 后归属正确。",
+      "expected": "The local image must be inserted into the canvas successfully; after scaling and placing it into the specified frame the ownership is correct.",
       "persistence": false
     },
     {
       "id": "f30",
       "name": "Save / reopen",
       "steps": [
-        "创建包含形状、文本、箭头和 Frame 的场景，保存为 Excalidraw 文件，再重新打开并验证结构和位置基本保持。"
+        "Create a scene containing shapes, text, arrows, and a frame, save it as an Excalidraw file, then reopen it and verify that the structure and positions are essentially preserved."
       ],
-      "expected": "保存为 Excalidraw 文件后重新打开；结构和位置基本保持。",
+      "expected": "Save as an Excalidraw file and reopen it; the structure and positions are essentially preserved.",
       "persistence": true
     },
     {
       "id": "f31",
       "name": "Export PNG",
       "steps": [
-        "创建指定场景并导出 PNG，验证导出的图像中包含所有预期可见元素。"
+        "Create the specified scene and export a PNG, verifying that the exported image contains all expected visible elements."
       ],
-      "expected": "导出的 PNG 必须包含所有预期可见元素；图像完整。",
+      "expected": "The exported PNG must contain all expected visible elements; the image is complete.",
       "persistence": false
     },
     {
       "id": "f32",
       "name": "Reset canvas",
       "steps": [
-        "创建多个元素后执行“重置画布”，验证场景被清空。"
+        "After creating several elements, run \"reset canvas\" and verify the scene is cleared."
       ],
-      "expected": "「重置画布」后场景被清空；不能残留元素。",
+      "expected": "After \"reset canvas\" the scene is cleared; no elements remain.",
       "persistence": false
     },
     {
       "id": "f33",
       "name": "Bucket fill",
       "steps": [
-        "创建一个封闭图形后使用 Bucket Fill 修改内部填充，而不改变其他对象。"
+        "Create a closed shape and then use Bucket Fill to change the interior fill without altering other objects."
       ],
-      "expected": "Bucket Fill 只修改封闭图形内部填充；其他对象不受影响。",
+      "expected": "Bucket Fill only changes the interior fill of a closed shape; other objects are unaffected.",
       "persistence": false
     },
     {
       "id": "f34",
       "name": "Draw-to-shape",
       "steps": [
-        "使用自由绘制创建近似几何轮廓，再通过 Draw to Shape 转换为标准几何对象。"
+        "Use freehand drawing to create an approximate geometric outline, then convert it into a standard geometric object via Draw to Shape."
       ],
-      "expected": "自由绘制的轮廓必须通过 Draw to Shape 转换为标准几何对象。",
+      "expected": "The freehand outline must be converted into a standard geometric object via Draw to Shape.",
       "persistence": false
     },
     {
       "id": "f35",
       "name": "End-to-end diagram",
       "steps": [
-        "构建 User",
+        "Build User",
         "Login",
         "Validate",
-        "Dashboard / Error 流程图，包含 5 个节点、条件分支、文本、箭头、颜色区分和一个外层 Frame。"
+        "A Dashboard / Error flow diagram containing 5 nodes, conditional branches, text, arrows, color differentiation, and an outer frame."
       ],
-      "expected": "流程图必须包含 5 个节点、条件分支、文本、箭头、颜色区分和外层 Frame；结构完整正确。",
+      "expected": "The flow diagram must contain 5 nodes, conditional branches, text, arrows, color differentiation, and an outer frame; the structure is complete and correct.",
       "persistence": false
     },
     {
       "id": "f36",
       "name": "End-to-end edit",
       "steps": [
-        "在上一任务结果上，将 Validate 节点移到另一位置、增加一个 Retry 节点、重新连接流程，并保证原样式体系不变。"
+        "On the result of the previous task, move the Validate node to another position, add a Retry node, reconnect the flow, and ensure the original styling system stays unchanged."
       ],
-      "expected": "Validate 节点移位、新增 Retry 节点并重新连接后，原样式体系保持不变。",
+      "expected": "After moving the Validate node, adding a Retry node, and reconnecting them, the original styling system stays unchanged.",
       "persistence": false
     },
     {
       "id": "f37",
       "name": "Persistence round trip",
       "steps": [
-        "完成一个 8+ 元素场景，保存、清空画布、重新打开文件，再导出 PNG，并验证最终场景结构仍正确。"
+        "Complete a scene with 8+ elements, save it, clear the canvas, reopen the file, export a PNG, and verify that the final scene structure is still correct."
       ],
-      "expected": "保存、清空、重新打开后再导出 PNG；最终场景结构仍正确。",
+      "expected": "Save, clear the canvas, reopen, and then export PNG; the final scene structure is still correct.",
       "persistence": false
     },
     {
       "id": "f38",
       "name": "Layer + frame + binding",
       "steps": [
-        "创建两个 Frame，每个包含多个节点；建立跨 Frame 箭头连接，改变节点位置和图层顺序后仍保持正确连接和视觉层级。"
+        "Create two frames, each containing several nodes; establish cross-frame arrow connections that remain correct in both connection and visual layering after changing node positions and layer order."
       ],
-      "expected": "跨 Frame 箭头连接正确；改变节点位置和图层顺序后连接与视觉层级保持正确。",
+      "expected": "Cross-frame arrow connections are correct; after changing node positions and layer order the connections and visual layering stay correct.",
       "persistence": true
     }
   ],
   "exclusions": [
     {
-      "feature": "实时协作",
+      "feature": "Real-time collaboration",
       "treatment": "Hard Exclude",
-      "reason": "需要多客户端、网络同步、presence、冲突解决。",
+      "reason": "Requires multiple clients, network sync, presence, and conflict resolution.",
       "covered_by": []
     },
     {
-      "feature": "邀请协作者",
+      "feature": "Invite collaborators",
       "treatment": "Hard Exclude",
-      "reason": "涉及第二账号、权限和服务器状态。",
+      "reason": "It involves a second account, permissions, and server state.",
       "covered_by": []
     },
     {
-      "feature": "分享协作链接",
+      "feature": "Share a collaboration link",
       "treatment": "Hard Exclude",
-      "reason": "依赖外部服务和多用户状态。",
+      "reason": "Depends on external services and multi-user state.",
       "covered_by": []
     },
     {
       "feature": "Excalidraw+",
       "treatment": "Hard Exclude",
-      "reason": "属于额外云端产品，不是基础 editor。",
+      "reason": "It belongs to an extra cloud product and is not the basic editor.",
       "covered_by": []
     },
     {
-      "feature": "Plus 云端 workspace",
+      "feature": "Plus cloud workspace",
       "treatment": "Hard Exclude",
-      "reason": "需要账号、云存储和订阅系统。",
+      "reason": "Requires accounts, cloud storage, and a subscription system.",
       "covered_by": []
     },
     {
       "feature": "Text to Diagram AI",
       "treatment": "Hard Exclude",
-      "reason": "生成式结果不确定。官方也将其归入 Generative AI。Excalidraw+",
+      "reason": "The generative result is non-deterministic. The official documentation also classifies it as Generative AI. Excalidraw+",
       "covered_by": []
     },
     {
       "feature": "Wireframe to Code AI",
       "treatment": "Hard Exclude",
-      "reason": "需要生成模型和代码执行能力。Excalidraw+",
+      "reason": "Requires a generative model and code-execution capability. Excalidraw+",
       "covered_by": []
     },
     {
-      "feature": "AI 文字至图表",
+      "feature": "AI text to diagram",
       "treatment": "Hard Exclude",
-      "reason": "同上。",
+      "reason": "Same as above.",
       "covered_by": []
     },
     {
       "feature": "Mermaid → Excalidraw",
       "treatment": "Conditional Exclude",
-      "reason": "可以实现 deterministic parser，但它不是核心白板交互能力；默认不考。",
+      "reason": "A deterministic parser can be implemented, but it is not a core whiteboard interaction capability; it is not tested by default.",
       "covered_by": []
     },
     {
-      "feature": "公共素材库浏览",
+      "feature": "Browsing the public asset library",
       "treatment": "Hard Exclude",
-      "reason": "内容来自网络，资产可能随时间变化。",
+      "reason": "The content comes from the network and assets may change over time.",
       "covered_by": []
     },
     {
-      "feature": "Library 云同步",
+      "feature": "Library cloud sync",
       "treatment": "Hard Exclude",
-      "reason": "外部内容和账户状态。",
+      "reason": "External content and account state.",
       "covered_by": []
     },
     {
-      "feature": "本地 Library item",
+      "feature": "A local Library item",
       "treatment": "Conditional Include",
-      "reason": "若 benchmark 预置固定 library fixture，可以测试插入；保留面：f11 Roughness / line style, f29 Local image import, f33 Bucket fill",
+      "reason": "If the benchmark provides a fixed library fixture, insertion can be tested; retained surface: f11 Roughness / line style, f29 Local image import, f33 Bucket fill",
       "covered_by": [
         "f29",
         "f11",
@@ -430,75 +430,75 @@
       ]
     },
     {
-      "feature": "嵌入网页",
+      "feature": "Embedded web page",
       "treatment": "Hard Exclude",
-      "reason": "iframe / 外部网站可用性不可控。",
+      "reason": "The availability of iframes / external websites is uncontrollable.",
       "covered_by": []
     },
     {
-      "feature": "远程图片 URL",
+      "feature": "Remote image URL",
       "treatment": "Hard Exclude",
-      "reason": "网络依赖。",
+      "reason": "Network dependency.",
       "covered_by": []
     },
     {
-      "feature": "本地图片插入",
+      "feature": "Local image insertion",
       "treatment": "Conditional Include",
-      "reason": "如果 benchmark 提供固定本地图片，是确定性的。",
+      "reason": "If the benchmark provides a fixed local image, it is deterministic.",
       "covered_by": []
     },
     {
-      "feature": "实时网页预览",
+      "feature": "Live web-page preview",
       "treatment": "Hard Exclude",
-      "reason": "外部网络状态不可控。",
+      "reason": "The external network state is uncontrollable.",
       "covered_by": []
     },
     {
       "feature": "Discord / GitHub / Follow links",
       "treatment": "Hard Exclude",
-      "reason": "产品外链接。",
+      "reason": "An external product link.",
       "covered_by": []
     },
     {
       "feature": "Sign up / Login",
       "treatment": "Hard Exclude",
-      "reason": "账户系统不是 editor 核心。",
+      "reason": "The account system is not the core of the editor.",
       "covered_by": []
     },
     {
-      "feature": "账号语言同步",
+      "feature": "Account language sync",
       "treatment": "Hard Exclude",
-      "reason": "非场景编辑能力。",
+      "reason": "Not a scene-editing capability.",
       "covered_by": []
     },
     {
-      "feature": "Presentation / Plus-only 云功能",
+      "feature": "Presentation / Plus-only cloud features",
       "treatment": "Default Exclude",
-      "reason": "如果依赖 Plus 后端则排除。",
+      "reason": "If it depends on the Plus backend, exclude it.",
       "covered_by": []
     },
     {
-      "feature": "跨设备同步",
+      "feature": "Cross-device sync",
       "treatment": "Hard Exclude",
-      "reason": "需要真实云端和多设备。",
+      "reason": "Requires a real cloud and multiple devices.",
       "covered_by": []
     },
     {
-      "feature": "浏览器 storage 持久化细节",
+      "feature": "Browser storage persistence details",
       "treatment": "Default Exclude",
-      "reason": "不要求精确模拟 IndexedDB/localStorage 实现，只要求用户可见的 reopen 行为。",
+      "reason": "An exact IndexedDB/localStorage implementation is not required, only the user-visible reopen behavior.",
       "covered_by": []
     },
     {
-      "feature": "打印",
+      "feature": "Print",
       "treatment": "Hard Exclude",
-      "reason": "浏览器 / OS 打印框。",
+      "reason": "The browser / OS print dialog.",
       "covered_by": []
     },
     {
-      "feature": "系统剪贴板跨应用行为",
+      "feature": "System clipboard cross-app behavior",
       "treatment": "Conditional Exclude",
-      "reason": "可以测试内部 copy/paste，但不要要求与外部应用互操作；保留面：f13 Rounded corners, f19 Multi-step binding, f22 Frame containment",
+      "reason": "Internal copy/paste can be tested, but interoperability with external apps should not be required; retained surface: f13 Rounded corners, f19 Multi-step binding, f22 Frame containment",
       "covered_by": [
         "f13",
         "f19",
@@ -506,21 +506,21 @@
       ]
     },
     {
-      "feature": "字体渲染像素完全一致",
+      "feature": "Pixel-perfect font rendering",
       "treatment": "Default Exclude",
-      "reason": "浏览器、OS 字体渲染存在差异。",
+      "reason": "Browser and OS font rendering differ.",
       "covered_by": []
     },
     {
-      "feature": "自由手绘像素级一致",
+      "feature": "Pixel-perfect freehand drawing",
       "treatment": "Default Exclude",
-      "reason": "鼠标轨迹天然存在微小偏差。",
+      "reason": "Mouse trajectories inherently have tiny deviations.",
       "covered_by": []
     },
     {
-      "feature": "复杂 AI 自动排版",
+      "feature": "Complex AI auto-layout",
       "treatment": "Hard Exclude",
-      "reason": "不确定性且非核心。",
+      "reason": "Non-deterministic and not core.",
       "covered_by": []
     }
   ]

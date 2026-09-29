@@ -4,287 +4,287 @@
   "features": [
     {
       "id": "f01",
-      "name": "创建基础任务",
+      "name": "Create a basic task",
       "steps": [
-        "主界面点击 +",
-        "进入任务编辑页",
-        "输入标题",
-        "保存",
-        "返回任务列表",
-        "新任务出现在当前清单中",
-        "再次进入任务确认标题保持。任务在无截止日期、无重复、无标签等情况下也应可独立存在。"
+        "Tap + on the main screen",
+        "Enter the task edit page",
+        "Enter the title",
+        "Save",
+        "Return to the task list",
+        "The new task appears in the current list",
+        "Re-enter the task to confirm the title is preserved. A task should also be able to exist independently without a due date, recurrence, or tags."
       ],
-      "expected": "新任务必须真实保存并出现在当前清单；无截止日期、重复、标签时也可独立存在；退出重进后标题保持。",
+      "expected": "The new task must be genuinely saved and appear in the current list; it can also exist independently without a due date, recurrence, or tags; the title is preserved after exiting and re-entering.",
       "persistence": true
     },
     {
       "id": "f02",
-      "name": "编辑任务与状态持久化",
+      "name": "Task editing and state persistence",
       "steps": [
-        "打开已有任务",
-        "修改标题、描述或其他字段",
-        "保存",
-        "返回列表验证摘要变化",
-        "再次打开任务验证修改后的字段仍然存在；同时正确更新“修改时间”，而“创建时间”保持原值。"
+        "Open an existing task",
+        "Modify the title, description, or other fields",
+        "Save",
+        "Return to the list to verify the summary change",
+        "Reopen the task to verify the modified fields still exist; the \"modification time\" is correctly updated while the \"creation time\" keeps its original value."
       ],
-      "expected": "修改后的字段保存后重开仍存在；修改时间更新而创建时间保持原值；列表摘要随字段变化。",
+      "expected": "The modified fields still exist after saving and reopening; the modification time updates while the creation time keeps its original value; the list summary changes with the fields.",
       "persistence": true
     },
     {
       "id": "f03",
-      "name": "开始日期 / 截止日期 / 时间",
+      "name": "Start date / due date / time",
       "steps": [
-        "新建任务",
-        "设置开始日期与截止日期",
-        "使用“今天 / 明天 / 下周日 / 无日期”等快捷选项或日历选择具体日期",
-        "设置 09:00、13:00、17:00、20:00 等快捷时间或自定义时间",
-        "保存",
-        "任务按照日期进入对应分组；清除日期或时间后对应状态消失。"
+        "Create a new task",
+        "Set the start date and due date",
+        "Use shortcut options such as \"today / tomorrow / next Sunday / no date\" or the calendar to pick a specific date",
+        "Set shortcut times such as 09:00, 13:00, 17:00, and 20:00, or a custom time",
+        "Save",
+        "Tasks enter the corresponding group by date; after clearing the date or time the corresponding state disappears."
       ],
-      "expected": "日期与时间保存后任务按日期进入对应分组；快捷选项与日历选择结果一致；清除日期或时间后对应状态消失。",
+      "expected": "After saving the date and time the task enters the corresponding group by date; the shortcut options and the calendar selection give consistent results; after clearing the date or time the corresponding state disappears.",
       "persistence": false
     },
     {
       "id": "f04",
-      "name": "重复任务",
+      "name": "Recurring tasks",
       "steps": [
-        "创建带截止日期的任务",
-        "设置重复周期",
-        "可配置固定间隔及按日/周/月等周期",
-        "保存",
-        "完成当前实例后产生下一周期实例/推进下一截止时间",
-        "根据“从截止日期开始”或“从完成日期开始”的规则计算下一次时间",
-        "设置结束日期或次数后在达到条件时停止继续生成。"
+        "Create a task with a due date",
+        "Set the recurrence period",
+        "Fixed intervals and periods such as daily/weekly/monthly can be configured",
+        "Save",
+        "After completing the current instance the next period is generated or the due time advances according to the rules; calculating from the due date and from the completion date produce different and correct results; generation stops after the end date or count is reached.",
+        "Compute the next time according to the \"starts from the due date\" or \"starts from the completion date\" rule",
+        "After setting the end date or count, generation stops when the condition is reached."
       ],
-      "expected": "完成当前实例后按规则生成下一周期或推进截止时间；从截止日期开始与从完成日期开始计算结果不同且正确；达到结束日期或次数后停止生成。",
+      "expected": "Complete the system selection flow",
       "persistence": false
     },
     {
       "id": "f05",
-      "name": "优先级",
+      "name": "Priority",
       "steps": [
-        "创建任务",
-        "在无/低/中/高等优先级之间切换",
-        "保存",
-        "列表中的视觉标识/排序结果随优先级变化",
-        "修改优先级后列表立即反映新状态。"
+        "Create a task",
+        "Switch between none/low/medium/high priorities",
+        "Save",
+        "The visual marker/sort result in the list changes with the priority",
+        "After changing the priority the list immediately reflects the new state."
       ],
-      "expected": "优先级保存后列表视觉标识与排序结果随其变化；各优先级之间切换正确；该字段退出重进后保留。",
+      "expected": "After saving the priority the list's visual marker and sort results change with it; switching between priorities is correct; the field is preserved after exiting and re-entering.",
       "persistence": false
     },
     {
       "id": "f06",
-      "name": "清单管理与任务归属",
+      "name": "List management and task membership",
       "steps": [
-        "创建或选择本地清单",
-        "新建任务并指定清单",
-        "保存",
-        "在导航抽屉进入该清单",
-        "仅显示属于该清单的任务并更新数量",
-        "将任务改到另一个清单后两个清单的内容和计数同步变化。"
+        "Create or choose a local list",
+        "Create a new task and specify the list",
+        "Save",
+        "Enter that list from the navigation drawer",
+        "Show only the tasks belonging to that list and update the count",
+        "Drag an image into the central Drop area, or tap to choose a local image, or paste an image from the clipboard"
       ],
-      "expected": "任务只属于指定清单；各清单显示的任务与计数与实际一致；改清单后两个清单内容与计数同步更新。",
+      "expected": "The task belongs only to the specified list; the tasks shown and counted in each list match reality; after changing the list both lists' contents and counts update in sync.",
       "persistence": false
     },
     {
       "id": "f07",
-      "name": "标签管理",
+      "name": "Tag management",
       "steps": [
-        "编辑任务",
-        "输入/选择一个或多个标签",
-        "保存",
-        "标签以 chip 形式显示在任务上",
-        "导航抽屉的标签区域出现对应标签与任务数量",
-        "点击标签只查看具有该标签的任务",
-        "删除标签关联后结果同步变化。"
+        "Edit the task",
+        "Enter/select one or more tags",
+        "Save",
+        "Tags are displayed as chips on the task",
+        "Set the dithering to the lowest to observe the no-dither result",
+        "Tapping a tag shows only tasks with that tag",
+        "After deleting a tag association the results change in sync."
       ],
-      "expected": "标签以 chip 显示且保存后仍存在；抽屉标签区域计数与实际任务数一致；点击标签只显示具有该标签的任务；移除关联后结果同步。",
+      "expected": "Tags are shown as chips and still exist after saving; the drawer's tag area counts match the actual task counts; tapping a tag shows only tasks with that tag; after removing the association the results change in sync.",
       "persistence": false
     },
     {
       "id": "f08",
-      "name": "子任务层级",
+      "name": "The font size, line spacing, and displayed-fields configuration genuinely affect the list cards; the same task data stays unchanged; the settings persist after a restart.",
       "steps": [
-        "创建父任务",
-        "添加一个或多个子任务",
-        "保存",
-        "主列表在父任务下显示子任务",
-        "可单独完成子任务",
-        "折叠父任务时隐藏其子任务，展开时恢复",
-        "删除或调整子任务后父任务的层级关系保持正确。"
+        "Create a parent task",
+        "Add one or more subtasks",
+        "Save",
+        "The main list shows subtasks under the parent task",
+        "Subtasks can be completed independently",
+        "Collapsing the parent task hides its subtasks and expanding restores them",
+        "After deleting or adjusting subtasks the parent task's hierarchy stays correct."
       ],
-      "expected": "子任务在父任务下正确显示；可单独完成；折叠父任务隐藏子任务、展开恢复；删除或调整子任务后层级关系保持正确。",
+      "expected": "Subtask hierarchy",
       "persistence": false
     },
     {
       "id": "f09",
-      "name": "提醒",
+      "name": "Reminder",
       "steps": [
-        "为任务设置截止时间",
-        "启用提醒",
-        "配置开始时、到期时、到期前/后等提醒",
-        "保存",
-        "到达触发时间生成通知；配置重复提醒时按指定间隔再次提醒并在达到次数上限或任务完成后停止。"
+        "Set a due time for the task",
+        "Enable the reminder",
+        "Configure reminders such as at start, at due time, and before/after due time",
+        "Save",
+        "A notification is generated at the trigger time; with a repeated reminder configured it reminds again at the specified interval and stops when the count limit is reached or the task is completed."
       ],
-      "expected": "到达设定时间生成通知；重复提醒按指定间隔触发；达到次数上限或任务完成后停止；提醒配置持久化。",
+      "expected": "A notification is generated at the set time; repeated reminders trigger at the specified interval; they stop when the count limit is reached or the task is completed; the reminder configuration persists.",
       "persistence": false
     },
     {
       "id": "f10",
-      "name": "地点与地点提醒",
+      "name": "Places and place reminders",
       "steps": [
-        "编辑任务",
-        "添加地点",
-        "保存",
-        "地点作为任务 chip 显示并出现在导航抽屉“地点”分类中",
-        "可按地点筛选任务；配置地点提醒时设置到达或离开触发条件",
-        "地点状态与任务保持关联。"
+        "Edit the task",
+        "Add a place",
+        "Save",
+        "The place is shown as a task chip and appears in the \"places\" category of the navigation drawer",
+        "Tasks can be filtered by place; when configuring place reminders, arrival or departure trigger conditions are set",
+        "The place state stays associated with the task."
       ],
-      "expected": "地点 chip 显示且出现在抽屉地点分类；可按地点筛选任务；到达或离开触发条件与设置一致；地点与任务的关联持久化。",
+      "expected": "The place chip is shown and appears under the places category in the drawer; tasks can be filtered by place; the arrival or departure trigger conditions match the settings; the place-task association persists.",
       "persistence": false
     },
     {
       "id": "f11",
-      "name": "描述与链接识别",
+      "name": "Description and link recognition",
       "steps": [
-        "编辑任务",
-        "输入多行描述",
-        "保存",
-        "根据“显示描述 / 显示完整描述”设置控制列表摘要长度",
-        "描述中存在网址、地址、电话号码等可识别内容时，在“显示链接”开启后生成对应可点击链接，关闭后恢复普通文本显示。"
+        "Edit the task",
+        "Enter a multi-line description",
+        "Save",
+        "Control the list summary length according to the \"show description / show full description\" setting",
+        "When the description contains recognizable content such as URLs, addresses, or phone numbers, enabling \"show links\" generates the corresponding clickable links and disabling it restores plain-text display."
       ],
-      "expected": "描述摘要长度随显示描述或显示完整描述设置变化；开启显示链接后网址、地址、电话生成可点击链接，关闭后恢复普通文本；描述内容本身不被修改。",
+      "expected": "The description summary length changes with the show-description or show-full-description setting; after enabling show-links, URLs, addresses, and phone numbers become clickable links and disabling it restores plain text; the description content itself is not modified.",
       "persistence": false
     },
     {
       "id": "f12",
-      "name": "文件与媒体附件",
+      "name": "Files and media attachments",
       "steps": [
-        "打开任务",
-        "点击“添加附件”",
-        "在“拍张照片 / 录制一条便笺 / 从相册选一张 / 从存储中挑选”中选择来源",
-        "完成系统选择流程",
-        "附件与任务绑定",
-        "保存",
-        "重新打开任务仍能看到并访问附件。"
+        "Open a task",
+        "Tap \"add attachment\"",
+        "Choose the source among \"take a photo / record an audio note / choose from the album / pick from storage\"",
+        "Complete the encoding configuration",
+        "Attachments bound to tasks",
+        "Save",
+        "Reopening the task still shows and gives access to the attachment."
       ],
-      "expected": "附件必须与任务绑定并真实保存；重新打开任务仍能看到并访问；删除任务时附件处理一致。",
+      "expected": "Attachments must be bound to the task and genuinely saved; reopening the task still shows and gives access to them; deleting a task handles the attachments consistently.",
       "persistence": false
     },
     {
       "id": "f13",
-      "name": "任务计时器",
+      "name": "Task timer",
       "steps": [
-        "打开任务",
-        "设置预计耗时",
-        "启动计时器",
-        "已耗时间持续增加",
-        "暂停/结束后时间停止",
-        "再次启动继续累计",
-        "保存并退出任务",
-        "重新进入后预计时间和累计耗时保持正确。"
+        "Open a task",
+        "Set the estimated duration",
+        "Start the timer",
+        "Won small boards show the player's occupation markers while unfinished small boards show local pieces; legal areas and inoperable areas are visually distinguishable; the current operable area matches the actual routing.",
+        "The time stops on pause/end",
+        "Continue accumulating after starting again",
+        "Save and exit the task",
+        "The estimated time and accumulated duration stay correct after re-entering."
       ],
-      "expected": "启动后已耗时间持续增加；暂停或结束后停止；再次启动继续累计；保存退出后预计时间与累计耗时保持正确。",
+      "expected": "After launching, the elapsed time keeps increasing; it stops on pause or end; starting again continues accumulating; after saving and exiting the estimated time and accumulated duration stay correct.",
       "persistence": true
     },
     {
       "id": "f14",
-      "name": "完成、恢复与删除任务",
+      "name": "Complete transactions in different shops",
       "steps": [
-        "创建任务",
-        "勾选完成",
-        "任务进入完成状态并记录完成时间",
-        "根据列表设置隐藏、保留或移到底部",
-        "取消完成后恢复普通任务状态；从编辑页删除任务后主列表、标签、地点和清单计数同时更新；“清除已完成项”批量删除当前范围内的已完成任务。"
+        "Create a task",
+        "Check to complete",
+        "The task enters the completed state and the completion time is recorded",
+        "Hide, keep, or move to the bottom according to the list settings",
+        "After cancelling, the normal task state is restored; after deleting a task from the edit page the main list, tags, places, and list counts update at the same time; \"clear completed items\" batch-deletes the completed tasks in the current scope."
       ],
-      "expected": "完成后记录完成时间并按列表设置隐藏、保留或移到底部；取消完成恢复普通状态；删除后主列表、标签、地点与清单计数同步更新；清除已完成只删除当前范围内已完成任务。",
+      "expected": "The area can be browsed normally after completion",
       "persistence": false
     },
     {
       "id": "f15",
-      "name": "搜索任务",
+      "name": "Search tasks",
       "steps": [
-        "创建多条具有不同标题/描述的任务",
-        "点击搜索",
-        "输入关键词",
-        "结果实时缩小到匹配任务",
-        "点击结果进入任务",
-        "返回搜索结果状态合理保持",
-        "清空关键字恢复结果。"
+        "Create several tasks with different titles/descriptions",
+        "Tap search",
+        "Enter keywords",
+        "The results narrow to the matching tasks in real time",
+        "Tapping a result opens the task",
+        "The search-result state is reasonably preserved on return",
+        "Clearing the keyword restores the results."
       ],
-      "expected": "结果实时缩小到匹配任务，标题与描述均可命中；点击结果进入正确任务；清空关键字恢复完整列表。",
+      "expected": "The results narrow to the matching tasks in real time, with both titles and descriptions matching; tapping a result opens the correct task; clearing the keyword restores the full list.",
       "persistence": false
     },
     {
       "id": "f16",
-      "name": "自定义过滤器",
+      "name": "Custom filter",
       "steps": [
-        "打开导航抽屉",
-        "在“过滤器”区域新建过滤器",
-        "添加截止日期、优先级、标题、标签、清单等条件",
-        "可组合多个条件",
-        "保存",
-        "新过滤器出现在抽屉中并显示匹配数量",
-        "修改任务属性后过滤结果与计数重新计算。"
+        "Open the navigation drawer",
+        "Create a new filter in the \"filters\" area",
+        "Add conditions such as due date, priority, title, tags, and list",
+        "Multiple conditions can be combined",
+        "Save",
+        "The new filter appears in the drawer and shows the match count",
+        "After modifying a task's attributes the filtered results and counts are recomputed."
       ],
-      "expected": "过滤器保存后出现在抽屉并显示匹配数量；多条件组合生效；任务属性变化后过滤结果与计数重新计算；删除过滤器不影响任务数据。",
+      "expected": "After saving, the filter appears in the drawer and shows the match count; combined conditions take effect; after task attributes change the filter results and counts are recomputed; deleting a filter does not affect the task data.",
       "persistence": false
     },
     {
       "id": "f17",
-      "name": "列表分组、排序与显示控制",
+      "name": "List grouping, sorting, and display controls",
       "steps": [
-        "打开列表排序面板",
-        "分组选择截止日期等字段并设置升/降序",
-        "排序字段设置为截止日期等条件",
-        "主列表按照规则重新组织；切换“显示未开始项目 / 显示已完成任务 / 显示已完成子任务 / 将已完成任务移至底部”等开关",
-        "列表立即响应且任务数据本身不被删除。"
+        "Open the list sort panel",
+        "Select fields such as the due date for grouping and set ascending/descending",
+        "Set the sort field to conditions such as the due date",
+        "The main list is reorganized according to the rules; toggle \"show unstarted items / show completed tasks / show completed subtasks / move completed tasks to the bottom\", etc.",
+        "The list responds immediately and the task data itself is not deleted."
       ],
-      "expected": "分组与排序按规则重新组织列表且顺序真实变化；各显示开关只影响可见性而不删除任务；设置持久化。",
+      "expected": "Grouping and sorting reorganize the list according to the rules with the order genuinely changing; each display toggle only affects visibility without deleting tasks; the settings persist.",
       "persistence": false
     },
     {
       "id": "f18",
-      "name": "任务列表卡片内容配置",
+      "name": "Task-list card content configuration",
       "steps": [
-        "进入“任务清单选项”",
-        "调整字体大小、行间距",
-        "控制是否显示完整标题、描述、完整描述、链接",
-        "在“纸片”区域开关子任务、开始日期、地点、清单、标签等元素",
-        "返回任务列表",
-        "同一任务的数据保持不变，但卡片展示字段与排版发生对应变化。"
+        "Enter \"task list options\"",
+        "Adjust the font size and line spacing",
+        "Control whether the full title, description, full description, and links are shown",
+        "Toggle the elements such as subtasks, start date, place, list, and tags in the \"card\" area",
+        "Return to the task list",
+        "The same task's data stays unchanged while the card's displayed fields and layout change accordingly."
       ],
-      "expected": "字体大小、行距与显示字段配置真实作用于列表卡片；同一任务数据保持不变；设置重启后保留。",
+      "expected": "The field order and visibility change according to the settings",
       "persistence": false
     },
     {
       "id": "f19",
-      "name": "自定义任务编辑界面",
+      "name": "Custom task",
       "steps": [
-        "设置",
-        "编辑屏幕选项",
-        "进入“自定义编辑屏幕”",
-        "对开始日期、截止日期、重复、优先级、清单、标签、子任务、提醒、描述、位置、文件、日历、计时器、创建日期等字段进行拖动重新排序或隐藏",
-        "返回任务编辑页",
-        "字段顺序与可见性按照设置变化",
-        "“恢复默认值”恢复初始布局。"
+        "Settings",
+        "Edit-screen options",
+        "Enter \"customize edit screen\"",
+        "Open \"details\" on a song",
+        "Return to the task edit page",
+        "The field order and visibility change according to the settings; hidden fields are no longer shown but their data is not lost; restoring defaults restores the initial layout.",
+        "\"Restore defaults\" restores the initial layout."
       ],
-      "expected": "字段顺序与可见性按设置变化；隐藏字段不再显示但数据不丢失；恢复默认值恢复初始布局。",
+      "expected": "They enter the current queue",
       "persistence": false
     },
     {
       "id": "f20",
-      "name": "默认值与完整持久化闭环",
+      "name": "Defaults and the complete persistence loop",
       "steps": [
-        "设置“任务默认值”",
-        "指定默认清单、标签、优先级、开始日期、截止日期、重复、提醒、地点等",
-        "创建新任务",
-        "新任务自动继承这些默认值",
-        "手工修改其中部分字段并保存",
-        "退出应用/重新打开",
-        "任务本身、默认配置、列表计数、标签与地点关系仍保持一致。"
+        "Set \"task defaults\"",
+        "Specify the default list, tags, priority, start date, due date, recurrence, reminders, place, etc.",
+        "Create a new task",
+        "New tasks automatically inherit these defaults",
+        "Manually modify some of the fields and save",
+        "Exit the app / reopen",
+        "The task itself, the default configuration, the list counts, and the tag and place relationships remain consistent."
       ],
-      "expected": "新任务自动继承默认清单、标签、优先级、日期等；手工修改后保存的为修改值；重启后任务、默认配置、计数及标签与地点关系保持一致。",
+      "expected": "New tasks automatically inherit the default list, tags, priority, dates, etc.; after manual modification the modified values are saved; after a restart the tasks, default configuration, counts, and tag and place relationships stay consistent.",
       "persistence": true
     }
   ]
