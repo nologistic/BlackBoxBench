@@ -177,15 +177,15 @@ def _post(path: str, payload: dict) -> tuple[dict | None, str | None]:
             # binding is dead weight — release it NOW and tell the agent the
             # one-step recovery, or it flails (wait/list_targets loops).
             _release_binding(f"{r.status_code} from agent channel")
-            return None, (f"HTTP {r.status_code}: {msg} —— 会话已失效且绑定已释放。"
-                          f"恢复方法: 调用 start_session(app_id 同前)"
-                          f"重建会话后继续探索。")
+            return None, (f"HTTP {r.status_code}: {msg} — the session is gone and the binding has been released. "
+                          f"Recovery: call start_session(app_id as before) "
+                          f"to rebuild the session and continue exploring.")
         if r.status_code == 409:
             # A recoverable environment blip. The device is still healthy, so
             # this is not a fault to report or work around — the step simply did
             # not land. Say so plainly, without inviting a strategy change.
-            return None, (f"{msg}。这一步没有生效，设备仍然正常；"
-                          f"直接重试同一操作即可继续。")
+            return None, (f"{msg}. This step did not land; the device is still healthy — "
+                          f"just retry the same action to carry on.")
         return None, f"HTTP {r.status_code}: {msg}"
     return r.json(), None
 
@@ -342,11 +342,11 @@ def _t_finalize(args: dict) -> dict:
     if requested and requested != _session:
         run_dir_req = benchmark_config.RUNS_DIR / requested
         if not run_dir_req.is_dir():
-            return _err(f"source_session 目录不存在: {requested}")
+            return _err(f"source_session directory does not exist: {requested}")
         topo_req = run_dir_req / "functional_topology.json"
         if not topo_req.is_file():
-            return _err("source_session 无 functional_topology.json（探索未定稿），"
-                        "不能作为交接材料源；请先在该会话上完成探索定稿。")
+            return _err("source_session has no functional_topology.json (the exploration is not finalized), "
+                        "so it cannot serve as the handoff material source; finalize the exploration on that session first.")
         if _session:
             # 先结束当前（续接）会话，保持 finalize = 结束当前探索的语义
             _d, _err_text = _post("/finalize", {})
@@ -365,10 +365,10 @@ def _t_finalize(args: dict) -> dict:
             # is completing its own work while the MCP silently binds a
             # zero-exploration session, possibly on a different target. Refuse
             # and point at the recovery path instead.
-            return _err("没有可定稿的探索会话：原会话已失效或尚未开始，finalize 不会"
-                        "隐式新建会话。请先调用 start_session(app_id 同前) 重建会话、"
-                        "完成探索后再 finalize；若探索主会话已定稿，可用 "
-                        "finalize(source_session=<探索主会话 id>) 直接交接其材料。")
+            return _err("no exploration session to finalize: the original session is gone or none has started, and finalize will not "
+                        "implicitly create one. Call start_session(app_id as before) to rebuild it, "
+                        "finish the exploration and then finalize; if the main exploration session is already finalized, use "
+                        "finalize(source_session=<main exploration session id>) to hand over its material directly.")
         source_id = _session
         existing = (benchmark_config.RUNS_DIR / source_id /
                     "functional_topology.json") if source_id else None
@@ -561,7 +561,7 @@ def _t_start_reproduction_review(args: dict) -> dict:
     if _review is None:
         _await_prewarm()   # 等后台把设备起好；绝不在预热中途再起一台（会同进程抢租约）
         if _prewarm_still_booting():
-            raise RuntimeError("审查设备尚未就绪（后台预热未完成）。")
+            raise RuntimeError("the review device is not ready yet (background prewarm unfinished).")
         _review = AndroidReproductionReview(
             workspace, max_revisions=_configured_review_revisions(),
             require_write_evidence=False)
@@ -618,14 +618,14 @@ def _t_list_targets(_args: dict) -> dict:
         r.raise_for_status()
         apps = r.json()
     except Exception as e:
-        return _err(f"无法获取目标列表: {e}")
+        return _err(f"failed to fetch the target list: {e}")
     return _ok([_text({
         "default_target": _app_id,
         "registered": apps,
         "current_session": _session or None,
         "mcp_server": {"version": SERVER_VERSION,
                        "started_at": SERVER_STARTED_AT},
-        "adhoc": "用 scripts/android_target.py register 注册用户提供的本地 APK。",
+        "adhoc": "register a user-provided local APK with scripts/android_target.py register.",
     })])
 
 
@@ -655,20 +655,20 @@ def _t_start_session(args: dict) -> dict:
     global _session, _own_session, _bound_target
     app_id = (args.get("app_id") or "").strip()
     if not app_id:
-        return _err("需要已注册的 Android app_id")
+        return _err("a registered Android app_id is required")
     try:
         get_android_target(app_id)
     except KeyError:
-        return _err(f"未知 Android app_id: {app_id}")
+        return _err(f"unknown Android app_id: {app_id}")
     key = f"app:{app_id}"
     resume_from = (args.get("resume_from", "") or "").strip()
     if _session:
         if _bound_session_running():
             if _bound_target == key:
                 return _ok([_text({"session_id": _session, "target": key,
-                                   "note": "已是当前目标,继续探索即可"})])
-            return _err(f"当前对话已绑定会话 {_session}({_bound_target})。"
-                        f"更换目标请先 finalize 结束它,或新开一个对话。")
+                                   "note": "already the current target; just continue exploring"})])
+            return _err(f"this conversation is already bound to session {_session} ({_bound_target}). "
+                        f"To change targets, finalize it first or open a new conversation.")
         # bound session died or was closed externally — release and rebind
         # instead of bricking the conversation (finalize is impossible then)
         _release_binding("session no longer running")
@@ -679,7 +679,7 @@ def _t_start_session(args: dict) -> dict:
         try:
             _ensure_controller()
         except Exception as e:
-            return _err(f"controller 启动失败: {e}")
+            return _err(f"controller failed to start: {e}")
         try:
             r = _http.post(f"{_controller}/api/sessions/{resume_from}/reopen")
         except Exception as e:
@@ -691,16 +691,16 @@ def _t_start_session(args: dict) -> dict:
             _bound_target = f"app:{body.get('app_id', app_id)}"
             _log(f"session reopened: {_session} (app={_bound_target})")
             return _ok([_text({"session_id": _session, "target": _bound_target,
-                               "note": "已恢复之前的探索会话,拓扑和发现记录完好,继续探索即可"})])
+                               "note": "previous exploration session restored; topology and recorded findings intact — just continue exploring"})])
         try:
             msg = r.json().get("detail", r.text[:300])
         except Exception:
             msg = r.text[:300]
-        return _err(f"恢复会话失败 HTTP {r.status_code}: {msg}")
+        return _err(f"session restore failed HTTP {r.status_code}: {msg}")
     try:
         _ensure_controller()
     except Exception as e:
-        return _err(f"controller 启动失败: {e}")
+        return _err(f"controller failed to start: {e}")
     payload = {"budget": _budget_payload()}
     payload["app_id"] = app_id
     try:
@@ -713,7 +713,7 @@ def _t_start_session(args: dict) -> dict:
         except Exception:
             msg = r.text[:300]
         # precheck 失败(如抖音未登录)的指引会随这里带给用户
-        return _err(f"会话创建失败 HTTP {r.status_code}: {msg}")
+        return _err(f"session creation failed HTTP {r.status_code}: {msg}")
     body = r.json()
     _session = body["session_id"]
     _own_session = True
@@ -725,17 +725,17 @@ def _t_start_session(args: dict) -> dict:
 
 
 _ACTION_PROPS = {
-    "x": {"type": "integer", "description": "当前截图中的像素横坐标"},
-    "y": {"type": "integer", "description": "当前截图中的像素纵坐标"},
+    "x": {"type": "integer", "description": "pixel x-coordinate on the current screenshot"},
+    "y": {"type": "integer", "description": "pixel y-coordinate on the current screenshot"},
     "x1": {"type": "integer"}, "y1": {"type": "integer"},
     "x2": {"type": "integer"}, "y2": {"type": "integer"},
     "duration_ms": {"type": "integer"},
     "text": {"type": "string"},
-    "key": {"type": "string", "description": "Enter/Tab/Escape/Backspace/F5/BrowserBack/BrowserForward/ArrowDown/单字符"},
+    "key": {"type": "string", "description": "Enter/Tab/Escape/Backspace/F5/BrowserBack/BrowserForward/ArrowDown/single char"},
     "dx": {"type": "integer"}, "dy": {"type": "integer"},
     "ms": {"type": "integer"},
     "tab_index": {"type": "integer",
-                  "description": "标签页索引(0起,按打开顺序;回执 tabs 字段有 count/active)"},
+                  "description": "tab index (0-based, in opening order; the reply's tabs field has count/active)"},
 }
 
 
@@ -759,18 +759,18 @@ def _register(schema: dict, handler) -> None:
 
 
 _register({"name": "observe",
-           "description": "获取 Android App 当前可见截图和预算。这是唯一观察通道；没有控件树、selector、ADB、日志或网络数据。",
+           "description": "Get the Android app's current visible screenshot and budget. This is the only observation channel; no view hierarchy, selector, ADB, logs, or network data.",
            "inputSchema": {"type": "object", "properties": {}}}, _t_observe)
 
 _register({"name": "list_targets",
-           "description": "列出可探索的本地 Android APK 目标及默认目标。",
+           "description": "List explorable local Android APK targets and the default target.",
            "inputSchema": {"type": "object", "properties": {}}}, _t_list_targets)
 
 _register({"name": "start_session",
-           "description": "选择已注册的 Android app_id 并启动独立模拟器会话；一个对话绑定一个目标。",
+           "description": "Select a registered Android app_id and start an isolated emulator session; one conversation binds one target.",
            "inputSchema": {"type": "object", "properties": {
-               "app_id": {"type": "string", "description": "已注册 Android 目标 id"},
-               "resume_from": {"type": "string", "description": "恢复之前的会话 ID（限额中断后继续）"}},
+               "app_id": {"type": "string", "description": "registered Android target id"},
+               "resume_from": {"type": "string", "description": "session ID to resume (continue after a quota interruption)"}},
                "required": ["app_id"]}},
           _t_start_session)
 
@@ -781,14 +781,14 @@ def _make_action_handler(name: str):
 
 
 for _n, _req, _d in [
-    ("tap", ["x", "y"], "轻触当前截图中的像素坐标"),
-    ("long_press", ["x", "y"], "长按坐标；可选 duration_ms"),
-    ("swipe", ["x1", "y1", "x2", "y2"], "从起点滑动到终点；可选 duration_ms"),
-    ("type_text", ["text"], "向当前已聚焦输入框输入一行文本"),
-    ("press_back", [], "按 Android 返回键"),
-    ("press_enter", [], "按 Android 确认键"),
-    ("restart_app", [], "重启目标 App 以验证冷启动或持久化状态"),
-    ("wait", ["ms"], "等待毫秒"),
+    ("tap", ["x", "y"], "tap the pixel coordinates on the current screenshot"),
+    ("long_press", ["x", "y"], "long-press coordinates; optional duration_ms"),
+    ("swipe", ["x1", "y1", "x2", "y2"], "swipe from the start point to the end point; optional duration_ms"),
+    ("type_text", ["text"], "type one line of text into the currently focused input field"),
+    ("press_back", [], "press the Android back key"),
+    ("press_enter", [], "press the Android enter key"),
+    ("restart_app", [], "restart the target app to verify cold start or persisted state"),
+    ("wait", ["ms"], "wait milliseconds"),
 ]:
     _register(_action_tool(_n, _req, _d), _make_action_handler(_n))
 
@@ -802,67 +802,67 @@ for _n, _req, _d in [
 
 
 _register({"name": "finalize",
-           "description": "完成真实 Android 探索、定稿功能拓扑并立即启动隔离 APK 复现阶段。"
-                          "若探索中途重建过会话，必须用 source_session 指向探索主会话，"
-                          "否则交接材料将取自零星的续接会话。",
+           "description": "Finish the real Android exploration, finalize the functional topology, and immediately start the isolated APK reproduction stage. "
+                          "If the session was rebuilt mid-exploration, you must point source_session at the main exploration session, "
+                          "or the handoff material will be taken from the sparse continuation session.",
            "inputSchema": {"type": "object", "properties": {
                "source_session": {
                    "type": "string",
-                   "description": "探索主会话 id（sess_...，需已定稿）。仅当当前绑定"
-                                  "会话不是探索主会话时需要指定。"}}}}, _t_finalize)
+                   "description": "main exploration session id (sess_..., must be finalized). Only needed when the currently bound "
+                                  "session is not the main exploration session."}}}}, _t_finalize)
 
 _register({"name": "input_list",
-           "description": "仅在 finalize 后列出 /materials 下的公共素材"
-                          "（common/mobile/app，含目标专属补充素材包）。",
+           "description": "List public materials under /materials (only after finalize) "
+                          "(common/mobile/app, including the target-specific supplement pack).",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string",
-                        "description": "如 /materials、/materials/app"}}}},
+                        "description": "e.g. /materials, /materials/app"}}}},
           _t_input_list)
 
 _register({"name": "input_read",
-           "description": "仅在 finalize 后读取 /materials 素材中的文件"
-                          "（PNG 返回图像，其余返回文本）。"
-                          "路径必须在 /materials/ 之下。",
+           "description": "Read files from /materials (only after finalize) "
+                          "(PNG returns an image, everything else returns text). "
+                          "The path must stay under /materials/.",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string",
-                        "description": "如 /materials/app/CATALOG.md、"
+                        "description": "e.g. /materials/app/CATALOG.md, "
                                        "/materials/app/data.json"}},
                "required": ["path"]}},
           _t_input_read)
 
 _register({"name": "workspace_list",
-           "description": "仅在 finalize 后列出复现输出工作区中的文件。",
+           "description": "List files in the reproduction output workspace (only after finalize).",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string"}}}}, _t_workspace_list)
 
 _register({"name": "workspace_read",
-           "description": "仅在 finalize 后读取复现输出中的文本或 PNG/JPEG。",
+           "description": "Read text or PNG/JPEG from the reproduction output (only after finalize).",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string"}}, "required": ["path"]}},
           _t_workspace_read)
 
 _register({"name": "workspace_write",
-           "description": "仅在 finalize 后写入复现输出工作区。",
+           "description": "Write into the reproduction output workspace (only after finalize).",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string"}, "content": {"type": "string"}},
                "required": ["path", "content"]}}, _t_workspace_write)
 
 _register({"name": "workspace_patch",
-           "description": "仅在 finalize 后对复现输出中的已有文件做精确搜索-替换编辑"
-                          "（修改少量代码时优先用它，避免整文件 workspace_write 重写）。"
-                          "old_text 必须与文件内容完全一致且全文件唯一，否则报错；"
-                          "new_text 传空串表示删除该片段。",
+           "description": "Precise search-and-replace edit of an existing file in the reproduction output"
+                          " (prefer it for small code changes over a full workspace_write)."
+                          "old_text must match the file content exactly and be unique in the file, or it errors;"
+                          "an empty new_text deletes that fragment.",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string"},
                "old_text": {"type": "string",
-                            "description": "要被替换的原文（含足够上下文以保证唯一）"},
+                            "description": "the text to replace (include enough context to make it unique)"},
                "new_text": {"type": "string",
-                            "description": "替换后的文本；空串表示删除"}},
+                            "description": "the replacement text; an empty string deletes it"}},
                "required": ["path", "old_text", "new_text"]}},
           _t_workspace_patch)
 
 _register({"name": "workspace_run",
-           "description": "仅在 finalize 后于无网络 Android 复现沙箱运行程序；可用 gradle --offline assembleDebug 构建。",
+           "description": "Run programs in the offline Android reproduction sandbox (only after finalize); build with gradle --offline assembleDebug.",
            "inputSchema": {"type": "object", "properties": {
                "argv": {"type": "array", "items": {"type": "string"}},
                "cwd": {"type": "string"},
@@ -878,30 +878,30 @@ def _make_review_action_handler(name: str):
 
 
 _register({"name": "start_reproduction_review",
-           "description": "离线构建 APK，安装到独立 review 模拟器并启动像素级复验。",
+           "description": "Build the APK offline, install it onto an isolated review emulator, and start the pixel-level re-check.",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_start_reproduction_review)
 
 _register({"name": "review_observe",
-           "description": "获取复现 APK 当前可见截图；不提供控件树、ADB、日志或网络语义。",
+           "description": "Get the reproduction APK's current visible screenshot; no view hierarchy, ADB, logs, or network semantics.",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_review_observe)
 
 for _n, _req, _d in [
-    ("tap", ["x", "y"], "轻触复现 App 坐标"),
-    ("long_press", ["x", "y"], "长按复现 App 坐标"),
-    ("swipe", ["x1", "y1", "x2", "y2"], "在复现 App 中滑动"),
-    ("type_text", ["text"], "向复现 App 当前焦点输入文本"),
-    ("press_back", [], "按返回键"),
-    ("press_enter", [], "按确认键"),
-    ("restart_app", [], "重启复现 App 验证持久化"),
-    ("wait", ["ms"], "等待复现 App 更新"),
+    ("tap", ["x", "y"], "tap reproduction-app coordinates"),
+    ("long_press", ["x", "y"], "long-press reproduction-app coordinates"),
+    ("swipe", ["x1", "y1", "x2", "y2"], "swipe in the reproduction app"),
+    ("type_text", ["text"], "type text into the focused element of the reproduction app"),
+    ("press_back", [], "press the back key"),
+    ("press_enter", [], "press the enter key"),
+    ("restart_app", [], "restart the reproduction app to verify persistence"),
+    ("wait", ["ms"], "wait for the reproduction app to update"),
 ]:
     _schema = _action_tool(f"review_{_n}", _req, _d)
     _register(_schema, _make_review_action_handler(_n))
 
 _register({"name": "complete_reproduction_review",
-           "description": "结束当前复验轮次。发现问题选 revise，修改后再复验；核心流程正常且无私人信息时才选 accept。",
+           "description": "End the current review round. Choose revise when problems are found (fix, then re-review); choose accept only when the core flows work and no private information is present.",
            "inputSchema": {"type": "object", "properties": {
                "decision": {"type": "string", "enum": ["accept", "revise"]},
                "checked_flows": {"type": "array", "items": {"type": "string"},
@@ -912,7 +912,7 @@ _register({"name": "complete_reproduction_review",
           _t_complete_reproduction_review)
 
 _register({"name": "finish_reproduction",
-           "description": "仅在像素级复验 accept 后冻结 Android 工程与 app_output 中的可安装 APK。",
+           "description": "Freeze the Android project and the installable APK in app_output (only after the pixel-level review was accepted).",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_finish_reproduction)
 
@@ -1248,7 +1248,7 @@ def _state_paths() -> list[Path]:
     # 多单并行时绝不猜，让 agent 显式传 source_session。
     if len(others) > 1:
         _log(f"multiple reproduction states present ({len(others)}); "
-             "不跨会话兜底，需显式 source_session")
+             "no cross-session fallback; pass source_session explicitly")
         return []
     return others
     return paths
