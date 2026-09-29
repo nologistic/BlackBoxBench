@@ -91,7 +91,7 @@ def _resolve_apk(value: str) -> Path:
     """Locate the APK under app_output. Accepts a handoff id for convenience."""
     raw = (value or _apk_env or "").strip()
     if not raw:
-        raise ValueError("需要 apk 路径或 handoff_id")
+        raise ValueError("apk path or handoff_id is required")
     direct = Path(raw)
     if direct.suffix.lower() != ".apk":
         # treat as a handoff id: app_output/<handoff>/artifacts/app-debug.apk
@@ -100,7 +100,7 @@ def _resolve_apk(value: str) -> Path:
         candidate = direct
     resolved = _resolve_under(APP_OUTPUT_ROOT, str(candidate), "apk")
     if not resolved.is_file():
-        raise ValueError("找不到可安装 APK；先完成复现并生成 artifacts/app-debug.apk")
+        raise ValueError("no installable APK found; finish the reproduction first to produce artifacts/app-debug.apk")
     return resolved
 
 
@@ -115,9 +115,9 @@ def _resolve_checklist(value: str) -> Checklist:
         # chosen explicitly and the caller is shown what exists.
         available = sorted(p.stem for p in REVIEW_SPECS_ROOT.glob("*.json"))
         raise ValueError(
-            "需要显式指定 checklist，例如 start_evaluation("
+            "checklist must be given explicitly, e.g. start_evaluation("
             "checklist=\"google_clock\", handoff_id=\"...\")；"
-            f"可用清单: {', '.join(available)}")
+            f"available checklists: {', '.join(available)}")
     resolved = _resolve_under(REVIEW_SPECS_ROOT, raw, "checklist")
     checklist = Checklist.load(resolved)
     checklist.expect_platform("android")
@@ -171,7 +171,7 @@ def _handoff_app_id(handoff_name: str) -> str:
 
 def _require_session() -> AppEvaluationSession:
     if _session is None:
-        raise ValueError("尚未开始评测；先调用 start_evaluation")
+        raise ValueError("evaluation has not started; call start_evaluation first")
     return _session
 
 
@@ -215,7 +215,7 @@ def _t_start_evaluation(args: dict) -> dict:
     """Install the APK in a fresh offline emulator and load the checklist."""
     global _session
     if _session is not None and not _session.finished:
-        return _err("已有进行中的评测；先 finish_evaluation 或 abort_evaluation")
+        return _err("an evaluation is already in progress; finish_evaluation or abort_evaluation first")
     checklist_arg = (args.get("checklist", "") or "").strip()
     apk_arg = (args.get("apk", "") or args.get("handoff_id", "")).strip()
     inferred = ""
@@ -260,10 +260,10 @@ def _t_record_result(args: dict) -> dict:
     session = _require_session()
     evidence = args.get("evidence_observations") or []
     if not isinstance(evidence, list):
-        raise ValueError("evidence_observations 必须是观察编号数组")
+        raise ValueError("evidence_observations must be an array of observation numbers")
     persistence = args.get("persistence_evidence")
     if persistence is not None and not isinstance(persistence, dict):
-        raise ValueError("persistence_evidence 必须是对象")
+        raise ValueError("persistence_evidence must be an object")
     return _ok([_text(session.record_result(
         requirement_id=str(args.get("requirement_id") or ""),
         grade=str(args.get("grade") or ""),
@@ -292,7 +292,7 @@ def _t_abort_evaluation(_args: dict) -> dict:
     """Tear the emulator down without producing a report."""
     global _session
     if _session is None:
-        return _ok([_text({"aborted": False, "note": "没有进行中的评测"})])
+        return _ok([_text({"aborted": False, "note": "no evaluation in progress"})])
     _session.close()
     _session = None
     return _ok([_text({"aborted": True})])
@@ -301,8 +301,8 @@ def _t_abort_evaluation(_args: dict) -> dict:
 # ------------------------------------------------------------------- registry
 
 _ACTION_PROPS = {
-    "x": {"type": "integer", "description": "当前截图中的像素横坐标"},
-    "y": {"type": "integer", "description": "当前截图中的像素纵坐标"},
+    "x": {"type": "integer", "description": "pixel x-coordinate on the current screenshot"},
+    "y": {"type": "integer", "description": "pixel y-coordinate on the current screenshot"},
     "x1": {"type": "integer"}, "y1": {"type": "integer"},
     "x2": {"type": "integer"}, "y2": {"type": "integer"},
     "duration_ms": {"type": "integer"},
@@ -329,81 +329,81 @@ def _action_tool(name: str, req: list[str], desc: str) -> dict:
 
 
 _register({"name": "list_checklists",
-           "description": "列出可用的人工功能要求清单、可安装的复现产物和四档判定标准。",
+           "description": "List the available human-authored functional-requirements checklists, installable reproduction artifacts, and the four-tier criteria.",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_list_checklists)
 
 _register({"name": "start_evaluation",
-           "description": "在全新模拟器（隔离网络：仅经白名单代理放行，与探索环境一致）安装待测 APK 并载入人工清单；返回首屏截图。",
+           "description": "Install the APK under test on a fresh emulator (isolated network: only whitelisted proxying, same as the exploration environment) and load the human checklist; returns the first screen.",
            "inputSchema": {"type": "object", "properties": {
                "checklist": {"type": "string",
-                             "description": "review_specs 下的清单文件名"},
+                             "description": "checklist file name under review_specs"},
                "handoff_id": {"type": "string",
-                              "description": "app_output 下的交接目录名"},
+                              "description": "handoff directory name under app_output"},
                "apk": {"type": "string",
-                       "description": "可选：app_output 内的 APK 相对路径"},
+                       "description": "optional: APK path relative to app_output"},
                "package_name": {"type": "string"},
                "launch_activity": {"type": "string"}}}},
           _t_start_evaluation)
 
 _register({"name": "observe",
-           "description": "获取待测 App 当前可见截图。这是唯一观察通道；没有控件树、selector、ADB、日志或源码。",
+           "description": "Get the current visible screenshot of the app under test. This is the only observation channel; no view hierarchy, selector, ADB, logs, or source.",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_observe)
 
 for _n, _req, _d in [
-    ("tap", ["x", "y"], "轻触待测 App 坐标"),
-    ("long_press", ["x", "y"], "长按待测 App 坐标；可选 duration_ms"),
-    ("swipe", ["x1", "y1", "x2", "y2"], "在待测 App 中滑动；可选 duration_ms"),
-    ("type_text", ["text"], "向待测 App 当前焦点输入文本"),
-    ("press_back", [], "按 Android 返回键"),
-    ("press_enter", [], "按 Android 确认键"),
-    ("restart_app", [], "重启待测 App，用于验证持久化"),
-    ("reset_app", [], "清空待测 App 数据后重启，用于验证初始态"),
-    ("wait", ["ms"], "等待毫秒"),
+    ("tap", ["x", "y"], "tap app-under-test coordinates"),
+    ("long_press", ["x", "y"], "long-press app-under-test coordinates; optional duration_ms"),
+    ("swipe", ["x1", "y1", "x2", "y2"], "swipe in the app under test; optional duration_ms"),
+    ("type_text", ["text"], "type text into the focused element of the app under test"),
+    ("press_back", [], "press the Android back key"),
+    ("press_enter", [], "press the Android enter key"),
+    ("restart_app", [], "restart the app under test to verify persistence"),
+    ("reset_app", [], "clear the app-under-test data and restart it to verify the initial state"),
+    ("wait", ["ms"], "wait milliseconds"),
 ]:
     _register(_action_tool(_n, _req, _d), _make_action_handler(_n))
 
 _register({"name": "record_result",
-           "description": ("为一条人工要求给出四档判定。grade 取 full|partial|"
-                           "placeholder|broken；必须引用已保存的观察编号，并如实说明"
-                           "看到的可见行为。判定标准由你把握，服务端只校验证据结构。"),
+           "description": ("Give a four-tier verdict for one human requirement. grade is full|partial|"
+                           "placeholder|broken; you must cite saved observation numbers and truthfully describe the "
+                           "visible behavior you saw. You own the criteria; the server only validates evidence structure."),
            "inputSchema": {"type": "object", "properties": {
                "requirement_id": {"type": "string"},
                "grade": {"type": "string",
                          "enum": [g.value for g in Grade]},
                "rationale": {"type": "string",
-                             "description": "依据可见行为的判定理由"},
+                             "description": "rationale based on visible behavior"},
                "evidence_observations": {
                    "type": "array", "items": {"type": "integer"},
-                   "description": "支撑该判定的观察编号"},
+                   "description": "observation numbers supporting this verdict"},
                "persistence_evidence": {
                    "type": "object",
-                   "description": ("持久化三段证据：before/after/persisted 观察编号；"
-                                   "persistence 类要求判 full 时必填"),
+                   "description": ("three-stage persistence evidence: before/after/persisted observation numbers; "
+                                   "required when grading full for persistence requirements"),
                    "properties": {
                        "before_observation": {"type": "integer"},
                        "after_observation": {"type": "integer"},
                        "persisted_observation": {"type": "integer"}}},
                "not_verifiable_reason": {
                    "type": "string",
-                   "description": "multi_user 等单机黑盒无法完整验证时的说明"}},
+                   "description": "note when multi_user or similar cannot be fully verified by a single-device black box"}},
                "required": ["requirement_id", "grade", "rationale",
                             "evidence_observations"]}},
           _t_record_result)
 
 _register({"name": "evaluation_status",
-           "description": "查看清单全文、已评与未评要求。",
+           "description": "View the full checklist, graded and ungraded requirements.",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_evaluation_status)
 
 _register({"name": "finish_evaluation",
-           "description": "全部要求评完后冻结四档报告；仍有未评要求时会被拒绝。",
+           "description": "Freeze the four-tier report after all requirements are graded; rejected while any requirement is ungraded.",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_finish_evaluation)
 
 _register({"name": "abort_evaluation",
-           "description": "放弃本次评测并关闭模拟器，不产出报告。",
+           "description": "Abandon this evaluation and close the emulator without producing a report.",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_abort_evaluation)
 

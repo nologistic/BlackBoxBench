@@ -131,8 +131,8 @@ def _ensure_session() -> None:
         # target and make recovery impossible (start_session refuses to
         # switch a live binding). Keep the retry-finalize path instead.
         raise RuntimeError(
-            f"探索已定稿（session {_finalized_source}）但复现工作区未启动。"
-            f"请调用 finalize 重试复现启动；如需重新探索，请新开一个对话。")
+            f"Exploration is finalized (session {_finalized_source}) but the reproduction workspace has not started. "
+            f"Call finalize to retry the reproduction start; to explore again, open a new conversation.")
     _ensure_controller()
     # Bind to the target the conversation explicitly asked for (kept even
     # when that create call failed), not the MCP default: silently falling
@@ -213,12 +213,12 @@ def _post(path: str, payload: dict) -> tuple[dict | None, str | None]:
                 # The close is expected (finalize already succeeded); the
                 # correct recovery is retrying the handoff, not rebuilding
                 # an exploration session.
-                return None, (f"HTTP {r.status_code}: {msg} —— 探索已定稿"
-                              f"（session {_finalized_source}）但复现工作区未启动。"
-                              f"请调用 finalize 重试复现启动；不要重建探索会话。")
-            return None, (f"HTTP {r.status_code}: {msg} —— 会话已失效且绑定已释放。"
-                          f"恢复方法: 调用 start_session(app_id 或 url 同前)"
-                          f"重建会话后继续探索。")
+                return None, (f"HTTP {r.status_code}: {msg} — exploration is finalized "
+                              f"(session {_finalized_source}) but the reproduction workspace has not started. "
+                              f"Call finalize to retry the reproduction start; do not rebuild the exploration session.")
+            return None, (f"HTTP {r.status_code}: {msg} — the session is gone and the binding has been released. "
+                          f"Recovery: call start_session(app_id or url as before) "
+                          f"to rebuild the session and continue exploring.")
         return None, f"HTTP {r.status_code}: {msg}"
     return r.json(), None
 
@@ -514,15 +514,15 @@ def _t_list_targets(_args: dict) -> dict:
         r.raise_for_status()
         apps = r.json()
     except Exception as e:
-        return _err(f"无法获取目标列表: {e}")
+        return _err(f"failed to fetch the target list: {e}")
     return _ok([_text({
         "default_target": _app_id,
         "registered": apps,
         "current_session": _session or None,
         "mcp_server": {"version": SERVER_VERSION,
                        "started_at": SERVER_STARTED_AT},
-        "adhoc": "start_session 也接受 url 参数(如 https://example.com) "
-                 "直接探索未注册的网站;该站点的浏览器登录态会按站点持久化。",
+        "adhoc": "start_session also accepts a url argument (e.g. https://example.com) "
+                 "to explore an unregistered site directly; that site's browser login state persists per site.",
     })])
 
 
@@ -603,7 +603,7 @@ def _t_start_session(args: dict) -> dict:
     app_id = (args.get("app_id") or "").strip()
     url = (args.get("url") or "").strip()
     if not app_id and not url:
-        return _err("需要 app_id 或 url 之一")
+        return _err("either app_id or url is required")
     key = f"app:{app_id}" if app_id else f"url:{url}"
     _last_requested_target = key  # recoverable even if creation fails
     if _finalize_degraded:
@@ -611,26 +611,26 @@ def _t_start_session(args: dict) -> dict:
         # reproduction handoff (a fresh session would strand this
         # conversation on a second exploration of the same evidence).
         return _err(
-            f"探索已定稿（session {_finalized_source}）但复现工作区未启动。"
-            f"请调用 finalize 重试复现启动；如需重新探索，请新开一个对话。")
+            f"Exploration is finalized (session {_finalized_source}) but the reproduction workspace has not started. "
+            f"Call finalize to retry the reproduction start; to explore again, open a new conversation.")
     if _session:
         if _bound_session_running():
             if _bound_target == key:
                 payload = {"session_id": _session, "target": key,
-                           "note": "已是当前目标,继续探索即可"}
+                           "note": "already the current target; just continue exploring"}
                 exclusions = _load_target_exclusions(app_id)
                 if exclusions:
                     payload["exclusions"] = exclusions
                 return _ok([_text(payload)])
-            return _err(f"当前对话已绑定会话 {_session}({_bound_target})。"
-                        f"更换目标请先 finalize 结束它,或新开一个对话。")
+            return _err(f"this conversation is already bound to session {_session} ({_bound_target}). "
+                        f"To change targets, finalize it first or open a new conversation.")
         # bound session died or was closed externally — release and rebind
         # instead of bricking the conversation (finalize is impossible then)
         _release_binding("session no longer running")
     try:
         _ensure_controller()
     except Exception as e:
-        return _err(f"controller 启动失败: {e}")
+        return _err(f"controller failed to start: {e}")
     payload = {"budget": _budget_payload()}
     if app_id:
         payload["app_id"] = app_id
@@ -647,7 +647,7 @@ def _t_start_session(args: dict) -> dict:
         except Exception:
             msg = r.text[:300]
         # precheck 失败(如抖音未登录)的指引会随这里带给用户
-        return _err(f"会话创建失败 HTTP {r.status_code}: {msg}")
+        return _err(f"session creation failed HTTP {r.status_code}: {msg}")
     body = r.json()
     _session = body["session_id"]
     _own_session = True
@@ -663,17 +663,17 @@ def _t_start_session(args: dict) -> dict:
 
 
 _ACTION_PROPS = {
-    "x": {"type": "integer", "description": "屏幕像素坐标(0-1439)"},
-    "y": {"type": "integer", "description": "屏幕像素坐标(0-899)"},
+    "x": {"type": "integer", "description": "screen pixel coordinate (0-1439)"},
+    "y": {"type": "integer", "description": "screen pixel coordinate (0-899)"},
     "x1": {"type": "integer"}, "y1": {"type": "integer"},
     "x2": {"type": "integer"}, "y2": {"type": "integer"},
     "duration_ms": {"type": "integer"},
     "text": {"type": "string"},
-    "key": {"type": "string", "description": "Enter/Tab/Escape/Backspace/F5/BrowserBack/BrowserForward/ArrowDown/单字符"},
+    "key": {"type": "string", "description": "Enter/Tab/Escape/Backspace/F5/BrowserBack/BrowserForward/ArrowDown/single char"},
     "dx": {"type": "integer"}, "dy": {"type": "integer"},
     "ms": {"type": "integer"},
     "tab_index": {"type": "integer",
-                  "description": "标签页索引(0起,按打开顺序;回执 tabs 字段有 count/active)"},
+                  "description": "tab index (0-based, in opening order; the reply's tabs field has count/active)"},
 }
 
 
@@ -694,18 +694,18 @@ def _register(schema: dict, handler) -> None:
 
 
 _register({"name": "observe",
-           "description": "获取当前屏幕截图(PNG 图像)+光标坐标+预算。这是你看应用的唯一窗口——没有 DOM/URL。",
+           "description": "Get the current screenshot (PNG) + cursor position + budget. This is your only window into the app — there is no DOM/URL.",
            "inputSchema": {"type": "object", "properties": {}}}, _t_observe)
 
 _register({"name": "list_targets",
-           "description": "列出可探索的目标(已注册 app)及默认目标;探索开始前可先查看。",
+           "description": "List explorable targets (registered apps) and the default target; worth checking before exploration starts.",
            "inputSchema": {"type": "object", "properties": {}}}, _t_list_targets)
 
 _register({"name": "start_session",
-           "description": "选择本次探索目标并开始会话: app_id(已注册,如 yuque_web/ecommerce_demo) 或 url(任意网址,如 https://example.com)。一个对话绑定一个目标。",
+           "description": "Select this exploration's target and start a session: app_id (registered, e.g. yuque_web/ecommerce_demo) or url (any site, e.g. https://example.com). One conversation binds one target.",
            "inputSchema": {"type": "object", "properties": {
-               "app_id": {"type": "string", "description": "已注册目标 id"},
-               "url": {"type": "string", "description": "任意网站 URL(临时目标)"}}}},
+               "app_id": {"type": "string", "description": "registered target id"},
+               "url": {"type": "string", "description": "any website URL (ad-hoc target)"}}}},
           _t_start_session)
 
 def _make_action_handler(name: str):
@@ -715,25 +715,25 @@ def _make_action_handler(name: str):
 
 
 for _n, _req, _d in [
-    ("click", ["x", "y"], "左键点击屏幕坐标"),
-    ("double_click", ["x", "y"], "双击"),
-    ("move_pointer", ["x", "y"], "移动光标(悬停)"),
-    ("mouse_down", ["x", "y"], "按下左键"),
-    ("mouse_up", ["x", "y"], "抬起左键"),
-    ("drag", ["x1", "y1", "x2", "y2"], "拖拽(可选 duration_ms)"),
-    ("type_text", ["text"], "键盘输入文本(先 click 输入框获得焦点)"),
-    ("key_press", ["key"], "按一下键: Enter/Tab/Escape/Backspace/F5/BrowserBack(返回上一页)/BrowserForward/方向键/单字符"),
-    ("key_down", ["key"], "按住键"),
-    ("key_up", ["key"], "松开键"),
-    ("scroll", ["dx", "dy"], "滚动,dy>0 向下"),
-    ("wait", ["ms"], "等待毫秒"),
+    ("click", ["x", "y"], "left-click at screen coordinates"),
+    ("double_click", ["x", "y"], "double-click"),
+    ("move_pointer", ["x", "y"], "move the pointer (hover)"),
+    ("mouse_down", ["x", "y"], "press the left button"),
+    ("mouse_up", ["x", "y"], "release the left button"),
+    ("drag", ["x1", "y1", "x2", "y2"], "drag (optional duration_ms)"),
+    ("type_text", ["text"], "type text via the keyboard (click the input first to focus it)"),
+    ("key_press", ["key"], "press a key once: Enter/Tab/Escape/Backspace/F5/BrowserBack (previous page)/BrowserForward/arrow keys/single char"),
+    ("key_down", ["key"], "hold a key down"),
+    ("key_up", ["key"], "release a key"),
+    ("scroll", ["dx", "dy"], "scroll; dy>0 scrolls down"),
+    ("wait", ["ms"], "wait milliseconds"),
     ("switch_tab", ["tab_index"],
-     "切换到指定标签页(点击可能已自动跟随到新页;用它可以切回之前的页)"),
+     "switch to a given tab (a click may have auto-followed to a new page; use it to switch back to a previous one)"),
 ]:
     _register(_action_tool(_n, _req, _d), _make_action_handler(_n))
 
 _register({"name": "close_tab",
-           "description": "关闭当前标签页并回到上一个(最后一个不可关;用于关闭点击新开的页面)",
+           "description": "close the current tab and return to the previous one (the last one cannot be closed; use it to close a page opened by a click)",
            "inputSchema": {"type": "object", "properties": {}}},
           _make_action_handler("close_tab"))
 
@@ -761,42 +761,42 @@ def _revise(a: dict) -> dict:
 
 
 _register({"name": "finalize",
-           "description": "探索完成:生成最终功能拓扑图、结束目标会话并立即启动隔离复现阶段。",
+           "description": "Exploration complete: generate the final functional topology, close the target session, and immediately start the isolated reproduction stage.",
            "inputSchema": {"type": "object", "properties": {}}}, _t_finalize)
 
 _register({"name": "workspace_list",
-           "description": "仅在 finalize 后列出复现输出工作区中的文件。",
+           "description": "List files in the reproduction output workspace (only after finalize).",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string"}}}}, _t_workspace_list)
 
 _register({"name": "workspace_read",
-           "description": "仅在 finalize 后读取复现输出中的文本或 PNG/JPEG。",
+           "description": "Read text or PNG/JPEG from the reproduction output (only after finalize).",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string"}}, "required": ["path"]}},
           _t_workspace_read)
 
 _register({"name": "workspace_write",
-           "description": "仅在 finalize 后写入复现输出工作区。",
+           "description": "Write into the reproduction output workspace (only after finalize).",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string"}, "content": {"type": "string"}},
                "required": ["path", "content"]}}, _t_workspace_write)
 
 _register({"name": "workspace_patch",
-           "description": "仅在 finalize 后对复现输出中的已有文件做精确搜索-替换编辑"
-                          "（修改少量代码时优先用它，避免整文件 workspace_write 重写）。"
-                          "old_text 必须与文件内容完全一致且全文件唯一，否则报错；"
-                          "new_text 传空串表示删除该片段。",
+           "description": "Precise search-and-replace edit of an existing file in the reproduction output"
+                          " (prefer it for small code changes over a full workspace_write)."
+                          "old_text must match the file content exactly and be unique in the file, or it errors;"
+                          "an empty new_text deletes that fragment.",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string"},
                "old_text": {"type": "string",
-                            "description": "要被替换的原文（含足够上下文以保证唯一）"},
+                            "description": "the text to replace (include enough context to make it unique)"},
                "new_text": {"type": "string",
-                            "description": "替换后的文本；空串表示删除"}},
+                            "description": "the replacement text; an empty string deletes it"}},
                "required": ["path", "old_text", "new_text"]}},
           _t_workspace_patch)
 
 _register({"name": "workspace_run",
-           "description": "仅在 finalize 后于无网络复现沙箱中运行 argv 形式程序。",
+           "description": "Run an argv-form program in the offline reproduction sandbox (only after finalize).",
            "inputSchema": {"type": "object", "properties": {
                "argv": {"type": "array", "items": {"type": "string"}},
                "cwd": {"type": "string"},
@@ -812,41 +812,41 @@ def _make_review_action_handler(name: str):
 
 
 _register({"name": "start_reproduction_review",
-           "description": "启动对本次 Agent 生成网页的像素级黑盒复验；entry_path 必须是 website_output 本次结果内含 index.html 的目录。",
+           "description": "Start the pixel-level black-box re-check of the webpage this Agent generated; entry_path must be a directory containing index.html inside this run's website_output.",
            "inputSchema": {"type": "object", "properties": {
-               "entry_path": {"type": "string", "description": "相对输出根目录，默认 ."}}}},
+               "entry_path": {"type": "string", "description": "relative to the output root; default ."}}}},
           _t_start_reproduction_review)
 
 _register({"name": "review_observe",
-           "description": "获取复现网页当前可见截图；不提供 DOM、selector、URL 或网络语义。",
+           "description": "Get the current visible screenshot of the reproduction webpage; no DOM, selector, URL, or network semantics are provided.",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_review_observe)
 
 for _n, _req, _d in [
-    ("click", ["x", "y"], "点击复现网页坐标"),
-    ("double_click", ["x", "y"], "双击复现网页坐标"),
-    ("move_pointer", ["x", "y"], "在复现网页中移动光标"),
-    ("mouse_down", ["x", "y"], "在复现网页中按下左键"),
-    ("mouse_up", ["x", "y"], "在复现网页中抬起左键"),
-    ("drag", ["x1", "y1", "x2", "y2"], "在复现网页中拖拽"),
-    ("type_text", ["text"], "向复现网页当前焦点键入文本"),
-    ("key_press", ["key"], "在复现网页中按键"),
-    ("key_down", ["key"], "在复现网页中按住键"),
-    ("key_up", ["key"], "在复现网页中松开键"),
-    ("scroll", ["dx", "dy"], "滚动复现网页"),
-    ("wait", ["ms"], "等待复现网页更新"),
-    ("switch_tab", ["tab_index"], "切换复现网页标签页"),
+    ("click", ["x", "y"], "click at reproduction-webpage coordinates"),
+    ("double_click", ["x", "y"], "double-click at reproduction-webpage coordinates"),
+    ("move_pointer", ["x", "y"], "move the pointer in the reproduction webpage"),
+    ("mouse_down", ["x", "y"], "press the left button in the reproduction webpage"),
+    ("mouse_up", ["x", "y"], "release the left button in the reproduction webpage"),
+    ("drag", ["x1", "y1", "x2", "y2"], "drag in the reproduction webpage"),
+    ("type_text", ["text"], "type text into the focused element of the reproduction webpage"),
+    ("key_press", ["key"], "press a key in the reproduction webpage"),
+    ("key_down", ["key"], "hold a key down in the reproduction webpage"),
+    ("key_up", ["key"], "release a key in the reproduction webpage"),
+    ("scroll", ["dx", "dy"], "scroll the reproduction webpage"),
+    ("wait", ["ms"], "wait for the reproduction webpage to update"),
+    ("switch_tab", ["tab_index"], "switch reproduction-webpage tab"),
 ]:
     _schema = _action_tool(f"review_{_n}", _req, _d)
     _register(_schema, _make_review_action_handler(_n))
 
 _register({"name": "review_close_tab",
-           "description": "关闭复验浏览器的当前标签页并回到上一个。",
+           "description": "Close the current tab of the review browser and return to the previous one.",
            "inputSchema": {"type": "object", "properties": {}}},
           _make_review_action_handler("close_tab"))
 
 _register({"name": "complete_reproduction_review",
-           "description": "结束当前复验轮次。发现问题选 revise，修改后再复验；核心流程正常且无私人信息时才选 accept。",
+           "description": "End the current review round. Choose revise when problems are found (fix, then re-review); choose accept only when the core flows work and no private information is present.",
            "inputSchema": {"type": "object", "properties": {
                "decision": {"type": "string", "enum": ["accept", "revise"]},
                "checked_flows": {"type": "array", "items": {"type": "string"},
@@ -857,7 +857,7 @@ _register({"name": "complete_reproduction_review",
           _t_complete_reproduction_review)
 
 _register({"name": "finish_reproduction",
-           "description": "仅在像素级复验已 accept 后完成网页复现并保留 website_output 中的结果。",
+           "description": "Finish the web reproduction and keep the results in website_output (only after the pixel-level review was accepted).",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_finish_reproduction)
 

@@ -18,15 +18,15 @@ class Grade(str, Enum):
 
 
 GRADE_LABELS = {
-    Grade.FULL: "完整",
-    Grade.PARTIAL: "部分",
-    Grade.PLACEHOLDER: "占位",
-    Grade.BROKEN: "失效",
+    Grade.FULL: "Complete",
+    Grade.PARTIAL: "Partial",
+    Grade.PLACEHOLDER: "Placeholder",
+    Grade.BROKEN: "Broken",
 }
 
 GRADE_CRITERIA = {
-    Grade.FULL: "功能在可见行为上达成目标，包含状态变化与必要的持久化。",
-    Grade.PARTIAL: "主要路径可用，但存在缺失分支、缺少校验或部分子流程不可用。",
-    Grade.PLACEHOLDER: "界面存在但没有真实行为：点击无变化、数据不落地、仅有静态外观。",
-    Grade.BROKEN: "入口缺失、崩溃、报错或完全无法进入该功能。",
+    Grade.FULL: "The function achieves its goal in visible behavior, including state change and required persistence.",
+    Grade.PARTIAL: "The main path works, but branches are missing, validation is absent, or some sub-flows do not work.",
+    Grade.PLACEHOLDER: "The UI exists but has no real behavior: clicks change nothing, data does not land, only a static appearance.",
+    Grade.BROKEN: "The entry is missing, it crashes, errors, or the feature cannot be reached at all.",
 }

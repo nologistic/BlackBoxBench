@@ -82,8 +82,8 @@ def _sample_spec() -> AndroidTargetSpec:
         launch_activity=".MainActivity",
         apk_sha256=(hashlib.sha256(apk.read_bytes()).hexdigest()
                     if apk.is_file() else ""),
-        brief=("这是一个确定性的移动电商测试 App。测试账号为 linxi，密码为 "
-               "demo123。请仅通过当前可见屏幕和坐标级触控探索其功能。"),
+        brief=("This is a deterministic mobile e-commerce test app. The test account is linxi, password "
+               "demo123. Explore it only through the currently visible screen and coordinate-level touch."),
         orientation="portrait",
         reset_strategy="clear_data",
         network_policy="offline",

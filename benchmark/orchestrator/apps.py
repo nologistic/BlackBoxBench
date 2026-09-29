@@ -47,10 +47,10 @@ class AppSpec:
 
 
 _LIVE_SOFT_NETWORK_RULE = (
-    "起始 URL 只是目标入口,不是域名或导航白名单;允许网站正常重定向、跨域加载"
-    "以及站内类人导航。不得把网络能力用于主动访问搜索引擎、代码托管站、网页"
-    "归档或其他站点来查找目标的原始实现,也不得直接请求、下载或读取目标页面"
-    "源码、接口响应等语义内容。")
+    "The start URL is only the target's entry point, not a domain or navigation whitelist; the site may redirect, load cross-origin resources, "
+    "and be navigated like a human. Do not use network capabilities to actively visit search engines, code-hosting sites, web "
+    "archives, or other sites to find the target's original implementation, and do not directly request, download, or read the target page's "
+    "source, API responses, or other semantic content.")
 
 
 _REGISTRY: dict[str, AppSpec] = {
@@ -59,353 +59,353 @@ _REGISTRY: dict[str, AppSpec] = {
         description="Nimbus Market — seeded ecommerce demo (auth, catalog, cart, "
                     "coupon, checkout, orders, persistence).",
         module="sample_apps.ecommerce_demo.app",
-        brief=("这是一个电商购物应用。你拥有一个测试账号: 用户名 alice, "
-               "密码 alice123。登录它不是必须的——你可以先匿名探索,在需要时"
-               "(例如遇到登录门槛)再使用它。"),
+        brief=("This is an e-commerce shopping app. You have a test account: username alice, "
+               "password alice123. Logging in is not required — you can explore anonymously first and use it "
+               "when needed (e.g. when you hit a login gate)."),
     ),
     "yuque_web": AppSpec(
         app_id="yuque_web",
         kind="live",
-        description="语雀网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Yuque web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://www.yuque.com/",
         seed="live",
-        brief=("这是语雀文档与知识库网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要新建、编辑、删除、分享文档或修改账号、团队与权限设置。"
+        brief=("This is the Yuque docs & knowledge-base web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not create, edit, delete, or share documents, or change account, team, or permission settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "youtube_web": AppSpec(
         app_id="youtube_web",
         kind="live",
-        description="YouTube 视频平台网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="YouTube web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://www.youtube.com/",
         seed="live",
-        brief=("这是YouTube 视频平台网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要上传视频、评论、点赞、订阅或修改播放列表与账号设置。"
+        brief=("This is the YouTube video-platform web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not upload videos, comment, like, subscribe, or change playlists or account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "taobao_web": AppSpec(
         app_id="taobao_web",
         kind="live",
-        description="淘宝电商平台网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Taobao web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://www.taobao.com/",
         seed="live",
-        brief=("这是淘宝电商平台网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要下单、支付、评价、收藏、加购或修改账号设置。"
+        brief=("This is the Taobao e-commerce web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not place orders, pay, review, favorite, add to cart, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "zhihu_web": AppSpec(
         app_id="zhihu_web",
         kind="live",
-        description="知乎问答社区网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Zhihu web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://www.zhihu.com/follow",
         seed="live",
-        brief=("这是知乎问答社区网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要提问、回答、评论、点赞、收藏或修改账号设置。"
+        brief=("This is the Zhihu Q&A community web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not ask questions, answer, comment, like, favorite, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "xiaohongshu_web": AppSpec(
         app_id="xiaohongshu_web",
         kind="live",
-        description="小红书内容社区网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Xiaohongshu web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://www.xiaohongshu.com/explore",
         seed="live",
-        brief=("这是小红书内容社区网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要发布笔记、评论、点赞、收藏或修改账号设置。"
+        brief=("This is the Xiaohongshu content-community web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not publish notes, comment, like, favorite, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "weibo_web": AppSpec(
         app_id="weibo_web",
         kind="live",
-        description="微博社交平台网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Weibo web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://weibo.com/",
         seed="live",
-        brief=("这是微博社交平台网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要发博、评论、转发、点赞或修改账号设置。"
+        brief=("This is the Weibo social web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not post, comment, repost, like, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "douban_web": AppSpec(
         app_id="douban_web",
         kind="live",
-        description="豆瓣社区网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Douban web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://www.douban.com/",
         seed="live",
-        brief=("这是豆瓣社区网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要发帖、评论、点赞、收藏或修改账号设置。"
+        brief=("This is the Douban community web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not post, comment, like, favorite, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "dianping_web": AppSpec(
         app_id="dianping_web",
         kind="live",
-        description="大众点评本地生活平台网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Dianping local-life web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://www.dianping.com/",
         seed="live",
-        brief=("这是大众点评本地生活平台网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要写点评、上传图片、签到或修改账号设置。"
+        brief=("This is the Dianping local-life web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not write reviews, upload photos, check in, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "ctrip_web": AppSpec(
         app_id="ctrip_web",
         kind="live",
-        description="携程旅行预订平台网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Ctrip travel-booking web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://www.ctrip.com/",
         seed="live",
-        brief=("这是携程旅行预订平台网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要下单、支付、预订或修改账号设置。"
+        brief=("This is the Ctrip travel-booking web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not place orders, pay, book, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "reddit_web": AppSpec(
         app_id="reddit_web",
         kind="live",
-        description="Reddit 社区网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Reddit web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://www.reddit.com/",
         seed="live",
-        brief=("这是Reddit 社区网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要发帖、评论、投票、加入社区或修改账号设置。"
+        brief=("This is the Reddit community web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not post, comment, vote, join communities, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "quora_web": AppSpec(
         app_id="quora_web",
         kind="live",
-        description="Quora 问答社区网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Quora web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://www.quora.com/",
         seed="live",
-        brief=("这是Quora 问答社区网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要提问、回答、评论、投票或修改账号设置。"
+        brief=("This is the Quora Q&A web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not ask questions, answer, comment, vote, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "notion_web": AppSpec(
         app_id="notion_web",
         kind="live",
-        description="Notion 工作区网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Notion workspace web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://app.notion.com/",
         seed="live",
-        brief=("这是Notion 工作区网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要新建、编辑、删除、分享页面或修改工作区设置。"
+        brief=("This is the Notion workspace web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not create, edit, delete, or share pages, or change workspace settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "trello_web": AppSpec(
         app_id="trello_web",
         kind="live",
-        description="Trello 看板网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Trello boards web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://trello.com/",
         seed="live",
-        brief=("这是Trello 看板网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要创建、编辑、删除、归档卡片或修改看板设置。"
+        brief=("This is the Trello boards web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not create, edit, delete, or archive cards, or change board settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "todoist_web": AppSpec(
         app_id="todoist_web",
         kind="live",
-        description="Todoist 任务管理网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Todoist task-management web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://app.todoist.com/",
         seed="live",
-        brief=("这是Todoist 任务管理网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要创建、编辑、完成、删除任务或修改项目设置。"
+        brief=("This is the Todoist task-management web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not create, edit, complete, or delete tasks, or change project settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "airtable_web": AppSpec(
         app_id="airtable_web",
         kind="live",
-        description="Airtable 数据表格网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Airtable spreadsheet web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://airtable.com/",
         seed="live",
-        brief=("这是Airtable 数据表格网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要新建、编辑、删除记录或修改表结构。"
+        brief=("This is the Airtable spreadsheet web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not create, edit, or delete records, or change table structure."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "google_calendar_web": AppSpec(
         app_id="google_calendar_web",
         kind="live",
-        description="Google 日历网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Google Calendar web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://calendar.google.com/",
         seed="live",
-        brief=("这是Google 日历网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要新建、编辑、删除日程或修改日历设置。"
+        brief=("This is the Google Calendar web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not create, edit, or delete events, or change calendar settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "dropbox_web": AppSpec(
         app_id="dropbox_web",
         kind="live",
-        description="Dropbox 云存储网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Dropbox cloud-storage web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://www.dropbox.com/",
         seed="live",
-        brief=("这是Dropbox 云存储网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要上传、编辑、删除、分享文件或修改账号设置。"
+        brief=("This is the Dropbox cloud-storage web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not upload, edit, delete, or share files, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "google_forms_web": AppSpec(
         app_id="google_forms_web",
         kind="live",
-        description="Google 表单网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Google Forms web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://forms.google.com/",
         seed="live",
-        brief=("这是Google 表单网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要新建、编辑、删除表单或提交响应。"
+        brief=("This is the Google Forms web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not create, edit, or delete forms, or submit responses."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "excalidraw_web": AppSpec(
         app_id="excalidraw_web",
         kind="live",
-        description="Excalidraw 白板网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Excalidraw whiteboard web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://excalidraw.com/",
         seed="live",
-        brief=("这是Excalidraw 白板网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要保存、导出、分享画布或修改账号设置。"
+        brief=("This is the Excalidraw whiteboard web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not save, export, or share the canvas, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "diagrams_net_web": AppSpec(
         app_id="diagrams_net_web",
         kind="live",
-        description="diagrams.net 图表工具网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="diagrams.net diagram-tool web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://app.diagrams.net/",
         seed="live",
-        brief=("这是diagrams.net 图表工具网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要保存、导出、分享图表或修改账号设置。"
+        brief=("This is the diagrams.net diagram-tool web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not save, export, or share diagrams, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "spotify_web": AppSpec(
         app_id="spotify_web",
         kind="live",
-        description="Spotify 音乐平台网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Spotify music web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://open.spotify.com/",
         seed="live",
-        brief=("这是Spotify 音乐平台网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要创建播放列表、关注、收藏或修改账号设置。"
+        brief=("This is the Spotify music web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not create playlists, follow, favorite, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "desmos_web": AppSpec(
         app_id="desmos_web",
         kind="live",
-        description="Desmos 图形计算器网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Desmos graphing-calculator web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://www.desmos.com/calculator/",
         seed="live",
-        brief=("这是Desmos 图形计算器网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要保存、分享图表或修改账号设置。"
+        brief=("This is the Desmos graphing-calculator web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not save or share graphs, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "desmos_geometry_web": AppSpec(
         app_id="desmos_geometry_web",
         kind="live",
-        description="Desmos Geometry 几何工具网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Desmos Geometry web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://www.desmos.com/geometry",
         seed="live",
-        brief=("这是Desmos Geometry 几何工具网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要保存、分享构造或修改账号设置。"
+        brief=("This is the Desmos Geometry web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not save or share constructions, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "desmos_3d_web": AppSpec(
         app_id="desmos_3d_web",
         kind="live",
-        description="Desmos 3D 计算器网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Desmos 3D calculator web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://www.desmos.com/3d",
         seed="live",
-        brief=("这是Desmos 3D 计算器网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要保存、分享图表或修改账号设置。"
+        brief=("This is the Desmos 3D calculator web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not save or share graphs, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "google_maps_web": AppSpec(
         app_id="google_maps_web",
         kind="live",
-        description="Google 地图网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Google Maps web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://maps.google.com/",
         seed="live",
-        brief=("这是Google 地图网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要编辑地图、上传照片、保存地点或修改账号设置。"
+        brief=("This is the Google Maps web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not edit maps, upload photos, save places, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "kleki_web": AppSpec(
         app_id="kleki_web",
         kind="live",
-        description="Kleki 在线绘图网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Kleki online-painting web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://kleki.com/",
         seed="live",
-        brief=("这是Kleki 在线绘图网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要保存、导出、分享画作或修改账号设置。"
+        brief=("This is the Kleki online-painting web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not save, export, or share artwork, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "jspaint_web": AppSpec(
         app_id="jspaint_web",
         kind="live",
-        description="JS Paint 在线绘图网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="JS Paint online-painting web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://jspaint.app/",
         seed="live",
-        brief=("这是JS Paint 在线绘图网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要保存、导出、分享画作或修改账号设置。"
+        brief=("This is the JS Paint online-painting web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not save, export, or share artwork, or change account settings."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
     "squoosh_web": AppSpec(
         app_id="squoosh_web",
         kind="live",
-        description="Squoosh 图片压缩网页版 (live target: 登录态人工维护, 无 S0 reset / "
-                    "确定性保证, 仅像素+HID 通道不变)。",
+        description="Squoosh image-compressor web (live target: login state maintained by hand, no S0 reset / "
+                    "determinism guarantees; only the pixel+HID channel is unchanged).",
         live_url="https://squoosh.app/",
         seed="live",
-        brief=("这是Squoosh 图片压缩网页版,登录态由人工预先维护。"
-               "这是一个真实线上应用,内容会实时变化。请只读探索和搜索,"
-               "不要处理包含个人隐私的图片。"
+        brief=("This is the Squoosh image-compressor web version; its login state is maintained by hand. "
+               "This is a real online service whose content changes in real time. Explore and search read-only; "
+               "do not process images containing personal privacy."
                + _LIVE_SOFT_NETWORK_RULE),
     ),
 }
 
 
 _LIVE_BRIEF = (
-    "这是一个真实线上网站,你通过浏览器访问它的网页版。内容会实时变化。"
-    "请只读探索(浏览、搜索、查看),不要执行任何会修改服务端或账号状态的"
-    "操作(发帖、评论、点赞、关注、购买、删除、设置变更等)。"
+    "This is a real online website; you visit its web version through the browser. Its content changes in real time. "
+    "Explore read-only (browse, search, view); do not perform any operation that changes server-side or account state "
+    "(posting, commenting, liking, following, purchasing, deleting, changing settings, etc.). "
     + _LIVE_SOFT_NETWORK_RULE)
 
 

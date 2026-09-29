@@ -76,7 +76,7 @@ def _ensure_app_materials_locked() -> Path:
     shutil.copy2(common / "videos" / "story_loop.mp4",
                  picker / "sample_video.mp4")
     (picker / "sample_note.txt").write_text(
-        "这是 BlackBoxBench 提供的虚构测试文档，不包含真实用户信息。\n",
+        "This is a fictional test document provided by BlackBoxBench; it contains no real user information.\n",
         encoding="utf-8")
 
     files = []

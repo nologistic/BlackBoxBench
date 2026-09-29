@@ -126,13 +126,13 @@ def _resolve_handoff(value: str) -> Path:
     """Locate the handoff under website_output. Accepts a handoff id."""
     raw = (value or _handoff_env or "").strip()
     if not raw:
-        raise ValueError("需要 handoff_id（website_output 下的交接目录名）")
+        raise ValueError("handoff_id is required (the handoff directory name under website_output)")
     resolved = _resolve_under(WEBSITE_OUTPUT_ROOT, raw, "handoff")
     if not resolved.is_dir():
-        raise ValueError("交接目录不存在")
+        raise ValueError("handoff directory does not exist")
     root = _handoff_root(resolved)
     if root is None:
-        raise ValueError("交接目录缺少 index.html；先完成网页复现交接")
+        raise ValueError("handoff directory lacks index.html; finish the web reproduction handoff first")
     return root
 
 
@@ -145,9 +145,9 @@ def _resolve_checklist(value: str) -> Checklist:
         # caller is shown what exists.
         available = sorted(p.stem for p in REVIEW_SPECS_ROOT.glob("*.json"))
         raise ValueError(
-            "需要显式指定 checklist，例如 start_evaluation("
-            "checklist=\"<清单文件>\", handoff_id=\"...\")；"
-            f"可用清单: {', '.join(available)}")
+            "checklist must be given explicitly, e.g. start_evaluation("
+            "checklist=\"<checklist file>\", handoff_id=\"...\"); "
+            f"available checklists: {', '.join(available)}")
     resolved = _resolve_under(REVIEW_SPECS_ROOT, raw, "checklist")
     checklist = Checklist.load(resolved)
     checklist.expect_platform("web")
@@ -156,7 +156,7 @@ def _resolve_checklist(value: str) -> Checklist:
 
 def _require_session() -> WebEvaluationSession:
     if _session is None:
-        raise ValueError("尚未开始评测；先调用 start_evaluation")
+        raise ValueError("evaluation has not started; call start_evaluation first")
     return _session
 
 
@@ -200,7 +200,7 @@ def _t_start_evaluation(args: dict) -> dict:
     """Serve the handoff on loopback and open it in the locked browser."""
     global _session
     if _session is not None and not _session.finished:
-        return _err("已有进行中的评测；先 finish_evaluation 或 abort_evaluation")
+        return _err("an evaluation is already in progress; finish_evaluation or abort_evaluation first")
     raw_handoff = str(args.get("handoff_id") or "").strip()
     checklist = _resolve_checklist(args.get("checklist", ""))
     handoff = _resolve_handoff(raw_handoff)
@@ -247,10 +247,10 @@ def _t_record_result(args: dict) -> dict:
     session = _require_session()
     evidence = args.get("evidence_observations") or []
     if not isinstance(evidence, list):
-        raise ValueError("evidence_observations 必须是观察编号数组")
+        raise ValueError("evidence_observations must be an array of observation numbers")
     persistence = args.get("persistence_evidence")
     if persistence is not None and not isinstance(persistence, dict):
-        raise ValueError("persistence_evidence 必须是对象")
+        raise ValueError("persistence_evidence must be an object")
     return _ok([_text(session.record_result(
         requirement_id=str(args.get("requirement_id") or ""),
         grade=str(args.get("grade") or ""),
@@ -282,7 +282,7 @@ def _t_abort_evaluation(_args: dict) -> dict:
     """Tear the browser down without producing a report."""
     global _session
     if _session is None:
-        return _ok([_text({"aborted": False, "note": "没有进行中的评测"})])
+        return _ok([_text({"aborted": False, "note": "no evaluation in progress"})])
     _session.close()
     _session = None
     return _ok([_text({"aborted": True})])
@@ -291,12 +291,12 @@ def _t_abort_evaluation(_args: dict) -> dict:
 # ------------------------------------------------------------------- registry
 
 _ACTION_PROPS = {
-    "x": {"type": "integer", "description": "当前截图中的像素横坐标"},
-    "y": {"type": "integer", "description": "当前截图中的像素纵坐标"},
-    "dx": {"type": "integer", "description": "水平滚动量（负值向左）"},
-    "dy": {"type": "integer", "description": "垂直滚动量（负值向上）"},
+    "x": {"type": "integer", "description": "pixel x-coordinate on the current screenshot"},
+    "y": {"type": "integer", "description": "pixel y-coordinate on the current screenshot"},
+    "dx": {"type": "integer", "description": "horizontal scroll amount (negative scrolls left)"},
+    "dy": {"type": "integer", "description": "vertical scroll amount (negative scrolls up)"},
     "key": {"type": "string",
-            "description": "键名：Enter / Escape / Tab / Backspace / ArrowDown / BrowserBack 等"},
+            "description": "key name: Enter / Escape / Tab / Backspace / ArrowDown / BrowserBack, etc."},
     "text": {"type": "string"},
     "ms": {"type": "integer"},
 }
@@ -318,87 +318,87 @@ def _action_tool(name: str, req: list[str], desc: str) -> dict:
 
 
 _register({"name": "list_checklists",
-           "description": "列出可用的人工功能要求清单、可评审的网页交接目录和四档判定标准。",
+           "description": "List the available human-authored functional-requirements checklists, reviewable web handoff directories, and the four-tier criteria.",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_list_checklists)
 
 _register({"name": "start_evaluation",
-           "description": "把交接目录在本机静态服务并在锁定浏览器中打开，载入人工清单；返回首屏截图。",
+           "description": "Statically serve the handoff directory on loopback and open it in a locked-down browser, loading the human checklist; returns the first screen.",
            "inputSchema": {"type": "object", "properties": {
                "checklist": {"type": "string",
-                             "description": "review_specs 下的清单文件名"},
+                             "description": "checklist file name under review_specs"},
                "handoff_id": {"type": "string",
-                              "description": "website_output 下的交接目录名"}}}},
+                              "description": "handoff directory name under website_output"}}}},
           _t_start_evaluation)
 
 _register({"name": "observe",
-           "description": ("获取当前可见截图——动态验证的唯一依据。另有 read_source 可读交接目录内"
-                           "的源码文本；两者配合，但给分必须引用观察编号。"),
+           "description": ("Get the current visible screenshot — the only basis for dynamic verification. read_source reads source text inside the handoff directory; "
+                           "use both together, but grading must cite observation numbers."),
            "inputSchema": {"type": "object", "properties": {}}},
           _t_observe)
 
 for _n, _req, _d in [
-    ("click", ["x", "y"], "点击当前页面坐标"),
-    ("type_text", ["text"], "向当前焦点输入文本"),
-    ("scroll", ["dx", "dy"], "滚动页面（dx/dy 为滚动量）"),
-    ("key", ["key"], "按键：Enter / Escape / Tab / Backspace / 方向键 / BrowserBack 等"),
-    ("press_enter", [], "按 Enter"),
-    ("reload", [], "刷新页面——网页侧持久化探针"),
-    ("reset_browser", [], "冷重启浏览器（清 cookie/localStorage）——强持久化探针"),
-    ("wait", ["ms"], "等待毫秒"),
+    ("click", ["x", "y"], "click at current page coordinates"),
+    ("type_text", ["text"], "type text into the focused element"),
+    ("scroll", ["dx", "dy"], "scroll the page (dx/dy are the scroll amounts)"),
+    ("key", ["key"], "press a key: Enter / Escape / Tab / Backspace / arrow keys / BrowserBack, etc."),
+    ("press_enter", [], "press Enter"),
+    ("reload", [], "reload the page — the web-side persistence probe"),
+    ("reset_browser", [], "cold-restart the browser (clears cookies/localStorage) — the strong persistence probe"),
+    ("wait", ["ms"], "wait milliseconds"),
 ]:
     _register(_action_tool(_n, _req, _d), _make_action_handler(_n))
 
 _register({"name": "read_source",
-           "description": ("只读交接目录内的一个源码文本文件（html/js/css/json 等）。这是网页评审"
-                           "相对 App 评审的额外通道：用于静态定位入口与数据结构，"
-                           "不能代替像素观察。"),
+           "description": ("Read one source text file (html/js/css/json, etc.) inside the handoff directory. This is the extra channel web review has over app review: "
+                           "for statically locating entries and data structures, "
+                           "and it cannot replace pixel observation."),
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string",
-                        "description": "交接目录内的相对路径"}},
+                        "description": "relative path inside the handoff directory"}},
                "required": ["path"]}},
           _t_read_source)
 
 _register({"name": "record_result",
-           "description": ("为一条人工要求给出四档判定。grade 取 full|partial|"
-                           "placeholder|broken；必须引用已保存的观察编号，并如实说明"
-                           "看到的可见行为。判定标准由你把握，服务端只校验证据结构。"),
+           "description": ("Give a four-tier verdict for one human requirement. grade is full|partial|"
+                           "placeholder|broken; you must cite saved observation numbers and truthfully describe the "
+                           "visible behavior you saw. You own the criteria; the server only validates evidence structure."),
            "inputSchema": {"type": "object", "properties": {
                "requirement_id": {"type": "string"},
                "grade": {"type": "string",
                          "enum": [g.value for g in Grade]},
                "rationale": {"type": "string",
-                             "description": "依据可见行为的判定理由"},
+                             "description": "rationale based on visible behavior"},
                "evidence_observations": {
                    "type": "array", "items": {"type": "integer"},
-                   "description": "支撑该判定的观察编号"},
+                   "description": "observation numbers supporting this verdict"},
                "persistence_evidence": {
                    "type": "object",
-                   "description": ("持久化三段证据：before/after/persisted 观察编号；"
-                                   "persistence 类要求判 full 时必填"),
+                   "description": ("three-stage persistence evidence: before/after/persisted observation numbers; "
+                                   "required when grading full for persistence requirements"),
                    "properties": {
                        "before_observation": {"type": "integer"},
                        "after_observation": {"type": "integer"},
                        "persisted_observation": {"type": "integer"}}},
                "not_verifiable_reason": {
                    "type": "string",
-                   "description": "multi_user 等单机黑盒无法完整验证时的说明"}},
+                   "description": "note when multi_user or similar cannot be fully verified by a single-device black box"}},
                "required": ["requirement_id", "grade", "rationale",
                             "evidence_observations"]}},
           _t_record_result)
 
 _register({"name": "evaluation_status",
-           "description": "查看清单全文、已评与未评要求。",
+           "description": "View the full checklist, graded and ungraded requirements.",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_evaluation_status)
 
 _register({"name": "finish_evaluation",
-           "description": "全部要求评完后冻结四档报告；仍有未评要求时会被拒绝。",
+           "description": "Freeze the four-tier report after all requirements are graded; rejected while any requirement is ungraded.",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_finish_evaluation)
 
 _register({"name": "abort_evaluation",
-           "description": "放弃本次评测并关闭浏览器，不产出报告。",
+           "description": "Abandon this evaluation and close the browser without producing a report.",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_abort_evaluation)
 
