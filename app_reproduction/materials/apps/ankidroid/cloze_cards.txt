@@ -1,8 +1,8 @@
 #separator:tab
 #html:false
 #notetype column:1
-填空	东京是{{c1::日本}}的首都
-填空	水的化学式是{{c1::H2O}}，沸点在标准大气压下是{{c2::100}}摄氏度
-填空	《黑盒时报》是虚构的{{c1::资讯源}}，共包含{{c2::5}}条示例文章
-填空	间隔重复的四按钮是{{c1::忘记}}、{{c2::困难}}、{{c3::良好}}、{{c4::简单}}
-填空	OTP 验证码常见为{{c1::6}}位数字，每{{c2::30}}秒刷新一次
+Cloze	Tokyo is the capital of {{c1::Japan}}
+Cloze	The chemical formula of water is {{c1::H2O}}, and its boiling point at standard pressure is {{c2::100}} °C
+Cloze	The BlackBox Times is a fictional {{c1::news source}} with {{c2::5}} sample articles
+Cloze	The four spaced-repetition rating buttons are {{c1::Again}}, {{c2::Hard}}, {{c3::Good}}, {{c4::Easy}}
+Cloze	OTP codes commonly have {{c1::6}} digits and refresh every {{c2::30}} seconds

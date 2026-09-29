@@ -1,47 +1,47 @@
-# KeePassDX 复现补充信息（非实体素材）
+# KeePassDX reproduction supplementary information (non-entity materials)
 
-## 数据库（kdbx）概念
+## Database (kdbx) concepts
 
-- kdbx 文件 = 加密容器；内含组树、条目、回收站与数据库设置。
-- 版本：kdbx 3.x / 4.x（加密算法 AES 或 ChaCha20；密钥派生
-  Argon2/kdbx3 默认 AES-KDF）。
-- **主密钥** = 密码 和/或 密钥文件（.key）；解锁页输入 → 校验 →
-  打开库。修改主密钥重新加密保存。
+- A kdbx file = an encrypted container holding a group tree, entries, a recycle bin, and database settings.
+- Versions: kdbx 3.x / 4.x (cipher AES or ChaCha20; key derivation
+  Argon2 / AES-KDF by default for kdbx3).
+- **Master key** = password and/or key file (.key); entered on the unlock page → verified →
+  the vault opens. Changing the master key re-encrypts and saves.
 
-## 组与条目
+## Groups and entries
 
-| 对象 | 字段 |
+| Object | Fields |
 |---|---|
-| 组 | 名称、图标、层级（多级嵌套）、自动输入设置 |
-| 条目 | 标题、用户名、密码、URL、备注、图标、过期时间（+是否启用）、自定义字段、标签 |
-| 回收站 | 一个特殊组；删除条目默认移入，可清空 |
+| Group | Name, icon, level (multi-level nesting), auto-type settings |
+| Entry | Title, username, password, URL, notes, icon, expiry time (+enabled), custom fields, tags |
+| Recycle bin | A special group; deleted entries move here by default and can be emptied |
 
-- 密码字段默认隐藏（点眼睛显示）；条目卡片显示标题/用户名 + 图标。
-- 复制用户名/密码到剪贴板（带倒计时清空提示）。
-- 过期条目有视觉标记；过期不影响打开。
+- The password field is hidden by default (eye icon reveals); entry cards show title/username + icon.
+- Copy username/password to the clipboard (with a countdown-clear notice).
+- Expired entries carry a visual marker; expiry does not block opening.
 
-## 解锁与锁定
+## Unlock and lock
 
-- 启动 → 数据库选择页（最近库列表 + 新建/导入）→ 输主密钥 → 库内。
-- 新建数据库向导：设置主密钥（密码强度指示）→ 生成库。
-- 锁定：手动锁 或 应用切后台超时锁；解锁后回到锁定前的组。
-- 输错主密钥：明确错误提示，不清数据。
+- Launch → database picker (recent vaults + create/import) → enter the master key → inside the vault.
+- New-database wizard: set the master key (with a strength indicator) → generate the vault.
+- Lock: manual or timeout on backgrounding; unlocking returns to the pre-lock group.
+- Wrong master key: a clear error, no data cleared.
 
-## 搜索与排序
+## Search and sorting
 
-- 搜索：标题/用户名/URL/备注匹配；结果跨组列出。
-- 排序：自然排序 / 标题 / 用户名 / 创建时间 / 修改时间，升降序。
-- 「排序与分组显示规则」可按组分别设置。
+- Search: matches title/username/URL/notes; results listed across groups.
+- Sort: natural / title / username / created / modified, ascending or descending.
+- "Sort & group display rules" can be set per group.
 
-## 安全行为（沙盒语义）
+## Security behavior (sandbox semantics)
 
-- 自动填充与指纹解锁依赖系统能力（沙盒不可用）：显示「不可用」
-  状态即可，不视为缺陷。
-- 数据库保存为应用内文件；全部写操作（建组/建条目/改字段/回收）
-  持久化。
-- 生成密码：长度 + 字符集（大小写/数字/符号），生成结果可再生成。
+- Auto-fill and fingerprint unlock depend on system capabilities (unavailable in the sandbox): showing an "unavailable"
+  state is enough — not a defect.
+- The database saves as an in-app file; all write operations (create group/entry, edit fields, recycle)
+  persist.
+- Password generation: length + charset (upper/lower/digits/symbols); the result can be regenerated.
 
-## 复现行为要点
+## Key reproduction behaviors
 
-- 解锁 → 组树导航 → 条目详情 → 编辑保存 → 重进仍在；删除 →
-  回收站 → 恢复/彻底删除；锁定/解锁循环不丢状态——这些是核心闭环。
+- Unlock → group-tree navigation → entry details → edit and save → still there on re-entry; delete →
+  recycle bin → restore/permanent delete; lock/unlock cycles lose nothing — these are the core loops.

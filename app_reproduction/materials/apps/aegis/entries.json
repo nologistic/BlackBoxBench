@@ -1,5 +1,5 @@
 {
-  "note": "虚构的 Aegis 条目数据，与 otpauth_uris.txt 一一对应。字段与真实 Aegis 的条目模型对齐。",
+  "note": "Fictional Aegis entry data, one-to-one with otpauth_uris.txt. Fields align with the real Aegis entry model.",
   "groups": ["ExampleCorp", "CloudStore", "PaymentHub", "DevForge", "MailGate", "StreamBox", "SocialNest"],
   "entries": [
     {"account": "linxi@example.com", "issuer": "ExampleCorp", "group": "ExampleCorp", "secret": "JBSWY3DPEHPK3PXP", "digits": 6, "period": 30, "icon_hint": "avatars/linxi.png"},

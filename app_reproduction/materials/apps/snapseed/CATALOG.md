@@ -1,19 +1,19 @@
-# Snapseed 复现补充素材
+# Snapseed reproduction supplementary materials
 
-本目录是 `snapseed`（照片编辑）复现工作区的目标专属素材包，挂载为
-只读的 `/materials/app`。本包以非实体信息为主。
+This directory is the target-specific material pack for the `snapseed` (photo editing) reproduction workspace, mounted as
+read-only `/materials/app`. This pack is mainly non-entity information.
 
-## 实体素材
+## Entity materials
 
-- 无专属实体素材。编辑对象复用 `/materials/mobile/images/` 的虚构
-  图片（人物/商品/封面/社交图，构图多样）；导出示例参照
+- No target-specific entity materials. Edit subjects reuse the fictional images in `/materials/mobile/images/`
+  (people/products/covers/social, varied composition); for export examples see
   `/materials/mobile/file_picker/sample_photo.png`。
 
-## 非实体补充信息
+## Non-entity supplementary information
 
-见 `SUPPLEMENT.md`：非破坏编辑栈语义、工具清单与各工具的调整维度、
-样式（Looks）滤镜、导出参数——这是复现的核心必要信息。
+See `SUPPLEMENT.md`: non-destructive edit-stack semantics, the tool list and each tool's adjustment dimensions,
+style (Looks) filters, and export parameters — this is the core information needed for reproduction.
 
-## 使用规则
+## Usage rules
 
-不要修改本目录。
+Do not modify this directory.

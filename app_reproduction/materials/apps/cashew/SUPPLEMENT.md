@@ -1,27 +1,27 @@
-# Cashew 复现补充信息（非实体素材）
+# Cashew reproduction supplementary information (non-entity materials)
 
-## 账户与主账户
+## Accounts and primary account
 
-- 账户类型：现金、银行卡、储蓄等；每个账户绑定一种币种。
-- **主账户**：全局唯一；新建交易时默认账户与默认币种跟随主账户。
-- 切换主账户只影响默认值，不改变历史交易。
+- Account types: cash, bank card, savings, etc.; each account is bound to one currency.
+- **Primary account**: globally unique; new transactions default to its account and currency.
+- Switching the primary account only changes defaults, never historical transactions.
 
-## 交易三分法
+## Three-way transaction taxonomy
 
-| 类型 | 行为 |
+| Type | Behavior |
 |---|---|
-| 支出 | 从某账户扣减，计入支出统计 |
-| 收入 | 向某账户增加，计入收入统计 |
-| 转账 | 从 A 账户到 B 账户（可跨币种），**不计入收支统计** |
+| Expense | Deducted from an account, counted in expense statistics |
+| Income | Added to an account, counted in income statistics |
+| Transfer | From account A to B (may cross currencies), **not counted in income/expense statistics** |
 
-- 每笔交易：金额、日期、类别（支出/收入必选，转账可选）、账户、备注。
-- 转账跨币种时按固定汇率换算到目标币种入账。
+- Each transaction: amount, date, category (required for expense/income, optional for transfers), account, notes.
+- Cross-currency transfers are booked into the target currency at a fixed rate.
 
-## 币种与固定汇率
+## Currencies and fixed rates
 
-- 币种集合与换算基准（复现采用**固定汇率**，不做实时行情）：
+- Currency set and conversion base (the reproduction uses **fixed rates**, not live quotes):
 
-| 币种 | 1 单位 ≈ CNY |
+| Currency | 1 unit ≈ CNY |
 |---|---|
 | CNY | 1 |
 | USD | 7.2 |
@@ -29,25 +29,25 @@
 | JPY | 0.048 |
 | GBP | 9.1 |
 
-- 汇总（净资产、本月收支、预算进度）统一换算到主账户币种展示。
+- Summaries (net worth, this month's income/expense, budget progress) are displayed converted into the primary account's currency.
 
-## 预算模型
+## Budget model
 
-- **类别预算**：按支出子类设月度上限；进度 = 该类别当月已支出 / 上限，
-  超支显示警示色。
-- **All Transactions 动态预算**：可配置包含的交易类型（仅支出等）、
-  参与账户、包含类别，并**可排除指定类别**；进度口径同上但按配置
-  过滤后的交易集合计算。
-- 预算周期按自然月；跨月自动重置进度，上限保持。
+- **Category budget**: a monthly cap per expense subcategory; progress = that category's spend this month / cap,
+  overspending shows a warning color.
+- **All Transactions dynamic budget**: configurable included transaction types (expenses only, etc.),
+  participating accounts, and included categories, with the ability to **exclude specific categories**; progress uses the same formula
+  over the filtered transaction set.
+- The budget period is the calendar month; progress resets across months while the cap stays.
 
-## 重复交易
+## Recurring transactions
 
-- 可为交易设置重复规则（每周/每月/每年）；到期自动生成实例，
-  实例可单独修改，不影响后续生成。
+- Transactions can carry repeat rules (weekly/monthly/yearly); instances generate automatically when due,
+  and an instance can be edited without affecting future generation.
 
-## 统计与复现行为要点
+## Statistics and key reproduction behaviors
 
-- 首页：各账户余额（原币种 + 主币种折算）、本月收支。
-- 统计页：类别占比（环形/条形）、收支趋势（按月）。
-- 删除交易有确认；编辑保留原日期。
-- 所有写入类操作重启后保持。
+- Home: each account's balance (original currency + primary-currency conversion), this month's income/expense.
+- Statistics page: category shares (ring/bar), income/expense trend (by month).
+- Deleting a transaction asks for confirmation; editing keeps the original date.
+- All write operations survive a restart.

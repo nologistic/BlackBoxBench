@@ -1,20 +1,20 @@
-# Organic Maps 复现补充素材
+# Organic Maps reproduction supplementary materials
 
-本目录是 `organic_maps`（离线地图与导航）复现工作区的目标专属素材包，
-挂载为只读的 `/materials/app`。所有地点均为虚构。
+This directory is the target-specific material pack for the `organic_maps` (offline maps and navigation) reproduction workspace,
+mounted read-only as `/materials/app`. All places are fictional.
 
-## 实体素材
+## Entity materials
 
-- `pois.json`：46 个虚构 POI（城市/公园/道路/车站/餐饮/酒店等类别，
-  带示意坐标），覆盖搜索、分类浏览、路线起终点选取。
-- `map_regions.json`：可离线下载的虚构地图区域清单（名称/大小/状态）。
+- `pois.json`: 46 fictional POIs (city/park/road/station/dining/hotel categories,
+  with indicative coordinates), covering search, category browsing, and route endpoint picking.
+- `map_regions.json`: a list of fictional offline-downloadable map regions (name/size/status).
 
-## 非实体补充信息
+## Non-entity supplementary information
 
-见 `SUPPLEMENT.md`：地图交互（定位/缩放/拖动）、POI 详情页、
-搜索、书签与轨迹、路线规划与交通方式、离线区域生命周期。
+See `SUPPLEMENT.md`: map interaction (locate/zoom/pan), the POI details page,
+search, bookmarks and tracks, route planning and travel modes, and the offline-region lifecycle.
 
-## 使用规则
+## Usage rules
 
-不要修改本目录。需要使用时将文件复制进 `/workspace` 工程内再引用。
-地图底图用程序化绘制的虚构城市示意（网格街道 + POI 点位）即可。
+Do not modify this directory. To use a file, copy it into the `/workspace` project first and reference it there.
+The map basemap can be a programmatically drawn fictional city sketch (grid streets + POI dots).

@@ -1,45 +1,45 @@
-# Librera Reader 复现补充信息（非实体素材）
+# Librera Reader reproduction supplementary information (non-entity materials)
 
-## 格式支持
+## Format support
 
-| 格式 | 特性要点 |
+| Format | Highlights |
 |---|---|
-| EPUB | XHTML 章节 + CSS 样式、目录（TOC）、可重排 |
-| PDF | 固定版式分页、缩放、页面跳转 |
-| FB2 | XML 结构（描述 + 正文），可重排 |
-| MOBI | 旧 Kindle 格式，可重排 |
+| EPUB | XHTML chapters + CSS styles, table of contents (TOC), reflowable |
+| PDF | Fixed-layout pagination, zoom, page jumps |
+| FB2 | XML structure (description + body), reflowable |
+| MOBI | Legacy Kindle format, reflowable |
 
-- 同一书库混放四种格式；格式决定阅读模式（重排 vs 原版式）。
+- One library mixes all four formats; the format decides the reading mode (reflow vs. original layout).
 
-## 书库
+## Library
 
-- 扫描：配置「包含的文件夹」后自动索引其中的书 → 列表显示封面、
-  书名、作者、格式、进度。
-- 新增书放入被扫目录 → 重新扫描出现；删除文件 → 消失。
-- 「文件夹作为书籍」：包含多本书的文件夹（如合集）显示为单个条目，
-  打开后内部选书。
-- Recent 列表与阅读进度：打开即进入上次位置；列表显示百分比。
+- Scan: after configuring "included folders", books inside are indexed automatically → the list shows cover,
+  title, author, format, progress.
+- New books placed in a scanned folder appear after a re-scan; deleted files disappear.
+- "Folder as book": a folder containing several books (e.g. a collection) appears as a single entry,
+  opening into an in-folder book picker.
+- Recent list and reading progress: opening resumes the last position; the list shows a percentage.
 
-## 阅读模式
+## Reading modes
 
-- 翻页（点击左右区域）/ 滚动 / 音乐家模式（横向大页）可切；
-  夜间模式（反色滤镜）、字号、行距、边距即时生效并按书记忆。
-- 状态栏：当前页/百分比可自配置（顶部/底部/关闭）。
+- Page-turn (tap the left/right area) / scroll / musician mode (wide horizontal pages) are switchable;
+  night mode (inverted filter), font size, line spacing, and margins take effect instantly and are remembered per book.
+- Status bar: current page/percentage configurable (top/bottom/off).
 
-## 书签 / 高亮 / TTS
+## Bookmarks / highlights / TTS
 
-- 书签：当前阅读位置 → 新增书签 → 书签列表跳回；跨书各记各的。
-- 高亮：选中文字 → 高亮（颜色多选）/ 批注 → 保存后重开仍在。
-- TTS：支持文本层的书可朗读，朗读时自动翻页（沙盒内可用静音
-  合成音或仅驱动进度）。
+- Bookmark: current reading position → add bookmark → jump back from the list; each book keeps its own.
+- Highlight: select text → highlight (multiple colors) / annotate → still there after saving and reopening.
+- TTS: books with a text layer can be read aloud with automatic page turning; the sandbox may use silent
+  synthesized audio or just drive the progress.
 
-## 配置 Profile 与备份
+## Profiles and backup
 
-- Profile：多套阅读偏好（字体/主题/边距），可命名切换，互不影响。
-- 备份：书签/进度/配置/书单导出为一个文件；在新环境导入恢复。
-- 书库路径迁移：书籍移动到新目录后，通过备份恢复可重新关联。
+- Profiles: multiple reading-preference sets (font/theme/margins), nameable and switchable, independent of each other.
+- Backup: bookmarks/progress/config/book list export to one file; importing restores in a new environment.
+- Library path migration: after books move to a new directory, a backup restore re-associates them.
 
-## 复现行为要点
+## Key reproduction behaviors
 
-- 书库（网格/列表）→ 打开书 → 阅读器（翻页/进度）→ 书签回跳
-  是核心闭环；格式间交互一致性比重排精度更重要。
+- Library (grid/list) → open a book → reader (page turn/progress) → bookmark jump-back
+  is the core loop; cross-format interaction consistency matters more than reflow precision.

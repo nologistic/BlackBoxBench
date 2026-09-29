@@ -1,18 +1,18 @@
-# Loop Habit Tracker 复现补充素材
+# Loop Habit Tracker reproduction supplementary materials
 
-本目录是 `loop_habit_tracker`（习惯追踪）复现工作区的目标专属素材包，
-挂载为只读的 `/materials/app`。所有内容均为虚构测试数据。
+This directory is the target-specific material pack for the `loop_habit_tracker` (habit tracking) reproduction workspace,
+mounted read-only as `/materials/app`. All content is fictional test data.
 
-## 实体素材
+## Entity materials
 
-- `habits.json`：6 个虚构习惯（布尔型 + 可量化型，含每日/每周 N 次/
-  每周指定日三种频率）与 30 天打卡记录。
+- `habits.json`: 6 fictional habits (boolean + measurable, with daily / N-per-week /
+  specific-weekdays frequencies) and 30 days of check-in records.
 
-## 非实体补充信息
+## Non-entity supplementary information
 
-见 `SUPPLEMENT.md`：习惯类型与频率模型、打卡语义、Score 计算公式、
-历史回填与修正、归档行为、提醒。
+See `SUPPLEMENT.md`: habit types and the frequency model, check-in semantics, the Score formula,
+history backfill and correction, archiving behavior, and reminders.
 
-## 使用规则
+## Usage rules
 
-不要修改本目录。需要使用时将文件复制进 `/workspace` 工程内再引用。
+Do not modify this directory. To use a file, copy it into the `/workspace` project first and reference it there.

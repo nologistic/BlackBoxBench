@@ -1,21 +1,21 @@
-# AntennaPod 复现补充素材
+# AntennaPod reproduction supplementary materials
 
-本目录是 `antennapod`（播客订阅与播放）复现工作区的目标专属素材包，
-挂载为只读的 `/materials/app`。所有内容均为虚构测试数据。
+This directory is the target-specific material pack for the `antennapod` (podcast subscription and playback) reproduction workspace,
+mounted read-only as `/materials/app`. All content is fictional test data.
 
-## 实体素材
+## Entity materials
 
-- `podcast_feed.rss`：带 iTunes 扩展标签的虚构播客源（1 季 6 集），
-  可直接用于"添加播客"演示。
-- `episodes.json`：6 个单集的结构化数据（标题/时长/日期/简介/章节），
-  适合直接嵌入工程。
+- `podcast_feed.rss`: a fictional podcast feed with iTunes extension tags (1 season, 6 episodes),
+  ready for the "add podcast" demo.
+- `episodes.json`: structured data for 6 episodes (title/duration/date/description/chapters),
+  suitable for direct embedding.
 
-## 非实体补充信息
+## Non-entity supplementary information
 
-见 `SUPPLEMENT.md`：播客 RSS 的 iTunes 扩展字段、单集与章节模型、
-队列/下载/播放状态、订阅管理与 OPML。
+See `SUPPLEMENT.md`: the iTunes extension fields for podcast RSS, the episode and chapter model,
+queue/download/playback state, and subscription management with OPML.
 
-## 使用规则
+## Usage rules
 
-不要修改本目录。需要使用时将文件复制进 `/workspace` 工程内再引用；
-播放用的音频样本复用 `/materials/mobile/audio/` 的三个 WAV 文件。
+Do not modify this directory. To use a file, copy it into the `/workspace` project first and reference it there;
+audio samples for playback reuse the three WAV files in `/materials/mobile/audio/`.

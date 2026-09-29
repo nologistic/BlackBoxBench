@@ -1,49 +1,49 @@
-# Organic Maps 复现补充信息（非实体素材）
+# Organic Maps reproduction supplementary information (non-entity materials)
 
-## 地图交互
+## Map interaction
 
-- 底图：程序化绘制的虚构城市示意（街道网格 + 地块色块 + POI 图钉），
-  不要求真实瓦片。
-- 手势：单指拖动平移、双指捏合缩放（层级 1–5）、双击放大。
-- 定位按钮：显示蓝色位置点；拖离后点击「回到当前位置」重新居中。
-- 缩放级别影响 POI 密度显示（低层级只显示大类）。
+- Basemap: a programmatically drawn fictional city sketch (street grid + parcel color blocks + POI pins);
+  real tiles are not required.
+- Gestures: one-finger drag to pan, pinch to zoom (levels 1–5), double-tap to zoom in.
+- Locate button: shows a blue position dot; after panning away, tap "back to current location" to recenter.
+- The zoom level affects POI density (low levels show only major categories).
 
-## POI 与详情页
+## POIs and the details page
 
-- 点击地图上的 POI（城市/道路/公园/站点/商户）→ 弹出详情卡：
-  名称、类别、坐标、电话/营业时间（若有）。
-- 详情卡动作：「加入书签」「从这点出发」「路线到这里」。
+- Tapping a POI on the map (city/road/park/station/business) opens a details card:
+  name, category, coordinates, phone/opening hours (if any).
+- Details-card actions: "add bookmark", "start from here", "route here".
 
-## 搜索
+## Search
 
-- 顶栏输入关键字 → 下拉建议列表（按类别与匹配度排序）→ 点选定位
-  并弹出详情。
-- 类别快筛：餐饮/住宿/加油/停车等图标行。
+- Type a keyword into the top bar → a suggestion dropdown (sorted by category and match) → tap to locate
+  and open the details.
+- Category quick filters: a row of icons for dining/lodging/fuel/parking, etc.
 
-## 书签与轨迹
+## Bookmarks and tracks
 
-- 书签：保存的地点列表（名称/坐标/分组/颜色），点击跳转；
-  可编辑名称与分组，删除后列表消失。
-- 轨迹（KML 概念）：可导入一组坐标点连线显示在地图上。
-- 书签/轨迹导出为文件后可再导入（round-trip 集合不变）。
+- Bookmarks: a saved-place list (name/coordinates/group/color), tap to jump;
+  names and groups are editable; deleting removes it from the list.
+- Tracks (KML concept): a set of imported coordinate points can be connected and shown on the map.
+- Bookmarks/tracks export to a file and can be re-imported (round-trip keeps the set unchanged).
 
-## 路线规划
+## Route planning
 
-- 起终点：搜索结果 / 地图点选 / 书签 三种来源。
-- 交通方式：驾车 / 步行 / 公交 / 自行车，切换后路线与用时重算。
-- 备选路线：同起终点显示 2–3 条（主推 + 备选），点选切换。
-- 路线偏好（驾车）：规避收费/高速/渡轮；更改后重算。
-- 公交：组合「步行→线路→换乘→步行」的多段方案。
-- 导航：点「开始」进入模拟导航态（沿路线推进的箭头 + 剩余距离/时间），
-  「结束」退出。
+- Endpoints from three sources: search results / map taps / bookmarks.
+- Travel modes: driving / walking / transit / cycling; routes and times recompute on switch.
+- Alternative routes: 2–3 shown for the same endpoints (primary + alternatives), tap to switch.
+- Route preferences (driving): avoid tolls/highways/ferries; recomputes after changes.
+- Transit: multi-leg plans combining "walk → line → transfer → walk".
+- Navigation: tap "Start" to enter simulated navigation (an arrow advancing along the route + remaining distance/time);
+  "End" exits.
 
-## 离线区域
+## Offline regions
 
-- 区域列表：名称 + 大小 + 状态（未下载/下载中/最新/可更新）。
-- 下载 → 进度条 → 完成后离线可用；地图更新后可重新更新。
-- 断网时已下载区域地图、道路、地点仍可浏览与搜索。
+- Region list: name + size + status (not downloaded / downloading / up to date / update available).
+- Download → progress bar → offline usable when done; can be updated again after map updates.
+- Offline, downloaded regions' maps, roads, and places remain browsable and searchable.
 
-## 复现行为要点
+## Key reproduction behaviors
 
-- 定位点、POI 弹卡、搜索定位、起终点路线（切换方式重算）是
-  核心可观察闭环；示意精度不重要，状态机要对。
+- The position dot, POI pop-ups, search-to-locate, and endpoint routes (recomputed on mode switch) are
+  the core observable loops; sketch precision does not matter, but the state machine must be right.

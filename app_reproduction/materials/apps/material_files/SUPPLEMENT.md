@@ -1,38 +1,38 @@
-# Material Files 复现补充信息（非实体素材）
+# Material Files reproduction supplementary information (non-entity materials)
 
-## 浏览与存储
+## Browsing and storage
 
-- 存储切换：内部存储 / SD 卡（沙盒内 SD 卡可为空态）。面包屑或
-  路径栏显示当前位置；返回上级按钮始终可用。
-- 目录进入动画/列表即时更新；空目录显示空态提示。
+- Storage switch: internal storage / SD card (the SD card may be empty in the sandbox). A breadcrumb or
+  path bar shows the current location; the go-up button is always available.
+- Directory entry animation / the list updates instantly; empty directories show an empty state.
 
-## 排序与视图
+## Sorting and views
 
-- 排序：名称 / 路径 / 大小 / 修改日期 / 拍摄日期 / 随机，升降序可切。
-- **随机排序**：每次刷新结果顺序变化（确定性种子可不实现）。
-- 视图：列表 / 网格切换，选择保持。
-- 文件类型用图标区分：目录 / 图片 / 压缩包 / 文档 / APK / 其他。
+- Sort: name / path / size / modified date / taken date / random, ascending or descending.
+- **Random sort**: the order changes on each refresh (a deterministic seed is optional).
+- Views: list / grid toggle; the choice persists.
+- File types are distinguished by icon: directory / image / archive / document / APK / other.
 
-## 压缩包
+## Archives
 
-- zip 作为目录下钻：进入后列出内部文件，可浏览与单独解压到当前目录；
-  解压出的文件出现在列表中。
-- 「解压全部」生成同名目录。
+- zip as a drill-down directory: entering lists its files, browsable, and single files can be extracted to the current directory;
+  extracted files appear in the list.
+- "Extract all" creates a same-named directory.
 
-## 隐藏文件
+## Hidden files
 
-- 以 `.` 开头的文件/目录默认按规则隐藏；菜单「显示隐藏的文件」
-  切换后出现，再切回隐藏，**开关状态持久化**。
-- `.nomedia`：目录含此文件时相册类扫描会跳过该目录（本应用内仍可见）。
+- Files/directories starting with `.` are hidden by default per the rules; the menu "show hidden files"
+  makes them appear, switching back hides them, and **the toggle state persists**.
+- `.nomedia`: when a directory contains this file, album-style scans skip it (still visible inside this app).
 
-## 写操作语义
+## Write-operation semantics
 
-| 操作 | 行为 |
+| Operation | Behavior |
 |---|---|
-| 新建文件夹 | 当前目录立即出现新目录，重进仍在 |
-| 重命名 | 名称更新，所属不变 |
-| 删除 | 从列表消失（确认框），其他文件顺序与状态不受影响 |
-| 书签 | 添加/移除目录书签，书签栏快速跳转，持久化 |
+| New folder | A new directory appears in the current one immediately and is still there on re-entry |
+| Rename | The name updates; ownership unchanged |
+| Delete | Disappears from the list (with a confirm dialog); other files' order and state are unaffected |
+| Bookmarks | Add/remove directory bookmarks, jump quickly from the bookmark bar, persisted |
 
-- 系统存储权限不可用（沙盒限制）：全部操作在应用私有/虚拟存储上
-  进行并持久化——与真机的**有意差异**，功能本身完整。
+- The system storage permission is unavailable (sandbox limitation): all operations act on app-private/virtual storage
+  and persist — an **intentional difference** from a real device, with the functionality itself complete.

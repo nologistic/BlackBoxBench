@@ -1,39 +1,39 @@
-# Fossify Calendar 复现补充信息（非实体素材）
+# Fossify Calendar reproduction supplementary information (non-entity materials)
 
-## 数据模型
+## Data model
 
-| 对象 | 字段 |
+| Object | Fields |
 |---|---|
-| 日历 | 名称、颜色、可见开关；本地可建多个 |
-| 事件（Event） | 标题、开始/结束日期时间、全天开关、所属日历、地点、描述、提醒、重复规则 |
-| 任务（Task） | 标题、截止日、完成状态、所属日历 |
-| 提醒 | 事件前 n 分钟通知（可选多个提前量） |
+| Calendar | Name, color, visibility toggle; several can be created locally |
+| Event | Title, start/end datetime, all-day toggle, owning calendar, location, description, reminders, repeat rule |
+| Task | Title, due date, completion state, owning calendar |
+| Reminder | Notify n minutes before the event (multiple offsets optional) |
 
-- 事件归属某个日历；日历颜色渲染该日历全部事件（色条/色点）。
-- 新建时默认日历可设置；同一时刻多日历事件并列显示。
+- An event belongs to one calendar; the calendar color renders all its events (color bar/dot).
+- The default calendar for new items is configurable; concurrent events from multiple calendars show side by side.
 
-## 重复规则（RRULE 子集）
+## Repeat rules (RRULE subset)
 
-复现需支持以下组合，语义与 iCalendar RRULE 一致：
+The reproduction must support the following combinations, with iCalendar RRULE semantics:
 
-- `FREQ=DAILY;INTERVAL=1` 每天；`INTERVAL=2` 隔天。
-- `FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR` 工作日；`BYDAY=SA,SU` 周末；
-  单日 `BYDAY=WE` 每周三。
-- `FREQ=MONTHLY;BYMONTHDAY=15` 每月 15 日。
-- `FREQ=YEARLY;BYMONTH=9;BYMONTHDAY=10` 每年 9 月 10 日。
-- `UNTIL=20261231` 到期后停止；`COUNT=10` 出现 10 次后停止。
+- `FREQ=DAILY;INTERVAL=1` every day; `INTERVAL=2` every other day.
+- `FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR` weekdays; `BYDAY=SA,SU` weekends;
+  a single day `BYDAY=WE` every Wednesday.
+- `FREQ=MONTHLY;BYMONTHDAY=15` the 15th monthly.
+- `FREQ=YEARLY;BYMONTH=9;BYMONTHDAY=10` September 10 yearly.
+- `UNTIL=20261231` stops after that date; `COUNT=10` stops after 10 occurrences.
 
-**下一次触发计算**：从"当前时间"向后找第一个 ≥ 今天的符合规则的日期；
-修改重复事件的例外用 EXDATE（可只支持显示"本次取消"的简化语义，但
-单次删除与"全部删除"必须区分）。
+**Next-trigger computation**: from "now", find the first rule-matching date ≥ today;
+modify exceptions of a repeating event with EXDATE (a simplified "cancel this occurrence" semantics is acceptable, but
+deleting one occurrence and "delete all" must be distinguished).
 
-- 结束时间 = 开始 + 时长；跨天事件在周/月视图跨格渲染。
+- End time = start + duration; multi-day events render across cells in week/month views.
 
-## 视图与设置
+## Views and settings
 
-- 视图：日 / 周 / 月 / 年 / 日程（agenda），当前日期高亮，左右切换
-  上一/下一周期，"今天"按钮回到当天。
-- 周起始日设置：周日 / 周一 / 周六，影响周与月视图的首列。
-- 全天事件在日/周视图顶部单独成行。
-- 系统日历权限不可用（沙盒限制），全部数据在应用内存储并持久化；
-  这是与真机行为的**有意差异**，功能本身完整。
+- Views: day / week / month / year / agenda, current date highlighted, swipe
+  to the previous/next period, a "Today" button returns to today.
+- Week-start setting: Sunday / Monday / Saturday, affecting the first column of week and month views.
+- All-day events form their own row at the top of day/week views.
+- The system calendar permission is unavailable (sandbox limitation); all data is stored in-app and persists;
+  this is an **intentional difference** from a real device, with the functionality itself complete.

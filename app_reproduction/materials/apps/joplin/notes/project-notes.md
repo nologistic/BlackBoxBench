@@ -1,37 +1,37 @@
-# 复现工程周记
+# Reproduction project weekly log
 
-> 每周五更新，记录本周进展与下周计划。
+> Updated every Friday with this week's progress and next week's plans.
 
-## 本周进展
+## This week's progress
 
-| 日期 | 事项 | 状态 |
+| Day | Item | Status |
 |---|---|---|
-| 周一 | 沙盒素材结构定稿 | 完成 |
-| 周三 | 网络策略改为 skill 纪律 | 完成 |
-| 周五 | 评测清单转换脚本 | 进行中 |
+| Monday | Sandbox material structure finalized | Done |
+| Wednesday | Network policy moved to skill discipline | Done |
+| Friday | Checklist conversion script | In progress |
 
-## 关键代码
+## Key code
 
 ```
 fun nextOccurrence(rule: String, today: LocalDate): LocalDate {
-    // 从今天起向后找第一个符合规则的日期
+    // find the first rule-matching date from today onward
     return generateSequence(today) { it.plusDays(1) }
         .first { matches(rule, it) }
 }
 ```
 
-## 待办
+## To-dos
 
-- [x] 提交素材包清单评审
-- [ ] 补充电子书样例
-- [ ] 撰写评审 few-shot
+- [x] Submit the material-pack catalog for review
+- [ ] Add e-book samples
+- [ ] Write review few-shots
 
-## 图片引用
+## Image references
 
-示例图片（应用内资源）：
+Example image (in-app resource):
 
-![湖边](./lake.png)
+![Lake](./lake.png)
 
 ---
 
-标签：`工作` `周记`
+Tags: `Work` `Weekly log`

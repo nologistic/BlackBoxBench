@@ -1,49 +1,49 @@
-# AntennaPod 复现补充信息（非实体素材）
+# AntennaPod reproduction supplementary information (non-entity materials)
 
-## 播客 RSS（RSS 2.0 + iTunes 扩展）
+## Podcast RSS (RSS 2.0 + iTunes extension)
 
-频道级：`title`、`description`、`itunes:author`、`itunes:image`、
+Channel level: `title`, `description`, `itunes:author`, `itunes:image`,
 `language`、`itunes:category`。
 
-单集级：
+Episode level:
 
-| 字段 | 来源 |
+| Field | Source |
 |---|---|
-| 标题 | `item/title` |
-| 发布日期 | `item/pubDate`（RFC 822） |
-| 时长 | `itunes:duration`（`32:15` 或秒数） |
-| 简介 | `item/description` |
-| 媒体地址 | `enclosure@url` + `@type`（audio/mpeg） |
-| 唯一标识 | `item/guid` |
+| Title | `item/title` |
+| Published date | `item/pubDate` (RFC 822) |
+| Duration | `itunes:duration` (`32:15` or seconds) |
+| Description | `item/description` |
+| Media URL | `enclosure@url` + `@type` (audio/mpeg) |
+| Unique id | `item/guid` |
 
-- 沙盒内不提供真实音频 URL；播放内容映射到 `/materials/mobile/audio/`
-  的样例 WAV（时长按元数据显示，不要求真实解码一致）。
+- No real audio URLs exist in the sandbox; playback maps to the sample WAVs in `/materials/mobile/audio/`
+  (duration shown from metadata; exact decoding is not required).
 
-## 单集与章节
+## Episodes and chapters
 
-- 单集状态：未播放 / 已下载 / 播放中（进度秒数）/ 已听完。
-- 章节（chapters）：可选的单集分段（开始秒 + 标题），播放器可跳章；
-  无章节的单集不显示章节按钮。
+- Episode states: unplayed / downloaded / playing (progress seconds) / finished.
+- Chapters: optional episode segments (start second + title); the player can jump chapters;
+  episodes without chapters show no chapter button.
 
-## 播放与队列
+## Playback and queue
 
-- 队列是独立于订阅列表的有序列表；「加入队列」append，可拖动排序，
-  可从队列移除。
-- 连续播放：当前集播完 → 标记已听完 → 自动开始队列中下一集。
-- 播放器：播放/暂停、±15 秒、倍速、进度条；中断（关闭页面）后回来
-  从上次位置继续。
-- 下载：单集可下载到本地；下载列表显示进度；已下载集断网可播。
+- The queue is an ordered list independent of subscriptions; "add to queue" appends, drag to reorder,
+  and items can be removed from the queue.
+- Continuous playback: when the current episode finishes → marked finished → the next in queue starts automatically.
+- Player: play/pause, ±15 seconds, speed, progress bar; after an interruption (leaving the page) it resumes
+  from the last position.
+- Download: episodes download locally; the download list shows progress; downloaded episodes play offline.
 
-## 订阅管理
+## Subscription management
 
-- 添加播客：输入 RSS 地址 → 解析频道与单集列表 → 出现在订阅列表。
-- 取消订阅：从列表移除，可勾选是否同时删除已下载单集。
-- OPML 导入导出 round-trip 后订阅集合不变。
-- 新集发现：重新拉取源后，`guid` 未见过的新集出现在单集列表顶部
-  并带"新"标记。
+- Add podcast: enter an RSS URL → parse the channel and episode list → appears in subscriptions.
+- Unsubscribe: removed from the list, with a checkbox to also delete downloaded episodes.
+- OPML import/export round-trips leave the subscription set unchanged.
+- New-episode detection: after re-fetching the feed, episodes with unseen `guid` appear at the top
+  of the episode list marked "new".
 
-## 复现行为要点
+## Key reproduction behaviors
 
-- 订阅列表（封面+标题）、单集列表（标题+日期+时长+状态）、队列页
-  三个核心页面交互完整。
-- 播放状态跨页面切换保持；退出重进仍在。
+- Three complete core screens: subscription list (cover + title), episode list (title+date+duration+state),
+  and the queue page.
+- Playback state survives page switches; leaving and re-entering keeps it.

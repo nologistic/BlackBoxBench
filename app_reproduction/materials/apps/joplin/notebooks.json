@@ -1,21 +1,21 @@
 {
   "notebooks": [
-    {"id": "nb_root", "name": "入门", "children": []},
-    {"id": "nb_work", "name": "工作", "children": [
-      {"id": "nb_work_proj", "name": "复现工程", "children": []},
-      {"id": "nb_work_meet", "name": "会议纪要", "children": []}
+    {"id": "nb_root", "name": "Getting started", "children": []},
+    {"id": "nb_work", "name": "Work", "children": [
+      {"id": "nb_work_proj", "name": "Reproduction project", "children": []},
+      {"id": "nb_work_meet", "name": "Meeting notes", "children": []}
     ]},
-    {"id": "nb_life", "name": "生活", "children": [
-      {"id": "nb_life_recipe", "name": "食谱", "children": []}
+    {"id": "nb_life", "name": "Life", "children": [
+      {"id": "nb_life_recipe", "name": "Recipes", "children": []}
     ]}
   ],
   "notes": [
-    {"id": "nt_welcome", "notebook": "nb_root", "title": "欢迎使用笔记", "source": "notes/welcome.md", "tags": ["入门"], "pinned": true, "updated": "2026-09-07T09:00", "is_todo": false},
-    {"id": "nt_weekly", "notebook": "nb_work_proj", "title": "复现工程周记", "source": "notes/project-notes.md", "tags": ["工作", "周记"], "pinned": false, "updated": "2026-09-05T18:30", "is_todo": false},
-    {"id": "nt_todo_design", "notebook": "nb_work_proj", "title": "设计评审待办", "tags": ["工作"], "pinned": false, "updated": "2026-09-06T20:15", "is_todo": true, "todo_completed": false,
-     "body": "- [x] 确定配色\n- [ ] 图标切图\n- [ ] 标注间距"},
-    {"id": "nt_recipe", "notebook": "nb_life_recipe", "title": "番茄鸡蛋面", "tags": ["食谱"], "pinned": false, "updated": "2026-08-28T12:00", "is_todo": false,
-     "body": "## 食材\n- 番茄 2 个\n- 鸡蛋 2 个\n\n## 步骤\n1. 番茄去皮切块\n2. 炒蛋盛出\n3. 番茄炒出汁后合炒"}
+    {"id": "nt_welcome", "notebook": "nb_root", "title": "Welcome to Notes", "source": "notes/welcome.md", "tags": ["Getting started"], "pinned": true, "updated": "2026-09-07T09:00", "is_todo": false},
+    {"id": "nt_weekly", "notebook": "nb_work_proj", "title": "Reproduction weekly log", "source": "notes/project-notes.md", "tags": ["Work", "Weekly log"], "pinned": false, "updated": "2026-09-05T18:30", "is_todo": false},
+    {"id": "nt_todo_design", "notebook": "nb_work_proj", "title": "Design review to-dos", "tags": ["Work"], "pinned": false, "updated": "2026-09-06T20:15", "is_todo": true, "todo_completed": false,
+     "body": "- [x] Finalize the color scheme\n- [ ] Slice icons\n- [ ] Annotate spacing"},
+    {"id": "nt_recipe", "notebook": "nb_life_recipe", "title": "Tomato egg noodles", "tags": ["Recipes"], "pinned": false, "updated": "2026-08-28T12:00", "is_todo": false,
+     "body": "## Ingredients\n- 2 tomatoes\n- 2 eggs\n\n## Steps\n1. Peel and chop the tomatoes\n2. Scramble the eggs and set aside\n3. Cook the tomatoes until juicy, then combine"}
   ],
-  "tags": ["入门", "工作", "周记", "食谱"]
+  "tags": ["Getting started", "Work", "Weekly log", "Recipes"]
 }

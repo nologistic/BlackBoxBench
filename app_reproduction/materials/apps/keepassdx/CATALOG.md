@@ -1,18 +1,18 @@
-# KeePassDX 复现补充素材
+# KeePassDX reproduction supplementary materials
 
-本目录是 `keepassdx`（密码管理器）复现工作区的目标专属素材包，
-挂载为只读的 `/materials/app`。所有条目均为虚构测试数据。
+This directory is the target-specific material pack for the `keepassdx` (password manager) reproduction workspace,
+mounted read-only as `/materials/app`. All entries are fictional test data.
 
-## 实体素材
+## Entity materials
 
-- `sample_database.json`：一个虚构数据库的完整结构（组树、条目字段、
-  回收站、设置），解锁后的全部界面状态都可由此驱动。
+- `sample_database.json`: the full structure of a fictional database (group tree, entry fields,
+  recycle bin, settings); every unlocked screen state can be driven from it.
 
-## 非实体补充信息
+## Non-entity supplementary information
 
-见 `SUPPLEMENT.md`：kdbx 概念与主密钥（密码 + 密钥文件）、组与条目
-模型、回收站语义、锁定与超时、搜索与安全行为。
+See `SUPPLEMENT.md`: kdbx concepts and the master key (password + key file), the group and entry
+model, recycle-bin semantics, locking and timeouts, and search with security behavior.
 
-## 使用规则
+## Usage rules
 
-不要修改本目录。需要使用时将文件复制进 `/workspace` 工程内再引用。
+Do not modify this directory. To use a file, copy it into the `/workspace` project first and reference it there.

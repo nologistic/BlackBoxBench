@@ -1,48 +1,48 @@
-# Feeder 复现补充信息（非实体素材）
+# Feeder reproduction supplementary information (non-entity materials)
 
-## 三种 Feed 格式 → 统一数据模型
+## Three feed formats → one unified data model
 
-Feeder 的核心能力是把三种格式统一转换为相同的 Feed/Article 模型，
-在列表与阅读器中表现一致。对应字段：
+Feeder's core capability is converting the three formats into the same Feed/Article model,
+behaving identically in the list and the reader. Corresponding fields:
 
-| 模型字段 | RSS 2.0 | Atom | JSON Feed 1.1 |
+| Model field | RSS 2.0 | Atom | JSON Feed 1.1 |
 |---|---|---|---|
-| 订阅源标题 | `channel/title` | `feed/title` | `title` |
-| 订阅源描述 | `channel/description` | `feed/subtitle` | `description` |
-| 条目标题 | `item/title` | `entry/title` | `items[].title` |
-| 条目链接 | `item/link` | `entry/link@href` | `items[].url` |
-| 发布日期 | `item/pubDate`（RFC 822） | `entry/updated`（RFC 3339） | `items[].date_published`（RFC 3339） |
-| 正文 | `item/description`（HTML） | `entry/content` 或 `summary` | `items[].content_html` |
-| 唯一标识 | `item/guid` | `entry/id` | `items[].id` |
+| Feed title | `channel/title` | `feed/title` | `title` |
+| Feed description | `channel/description` | `feed/subtitle` | `description` |
+| Article title | `item/title` | `entry/title` | `items[].title` |
+| Article link | `item/link` | `entry/link@href` | `items[].url` |
+| Published date | `item/pubDate` (RFC 822) | `entry/updated` (RFC 3339) | `items[].date_published` (RFC 3339) |
+| Body | `item/description` (HTML) | `entry/content` or `summary` | `items[].content_html` |
+| Unique id | `item/guid` | `entry/id` | `items[].id` |
 
-- 日期解析注意两种格式：RFC 822（`Mon, 07 Sep 2026 08:00:00 GMT`）与
+- Date parsing must handle both formats: RFC 822 (`Mon, 07 Sep 2026 08:00:00 GMT`) and
   RFC 3339（`2026-09-07T08:00:00Z`）。
-- 正文按 HTML 渲染（标题/段落/图片/链接），无法识别的标签降级为纯文本。
+- The body renders as HTML (headings/paragraphs/images/links); unrecognized tags degrade to plain text.
 
-## OPML 订阅列表
+## OPML subscription lists
 
-- 导入：解析 `<outline type="rss" text="显示名" xmlUrl="订阅地址"/>`，
-  每个 outline 建立一个订阅。
-- 导出：当前全部订阅写回同样结构；导入导出 round-trip 后订阅集合不变。
+- Import: parse `<outline type="rss" text="display name" xmlUrl="feed URL"/>`,
+  creating one subscription per outline.
+- Export: write all current subscriptions back in the same structure; import/export round-trips leave the set unchanged.
 
-## 同步与“新文章”判定
+## Sync and the "new article" rule
 
-- 手动刷新：立即拉取全部订阅；下拉列表或按钮触发。
-- 定时同步：每小时/每天等周期选项，可叠加“仅 Wi-Fi”“仅充电时”条件，
-  条件不满足时跳过本轮。
-- **新文章判定**：条目唯一标识（guid/id）此前未见过 → 新文章；已见过的
-  标识即使内容更新也不再算“新”；关闭某订阅的通知后仍会同步文章，
-  只是不产生通知。
-- 已读/未读：进入阅读即标记已读；列表可按未读过滤。
+- Manual refresh: fetch all feeds immediately; triggered by pull-to-refresh or a button.
+- Scheduled sync: hourly/daily periods, combinable with "Wi-Fi only" and "charging only" conditions;
+  a round is skipped when the conditions are unmet.
+- **New-article rule**: an article's unique id (guid/id) never seen before → new; ids already seen
+  do not count as "new" even if the content updates; disabling notifications for a feed still syncs articles,
+  it just produces no notifications.
+- Read/unread: entering the reader marks it read; the list can filter by unread.
 
-## 离线行为
+## Offline behavior
 
-- 成功同步过的 Feed 与文章缓存到本地，断网后仍可完整阅读。
-- 断网时手动刷新应显示明确的失败提示，不清空已有缓存。
+- Successfully synced feeds and articles are cached locally and remain fully readable offline.
+- A manual refresh while offline should show a clear failure notice without clearing the existing cache.
 
-## 复现行为要点
+## Key reproduction behaviors
 
-- 添加订阅：输入地址 → 拉取解析 → 出现在左侧订阅列表（标题 + 未读数）。
-- 三种格式混在一个订阅列表中，列表与阅读器的交互完全一致。
-- 文章列表按时间倒序；未读条目有视觉标记；点击进入阅读页可返回。
-- OPML 导入后订阅列表新增对应条目；导出的文件可再导入还原。
+- Add subscription: enter a URL → fetch and parse → appears in the left subscription list (title + unread count).
+- The three formats coexist in one subscription list with identical list/reader interactions.
+- The article list is ordered newest-first; unread items carry a visual marker; tapping opens the reader and can return.
+- Importing OPML adds the corresponding subscription entries; the exported file can be imported back unchanged.

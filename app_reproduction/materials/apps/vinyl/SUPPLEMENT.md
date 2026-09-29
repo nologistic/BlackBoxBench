@@ -1,40 +1,40 @@
-# Vinyl Music Player 复现补充信息（非实体素材）
+# Vinyl Music Player reproduction supplementary information (non-entity materials)
 
-## 曲库聚合模型
+## Library aggregation model
 
-- 曲目（song）字段：标题、艺人、专辑、曲目号、时长（秒）、年份、流派。
-- 专辑页：同一专辑的曲目按曲目号排序；专辑封面用封面图（不同专辑可用
-  不同颜色的合成封面）。
-- 艺人页 → 专辑列表 → 专辑详情（曲目表）。
-- 派生视图：
-  - 「专辑」页自动按 album 聚合（相同 Album 名归为一张专辑）。
-  - 「流派」「年份」页按字段分组浏览。
-  - 「歌曲」页全曲平铺，支持搜索（标题/艺人/专辑名）。
-- 修改歌曲标签（编辑元数据）后，所有聚合视图立即按新值重新分组。
+- Song fields: title, artist, album, track number, duration (seconds), year, genre.
+- Album page: the album's tracks sorted by track number; covers use cover images (different
+  albums may use differently colored synthetic covers).
+- Artist page → album list → album details (track table).
+- Derived views:
+  - The "Albums" page aggregates by album automatically (same album name = one album).
+  - "Genres" and "Years" pages group-browse by field.
+  - The "Songs" page tiles all songs and supports search (title/artist/album name).
+- After editing a song's tags (metadata), all aggregate views regroup by the new values immediately.
 
-## 播放与队列
+## Playback and queue
 
-- 点击歌曲 → 加入「当前播放」并开始播放；播放器页显示封面、标题、
-  艺人、进度条、播放/暂停、上一首/下一首。
-- 队列：「当前播放」与「下一首」两层；从任意列表播放会重建队列。
-- Shuffle：随机顺序播放整队；Repeat：关闭 / 全部循环 / 单曲循环三态。
-- 播放完当前曲自动进下一首；切走页面后台继续，回来进度仍在。
-- 睡眠定时：到点停止播放。
+- Tap a song → added to "Now playing" and starts playback; the player page shows cover, title,
+  artist, progress bar, play/pause, previous/next.
+- Queue: two layers, "Now playing" and "Up next"; playing from any list rebuilds the queue.
+- Shuffle: play the whole queue in random order; Repeat: off / repeat-all / repeat-one, three states.
+- Finishing the current track advances automatically; leaving the page keeps playing in the background and the progress is still there on return.
+- Sleep timer: playback stops when it fires.
 
-## 播放列表
+## Playlists
 
-- 从单曲菜单「加入播放列表」→ 新建或选择既有列表，可连续加多首。
-- 播放列表页显示封面拼贴与曲目数；进入按序播放。
-- M3U 导入：按文件内曲目标题匹配曲库（round-trip 集合不变）。
+- From a song's menu, "add to playlist" → create or pick an existing list; several songs can be added in a row.
+- The playlist page shows a cover collage and the track count; entering plays in order.
+- M3U import: match the library by in-file track titles (round-trip keeps the set unchanged).
 
-## 黑胶动画
+## Vinyl animation
 
-- 播放中显示旋转的黑胶唱片视图（封面居中、唱片旋转），暂停时停止
-  旋转——这是本 App 的标志性视觉，值得复现。
+- While playing, a spinning vinyl-disc view is shown (cover centered, disc rotating); it stops when paused
+  — this is the app's signature visual and worth reproducing.
 
-## 复现行为要点
+## Key reproduction behaviors
 
-- 五个底栏入口：歌曲 / 专辑 / 艺人 / 播放列表 / 设置（顺序可按探索
-  结果调整）。
-- 跨页面切回正在播放的上下文不丢（迷你播放条 + 进度保持）。
-- 写操作（播放列表、标签编辑、设置）重启后保持。
+- Five bottom-bar entries: Songs / Albums / Artists / Playlists / Settings (order may follow what
+  the exploration found).
+- Switching pages does not lose the playing context (mini player bar + progress kept).
+- Write operations (playlists, tag editing, settings) survive a restart.

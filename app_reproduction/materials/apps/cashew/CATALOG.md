@@ -1,23 +1,23 @@
-# Cashew 复现补充素材
+# Cashew reproduction supplementary materials
 
-本目录是 `cashew`（个人记账）复现工作区的目标专属素材包，挂载为只读的
-`/materials/app`。所有账号、交易与预算均为虚构测试数据。
+This directory is the target-specific material pack for the `cashew` (personal budgeting) reproduction workspace, mounted read-only as
+`/materials/app`. All accounts, transactions, and budgets are fictional test data.
 
-## 实体素材
+## Entity materials
 
-- `accounts.json`：4 个虚构账户（现金/工资卡/旅行卡/储蓄），绑定
-  CNY/USD/EUR 多币种。
-- `categories.json`：两级类别体系（支出大类/子类 + 收入类别）。
-- `transactions.json`：16 条虚构交易流水，覆盖支出/收入/转账、多币种、
-  多类别与日期分布。
-- `budgets.json`：类别预算与 All Transactions 动态预算（含排除类别与
-  账户范围）。
+- `accounts.json`: 4 fictional accounts (cash/salary card/travel card/savings), bound to
+  CNY/USD/EUR multi-currency.
+- `categories.json`: a two-level category system (expense groups/subcategories + income categories).
+- `transactions.json`: 16 fictional transactions covering expense/income/transfer, multi-currency,
+  multiple categories, and date distribution.
+- `budgets.json`: per-category budgets and an All Transactions dynamic budget (with excluded categories and
+  account scope).
 
-## 非实体补充信息
+## Non-entity supplementary information
 
-见 `SUPPLEMENT.md`：账户与主账户语义、交易三分法、固定汇率换算、
-预算进度口径、重复交易与统计视图。
+See `SUPPLEMENT.md`: account and primary-account semantics, the three-way transaction taxonomy, fixed-rate conversion,
+budget-progress conventions, and recurring transactions with statistics views.
 
-## 使用规则
+## Usage rules
 
-不要修改本目录。需要使用时将文件复制进 `/workspace` 工程内再引用。
+Do not modify this directory. To use a file, copy it into the `/workspace` project first and reference it there.

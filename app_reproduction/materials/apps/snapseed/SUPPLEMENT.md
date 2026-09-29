@@ -1,53 +1,53 @@
-# Snapseed 复现补充信息（非实体素材）
+# Snapseed reproduction supplementary information (non-entity materials)
 
-## 非破坏编辑栈（核心语义）
+## Non-destructive edit stack (core semantics)
 
-- 工作流：打开图片 → 选择工具/Look → **实时调整预览** → 确认（√）/
-  取消（×）→ 返回主界面 → 导出。
-- 每个已确认的编辑成为一层，叠加在编辑栈上；「查看修改」可回看
-  各层，可撤销/重做任一层（微调），或回退到原始。
-- 未确认（×）退出 = 本次调整不生效。
-- 导出生成**新文件**（不覆盖原图，可另存为副本）。
+- Workflow: open an image → pick a tool/Look → **live-adjust the preview** → confirm (√)/
+  cancel (×) → back to the main screen → export.
+- Every confirmed edit becomes a layer stacked on the edit stack; "View edits" lets you review
+  each layer, undo/redo any layer (fine-tune), or revert to the original.
+- Exiting unconfirmed (×) = this adjustment does not take effect.
+- Export creates a **new file** (the original is not overwritten; save-as-copy allowed).
 
-## 工具（Tools）清单与调整维度
+## Tools list and adjustment dimensions
 
-| 工具 | 操作模型 | 参数维度 |
+| Tool | Interaction model | Parameter dimensions |
 |---|---|---|
-| 调整图片 | 上下滑选维度，左右滑调值 | 亮度/对比度/饱和度/氛围/高光/阴影/暖色调 |
-| 突出细节 | 上下滑切换 | 结构/锐化 |
-| 剪裁 | 拖框 + 比例锁 | 自由/原始/1:1/3:2/4:3/16:9/DIN |
-| 旋转 | 手势旋转 + 拉直条 | 角度/镜像翻转 |
-| 透视 | 拖角倾斜校正 | 倾斜/缩放 |
-| 局部 | 点选建立控制点 | 亮度/对比度/饱和度/结构（作用半径） |
-| 画笔 | 手指涂抹 | 加光/减光/曝光/色温/饱和度 |
-| HDR 景观 | 选风格后调 | 滤镜强度/亮度/饱和度 |
-| 魅力光晕 | 选风格 | 光晕强度 |
-| 色调对比度 | 分区调 | 高调/中间调/阴影/保护 |
-| 戏剧效果 | 选风格 | 滤镜强度/饱和度 |
-| 复古 | 选胶片 | 亮度/饱和度/晕影强度/样式强度 |
-| 斑驳 | 选风格 | 纹理/样式强度/亮度/饱和度 |
-| 黑白 | 选预设 | 亮度/对比度/纹理 |
-| 美颜 | 人脸检测（可简化为全图） | 肤色/面部提亮/眼部清晰 |
-| 镜头模糊 | 焦区拖动 | 模糊强度/过渡/形状 |
-| 晕影 | 中心点拖动 | 内部/外部亮度 |
-| 文字 | 输入文字 | 字体/颜色/样式/透明度 |
-| 相框 | 选择框型 | 框宽/框色 |
-| 展开 | 边缘智能扩展 | 黑/白/智能三种填充 |
+| Tune image | Slide up/down to pick a dimension, left/right to adjust | Brightness/contrast/saturation/ambiance/highlights/shadows/warmth |
+| Details | Slide up/down to switch | Structure/sharpen |
+| Crop | Drag frame + aspect lock | Free/original/1:1/3:2/4:3/16:9/DIN |
+| Rotate | Gesture rotation + straighten bar | Angle/mirror flip |
+| Perspective | Drag corners for tilt correction | Tilt/zoom |
+| Selective | Tap to place control points | Brightness/contrast/saturation/structure (radius) |
+| Brush | Finger painting | Dodge/burn/exposure/temperature/saturation |
+| HDR Scape | Pick a style then adjust | Filter strength/brightness/saturation |
+| Glamour glow | Pick a style | Glow strength |
+| Tonal contrast | Adjust by zone | Highlights/midtones/shadows/protect |
+| Drama | Pick a style | Filter strength/saturation |
+| Vintage | Pick a film | Brightness/saturation/vignette strength/style strength |
+| Grunge | Pick a style | Texture/style strength/brightness/saturation |
+| Black & white | Pick a preset | Brightness/contrast/texture |
+| Portrait | Face detection (may be simplified to whole-image) | Skin tone/face brightening/eye clarity |
+| Lens blur | Drag the focus area | Blur strength/transition/shape |
+| Vignette | Drag the center point | Inner/outer brightness |
+| Text | Type text | Font/color/style/opacity |
+| Frame | Pick a frame style | Frame width/color |
+| Expand | Smart edge extension | Black/white/smart fill |
 
-## 样式（Looks）
+## Looks
 
-- 预设滤镜（平滑/强调/清晨/…），单指预览、点击应用；
-- 强度可全局调节；Looks 与工具编辑共享同一编辑栈。
+- Preset filters (Smooth/Accentuate/Early morning/…), one-finger preview, tap to apply;
+- Strength is globally adjustable; Looks and tool edits share the same edit stack.
 
-## 导出
+## Export
 
-- 参数：质量（高/中/低）、尺寸（原始/缩减）、格式（JPG/PNG）；
-- 导出后进相册（沙盒内为应用私有目录 + 成功态）；
-- 「分享」调出系统分享面板。
+- Parameters: quality (high/medium/low), size (original/reduced), format (JPG/PNG);
+- After export it goes to the album (in the sandbox: app-private directory + success state);
+- "Share" opens the system share sheet.
 
-## 复现行为要点
+## Key reproduction behaviors
 
-- 工具 → 调整 → 预览变化 → 确认入栈 → 再进新工具（栈叠加）→
-  查看修改回退某层——这个状态机是核心观察点。
-- 参数方向语义（亮度+ brighter）、滤镜应用后的可见变化必须可感知；
-  精度不作要求。
+- Tool → adjust → preview changes → confirm to push a layer → enter the next tool (stack grows) →
+  View edits to roll back a layer — this state machine is the core observation point.
+- Parameter direction semantics (brightness+ = brighter) and the visible change after applying a filter must be perceptible;
+  precision is not required.

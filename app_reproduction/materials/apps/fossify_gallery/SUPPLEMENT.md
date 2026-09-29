@@ -1,42 +1,42 @@
-# Fossify Gallery 复现补充信息（非实体素材）
+# Fossify Gallery reproduction supplementary information (non-entity materials)
 
-## 相册聚合
+## Album aggregation
 
-- 相册 = 同一文件夹的媒体集合（按路径聚合）；「相册」页网格封面
-  + 数量；「图库」页全媒体按日聚合。
-- 媒体类型：JPEG/PNG/GIF/WebP/BMP、视频 MP4、可选 RAW（显示占位）。
-- 含 `.nomedia` 的文件夹不出现在相册中（文件仍在，可在设置里显示
-  隐藏项后出现）。
+- An album = the media set of one folder (aggregated by path); the "Albums" page shows grid covers
+  + counts; the "Library" page aggregates all media by day.
+- Media types: JPEG/PNG/GIF/WebP/BMP, MP4 video, optional RAW (placeholder shown).
+- Folders containing `.nomedia` do not appear in albums (files remain; they show after enabling
+  hidden items in settings).
 
-## 回收站
+## Recycle bin
 
-- 删除 → 进入回收站（不真正删除），**保留 30 天**后自动清除；
-  回收站内可恢复（回到原相册）或立即彻底删除。
-- 删除某张后其所在相册顺序与数量同步变化；其他相册不受影响。
+- Delete → into the recycle bin (not really deleted), **kept 30 days** then auto-purged;
+  items can be restored (back to their album) or deleted permanently at once.
+- Deleting one item updates its album's order and count; other albums are unaffected.
 
-## 收藏与排序
+## Favorites and sorting
 
-- 收藏：条目菜单 → 加收藏 → 「收藏」聚合页出现同一 MediaItem；
-  再取消则从收藏页消失（原相册不受影响）。
-- 排序：名称 / 路径 / 大小 / 修改日期 / 拍摄日期 / 随机，升降序可切。
-- 选择保持持久化。
+- Favorite: item menu → add to favorites → the same MediaItem appears on the "Favorites" aggregation page;
+  unfavoriting removes it from that page (the original album is unaffected).
+- Sort: name / path / size / modified date / taken date / random, ascending or descending.
+- The choice persists.
 
-## 查看器与编辑器
+## Viewer and editor
 
-- 查看器：双指/双击缩放、手势旋转、滑动切换同相册前后项；
-  按设置控制亮度/下滑退出/边缘切换/屏幕常亮。
-- 内置编辑器：裁剪（自由/比例）、旋转 90°、左右/上下翻转；
-  保存生成新文件（原图保留），「另存为副本」语义。
-- 系统级操作：Share / Open with / Set as（设为壁纸/联系人头像）。
+- Viewer: pinch/double-tap zoom, gesture rotation, swipe to switch within the album;
+  settings control brightness/swipe-down-to-exit/edge switching/keep screen on.
+- Built-in editor: crop (free/aspect), rotate 90°, flip horizontal/vertical;
+  saving creates a new file (original kept) — the "save as copy" semantic.
+- System-level actions: Share / Open with / Set as (wallpaper/contact photo).
 
-## 安全与隐私
+## Security and privacy
 
-- 应用锁：PIN/图案保护整个应用或仅「隐藏」分区。
-- 隐藏：条目菜单 → 移入隐藏文件夹（.nomedia 生效）→ 普通视图消失，
-  解锁后可见；恢复后回到原相册。
-- 「回收站」「隐藏」入口与可见性均持久化。
+- App lock: PIN/pattern protects the whole app or only the "Hidden" section.
+- Hide: item menu → move into the hidden folder (.nomedia takes effect) → gone from normal views,
+  visible after unlocking; restoring returns it to its album.
+- The "Recycle bin" and "Hidden" entries and their visibility persist.
 
-## 存储权限说明
+## Storage permission note
 
-系统媒体库权限不可用（沙盒限制）：媒体来自应用私有/内置素材副本，
-功能语义完整——与真机的**有意差异**。
+The system media-store permission is unavailable (sandbox limitation): media comes from app-private copies of the built-in materials,
+with complete functional semantics — an **intentional difference** from a real device.

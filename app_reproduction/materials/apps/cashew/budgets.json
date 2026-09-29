@@ -1,5 +1,5 @@
 {
-  "note": "虚构预算。period 均为自然月。all_transactions 预算演示包含/排除规则。",
+  "note": "Fictional budgets. period is always the calendar month. The all_transactions budget demonstrates include/exclude rules.",
   "budgets": [
     {"id": "bud_food", "type": "category", "category": "cat_food", "period": "monthly", "limit": 800.00, "currency": "CNY"},
     {"id": "bud_transport", "type": "category", "category": "cat_transport", "period": "monthly", "limit": 300.00, "currency": "CNY"},
@@ -7,6 +7,6 @@
     {"id": "bud_all", "type": "all_transactions", "period": "monthly", "limit": 6000.00, "currency": "CNY",
      "includes": {"transaction_types": ["expense"], "accounts": ["acc_salary", "acc_cash", "acc_travel", "acc_saving"]},
      "excludes": {"categories": ["cat_home_rent", "cat_health"]},
-     "note": "全部账户的支出，排除房租与医疗两个类别"}
+     "note": "Expenses across all accounts, excluding the rent and health categories"}
   ]
 }
