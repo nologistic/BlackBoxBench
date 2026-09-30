@@ -1,0 +1,40 @@
+# syntax=docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32
+#
+# Live-capable controller image (NOT part of the sealed benchmark deployment).
+# Runs benchmark.server WITHOUT BBB_RUNTIME=docker, so live targets resolve to
+# LiveChromiumRuntime (headed Chromium + persistent profile against the real
+# site). Bundles Chromium + Xvfb + CJK fonts so the headed browser runs inside
+# the container (the host's glibc 2.12 cannot run a modern Chromium).
+#
+# The repo is bind-mounted at /app at run time; only OS + python deps are baked.
+FROM python:3.12-slim
+
+# 163 https apt mirror (this host's container egress allows 443 only). CA
+# bundle already present in python:3.12-slim, so TLS verification stays ON.
+RUN sed -i 's|deb.debian.org|mirrors.163.com|g; s|security.debian.org|mirrors.163.com|g; s|http://|https://|g' \
+        /etc/apt/sources.list.d/debian.sources \
+    && apt-get update && apt-get install -y --no-install-recommends \
+        chromium xvfb x11-utils \
+        fonts-liberation fonts-noto-cjk fonts-noto-color-emoji \
+        ca-certificates curl procps \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    DISPLAY=:99 \
+    BBB_BROWSER=/usr/bin/chromium \
+    BBB_RUNS_DIR=/app/runs
+
+# Full runtime dependency closure (tuna mirror: current + reliable here).
+COPY requirements/runtime.lock.txt /tmp/runtime.lock.txt
+RUN pip install --no-cache-dir \
+        -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
+        --retries 10 --timeout 60 \
+        -r /tmp/runtime.lock.txt
+
+WORKDIR /app
+COPY docker/live_controller_entrypoint.sh /usr/local/bin/live_controller_entrypoint.sh
+RUN chmod 0755 /usr/local/bin/live_controller_entrypoint.sh
+
+EXPOSE 7800
+ENTRYPOINT ["/usr/local/bin/live_controller_entrypoint.sh"]
