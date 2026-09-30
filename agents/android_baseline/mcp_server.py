@@ -870,7 +870,7 @@ def _review_payload() -> dict:
 
 def _configured_review_revisions() -> int:
     try:
-        configured = int(os.environ.get("BBB_REPRO_REVISIONS", "3"))
+        configured = int(os.environ.get("BBB_REPRO_REVISIONS", "6"))
     except ValueError:
         configured = 3
     return max(0, min(5, configured))
