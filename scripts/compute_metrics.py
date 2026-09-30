@@ -42,6 +42,9 @@ def main():
     ap.add_argument("--app", required=True)
     ap.add_argument("--handoff", default="")
     ap.add_argument("--eval-report", default="")
+    ap.add_argument("--platform", choices=("web", "android"), default="web",
+                    help="web: website_output/<handoff>/.blackboxbench/...; "
+                         "android: app_output/<handoff>/review/review_summary.json")
     ap.add_argument("--runs", default="runs")
     ap.add_argument("--diff-eps", type=float, default=0.002)
     ap.add_argument("--tokens-explore", type=int, default=0)
@@ -74,10 +77,14 @@ def main():
 
     # --- reproduction self-correction (review_summary.json) ---
     if a.handoff:
-        rs = _json(os.path.join("website_output", a.handoff, ".blackboxbench", "review_summary.json"))
+        if a.platform == "android":
+            rs = _json(os.path.join("app_output", a.handoff, "review", "review_summary.json"))
+        else:
+            rs = _json(os.path.join("website_output", a.handoff, ".blackboxbench", "review_summary.json"))
         m["repro_accepted"] = rs.get("accepted")
         m["repro_revisions"] = rs.get("revision_count")
         m["repro_review_rounds"] = len(rs.get("rounds", [])) or None
+        m["platform"] = a.platform
 
     # --- reproduction fidelity + illusion (evaluation_report.json) ---
     rep = _json(a.eval_report) if a.eval_report else {}
