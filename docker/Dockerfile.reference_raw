@@ -5,7 +5,10 @@ FROM debian:bookworm-slim@sha256:88200866dfff7ea7f5cbcb6ec7c8a701889efe6fe859fe6
 
 ENV DEBIAN_FRONTEND=noninteractive PYTHONUNBUFFERED=1 DISPLAY=:99
 
+# Use a domestic mirror before the first apt-get update so even the bootstrap
+# step is fast in CN deployments (harmless elsewhere — plain http, no certs).
 RUN set -eu; \
+    sed -i 's|http://deb.debian.org|http://mirrors.aliyun.com|g; s|https://deb.debian.org|http://mirrors.aliyun.com|g' /etc/apt/sources.list.d/debian.sources; \
     attempt=1; \
     while true; do \
       if apt-get -o Acquire::Retries=5 update \
@@ -36,7 +39,8 @@ RUN set -eu; \
     rm -rf /var/lib/apt/lists/*; \
     python3 -m venv /opt/raw-venv
 ENV PATH="/opt/raw-venv/bin:${PATH}" TMPDIR=/data/tmp
-RUN pip install --no-cache-dir fastapi==0.115.12 uvicorn==0.34.2 \
+RUN pip install --no-cache-dir -i https://mirrors.aliyun.com/pypi/simple/ \
+      fastapi==0.115.12 uvicorn==0.34.2 \
       pydantic==2.11.4 jinja2==3.1.6 pillow==11.2.1
 
 WORKDIR /trusted
