@@ -188,7 +188,7 @@ vendor/python/python.exe scripts/android_manual_session.py --app google_clock
 
 # Real launch chain through the condition's MCP, stopping at the first frame
 vendor/python/python.exe scripts/android_launch_preflight.py `
-  --app google_clock --condition our-method --close
+  --app google_clock --condition nograph --close
 ```
 
 The manual session is not an exploration condition. It exists so an operator can
@@ -208,12 +208,12 @@ exploration of the same target.
 # Managed baseline
 vendor/python/python.exe -m agents.android_baseline.install --cli codex
 
-# Improved condition
-vendor/python/python.exe -m agents.android_our_method.install --cli codex
+# Ablation variant (record-free)
+vendor/python/python.exe -m agents.baseline_nograph.install --cli codex
 ```
 
 Invoke `$android-blackbox-explorer android_commerce_demo` or
-`$android-our-method android_commerce_demo` in a new Agent task. Formal
+`$baseline-nograph android_commerce_demo` in a new Agent task. Formal
 experiments use one condition per task. Both MCPs may remain registered: each
 Skill forbids discovering or borrowing another condition, while separate tasks
 may run concurrently. Each runtime clones its own AVD and reserves a distinct
@@ -330,7 +330,7 @@ container (use an image containing the chosen CLI):
 ```powershell
 vendor/python/python.exe -m agents.android_baseline.agent_runtime `
   --app android_commerce_demo --image bbb-agent-runtime
-vendor/python/python.exe -m agents.android_our_method.agent_runtime `
+vendor/python/python.exe -m agents.baseline_nograph.agent_runtime `
   --app android_commerce_demo --image bbb-agent-runtime
 ```
 

@@ -35,9 +35,12 @@ COPY sample_apps/ /app/sample_apps/
 
 # Non-root runtime user. The host bind-mount ./runs -> /app/runs must be
 # writable by uid 1000 (mkdir -p runs on the host before `compose up`).
+# benchmark/config.py ALSO creates its volatile scratch dir at import time,
+# derived as WORKSPACE_DIR/scratch = /scratch in this image; without a writable
+# /scratch uvicorn dies with PermissionError and the container restart-loops.
 RUN useradd --create-home --uid 1000 bbb \
-    && mkdir -p /app/runs \
-    && chown -R bbb:bbb /app
+    && mkdir -p /app/runs /scratch \
+    && chown -R bbb:bbb /app /scratch
 USER bbb
 
 # Runtime selection + reference RPC endpoint (see benchmark/config.py and

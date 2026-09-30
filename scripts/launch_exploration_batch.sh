@@ -20,7 +20,12 @@ if [ "${1:-}" = "--gap" ]; then
     shift 2
 fi
 
-RUN_DIR="${RUN_DIR:-/storage/dzj/runs}"
+# Agent cwd (NOT the repo's evidence runs/). Prefer BBB_EXPLORE_CWD, then a
+# workspace-level runs/ next to the repo, then the historical fixed path.
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+RUN_DIR="${RUN_DIR:-${BBB_EXPLORE_CWD:-$REPO/../scratch/explore}}"
+OC="${OC_BIN:-opencode}"
+OC_MODEL="${OC_MODEL:-paratera/DeepSeek-V4.1-Flash}"
 mkdir -p "$RUN_DIR"
 cd "$RUN_DIR"
 export HTTP_PROXY= HTTPS_PROXY= ALL_PROXY= NO_PROXY='*'
@@ -31,7 +36,7 @@ launch() {  # kind(name: app|web) target
     else skill="blackbox-explorer"; fi
     log="/tmp/oc2_${kind}_${target}.log"
     setsid script -qec \
-        "opencode run --auto --print-logs -m paratera/DeepSeek-V4.1-Flash '/${skill} ${target}'" \
+        "${OC} run --auto --print-logs -m ${OC_MODEL} '/${skill} ${target}'" \
         /dev/null > "$log" 2>&1 &
     echo "  [${kind}] ${target} → pid $!  (log: ${log})"
     sleep "$GAP"

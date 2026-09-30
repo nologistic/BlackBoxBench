@@ -1,0 +1,487 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "d5b6c09f1d6fcd329c57e29e145bfcf8dc515718f4ea8e65cc636a624af980bc",
+  "accepted_apk_hash": "479e61e62dd15ae430bb146b42a947389888bd93cb6c74009b256c1b84d7cfb2",
+  "revision_count": 2,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "冷启动进入引导页（3 页 + GET STARTED）",
+        "主界面歌曲列表与随机播放所有歌曲行",
+        "专辑网格与专辑详情（曲目序号、时长合计）",
+        "点击歌曲播放、迷你播放器出现并自动切歌",
+        "正在播放界面（封面、进度、控制、队列、即将播放计数）",
+        "歌曲三点菜单全部条目",
+        "详情对话框字段",
+        "播放列表标签页（智能列表 + 用户列表）",
+        "设置页各分组与开关",
+        "抽屉导航进入设置",
+        "搜索页分组结果与空状态",
+        "睡眠定时器对话框",
+        "正在播放三点菜单"
+      ],
+      "findings": [
+        "顶部应用栏（主界面、详情页、搜索页、均衡器、正在播放）未处理状态栏 inset，标题/返回箭头与系统状态栏图标重叠并被裁剪；需要给这些顶栏加 statusBarsPadding，并让背景色延伸到状态栏区域。",
+        "点击抽屉中的条目（媒体库/文件夹/设置/关于）会导航但抽屉不关闭，设置页与抽屉叠加显示；抽屉条目点击后应关闭抽屉。",
+        "正在播放三点菜单选择“均衡器”后，均衡器页面被“正在播放”覆盖层遮住不可见；从正在播放菜单跳转时应先收起正在播放界面。",
+        "抽屉手势开关跟随当前页面（gesturesEnabled = 当前为媒体库），导致在设置页等页面抽屉打开后无法通过点击遮罩关闭；应让抽屉始终可用遮罩关闭。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "266c159dea3fb72ad453ba33b0ff0eb6c7dc6bec713816481759e27fc2b077b0",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "63745decae418455c8901c13c7ddb81c2e31eb22ec4ec283c4c296c43eb2df92",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "b7d45915cf53cdfb9b5018afb6eea916d065c2f68a3e443aaf3c864c4e1c5632",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "abb3060a9ed87cbda3408535efd7110be06c169ae16f6311c8d6aa92ad335e23",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "13e211f923063a7e6db656735a920bdd449dc2c7fdb134c7ab5d64a2b5bf36d1",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "4f37e2724e70713706fc1f345debe83f4085c18c4aaf804515d3fabf774f84eb",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 6,
+          "sha256": "e4d7dce593063baee0e37d2cde9450499730d2ecb8b335dd0c3f59f40713bf13",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 7,
+          "sha256": "53553011a99621f9f32e77ca6631c0acd1f86093405b8f82c21da1451ff5584b",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 8,
+          "sha256": "a9005ee374d3641a6b0168750c6f704219d256a6477f1c2e8b20f2024ba834ee",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 9,
+          "sha256": "a57cd4eff54f7d74c893af33de32eb3f4bbe3156e2b4c61384e31b76d92c6cc7",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 10,
+          "sha256": "22a211437984f8d67bf1c2b3f0319e8ee27f74b8f3a99e2e74da8f3d20a5a63a",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 11,
+          "sha256": "59aba3eea8d6d471eeea1598cc418982c787703db22ff76852fdefb6660dd158",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 12,
+          "sha256": "64e02402f702ef929fcd05c2408d399d6948eb6ce4bcfaa350935b1d73a4eb86",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 13,
+          "sha256": "8064575712fcb1db6110a6d620a1ac4592b0f9dff3c12ef34f6a1f925c7c75f8",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 15,
+          "sha256": "3d1f55a4dbe1ff0c01f328b6adfb1ba2d954747f9ba9c62c4d5abc1744793ad9",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 16,
+          "sha256": "91b7d2a16a81ab9ecb0453af827d0e4b7fba33f9379694d0c81fd5be8900de37",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 18,
+          "sha256": "e6f6329e6c89d6efc44b6de1ca13f19b83ab1f3d00448c7a4e36dbe2e6e1d225",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 19,
+          "sha256": "8ce9bd5dc893083d58651503345b288725ec6d2a76befbf30799cf39a8f55101",
+          "path": "review/round_01/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 21,
+          "sha256": "55fa2e231e1d56ebd9dea1fb6a2970960e293263bd29532b91ff9a6e3ca868ff",
+          "path": "review/round_01/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 22,
+          "sha256": "53e3dcb98a6f69e13912efd7baa2d8802c5a3daa88cc7b712e78c69752ee5516",
+          "path": "review/round_01/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 24,
+          "sha256": "1ea2c04ed8b7567c0aee86d6cec0fa308ccf6f5abdf0db7cda590a3c5f3e4737",
+          "path": "review/round_01/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 25,
+          "sha256": "b459c7da908369ea1cff1d19a75de0365046e80916fe5954c78b7d564bd2e6ac",
+          "path": "review/round_01/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 26,
+          "sha256": "98fe48be7c87cfcbce1aa6eeb269ef2a63b5ae3aa939b9abb295458f4ffc56c8",
+          "path": "review/round_01/observation_023.png"
+        },
+        {
+          "number": 24,
+          "action_count": 28,
+          "sha256": "0d636cd366d31598d6486349538ef6d2ef1e1280287c0d02d9ae7e1c92c01c37",
+          "path": "review/round_01/observation_024.png"
+        },
+        {
+          "number": 25,
+          "action_count": 29,
+          "sha256": "9e45857249d01e3e4f985d6be59b2b0079bacb198d991d54d82f03ae9e20f94a",
+          "path": "review/round_01/observation_025.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "引导页 GET STARTED 进入媒体库",
+        "主界面顶栏/标签/歌曲列表（状态栏 inset 已修复）",
+        "抽屉打开、点击条目后自动关闭并进入目标页",
+        "设置页分组与开关渲染",
+        "点击歌曲播放并显示迷你播放器",
+        "展开正在播放（队列、进度、计数）",
+        "正在播放三点菜单 → 均衡器（覆盖层已正确收起）",
+        "歌曲三点菜单 → 音乐标签编辑器（字段与保存 FAB）",
+        "抽屉 → 文件夹（面包屑与空状态）",
+        "返回键逐级回退"
+      ],
+      "findings": [
+        "状态栏图标在靛蓝色顶栏上仍为深色（参考实现为白色）；xml 主题中的 windowLightStatusBar=false 未生效，需要在 MainActivity 中以 WindowInsetsControllerCompat 显式设置 isAppearanceLightStatusBars=false / isAppearanceLightNavigationBars=false。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "3b1e72d49e0d2d5c72942ca9dd31d5140b530b9057d1beffabd26f6e9bd889e6",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "4ee658fb3b57839087b46d8e6156fba32448068a2e6b84a7cfca041c22ebe3ac",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "639f9ae09a30d03b49212a0145c9f291c4caff6916ea28fcc0c2accd2d377bb5",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "a2d3f65472cf54f1603b05442c1b17907c1a5c1c0d37b95cc9b66b5e42f8ff19",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 5,
+          "sha256": "9983f1f8c6d0dfb1ebf32efd886e684e046c2b19d5777808d9ab8091b4698ea5",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 6,
+          "sha256": "a6820c2b75afb6650ebef9054aa67f3886a6f2371ac3f7ccdb04fbe6f19463e1",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 7,
+          "sha256": "26e6c7d3adf01f3d5b35d24d78989a405fea3029295cb06294cf52256855a1ec",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 8,
+          "sha256": "e71c3e47ffaf5dbc82a886679cbd8c979ab2f5c00203a9e62087874a244c674e",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 9,
+          "sha256": "cdabe27c3a6f0b0172e8870dad99bd95b353b3ca5c04d8b08d88172c3e12def7",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 12,
+          "sha256": "0c2270d7984289d5ec6d715c5e1c8ed01d0477d6f0047acc1b6a8a4041f95011",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 15,
+          "sha256": "c3941eba6106025be85bec51bdda2461ab79fef44862a1a6e7c2456f26fec664",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 17,
+          "sha256": "b14b24df59ab22ef4eccb1f9d3ac6c17093a5ad35f38289d77ec3e2b59dcd188",
+          "path": "review/round_02/observation_012.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "accept",
+      "checked_flows": [
+        "冷启动引导页（渐变、插图、GET STARTED、页码点）→ 进入媒体库",
+        "主界面：状态栏白色图标、顶栏、五个标签、随机播放所有歌曲行、歌曲列表",
+        "歌曲点击播放、迷你播放器（标题/暂停键/进度线）与自动切歌",
+        "正在播放界面：封面、进度条与时间、随机/上一首/播放/下一首/循环、当前歌曲卡片、即将播放计数、队列高亮",
+        "歌曲三点菜单十个条目与详情对话框",
+        "正在播放三点菜单与睡眠定时器对话框（圆盘、±5、播完当前音乐）",
+        "专辑网格、专辑详情（序号、时长合计、顶栏随机/播放）",
+        "播放列表标签页：四个智能列表 + 用户播放列表",
+        "抽屉导航：媒体库/文件夹/重新扫描/设置/关于，点击后抽屉自动关闭",
+        "设置页全部分组与开关、媒体库类别/颜色/间隔选择对话框",
+        "搜索页 grouped 结果（歌曲/专辑）与空状态",
+        "音乐标签编辑器字段与保存 FAB、均衡器五个频段",
+        "文件夹面包屑与空状态",
+        "返回键逐级回退"
+      ],
+      "findings": [
+        "本轮全部核心流程截图复验通过：引导、媒体库五个标签、专辑/艺人/流派/播放列表详情、正在播放与队列、迷你播放器与自动切歌、搜索、抽屉、设置、均衡器、标签编辑器、文件夹、各类对话框与菜单。",
+        "状态栏 inset 与白色状态栏图标已生效，顶栏不再与系统栏重叠。",
+        "抽屉条目点击后自动关闭；正在播放菜单跳转均衡器时覆盖层正确收起。",
+        "APK 仅申请零权限（declared_permissions 为空），界面内容全部为虚构曲库（夜航电台/林间合唱团/像素猫/山地静默），无真实用户数据、账号或隐私信息。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "9bf097e63a9b23456d4d6eb2138cc677d6d3271a85fff2f07e92c09dbfccf533",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "bf02628b22314692085ff7fb2bd1a30a992aa1901f1914649b7b915191d1eb36",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "686ba82da699e9c47c5f89554e3c54ab0fd65baf8843bc7d0918c0d746f51a82",
+          "path": "review/round_03/observation_003.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

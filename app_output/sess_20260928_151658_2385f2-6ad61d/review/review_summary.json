@@ -1,0 +1,401 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "4e5afa852ee1bfb7e81a274cf6d570291d996e6647a5bf30f84657882e83e75c",
+  "accepted_apk_hash": "b9c57c9485196e5a3a240fd3578b42c026e858c713a1f26bb7d161bc4dafbaf8",
+  "revision_count": 0,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "accept",
+      "checked_flows": [
+        "首屏布局：深色主题、雷数计数器010与计时器00:00（绿色LED风格）、Easy(10 💣)选中、9×9未翻开棋盘、底部Licenses文本",
+        "点击格子翻开+空白洪水填充+数字显示（彩色数字）",
+        "计时器行为：首次点开启动、每秒递增（验证到00:03仍在走）",
+        "长按插旗：雷数010→009显示旗帜；再次长按取消：009→010",
+        "难度切换：点击Hard→12列新局/雷数099/计时重置；点击Custom→8×10新局/雷数015/计时重置",
+        "失败终局：踩雷后15颗雷全部显示为黑色圆形雷图标、无弹窗、棋盘锁定不可再点",
+        "重启App持久化：难度保持Custom、雷数015、计时器归零00:00、棋盘全新未翻开"
+      ],
+      "findings": [
+        "复现App核心功能与目标一致：点开/洪水填充、长按插旗与取消（计数器联动）、四难度(Easy 9×9/10、Medium 12×12/40、Hard 12×16/99、Custom 8×10/15)、点击难度立即重开新局并重置计时",
+        "踩雷终局行为一致：全部雷显示黑色雷图标、无弹窗、棋盘静默锁定；计时与雷数计数器保持不变",
+        "持久化行为一致：难度选择跨重启保持（SharedPreferences），棋盘状态不持久（重启开新局），计时器归零",
+        "视觉按探索记忆复现：深蓝黑背景、绿色等宽数码计数器、凸起浅蓝未开格、深色已开格、彩色数字（1为蓝色）、🚩旗帜、黑色圆形雷图标、底部静态Licenses文本",
+        "复现过程中未发现私人信息，无需替换内容；素材包未使用（扫雷App自包含无外部内容）"
+      ],
+      "actions": [
+        {
+          "type": "wait"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "6a685a44014a518f7d6954ca59841c842f64624fdfe6fee48e35c47536a07ed1",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "6331bca89baa7db05f9920165f301ff776b1df09245b774c83b8505c107b6178",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "6331bca89baa7db05f9920165f301ff776b1df09245b774c83b8505c107b6178",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "c2bafd86cb1369c16df920f3062cdf42a47711df41b48b337df4f196e3466dc9",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 5,
+          "sha256": "44aefb055f4defffe094f177f66c85daf8d89399f476a1a631bbdc4d06e1a6b4",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 6,
+          "sha256": "8bab9d8af0f2a464f011ac741517bb486cd68a338fa52d65ec73cd5f3405857e",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 8,
+          "sha256": "1d48d5c379004fc38fa0fda5cc88c5fb4ce7e1950e72a7e6178400315c3f9441",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 9,
+          "sha256": "9f6ab77de9539c48596a7b59d45a79a295fb78b5c8c6baf8fdbbd8eb30ab13e4",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 19,
+          "sha256": "0102cc3210bf247ffd60cd83fb19aa0ee74358964ed36f5dd37c3c3a443e4c1a",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 23,
+          "sha256": "2118b24de3e85af428b4dd670cf3f513320a045e09de578b974fa5b424288d40",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 25,
+          "sha256": "78eb83d8ca8dfce22063b9193b8f1a2bba6fdd54286bf46289da74172a0bcccd",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 29,
+          "sha256": "ffde75d52b4684d85bc8c945ec93bb1f1c6052c6a4a6bdab5418718f874d870e",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 32,
+          "sha256": "cc3a06a77334218d9fcbe379d7f84967c827f6ca82655ead22f64c67c2567461",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 35,
+          "sha256": "286dccb2c21a42946ad6586c420e7a987a53d88b97ce7967c7d8967c272f4f63",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 39,
+          "sha256": "3362f58be129fe2c9605f8fac408b1a6b5f83c6362f38e81b363bb174a84950b",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 44,
+          "sha256": "40bd31f5b86b5b04b56fb0d8f57b1eee6833a6276e6d903e18d9d49aa3057e5e",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 48,
+          "sha256": "bda930326c15aca9b8c1c84deb2341504c535ab11174dc493ad979c1e244f862",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 52,
+          "sha256": "64c86d7e76ef0083657685f7363132b3373fd966a7c4105807f978793f39449d",
+          "path": "review/round_01/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 54,
+          "sha256": "d4efaa2db1e095e9aed490b1a3befc6e1e35c94ef5337ef394ccd621b2d2e0b9",
+          "path": "review/round_01/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 58,
+          "sha256": "5eb03c8138833660f39039aacc206fea5158ac42be9acd85a80a18d21d7da0d6",
+          "path": "review/round_01/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 59,
+          "sha256": "8e88f86169c7abc98a8e728586ac0b1623f8d18b94eebe888229036d01ff6611",
+          "path": "review/round_01/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 60,
+          "sha256": "7da849d53de60236fbd237d46758c3791f02b78571f0c2562d69eeb37b438294",
+          "path": "review/round_01/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 60,
+          "sha256": "7da849d53de60236fbd237d46758c3791f02b78571f0c2562d69eeb37b438294",
+          "path": "review/round_01/observation_023.png"
+        },
+        {
+          "number": 24,
+          "action_count": 61,
+          "sha256": "7da849d53de60236fbd237d46758c3791f02b78571f0c2562d69eeb37b438294",
+          "path": "review/round_01/observation_024.png"
+        },
+        {
+          "number": 25,
+          "action_count": 62,
+          "sha256": "ea026ff93e6f5988934a30730f242e459f5dbe114e1fc805ba48c5b089eda4b4",
+          "path": "review/round_01/observation_025.png"
+        },
+        {
+          "number": 26,
+          "action_count": 63,
+          "sha256": "7c6a951f9d8c70c3ed86018659a59b60ad550b516fd3198251c81ac69f24d0ef",
+          "path": "review/round_01/observation_026.png"
+        },
+        {
+          "number": 27,
+          "action_count": 64,
+          "sha256": "e8d0337958006ca5f4dfa933c6af65ed43c5c404d304cf3d0898f8b4a8d67a3d",
+          "path": "review/round_01/observation_027.png"
+        },
+        {
+          "number": 28,
+          "action_count": 65,
+          "sha256": "25c1dd8862ec1222abef0ab302663b0e70ad2ab3df7c1a8f4043de58e60dfc79",
+          "path": "review/round_01/observation_028.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

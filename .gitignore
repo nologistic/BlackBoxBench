@@ -46,10 +46,8 @@ website_output/*
 cache/
 
 # ---- Android APK 复现输出与可重建移动素材 ----
-# 2026-09-22 策略变更：实验结果（会话产物 sess_* 与评审报告 evaluations）
-# 不再上云——只保留本机；Git 仅跟踪项目框架代码。
-app_output/*
-!app_output/.gitkeep
+# 2026-09-24 策略更新：实验结果（会话产物 sess_* 与评审报告 evaluations）重新上云。
+# （用户要求：全部现有结果推送 GitHub；编译中间物/日志仍不上云）
 reproduction/materials/generated/
 app_reproduction/materials/generated/
 sample_apps/android_commerce_demo/.gradle/
@@ -73,3 +71,8 @@ Thumbs.db
 # ---- local backups (never upload) ----
 review_specs_backup_exclusions/
 *.bak-*
+
+# ---- 2026-09-28 本机保留：三份 k3 测评报告不上云（新旧 baseline 与 nograph）----
+app_output/evaluations/eval_16315e903d/
+app_output/evaluations/eval_4a41f33e07/
+app_output/evaluations/eval_e770bf3961/

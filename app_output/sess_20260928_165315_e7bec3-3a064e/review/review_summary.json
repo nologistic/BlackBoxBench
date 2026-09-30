@@ -1,0 +1,1066 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "536607d9cda66d516b1d51d8e96dbf972e6f6b65fd622df1c6ec5c5cec028f74",
+  "accepted_apk_hash": "2c9cc04db63ccb3d9e8029506ad0f4ce90ddb414805ad68aa05a2e02abcf2c42",
+  "revision_count": 1,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "欢迎屏三选项与空态",
+        "抽屉结构与组头折叠展开",
+        "标签新建与标签视图",
+        "任务新建/编辑/删除/放弃修改对话框",
+        "重复设置每周与重复始于chip",
+        "优先级设置与按优先级分组排序即时生效",
+        "描述与子任务行内编辑/展开/勾选删除线",
+        "搜索实时过滤",
+        "麦克风未连接到网络弹窗",
+        "底栏菜单清除已完成/收起展开子任务/分享",
+        "长按多选与批量操作菜单",
+        "设置页外观主题暗色切换全局生效/关于页版本15.10/备份页/任务默认值页",
+        "冷启动持久化：任务/标签/清单/上次视图/排序分组均保留"
+      ],
+      "findings": [
+        "标签视图内点FAB新建任务未自动附加当前标签：MainActivity.newTask只传listId未传tagId，TaskEditScreen也没有初始标签参数，导致work视图新建的任务保存后出现在我的任务/默认清单而work标签计数为0。已定位：MainActivity.kt Screen.EditTask需增加tagId并传给TaskEditScreen。",
+        "任务行子任务chip计数不减少：TasksScreen.kt TaskRow的chip label使用task.subtasks.size总数，勾选子任务完成后仍显示∨1，应统计未完成子任务数count{!it.completed}。",
+        "截止日期面板确定后疑似未生效：TaskEdit.kt的DateTimePanel onConfirm静态检查会正确写回due/dueHasTime，round1未生效可能是底部sheet内容超高导致确定键点按未命中，需在round2复验（若复现再修）。",
+        "抽屉我的任务header行点击疑似无响应：Drawer.kt该行已有clickable{onSelect(MY_TASKS)}，静态检查正常，可能是round1点按偏差，需在round2复验（若复现再修）。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_enter"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "87988bd90eee16f36c14d3e9dd818ef5b29aef1c74ede33ea43d0729369c7b7d",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "4b5899eb65e79b751aa17c75c5d218060dda3efc38dcca506b20d7f840c2e2f0",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "59e1aa3129bb2c830867b7d92184587e9ba08d60a119ac7e5d902f6e0cfd115f",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "66c6bfa6ae61761c185a1233e0f523d47d1ff72c047d2abf0b61a302db86afe5",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 6,
+          "sha256": "448a2dc5cd978b83e6fe7e0e3c0cbc8a0cfa641d5a10ccda18efc0d19e6c2a88",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 7,
+          "sha256": "bfaa211f798540398e49e660c069becdb8a205ff1a14283b339c88635b3becfb",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 10,
+          "sha256": "5b12fc1337e639194b4193851707daefd3e6d1c00bb35e68d25fe0c26de28530",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 11,
+          "sha256": "5643137a02522901bd4a098dc38561c168d604707c3047fefae64ac5cc080089",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 12,
+          "sha256": "670e6b1dd3bbbc5004219eeab1bf6157ddbf939ba294c36752c567df3150dd6f",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 13,
+          "sha256": "b0f09f669ba9a84bea06dd95b70f12bffc3bf80d65b3d8f21948a23e47afa5e0",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 14,
+          "sha256": "1464ad6450a9b9baacbddc230e786db893b61d90ad414c1b190b67d27f81b7d4",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 15,
+          "sha256": "c18ac4e4df60efdc415b20947042a1116de227bf8be1ef3c2f98f4de9375788a",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 17,
+          "sha256": "8d65480e8c450c9b43e4578755ab01b0cf9aa8f1ff17afe8897174b8eab08549",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 20,
+          "sha256": "0f272e5bf20c16057c33c3467e6cf0f1d85c83139c142d17e90ca6bdfb1cacb0",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 21,
+          "sha256": "9565d274befa09e7fcf1d78e4f7df481cc468219fc27887beb66e969d53bc630",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 24,
+          "sha256": "ce2e99cc5829d8dc335d100b0516358997b022aabf32a6f5c0d4d1f30e20659f",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 25,
+          "sha256": "74684d90b8545e8b0ac923adf9f8a838c00b684cd5ddc8e40fae8dc28f39c2e2",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 26,
+          "sha256": "ed5b1d33e8cda218cf41d5b1e2fa47673cdabc8f63abcab360da232976def561",
+          "path": "review/round_01/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 27,
+          "sha256": "ed5b1d33e8cda218cf41d5b1e2fa47673cdabc8f63abcab360da232976def561",
+          "path": "review/round_01/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 28,
+          "sha256": "cbd79d8ffbed803aed2d9318c1a60dba12b00020ce1159ea516b51f9288d670f",
+          "path": "review/round_01/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 30,
+          "sha256": "dee88eaf738703a3a5ca290f40fcc706ea750a708adb0deba05f11105f45d51e",
+          "path": "review/round_01/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 31,
+          "sha256": "dc9f7856e1ce4d8b78c7d8295d51548e8ae1187a2bc10654e629bbde0937b996",
+          "path": "review/round_01/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 32,
+          "sha256": "a8641298e6c691fa35bf18812fdca61619b039329893fc06c9fe86f7d2704f00",
+          "path": "review/round_01/observation_023.png"
+        },
+        {
+          "number": 24,
+          "action_count": 33,
+          "sha256": "de87f11e13d34b494737524e79167ff5a4ef44207da7591fe7789e4c8a6fb789",
+          "path": "review/round_01/observation_024.png"
+        },
+        {
+          "number": 25,
+          "action_count": 35,
+          "sha256": "be745b9356db82f42a36ae2cb5c108e9a871de32d30755a2a2542847d5c2ee94",
+          "path": "review/round_01/observation_025.png"
+        },
+        {
+          "number": 26,
+          "action_count": 37,
+          "sha256": "cdbfa415812894526088e9f0308b6b51486e47dc9bde1dc499da36f1753ebe19",
+          "path": "review/round_01/observation_026.png"
+        },
+        {
+          "number": 27,
+          "action_count": 39,
+          "sha256": "8a22a20ceb8ae2ba2f24472420e2af53ea92a2ca22476fdd65e6f7b7b1e5224a",
+          "path": "review/round_01/observation_027.png"
+        },
+        {
+          "number": 28,
+          "action_count": 41,
+          "sha256": "f623aa18de20981d720b3b9ab163d9d2c1c717914923ac94799b8569c69adc4a",
+          "path": "review/round_01/observation_028.png"
+        },
+        {
+          "number": 29,
+          "action_count": 42,
+          "sha256": "aba2d4766c98e2c14965b3ac68b9dbf2903b02a7a3e6febb49b91d6cca6e01d5",
+          "path": "review/round_01/observation_029.png"
+        },
+        {
+          "number": 30,
+          "action_count": 44,
+          "sha256": "e0d33df0ae376170aca77f32e46adfc527d221c233fada8920b124d181368394",
+          "path": "review/round_01/observation_030.png"
+        },
+        {
+          "number": 31,
+          "action_count": 45,
+          "sha256": "fe2431781744df535bbc3d587f28dfeb3dc4a2806a861ae510b59bc020ac7ebd",
+          "path": "review/round_01/observation_031.png"
+        },
+        {
+          "number": 32,
+          "action_count": 46,
+          "sha256": "6aa0fcc6953faafd7809e1d9d627248a67723974f41c0d6d6eaaea99d216cf29",
+          "path": "review/round_01/observation_032.png"
+        },
+        {
+          "number": 33,
+          "action_count": 47,
+          "sha256": "1df5894a8b8d3f45637791cc0e7a96e745756f84be5f657552e61f973dce91f9",
+          "path": "review/round_01/observation_033.png"
+        },
+        {
+          "number": 34,
+          "action_count": 50,
+          "sha256": "1d9fd360afa263ff4cd60a81b8d35a2b7c6e5e4507ec0008ad1cecd0575a2c70",
+          "path": "review/round_01/observation_034.png"
+        },
+        {
+          "number": 35,
+          "action_count": 51,
+          "sha256": "05ac15cc366d84bfdc67191442ef04a37ed3638abe609933dd3bbb9ff67298d9",
+          "path": "review/round_01/observation_035.png"
+        },
+        {
+          "number": 36,
+          "action_count": 55,
+          "sha256": "30a03b7ec159b333e84e41f48204b83fb16e31226594218fe35c47dad29bb43d",
+          "path": "review/round_01/observation_036.png"
+        },
+        {
+          "number": 37,
+          "action_count": 55,
+          "sha256": "367562d2729ad56181a8c13650a34841818b0e12e99a3e5364f84bf4e47d7f33",
+          "path": "review/round_01/observation_037.png"
+        },
+        {
+          "number": 38,
+          "action_count": 56,
+          "sha256": "accb753505542848c5c68644839330223356e00c46830678c7732f0c2ed88186",
+          "path": "review/round_01/observation_038.png"
+        },
+        {
+          "number": 39,
+          "action_count": 57,
+          "sha256": "e60b2fa77faa242439def28611cf774abc20f0ffd7ba201e038537d0a7880a63",
+          "path": "review/round_01/observation_039.png"
+        },
+        {
+          "number": 40,
+          "action_count": 58,
+          "sha256": "d9231788e26711ea9399a66e772f577ceb4f1cb6e152099124047d42483ba41f",
+          "path": "review/round_01/observation_040.png"
+        },
+        {
+          "number": 41,
+          "action_count": 59,
+          "sha256": "7ac2988baa87e7045faec15e239184f0ecbf4f4c1bf0a0c22df6696d9bf3fc1b",
+          "path": "review/round_01/observation_041.png"
+        },
+        {
+          "number": 42,
+          "action_count": 60,
+          "sha256": "7e68329781a5a293c3445768a692ff9a007080487b592599e4f63ebf9c9820c5",
+          "path": "review/round_01/observation_042.png"
+        },
+        {
+          "number": 43,
+          "action_count": 62,
+          "sha256": "6d5cb0a9ed20558cc67af22be6fae7bfebf77c2493ec0dbcd7b63c6ddca9da39",
+          "path": "review/round_01/observation_043.png"
+        },
+        {
+          "number": 44,
+          "action_count": 63,
+          "sha256": "d2f987fc1459e999719194e1b18f93b757c7891bf4976cc0f80c7e4f2b4765b0",
+          "path": "review/round_01/observation_044.png"
+        },
+        {
+          "number": 45,
+          "action_count": 65,
+          "sha256": "f879befa5a6761b54bcde9778350d6b7e756cf2237c83a5274705aae7e0cea94",
+          "path": "review/round_01/observation_045.png"
+        },
+        {
+          "number": 46,
+          "action_count": 66,
+          "sha256": "da73f6c726507eb168eafc5f6d3f44feee8ba3b2f2e995602adf9628628e0ee6",
+          "path": "review/round_01/observation_046.png"
+        },
+        {
+          "number": 47,
+          "action_count": 67,
+          "sha256": "7602d37d08f391128f6dd524c79ab64853e85fa551161f0f05e886dae1f72dd9",
+          "path": "review/round_01/observation_047.png"
+        },
+        {
+          "number": 48,
+          "action_count": 68,
+          "sha256": "4d0c80ef8da7f1772dbf58eb9c92084746aabb78348c108b37fb054f085917c0",
+          "path": "review/round_01/observation_048.png"
+        },
+        {
+          "number": 49,
+          "action_count": 69,
+          "sha256": "8aa053490125437a95d55ab30341b5a43f42742ec9b19547e1c97ebca7668d99",
+          "path": "review/round_01/observation_049.png"
+        },
+        {
+          "number": 50,
+          "action_count": 71,
+          "sha256": "545023975308e8374a9d803edadd00e8c02e04349a4c952d06eef239f6cba8a6",
+          "path": "review/round_01/observation_050.png"
+        },
+        {
+          "number": 51,
+          "action_count": 73,
+          "sha256": "6e52a087aefc7a65854b5060194ab077c710e11b1c54be771dd52186ec629244",
+          "path": "review/round_01/observation_051.png"
+        },
+        {
+          "number": 52,
+          "action_count": 74,
+          "sha256": "6e52a087aefc7a65854b5060194ab077c710e11b1c54be771dd52186ec629244",
+          "path": "review/round_01/observation_052.png"
+        },
+        {
+          "number": 53,
+          "action_count": 75,
+          "sha256": "61df117fcce8c793d48360602697b247d82f3bb1cd846cac724d8dc1494757a2",
+          "path": "review/round_01/observation_053.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "accept",
+      "checked_flows": [
+        "欢迎屏初始化",
+        "抽屉导航(我的任务header/过滤器/标签/清单分组)",
+        "标签视图新建任务自动附加标签",
+        "任务编辑(标题/截止日期面板+时间/优先级/标签chip/子任务勾选)",
+        "任务分组显示(明天截止/已完成)",
+        "子任务chip按未完成数计数(∨2→∧1)",
+        "任务完成/取消完成",
+        "多选与批量操作",
+        "任务删除与放弃修改",
+        "列表/标签/过滤器视图切换",
+        "排序与分组设置",
+        "设置(暗色主题切换/关于版本15.10/备份入口/任务默认值/通知设置页)",
+        "冷启动持久化(视图/任务/chip计数均恢复)",
+        "底栏菜单/搜索/排序入口",
+        "启用提醒banner(设置/关闭)"
+      ],
+      "findings": [
+        "已修复并验证：标签视图下点FAB新建任务，编辑页自动带上该标签chip(work ×)，保存后任务出现在标签视图且分组正确",
+        "已修复并验证：任务行子任务chip计数由子任务总数改为未完成数（2个子任务完成1个后由∨2变为∨1，与目标一致）",
+        "误报澄清：截止日期面板选「明天+13:00」点确定生效正常，round1失败是因为底部sheet需先上滑才露出确定键，非代码缺陷",
+        "误报澄清：抽屉「我的任务」header点击切换视图正常，round1无响应为复验模拟器局部触摸失灵的环境问题，重启后复验通过；冷启动持久化（work视图、已完成任务、chip计数、明天13:00截止）全部验证通过"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "657a63a9fe45dd0a2cfa96bcd2cec602f44713c0b1be5d7c62c09630c18261f0",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "d07077b8dce6e0bc4c42450787d830f761f90b10cd1efed1d9042295ca5205ea",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "d07077b8dce6e0bc4c42450787d830f761f90b10cd1efed1d9042295ca5205ea",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "eb3dada43563452cc3ab9050a956fbb2e6a2b02497698498469b1063769c2255",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "dcb504827cf24995eba8e3376194059c69e956ffca71430ac298dab96b529abd",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 7,
+          "sha256": "6007401da362c2a612251bcfb4f3471d0f26cae6b9e2a35fa2c73eca7621966b",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 8,
+          "sha256": "cdd5b6ac104235119a5243969b68652eb272dda93ae6d8a4f2aeca6e7530517a",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 11,
+          "sha256": "ab84dc9445ada56aa0a08a55fd3fcfaafc07bbe0002607afc70c0ca2aa485644",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 14,
+          "sha256": "19fcab3b0ee583238e02d0257390c4ad650bfa2b6d7575086ae340022818ccd6",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 15,
+          "sha256": "f60a6393a97012d09016938e59202e9eceb2b60aa0146c79edf80c7eb349d0ad",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 16,
+          "sha256": "0b14c9aa54c57d6e2c9a93a7f68ef3b673645aa2637fb2edb218785718d98fa6",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 19,
+          "sha256": "4037bf01b1ab98a9e2694956fa6f24ffe618012324e79e724a02db68e3a85b60",
+          "path": "review/round_02/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 22,
+          "sha256": "b79836d9217966e6c96a8c4dc1e25f2d9fa24ad0f8b6ff2d99855d720e586ce0",
+          "path": "review/round_02/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 23,
+          "sha256": "17d0db78caad40094805d1d0f0ea30cfbbb86fa248310eadd2b273804fb1fb7f",
+          "path": "review/round_02/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 24,
+          "sha256": "4187f9ef621fbfe8bd7efcbad22ee32e7d900074cb4ebc4635efd2a5920fa239",
+          "path": "review/round_02/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 25,
+          "sha256": "4187f9ef621fbfe8bd7efcbad22ee32e7d900074cb4ebc4635efd2a5920fa239",
+          "path": "review/round_02/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 26,
+          "sha256": "619527647e56a9df6293734c08a9818d553b36993727049c99681ef415086eff",
+          "path": "review/round_02/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 27,
+          "sha256": "bce6331154879c466ef619f6cedbe5cd8daba7294a904d250126d5cb7c0d1821",
+          "path": "review/round_02/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 28,
+          "sha256": "410f157bbdbd8631e17a8292c6932fde3af6924e32d60bc9f5f0c35d25719cb7",
+          "path": "review/round_02/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 30,
+          "sha256": "410f157bbdbd8631e17a8292c6932fde3af6924e32d60bc9f5f0c35d25719cb7",
+          "path": "review/round_02/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 31,
+          "sha256": "d97db145e1cc5f184d6a44bb537b48ca99dea5ca9bc0e874e02db4f0ab01cf14",
+          "path": "review/round_02/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 32,
+          "sha256": "6e46faf9dc2c79a7f39efafb2b5d3f713c15fc1b0981bc7e9b7997c9e2106951",
+          "path": "review/round_02/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 33,
+          "sha256": "ebd805bae45d7d2e44ba27af27796288a006eee68fc04da8eb7b151a09523057",
+          "path": "review/round_02/observation_023.png"
+        },
+        {
+          "number": 24,
+          "action_count": 34,
+          "sha256": "4370e9457b1986a87d0d81f9f6be903f3f6407958d486bc95163505a59e19c4a",
+          "path": "review/round_02/observation_024.png"
+        },
+        {
+          "number": 25,
+          "action_count": 35,
+          "sha256": "b4253d953f613b0680c11f8876e04f560065559faf525db2dc2877ba328470b6",
+          "path": "review/round_02/observation_025.png"
+        },
+        {
+          "number": 26,
+          "action_count": 36,
+          "sha256": "4ba5b068ed156c5bd2a2768a632ff7acd1fe734e0b67c5c7c8f1d7f775b9f04b",
+          "path": "review/round_02/observation_026.png"
+        },
+        {
+          "number": 27,
+          "action_count": 37,
+          "sha256": "9f4ce35b0e4b1bb53315af75066eb8a60e3d5f12a01ac48e81b1b5b58cc735bb",
+          "path": "review/round_02/observation_027.png"
+        },
+        {
+          "number": 28,
+          "action_count": 40,
+          "sha256": "84a169134a2ab25fad1122f4714da18cb81461adf660229cacfacb606569eee3",
+          "path": "review/round_02/observation_028.png"
+        },
+        {
+          "number": 29,
+          "action_count": 41,
+          "sha256": "caae1a866adab83642f82570d1f1abca1eb8bfec49e61d58ada78168b17b6c07",
+          "path": "review/round_02/observation_029.png"
+        },
+        {
+          "number": 30,
+          "action_count": 43,
+          "sha256": "caae1a866adab83642f82570d1f1abca1eb8bfec49e61d58ada78168b17b6c07",
+          "path": "review/round_02/observation_030.png"
+        },
+        {
+          "number": 31,
+          "action_count": 44,
+          "sha256": "6c1036981bb492218ef80b24ce8040fcd608fbcfefd6d8aa1b7e422c304988c4",
+          "path": "review/round_02/observation_031.png"
+        },
+        {
+          "number": 32,
+          "action_count": 45,
+          "sha256": "7db83ac2b22b4fb4673993ca4468de595ce6ec171cb517ea20e15a75dd12e7d4",
+          "path": "review/round_02/observation_032.png"
+        },
+        {
+          "number": 33,
+          "action_count": 47,
+          "sha256": "7db83ac2b22b4fb4673993ca4468de595ce6ec171cb517ea20e15a75dd12e7d4",
+          "path": "review/round_02/observation_033.png"
+        },
+        {
+          "number": 34,
+          "action_count": 48,
+          "sha256": "934d15d4e94a09c0116eae68de380716a8b1cdec0a346357ba0638a236960c07",
+          "path": "review/round_02/observation_034.png"
+        },
+        {
+          "number": 35,
+          "action_count": 48,
+          "sha256": "e6ded9723cd534d54d5b8066082b5235283ed6ea19cfce0cbf6bdfe422ca55f6",
+          "path": "review/round_02/observation_035.png"
+        },
+        {
+          "number": 36,
+          "action_count": 49,
+          "sha256": "a5178c1932254669146829b58af66fba19a6ec09c261ba49903fbe6d7a77720f",
+          "path": "review/round_02/observation_036.png"
+        },
+        {
+          "number": 37,
+          "action_count": 50,
+          "sha256": "b0be94346ef435104fd25c2e52c7b28f2414de0bfb82ddbc2b4e0b0b49b950b4",
+          "path": "review/round_02/observation_037.png"
+        },
+        {
+          "number": 38,
+          "action_count": 51,
+          "sha256": "758f89440559cfdd89a31c10718b44c41959d146c7ad9128d9b7687ce6a7009c",
+          "path": "review/round_02/observation_038.png"
+        },
+        {
+          "number": 39,
+          "action_count": 52,
+          "sha256": "c4a22cf18509b8e14d2a756d4138fde1ce5dd7193275c6c280e63fffd512ad72",
+          "path": "review/round_02/observation_039.png"
+        },
+        {
+          "number": 40,
+          "action_count": 53,
+          "sha256": "c4a22cf18509b8e14d2a756d4138fde1ce5dd7193275c6c280e63fffd512ad72",
+          "path": "review/round_02/observation_040.png"
+        },
+        {
+          "number": 41,
+          "action_count": 54,
+          "sha256": "4f4163bc1b3791ba30478ce4f66418dd4ba17467eaf1626bc288d229f46e902e",
+          "path": "review/round_02/observation_041.png"
+        },
+        {
+          "number": 42,
+          "action_count": 55,
+          "sha256": "ba40154836bdc122b0cc6ad05c226e6874967bcfb1c43f2dbfca85e1654de5a2",
+          "path": "review/round_02/observation_042.png"
+        },
+        {
+          "number": 43,
+          "action_count": 56,
+          "sha256": "3dc8d579ff9d2131ec03ff392eb97a1b23b74507cd6e5c7bd7e9b2cfc4e0cf96",
+          "path": "review/round_02/observation_043.png"
+        },
+        {
+          "number": 44,
+          "action_count": 57,
+          "sha256": "de3bf9f8168699ab1a3f316c3ea11cae9f3783024d405d8ccd0831e32b7a7373",
+          "path": "review/round_02/observation_044.png"
+        },
+        {
+          "number": 45,
+          "action_count": 58,
+          "sha256": "8e455d552ad8a36af12bbe763ffd8387f43a2181530ac96c4b4f2d3419ce4f8b",
+          "path": "review/round_02/observation_045.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

@@ -4,310 +4,310 @@
   "features": [
     {
       "id": "f01",
-      "name": "本地媒体库扫描与重建",
+      "name": "Local media library scanning and rebuilding",
       "steps": [
-        "向设备音乐目录放入多首带有不同 Title、Artist、Album、Genre、Track 等元数据的音频",
-        "启动应用或执行“重新扫描媒体库”",
-        "应用重新建立内部歌曲数据库",
-        "歌曲出现在媒体库中",
-        "原始音频文件本身不得因为扫描而被删除",
-        "删除或新增设备中的音频后再次扫描，媒体库内容应与实际文件重新一致。重新扫描过程中应体现不可正常使用媒体库的中间状态，并允许播放历史等内部派生数据按应用规则被重建/清理。"
+        "Put several audio files with different Title, Artist, Album, Genre, and Track metadata into the device's music directory",
+        "Launch the app or run \"rescan media library\"",
+        "The output size at the bottom updates automatically",
+        "The song appears in the media library",
+        "The original audio files themselves must not be deleted by scanning",
+        "After deleting or adding audio on the device, rescanning should make the media library consistent with the actual files again. The intermediate state where the media library cannot be used normally should be reflected during the rescan, and internal derived data such as play history may be rebuilt/cleared according to the app's rules."
       ],
-      "expected": "扫描后歌曲出现在媒体库且数量与实际文件一致；原始音频文件不因扫描被删除；新增或删除文件后重新扫描内容同步变化；扫描期间应体现媒体库暂不可用的中间状态。",
+      "expected": "After scanning, songs appear in the media library with counts matching the actual files; the original audio files are not deleted by scanning; after adding or deleting files the rescan content changes in sync; the intermediate state where the media library is temporarily unavailable should be reflected during scanning.",
       "persistence": false
     },
     {
       "id": "f02",
-      "name": "歌曲库浏览与排序",
+      "name": "Song-library browsing and sorting",
       "steps": [
-        "进入“歌曲”页",
-        "显示所有已扫描歌曲的封面、标题、艺术家和专辑",
-        "打开排序",
-        "分别选择“按首字符正序/倒序、艺术家、专辑、Year/年份、Added/添加日期、Modified/最近修改”等截图已有排序条件",
-        "列表顺序立即变化",
-        "离开页面再返回后仍按应用的排序状态显示。对于相同条件下的歌曲，应保持稳定合理的次级排序。"
+        "Enter the \"songs\" page",
+        "Show all scanned songs' covers, titles, artists, and albums",
+        "Open sorting",
+        "Select the sort conditions already present in the screenshot such as \"first character A-Z/Z-A, artist, album, year, added date, modified date\"",
+        "The list order changes immediately",
+        "After leaving the page and returning it still displays by the app's sort state. For songs under identical conditions a stable, reasonable secondary sort should be maintained."
       ],
-      "expected": "每种排序条件真实改变列表顺序；离开再返回后仍按所选排序显示；相同条件下保持稳定合理的次级排序。",
+      "expected": "Each sort condition genuinely changes the list order; after leaving and returning it still displays by the selected sort; under identical conditions a stable, reasonable secondary sort is maintained.",
       "persistence": true
     },
     {
       "id": "f03",
-      "name": "专辑聚合与专辑详情",
+      "name": "Album aggregation and album details",
       "steps": [
-        "给多首歌曲设置相同/不同 Album",
-        "“专辑”页应自动按专辑聚合",
-        "卡片显示专辑封面、专辑名、艺术家以及歌曲数量",
-        "打开某专辑",
-        "显示封面、艺术家、歌曲数量、总时长等",
-        "下方只列该专辑歌曲，并保持 Track/Disc 等合理顺序",
-        "从其中一首歌还能回到对应专辑。"
+        "Set the same/different Album for several songs",
+        "The \"Albums\" page should aggregate automatically by album",
+        "The card shows the album cover, album name, artist, and song count",
+        "Open an album",
+        "Show the cover, artist, song count, total duration, etc.",
+        "Below, only that album's songs are listed, keeping a reasonable order such as Track/Disc",
+        "From any of the songs you can still return to the corresponding album."
       ],
-      "expected": "专辑页按 Album 元数据自动聚合，卡片显示封面、名称、艺术家与歌曲数；专辑详情只列该专辑歌曲并按 Track 或 Disc 顺序排列；总数与时长与实际一致。",
+      "expected": "The albums page aggregates automatically by Album metadata and the cards show the cover, name, artist, and song count; the album details list only that album's songs in Track or Disc order; the totals and duration match reality.",
       "persistence": false
     },
     {
       "id": "f04",
-      "name": "艺术家聚合与艺术家详情",
+      "name": "Artist aggregation and artist details",
       "steps": [
-        "设置同一 Artist 下存在多个 Album、多首 Song",
-        "“艺术家”页将它们聚为一个艺术家",
-        "显示专辑数和歌曲数",
-        "打开艺术家",
-        "顶部汇总专辑数、歌曲数和总时长",
-        "同一页面分别展示其专辑和歌曲",
-        "从歌曲的“查看艺术家”进入时得到相同数据。多 Artist 元数据存在时也应按应用规则正确导航。"
+        "Set up several Albums and Songs under the same Artist",
+        "The \"Artists\" page aggregates them into one artist",
+        "Show the album count and song count",
+        "Open the artist",
+        "The top summarizes the album count, song count, and total duration",
+        "The same page shows its album and songs respectively",
+        "Entering from a song's \"view artist\" gives the same data. When multiple Artist metadata values exist, navigation must follow the app's rules correctly."
       ],
-      "expected": "同一 Artist 聚合为一个条目并显示专辑数与歌曲数；艺术家页汇总数量与总时长与实际一致；从歌曲进入艺术家得到相同数据。",
+      "expected": "The same Artist is aggregated into one entry showing the album and song counts; the artist page's totals and total duration match reality; entering the artist from a song gives the same data.",
       "persistence": false
     },
     {
       "id": "f05",
-      "name": "音乐类型 Genre 聚合",
+      "name": "Genre aggregation",
       "steps": [
-        "准备带不同 Genre 的音乐",
-        "“音乐类型”页按 Genre 分组并统计歌曲数",
-        "打开某 Genre 只显示属于该类型的歌曲",
-        "从这里播放、加入队列等操作仍针对真实歌曲实体",
-        "若通过标签编辑修改 Genre，返回类型页后旧类型和新类型的歌曲数量应相应更新。"
+        "Prepare music with different genres",
+        "The \"genres\" page groups by genre and counts the songs",
+        "Opening a genre shows only the songs belonging to it",
+        "Operations such as play-from-here and add-to-queue still target the real song entity",
+        "If the genre is modified through tag editing, the song counts of the old and new genres should update accordingly after returning to the genres page."
       ],
-      "expected": "Genre 分组与歌曲计数正确；打开某类型只显示属于该类型的歌曲；修改歌曲 Genre 后旧类型与新类型计数相应更新。",
+      "expected": "Genre grouping and song counts are correct; opening a genre shows only the songs belonging to it; after changing a song's genre the old and new genre counts update accordingly.",
       "persistence": false
     },
     {
       "id": "f06",
-      "name": "文件夹浏览",
+      "name": "Folder browsing",
       "steps": [
-        "从侧边栏进入“文件夹”",
-        "按真实存储目录层级浏览，例如 /storage/emulated/0/Music",
-        "面包屑随层级变化",
-        "文件夹和音频文件分别显示",
-        "音频项显示文件名和大小",
-        "点击音频可执行默认播放行为",
-        "返回父目录时保持正确导航层级。文件夹视图中的歌曲也应能够读取封面并参与播放。"
+        "Enter \"folders\" from the sidebar",
+        "Browse by the real storage directory hierarchy, e.g. /storage/emulated/0/Music",
+        "The breadcrumb changes with the level",
+        "Folders and audio files are displayed separately",
+        "Audio items show the file name and size",
+        "Tapping the audio performs the default playback behavior",
+        "The correct navigation level is preserved when returning to the parent directory. Songs in the folder view should also be able to read the cover and take part in playback."
       ],
-      "expected": "目录层级反映真实存储路径；面包屑随层级变化；音频项显示文件名与大小；点击可播放且能读取封面；返回父目录时导航层级正确。",
+      "expected": "The directory hierarchy reflects the real storage paths; the breadcrumb changes with the level; audio items show the file name and size; tapping plays them and can read the cover; the navigation level is correct when returning to the parent directory.",
       "persistence": false
     },
     {
       "id": "f07",
-      "name": "媒体库黑名单 / 白名单",
+      "name": "Subtasks display correctly under the parent task; they can be completed independently; collapsing the parent hides the subtasks and expanding restores them; after deleting or adjusting subtasks the hierarchy stays correct.",
       "steps": [
-        "在设置中使用黑名单隐藏指定目录",
-        "重新进入媒体库/重新扫描后，该目录中的音乐不应出现在歌曲、专辑、艺术家、Genre 等媒体库视图；再通过白名单模式限定起始目录",
-        "只有允许范围内的媒体进入媒体库",
-        "文件本身保持不变。"
+        "Use a blacklist in the settings to hide the specified directory",
+        "After re-entering the media library / rescanning, music in that directory should not appear in the songs, albums, artists, genres, and other media library views; then use whitelist mode to restrict the start directory",
+        "Only media within the allowed scope enters the media library",
+        "The file itself stays unchanged."
       ],
-      "expected": "黑名单目录中的音乐不出现在歌曲、专辑、艺术家、Genre 等任何视图；白名单模式只有允许范围内的媒体进入媒体库；文件本身保持不变。",
+      "expected": "Music in blacklisted directories does not appear in any songs, albums, artists, genres, or other views; in whitelist mode only media within the allowed scope enters the media library; the files themselves stay unchanged.",
       "persistence": true
     },
     {
       "id": "f08",
-      "name": "搜索歌曲及媒体实体",
+      "name": "Search songs and media entities",
       "steps": [
-        "点击搜索",
-        "输入歌曲标题的完整或部分文本",
-        "返回匹配歌曲",
-        "对 Artist、Album、Genre、Playlist 等当前版本支持的可搜索实体执行对应搜索",
-        "选择结果进入正确实体页或歌曲",
-        "清空查询恢复完整结果。搜索必须建立在当前媒体库数据上，新增、删除或修改 metadata 后结果同步变化。"
+        "Tap search",
+        "Enter the full or partial song title",
+        "Return the matching songs",
+        "Select \"delete from device\" on a local song and confirm",
+        "Selecting a result enters the correct entity page or song",
+        "Clearing the query restores the full results. The search must be based on the current media library data, and after adding, deleting, or modifying metadata the results change in sync."
       ],
-      "expected": "输入完整或部分文本均能命中歌曲；Artist、Album、Genre、Playlist 等实体可被搜索；选择结果进入正确页面；清空查询恢复完整结果；元数据修改后结果同步变化。",
+      "expected": "Entering full or partial text matches songs; entities such as Artist, Album, Genre, and Playlist are searchable; selecting a result enters the correct page; clearing the query restores the full results; after metadata changes the results change in sync.",
       "persistence": false
     },
     {
       "id": "f09",
-      "name": "基础音频播放闭环",
+      "name": "Basic audio playback loop",
       "steps": [
-        "从歌曲页点击任意歌曲",
-        "当前播放条出现正确 Title",
-        "打开正在播放界面",
-        "显示封面、Title、Artist、Album、总时长",
-        "点击播放/暂停真实改变音频状态",
-        "拖动进度条跳转到对应时间",
-        "播放结束后按照当前队列进入下一首",
-        "返回媒体库后底部 mini-player 与完整播放页保持同一状态。"
+        "Tap any song from the songs page",
+        "The current playback bar shows the correct Title",
+        "Open the now-playing screen",
+        "Show the cover, Title, Artist, Album, and total duration",
+        "Tapping play/pause genuinely changes the audio state",
+        "Drag the progress bar to jump to the corresponding time",
+        "After playback ends it advances to the next song in the current queue",
+        "After returning to the media library the bottom mini-player and the full playback page stay in the same state."
       ],
-      "expected": "点击歌曲必须真实播放；播放条与播放页显示同一 Title、Artist、Album；暂停、继续与拖动进度真实生效；播放结束后按队列进入下一首；mini-player 与完整播放页状态一致。",
+      "expected": "Tapping a song must genuinely play it; the playback bar and playback page show the same Title, Artist, and Album; pause, resume, and dragging the progress take real effect; after playback ends it advances to the next song in the queue; the mini-player and the full playback page stay consistent.",
       "persistence": false
     },
     {
       "id": "f10",
-      "name": "上一首 / 下一首 / 自动连续播放",
+      "name": "Previous / next / automatic continuous playback",
       "steps": [
-        "建立至少三首歌的播放队列",
-        "播放中点击下一首",
-        "当前歌曲、封面、进度和队列位置同时切换",
-        "点击上一首按播放器规则返回前一项/当前曲开头",
-        "让歌曲自然播放结束",
-        "自动开始下一首",
-        "到达队列边界时根据 Repeat 状态决定停止或继续。"
+        "Turn Separate chroma quality on/off",
+        "Tap next during playback",
+        "The current song, cover, progress, and queue position switch at the same time",
+        "Tapping previous returns to the previous item/current track start according to the player rules",
+        "Let the song finish playing naturally",
+        "Automatically start the next song",
+        "When the queue boundary is reached it stops or continues according to the Repeat state."
       ],
-      "expected": "下一首切换歌曲、封面、进度与队列位置；上一首按播放器规则返回前一项或当前曲开头；自然播放结束自动进入下一首；队列边界按循环状态决定停止或继续。",
+      "expected": "Next switches the song, cover, progress, and queue position; previous returns to the previous item or the current track's start according to the player rules; when playback ends naturally it automatically advances to the next song; the queue boundary stops or continues according to the loop state.",
       "persistence": false
     },
     {
       "id": "f11",
-      "name": "随机与循环播放状态",
+      "name": "Shuffle and loop playback states",
       "steps": [
-        "在包含多首歌曲的集合中启动播放",
-        "打开随机模式后后续播放顺序不再简单等于列表顺序",
-        "切换循环状态，验证关闭/队列循环/单曲循环等实际状态对歌曲结束后的行为产生对应影响",
-        "离开播放页再返回，当前状态不应无故丢失；应用支持记忆相关播放状态时应按设置执行。"
+        "Start playback in a collection containing several songs",
+        "After enabling shuffle the subsequent playback order is no longer simply the list order",
+        "Switch the loop state and verify that off/queue loop/single loop actually affect the behavior after a song ends",
+        "After leaving the playback page and returning the current state should not be lost without reason; when the app supports remembering playback state it should follow the setting."
       ],
-      "expected": "随机模式下播放顺序不再等于列表顺序；循环状态真实影响歌曲结束后的行为；离开播放页再返回状态不丢失；设置持久化。",
+      "expected": "In shuffle mode the playback order is no longer the list order; the loop state genuinely affects the behavior after a song ends; leaving the playback page and returning does not lose the state; the settings persist.",
       "persistence": true
     },
     {
       "id": "f12",
-      "name": "“作为下一首”与播放队列插入",
+      "name": "\"Play next\" and the playback-queue insertion",
       "steps": [
-        "正在播放歌曲 A，队列后还有 B、C",
-        "对另一歌曲 D 执行“作为下一首播放”",
-        "当前 A 不被打断",
-        "D 被插到当前位置之后",
-        "A 播完或点击下一首时先进入 D",
-        "原有 B、C 继续保持在之后的位置。"
+        "Song A is playing and the queue has B and C after it",
+        "Perform \"add to the play queue\" on several songs",
+        "The current A is not interrupted",
+        "D is inserted after the current position",
+        "When A finishes or Next is tapped, D is entered first",
+        "The existing B and C continue to keep their later positions."
       ],
-      "expected": "当前歌曲不被打断；插入歌曲位于当前歌曲之后且原队列之前；播完或点击下一首先进入插入歌曲；原队列后续顺序不变。",
+      "expected": "The current song is not interrupted; the inserted song sits after the current song and before the original queue; when it finishes or Next is tapped the inserted song plays first; the original queue's remaining order is unchanged.",
       "persistence": false
     },
     {
       "id": "f13",
-      "name": "加入播放队列与队列管理",
+      "name": "Adding to the play queue and queue management",
       "steps": [
-        "对多首歌曲执行“加入播放队列”",
-        "它们进入当前 queue",
-        "在正在播放页查看“即将播放”",
-        "队列应显示正确歌曲、序号和总数",
-        "执行清空播放队列时移除后续队列内容",
-        "执行保存播放队列时可把当前 queue 转成持久化播放列表",
-        "重新进入后保存结果仍存在。"
+        "Verify offline search on downloaded maps.",
+        "Completing, restoring, and deleting tasks",
+        "View \"up next\" on the now-playing page",
+        "The queue should show the correct song, index, and total",
+        "Clearing the play queue removes the following queue content",
+        "Saving the play queue can convert the current queue into a persistent playlist",
+        "The save result still exists after re-entering."
       ],
-      "expected": "加入的歌曲出现在即将播放并显示序号与总数；清空队列移除后续内容；保存队列生成持久化播放列表且重进后仍存在。",
+      "expected": "Added songs appear in \"up next\" with their index and total; clearing the queue removes the following content; saving the queue produces a persistent playlist that still exists after re-entering.",
       "persistence": true
     },
     {
       "id": "f14",
-      "name": "播放列表创建、加歌与持久化",
+      "name": "Playlist creation, adding songs, and persistence",
       "steps": [
-        "从单曲菜单选择“加入播放列表…”",
-        "新建或选择一个播放列表",
-        "连续加入多首歌曲",
-        "打开播放列表确认歌曲集合与顺序",
-        "可从播放列表直接“播放”“随机播放”“作为下一首”“加入播放队列”",
-        "关闭应用后重新进入，用户播放列表及其内容仍存在。"
+        "Choose \"add to playlist…\" from the song menu",
+        "Create or choose a playlist",
+        "Add several songs in succession",
+        "Open the playlist to confirm the song set and order",
+        "From the playlist you can directly \"play\", \"shuffle\", \"play next\", or \"add to the play queue\"",
+        "After closing and reopening the app the user's playlists and their contents still exist."
       ],
-      "expected": "播放列表真实保存且重进后仍存在；歌曲集合与顺序与加入时一致；从列表可执行播放、随机、作为下一首、加入队列；删除列表不影响原始歌曲。",
+      "expected": "The playlist is genuinely saved and still exists after re-entering; the song set and order match what was added; from the list you can play, shuffle, play next, or add to the queue; deleting the list does not affect the original songs.",
       "persistence": true
     },
     {
       "id": "f15",
-      "name": "自动播放列表 / 派生列表",
+      "name": "Automatic playlists / derived lists",
       "steps": [
-        "使用“最近添加”“播放历史”“最近未播放过”“最喜爱的歌曲”等自动列表",
-        "新增本地歌曲后“最近添加”数量发生变化",
-        "实际播放一首此前未播放歌曲后，播放历史增加且“最近未播放过”相应变化",
-        "收藏/取消收藏后“最喜爱的歌曲”实时增加或减少",
-        "这些列表不能通过静态数据伪造，而要由歌曲状态动态计算。"
+        "Use automatic lists such as \"recently added\", \"play history\", \"not played recently\", and \"favorite songs\"",
+        "After adding a local song the \"recently added\" count changes",
+        "Real merchant responses in customer service\nReal-time merchant-side replies and session routing",
+        "After favoriting/unfavoriting, \"favorite songs\" increases or decreases in real time",
+        "These lists must not be faked with static data but computed dynamically from the song states."
       ],
-      "expected": "自动列表由歌曲状态动态计算而非静态数据；新增歌曲后最近添加数量变化；播放歌曲后历史增加且最近未播放过变化；收藏变化后最喜爱的歌曲实时增减。",
+      "expected": "The automatic lists are computed dynamically from the song states rather than static data; after adding songs the recently-added count changes; after playing a song the history grows and \"not played recently\" changes; after a favorite change the favorite songs increase or decrease in real time.",
       "persistence": false
     },
     {
       "id": "f16",
-      "name": "收藏歌曲",
+      "name": "Favorite the song",
       "steps": [
-        "播放某歌曲",
-        "在播放页点击心形收藏",
-        "收藏状态视觉发生变化",
-        "返回“最喜爱的歌曲”可以找到该歌曲",
-        "再次取消收藏",
-        "收藏列表删除该歌曲，但歌曲仍保留在普通歌曲库、专辑、Artist 和文件系统中。"
+        "Play a song",
+        "Tap the heart on the playback page to favorite",
+        "The favorite state changes visually",
+        "Returning to \"favorite songs\" finds that song",
+        "Unfavorite again",
+        "The favorites list removes that song, but the song remains in the normal song library, albums, Artists, and the file system."
       ],
-      "expected": "心形收藏状态切换并持久化；收藏歌曲出现在最喜爱的歌曲；取消收藏后从该列表移除但歌曲仍保留在歌曲库、专辑、艺术家与文件系统中。",
+      "expected": "The heart favorite state toggles and persists; favorited songs appear in favorite songs; after unfavoriting they are removed from that list but the song remains in the song library, albums, artists, and the file system.",
       "persistence": true
     },
     {
       "id": "f17",
-      "name": "音乐标签编辑器与媒体库同步",
+      "name": "The music tag editor and the media library sync",
       "steps": [
-        "打开某歌曲“音乐标签编辑器”",
-        "修改 Title、Artist、Album、Album Artist、Genre、Year/Track 等当前编辑器提供的字段",
-        "保存",
-        "返回媒体库后歌曲显示新标题",
-        "Artist/Album/Genre 聚合自动重新归类",
-        "打开“详情”能够读到修改后的信息",
-        "重新扫描媒体库后修改结果仍应来自真实文件 metadata，而不是只存在应用数据库中。"
+        "Open a song's \"music tag editor\"",
+        "Change the fields currently offered by the editor such as Title, Artist, Album, Album Artist, Genre, and Year/Track",
+        "Save",
+        "After returning to the media library the song shows the new title",
+        "Artist/Album/Genre aggregation reclassifies automatically",
+        "Opening \"details\" reads the modified information",
+        "After rescanning the media library the modifications should still come from the real file metadata rather than existing only in the app database."
       ],
-      "expected": "保存后媒体库显示新标签；Artist、Album、Genre 聚合自动重新归类；详情读取到修改后信息；重新扫描后修改仍来自真实文件 metadata 而非仅应用数据库。",
+      "expected": "After saving, the media library shows the new tags; Artist, Album, and Genre aggregation reclassifies automatically; the details read the modified information; after rescanning the modifications still come from the real file metadata rather than only the app database.",
       "persistence": false
     },
     {
       "id": "f18",
-      "name": "歌曲详情与真实文件信息",
+      "name": "Song details and real file information",
       "steps": [
-        "对歌曲打开“详情”",
-        "展示真实文件路径、大小、音频格式、比特率、采样率、添加/修改时间、Track/Disc、Title、Artist、Album、Album Artist、Genre、Year、Duration、ReplayGain 等可读取字段",
-        "数据应与实际文件一致",
-        "更换另一音频文件时信息相应变化，而不是模板文本。"
+        "Adjust the brightness, contrast, and saturation for that point independently",
+        "The left side shows one version and the right side another",
+        "The data should match the actual files",
+        "The information changes accordingly when another audio file is loaded rather than being template text."
       ],
-      "expected": "详情字段与实际文件一致，包括路径、大小、格式、比特率、采样率、时长等；更换文件后信息相应变化；不能是模板文本。",
+      "expected": "The detail fields match the actual file, including the path, size, format, bitrate, sample rate, and duration; the information changes when another file is loaded; it must not be template text.",
       "persistence": false
     },
     {
       "id": "f19",
-      "name": "从设备删除歌曲",
+      "name": "Delete the song from the device",
       "steps": [
-        "对一首本地歌曲选择“从设备中删除”并确认",
-        "真实音频文件被删除",
-        "歌曲从歌曲页消失",
-        "所属专辑/艺术家/Genre 的数量重新计算",
-        "如果歌曲处于播放队列中，队列同步移除或按播放器规则处理",
-        "再重新扫描也不能重新出现；其他歌曲文件不受影响。"
+        "Adjust the gain for songs with ReplayGain metadata according to the selected Track/Album mode; after disabling it the normal playback gain is restored. Switching the setting during playback should not break the queue or playback progress.",
+        "The real audio file is deleted",
+        "The song disappears from the songs page",
+        "The counts of the album/artist/genre it belongs to are recomputed",
+        "Media library and UI configuration persistence",
+        "It must not reappear even after rescanning; other song files are unaffected."
       ],
-      "expected": "真实音频文件被删除；歌曲从歌曲页消失；所属专辑、艺术家、Genre 数量重新计算；队列同步移除；重新扫描不再出现；其他歌曲文件不受影响。",
+      "expected": "The real audio file is deleted; the song disappears from the songs page; the album, artist, and genre counts are recomputed; the queue is removed in sync; rescanning no longer shows it; other song files are unaffected.",
       "persistence": false
     },
     {
       "id": "f20",
-      "name": "睡眠定时器",
+      "name": "Sleep timer",
       "steps": [
-        "正在播放音乐",
-        "打开“睡眠定时器”",
-        "设置指定分钟数",
-        "定时开始倒计时",
-        "到达时间后停止播放；勾选“播完当前音乐”时，应在定时条件满足后允许当前歌曲按该选项完成再停止",
-        "重新打开睡眠定时器应正确体现当前计时状态/剩余时间",
-        "取消后不再自动停止。"
+        "Music is playing",
+        "Open the \"sleep timer\"",
+        "Set the specified number of minutes",
+        "Live-streaming dependencies (cf. YouTube \"live\" exclusion); channel-entry navigation can be kept; retained surface: f05 all-channel and vertical-business entry orchestration",
+        "Playback stops when the time arrives; with \"finish the current track\" checked, the current song is allowed to finish according to that option after the time condition is met, then playback stops",
+        "Reopening the sleep timer should correctly reflect the current timing state / remaining time",
+        "It no longer stops automatically after cancelling."
       ],
-      "expected": "倒计时到达后停止播放；勾选播完当前音乐时当前歌曲完成后才停止；重新打开睡眠定时器应体现当前计时状态；取消后不再自动停止。",
+      "expected": "Playback stops when the countdown ends; with \"finish the current track\" checked it stops only after the current song finishes; reopening the sleep timer should reflect the current timing state; after cancelling it no longer stops automatically.",
       "persistence": false
     },
     {
       "id": "f21",
-      "name": "ReplayGain / 均衡器与音频设置",
+      "name": "ReplayGain / equalizer and audio settings",
       "steps": [
-        "打开设置",
-        "选择 ReplayGain 源模式及预放大参数，或进入播放器“均衡器”入口",
-        "设置变化应作用于之后的真实播放而不是仅修改 UI",
-        "对具有 ReplayGain metadata 的歌曲按选择的 Track/Album 等模式调整增益；关闭后恢复普通播放增益。播放过程中切换设置时不应破坏队列和播放进度。"
+        "Open settings",
+        "Choose the ReplayGain source mode and pre-amp parameters, or enter the player's \"equalizer\" entry",
+        "Setting changes should affect subsequent real playback rather than only modifying the UI",
+        "Apply Tone Mapping to a single image"
       ],
-      "expected": "设置真实作用于播放增益而非仅修改 UI；Track 或 Album 模式按对应 metadata 调整增益；关闭后恢复普通增益；播放中切换设置不破坏队列与进度。",
+      "expected": "The setting genuinely affects the playback gain rather than only modifying the UI; Track or Album mode adjusts the gain according to the corresponding metadata; after disabling it the normal gain is restored; switching the setting during playback does not break the queue or progress.",
       "persistence": false
     },
     {
       "id": "f22",
-      "name": "媒体库与界面配置持久化",
+      "name": "Media library blacklist / whitelist",
       "steps": [
-        "在“媒体库类别”中隐藏/显示歌曲、专辑、艺术家、音乐类型、播放列表，并拖动改变 Tab 顺序",
-        "主页面 Tab 的可见性和顺序同步变化；切换浅色/暗色/AMOLED、Classic/Rounded、主色调和强调色",
-        "对应界面立即变化；执行设置 Export",
-        "修改若干设置",
-        "Import 先前导出的配置",
-        "相关媒体库和外观设置恢复",
-        "重启应用后仍保持。"
+        "Hide/show songs, albums, artists, genres, and playlists in \"media library categories\" and drag to change the tab order",
+        "The home-page tabs' visibility and order change in sync; switch light/dark/AMOLED, Classic/Rounded, primary color, and accent color",
+        "Enter the perspective tool on a photo of a building or tilted scene",
+        "Change several settings",
+        "Import the previously exported configuration",
+        "The related media library and appearance settings are restored",
+        "It is still preserved after restarting the app."
       ],
-      "expected": "主页面 Tab 可见性与顺序与设置一致；主题与配色切换立即生效；导出后再导入恢复相关设置；重启应用后仍保持。",
+      "expected": "The home-page tabs' visibility and order match the settings; the theme and color switching take effect immediately; after exporting and re-importing the related settings are restored; they persist after restarting the app.",
       "persistence": true
     }
   ]

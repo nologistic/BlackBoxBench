@@ -1,0 +1,267 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "e647c14a5b661a376f4074372d97bd99fbfc63d2527cdfaa9cdaf6b82af7db76",
+  "accepted_apk_hash": "a8655cc870f3580b0f15faf01a946065bdb414dcf86722250cdb1f64983e5be8",
+  "revision_count": 2,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "启动复现 APK 并观察主界面"
+      ],
+      "findings": [
+        "审查设备显示的是脚手架占位界面（白色背景 + 'Build the observed app here'），并非本次构建的复现界面；同一份 artifacts/app-debug.apk（sha ca6adee1…）已包含 Custom Game / You Win / Licenses 等复现文本，说明审查运行时沿用了预热阶段安装的旧 APK，未重新安装本次构建产物。",
+        "本轮无法核对任何目标流程（难度页签、扫雷棋盘、旗标、自定义对话框、胜利/失败横幅、许可对话框）。"
+      ],
+      "actions": [
+        {
+          "type": "restart_app"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "e8254892aa6a67edcc27998f23b15eaf0ad610043604cc1fdcaa5ead769784d7",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "e8254892aa6a67edcc27998f23b15eaf0ad610043604cc1fdcaa5ead769784d7",
+          "path": "review/round_01/observation_002.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "翻开格子：泛洪揭示空区并显示 1/2 数字配色",
+        "长按未翻开格子尝试插旗",
+        "顶部状态行与四个难度页签"
+      ],
+      "findings": [
+        "长按插旗不可见：被长按的未翻开格子只在格子中央出现一个极小的橙色像素点，没有参考图中的橙色小旗。根因是 FlagIcon 的 Canvas 只接收 modifier，未应用传入的 size，画布塌缩成近 0 尺寸。",
+        "重置笑脸按钮缺少参考图中的深色圆角方形底座：FaceButton 同样未应用 size，外层 Box 只包住 emoji 文本，背景板被 emoji 遮住。",
+        "两个七段数码管用 weight(1f) 拉伸到接近半个屏幕宽，参考图中左右数码管各约占屏宽 17%（约 68dp 宽、40dp 高），中间留出笑脸按钮。",
+        "（复验环境说明）上一轮审查设备沿用了预热阶段的脚手架安装；本轮为全新运行时，已正确安装本次构建产物。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "66717543863f64d83bcc63f694b4220de631f799c2ea13d3970185aa555847f1",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "aea345d65ce15677f208bb78bf9b4d4a78ccb21ce0eb50b69da40ae15580e48b",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "5b1110046f9c43023bb29e147b2aafe95a280c29450754f01b3f04a721e77ec0",
+          "path": "review/round_02/observation_003.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "accept",
+      "checked_flows": [
+        "主界面与四个难度页签（Easy 9×9、七段数码管、笑脸重置、底部 Licenses）",
+        "翻开格子：泛洪揭示空区并显示 1/2/5 数字配色（蓝/绿/橙红）",
+        "长按未翻开格子插旗（橙色小旗）",
+        "Custom Game 对话框：Grid size 与 Mines 滑块、Fog of war、Safe first tap、Cancel/Start",
+        "自定义 5×5/16 雷 + Safe first tap 开：首点即胜利，绿色 'You Win!' 横幅、😎、全雷自动插旗",
+        "自定义 5×5/16 雷 + Safe first tap 关：首点踩雷失败，红色 'Game Over' 横幅、😵、全雷揭示与橙色爆炸格",
+        "Licenses 对话框（许可文本 + Close）"
+      ],
+      "findings": [
+        "核心流程全部复验通过：主界面布局（顶部左右七段数码管 + 中间笑脸、四难度页签、居中棋盘、底部 Licenses）与目标截图高度一致；翻开/泛洪、数字配色、长按插旗、自定义对话框、胜利/失败横幅与表情、自动插旗、雷区揭示与爆炸格均符合功能拓扑。",
+        "轻微偏差：Custom 对话框的雷数百分比采用四舍五入，16×16/40 雷显示为 '40 (16%)'，目标为 '40 (15%)'（截断取整）。属文本级细节，不影响任何功能面。",
+        "复验通道的隐私过滤把顶部两处七段数码管读数覆盖成红色块，无法在截图中直接读值；本轮通过翻格/插旗/胜负状态变化间接确认计数与计时逻辑在运行（首点后计时启动、胜利后计数归零、可插满旗）。",
+        "难度页签副标题已按目标修正为 Easy '10 💣'、Medium '⏱️'、Hard '⏱️👁️⚡'、Custom '⚙️'；Medium/Hard 为 16×16/30/50 雷并带倒计时，本轮通过页签高亮与自定义等价棋盘验证了同一套引擎路径。"
+      ],
+      "actions": [
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "swipe"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "5dd2e40a5236b468810e08433feea3eb33b48403c2cbad57a619cd3819a6b7f7",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "9613bad6df9aa97ef13e6ece2fb713f131c1d42ba50ab1727d254455ac2687fb",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "c5a5d22f0b8c7dda93bf1966802aaf097b308d26d28fa0ce06bf2dd4e92cbc7f",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "ca9e3e73c0d12ba3469cf7aa4a427d2247619b3ae7d3fbb2903b3f1ad7d31a7c",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "ca9e3e73c0d12ba3469cf7aa4a427d2247619b3ae7d3fbb2903b3f1ad7d31a7c",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "1e9c9207be161d513afd2be7eb5543e857619ecd4bf4d74a4ac7ddcf2a76e269",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 6,
+          "sha256": "46999452431373ce97cd9f025042f024997fe533a948701a8cc800280372c1d6",
+          "path": "review/round_03/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 8,
+          "sha256": "be744a08d6cba290fc35a9d49462d212af5cd00fcdfd71ca9ba1aec89a38e850",
+          "path": "review/round_03/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 9,
+          "sha256": "92813e109393e3cccfb1e5f5911cddf2b49596ec59d405be50bed9ec0e0f7cfc",
+          "path": "review/round_03/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 10,
+          "sha256": "48e17aa8c49dc9b841de700a4999b7b78c040ef978b3c8755ee89d82ae36e809",
+          "path": "review/round_03/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 11,
+          "sha256": "980d33952fdbba42df53e8bc99802ab85454bb266d1f68ca3b01e3a3e7b75199",
+          "path": "review/round_03/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 12,
+          "sha256": "259e1ab309b9c6730b03053113b3adbd95c53b47319eafc67f7b4a451e680641",
+          "path": "review/round_03/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 13,
+          "sha256": "9927949961de38a18f5c9f948386bd177325dd872c1aa32738ef55f7e2833528",
+          "path": "review/round_03/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 14,
+          "sha256": "18ac97bab38c1e4ed4d100e350bd3fd358d8ab452083e8359e9a391cfbe96fe4",
+          "path": "review/round_03/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 15,
+          "sha256": "f0701832948b6af3ca42ff7e30d8f1bc9759a6a578f270b904346d27e75336f7",
+          "path": "review/round_03/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 16,
+          "sha256": "a0685775354c474858c5882d6d91a5fcc149cafe22eb16d30451a0ccac9582c8",
+          "path": "review/round_03/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 17,
+          "sha256": "4dcb155d28df610c015e74ee00435d69e624bc1cdf485fb6474d4a9d9718419e",
+          "path": "review/round_03/observation_017.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

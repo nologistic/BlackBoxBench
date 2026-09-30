@@ -4,182 +4,182 @@
   "features": [
     {
       "id": "f01",
-      "name": "自由手绘",
+      "name": "Freehand drawing",
       "steps": [
-        "在空白画布按下并拖动",
-        "连续生成笔迹",
-        "快速移动和慢速移动都形成连续曲线",
-        "松手结束当前 stroke",
-        "再次触摸创建新的独立 stroke。"
+        "Press and drag on a blank canvas",
+        "Generate strokes continuously",
+        "Both fast and slow movements form continuous curves",
+        "Releasing ends the current stroke",
+        "Touching again creates a new independent stroke."
       ],
-      "expected": "拖动必须生成连续笔迹，快速移动不能断线或跳点；每个 stroke 独立记录；松手立即结束，再次触摸创建新 stroke 而不是连接旧笔迹。",
+      "expected": "Dragging must produce continuous strokes, and fast movement must not break the line or skip points; each stroke is recorded independently; releasing ends it immediately and touching again creates a new stroke rather than connecting to the old one.",
       "persistence": false
     },
     {
       "id": "f02",
-      "name": "调整笔刷粗细",
+      "name": "Adjust the brush width",
       "steps": [
-        "先画一条线",
-        "拖动画面底部粗细滑块",
-        "再画一条线",
-        "新线条宽度发生明显变化",
-        "已存在的旧线条保持原宽度。官方也明确支持不同 pen size。Simple Mobile Tools"
+        "Draw a line first",
+        "Drag the width slider at the bottom of the screen",
+        "Draw another line",
+        "New lines change width noticeably",
+        "Existing older lines keep their original width. The official documentation also explicitly supports different pen sizes. Simple Mobile Tools"
       ],
-      "expected": "滑块必须双向反映当前笔刷粗细；新笔迹使用新宽度；已有笔迹宽度不能被追溯修改；粗细取值限制在有效范围内。",
+      "expected": "The slider must reflect the current brush width in both directions; new strokes use the new width; existing strokes' widths must not be retroactively modified; the width value is limited to the valid range.",
       "persistence": false
     },
     {
       "id": "f03",
-      "name": "颜色选择与自定义颜色",
+      "name": "Color selection and custom colors",
       "steps": [
-        "点击当前颜色块",
-        "打开颜色选择器",
-        "选择预设颜色或在二维色板/色相条中选择颜色",
-        "确认",
-        "当前颜色块改变",
-        "新绘制内容使用新颜色。官方同时支持直接选择颜色和输入十六进制颜色值。Simple Mobile Tools"
+        "Tap the current color swatch",
+        "Open the color picker",
+        "Choose a preset color or pick a color from the 2D swatch/hue bar",
+        "Confirm",
+        "The current color swatch changes",
+        "Newly drawn content uses the new color. The official app supports both directly choosing a color and entering a hexadecimal color value. Simple Mobile Tools"
       ],
-      "expected": "所选颜色必须立即反映在当前颜色指示上，新笔迹使用新颜色；已有笔迹颜色不变；支持十六进制输入时非法值应被拒绝或校正。",
+      "expected": "The selected color must immediately be reflected in the current-color indicator and new strokes use the new color; existing strokes keep their color; when hexadecimal input is supported, invalid values should be rejected or corrected.",
       "persistence": false
     },
     {
       "id": "f04",
-      "name": "取色器 Eyedropper",
+      "name": "Eyedropper",
       "steps": [
-        "画出至少两种颜色",
-        "切换取色器",
-        "点击画布中某种已有颜色",
-        "当前绘图颜色切换为被点击像素的颜色",
-        "再画线验证颜色一致。"
+        "Draw with at least two colors",
+        "Switch the color picker",
+        "Tap an existing color in the canvas",
+        "The current drawing color switches to the color of the tapped pixel",
+        "Draw another line to verify the color is consistent."
       ],
-      "expected": "取色必须命中被点击像素的真实颜色而不是预设近似色；取色后当前颜色指示更新；取色操作不能修改画布内容。",
+      "expected": "Color picking must hit the real color of the tapped pixel rather than a preset approximation; after picking, the current-color indicator updates; the picking operation must not modify the canvas content.",
       "persistence": false
     },
     {
       "id": "f05",
-      "name": "橡皮擦",
+      "name": "Eraser",
       "steps": [
-        "在已有笔迹上切换橡皮擦",
-        "拖动经过笔迹",
-        "被经过区域恢复成背景/透明状态",
-        "调整粗细后橡皮影响范围同步变化",
-        "再切回绘图工具继续作画。官方明确列出 eraser。Simple Mobile Tools"
+        "Switch to the eraser over existing strokes",
+        "Drag across the strokes",
+        "The passed region is restored to the background/transparent state",
+        "After adjusting the width the eraser's affected area changes in sync",
+        "Then switch back to the drawing tool and continue drawing. The official documentation explicitly lists the eraser. Simple Mobile Tools"
       ],
-      "expected": "橡皮擦必须将经过区域恢复为背景或透明而不是绘制白色；影响范围随粗细同步变化；擦除结果可被撤销；擦除后仍可继续正常绘制。",
+      "expected": "The eraser must restore the passed region to the background or transparency rather than painting white; the affected area changes with the width; the erase result can be undone; drawing can continue normally after erasing.",
       "persistence": false
     },
     {
       "id": "f06",
-      "name": "区域填充",
+      "name": "Region fill",
       "steps": [
-        "画一个闭合区域",
-        "切换油漆桶",
-        "选择颜色",
-        "点击闭合区域内部",
-        "仅与点击点连通的区域被整体填充",
-        "边界外保持不变",
-        "对未封闭区域点击时填充范围按连通区域变化。"
+        "Draw a closed region",
+        "Switch to the paint bucket",
+        "Choose a color",
+        "Tap inside the closed region",
+        "Only the region connected to the tap point is filled as a whole",
+        "Outside the boundary stays unchanged",
+        "When tapping an unclosed region, the fill range changes according to the connected region."
       ],
-      "expected": "填充必须作用于点击点所在的连通区域，不能越过闭合边界；边界外内容保持不变；填充颜色与所选颜色一致；对未封闭区域不能崩溃或污染整个画布。",
+      "expected": "The fill must apply to the connected region containing the tap point and must not cross closed boundaries; content outside the boundary stays unchanged; the fill color matches the selected color; an unclosed region must not crash or pollute the whole canvas.",
       "persistence": false
     },
     {
       "id": "f07",
-      "name": "撤销与重做",
+      "name": "Undo and redo",
       "steps": [
-        "连续执行多次画线、填充、擦除",
-        "点击撤销逐步回退操作",
-        "每次只恢复上一操作前状态",
-        "再执行重做",
-        "按原顺序恢复",
-        "撤销后产生新操作时清空不可再用的 redo 分支。"
+        "Perform drawing, filling, and erasing several times in succession",
+        "Tap undo to step back through the operations",
+        "Each time only the state from before the last operation is restored",
+        "Then perform redo",
+        "Restore in the original order",
+        "When a new operation is performed after an undo, the unusable redo branch is cleared."
       ],
-      "expected": "撤销必须按操作历史逆序回退且每次只回退一步；重做按原顺序恢复；撤销后产生新操作时必须清空不可再用的 redo 分支；对画线、填充、擦除均一致有效。",
+      "expected": "Undo must step back through the operation history in reverse and only one step at a time; redo restores in the original order; when a new operation is performed after an undo the unusable redo branch must be cleared; it works consistently for drawing, filling, and erasing.",
       "persistence": false
     },
     {
       "id": "f08",
-      "name": "更改画布背景颜色",
+      "name": "Change the canvas background color",
       "steps": [
-        "已存在多条不同颜色笔迹",
-        "菜单选择“更改背景色”",
-        "设置另一背景色",
-        "画布背景立即变化",
-        "笔迹本身颜色不被重绘",
-        "后续擦除行为与当前背景保持一致。官方也明确支持改变背景颜色。Simple Mobile Tools"
+        "Several strokes of different colors already exist",
+        "Choose \"change background color\" from the menu",
+        "Set another background color",
+        "The canvas background changes immediately",
+        "The strokes' own colors are not redrawn",
+        "Subsequent erasing stays consistent with the current background. The official documentation also explicitly supports changing the background color. Simple Mobile Tools"
       ],
-      "expected": "更改背景色不能重绘或改变已有笔迹；擦除后露出的必须是当前背景色；背景色变化可被撤销；保存时背景色体现在输出文件中。",
+      "expected": "Changing the background color must not redraw or alter existing strokes; what is revealed after erasing must be the current background color; the background change can be undone; the background color is reflected in the output file when saving.",
       "persistence": false
     },
     {
       "id": "f09",
-      "name": "打开已有图片继续编辑",
+      "name": "Open an existing image and continue editing",
       "steps": [
-        "通过“打开文件”选择 PNG/JPG 等已有图片",
-        "图片成为当前画布内容",
-        "可在其上继续绘制、擦除或取色",
-        "保存后生成包含新修改的结果",
-        "再次打开该文件能看到修改后的视觉结果。官方说明支持打开已有 artwork 并继续绘制。Simple Mobile Tools"
+        "Choose an existing PNG/JPG via \"open file\"",
+        "The image becomes the current canvas content",
+        "Drawing, erasing, or color picking can continue on top of it",
+        "After saving, a result containing the new edits is produced",
+        "Reopening the file shows the modified visual result. The official documentation states that existing artwork can be opened and drawing can continue. Simple Mobile Tools"
       ],
-      "expected": "打开的图片必须作为当前画布内容；在其上的绘制与擦除必须与图片合成保存；重新打开能看到修改后的结果，不能只保存空白或原图。",
+      "expected": "The opened image must become the current canvas content; drawing and erasing on it must be composited and saved with the image; reopening must show the modified result, not merely a blank or the original image.",
       "persistence": true
     },
     {
       "id": "f10",
-      "name": "使用图片作为绘图背景",
+      "name": "Use an image as the drawing background",
       "steps": [
-        "导入一张已有图片作为画布基础",
-        "图片保持在背景层",
-        "在其上增加笔迹",
-        "修改绘图颜色、粗细或擦除上层内容",
-        "背景图仍保持",
-        "导出时合成为最终图像。官方把“using an image ... as the background”列为正式功能。Simple Mobile Tools"
+        "Import an existing image as the canvas base",
+        "The image stays in the background layer",
+        "Add strokes on top of it",
+        "Change the drawing color, width, or erase the upper content",
+        "The background image is still preserved",
+        "It is composited into the final image on export. The official documentation lists \"using an image ... as the background\" as an official feature. Simple Mobile Tools"
       ],
-      "expected": "背景图必须独立于笔迹层，修改笔迹或擦除不能破坏背景；导出时必须合成为包含背景的最终图像；背景层可被替换或移除。",
+      "expected": "The background image must be independent of the stroke layer, and modifying strokes or erasing must not damage the background; on export it must be composited into a final image that includes the background; the background layer can be replaced or removed.",
       "persistence": true
     },
     {
       "id": "f11",
-      "name": "保存与多格式导出",
+      "name": "Saving and multi-format export",
       "steps": [
-        "完成绘图",
-        "点击保存",
-        "输入文件名",
-        "在 .png / .svg / .jpg 中选择格式",
-        "确认",
-        "文件写入设备",
-        "PNG/JPG 可作为位图重新打开，SVG 按对应格式生成。截图与官方资料均支持这三类格式。Simple Mobile Tools"
+        "Finish the drawing",
+        "Tap save",
+        "Enter a file name",
+        "Choose a format among .png / .svg / .jpg",
+        "Confirm",
+        "The file is written to the device",
+        "PNG/JPG can be reopened as bitmaps and SVG is generated in the corresponding format. Both the screenshots and the official materials support these three formats. Simple Mobile Tools"
       ],
-      "expected": "三种格式都必须真实写入设备；PNG 与 JPG 可作为位图重新打开；SVG 必须按矢量格式生成且能正确显示画面内容；扩展名与实际格式一致。",
+      "expected": "All three formats must be genuinely written to the device; PNG and JPG can be reopened as bitmaps; SVG must be generated as a vector format and correctly display the drawing content; the extension matches the actual format.",
       "persistence": false
     },
     {
       "id": "f12",
-      "name": "保存—打开闭环",
+      "name": "Save–open loop",
       "steps": [
-        "创建包含多颜色、多粗细笔迹的画面",
-        "保存为文件",
-        "清空/退出当前画面",
-        "使用“打开文件”重新打开",
-        "主要视觉内容与保存前一致",
-        "再编辑",
-        "再次保存",
-        "文件内容发生对应变化。"
+        "Create a drawing containing strokes of multiple colors and widths",
+        "Save as a file",
+        "Clear/exit the current screen",
+        "Reopen via \"Open file\"",
+        "The main visual content matches the pre-save state",
+        "Edit again",
+        "Save again",
+        "The file content changes accordingly."
       ],
-      "expected": "保存后重新打开的画面必须与保存前视觉一致；再次编辑保存后文件内容发生对应变化；不能丢失笔迹或只保存空白画布。",
+      "expected": "After saving and reopening, the drawing must be visually consistent with the pre-save state; after editing and saving again the file content changes accordingly; strokes must not be lost and a blank canvas must not be saved.",
       "persistence": false
     },
     {
       "id": "f13",
-      "name": "分享与打印",
+      "name": "Share and print",
       "steps": [
-        "完成画面",
-        "点击分享",
-        "Android 分享面板获得当前图像文件",
-        "返回应用画布状态保持；或者菜单选择打印",
-        "将当前绘图作为可打印图像传给系统打印流程。官方资料也将 share 和 print 列为功能。Play Store Sales"
+        "The completion screen",
+        "Tap share",
+        "The Android share sheet receives the current image file",
+        "The app canvas state is preserved on return; or choose print from the menu",
+        "The current drawing is passed to the system print flow as a printable image. The official materials also list share and print as features. Play Store Sales"
       ],
-      "expected": "分享必须向系统提供当前画布的真实图像文件与正确 MIME 类型；取消分享后画布状态不变；打印流程必须接收当前绘图内容而不是空白或其他图片。",
+      "expected": "Sharing must provide the system with the real image file of the current canvas and the correct MIME type; cancelling the share leaves the canvas state unchanged; the print flow must receive the current drawing content rather than a blank or other image.",
       "persistence": true
     }
   ]

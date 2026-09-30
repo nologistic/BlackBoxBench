@@ -1,0 +1,589 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "82e3dc12a848052aaf20450e285ffa0be18f81b78bddb6782c74a201e11028b0",
+  "accepted_apk_hash": "1ce10bdf5426fbaea4fccf2f987aed20886cb2101d0992e143724899c3288631",
+  "revision_count": 3,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "主菜单渲染与按钮点击",
+        "进入关卡并显示计时/步数/网格/模式栏",
+        "关卡选择页",
+        "设置页与开关",
+        "多人模式页",
+        "随机谜题难度弹窗与生成谜题"
+      ],
+      "findings": [
+        "全应用内容整体偏高：菜单/标题/列表都贴着状态栏（无系统栏 inset 处理），原版头部中心约 78dp、菜单星标约 94dp，本版仅约 25-44dp。需要给所有页面顶部约 50dp 内边距。",
+        "主菜单纵向过于紧凑：本版 PLAY 中心约 257dp，原版约 460dp；标题在 123dp（原版 270dp），副标题 181dp（原版 321dp），按钮间距 52dp（原版 69dp）。需按 64/130/18/110dp 间隔并 44dp 按钮高、25dp 间隙重排。",
+        "关卡选择：瓦片 72dp 且间距 14dp，原版约 58dp 瓦片、29dp 水平间隙、行距 96dp、首行中心约 179dp；本版首行仅约 100dp。",
+        "设置页：卡片顶部约 69dp（原版约 142dp），行高 69dp（原版约 63dp），RESET PROGRESS 位置 360dp 与原版 361dp 一致，但卡片应在头部下移。",
+        "多人模式页整体间距约为原版 0.7 倍：DIFFICULTY 标签 78dp（原版 129dp）、START PUZZLE 377dp（原版 541dp）、JOIN PUZZLE 552dp（原版 746dp）。需加大各段间隔至约 14/66/24/58/29/67/40/15/41dp。",
+        "随机谜题难度弹窗卡片过宽（22..389dp，原版约 41..370dp），按钮间距 57dp（原版约 65dp），卡片顶部 242dp（原版约 251dp）。",
+        "谜题页头部/计时行/UNDO 行偏高（约 25/74/125dp，原版约 78/134/179dp），模式栏略低（853dp vs 原版约 830dp），行线索区 92dp 偏宽使数字离网格较远，8-9 列网格线索字号偏小。",
+        "未处理系统返回键：当前按返回会直接退出 App，原版可从谜题页返回上一级界面；应加 BackHandler 做页面内返回。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "896aa222d9ac19f065539dd9eb4679438c33976143faee828b8ab42e4e8f57a0",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "72ebcb8df4bc3b004d34e1476d1e72f3b6e6b1fe7147ae837872556266839ea5",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "0a03262dc6e2e32c185e8b54325c1d89e795c7ff26a86bdd6ef92079b45ba459",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "45f5ba8cd9851ba55a165f9db0bfd88fe5fae1fffde64f34eee023205d7ee95b",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 4,
+          "sha256": "489fdb328034bb83716666142d124d00cae9332b7819bfe3d31736578531aa2b",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 5,
+          "sha256": "489fdb328034bb83716666142d124d00cae9332b7819bfe3d31736578531aa2b",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 6,
+          "sha256": "489fdb328034bb83716666142d124d00cae9332b7819bfe3d31736578531aa2b",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 7,
+          "sha256": "ab27d8c0ce7097882e9953949845f4d1e3fc0b0d4dcd0af86bacc040996ee013",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 8,
+          "sha256": "204c5ec8f127a24796b7cac5e069ad6153b139d0ce0b05dec6984ad813ddd425",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 9,
+          "sha256": "204c5ec8f127a24796b7cac5e069ad6153b139d0ce0b05dec6984ad813ddd425",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 11,
+          "sha256": "1b674a04ebd10f6192fb3a4c2248b14c1263b2da1a887054e689e69d654c9c21",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 12,
+          "sha256": "a6c2641adcee3cb67766570dd8cad071cd34c90d0ae8694a5e0f621cabcd34c7",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 14,
+          "sha256": "9711e44e7042ceb60e44b6e1feea0c8f264f4fa0d4c9bcf7bf88d83dcaf4986c",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 16,
+          "sha256": "fb890650b30903479cf929bce042d1a8ea367d38637f40c3b057be8c0290604c",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 18,
+          "sha256": "e3be70ce56a98ba0281235a6cf91b2ff41415d1a81499613bfa4a5c0405bceee",
+          "path": "review/round_01/observation_015.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "主菜单布局与按钮",
+        "PLAY 进入 LEVEL 1 谜题页",
+        "网格单元点击填充与 MOVES/计时",
+        "模式栏 CROSS 按钮点击",
+        "系统返回键退出应用"
+      ],
+      "findings": [
+        "主菜单整体仍偏低且按钮间距偏大：SETTINGS 中心约 867dp（原版 805dp），PLAY 约 481dp（原版 460dp），星标约 100dp（原版 94dp）。需把顶部留白 70→60dp、按钮间隙 25→17dp。",
+        "谜题页模式栏过低约 30dp（FILL/CROSS 中心约 690 预览 px，原版约 662），已落到系统手势导航区域：在 (790,2360) 点击 CROSS 无任何反应（模式未切换），说明该区域的触摸被系统吞掉。需把底部留白 56→24dp 让模式栏上移。",
+        "谜题页计时行与 UNDO/HINT/RESTART 行分别比原版低约 7dp 和 9dp（观测 141/188dp，原版 134/179dp），需把顶部两个 Spacer 由 18/17dp 减到 12/14dp。",
+        "本轮已确认正确：头部 LEVEL 1 中心约 88dp 与原版 84dp 接近；网格顶部约 1094px 与原版 1093px 一致；点击 (389,1300) 正确填充第 2 行第 1 列且 MOVES 变为 1；计时器从 00:00 正常走字。",
+        "本轮未覆盖：HOW TO PLAY 页、通关弹窗、重置进度弹窗、返回键页面内回退（新加的 BackHandler 尚未验证）。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "restart_app"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "d49bf60099503bcbec7dd3819a23af2906deb83733eb82759720d10da45474c7",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "d49bf60099503bcbec7dd3819a23af2906deb83733eb82759720d10da45474c7",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "d49bf60099503bcbec7dd3819a23af2906deb83733eb82759720d10da45474c7",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "d49bf60099503bcbec7dd3819a23af2906deb83733eb82759720d10da45474c7",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 5,
+          "sha256": "d49bf60099503bcbec7dd3819a23af2906deb83733eb82759720d10da45474c7",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 6,
+          "sha256": "398857a8eb5bc5f371d5e976d96a2558560db986029961dbd5d2baced1472568",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 9,
+          "sha256": "05a22f4e7ee7f5d7868567cf8998e09c6393e2744e3034e9a36bdb82c48eddbb",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 10,
+          "sha256": "05a22f4e7ee7f5d7868567cf8998e09c6393e2744e3034e9a36bdb82c48eddbb",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 11,
+          "sha256": "87bd50c26be6ebc309cc337acb5d2382d2d5b6313086fc3fd8d2052c5a0aa4ae",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 13,
+          "sha256": "293c374980ab57979e81190c52452db09c90057f555078a4505fe4d125d990af",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 14,
+          "sha256": "75ca1dc319f51591cdf29cf6c5389ae9a45049b53990215bd134589019311df5",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 15,
+          "sha256": "a519c04ea5fe71715b7398a6f695a4dc7793cd050f66e252b5126d449e6a176b",
+          "path": "review/round_02/observation_012.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "revise",
+      "checked_flows": [
+        "主菜单",
+        "PLAY→LEVEL 1 谜题页",
+        "CROSS 模式切换",
+        "填满 15 格触发通关弹窗",
+        "通关弹窗 HOME→关卡选择",
+        "关卡选择（关卡1 打勾、关卡2 解锁）",
+        "HOW TO PLAY",
+        "SETTINGS 与重置进度弹窗"
+      ],
+      "findings": [
+        "已确认良好：通关弹窗结构/文案与原版一致（LEVEL COMPLETED! / MOVES: 15 • TIME / 迷你图案 / NEXT LEVEL / BUY ME A COFFEE / HOME），关卡 1 通关后关卡选择页显示白框+圆点，关卡 2 解锁；HOW TO PLAY 四张卡片正常；重置进度确认弹窗（警告三角+文案+RESET/CANCEL）正常；模式栏点击已生效（CROSS 变粉）。",
+        "主菜单纵向仍需微调：星标 85dp（原版 88dp）略高，标题/副标题/PLAY 约低 7-8dp，按钮间距 57dp（原版约 65dp）。建议顶部留白 60→63dp、行到标题 125→114dp、按钮间隙 17→22dp。",
+        "谜题页模式栏仍偏低：CROSS 中心实测约 2290px，原版约 2179px，底部几乎贴住 home 指示条。建议底部留白 24→53dp（此前 56dp 时位置其实接近正确，是误判）。",
+        "关卡选择瓦片偏大偏散：本版瓦片 58dp、水平中心间距约 87dp（原版约 80dp），行距约 94dp（原版约 90dp）。建议瓦片 58→54dp、水平间隙 29→26dp、垂直间隙 38→36dp。",
+        "设置页偏低且行距过大：卡片顶部约 150dp（原版约 133dp），三行间距约 76dp（原版约 59dp，因 Material3 Switch 有 48dp 最小触摸高度，需把行内上下 padding 从 15dp 降到约 6dp），RESET PROGRESS 中心约 411dp（原版约 339dp）。另外顶部 TopBar 内边距 50dp 使头部中心约 82dp，原版约 73dp，建议改为 45dp。",
+        "通关弹窗步数文案用了双空格 'MOVES: 15  •  TIME'，原版为单空格。",
+        "本轮未验证：系统返回键的页面内回退（BackHandler）、NEXT LEVEL 按钮、RANDOM PUZZLE 难度弹窗在改动后的位置、多人模式页在改动后的位置。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "30b443851f263b1b31cc4369e3ad1058b26a04e3e8697ec0797162b449890eec",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "03b675a8863df201ac8059e8282cf1b8b231a5f0308fccfa92453dbba7c23b1a",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "2e10c358298bef8d77f51bf36e3b59627ccfe219a94927612e958eb9788c694d",
+          "path": "review/round_03/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 18,
+          "sha256": "6cdb2fac3a225f41b8e52d7fcc84ebd22bef4855e94ab96d11da22a19d66bf5b",
+          "path": "review/round_03/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 19,
+          "sha256": "99ec32bc768de743d8b683a35aeda9acedfd0f40f903501ae50871f6b9b73363",
+          "path": "review/round_03/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 21,
+          "sha256": "0b7da8ec02604d7d2ea83cf36118ac9daadb9fa69d6200f2fef1e2ef861920f0",
+          "path": "review/round_03/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 23,
+          "sha256": "79062cdbfb73e50800170e2a0b0b0e7439652f6890bb7e69e9fa78111e91a531",
+          "path": "review/round_03/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 24,
+          "sha256": "79062cdbfb73e50800170e2a0b0b0e7439652f6890bb7e69e9fa78111e91a531",
+          "path": "review/round_03/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 25,
+          "sha256": "074cf0ef6adf853220d7ba9cfabbdd2a18750f616a4fc5c35462ea7b4eb6b3bc",
+          "path": "review/round_03/observation_009.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 4,
+      "decision": "accept",
+      "checked_flows": [
+        "主菜单渲染与六个入口按钮",
+        "PLAY 打开当前关卡（LEVEL n）",
+        "谜题页：计时/步数/UNDO/HINT/RESTART/FILL-CROSS 模式/长按",
+        "网格点击填充与 MOVES 递增",
+        "填满正确解触发 LEVEL COMPLETED! 弹窗（MOVES: 15）",
+        "通关弹窗 HOME→关卡选择，关卡打勾与下一关解锁",
+        "关卡选择 10 关 4/4/2 网格、锁定态",
+        "RANDOM PUZZLE 难度弹窗（EASY/MEDIUM/HARD/MASTER/EXPERT/CANCEL）",
+        "MULTIPLAYER 房间码/COPY CODE/刷新/START PUZZLE/JOIN WITH CODE",
+        "HOW TO PLAY 四张说明卡片",
+        "SETTINGS 三个开关与 RESET PROGRESS 确认弹窗",
+        "系统返回键在页面内回退（BackHandler）"
+      ],
+      "findings": [
+        "核心流程全部可用：主菜单→PLAY/关卡选择/随机谜题/多人/玩法/设置，谜题页填充、CROSS 模式、UNDO/RESTART/计时/步数、通关弹窗与关卡解锁均按原版行为工作。",
+        "关键坐标与原版对齐：谜题页网格顶部约 1094px（原版 1093px）、迷你解题图案与 MOVES/TIME 文案一致、关卡选择 4/4/2 布局与锁定/打勾状态一致。",
+        "已核对无任何私人信息：应用内无账号、无真实链接（仅通用占位 URL）、无隐私权限（declared_permissions 为空），SharedPreferences 仅保存关卡进度与三个开关。",
+        "剩余为非功能性外观偏差（不影响流程）：随机谜题难度弹窗比原版略高（按钮 48dp vs 约 44dp）、多人模式各段间距略大（约 1.19 倍）、主菜单按钮中心间距约 61dp vs 原版约 65dp。",
+        "已知小缺口：弹窗打开时按系统返回键会退出 App 而不是关闭弹窗；HINT 采用“揭示一个正确格”，原版离线时该按钮无可观察效果。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "cdb2250b2ad5b52f4145e76c72f24fe4dc88dbdf831c60a0039773c474470982",
+          "path": "review/round_04/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "821d4581a2782f644ada4cb2aa72a4f0aa3012420b4b765e725c0f6321e81d2e",
+          "path": "review/round_04/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "95251d5b47fb51f0378234565281e096dbd6f9db64615c8a4aca387c09611d6c",
+          "path": "review/round_04/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "5c55865fa3a10b969ce082f5349c83f3c0182698a4497588f66f2f51b6b6b998",
+          "path": "review/round_04/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 6,
+          "sha256": "5c55865fa3a10b969ce082f5349c83f3c0182698a4497588f66f2f51b6b6b998",
+          "path": "review/round_04/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 7,
+          "sha256": "5c55865fa3a10b969ce082f5349c83f3c0182698a4497588f66f2f51b6b6b998",
+          "path": "review/round_04/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 8,
+          "sha256": "9ff33ed93b3eae87001549d46d34dcfe0d66a485132ea35679fcd3ad9e296710",
+          "path": "review/round_04/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 9,
+          "sha256": "b856736b661980c9e017eb7fa83d8a19a75ab6ac55a954197fb2e8eda33b3292",
+          "path": "review/round_04/observation_008.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

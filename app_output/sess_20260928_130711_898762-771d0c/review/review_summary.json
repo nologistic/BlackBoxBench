@@ -1,0 +1,567 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "b5c9b3cfec3f30a28d9ad720e25333ca8a4cb9f63bb77f50baa4c91f89827f30",
+  "accepted_apk_hash": "275e65eaaf6254279cbbfb13521fd2570907edda700e8b13862b63ca4387ec55",
+  "revision_count": 2,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "首页空状态与底部导航",
+        "更多菜单",
+        "设置主界面",
+        "用户界面设置",
+        "订阅空状态与 FAB",
+        "添加播客",
+        "全局搜索",
+        "提供方搜索(fyyd)",
+        "订阅后首页列表",
+        "配置主屏幕弹窗",
+        "RSS 添加弹窗"
+      ],
+      "findings": [
+        "严重：所有 androidx.compose.ui.window.Dialog 弹窗（配置主屏幕、自定义导航、排序、筛选、通过 RSS 地址添加播客）在复验截图中完全不可见，点击后界面无变化（点击配置主屏幕后菜单消失但无弹窗）。需改为与 MoreMenu 相同的窗口内覆盖层（scrim + 卡片），以保证可见与可点击。",
+        "底部导航栏与 FAB 底部重叠：加号 FAB 下半部分点击无效（y=2117 无响应，y=2075 才响应），说明 FAB 下缘被底部导航栏区域覆盖，需要抬高 FAB（增大 bottom padding）。",
+        "全局搜索页与提供方搜索页缺少输入提示文案，探索中该页有“搜索”占位提示与输入框；当前只显示居中的“输入要搜索的查询”。",
+        "订阅成功后首页“订阅列表”区块列出的是单集行，而 AntennaPod 首页该区块应显示已订阅播客卡片（封面+标题+作者）。",
+        "首页空状态右下角的弯箭头过小、过淡，与探索中较粗较明显的曲线箭头不符；另外状态栏区域底色偏白，应使用页面蓝色背景。",
+        "设置主界面“用户界面”行图标形状与探索不一致（当前为异形圆角矩形），应改为手机/界面轮廓图标。",
+        "设置-用户界面主题缩略图过于简化（仅蓝条+灰线），探索中为带侧边栏的手机小样，可适当增强以贴近像素。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "f8335cad1c86c8da0f190fcbfb5ae9de0051a2583ef5bde2ece749782df53747",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "bd50dc08eecd34a524cdda83a798a297c6dab62305ed91835455edc9f7ca8e8f",
+          "path": "review/round_01/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "146a1dab4fcc85ae5af660c6ed2117a55a032def2f732a541a2188614a1f9f3e",
+          "path": "review/round_01/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "fd378c49ce771c8d12e9d389384e95caba71023bff1ba7f3d4ed2ac6b6b5ca0b",
+          "path": "review/round_01/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 5,
+          "sha256": "b0b032c93d7c8080f5fbe7a9a6b94dd3a51bc43286e1e5b41dbccc453dcdb3b0",
+          "path": "review/round_01/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 6,
+          "sha256": "1269e5ccf4fb7641df8c11c5e15c95cc4bac2ba5eb42ed3e03936e0a1dc80aa6",
+          "path": "review/round_01/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 7,
+          "sha256": "1269e5ccf4fb7641df8c11c5e15c95cc4bac2ba5eb42ed3e03936e0a1dc80aa6",
+          "path": "review/round_01/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 8,
+          "sha256": "1269e5ccf4fb7641df8c11c5e15c95cc4bac2ba5eb42ed3e03936e0a1dc80aa6",
+          "path": "review/round_01/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 9,
+          "sha256": "229cdd0d3abe27a0f3764f0bff62ae3ddb653baca1797a6bc5579fdb57fc92a5",
+          "path": "review/round_01/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 11,
+          "sha256": "8c597b1d0560af16d825f3fd4595efc1daa2446040ceddb075665a90fe4733a4",
+          "path": "review/round_01/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 12,
+          "sha256": "8c597b1d0560af16d825f3fd4595efc1daa2446040ceddb075665a90fe4733a4",
+          "path": "review/round_01/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 13,
+          "sha256": "8c597b1d0560af16d825f3fd4595efc1daa2446040ceddb075665a90fe4733a4",
+          "path": "review/round_01/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 14,
+          "sha256": "610f3d091cff890317c8ba58a93e7b693ca1770cde5670aec3860b8f101d4bc8",
+          "path": "review/round_01/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 16,
+          "sha256": "66e79703991fda345d977d1caee26fa3d22c48b692075729f08a019c199af544",
+          "path": "review/round_01/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 19,
+          "sha256": "58b2b1dc30d7293f040bf8815c71a44baeb58e510893135afa210d76f5030cd5",
+          "path": "review/round_01/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 20,
+          "sha256": "3713b3761513e29b7005d99707ab03320fa218cc7dfd67e92dd321c5f8ca9c92",
+          "path": "review/round_01/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 24,
+          "sha256": "b3d9165fa31b43855ad6a3199f11d457646c5a51c52bc8fe1f9c392bf55fe18e",
+          "path": "review/round_01/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 25,
+          "sha256": "46565148cc44c3bf04156ad3df44ccd4f8c68573f520f74abe278899572a85eb",
+          "path": "review/round_01/observation_018.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "首页空状态与背景",
+        "更多菜单",
+        "配置主屏幕弹窗",
+        "设置主界面",
+        "用户界面设置",
+        "订阅空状态与 FAB",
+        "添加播客",
+        "通过 RSS 地址添加播客弹窗与无效地址报错",
+        "全局搜索",
+        "首页订阅列表",
+        "统计",
+        "播放记录",
+        "收藏",
+        "下载",
+        "队列与队列溢出菜单",
+        "队列排序底部弹窗",
+        "收件箱",
+        "抽屉偏好设置弹窗"
+      ],
+      "findings": [
+        "已修复：所有弹窗改为窗口内覆盖层后可正常显示；配置主屏幕、通过 RSS 地址添加播客（含“您输入的 RSS 地址无效。”报错）、抽屉偏好设置、队列排序底部弹窗均可见可点。",
+        "已修复：FAB 抬高后点击正常（原下缘被底部导航覆盖）。",
+        "已修复：状态栏区域底色与页面一致（蓝色背景铺满窗口）。",
+        "已修复：搜索页补上“搜索”占位提示。",
+        "遗留小问题：队列“排序”底部弹窗最底部“保持排序”一行被系统手势条/导航栏区域压住，需要给底部弹窗内容补 navigationBars 底部内边距。",
+        "遗留小问题：统计页仪表盘圆弧偏宽，接近屏幕左右边缘，可略收窄居中。",
+        "首页订阅后将“最近更新/订阅列表”分区渲染正确，播客卡片使用 logo 占位；探索中未观察到订阅后首页，属合理推断。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "type_text"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "press_back"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "71809d97791098c2aaeeabc1cd4d3aff75765ddfe131b06295fe5fb528c061a3",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 2,
+          "sha256": "f65f4e84c5a7b84914a6c407beb8d22de0be0ea54e0d29ed6a8844b87013e059",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "2c2a918273e5405e97b3b36b0d89e5127a3f91402ec625b1126605e50d9f67c3",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 4,
+          "sha256": "d975fbd9fc5e4ee76f1ff46180261b3fd31e4fe168d1672b1616f210cfea823a",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 6,
+          "sha256": "c0b77f42fe4758a74e371cded0b96fe82628032d79d64e562c2985bde085d9e1",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 7,
+          "sha256": "45e25fa1c394133a788761638622e33c9d9b100c4d1ec1238ed8863597302efa",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 8,
+          "sha256": "45e25fa1c394133a788761638622e33c9d9b100c4d1ec1238ed8863597302efa",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 9,
+          "sha256": "e3b733cfa934b88335f9f7c2a4c0e42e8f9f80a6767b7a4a717239b600812bbf",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 11,
+          "sha256": "0f1e110f393609bb8a03a91f566eb8a5a72718c35935ffab9ef9f8c94c919186",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 12,
+          "sha256": "2592e32acd8e36bd76c2c467a9dd5bfdbda1219406f16067e6a88ec274460c73",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 13,
+          "sha256": "c80d38092f89edecceeae48502a60ec8671871c33ade5b7fecbd52f287f8a8a4",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 14,
+          "sha256": "dd75be78198e9da555e1088a4e0003a7f07f80dfed5ce56b2c6ccdc71a1aa6b5",
+          "path": "review/round_02/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 15,
+          "sha256": "9a877e2942410946f2f1cf117fa0df90a0cabc5af3ed07f5e5517e9872de5b32",
+          "path": "review/round_02/observation_013.png"
+        },
+        {
+          "number": 14,
+          "action_count": 17,
+          "sha256": "e25ec8232fcf9f6ed9ff54f088de0be8b4a796dd3f4ea86ac76aa4e6706bec8d",
+          "path": "review/round_02/observation_014.png"
+        },
+        {
+          "number": 15,
+          "action_count": 18,
+          "sha256": "78c68a05b812af1f3b54ff9788d96a72d593b1aa51c9b766688fe5cf43df90bb",
+          "path": "review/round_02/observation_015.png"
+        },
+        {
+          "number": 16,
+          "action_count": 20,
+          "sha256": "704b69656de879d0c7fbee2a90d9c6da470f6c85be2abb5a42b43f3d353c64ed",
+          "path": "review/round_02/observation_016.png"
+        },
+        {
+          "number": 17,
+          "action_count": 22,
+          "sha256": "7885a4541537243b9b544b2384bbecfa9c68c8f245dc68870c14e84925b35700",
+          "path": "review/round_02/observation_017.png"
+        },
+        {
+          "number": 18,
+          "action_count": 24,
+          "sha256": "94389d1ebdf9d2a75d2806878191a8164f494ef5c6ac1af721fc627c24d6b88d",
+          "path": "review/round_02/observation_018.png"
+        },
+        {
+          "number": 19,
+          "action_count": 25,
+          "sha256": "ecfff300af48f9458c6d3c0086e429253df6416caffdc141904b16805125c83f",
+          "path": "review/round_02/observation_019.png"
+        },
+        {
+          "number": 20,
+          "action_count": 26,
+          "sha256": "a982252023e6075ea5f9f06e5acb51e501f6570e222dcf376974f0f4737b049d",
+          "path": "review/round_02/observation_020.png"
+        },
+        {
+          "number": 21,
+          "action_count": 27,
+          "sha256": "57bf2c497b77dbfef078f34f78f2147b7626e08ea09ced083c4a9b29cd74fbdc",
+          "path": "review/round_02/observation_021.png"
+        },
+        {
+          "number": 22,
+          "action_count": 29,
+          "sha256": "bc450503622e92b2c0c085e8086a1bf9296e928afb0e687a09faafca3c6beaed",
+          "path": "review/round_02/observation_022.png"
+        },
+        {
+          "number": 23,
+          "action_count": 31,
+          "sha256": "81c8b8828d15fd6419a9f4d202d19bc7334e74bf8ad4ed6d8d82713d2cfe3734",
+          "path": "review/round_02/observation_023.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "accept",
+      "checked_flows": [
+        "首页空状态（欢迎文案、logo、弯箭头、蓝色背景铺满状态栏）",
+        "底部导航五个标签切换与选中态",
+        "更多菜单与八个入口",
+        "配置主屏幕弹窗",
+        "抽屉偏好设置弹窗",
+        "队列页与队列溢出菜单（排序/清除队列/刷新/锁定队列）",
+        "队列排序底部弹窗（底部内边距已修复）",
+        "统计页三标签与仪表盘（弧线已收窄）",
+        "收件箱空状态",
+        "订阅空状态与 FAB（点击已修复）",
+        "添加播客页与六个入口",
+        "通过 RSS 地址添加播客弹窗及无效地址报错文案",
+        "全局搜索页与搜索占位提示",
+        "设置主界面与用户界面设置"
+      ],
+      "findings": [
+        "第 3 轮复验：底部弹窗已补 navigationBars 内边距，“保持排序”完整可见；统计页仪表盘已收窄居中，显示“0.0 小时”与期间说明。",
+        "首页空状态与探索一致：蓝色背景铺满含状态栏，logo、标题“欢迎使用 AntennaPod！”、副标题与右下弯箭头齐备。",
+        "更多菜单八个入口（单集/下载/播放记录/收藏/统计/添加播客/自定义导航/设置）位置与图标一致，可正常跳转。",
+        "配置主屏幕、抽屉偏好设置、RSS 添加（含“您输入的 RSS 地址无效。”）弹窗均以窗口内覆盖层呈现，可见可点。",
+        "FAB 抬高后可正常点击进入添加播客；底部导航各标签、队列溢出菜单四项、统计标签与下载/播放记录/收藏列表均正常。",
+        "全程使用虚构素材（黑盒电台 / 黑盒媒体 / S1E01-S1E06），未包含任何真实个人信息，未声明多余权限。"
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "4fa830aaf713ea45367180fe1bfcf8a342001edcfddc55cfe77fac7c6bf81cc7",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 3,
+          "sha256": "507205cf03cbc5d528e5464a0793d75a8a2b629077bf0f2b6533a9bc52d9b640",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 6,
+          "sha256": "26295428b6bf56639087344af5254de0bb152984dbccb552af7627c2e7331d6c",
+          "path": "review/round_03/observation_003.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

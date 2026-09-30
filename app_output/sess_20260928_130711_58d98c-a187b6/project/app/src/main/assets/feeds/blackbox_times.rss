@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>黑盒时报</title>
+    <link>https://news.blackboxbench.example</link>
+    <description>虚构的综合性新闻源，用于 Feed 复现测试。</description>
+    <language>zh-cn</language>
+    <item>
+      <title>合成数据集发布：覆盖二十个应用场景</title>
+      <link>https://news.blackboxbench.example/articles/synthetic-dataset</link>
+      <guid isPermaLink="false">bbt-news-2026-0001</guid>
+      <pubDate>Mon, 07 Sep 2026 08:00:00 GMT</pubDate>
+      <description>&lt;p&gt;一套全新的虚构数据集覆盖二十个应用场景，全部内容可确定性重建。&lt;/p&gt;&lt;p&gt;研究员林夕表示：稳定性是评测的第一要求。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>离线优先架构在阅读器中的回归</title>
+      <link>https://news.blackboxbench.example/articles/offline-first</link>
+      <guid isPermaLink="false">bbt-news-2026-0002</guid>
+      <pubDate>Sun, 06 Sep 2026 10:30:00 GMT</pubDate>
+      <description>&lt;p&gt;越来越多的工具开始强调断网可用性。本文回顾三种缓存策略的取舍。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>开源日历应用的可访问性改进</title>
+      <link>https://news.blackboxbench.example/articles/calendar-a11y</link>
+      <guid isPermaLink="false">bbt-news-2026-0003</guid>
+      <pubDate>Sat, 05 Sep 2026 14:00:00 GMT</pubDate>
+      <description>&lt;p&gt;屏幕朗读与动态字体大小的支持清单正在变长，社区给出了对照表。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>每周一书：《确定性生成的艺术》</title>
+      <link>https://news.blackboxbench.example/articles/weekly-book</link>
+      <guid isPermaLink="false">bbt-news-2026-0004</guid>
+      <pubDate>Fri, 04 Sep 2026 09:00:00 GMT</pubDate>
+      <description>&lt;p&gt;从随机种子到完整世界的构建方法。本周书单推荐第三章节。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>短讯：像素级测试工具链更新至 1.4</title>
+      <link>https://news.blackboxbench.example/articles/pixel-toolchain-14</link>
+      <guid isPermaLink="false">bbt-news-2026-0005</guid>
+      <pubDate>Thu, 03 Sep 2026 16:45:00 GMT</pubDate>
+      <description>&lt;p&gt;新版本把截图对比速度提升了三倍，误报率继续下降。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

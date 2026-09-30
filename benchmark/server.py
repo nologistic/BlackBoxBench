@@ -157,12 +157,10 @@ def create_app() -> FastAPI:
         except TransientEnvironmentError as e:
             # The environment blipped but is healthy: this observation did not
             # go through, the session continues. 409 keeps it distinct from an
-            # invalid request (400) and from a dead environment (503). The
-            # body carries a server-computed retry hint so the Agent waits a
-            # told duration instead of guessing at one.
+            # invalid request (400) and from a dead environment (503).
+            # 只陈述事实，不附带 retry 建议（平台不替 Agent 决定何时重试）。
             raise HTTPException(409, detail={
-                "message": str(e), "retry_after_s": e.retry_after_s,
-                "state": "busy"})
+                "message": str(e), "state": "busy"})
         except Exception as e:
             raise _runtime_failure(sid, e)
 
@@ -178,8 +176,7 @@ def create_app() -> FastAPI:
             raise
         except TransientEnvironmentError as e:
             raise HTTPException(409, detail={
-                "message": str(e), "retry_after_s": e.retry_after_s,
-                "state": "busy"})
+                "message": str(e), "state": "busy"})
         except Exception as e:
             raise _runtime_failure(sid, e)
 

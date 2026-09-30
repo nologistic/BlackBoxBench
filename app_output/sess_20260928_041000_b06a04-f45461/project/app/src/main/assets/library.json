@@ -1,0 +1,272 @@
+{
+ "albums": [
+  {
+   "name": "BlackBoxBench",
+   "path": "/storage/emulated/0/Pictures/BlackBoxBench",
+   "items": [
+    {
+     "file": "media/blackboxbench/sample_video.mp4",
+     "name": "sample_video.mp4",
+     "video": true,
+     "size": 21875,
+     "duration": 3000,
+     "date": "24 九月 2026, 14:20"
+    },
+    {
+     "file": "media/blackboxbench/sample_photo.png",
+     "name": "sample_photo.png",
+     "video": false,
+     "size": 10325,
+     "duration": 0,
+     "date": "24 九月 2026, 14:20"
+    }
+   ]
+  },
+  {
+   "name": "Camera",
+   "path": "/storage/emulated/0/DCIM/Camera",
+   "items": [
+    {
+     "file": "media/camera/IMG_20260601_000.png",
+     "name": "IMG_20260601_000.png",
+     "video": false,
+     "size": 42840,
+     "duration": 0,
+     "date": "1 六月 2026, 09:00"
+    },
+    {
+     "file": "media/camera/IMG_20260604_001.png",
+     "name": "IMG_20260604_001.png",
+     "video": false,
+     "size": 23578,
+     "duration": 0,
+     "date": "4 六月 2026, 10:07"
+    },
+    {
+     "file": "media/camera/IMG_20260607_002.png",
+     "name": "IMG_20260607_002.png",
+     "video": false,
+     "size": 23824,
+     "duration": 0,
+     "date": "7 六月 2026, 11:14"
+    },
+    {
+     "file": "media/camera/IMG_20260610_003.png",
+     "name": "IMG_20260610_003.png",
+     "video": false,
+     "size": 28575,
+     "duration": 0,
+     "date": "10 六月 2026, 12:21"
+    },
+    {
+     "file": "media/camera/IMG_20260613_004.png",
+     "name": "IMG_20260613_004.png",
+     "video": false,
+     "size": 38656,
+     "duration": 0,
+     "date": "13 六月 2026, 13:28"
+    },
+    {
+     "file": "media/camera/IMG_20260616_005.png",
+     "name": "IMG_20260616_005.png",
+     "video": false,
+     "size": 24055,
+     "duration": 0,
+     "date": "16 六月 2026, 14:35"
+    },
+    {
+     "file": "media/camera/IMG_20260619_006.png",
+     "name": "IMG_20260619_006.png",
+     "video": false,
+     "size": 26372,
+     "duration": 0,
+     "date": "19 六月 2026, 15:42"
+    },
+    {
+     "file": "media/camera/IMG_20260623_007.png",
+     "name": "IMG_20260623_007.png",
+     "video": false,
+     "size": 29996,
+     "duration": 0,
+     "date": "23 六月 2026, 16:49"
+    },
+    {
+     "file": "media/camera/IMG_20260626_008.png",
+     "name": "IMG_20260626_008.png",
+     "video": false,
+     "size": 34429,
+     "duration": 0,
+     "date": "26 六月 2026, 09:56"
+    },
+    {
+     "file": "media/camera/IMG_20260629_009.png",
+     "name": "IMG_20260629_009.png",
+     "video": false,
+     "size": 25481,
+     "duration": 0,
+     "date": "29 六月 2026, 10:03"
+    },
+    {
+     "file": "media/camera/IMG_20260702_010.png",
+     "name": "IMG_20260702_010.png",
+     "video": false,
+     "size": 23422,
+     "duration": 0,
+     "date": "2 七月 2026, 11:10"
+    },
+    {
+     "file": "media/camera/IMG_20260705_011.png",
+     "name": "IMG_20260705_011.png",
+     "video": false,
+     "size": 25268,
+     "duration": 0,
+     "date": "5 七月 2026, 12:17"
+    },
+    {
+     "file": "media/camera/IMG_20260708_012.png",
+     "name": "IMG_20260708_012.png",
+     "video": false,
+     "size": 44946,
+     "duration": 0,
+     "date": "8 七月 2026, 13:24"
+    },
+    {
+     "file": "media/camera/IMG_20260711_013.png",
+     "name": "IMG_20260711_013.png",
+     "video": false,
+     "size": 22260,
+     "duration": 0,
+     "date": "11 七月 2026, 14:31"
+    },
+    {
+     "file": "media/camera/IMG_20260715_014.png",
+     "name": "IMG_20260715_014.png",
+     "video": false,
+     "size": 28561,
+     "duration": 0,
+     "date": "15 七月 2026, 15:38"
+    },
+    {
+     "file": "media/camera/IMG_20260718_015.png",
+     "name": "IMG_20260718_015.png",
+     "video": false,
+     "size": 30224,
+     "duration": 0,
+     "date": "18 七月 2026, 16:45"
+    },
+    {
+     "file": "media/camera/IMG_20260721_016.png",
+     "name": "IMG_20260721_016.png",
+     "video": false,
+     "size": 40232,
+     "duration": 0,
+     "date": "21 七月 2026, 09:52"
+    },
+    {
+     "file": "media/camera/IMG_20260724_017.png",
+     "name": "IMG_20260724_017.png",
+     "video": false,
+     "size": 26345,
+     "duration": 0,
+     "date": "24 七月 2026, 10:59"
+    },
+    {
+     "file": "media/camera/IMG_20260727_018.png",
+     "name": "IMG_20260727_018.png",
+     "video": false,
+     "size": 18541,
+     "duration": 0,
+     "date": "27 七月 2026, 11:06"
+    },
+    {
+     "file": "media/camera/IMG_20260730_019.png",
+     "name": "IMG_20260730_019.png",
+     "video": false,
+     "size": 26988,
+     "duration": 0,
+     "date": "30 七月 2026, 12:13"
+    },
+    {
+     "file": "media/camera/IMG_20260802_020.png",
+     "name": "IMG_20260802_020.png",
+     "video": false,
+     "size": 37953,
+     "duration": 0,
+     "date": "2 八月 2026, 13:20"
+    },
+    {
+     "file": "media/camera/IMG_20260806_021.png",
+     "name": "IMG_20260806_021.png",
+     "video": false,
+     "size": 30261,
+     "duration": 0,
+     "date": "6 八月 2026, 14:27"
+    },
+    {
+     "file": "media/camera/IMG_20260809_022.png",
+     "name": "IMG_20260809_022.png",
+     "video": false,
+     "size": 30010,
+     "duration": 0,
+     "date": "9 八月 2026, 15:34"
+    },
+    {
+     "file": "media/camera/IMG_20260812_023.png",
+     "name": "IMG_20260812_023.png",
+     "video": false,
+     "size": 24936,
+     "duration": 0,
+     "date": "12 八月 2026, 16:41"
+    },
+    {
+     "file": "media/camera/IMG_20260815_024.png",
+     "name": "IMG_20260815_024.png",
+     "video": false,
+     "size": 30323,
+     "duration": 0,
+     "date": "15 八月 2026, 09:48"
+    },
+    {
+     "file": "media/camera/IMG_20260818_025.png",
+     "name": "IMG_20260818_025.png",
+     "video": false,
+     "size": 42840,
+     "duration": 0,
+     "date": "18 八月 2026, 10:55"
+    },
+    {
+     "file": "media/camera/IMG_20260821_026.png",
+     "name": "IMG_20260821_026.png",
+     "video": false,
+     "size": 23578,
+     "duration": 0,
+     "date": "21 八月 2026, 11:02"
+    },
+    {
+     "file": "media/camera/IMG_20260824_027.png",
+     "name": "IMG_20260824_027.png",
+     "video": false,
+     "size": 23824,
+     "duration": 0,
+     "date": "24 八月 2026, 12:09"
+    },
+    {
+     "file": "media/camera/IMG_20260828_028.png",
+     "name": "IMG_20260828_028.png",
+     "video": false,
+     "size": 28575,
+     "duration": 0,
+     "date": "28 八月 2026, 13:16"
+    },
+    {
+     "file": "media/camera/IMG_20260831_029.png",
+     "name": "IMG_20260831_029.png",
+     "video": false,
+     "size": 38656,
+     "duration": 0,
+     "date": "31 八月 2026, 14:23"
+    }
+   ]
+  }
+ ]
+}

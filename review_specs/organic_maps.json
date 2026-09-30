@@ -4,254 +4,254 @@
   "features": [
     {
       "id": "f01",
-      "name": "地图浏览与视口状态",
+      "name": "Map browsing and viewport state",
       "steps": [
-        "打开地图",
-        "拖动地图浏览其他区域",
-        "使用 + / - 改变缩放级别",
-        "地名、道路、POI、河流等随缩放级别重新布局",
-        "打开地点详情后关闭",
-        "回到原地图区域而不是重置视口。"
+        "Open the map",
+        "Drag the map to browse other areas",
+        "Use + / - to change the zoom level",
+        "Place names, roads, POIs, and rivers re-layout with the zoom level",
+        "Open the place details and then close them",
+        "It returns to the original map area rather than resetting the viewport."
       ],
-      "expected": "地图要素必须随缩放级别动态重绘，道路、POI、地名密度随之变化；打开并关闭地点详情不能重置视口；平移与缩放后的视口状态保持一致。",
+      "expected": "The map features must be redrawn dynamically with the zoom level, and the density of roads, POIs, and place names changes accordingly; opening and closing the place details must not reset the viewport; the viewport state is preserved after panning and zooming.",
       "persistence": false
     },
     {
       "id": "f02",
-      "name": "当前定位与重新居中",
+      "name": "Current location and re-centering",
       "steps": [
-        "获取设备当前位置",
-        "地图以蓝色位置点表示用户",
-        "用户拖离当前位置",
-        "点击定位按钮",
-        "地图重新居中到当前位置",
-        "位置变化后地图中的用户位置同步更新。"
+        "Get the device's current location",
+        "The map shows the user with a blue location dot",
+        "The user drags away from the current location",
+        "Tap the locate button",
+        "The map re-centers on the current location",
+        "After a location change the user position on the map updates in sync."
       ],
-      "expected": "位置点必须反映真实设备位置；重新居中按钮必须将地图移回当前位置；位置变化后蓝点与朝向同步更新；无定位权限或定位失败时应有合理反馈。",
+      "expected": "The location dot must reflect the real device position; the re-center button must move the map back to the current location; after a location change the blue dot and heading update in sync; reasonable feedback is required when location permission is missing or positioning fails.",
       "persistence": false
     },
     {
       "id": "f03",
-      "name": "地图样式和图层",
+      "name": "Map style and layers",
       "steps": [
-        "打开“地图样式和图层”",
-        "在“地铁 / 等高线 / 户外 / 徒步 / 骑行”间切换",
-        "地图立即改变需要强调的道路、轨迹、等高线或交通网络",
-        "关闭面板后选择保持",
-        "再次打开仍显示当前样式。"
+        "Open \"map style and layers\"",
+        "Switch between \"subway / contour lines / outdoors / hiking / cycling\"",
+        "The map immediately changes which roads, tracks, contour lines, or transport networks are emphasized",
+        "The selection is preserved after closing the panel",
+        "Reopening still shows the current style."
       ],
-      "expected": "每种样式必须实际改变地图渲染，地铁、等高线、户外、徒步、骑行强调不同要素；切换立即生效；选择持久化，关闭面板与重启后仍保持。",
+      "expected": "Each style must genuinely change the map rendering, with subway, contour lines, outdoors, hiking, and cycling emphasizing different elements; switching takes effect immediately; the selection persists across closing the panel and restarting.",
       "persistence": true
     },
     {
       "id": "f04",
-      "name": "离线地图区域生命周期",
+      "name": "Offline map-area lifecycle",
       "steps": [
-        "选择一个尚未下载的地区",
-        "开始下载地图数据",
-        "显示下载/完成状态",
-        "完成后该区域可正常浏览",
-        "断开网络后地图、道路和已下载区域内的地点仍可使用",
-        "地图更新后可重新更新本地数据。离线地图和离线搜索本身是 Organic Maps 的核心能力。有机地图"
+        "Choose an area that has not been downloaded yet",
+        "Start downloading map data",
+        "Show the download/completion state",
+        "After completing the current instance the next periodic instance is produced / the next due time advances",
+        "After disconnecting the network, the map, roads, and places within downloaded areas remain usable",
+        "After the map is updated the local data can be updated again. Offline maps and offline search are core Organic Maps capabilities. Organic Maps"
       ],
-      "expected": "下载必须真实保存该区域地图数据并显示进度与完成状态；断网后已下载区域的道路与地点仍可浏览和搜索；更新后本地数据被替换为新版本；未下载区域应提示不可用。",
+      "expected": "The download must genuinely save that map area's data and show progress and a completion state; after going offline the roads and places in the downloaded area are still browsable and searchable; after an update the local data is replaced with the new version; undownloaded areas should show as unavailable.",
       "persistence": false
     },
     {
       "id": "f05",
-      "name": "文本搜索与搜索历史",
+      "name": "Text search and search history",
       "steps": [
-        "从地图打开搜索",
-        "输入地点、道路或名称",
-        "返回匹配结果",
-        "点选结果后关闭搜索并将地图移动到目标位置",
-        "再次进入搜索时历史中保留此前查询",
-        "清除或重新使用历史项",
-        "对已下载地图验证离线搜索。"
+        "Open search from the map",
+        "Enter a place, road, or name",
+        "Return the matching results",
+        "After selecting a result the search closes and the map moves to the target position",
+        "Re-entering the search keeps the previous query in the history",
+        "Clear or reuse a history entry",
+        "Enable Resize on an image with an alpha channel or obvious edges"
       ],
-      "expected": "搜索结果必须与地图数据匹配并可定位到目标；历史按时间保留且可清除；已下载区域必须支持离线搜索；无结果时应给出反馈而不是空白。",
+      "expected": "The search results must match the map data and be able to locate the target; the history is kept by time and can be cleared; downloaded areas must support offline search; a no-result state should give feedback rather than a blank.",
       "persistence": true
     },
     {
       "id": "f06",
-      "name": "分类地点发现",
+      "name": "Category place discovery",
       "steps": [
-        "打开搜索",
-        "切换“历史 / 类别”",
-        "选择“在哪儿吃、酒店、旅游景点、交通、加油站、停车场、购物”等类别",
-        "根据当前地图区域或当前位置返回对应 POI",
-        "移动地图后重新检索",
-        "结果与地图上的地点位置保持一致。"
+        "Open search",
+        "Switch between \"history / categories\"",
+        "Choose categories such as \"where to eat, hotels, tourist attractions, transport, gas stations, parking, and shopping\"",
+        "Return the corresponding POIs for the current map area or current location",
+        "Re-run the search after moving the map",
+        "The results stay consistent with the place positions on the map."
       ],
-      "expected": "分类结果必须按当前视口或位置过滤，并与地图上实际 POI 位置一致；移动地图后重新检索结果随之更新；结果数量与地图可见 POI 相符。",
+      "expected": "The category results must be filtered by the current viewport or position and match the actual POI locations on the map; after moving the map the re-run results update accordingly; the result count matches the visible POIs.",
       "persistence": false
     },
     {
       "id": "f07",
-      "name": "地点选择与详情页",
+      "name": "Place selection and the details page",
       "steps": [
-        "在地图上点击城市、道路、公园或其他 POI",
-        "弹出地点详情",
-        "显示名称、类型、距离/方向以及可用坐标",
-        "有附加资料时显示 Wikipedia 摘要、网站等",
-        "移动到不同地点后详情切换到正确对象。Organic Maps 官方也将 Wikipedia 地点信息列为功能。有机地图"
+        "Tap a city, road, park, or other POI on the map",
+        "Bring up the place details",
+        "Show the name, type, distance/direction, and available coordinates",
+        "When additional materials exist, show the Wikipedia summary, website, etc.",
+        "After moving to a different place the details switch to the correct object. The official Organic Maps also lists Wikipedia place information as a feature. Organic Maps"
       ],
-      "expected": "详情内容必须与所点对象一致，包含名称、类型等基本信息；有附加资料时显示 Wikipedia 或网站；切换地点后详情完全替换，不能残留上一地点数据。",
+      "expected": "The details content must match the tapped object, including basic information such as the name and type; when additional materials exist, Wikipedia or the website is shown; after switching places the details are fully replaced with no leftover data from the previous place.",
       "persistence": false
     },
     {
       "id": "f08",
-      "name": "地点保存 / 取消保存的双向同步",
+      "name": "Two-way sync of saving / un-saving a place",
       "steps": [
-        "从地点详情点击“保存”",
-        "创建 Place–Bookmark 关系",
-        "地图上的地点变为已保存状态",
-        "“书签和轨迹”中的相应列表出现该地点",
-        "从列表中删除/取消收藏",
-        "返回原地图地点时恢复未保存状态",
-        "刷新应用后结果仍一致。"
+        "Tap \"save\" from the place details",
+        "Create a Place–Bookmark relationship",
+        "The place on the map becomes saved",
+        "The place appears in the corresponding list under \"bookmarks and tracks\"",
+        "Delete/unfavorite from the list",
+        "Returning to the original map place restores the unsaved state",
+        "The results stay consistent after refreshing the app."
       ],
-      "expected": "保存状态必须在详情页、地图标记与书签列表三处保持一致；从任一入口取消保存其他视图同步更新；关系持久化，刷新或重启后仍一致。",
+      "expected": "The saved state must stay consistent across the details page, the map markers, and the bookmark list; un-saving from any entry syncs the other views; the relationship persists and stays consistent after a refresh or restart.",
       "persistence": false
     },
     {
       "id": "f09",
-      "name": "书签列表与可见性管理",
+      "name": "Bookmark list and visibility management",
       "steps": [
-        "打开“书签和轨迹”",
-        "创建新的列表",
-        "将多个地点放入不同列表",
-        "隐藏某一列表后其书签从地图消失但数据仍存在",
-        "再次显示后恢复",
-        "“全部隐藏”等操作应同时影响地图可见性而不删除数据。"
+        "Open \"bookmarks and tracks\"",
+        "Create a new list",
+        "After raising the quality the visual quality and file size are restored",
+        "After hiding a list its bookmarks disappear from the map but the data still exists",
+        "It is restored after being shown again",
+        "Operations such as \"hide all\" should affect map visibility at the same time without deleting data."
       ],
-      "expected": "隐藏只改变地图可见性，书签数据必须保留；重新显示后恢复；书签可属于多个列表；列表显隐设置需持久化，不能因隐藏而删除任何数据。",
+      "expected": "Hiding only changes map visibility and the bookmark data must be preserved; showing it again restores it; a bookmark can belong to several lists; the list visibility settings must persist and hiding must not delete any data.",
       "persistence": true
     },
     {
       "id": "f10",
-      "name": "书签与轨迹导入 / 导出",
+      "name": "Bookmark and track import / export",
       "steps": [
-        "从“书签和轨迹”选择导入",
-        "选择包含书签或轨迹的文件",
-        "解析后将地点/轨迹加入对应列表并显示在地图",
-        "导出列表",
-        "生成可再次导入的数据文件",
-        "重新导入后地点、轨迹几何和主要属性保持一致。官方目前支持 KML/KMZ/KMB、GPX、GeoJSON 等导入，并可导出 KMZ、GPX、GeoJSON。有机地图"
+        "Choose import from \"bookmarks and tracks\"",
+        "Choose a file containing bookmarks or tracks",
+        "After parsing, the places/tracks are added to the corresponding list and shown on the map",
+        "Export the order file",
+        "Generate a data file that can be imported again",
+        "After re-importing, the places, track geometry, and main attributes stay consistent. The official app currently supports KML/KMZ/KMB, GPX, GeoJSON, and other imports, and can export KMZ, GPX, and GeoJSON. Organic Maps"
       ],
-      "expected": "导入必须解析 KML/KMZ/KMB、GPX、GeoJSON 等格式并生成正确地点与轨迹；导出的文件必须可再次导入且几何与主要属性保持一致；无效文件应给出错误反馈。",
+      "expected": "Export the list",
       "persistence": false
     },
     {
       "id": "f11",
-      "name": "从地点建立路线",
+      "name": "Build a route from a place",
       "steps": [
-        "从搜索结果、地图 POI 或书签选择地点",
-        "点击“到这去”创建目标点",
-        "默认以当前定位为起点",
-        "路线面板显示起点和终点",
-        "也可以从地点使用“从这出发”改变起点",
-        "路线在地图上生成并显示预计时间、距离。有机地图"
+        "Select a place from the search results, a map POI, or a bookmark",
+        "Tap \"directions\" to create the destination",
+        "The current location is used as the start point by default",
+        "The route panel shows the start and end points",
+        "You can also change the start point from a place using \"start from here\"",
+        "The route is generated on the map and shows the estimated time and distance. Organic Maps"
       ],
-      "expected": "路线必须包含明确的起点与终点，默认起点为当前定位；“从这出发”必须改变起点并重新计算；面板显示的距离与预计时间必须与实际路线几何对应。",
+      "expected": "The route must contain an explicit start and end point, with the start defaulting to the current location; \"start from here\" must change the start point and recompute; the distance and estimated time shown in the panel must correspond to the actual route geometry.",
       "persistence": false
     },
     {
       "id": "f12",
-      "name": "多交通方式路线切换",
+      "name": "Multi-transport-mode route switching",
       "steps": [
-        "已存在同一起终点",
-        "依次选择汽车、步行、公共交通、骑行、直线/Ruler",
-        "每次切换都重新计算路线几何、距离、预计时间以及对应地图表现",
-        "不允许只更换图标而保留同一条路线。官方路线页也列出了这五类模式。有机地图"
+        "Completed orders",
+        "Select car, walking, public transport, cycling, and straight line/Ruler in turn",
+        "Every switch recomputes the route geometry, distance, estimated time, and the corresponding map rendering",
+        "Merely changing the icon while keeping the same route is not allowed. The official routes page also lists these five modes. Organic Maps"
       ],
-      "expected": "每种交通方式必须生成不同的路线几何与时间估算，不能只更换图标；切换后距离与时间重新计算；步行与骑行按实际路网，直线模式按几何距离。",
+      "expected": "Each transport mode must generate different route geometry and time estimates rather than only changing the icon; after switching, the distance and time are recomputed; walking and cycling follow the actual road network and straight-line mode uses geometric distance.",
       "persistence": false
     },
     {
       "id": "f13",
-      "name": "备选路线与路线选择",
+      "name": "Alternative routes and route selection",
       "steps": [
-        "为同一起终点计算路线",
-        "地图同时显示两条或多条可选线路及各自时间，例如截图中的 19/25 分钟",
-        "用户点击另一候选路线",
-        "主路线高亮、时间和距离切换",
-        "后续开始导航使用当前选中的路线。2026 年正式更新已加入备选路线。有机地图"
+        "Compute routes for the same start and end points",
+        "The map shows two or more alternative routes at the same time with their times, e.g. 19/25 minutes in the screenshot",
+        "The user taps another candidate route",
+        "Main-route highlighting, time, and distance switching",
+        "Subsequent navigation uses the currently selected route. The official 2026 update has added alternative routes. Organic Maps"
       ],
-      "expected": "备选路线必须真实存在且几何与时间互不相同；点击候选后主路线高亮与时间距离同步切换；开始导航必须使用当前选中路线。",
+      "expected": "Alternative routes must genuinely exist with different geometry and times; after tapping a candidate the main-route highlight and the time/distance switch in sync; starting navigation must use the currently selected route.",
       "persistence": false
     },
     {
       "id": "f14",
-      "name": "多经停点有序路线",
+      "name": "Head Pose",
       "steps": [
-        "起点与终点已经确定",
-        "点击“添加经停点”",
-        "从地图/搜索选择第三个地点",
-        "经停点插入路线",
-        "拖动列表中的排序手柄改变途经顺序",
-        "路线、总距离和时间重新计算",
-        "删除经停点后恢复对应两点路线。"
+        "The start and end points are already set",
+        "Tap \"add stop\"",
+        "Select a third place from the map/search",
+        "Waypoints inserted into the route",
+        "Drag the sort handle in the list to change the waypoint order",
+        "The route, total distance, and time are recomputed",
+        "After deleting a stop the corresponding two-point route is restored."
       ],
-      "expected": "经停点必须按列表顺序参与路线计算；拖动排序后总距离与时间重新计算；删除经停点后恢复为对应两点路线；地图几何与列表顺序一致。",
+      "expected": "Waypoints must take part in the route computation in list order; after drag-reordering the total distance and time are recomputed; after deleting a waypoint it reverts to the corresponding two-point route; the map geometry matches the list order.",
       "persistence": false
     },
     {
       "id": "f15",
-      "name": "路线统计与高程信息",
+      "name": "Route statistics and elevation information",
       "steps": [
-        "生成步行或骑行路线",
-        "显示距离、预计耗时",
-        "如果有高程数据则显示高程曲线、累计爬升/下降",
-        "切换路线或改变经停点",
-        "图表和统计立即对应新的路线，而不是使用静态数据。"
+        "Generate a walking or cycling route",
+        "Show the distance and estimated duration",
+        "If the song is in the play queue the queue is removed in sync or handled according to the player rules",
+        "Switch routes or change waypoints",
+        "The chart and statistics immediately correspond to the new route rather than using static data."
       ],
-      "expected": "距离与耗时必须由实际路线计算；有高程数据时曲线与累计爬升、下降必须对应当前路线；切换路线或增删经停点后图表与统计同步更新，不能使用静态数据。",
+      "expected": "The distance and duration must be computed from the actual route; when elevation data exists the profile and cumulative ascent/descent must correspond to the current route; after switching routes or adding/removing waypoints the charts and statistics update in sync and must not use static data.",
       "persistence": false
     },
     {
       "id": "f16",
-      "name": "路线偏好与道路规避",
+      "name": "Route preferences and road avoidance",
       "steps": [
-        "创建汽车路线",
-        "打开路线设置",
-        "改变收费路段、未铺装道路、高速公路、轮渡等规避条件",
-        "重新计算路径",
-        "路线几何、距离和时间响应配置变化",
-        "返回设置仍保留当前偏好。官方路线说明明确提供这些规避选项。有机地图"
+        "Create a car route",
+        "Open route settings",
+        "Change the avoidance conditions such as toll roads, unpaved roads, highways, and ferries",
+        "Recompute the path",
+        "The route geometry, distance, and time respond to configuration changes",
+        "Returning to the settings still preserves the current preferences. The official routing documentation explicitly provides these avoidance options. Organic Maps"
       ],
-      "expected": "规避选项必须真实改变路径选择与几何，距离和时间随之变化；偏好持久化并在后续计算中继续生效；关闭规避后路线可恢复经过相应道路。",
+      "expected": "The avoidance options must genuinely change the path selection and geometry, with the distance and time changing accordingly; the preferences persist and remain effective in subsequent computations; after disabling avoidance the route can resume passing the corresponding roads.",
       "persistence": true
     },
     {
       "id": "f17",
-      "name": "开始 / 结束导航的导航状态机",
+      "name": "The navigation state machine for starting/ending navigation",
       "steps": [
-        "规划有效路线",
-        "点击“开始”",
-        "从 Preview 进入 Navigation 状态",
-        "GPS 位置沿路线更新",
-        "下一步方向、剩余距离/时间以及语音提示随进度变化",
-        "用户偏离路线时重新计算",
-        "结束导航后返回普通地图但书签、地图位置等数据不丢失。Organic Maps 官方支持步行、骑行和汽车逐向导航及语音指导。有机地图"
+        "Plan a valid route",
+        "Tap \"start\"",
+        "Enter the Navigation state from Preview",
+        "The GPS position updates along the route",
+        "The direction of the next step, the remaining distance/time, and the voice prompts change with progress",
+        "Recompute when the user deviates from the route",
+        "After ending navigation it returns to the normal map without losing bookmarks, map positions, and other data. The official Organic Maps supports turn-by-turn walking, cycling, and car navigation with voice guidance. Organic Maps"
       ],
-      "expected": "开始与结束导航必须在 Preview 与 Navigation 状态间正确流转；剩余距离与时间随位置递减更新；偏离路线后重新计算；结束后书签、地图位置等数据保留。",
+      "expected": "Starting and ending navigation must transition correctly between the Preview and Navigation states; the remaining distance and time update as the position decreases; after deviating from the route it is recomputed; after ending, bookmarks, map positions, and other data are preserved.",
       "persistence": true
     },
     {
       "id": "f18",
-      "name": "公共交通多段路线",
+      "name": "Public-transport multi-segment routes",
       "steps": [
-        "起终点确定",
-        "选择公共交通",
-        "系统组合“步行",
-        "公交/地铁/轻轨/电车",
-        "步行”等 Segment",
-        "地图分别绘制各段",
-        "面板显示线路编号和换乘关系",
-        "更换起终点或交通方式后旧 Segment 被整体替换。你截图中可见公交 22 与步行段；当前版本官方已支持地铁、轻轨、公交和有轨电车路线。有机地图"
+        "Start and end points set",
+        "Select public transport",
+        "The system combines \"walking",
+        "Bus/subway/light rail/tram",
+        "Walking\" segments",
+        "The map draws each segment separately",
+        "The panel shows the line numbers and transfer relationships",
+        "After changing the start/end points or transport mode the old segments are replaced entirely. In your screenshot bus 22 and a walking segment are visible; the current official version already supports subway, light rail, bus, and tram routes. Organic Maps"
       ],
-      "expected": "公交路线必须由多个可区分的步行与乘车 Segment 组成；面板显示线路编号与换乘关系；更换起终点或交通方式后旧 Segment 被整体替换，不能残留。",
+      "expected": "A transit route must consist of several distinguishable walking and riding segments; the panel shows the line numbers and transfer relationships; after changing the start/end points or transport mode the old segments are replaced entirely with no leftovers.",
       "persistence": false
     }
   ]

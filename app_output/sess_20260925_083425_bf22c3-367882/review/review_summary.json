@@ -1,0 +1,261 @@
+{
+  "schema_version": 1,
+  "platform": "android",
+  "accepted": true,
+  "accepted_project_hash": "35c2825b2352d790f4d5cd62ef8265d4a6809e220d8431b77f422d19615861be",
+  "accepted_apk_hash": "8f0758d1623564fd6cf9d7abb4fee28e2ee695274ce9d8357c5027132f91ff2a",
+  "revision_count": 2,
+  "max_revisions": 3,
+  "require_write_evidence": false,
+  "rounds": [
+    {
+      "round": 1,
+      "decision": "revise",
+      "checked_flows": [
+        "cold launch of the reproduced APK"
+      ],
+      "findings": [
+        "The installed APK still renders the scaffold placeholder text \"Build the observed app here\" on a white background, not the dark Minesweeper screen that the current sources produce, so the reviewed artifact does not match the project."
+      ],
+      "actions": [],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "8c55b8e00f15c762069ad0289ba9577ad977cb50beeb6ea318b74de113a512d2",
+          "path": "review/round_01/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 0,
+          "sha256": "55caf1a19ba30b4af96177a9454e4327f8a496e99c8643bdf4bc4583ef0f9d29",
+          "path": "review/round_01/observation_002.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 2,
+      "decision": "revise",
+      "checked_flows": [
+        "cold launch shows the dark Minesweeper board with mine counter, face button, timer, difficulty tabs and Licenses link",
+        "tap a covered cell reveals cells, flood fills and starts the timer",
+        "long press a covered cell places a flag and decrements the mine counter",
+        "Custom tab opens the Custom Game dialog with grid/mine sliders and fog/safe switches",
+        "Licenses link opens the licence dialog with a Close button",
+        "custom 5x5 with maximum mines and safe first tap off produces Game Over with a dead face and revealed mines",
+        "Hard preset starts a 20x20 fog-of-war countdown game and a revealed number fades to a purple tile after about 15 seconds",
+        "custom 5x5 with maximum mines and safe first tap on wins on the first tap with the green banner, cool face and auto-flagged mines"
+      ],
+      "findings": [
+        "Mine percentage in the Custom Game dialog is rounded up (40 mines on 16x16 shows 16%) while the target truncates (15%); the dialog should use integer division.",
+        "The board is slightly narrower than the target: in the target the grid extends a few dp beyond the difficulty tab row, while here the grid and the tab row share the same horizontal padding.",
+        "The flag glyph shows almost only the orange triangle because the pole colour is too close to the covered tile colour, so the pole should be darker and thicker."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "wait"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "e594730c6073d1dbbedf938b0110bab61a719b055e669e8d720ee50b1754e861",
+          "path": "review/round_02/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "afb785b93fb28fe554c7b341906d57bac1efe9c9cd857ccf64c488d6d9cc328b",
+          "path": "review/round_02/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 2,
+          "sha256": "a44f348420731eab0894a99ee3e1f795c9f3d5fb73f41bbeb87d282459dca40f",
+          "path": "review/round_02/observation_003.png"
+        },
+        {
+          "number": 4,
+          "action_count": 3,
+          "sha256": "7832300a767f2d103d49fbd0c8126e5ea9d3e696e3a4d34c1acb93cfb6647ef2",
+          "path": "review/round_02/observation_004.png"
+        },
+        {
+          "number": 5,
+          "action_count": 5,
+          "sha256": "84a19a7869ee1bf60b3383eb36caf793c115e24d33fcef453c3358a9ee31ee7a",
+          "path": "review/round_02/observation_005.png"
+        },
+        {
+          "number": 6,
+          "action_count": 9,
+          "sha256": "21129305c17f562aa927cb819ea96a37e5217c3b09df5f6c2db859e212058006",
+          "path": "review/round_02/observation_006.png"
+        },
+        {
+          "number": 7,
+          "action_count": 10,
+          "sha256": "808728555655e7c219deab9e6f494882708932bbfcc63a7a17db770f9443c462",
+          "path": "review/round_02/observation_007.png"
+        },
+        {
+          "number": 8,
+          "action_count": 13,
+          "sha256": "e4490f9c1cd337c9d33abfabf5cfbb7b5bb8605246ebc663b552b9ee63e7e77b",
+          "path": "review/round_02/observation_008.png"
+        },
+        {
+          "number": 9,
+          "action_count": 15,
+          "sha256": "0b8062b75ee84d79da1aadc8f3e772ec15b279f29784be02d32fb353f8b5a6ce",
+          "path": "review/round_02/observation_009.png"
+        },
+        {
+          "number": 10,
+          "action_count": 17,
+          "sha256": "f5c12faf0a310c3a036b6cc8685e4272d59b080dcbbea8e72c838d7bd9eeefe9",
+          "path": "review/round_02/observation_010.png"
+        },
+        {
+          "number": 11,
+          "action_count": 18,
+          "sha256": "7ba0c25b88eb2fa8a270217566570d2d350c7f5256e9d47c111f84004a8ce005",
+          "path": "review/round_02/observation_011.png"
+        },
+        {
+          "number": 12,
+          "action_count": 22,
+          "sha256": "2db2f72c43da68bc65f45c8b3be7daf8228b1c67781bb7e7d1a8b1fd25987480",
+          "path": "review/round_02/observation_012.png"
+        },
+        {
+          "number": 13,
+          "action_count": 24,
+          "sha256": "9714036afb4471a454a421b92a83fdf1f70f505c73d28397bf9028fc5de5ad1a",
+          "path": "review/round_02/observation_013.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    },
+    {
+      "round": 3,
+      "decision": "accept",
+      "checked_flows": [
+        "cold launch shows the dark board with an 010 mine counter, yellow face button, 00:00 timer, Easy/Medium/Hard/Custom tabs and the Licenses link at the same positions as the target",
+        "the grid now extends slightly past the difficulty tab row exactly as in the target",
+        "tapping the Custom tab opens the Custom Game dialog showing 16 x 16, 40 mines and 15% (truncated, matching the target)",
+        "long pressing a covered cell places the flag with a visible dark pole and decrements the counter to 009"
+      ],
+      "findings": [
+        "All previously reported issues are fixed: the mine percentage is now truncated (40 on 16x16 shows 15%), the board is wider than the tab row, and the flag pole is visible.",
+        "No private or target-derived data is embedded; all text is fictional/public material and the app needs no permissions."
+      ],
+      "actions": [
+        {
+          "type": "tap"
+        },
+        {
+          "type": "tap"
+        },
+        {
+          "type": "long_press"
+        }
+      ],
+      "observations": [
+        {
+          "number": 1,
+          "action_count": 0,
+          "sha256": "f8b2fdb4ac1311208a8acdca43c9fb82cfc6202b0db4983213e20b7eab621564",
+          "path": "review/round_03/observation_001.png"
+        },
+        {
+          "number": 2,
+          "action_count": 1,
+          "sha256": "902dc5a5100d1e2eba64ff73030a901c04964808f8425afe0c4cb5fab426f828",
+          "path": "review/round_03/observation_002.png"
+        },
+        {
+          "number": 3,
+          "action_count": 3,
+          "sha256": "4dd0b1bd00e0980eba98469faee7f2cc501c05de45db9e5265d11047621864be",
+          "path": "review/round_03/observation_003.png"
+        }
+      ],
+      "write_flow_evidence": null,
+      "write_flow_exemption": null
+    }
+  ]
+}

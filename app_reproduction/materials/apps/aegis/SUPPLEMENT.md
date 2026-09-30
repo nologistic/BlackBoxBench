@@ -1,51 +1,51 @@
-# Aegis 复现补充信息（非实体素材）
+# Aegis reproduction supplementary information (non-entity materials)
 
-本文件汇总复现 Aegis 类双因素认证（2FA）App 所需的领域知识，均为公开
-规范层面的说明。素材能解决的信息不需要联网查询。
+This file collects the domain knowledge needed to reproduce an Aegis-style two-factor-authentication (2FA) app; all of it is public
+specification-level information. Anything the materials can answer does not require an online lookup.
 
-## TOTP 基本概念
+## TOTP basics
 
-- TOTP（Time-based One-Time Password，RFC 6238）：由共享密钥 + 当前时间
-  计算出的限时验证码。
-- 常见参数：**6 位数字**，**30 秒**周期（部分服务用 8 位或 60 秒）。
-- 同一密钥在同一 30 秒窗口内验证码不变；跨窗口后重新计算。
-- 客户端通常显示剩余秒数的倒计时（环形或进度条），归零时验证码刷新。
-- 服务端校验通常容忍 ±1 个时间窗口的偏移。
+- TOTP (Time-based One-Time Password, RFC 6238): a time-limited verification code computed
+  from a shared secret + the current time.
+- Common parameters: **6 digits**, **30-second** period (some services use 8 digits or 60 seconds).
+- The code for the same secret stays constant within one 30-second window and is recomputed after it rolls over.
+- Clients usually show a countdown of the remaining seconds (ring or progress bar); the code refreshes at zero.
+- Server-side validation typically tolerates ±1 time-window of drift.
 
-## otpauth:// 迁移 URI 规范
+## otpauth:// migration URI spec
 
-扫码导入的二维码内容是一段 otpauth:// URI：
+The QR code for scan-import encodes an otpauth:// URI:
 
 ```
 otpauth://totp/Issuer:Account?secret=SECRET&issuer=Issuer&digits=6&period=30
 ```
 
-- `Issuer`：服务商名（如 `ExampleCorp`），显示在条目上。
-- `Account`：账号（通常是邮箱或用户名）。
-- `secret`：**Base32 编码**的共享密钥（字符集 `A–Z` 与 `2–7`，无填充）。
-- `digits`：验证码位数，默认 6。
-- `period`：周期秒数，默认 30。
-- 部分条目还带 `algorithm=SHA1`（默认）或 `SHA256`。
+- `Issuer`: the provider name (e.g. `ExampleCorp`), shown on the entry.
+- `Account`: the account (usually an email or username).
+- `secret`: the **Base32-encoded** shared secret (charset `A–Z` and `2–7`, no padding).
+- `digits`: number of code digits, default 6.
+- `period`: period in seconds, default 30.
+- Some entries also carry `algorithm=SHA1` (default) or `SHA256`.
 
-## 条目数据模型
+## Entry data model
 
-复现的 App 至少应支持以下字段：
+A reproduction should support at least the following fields:
 
-| 字段 | 说明 |
+| Field | Description |
 |---|---|
-| 名称/账号 | 显示为主标题，如 `linxi@example.com` |
-| 服务商 | 显示在名称下方或图标旁 |
-| 分组 | 可选，条目可按分组归类展示 |
-| 密钥 | Base32 字符串，导入后不再明文展示 |
-| 位数/周期 | 决定验证码形态 |
-| 图标 | 可用服务商首字母或自定义图片 |
+| Name/account | Shown as the main title, e.g. `linxi@example.com` |
+| Provider | Shown below the name or next to the icon |
+| Group | Optional; entries can be grouped |
+| Secret | Base32 string, never shown in clear after import |
+| Digits/period | Determine the code shape |
+| Icon | Provider initial or a custom image |
 
-## 复现行为要点
+## Key reproduction behaviors
 
-- 列表页：按分组折叠或平铺展示条目，每条显示当前 6 位验证码 + 倒计时。
-- 详情页：展示密钥二维码（可再次扫描）、服务商、账号、高级参数。
-- 手动新建：表单输入名称/服务商/密钥，密钥需 Base32 合法性校验。
-- 导入：输入 otpauth:// URI 或“扫描”后等价填入表单。
-- 验证码刷新：倒计时归零后所有条目同时换码（同一周期）。
-- 不要求实现真实的 HMAC 计算；用密钥 + 窗口序号做确定性伪随机即可，但
-  位数、周期、倒计时、跨条目同时刷新这些**可见行为必须正确**。
+- List page: entries collapsed by group or tiled flat; each row shows the current 6-digit code + countdown.
+- Details page: secret QR code (scan again), provider, account, advanced parameters.
+- Manual create: form for name/provider/secret, with Base32 validity checking.
+- Import: type an otpauth:// URI or "scan" to fill the form equivalently.
+- Code refresh: when the countdown hits zero all entries roll over together (same period).
+- Real HMAC computation is not required; a deterministic pseudo-random from secret + window index is fine, but
+  digits, period, countdown, and simultaneous cross-entry refresh are **visible behaviors that must be correct**.

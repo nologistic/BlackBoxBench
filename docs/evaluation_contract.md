@@ -4,11 +4,10 @@
 语义**，使 web 与 app 的报告可以直接横向比较。平台差异只允许出现在动作面与运行时。
 
 ```text
-4 exploration conditions                2 evaluation conditions
+3 exploration conditions                  2 evaluation conditions
   web-baseline    ─┐                      web-review   (网页产物)
-  web-our-method  ─┤─▶ 复现产物 ─────────▶
+  app-baseline        ─┤─▶ 复现产物 ───────▶
   app-baseline    ─┤                      app-review   (APK 产物)
-  app-our-method  ─┘
 ```
 
 ## 1. 职责分界
@@ -266,8 +265,8 @@ Agent 能力/方法差异（**不修**）：
 
 | 现象 | 判据 |
 |---|---|
-| android-baseline 定稿 0 条边（19 状态 / 10 功能） | 同平台 our-method 在语雀建了 52 条 state→state 边；web-baseline 同样 0 条。平台从未拒绝建边 |
-| 转换边普遍偏少 | 这正是 our-method 相对 baseline 的改进目标，属被测量对象 |
+| android-baseline 定稿 0 条边（19 状态 / 10 功能） | 同平台 web-baseline 同样 0 条。平台从未拒绝建边 |
+| 转换边普遍偏少 | 属被测量对象（探索记录质量差异） |
 
 已排除的怀疑（记录以免重复走弯路）：
 

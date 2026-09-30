@@ -1,29 +1,29 @@
-# Fossify Calculator 复现补充信息（非实体素材）
+# Fossify Calculator reproduction supplementary information (non-entity materials)
 
-## 基础计算器行为规范
+## Basic calculator behavior specs
 
-- 四则运算遵循数学优先级：`^`（幂）> `×`/`÷` > `+`/`−`，括号最优先。
-- **百分号语义**：`50+10%` = 55（10% 作用于前一个操作数 50，即加 5）；
-  `100−25%` = 75；`200×10%` = 20。这是 Android 计算器的常见语义，
-  不是 `50 + 0.1`。
-- 小数点：输入中最多一个小数点；`0.5` 可省略前导 0 显示为 `.5`。
-- 退格（DEL）删除末位；长按或 `AC` 清空表达式与结果。
-- `=` 结束当前表达式并显示结果；随后输入新数字开启新表达式，
-  直接输入运算符则把结果作为起点继续运算。
-- 历史记录：完成的表达式按时间倒序保存（表达式 = 结果），点击可回填，
-  清空历史需要确认。
+- Arithmetic follows mathematical precedence: `^` (power) > `×`/`÷` > `+`/`−`, parentheses first.
+- **Percent semantics**: `50+10%` = 55 (10% applies to the preceding operand 50, i.e. add 5);
+  `100−25%` = 75; `200×10%` = 20. This is the common Android-calculator semantics,
+  not `50 + 0.1`.
+- Decimal point: at most one in the input; `0.5` may drop the leading 0 and display as `.5`.
+- Backspace (DEL) removes the last digit; long-press or `AC` clears the expression and result.
+- `=` ends the current expression and shows the result; typing a new digit starts a new expression,
+  while typing an operator continues from the result.
+- History: completed expressions are saved newest-first (expression = result), tapping refills,
+  and clearing history asks for confirmation.
 
-## 单位换算交互模型
+## Unit-conversion interaction model
 
-- 从主界面进入换算后有九个类别入口：长度、面积、体积、质量、温度、
-  时间、速度、压强、能量——**每个类别页保持相同的交互骨架**：
-  上方数字键盘 + 两个单位选择器（从/到）+ 实时结果。
-- 输入实时映射为结果，切换“从/到”单位立即重算。
-- 单位对可互换（点击交换按钮或对称选择）。
-- 每个类别页独立记住最近一次的单位选择，返回再进入仍保持。
-- 系数以 `units.json` 为准；温度用公式而非系数。
+- Entering conversion from the main screen gives nine category entries: length, area, volume, mass, temperature,
+  time, speed, pressure, energy — **every category page keeps the same interaction skeleton**:
+  a numeric keypad on top + two unit pickers (from/to) + a live result.
+- Input maps to the result live; switching the from/to units recomputes immediately.
+- Unit pairs are swappable (tap the swap button or select symmetrically).
+- Each category page remembers its last unit selection independently and keeps it on re-entry.
+- The factors come from `units.json`; temperature uses formulas rather than factors.
 
-## 状态与持久化
+## State and persistence
 
-- 换算类别与单位选择、历史记录在重启后保持。
-- 横竖屏切换不丢失当前输入（或按项目 orientation=portrait 固定）。
+- The conversion category, unit selections, and history survive a restart.
+- Rotating the screen does not lose the current input (or it is fixed by orientation=portrait).

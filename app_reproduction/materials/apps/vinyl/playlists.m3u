@@ -1,26 +1,26 @@
 #EXTM3U
-# 播放列表一：晨间通勤
-#EXTINF:214,夜航电台 - 起飞检查单
-起飞检查单
-#EXTINF:198,夜航电台 - 跑道灯
-跑道灯
-#EXTINF:256,林间合唱团 - 早春序曲
-早春序曲
-#EXTINF:96,像素猫 - 开机音
-开机音
-#EXTINF:261,夜航电台 - 夜间巡航
-夜间巡航
-#EXTINF:232,林间合唱团 - 橡树下的信
-橡树下的信
+# Playlist 1: Morning commute
+#EXTINF:214,Night Flight Radio - Preflight checklist
+Preflight checklist
+#EXTINF:198,Night Flight Radio - Runway lights
+Runway lights
+#EXTINF:256,Forest Choir - Early-spring prelude
+Early-spring prelude
+#EXTINF:96,Pixel Cat - Boot chime
+Boot chime
+#EXTINF:261,Night Flight Radio - Night cruise
+Night cruise
+#EXTINF:232,Forest Choir - A letter under the oak
+A letter under the oak
 
-# 播放列表二：深夜编码
-#EXTINF:205,夜航电台 - 载波
-载波
-#EXTINF:402,山地静默 - 快门开启
-快门开启
-#EXTINF:468,山地静默 - 星轨
-星轨
-#EXTINF:189,夜航电台 - 静默频道
-静默频道
-#EXTINF:171,像素猫 - 隐藏关卡
-隐藏关卡
+# Playlist 2: Late-night coding
+#EXTINF:205,Night Flight Radio - Carrier wave
+Carrier wave
+#EXTINF:402,Mountain Silence - Shutter open
+Shutter open
+#EXTINF:468,Mountain Silence - Star trails
+Star trails
+#EXTINF:189,Night Flight Radio - Silent channel
+Silent channel
+#EXTINF:171,Pixel Cat - Secret level
+Secret level

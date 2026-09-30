@@ -29,14 +29,6 @@ from .network_policy import (
 from .toolchain import AndroidToolchain
 
 _PNG = b"\x89PNG\r\n\x1a\n"
-_ALLOWED_TRANSIENT_PACKAGES = {
-    "com.android.permissioncontroller",
-    "com.google.android.permissioncontroller",
-    "com.android.documentsui",
-    "com.google.android.documentsui",
-    "com.android.providers.media.module",
-    "com.google.android.providers.media.module",
-}
 _KEY_CODES = {
     "Back": "KEYCODE_BACK", "Enter": "KEYCODE_ENTER",
     "Escape": "KEYCODE_ESCAPE", "Backspace": "KEYCODE_DEL",
@@ -65,11 +57,9 @@ class DeviceError(RuntimeError):
 
     agent_safe = True
 
-    def __init__(self, message: str, detail: str = "", *,
-                 recoverable: bool = False):
+    def __init__(self, message: str, detail: str = ""):
         super().__init__(message)
         self.detail = detail or message
-        self.recoverable = recoverable
 
 
 def _redacted_cause(exc: BaseException) -> str:
@@ -401,63 +391,7 @@ class AndroidEmulatorRuntime(Runtime):
         raise DeviceError(
             "the device did not complete this operation",
             detail=f"{_redacted_cause(last_error)} after "
-                   f"{max(0, retries) + 1} attempts: {args[0] if args else '?'}",
-            recoverable=self._device_responsive())
-
-    def _device_responsive(self) -> bool:
-        """Is the emulator still usable, or is this failure terminal?
-
-        A single dropped command on a live device is recoverable — the Agent can
-        simply try again — whereas a device that no longer answers at all ends
-        the session. Distinguishing them is what stops one transient blip from
-        discarding an exploration dozens of steps in.
-
-        The probe runs on the very host that just dropped the command it is
-        asked about, so the probe's own silence proves nothing: under memory
-        pressure ``adb get-state`` times out at the same moment the target
-        command did, and reading that as "device gone" is what ended four
-        sessions on 2026-09-01 whose emulators were merely starved. adb is
-        therefore asked repeatedly, and only an adb that actually answers
-        with a non-device state (while the emulator process is still alive)
-        counts as terminal. A probe that never answers is conservatively
-        read as recoverable: the worst outcome is a retryable failure the
-        Agent can see, not the loss of an exploration dozens of steps in.
-
-        The poll ladder spans about a minute. An emulator whose framework
-        is wedged under memory pressure answers ``offline`` for tens of
-        seconds before settling back to ``device`` — the 2026-09-08
-        our-method session was killed at step 51 because the old ~6s
-        window saw only the offline phase. Waiting out that phase costs a
-        minute on a genuinely dead device, which is far cheaper than
-        discarding an exploration that is dozens of steps in.
-        """
-        if self.process is not None and self.process.poll() is not None:
-            return False
-        if not self.serial:
-            return False
-        answered = False
-        for delay in (0.0, 2.0, 4.0, 8.0, 16.0, 30.0):
-            if delay:
-                time.sleep(delay)
-            try:
-                probe = subprocess.run(
-                    [str(self.toolchain.adb), "-s", self.serial, "get-state"],
-                    cwd=self.work_dir,
-                    env=self.toolchain.environment(self._avd_home),
-                    capture_output=True, text=True, timeout=15, check=False,
-                    creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
-            except (OSError, subprocess.SubprocessError):
-                continue
-            state = (probe.stdout or "").strip()
-            if state == "device":
-                return True
-            if state or (probe.stderr or "").strip() or probe.returncode != 0:
-                # An explicit non-device answer ("offline", "unauthorized",
-                # or "error: device not found" on stderr). A transient
-                # offline phase right after a dropped connection gets the
-                # remaining polls to clear, but adb has answered.
-                answered = True
-        return not answered
+                   f"{max(0, retries) + 1} attempts: {args[0] if args else '?'}")
 
     @staticmethod
     def _reap_orphan_emulators() -> int:
@@ -1008,8 +942,7 @@ class AndroidEmulatorRuntime(Runtime):
             if attempt < 4:
                 time.sleep(1.0 + attempt * attempt)
         raise DeviceError("the target App could not be relaunched",
-                          detail="am start kept failing after force-stop",
-                          recoverable=self._device_responsive())
+                          detail="am start kept failing after force-stop")
 
     def stop(self) -> None:
         if self._guard_attached and self.serial:
@@ -1087,8 +1020,11 @@ class AndroidEmulatorRuntime(Runtime):
             pass
 
     def screenshot(self) -> bytes:
-        if self.serial:
-            self._enforce_foreground()
+        # 平台不替 Agent 做任何决策：取帧就是取帧。原实现在截图前用 dumpsys
+        # 校验「目标应用是否在前台」，不在就 force-stop 并重启它，仍不行则抛错：
+        # 既篡改了 Agent 正在交互的应用（实测抹掉过它打开的菜单），又在设备状态
+        # 无法归类时把每一步都变成失败（2026-09-25 实测 vinyl 单 34 次 / 19 分钟
+        # 全耗在这套自愈上）。按「平台只支持探索、不代做决定」的原则整体移除。
         # A truncated or empty capture is almost always transient: the
         # surface was mid-flip. This used to raise on the very first
         # non-PNG payload — on 2026-09-16 that ended a live exploration
@@ -1111,8 +1047,7 @@ class AndroidEmulatorRuntime(Runtime):
         raise DeviceError("the screen could not be captured this time",
                           detail="screencap returned a non-PNG payload in "
                                  f"3 consecutive attempts "
-                                 f"({len(last_raw)} bytes)",
-                          recoverable=self._device_responsive())
+                                 f"({len(last_raw)} bytes)")
 
     def _info_from_png(self, raw: bytes) -> RuntimeInfo:
         with Image.open(io.BytesIO(raw)) as image:
@@ -1144,42 +1079,8 @@ class AndroidEmulatorRuntime(Runtime):
 
     def _after_input(self) -> None:
         time.sleep(0.08)
-        # Screenshot enforces foreground and refreshes rotation-aware geometry.
+        # Screenshot refreshes rotation-aware geometry.
         self._last_info = self._capture_info()
-
-    def _enforce_foreground(self) -> None:
-        def focused_package() -> str:
-            result = self._run("shell", "dumpsys", "window", "windows",
-                               timeout=10, check=False)
-            text = result.stdout or ""
-            match = re.search(
-                r"mCurrentFocus=Window\{[^ ]+ [^ ]+ ([^/\s}]+)/", text)
-            if not match:
-                match = re.search(r"mFocusedApp=.*? ([^/\s}]+)/", text)
-            if match:
-                return match.group(1)
-            # Android 35 may omit both legacy focus fields from ``dumpsys
-            # window windows`` even while an Activity is visibly resumed.
-            # This fallback remains inside the trusted Runtime; only the
-            # resulting generic success/failure receipt reaches the Agent.
-            result = self._run("shell", "dumpsys", "activity", "activities",
-                               timeout=10, check=False)
-            text = result.stdout or ""
-            match = re.search(
-                r"(?:topResumedActivity|mResumedActivity)\s*[=:]\s*"
-                r"ActivityRecord\{[^}]*?\s([A-Za-z][A-Za-z0-9_.]*)/",
-                text,
-            )
-            return match.group(1) if match else ""
-
-        package = focused_package()
-        allowed = {self.spec.package_name, *_ALLOWED_TRANSIENT_PACKAGES}
-        if package not in allowed:
-            # An unknown focus is not treated as safe.  Restore the target and
-            # verify once more before returning any pixels to the Agent.
-            self.restart_app()
-            if focused_package() not in allowed:
-                raise RuntimeError("target App could not be restored to foreground")
 
     def tap(self, x: int, y: int) -> None:
         self._run("shell", "input", "tap", str(x), str(y))

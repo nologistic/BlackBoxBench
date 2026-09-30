@@ -49,12 +49,12 @@ def avatar_logged_in(runtime: Runtime, app_id: str) -> None:
     zone = _AVATAR_ZONES.get(app_id)
     if zone is None:
         raise PreflightError(
-            f"{app_id}: 未校准头像区域 —— 在 prechecks._AVATAR_ZONES 中登记。")
+            f"{app_id}: avatar zone not calibrated — register it in prechecks._AVATAR_ZONES.")
     ref_path = live_state_dir(app_id) / "header_ref.png"
     if not ref_path.exists():
         raise PreflightError(
-            f"{app_id}: 缺少登录参考图 {ref_path} —— 请先运行 "
-            f"scripts/live_login.py --capture 完成一次人工登录。")
+            f"{app_id}: login reference image missing at {ref_path} — run "
+            f"scripts/live_login.py --capture for a manual login first.")
     ref = Image.open(ref_path).convert("RGB")
     tw, th = ref.size
     img = imgdiff.load(runtime.screenshot())
@@ -68,9 +68,9 @@ def avatar_logged_in(runtime: Runtime, app_id: str) -> None:
                 break  # unambiguous match
     if best > DIFF_THRESHOLD:
         raise PreflightError(
-            f"{app_id}: 当前不是登录状态 (header diff={best:.3f}) —— "
-            f"请运行 vendor/python/python.exe scripts/live_login.py "
-            f"--capture 人工重新登录。")
+            f"{app_id}: not currently logged in (header diff={best:.3f}) — "
+            f"run vendor/python/python.exe scripts/live_login.py "
+            f"--capture to log in manually again.")
 
 
 PRECHECKS = {

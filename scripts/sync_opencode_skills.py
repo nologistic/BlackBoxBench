@@ -9,7 +9,7 @@ edit; --check only reports drift without writing.
 
 Only SKILL.md is copied. Subdirectories shipped next to a skill (e.g.
 agents/) are left alone, and skills that are not deployed are skipped unless
---all is given (our-method / self-built are intentionally not deployed).
+--all is given (self-built is intentionally not deployed).
 """
 from __future__ import annotations
 
@@ -24,9 +24,6 @@ PAIRS = [
     ("agents/cli_explorer/skill/blackbox-explorer", "blackbox-explorer"),
     ("agents/android_baseline/skill/android-blackbox-explorer",
      "android-blackbox-explorer"),
-    ("agents/our_method/skill/our-method", "our-method"),
-    ("agents/android_our_method/skill/android-our-method",
-     "android-our-method"),
     ("self_explorer/skill/self-built-explorer", "self-built-explorer"),
     ("agents/app_review/skill/app-review", "app-review"),
     ("agents/web_review/skill/web-review", "web-review"),

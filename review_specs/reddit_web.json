@@ -534,62 +534,74 @@
     {
       "feature": "Personalized recommendation engine\nInterest-based recommendations, feed composition driven by user signals",
       "treatment": "Hard Exclude",
-      "reason": "Requires recommendation models and behavioral data (cf. Spotify \"Recommendation engine\"); feed structure testable with preloaded fixture"
+      "reason": "Requires recommendation models and behavioral data (cf. Spotify \"Recommendation engine\"); feed structure testable with preloaded fixture",
+      "covered_by": []
     },
     {
       "feature": "Algorithmic ranking modes\nBest / Hot / Rising ranking algorithms",
       "treatment": "Conditional Exclude",
-      "reason": "Ranking switch interactions and deterministic modes (New/Top) preserved; algorithmic ordering replaced with preloaded rules"
+      "reason": "Ranking switch interactions and deterministic modes (New/Top) preserved; algorithmic ordering replaced with preloaded rules",
+      "covered_by": []
     },
     {
       "feature": "Paid awards and payments\nPriced awards, purchase flows, payment methods",
       "treatment": "Hard Exclude",
-      "reason": "Commerce infrastructure (cf. Spotify \"Premium / Billing\"); free award flow preserved"
+      "reason": "Commerce infrastructure (cf. Spotify \"Premium / Billing\"); free award flow preserved",
+      "covered_by": []
     },
     {
       "feature": "Earn on Reddit\nEarnings, eligible products, payout",
       "treatment": "Hard Exclude",
-      "reason": "Monetization system with external payout infrastructure"
+      "reason": "Monetization system with external payout infrastructure",
+      "covered_by": []
     },
     {
       "feature": "Cross-user moderator invitation\nInvite → accept → permission propagation",
       "treatment": "Hard Exclude",
-      "reason": "Requires second user and role acceptance flow (cf. Calendar \"Guest permissions\")"
+      "reason": "Requires second user and role acceptance flow (cf. Calendar \"Guest permissions\")",
+      "covered_by": []
     },
     {
       "feature": "Community type access verification across users\nTesting viewing/posting permissions as different users",
       "treatment": "Conditional Exclude",
-      "reason": "Type selection and display preserved; cross-user access verification excluded"
+      "reason": "Type selection and display preserved; cross-user access verification excluded",
+      "covered_by": []
     },
     {
       "feature": "Moderator vs regular user dual views\nRegular users immediately seeing moderation results",
       "treatment": "Conditional Exclude",
-      "reason": "Moderation actions and states testable in own community; other-user views excluded"
+      "reason": "Moderation actions and states testable in own community; other-user views excluded",
+      "covered_by": []
     },
     {
       "feature": "Real-time chat counterpart\nReal users receiving and replying in chats",
       "treatment": "Conditional Exclude",
-      "reason": "Chat UI, threads, and unread states testable with preloaded conversations; real counterpart excluded"
+      "reason": "Chat UI, threads, and unread states testable with preloaded conversations; real counterpart excluded",
+      "covered_by": []
     },
     {
       "feature": "Notification real event sources\nModeration/comment/system events actually occurring",
       "treatment": "Conditional Include",
-      "reason": "Notification state machine (badge/read/mark-all) testable with preloaded notifications"
+      "reason": "Notification state machine (badge/read/mark-all) testable with preloaded notifications",
+      "covered_by": []
     },
     {
       "feature": "Mod Queue real report sources\nReports from real users and automated signals",
       "treatment": "Conditional Exclude",
-      "reason": "Queue review and moderation actions testable with fixture reports"
+      "reason": "Queue review and moderation actions testable with fixture reports",
+      "covered_by": []
     },
     {
       "feature": "Negative recommendation signals\n\"Show fewer posts like this\" affecting future feed generation",
       "treatment": "Hard Exclude",
-      "reason": "Recommendation feedback loop; hide/unhide state itself preserved"
+      "reason": "Recommendation feedback loop; hide/unhide state itself preserved",
+      "covered_by": []
     },
     {
       "feature": "Real content and community assets\nReal subreddit content, awards catalog, newsroom articles",
       "treatment": "Default Exclude",
-      "reason": "Use synthetic fixture content (cf. Spotify \"Real catalog\")"
+      "reason": "Use synthetic fixture content (cf. Spotify \"Real catalog\")",
+      "covered_by": []
     }
   ]
 }

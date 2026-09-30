@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+  <channel>
+    <title>黑盒电台</title>
+    <link>https://radio.blackboxbench.example</link>
+    <description>虚构的科技播客，用于播客阅读器复现测试。</description>
+    <language>zh-cn</language>
+    <itunes:author>黑盒媒体</itunes:author>
+    <itunes:category text="Technology"/>
+    <itunes:image href="https://radio.blackboxbench.example/cover.png"/>
+    <item>
+      <title>S1E06 确定性世界的设计哲学</title>
+      <guid>radio-bb-s1e06</guid>
+      <pubDate>Mon, 07 Sep 2026 06:00:00 GMT</pubDate>
+      <itunes:duration>35:40</itunes:duration>
+      <description>为什么可复现的实验需要可复现的数据？我们从种子谈起。</description>
+      <enclosure url="https://radio.blackboxbench.example/audio/s1e06.mp3" length="34210000" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>S1E05 截图里的交互考古</title>
+      <guid>radio-bb-s1e05</guid>
+      <pubDate>Mon, 31 Aug 2026 06:00:00 GMT</pubDate>
+      <itunes:duration>28:12</itunes:duration>
+      <description>从像素网格还原一个 App 的信息架构。</description>
+      <enclosure url="https://radio.blackboxbench.example/audio/s1e05.mp3" length="27040000" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>S1E04 离线优先的生活</title>
+      <guid>radio-bb-s1e04</guid>
+      <pubDate>Mon, 24 Aug 2026 06:00:00 GMT</pubDate>
+      <itunes:duration>31:08</itunes:duration>
+      <description>地铁里也能读完一篇文章，是一种尊严。</description>
+      <enclosure url="https://radio.blackboxbench.example/audio/s1e04.mp3" length="29850000" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>S1E03 开源许可证面面观</title>
+      <guid>radio-bb-s1e03</guid>
+      <pubDate>Mon, 17 Aug 2026 06:00:00 GMT</pubDate>
+      <itunes:duration>26:45</itunes:duration>
+      <description>GPL、MIT、Apache 之间隔着一整个法律系。</description>
+      <enclosure url="https://radio.blackboxbench.example/audio/s1e03.mp3" length="25620000" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>S1E02 模拟器的内存账本</title>
+      <guid>radio-bb-s1e02</guid>
+      <pubDate>Mon, 10 Aug 2026 06:00:00 GMT</pubDate>
+      <itunes:duration>29:33</itunes:duration>
+      <description>4.1GB 都花在哪里了？我们逐页算了算。</description>
+      <enclosure url="https://radio.blackboxbench.example/audio/s1e02.mp3" length="28310000" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>S1E01 为什么要复现一个 App</title>
+      <guid>radio-bb-s1e01</guid>
+      <pubDate>Mon, 03 Aug 2026 06:00:00 GMT</pubDate>
+      <itunes:duration>32:15</itunes:duration>
+      <description>从黑盒探索到像素级验收，一条完整的链路。</description>
+      <enclosure url="https://radio.blackboxbench.example/audio/s1e01.mp3" length="30920000" type="audio/mpeg"/>
+    </item>
+  </channel>
+</rss>

@@ -20,11 +20,25 @@ Examples:
     # same, but wait for everything and report exit codes
     scripts/launch_batch.py --wait eval vinyl sess_… vinyl.json
 
+    # web baseline instead of Android (4th token = condition)
+    scripts/launch_batch.py explore codex ecommerce_demo web
+
+    # web no-graph ablation (no discovery-recording tools)
+    scripts/launch_batch.py explore kimi ecommerce_demo web-nograph
+
 With ``--jobs FILE`` a JSON list of tasks may be used instead:
 
     [{"kind": "eval", "target": "vinyl",
       "handoff": "sess_…", "checklist": "vinyl.json"},
-     {"kind": "explore", "agent": "kimi", "target": "markor"}]
+     {"kind": "explore", "agent": "kimi", "target": "markor"},
+     {"kind": "explore", "agent": "codex", "target": "ecommerce_demo",
+      "condition": "web"}]
+
+Machine-local paths are resolved as follows (all overridable):
+    BBB_EXPLORE_CWD  agent cwd for explorations   (default: <repo>/../scratch/explore)
+    BBB_EVAL_CWD     agent cwd for evaluations    (default: <repo>/../scratch/review)
+    BBB_AGENT_<NAME> agent binary                 (default: PATH, then /home/dzj/bin)
+    BBB_EVAL_MODEL / BBB_EVAL_EFFORT              judge model / reasoning effort
 """
 from __future__ import annotations
 
@@ -32,6 +46,7 @@ import argparse
 import json
 import os
 import shlex
+import shutil
 import subprocess
 import sys
 import time
@@ -40,15 +55,58 @@ from datetime import datetime
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
-EXPLORE_CWD = Path("/storage/dzj/runs")
-EVAL_CWD = Path("/storage/dzj/review")
-LOG_DIR = Path("/tmp")
+# Working directories the agent CLIs are launched in (NOT the repo's evidence
+# `runs/`): keeping the agent's cwd outside the repository is part of the
+# isolation story. Defaults live under the workspace scratch dir the project
+# already owns (workspace = repo's parent, see benchmark/config.py SCRATCH_DIR);
+# override with BBB_EXPLORE_CWD / BBB_EVAL_CWD.
+_SCRATCH = Path(os.environ.get("BBB_SCRATCH_DIR", str(REPO.parent / "scratch")))
+EXPLORE_CWD = Path(os.environ.get("BBB_EXPLORE_CWD", str(_SCRATCH / "explore")))
+EVAL_CWD = Path(os.environ.get("BBB_EVAL_CWD", str(_SCRATCH / "review")))
+LOG_DIR = Path(os.environ.get("BBB_BATCH_LOG_DIR", "/tmp"))
+
+
+def _agent(name: str, *default_args: str) -> list[str]:
+    """Resolve an agent CLI: BBB_AGENT_<NAME> > PATH > legacy absolute path."""
+    exe = (os.environ.get(f"BBB_AGENT_{name.upper()}") or shutil.which(name)
+           or f"/home/dzj/bin/{name}")
+    return [exe, *default_args]
+
 
 AGENTS = {
-    "dsh": ["/home/dzj/bin/dsh", "--profile", "headless"],
-    "kimi": ["/home/dzj/.kimi-code/bin/kimi", "-p"],
-    "zcode": ["/home/dzj/bin/zcode", "--prompt"],
+    "dsh": _agent("dsh", "--profile", "headless"),
+    "kimi": _agent("kimi", "-p"),
+    "zcode": _agent("zcode", "--prompt"),
+    # codex 非交互式：与评测用的 codex exec 同形态，只是提示词换成探索 Skill
+    "codex": _agent("codex", "exec", "--skip-git-repo-check",
+                    "-s", "danger-full-access"),
 }
+
+# 各 CLI 引用 Skill 的语法不同（实测口径，见 launch_kimi_batch.sh /
+# launch_batch.py 历史版本）：dsh/codex/zcode 用 $skill，其余用 /skill。
+SKILL_PREFIX = {"dsh": "$", "codex": "$", "zcode": "$"}
+
+# 可选：探索阶段使用的模型（透传给支持 -m 的 CLI，如 codex）。
+EXPLORE_MODEL = os.environ.get("BBB_EXPLORE_MODEL", "")
+
+# Skill invoked per exploration condition (see agents/*/skill/*/SKILL.md).
+SKILLS = {
+    "android": "android-blackbox-explorer",   # Android baseline
+    "web": "blackbox-explorer",               # 网页 baseline
+    "nograph": "baseline-nograph",            # Android 消融（不要求记录）
+    "web-nograph": "web-nograph",             # 网页消融（不要求记录）
+}
+
+# 消融条件 → dsh 专用 profile（条件隔离：只挂各自消融版的 MCP）。
+_DSH_ABLATION_PROFILE = {
+    "nograph": "headless-nograph",
+    "web-nograph": "headless-web-nograph",
+}
+
+# Judge settings are pinned so every evaluation is comparable (see
+# docs/evaluation_contract.md §1.1 "评测模型唯一性").
+EVAL_MODEL = os.environ.get("BBB_EVAL_MODEL", "gpt-6-astra")
+EVAL_EFFORT = os.environ.get("BBB_EVAL_EFFORT", "xhigh")
 
 
 @dataclass
@@ -56,6 +114,7 @@ class Task:
     kind: str                    # "explore" | "eval"
     target: str
     agent: str = ""              # explore only
+    condition: str = "android"   # explore only: android | web | nograph
     handoff: str = ""            # eval only
     checklist: str = ""          # eval only
     name: str = ""
@@ -69,17 +128,34 @@ class Task:
             if self.agent not in AGENTS:
                 raise SystemExit(f"unknown agent '{self.agent}' "
                                  f"(known: {', '.join(AGENTS)})")
-            skill = f"/android-blackbox-explorer {self.target}"
-            if self.agent == "dsh":
-                skill = f"$android-blackbox-explorer {self.target}"
-            self.command = [*AGENTS[self.agent], skill]
+            skill_name = SKILLS.get(self.condition)
+            if skill_name is None:
+                raise SystemExit(f"unknown condition '{self.condition}' "
+                                 f"(known: {', '.join(SKILLS)})")
+            prefix = SKILL_PREFIX.get(self.agent, "/")
+            skill = f"{prefix}{skill_name} {self.target}"
+            self.command = [*AGENTS[self.agent]]
+            if EXPLORE_MODEL and self.agent in ("codex", "opencode", "zcode"):
+                self.command += ["-m", EXPLORE_MODEL]
+            self.command.append(skill)
+            # nograph / web-nograph 条件必须只挂各自消融版的 MCP（条件隔离）：
+            # 换成专用 profile —— 否则 agent 会拿到 baseline 的记录工具面 ✗
+            # （2026-09-27 实测：误连 baseline MCP，消融失效；
+            #   2026-09-29 起 web-nograph 使用 headless-web-nograph profile）。
+            if self.agent == "dsh" and self.condition in _DSH_ABLATION_PROFILE:
+                profile = _DSH_ABLATION_PROFILE[self.condition]
+                self.command = [profile if c == "headless" else c
+                                for c in self.command]
             self.cwd = EXPLORE_CWD
-            self.name = self.name or f"explore_{self.agent}_{self.target}"
+            suffix = "" if self.condition == "android" else f"_{self.condition}"
+            self.name = self.name or f"explore_{self.agent}_{self.target}{suffix}"
         else:
             prompt = (f"/app-review {self.target}（handoff_id={self.handoff}，"
                       f"checklist={self.checklist}）")
-            self.command = ["/home/dzj/bin/codex", "exec", "-m", "gpt-6-astra",
-                            "-c", "model_reasoning_effort=xhigh",
+            codex = (os.environ.get("BBB_AGENT_CODEX") or shutil.which("codex")
+                     or "/home/dzj/bin/codex")
+            self.command = [codex, "exec", "-m", EVAL_MODEL,
+                            "-c", f"model_reasoning_effort={EVAL_EFFORT}",
                             "--skip-git-repo-check", "-s",
                             "danger-full-access", prompt]
             self.cwd = EVAL_CWD
@@ -95,6 +171,28 @@ def launch(task: Task) -> None:
     env.pop("BBB_RUNS_DIR", None)
     env["NO_PROXY"] = "127.0.0.1,localhost"
     env.setdefault("DISPLAY", ":99")
+    # Strip CodeBuddy's safe-delete shims: when inherited from an IDE-derived
+    # shell they poison agent subprocesses (2026-09-30: the kimi MCP server
+    # crashed during the finalize handoff because a safe-bin rm wrapper broke
+    # its cleanup; a clean env reproduced a successful finalize immediately).
+    for _key in [k for k in env if k.startswith("CODEBUDDY")]:
+        env.pop(_key, None)
+    env.pop("NODE_OPTIONS", None)
+    env["PATH"] = os.pathsep.join(
+        part for part in env.get("PATH", "").split(os.pathsep)
+        if "codebuddy" not in part.lower() and "safe-bin" not in part.lower())
+    # zcode does NOT honour the generic HTTPS_PROXY (verified 2026-09-29 via a
+    # dead-port reverse test); its dedicated variable forces all API traffic
+    # through the local mihomo proxy. Direct connections repeatedly died with
+    # stream_idle_timeout during network turbulence (four aborted batches on
+    # 2026-09-29), so route zcode via the proxy. Override with BBB_ZCODE_PROXY.
+    if task.agent == "zcode":
+        # Direct connections are fastest and stable (verified 2026-09-30:
+        # api.z.ai direct = 401 in 0.24s vs 2.8s via the airport proxy; the
+        # earlier stream_idle_timeout storms were the laptop-tunnel era).
+        # Only set the dedicated proxy when explicitly requested.
+        if os.environ.get("BBB_ZCODE_PROXY"):
+            env["ZCODE_HTTP_PROXY"] = os.environ["BBB_ZCODE_PROXY"]
     inner = " ".join(shlex.quote(c) for c in task.command)
     with open(task.log, "wb") as fh:
         task.proc = subprocess.Popen(
@@ -117,7 +215,8 @@ def parse_tasks(args) -> list[Task]:
                                   checklist=item["checklist"]))
             elif kind in ("explore", "exploration"):
                 tasks.append(Task(kind="explore", target=item["target"],
-                                  agent=item["agent"]))
+                                  agent=item["agent"],
+                                  condition=item.get("condition", "android")))
             else:
                 raise SystemExit(f"unknown job kind: {kind!r}")
         return tasks
@@ -134,9 +233,18 @@ def parse_tasks(args) -> list[Task]:
                               checklist=tokens[i + 3]))
             i += 4
         elif kind == "explore":
+            if i + 2 >= len(tokens):
+                raise SystemExit("explore needs: AGENT TARGET [CONDITION]")
+            # Optional 4th token selects the condition; conditions are not task
+            # kinds, so the parse stays unambiguous.
+            condition = "android"
+            consumed = 3
+            if i + 3 < len(tokens) and tokens[i + 3] in SKILLS:
+                condition = tokens[i + 3]
+                consumed = 4
             tasks.append(Task(kind="explore", agent=tokens[i + 1],
-                              target=tokens[i + 2]))
-            i += 3
+                              target=tokens[i + 2], condition=condition))
+            i += consumed
         else:
             raise SystemExit(f"unknown task kind: {kind!r} "
                              "(expected 'eval' or 'explore')")
@@ -153,7 +261,7 @@ def main() -> int:
     ap.add_argument("--wait", action="store_true",
                     help="wait for all tasks and report exit codes")
     ap.add_argument("tasks", nargs="*",
-                    help="eval TARGET HANDOFF CHECKLIST | explore AGENT TARGET")
+                    help="eval TARGET HANDOFF CHECKLIST | explore AGENT TARGET [android|web|nograph]")
     args = ap.parse_args()
 
     tasks = parse_tasks(args)

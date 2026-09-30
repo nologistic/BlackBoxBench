@@ -54,6 +54,8 @@ _bound_target = ""     # normalized target key set by start_session
 _last_session = _session
 _reproduction: AppReproductionWorkspace | None = None
 _review: AndroidReproductionReview | None = None
+# 这一单是否已走完 finish：_shutdown 用它决定沙箱能不能销毁。
+_finished = False
 
 # Android session creation boots a fresh AVD clone, pins the guest
 # locale (which restarts the framework) and installs the APK, so the
@@ -121,6 +123,16 @@ def _ensure_session() -> None:
 
 def _shutdown() -> None:
     global _reproduction, _review
+    # 关键：生成阶段的沙箱**不能**在连接重置时销毁。
+    # close() = docker rm -f（还会删 handoff bundle），而客户端断连/重连是常态：
+    # 一旦销毁，落盘状态就成了指向死容器的废纸，新进程无法续接，agent 只能不停
+    # 新建工作区 —— 2026-09-25 实测由此堆出 5-11 个工作区并把自己拖死。
+    # 只要状态已落盘（= 这一单还没走完 finish），就保留沙箱，只丢弃内存引用，
+    # 让下一个进程静默 resume。
+    resumable = _reproduction is not None and not _finished
+    # （历史上这里还要求状态文件存在。2026-09-25 实测：排障时把状态文件暂时移走
+    # 会让这个条件误判为"不可续接"，于是 _shutdown 老老实实 close() 掉了沙箱，
+    # 正在跑的生成单直接失去容器。只要这一单还没走完 finish，沙箱就必须保留。）
     if _review is not None:
         try:
             _review.close()
@@ -129,6 +141,11 @@ def _shutdown() -> None:
         finally:
             _review = None
     if _reproduction is not None:
+        if resumable:
+            _log("reproduction sandbox kept alive for reconnect resume "
+                 f"(handoff={_reproduction.handoff_id})")
+            _reproduction = None
+            return
         try:
             _reproduction.close()
         except Exception as e:
@@ -174,18 +191,16 @@ def _post(path: str, payload: dict) -> tuple[dict | None, str | None]:
             msg = r.text[:200]
         if r.status_code in (404, 410):
             # session gone (controller restarted / failed / closed): the
-            # binding is dead weight — release it NOW and tell the agent the
-            # one-step recovery, or it flails (wait/list_targets loops).
+            # binding is dead weight — release it and hand back the fact.
+            # 平台只陈述事实，不给「下一步该做什么」的建议。
             _release_binding(f"{r.status_code} from agent channel")
-            return None, (f"HTTP {r.status_code}: {msg} —— 会话已失效且绑定已释放。"
-                          f"恢复方法: 调用 start_session(app_id 同前)"
-                          f"重建会话后继续探索。")
+            return None, f"HTTP {r.status_code}: {msg} — the exploration session is closed."
         if r.status_code == 409:
             # A recoverable environment blip. The device is still healthy, so
             # this is not a fault to report or work around — the step simply did
             # not land. Say so plainly, without inviting a strategy change.
-            return None, (f"{msg}。这一步没有生效，设备仍然正常；"
-                          f"直接重试同一操作即可继续。")
+            return None, (f"{msg}. This step did not land; the device is still healthy — "
+                          f"just retry the same action to carry on.")
         return None, f"HTTP {r.status_code}: {msg}"
     return r.json(), None
 
@@ -320,6 +335,14 @@ def _t_finalize(args: dict) -> dict:
         return _ok([_text({"exploration_finished": True,
                            **_reproduction.started_payload(),
                            "review": _review_payload()})])
+    # 重连后的新进程直接复用状态文件里的工作区（无参 = 本会话/唯一候选；
+    # 带 source_session = 只认那一单，绝不认领别人的工作区）：
+    # 否则新进程没有 _last_session，会误报"没有可定稿的探索会话"而让 agent
+    # 以为要重建探索会话（那会抢走审查的目标租约）。
+    if _try_reattach(str(args.get("source_session") or "").strip()):
+        return _ok([_text({"exploration_finished": True,
+                           **_reproduction.started_payload(),
+                           "review": _review_payload()})])
     # 显式材料源（2026-09-21 增）：探索中途重建过会话时，交接材料必须取自
     # 探索主会话而非当前续接会话——后者往往只有零星几帧（v4.1f nonogram
     # 曾因此产出 2 帧的贫瘠 handoff）。材料源会话必须已定稿（有 topology）。
@@ -335,11 +358,11 @@ def _t_finalize(args: dict) -> dict:
     if requested and requested != _session:
         run_dir_req = benchmark_config.RUNS_DIR / requested
         if not run_dir_req.is_dir():
-            return _err(f"source_session 目录不存在: {requested}")
+            return _err(f"source_session directory does not exist: {requested}")
         topo_req = run_dir_req / "functional_topology.json"
         if not topo_req.is_file():
-            return _err("source_session 无 functional_topology.json（探索未定稿），"
-                        "不能作为交接材料源；请先在该会话上完成探索定稿。")
+            return _err("source_session has no functional_topology.json (the exploration is not finalized), "
+                        "so it cannot serve as the handoff material source; finalize the exploration on that session first.")
         if _session:
             # 先结束当前（续接）会话，保持 finalize = 结束当前探索的语义
             _d, _err_text = _post("/finalize", {})
@@ -358,10 +381,10 @@ def _t_finalize(args: dict) -> dict:
             # is completing its own work while the MCP silently binds a
             # zero-exploration session, possibly on a different target. Refuse
             # and point at the recovery path instead.
-            return _err("没有可定稿的探索会话：原会话已失效或尚未开始，finalize 不会"
-                        "隐式新建会话。请先调用 start_session(app_id 同前) 重建会话、"
-                        "完成探索后再 finalize；若探索主会话已定稿，可用 "
-                        "finalize(source_session=<探索主会话 id>) 直接交接其材料。")
+            return _err("no exploration session to finalize: the original session is gone or none has started, and finalize will not "
+                        "implicitly create one. Call start_session(app_id as before) to rebuild it, "
+                        "finish the exploration and then finalize; if the main exploration session is already finalized, use "
+                        "finalize(source_session=<main exploration session id>) to hand over its material directly.")
         source_id = _session
         existing = (benchmark_config.RUNS_DIR / source_id /
                     "functional_topology.json") if source_id else None
@@ -374,6 +397,16 @@ def _t_finalize(args: dict) -> dict:
         else:
             d = {"topology_path": f"runs/{source_id}/functional_topology.json"}
             topology = existing
+    # 幂等：同一探索会话已完成交接、沙箱仍在跑时**直接复用**。客户端重连后 agent
+    # 会重发 finalize（它只知道自己丢了个响应），这里绝不新建第二个工作区 ——
+    # 2026-09-25 实测这种重发曾堆出 8 个工作区、6 个容器，最终把自己拖死。
+    if not os.environ.get("BBB_REPRODUCTION_NEW") and _load_repro_state(source_id):
+        if _try_reattach():
+            _log("finalize reused the live reproduction workspace (idempotent)")
+            return _ok([_text({**d, "exploration_finished": True,
+                               **_reproduction.started_payload(),
+                               "review": _review_payload(),
+                               "reused": True})])
     if os.environ.get("BBB_REPRODUCTION_AUTOSTART", "1") == "0":
         return _ok([_text({**d, "exploration_finished": True,
                            "reproduction_skipped": True})])
@@ -394,12 +427,270 @@ def _t_finalize(args: dict) -> dict:
     except Exception as exc:
         _log(f"reproduction handoff failed: {type(exc).__name__}: {exc}")
         return _err("exploration finalized but reproduction workspace failed to start; retry finalize")
+    _save_repro_state()
+    _start_prewarm()
     return _ok([_text({**d, "exploration_finished": True,
                        **_reproduction.started_payload(),
                        "review": _review_payload()})])
 
 
+# ------------------------------------------- 生成阶段状态持久化 / 静默续接
+# MCP server 与客户端连接同生共死：stdio 一断，进程就退出，客户端重连时拉起的是
+# 一个全新进程（内存态全丢）。把生成阶段状态落盘并让新进程自动续接，模型才不会
+# 看到 "available only after finalize starts reproduction" 这种内部状态丢失，
+# 也就不会陷入"重建工作区→重写代码→再试"的死循环（2026-09-25 实测）。
+_REPRO_STATE_NAME = "mcp_reproduction_state.json"
+
+
+def _state_path(session_id: str) -> Path:
+    return benchmark_config.RUNS_DIR / (session_id or "_unbound") / _REPRO_STATE_NAME
+
+
+def _state_paths() -> list[Path]:
+    runs = benchmark_config.RUNS_DIR
+    paths: list[Path] = []
+    if _session:
+        # 已知自己的会话：只认它，绝不跨会话兜底。
+        # 否则无参 finalize 的 re-attach 可能认领【别的单】的工作区 —— 两个 agent
+        # 同写一个复现工程并互相打断编译（2026-09-25 实测：tasks 的 agent 写进
+        # gallery 的工程，出现 Unresolved reference 'GalleryApp'）。
+        own = runs / _session / _REPRO_STATE_NAME
+        if own.is_file():
+            paths.append(own)
+        return paths
+    try:
+        others = sorted((p for p in runs.glob(f"*/{_REPRO_STATE_NAME}")),
+                        key=lambda p: p.stat().st_mtime, reverse=True)
+    except OSError:
+        others = []
+    # 未绑定会话（重连的新进程）：只有候选唯一时才允许兜底（单 run 场景）；
+    # 多单并行时绝不猜，让 agent 显式传 source_session。
+    if len(others) > 1:
+        _log(f"multiple reproduction states present ({len(others)}); "
+             "no cross-session fallback; pass source_session explicitly")
+        return []
+    return others
+    return paths
+
+
+def _load_repro_state(source_id: str = "") -> dict | None:
+    for path in _state_paths():
+        try:
+            state = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if source_id and state.get("source_id") != source_id:
+            continue
+        return state
+    return None
+
+
+def _save_repro_state() -> None:
+    """落盘生成阶段状态（含审查进度）；任何失败都吞掉，绝不影响工具行为。"""
+    if _reproduction is None:
+        return
+    try:
+        sid = _reproduction.source_id or _session
+        state = _reproduction.to_state()
+        state["review"] = {
+            "active": bool(_review is not None and _review.active),
+            "accepted": bool(_review is not None and _review.accepted),
+            "revisions": int(getattr(_review, "revision_count", 0) or 0),
+            "rounds": list(getattr(_review, "rounds", []) or []),
+            "last_revise_hash": str(getattr(_review, "_last_revise_hash", "") or ""),
+        }
+        state["updated_at"] = time.strftime("%Y-%m-%dT%H:%M:%S%z")
+        path = benchmark_config.RUNS_DIR / sid / _REPRO_STATE_NAME
+        path.parent.mkdir(parents=True, exist_ok=True)
+        tmp = path.with_name(path.name + ".tmp")
+        tmp.write_text(json.dumps(state, ensure_ascii=False, indent=2),
+                       encoding="utf-8")
+        tmp.replace(path)
+    except Exception as exc:
+        _log(f"reproduction state save failed: {type(exc).__name__}: {exc}")
+
+
+def _clear_repro_state(source_id: str = "") -> None:
+    """交接完成（finish）后删除状态文件，避免之后误续接一个已销毁的沙箱。"""
+    sid = source_id or _session
+    if not sid:
+        return
+    path = benchmark_config.RUNS_DIR / sid / _REPRO_STATE_NAME
+    try:
+        path.unlink(missing_ok=True)
+        path.with_name(path.name + ".tmp").unlink(missing_ok=True)
+    except Exception:
+        pass
+
+
+def _try_reattach(hint: str = "") -> bool:
+    """客户端重连后静默续接生成阶段（True = 已恢复，调用方无需报错）。
+
+    hint = 显式 source_session 时只认那一单的状态（多单并行时防止认领别人
+    的工作区：2026-09-25 实测 tasks 的 agent 写进 gallery 的工程）。
+    """
+    global _reproduction, _review, _session
+    if _reproduction is not None:
+        return True
+    state = _load_repro_state(source_id=hint or (_session or ""))
+    if not state:
+        return False
+    try:
+        workspace = AppReproductionWorkspace.resume_from_state(state)
+    except Exception as exc:
+        _log(f"reproduction re-attach unavailable: {type(exc).__name__}: {exc}")
+        return False
+    _reproduction = workspace
+    _finished = False   # 能 resume 就说明这一单还没走完
+    if not _session:
+        _session = workspace.source_id
+    info = state.get("review") or {}
+    try:
+        if info.get("active") or info.get("accepted"):
+            _review = AndroidReproductionReview(
+                workspace, max_revisions=_configured_review_revisions(),
+                require_write_evidence=False)
+            _review.revision_count = int(info.get("revisions") or 0)
+            _review.rounds = list(info.get("rounds") or [])
+            _review._last_revise_hash = str(info.get("last_revise_hash") or "")
+            if info.get("accepted"):
+                _review.accepted = True
+                # 必须连验收指纹一起恢复：review.ensure_accepted() 会拿
+                # self._accepted_hash 与当前 project_fingerprint() 比对，空值会让
+                # finish_reproduction 永远报 "Android project changed after
+                # acceptance"（2026-09-25 在 ad546b 上实测，重连后必现）。
+                _review._accepted_hash = str(
+                    state.get("accepted_project_hash") or "")
+            else:
+                _review.resume_active_round()
+    except Exception as exc:
+        _log(f"review re-attach failed: {type(exc).__name__}: {exc}")
+        _review = None
+    _log(f"reproduction re-attached silently: handoff={workspace.handoff_id}")
+    if _review is None:
+        _start_prewarm()   # 新进程同样把审查设备提前热起来
+    return True
+
+
+# ------------------------------------------------------------ 生成阶段后台预热
+# finalize 一结束就后台把"审查要用到的东西"备好：预构建 APK（顺带把沙箱里的
+# gradle 缓存焐热）+ 预启动审查设备。这样 agent 真正调
+# start_reproduction_review 时几乎是瞬时的 —— 客户端对单次 tools/call 只有
+# 1-2 分钟容忍度，超时就会放弃调用并重置连接（agent 只看到 "Connection closed"，
+# 2026-09-25 实测死循环的最后一环）。预热失败不影响正确性，只是回到原来的耗时。
+_prewarm: dict[str, object] = {}
+_prewarm_lock = threading.Lock()
+_prewarm_started = False
+_prewarm_thread: threading.Thread | None = None
+
+
+def _start_prewarm() -> None:
+    """后台预热（幂等、对模型完全无感、任何失败只写日志）。"""
+    global _prewarm_started, _prewarm_thread
+    if os.environ.get("BBB_REPRODUCTION_PREWARM", "1") == "0":
+        return
+    with _prewarm_lock:
+        if _prewarm_started or _reproduction is None or _review is not None:
+            return
+        _prewarm_started = True
+        _prewarm["pending"] = True
+        workspace = _reproduction
+
+    def _work() -> None:
+        try:
+            try:
+                build = workspace.build_apk()
+                with _prewarm_lock:
+                    _prewarm["build"] = build
+                    _prewarm["fingerprint"] = workspace.project_fingerprint()
+                _log("prewarm: build ready")
+            except Exception as exc:
+                _log(f"prewarm build failed: {type(exc).__name__}: {exc}")
+            try:
+                review = AndroidReproductionReview(
+                    workspace, max_revisions=_configured_review_revisions(),
+                    require_write_evidence=False)
+                number = len(review.rounds) + 1
+                directory = (workspace.review_dir / f"round_{number:02d}"
+                             / "runtime")
+                runtime = None
+                # 重连时可能残留着上一代 MCP 进程的 boot：租约/端口争用会让
+                # 第一次失败（10s mutex 超时之类），退避后重试一次即可。
+                for attempt in (1, 2):
+                    try:
+                        runtime = review.runtime_factory(review._spec(),
+                                                         directory)
+                        runtime.start()
+                        break
+                    except BaseException as exc:
+                        import traceback as _tb
+                        _log(f"prewarm runtime attempt {attempt} failed: "
+                             + _tb.format_exc())
+                        try:
+                            runtime.stop()          # type: ignore[union-attr]
+                        except Exception:
+                            pass
+                        runtime = None
+                        if attempt == 1:
+                            time.sleep(15)
+                if runtime is None:
+                    raise RuntimeError("prewarm runtime failed twice")
+                with _prewarm_lock:
+                    _prewarm["runtime"] = runtime
+                _log("prewarm: review runtime ready")
+            except BaseException:   # BaseException: 别让任何异常静默消失
+                import traceback as _tb
+                try:
+                    _log("prewarm runtime failed: " + _tb.format_exc())
+                except Exception:
+                    pass
+        finally:
+            with _prewarm_lock:
+                _prewarm["pending"] = False
+
+    _prewarm_thread = threading.Thread(target=_work, name="repro-prewarm",
+                                       daemon=True)
+    _prewarm_thread.start()
+
+
+def _await_prewarm(timeout: float = 180.0) -> None:
+    """等后台预热把设备备好（有界）。
+
+    必须等：预热线程正在起审查设备时，主线程若再起一台，两次 boot 会在同一
+    进程内抢目标租约 —— `_pid_mutex` 把"自己的 pid"判为活锁，谁也过不去，
+    直到 10s 超时报 `Android target lease mutex timed out`（2026-09-25 实测）。
+    所以这里只等、不重起；等不到就让调用方走"稍后重试"的软失败。
+    """
+    th = _prewarm_thread
+    if th is None:
+        return
+    th.join(max(0.0, timeout))
+
+
+def _prewarm_still_booting() -> bool:
+    with _prewarm_lock:
+        return bool(_prewarm.get("pending")) and _prewarm.get("runtime") is None
+
+
+def _adopt_prewarm(review: "AndroidReproductionReview") -> None:
+    """把预热产物交给 review 对象；没有预热就正常走，不影响正确性。"""
+    with _prewarm_lock:
+        runtime = _prewarm.pop("runtime", None)
+        build = _prewarm.pop("build", None)
+        fingerprint = _prewarm.pop("fingerprint", "")
+    if runtime is not None:
+        review.warm_runtime = runtime
+        _log("prewarm adopted: review runtime")
+    if build is not None:
+        review.warm_build = build
+        review.warm_fingerprint = str(fingerprint or "")
+        _log("prewarm adopted: build result")
+
+
 def _require_reproduction() -> AppReproductionWorkspace:
+    global _reproduction
+    if _reproduction is None:
+        _try_reattach()
     if _reproduction is None:
         raise ValueError("available only after finalize starts reproduction")
     return _reproduction
@@ -412,9 +703,13 @@ def _require_reproduction() -> AppReproductionWorkspace:
 # anchored to /workspace, so every /materials/* request was path-rejected
 # (observed on the 2026-09-10 organic_maps reproduction: the agent had to
 # draw the map from prior knowledge instead of reading the POI pack). This
-# restores the intended fairness: materials are a shared baseline, while the
-# exploration evidence (/exploration, topology) stays our-method-only — that
-# difference IS the experimental condition.
+# restores the intended fairness: materials are a shared baseline. The
+# channel was then widened so the reproduction stage can also consume the
+# exploration's own evidence — /exploration (the privacy-filtered handoff
+# bundle) and the finalized functional topology at
+# /input/functional_topology.json. Recording the exploration and reading it
+# back during reproduction is the point of the condition; an evidence trail
+# nobody can reopen is only overhead.
 _INPUT_MAX_READ = 2 * 1024 * 1024
 
 
@@ -431,15 +726,24 @@ def _material_roots() -> dict[str, Path]:
 
 def _resolve_input_host(path_value: object,
                         rep: AppReproductionWorkspace) -> Path:
-    """Map a whitelisted sandbox materials path to its host-side file.
+    """Map a whitelisted sandbox input path to its host-side file.
 
-    Baseline may read /materials only: /exploration and the finalized
-    topology are the our-method evidence channel and stay closed here.
+    Allowed roots: /exploration (handoff bundle), /materials (public
+    synthetic assets), /input/functional_topology.json (finalized topology).
+    Everything else — including /workspace output and any traversal — is
+    rejected, so output-directory path rules stay untouched.
     """
     raw = str(path_value or "").replace("\\", "/")
     candidate = PurePosixPath(raw)
     if candidate.is_absolute() and ".." not in candidate.parts:
         parts = candidate.parts[1:]
+        if parts[:1] == ("exploration",) and len(parts) >= 2:
+            root = rep.artifact_dir
+            if root is None:
+                raise ValueError("/exploration is not available")
+            host = root.joinpath(*parts[1:])
+            host.resolve().relative_to(Path(root).resolve())
+            return host
         if parts[:1] == ("materials",) and len(parts) >= 2:
             roots = _material_roots()
             root = roots.get(parts[1])
@@ -449,17 +753,44 @@ def _resolve_input_host(path_value: object,
             host = root.joinpath(*parts[2:])
             host.resolve().relative_to(root)
             return host
-    raise ValueError("input path must be under /materials/")
+        if parts == ("input", "functional_topology.json"):
+            if rep.topology_path is None:
+                raise ValueError(
+                    "/input/functional_topology.json is not available")
+            return Path(rep.topology_path)
+    raise ValueError(
+        "input path must be under /exploration/, /materials/, or "
+        "/input/functional_topology.json")
 
 
 def _t_input_list(args: dict) -> dict:
     rep = _require_reproduction()
-    raw = str(args.get("path", "/materials")).replace("\\", "/")
-    if raw.rstrip("/") == "/materials":
-        entries = [{"name": name, "dir": True, "bytes": None}
-                   for name in sorted(_material_roots())]
+    raw = str(args.get("path", "/exploration")).replace("\\", "/")
+    # list only whole whitelisted roots or directories below them
+    if raw.rstrip("/") in ("/exploration", "/materials", "/input"):
+        if raw.rstrip("/") == "/input":
+            # never list the session directory that hosts the topology
+            # file — expose exactly the whitelisted file itself.
+            entries = []
+            if rep.topology_path is not None:
+                entries.append({"name": "functional_topology.json",
+                                "dir": False,
+                                "bytes": Path(rep.topology_path).stat().st_size})
+            return _ok([_text({"path": raw, "entries": entries})])
+        if raw.rstrip("/") == "/materials":
+            entries = [{"name": name, "dir": True, "bytes": None}
+                       for name in sorted(_material_roots())]
+            return _ok([_text({"path": raw, "entries": entries})])
+        host_root = rep.artifact_dir
+        if host_root is None or not host_root.is_dir():
+            return _ok([_text({"path": raw, "entries": []})])
+        entries = []
+        for child in sorted(host_root.iterdir()):
+            entries.append({"name": child.name, "dir": child.is_dir(),
+                            "bytes": child.stat().st_size if child.is_file() else None})
         return _ok([_text({"path": raw, "entries": entries})])
-    target = _resolve_input_host(raw, rep)
+    # directory listing below /exploration or /materials
+    target = _resolve_input_host(raw if "/" in raw[1:] else "/" + raw, rep)
     if not target.is_dir():
         raise ValueError("not a directory")
     entries = []
@@ -549,10 +880,17 @@ def _t_start_reproduction_review(args: dict) -> dict:
     global _review
     workspace = _require_reproduction()
     if _review is None:
+        _await_prewarm()   # 等后台把设备起好；绝不在预热中途再起一台（会同进程抢租约）
+        if _prewarm_still_booting():
+            raise RuntimeError("the review device is not ready yet (background prewarm unfinished).")
         _review = AndroidReproductionReview(
             workspace, max_revisions=_configured_review_revisions(),
             require_write_evidence=False)
+        _adopt_prewarm(_review)
     png, meta = _review.start_round()
+    _log(f"review start_round returned {len(png)} bytes")
+    _save_repro_state()
+    _log("review state saved")
     return _ok([
         _image_item(base64.b64encode(png).decode("ascii")),
         _text(meta),
@@ -575,21 +913,26 @@ def _t_review_action(args: dict) -> dict:
 
 
 def _t_complete_reproduction_review(args: dict) -> dict:
-    return _ok([_text(_require_review().complete_round(
+    result = _require_review().complete_round(
         decision=args.get("decision"),
         checked_flows=args.get("checked_flows"),
-        findings=args.get("findings")))])
+        findings=args.get("findings"))
+    _save_repro_state()
+    return _ok([_text(result)])
 
 
 def _t_finish_reproduction(_args: dict) -> dict:
-    global _reproduction, _review
+    global _reproduction, _review, _finished
     workspace = _require_reproduction()
     review = _require_review()
     review.ensure_accepted()
+    source_id = workspace.source_id
     result = workspace.finish(review_summary=review.summary())
     review.close()
     _review = None
     _reproduction = None
+    _finished = True   # 走完了：之后 _shutdown 才允许销毁沙箱
+    _clear_repro_state(source_id)
     return _ok([_text(result)])
 
 
@@ -601,14 +944,14 @@ def _t_list_targets(_args: dict) -> dict:
         r.raise_for_status()
         apps = r.json()
     except Exception as e:
-        return _err(f"无法获取目标列表: {e}")
+        return _err(f"failed to fetch the target list: {e}")
     return _ok([_text({
         "default_target": _app_id,
         "registered": apps,
         "current_session": _session or None,
         "mcp_server": {"version": SERVER_VERSION,
                        "started_at": SERVER_STARTED_AT},
-        "adhoc": "用 scripts/android_target.py register 注册用户提供的本地 APK。",
+        "adhoc": "register a user-provided local APK with scripts/android_target.py register.",
     })])
 
 
@@ -638,20 +981,20 @@ def _t_start_session(args: dict) -> dict:
     global _session, _own_session, _bound_target
     app_id = (args.get("app_id") or "").strip()
     if not app_id:
-        return _err("需要已注册的 Android app_id")
+        return _err("a registered Android app_id is required")
     try:
         get_android_target(app_id)
     except KeyError:
-        return _err(f"未知 Android app_id: {app_id}")
+        return _err(f"unknown Android app_id: {app_id}")
     key = f"app:{app_id}"
     resume_from = (args.get("resume_from", "") or "").strip()
     if _session:
         if _bound_session_running():
             if _bound_target == key:
                 return _ok([_text({"session_id": _session, "target": key,
-                                   "note": "已是当前目标,继续探索即可"})])
-            return _err(f"当前对话已绑定会话 {_session}({_bound_target})。"
-                        f"更换目标请先 finalize 结束它,或新开一个对话。")
+                                   "note": "already the current target; just continue exploring"})])
+            return _err(f"this conversation is already bound to session {_session} ({_bound_target}). "
+                        f"To change targets, finalize it first or open a new conversation.")
         # bound session died or was closed externally — release and rebind
         # instead of bricking the conversation (finalize is impossible then)
         _release_binding("session no longer running")
@@ -662,7 +1005,7 @@ def _t_start_session(args: dict) -> dict:
         try:
             _ensure_controller()
         except Exception as e:
-            return _err(f"controller 启动失败: {e}")
+            return _err(f"controller failed to start: {e}")
         try:
             r = _http.post(f"{_controller}/api/sessions/{resume_from}/reopen")
         except Exception as e:
@@ -674,16 +1017,16 @@ def _t_start_session(args: dict) -> dict:
             _bound_target = f"app:{body.get('app_id', app_id)}"
             _log(f"session reopened: {_session} (app={_bound_target})")
             return _ok([_text({"session_id": _session, "target": _bound_target,
-                               "note": "已恢复之前的探索会话,拓扑和发现记录完好,继续探索即可"})])
+                               "note": "previous exploration session restored; topology and recorded findings intact — just continue exploring"})])
         try:
             msg = r.json().get("detail", r.text[:300])
         except Exception:
             msg = r.text[:300]
-        return _err(f"恢复会话失败 HTTP {r.status_code}: {msg}")
+        return _err(f"session restore failed HTTP {r.status_code}: {msg}")
     try:
         _ensure_controller()
     except Exception as e:
-        return _err(f"controller 启动失败: {e}")
+        return _err(f"controller failed to start: {e}")
     payload = {"budget": _budget_payload()}
     payload["app_id"] = app_id
     try:
@@ -696,7 +1039,7 @@ def _t_start_session(args: dict) -> dict:
         except Exception:
             msg = r.text[:300]
         # precheck 失败(如抖音未登录)的指引会随这里带给用户
-        return _err(f"会话创建失败 HTTP {r.status_code}: {msg}")
+        return _err(f"session creation failed HTTP {r.status_code}: {msg}")
     body = r.json()
     _session = body["session_id"]
     _own_session = True
@@ -708,17 +1051,17 @@ def _t_start_session(args: dict) -> dict:
 
 
 _ACTION_PROPS = {
-    "x": {"type": "integer", "description": "当前截图中的像素横坐标"},
-    "y": {"type": "integer", "description": "当前截图中的像素纵坐标"},
+    "x": {"type": "integer", "description": "pixel x-coordinate on the current screenshot"},
+    "y": {"type": "integer", "description": "pixel y-coordinate on the current screenshot"},
     "x1": {"type": "integer"}, "y1": {"type": "integer"},
     "x2": {"type": "integer"}, "y2": {"type": "integer"},
     "duration_ms": {"type": "integer"},
     "text": {"type": "string"},
-    "key": {"type": "string", "description": "Enter/Tab/Escape/Backspace/F5/BrowserBack/BrowserForward/ArrowDown/单字符"},
+    "key": {"type": "string", "description": "Enter/Tab/Escape/Backspace/F5/BrowserBack/BrowserForward/ArrowDown/single char"},
     "dx": {"type": "integer"}, "dy": {"type": "integer"},
     "ms": {"type": "integer"},
     "tab_index": {"type": "integer",
-                  "description": "标签页索引(0起,按打开顺序;回执 tabs 字段有 count/active)"},
+                  "description": "tab index (0-based, in opening order; the reply's tabs field has count/active)"},
 }
 
 
@@ -742,18 +1085,18 @@ def _register(schema: dict, handler) -> None:
 
 
 _register({"name": "observe",
-           "description": "获取 Android App 当前可见截图和预算。这是唯一观察通道；没有控件树、selector、ADB、日志或网络数据。",
+           "description": "Get the Android app's current visible screenshot and budget. This is the only observation channel; no view hierarchy, selector, ADB, logs, or network data.",
            "inputSchema": {"type": "object", "properties": {}}}, _t_observe)
 
 _register({"name": "list_targets",
-           "description": "列出可探索的本地 Android APK 目标及默认目标。",
+           "description": "List explorable local Android APK targets and the default target.",
            "inputSchema": {"type": "object", "properties": {}}}, _t_list_targets)
 
 _register({"name": "start_session",
-           "description": "选择已注册的 Android app_id 并启动独立模拟器会话；一个对话绑定一个目标。",
+           "description": "Select a registered Android app_id and start an isolated emulator session; one conversation binds one target.",
            "inputSchema": {"type": "object", "properties": {
-               "app_id": {"type": "string", "description": "已注册 Android 目标 id"},
-               "resume_from": {"type": "string", "description": "恢复之前的会话 ID（限额中断后继续）"}},
+               "app_id": {"type": "string", "description": "registered Android target id"},
+               "resume_from": {"type": "string", "description": "session ID to resume (continue after a quota interruption)"}},
                "required": ["app_id"]}},
           _t_start_session)
 
@@ -764,19 +1107,19 @@ def _make_action_handler(name: str):
 
 
 for _n, _req, _d in [
-    ("tap", ["x", "y"], "轻触当前截图中的像素坐标"),
-    ("long_press", ["x", "y"], "长按坐标；可选 duration_ms"),
-    ("swipe", ["x1", "y1", "x2", "y2"], "从起点滑动到终点；可选 duration_ms"),
-    ("type_text", ["text"], "向当前已聚焦输入框输入一行文本"),
-    ("press_back", [], "按 Android 返回键"),
-    ("press_enter", [], "按 Android 确认键"),
-    ("restart_app", [], "重启目标 App 以验证冷启动或持久化状态"),
-    ("wait", ["ms"], "等待毫秒"),
+    ("tap", ["x", "y"], "tap the pixel coordinates on the current screenshot"),
+    ("long_press", ["x", "y"], "long-press coordinates; optional duration_ms"),
+    ("swipe", ["x1", "y1", "x2", "y2"], "swipe from the start point to the end point; optional duration_ms"),
+    ("type_text", ["text"], "type one line of text into the currently focused input field"),
+    ("press_back", [], "press the Android back key"),
+    ("press_enter", [], "press the Android enter key"),
+    ("restart_app", [], "restart the target app to verify cold start or persisted state"),
+    ("wait", ["ms"], "wait milliseconds"),
 ]:
     _register(_action_tool(_n, _req, _d), _make_action_handler(_n))
 
 _register({"name": "record_state",
-           "description": "记录发现的 UI 状态。visual_evidence 为当前 frame_id 列表。",
+           "description": "Record a discovered UI state. visual_evidence is a list of current frame_ids.",
            "inputSchema": {"type": "object", "properties": {
                "name": {"type": "string"}, "description": {"type": "string"},
                "visual_evidence": {"type": "array", "items": {"type": "integer"}},
@@ -786,42 +1129,42 @@ _register({"name": "record_state",
           _t_discovery("/discovery/state"))
 
 _register({"name": "record_feature",
-           "description": "记录发现的功能(可观察行为契约)。evidence 每项必须含 step/before_frame/after_frame 三个整数，直接照抄动作返回的 step/before_frame/frame_id；action 可选。示例：{\"evidence\":[{\"step\":3,\"before_frame\":5,\"after_frame\":6,\"action\":\"tap(540,1467)\"}]}。",
+           "description": "Record a discovered feature (observable behavior contract). Each evidence item must contain the integers step/before_frame/after_frame, copied directly from the action response's step/before_frame/frame_id; action is optional. Example: {\"evidence\":[{\"step\":3,\"before_frame\":5,\"after_frame\":6,\"action\":\"tap(540,1467)\"}]}。",
            "inputSchema": {"type": "object", "properties": {
                "name": {"type": "string"}, "description": {"type": "string"},
                "behavior": {"type": "object", "properties": {
                    "preconditions": {"type": "array", "items": {"type": "string"}},
-                   "trigger": {"type": "object", "description": "触发方式，如 {\"type\": \"tap\", \"target\": \"登录按钮\"}（各字段均可选）"},
+                   "trigger": {"type": "object", "description": "how it triggers, e.g. {\"type\": \"tap\", \"target\": \"login button\"} (all fields optional)"},
                    "postconditions": {"type": "array", "items": {"type": "string"}},
                    "persistent_effects": {"type": "array", "items": {"type": "string"}}},
-                   "description": "可观察行为契约；各字段均可选"},
+                   "description": "observable behavior contract; all fields optional"},
                "evidence": {"type": "array", "items": {"type": "object", "properties": {
                    "step": {"type": "integer"},
                    "before_frame": {"type": "integer"},
                    "after_frame": {"type": "integer"},
-                   "action": {"type": "string", "description": "可选：动作的人读描述"}},
+                   "action": {"type": "string", "description": "optional: human-readable description of the action"}},
                    "required": ["step", "before_frame", "after_frame"]}},
                "confidence": {"type": "number"},
                "status": {"type": "string"}}, "required": ["name"]}},
           _t_discovery("/discovery/feature"))
 
 _register({"name": "record_data",
-           "description": "记录持久化数据实体(如 Cart/Order/Session)。",
+           "description": "Record a persistent data entity (e.g. Cart/Order/Session).",
            "inputSchema": {"type": "object", "properties": {
                "name": {"type": "string"}, "description": {"type": "string"},
                "confidence": {"type": "number"}}, "required": ["name"]}},
           _t_discovery("/discovery/data"))
 
 _register({"name": "record_edge",
-           "description": "记录节点间关系。type: REQUIRES|TRANSITIONS_TO|MUTATES|ENABLES|DISABLES|PERSISTS_TO|REVEALS|DEPENDS_ON|CONFLICTS_WITH|VALIDATES",
+           "description": "Record a relation between nodes. type: REQUIRES|TRANSITIONS_TO|MUTATES|ENABLES|DISABLES|PERSISTS_TO|REVEALS|DEPENDS_ON|CONFLICTS_WITH|VALIDATES",
            "inputSchema": {"type": "object", "properties": {
                "source": {"type": "string"}, "target": {"type": "string"},
                "type": {"type": "string"},
                "evidence": {"type": "array", "items": {"type": "object", "properties": {
-                   "step": {"type": "integer", "description": "动作序号（照抄动作返回的 step）"},
-                   "before_frame": {"type": "integer", "description": "动作前帧（照抄动作返回的 before_frame）"},
-                   "after_frame": {"type": "integer", "description": "动作后帧（照抄动作返回的 frame_id）"},
-                   "action": {"type": "string", "description": "可选：动作的人读描述"}},
+                   "step": {"type": "integer", "description": "action sequence number (copy the step from the action response)"},
+                   "before_frame": {"type": "integer", "description": "frame before the action (copy before_frame from the action response)"},
+                   "after_frame": {"type": "integer", "description": "frame after the action (copy frame_id from the action response)"},
+                   "action": {"type": "string", "description": "optional: human-readable description of the action"}},
                    "required": ["step", "before_frame", "after_frame"]}},
                "confidence": {"type": "number"},
                "status": {"type": "string"},
@@ -830,7 +1173,7 @@ _register({"name": "record_edge",
           _t_discovery("/discovery/edge"))
 
 _register({"name": "record_hypothesis",
-           "description": "登记未验证的猜测与下一步探针。",
+           "description": "Register an unverified guess and the next probe.",
            "inputSchema": {"type": "object", "properties": {
                "statement": {"type": "string"},
                "next_probe": {"type": "string"},
@@ -839,22 +1182,22 @@ _register({"name": "record_hypothesis",
           _t_discovery("/discovery/hypothesis"))
 
 _register({"name": "resolve_hypothesis",
-           "description": "用新证据裁决假设: confirmed|rejected|uncertain。",
+           "description": "Resolve a hypothesis with new evidence: confirmed|rejected|uncertain.",
            "inputSchema": {"type": "object", "properties": {
                "hypothesis_id": {"type": "string"},
                "status": {"type": "string"},
                "note": {"type": "string"},
                "evidence": {"type": "array", "items": {"type": "object", "properties": {
-                   "step": {"type": "integer", "description": "动作序号（照抄动作返回的 step）"},
-                   "before_frame": {"type": "integer", "description": "动作前帧（照抄动作返回的 before_frame）"},
-                   "after_frame": {"type": "integer", "description": "动作后帧（照抄动作返回的 frame_id）"},
-                   "action": {"type": "string", "description": "可选：动作的人读描述"}},
+                   "step": {"type": "integer", "description": "action sequence number (copy the step from the action response)"},
+                   "before_frame": {"type": "integer", "description": "frame before the action (copy before_frame from the action response)"},
+                   "after_frame": {"type": "integer", "description": "frame after the action (copy frame_id from the action response)"},
+                   "action": {"type": "string", "description": "optional: human-readable description of the action"}},
                    "required": ["step", "before_frame", "after_frame"]}}},
                "required": ["hypothesis_id", "status"]}},
           lambda a: _t_discovery(f"/discovery/hypothesis/{a.pop('hypothesis_id')}/resolve")(a))
 
 _register({"name": "revise",
-           "description": "修订已记录的节点: op=update|merge|delete。",
+           "description": "Revise a recorded node: op=update|merge|delete.",
            "inputSchema": {"type": "object", "properties": {
                "target_kind": {"type": "string"},
                "id": {"type": "string"}, "op": {"type": "string"},
@@ -879,67 +1222,81 @@ def _revise(a: dict) -> dict:
 
 
 _register({"name": "finalize",
-           "description": "完成真实 Android 探索、定稿功能拓扑并立即启动隔离 APK 复现阶段。"
-                          "若探索中途重建过会话，必须用 source_session 指向探索主会话，"
-                          "否则交接材料将取自零星的续接会话。",
+           "description": "Finish the real Android exploration, finalize the functional topology, and immediately start the isolated APK reproduction stage. "
+                          "If the session was rebuilt mid-exploration, you must point source_session at the main exploration session, "
+                          "or the handoff material will be taken from the sparse continuation session.",
            "inputSchema": {"type": "object", "properties": {
                "source_session": {
                    "type": "string",
-                   "description": "探索主会话 id（sess_...，需已定稿）。仅当当前绑定"
-                                  "会话不是探索主会话时需要指定。"}}}}, _t_finalize)
+                   "description": "main exploration session id (sess_..., must be finalized). Only needed when the currently bound "
+                                  "session is not the main exploration session."}}}}, _t_finalize)
 
 _register({"name": "input_list",
-           "description": "仅在 finalize 后列出 /materials 下的公共素材"
-                          "（common/mobile/app，含目标专属补充素材包）。",
+           "description": "List input files (only after finalize): /exploration exploration handoff bundle "
+                          "(default; contains the topology summary, privacy-filtered screenshots, coverage report), "
+                          "/materials public materials (common/mobile/app, including the target-specific "
+                          "supplement pack), /input the finalized functional topology.",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string",
-                        "description": "如 /materials、/materials/app"}}}},
+                        "description": "e.g. /exploration, /input, /materials, "
+                                       "/materials/app (defaults to listing /exploration)"}}}},
           _t_input_list)
 
 _register({"name": "input_read",
-           "description": "仅在 finalize 后读取 /materials 素材中的文件"
-                          "（PNG 返回图像，其余返回文本）。"
-                          "路径必须在 /materials/ 之下。",
+           "description": "Read input files (only after finalize; PNG returns an image, everything else returns text): "
+                          "/input/functional_topology.json the finalized functional topology (reproduction blueprint), "
+                          "/exploration the handoff bundle (functional_topology.md, screenshots/, "
+                          "coverage_report.json), /materials public materials.",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string",
-                        "description": "如 /materials/app/CATALOG.md、"
-                                       "/materials/app/data.json"}},
+                        "description": "e.g. /input/functional_topology.json, "
+                                       "/exploration/functional_topology.md、"
+                                       "/materials/app/CATALOG.md"}},
                "required": ["path"]}},
           _t_input_read)
 
 _register({"name": "workspace_list",
-           "description": "仅在 finalize 后列出复现输出工作区中的文件。",
+           "description": "List files in the reproduction output workspace (only after finalize).",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string"}}}}, _t_workspace_list)
 
 _register({"name": "workspace_read",
-           "description": "仅在 finalize 后读取复现输出中的文本或 PNG/JPEG。",
+           "description": "Read text or PNG/JPEG from the reproduction output (only after finalize).",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string"}}, "required": ["path"]}},
           _t_workspace_read)
 
 _register({"name": "workspace_write",
-           "description": "仅在 finalize 后写入复现输出工作区。",
+           "description": "Write into the reproduction output workspace (only after finalize). "
+                          "[Flow constraint] While a review round is in progress (start_reproduction_review called and "
+                          "complete_reproduction_review not yet called), you must not edit code: review_observe "
+                          "first, then complete (accept or revise) to close the round. "
+                          "After this run's finish, the workspace tools are no longer available.",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string"}, "content": {"type": "string"}},
                "required": ["path", "content"]}}, _t_workspace_write)
 
 _register({"name": "workspace_patch",
-           "description": "仅在 finalize 后对复现输出中的已有文件做精确搜索-替换编辑"
-                          "（修改少量代码时优先用它，避免整文件 workspace_write 重写）。"
-                          "old_text 必须与文件内容完全一致且全文件唯一，否则报错；"
-                          "new_text 传空串表示删除该片段。",
+           "description": "Precise search-and-replace edit of an existing file in the reproduction output"
+                          " (prefer it for small code changes over a full workspace_write)."
+                          "old_text must match the file content exactly and be unique in the file, or it errors;"
+                          "an empty new_text deletes that fragment. "
+                          "[Flow constraint] you cannot edit code while a review round is in progress (review_observe first → "
+                          "complete_reproduction_review to close the round); unavailable after finish.",
            "inputSchema": {"type": "object", "properties": {
                "path": {"type": "string"},
                "old_text": {"type": "string",
-                            "description": "要被替换的原文（含足够上下文以保证唯一）"},
+                            "description": "the text to replace (include enough context to make it unique)"},
                "new_text": {"type": "string",
-                            "description": "替换后的文本；空串表示删除"}},
+                            "description": "the replacement text; an empty string deletes it"}},
                "required": ["path", "old_text", "new_text"]}},
           _t_workspace_patch)
 
 _register({"name": "workspace_run",
-           "description": "仅在 finalize 后于无网络 Android 复现沙箱运行程序；可用 gradle --offline assembleDebug 构建。",
+           "description": "Run programs in the offline Android reproduction sandbox (only after finalize); build with gradle --offline assembleDebug. "
+                          "[Flow constraint] you cannot build while a review round is in progress: review_observe first → "
+                          "complete_reproduction_review (accept/revise) to close the round before building; "
+                          "unavailable after finish.",
            "inputSchema": {"type": "object", "properties": {
                "argv": {"type": "array", "items": {"type": "string"}},
                "cwd": {"type": "string"},
@@ -955,30 +1312,38 @@ def _make_review_action_handler(name: str):
 
 
 _register({"name": "start_reproduction_review",
-           "description": "离线构建 APK，安装到独立 review 模拟器并启动像素级复验。",
+           "description": "Build the APK offline, install it onto an isolated review emulator, and start the pixel-level re-check. "
+                          "The device is prewarmed in the background after finalize; once ready it returns the first frame in about 1 second (if it says "
+                          "'still prewarming', wait a few seconds and retry). "
+                          "[Flow constraint] (1) Do not start twice in the same round: first close the current round (review_observe "
+                          "first → complete_reproduction_review). (2) If the previous round's decision=revise, "
+                          "you must first actually change the code with workspace_write/workspace_patch before calling this tool "
+                          "(otherwise it is rejected: Android project did not change after revise decision).",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_start_reproduction_review)
 
 _register({"name": "review_observe",
-           "description": "获取复现 APK 当前可见截图；不提供控件树、ADB、日志或网络语义。",
+           "description": "Get the reproduction APK's current visible screenshot; no view hierarchy, ADB, logs, or network semantics.",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_review_observe)
 
 for _n, _req, _d in [
-    ("tap", ["x", "y"], "轻触复现 App 坐标"),
-    ("long_press", ["x", "y"], "长按复现 App 坐标"),
-    ("swipe", ["x1", "y1", "x2", "y2"], "在复现 App 中滑动"),
-    ("type_text", ["text"], "向复现 App 当前焦点输入文本"),
-    ("press_back", [], "按返回键"),
-    ("press_enter", [], "按确认键"),
-    ("restart_app", [], "重启复现 App 验证持久化"),
-    ("wait", ["ms"], "等待复现 App 更新"),
+    ("tap", ["x", "y"], "tap reproduction-app coordinates"),
+    ("long_press", ["x", "y"], "long-press reproduction-app coordinates"),
+    ("swipe", ["x1", "y1", "x2", "y2"], "swipe in the reproduction app"),
+    ("type_text", ["text"], "type text into the focused element of the reproduction app"),
+    ("press_back", [], "press the back key"),
+    ("press_enter", [], "press the enter key"),
+    ("restart_app", [], "restart the reproduction app to verify persistence"),
+    ("wait", ["ms"], "wait for the reproduction app to update"),
 ]:
     _schema = _action_tool(f"review_{_n}", _req, _d)
     _register(_schema, _make_review_action_handler(_n))
 
 _register({"name": "complete_reproduction_review",
-           "description": "结束当前复验轮次。发现问题选 revise，修改后再复验；核心流程正常且无私人信息时才选 accept。",
+           "description": "End the current review round. Choose revise when problems are found (fix, then re-review); choose accept only when the core flows work and no private information is present. "
+                          "[Flow constraint] Before accept, the round must contain at least 2 visible observations (otherwise you will be asked to look once more); "
+                          "after choosing revise you must actually change the code before another start_reproduction_review.",
            "inputSchema": {"type": "object", "properties": {
                "decision": {"type": "string", "enum": ["accept", "revise"]},
                "checked_flows": {"type": "array", "items": {"type": "string"},
@@ -989,9 +1354,137 @@ _register({"name": "complete_reproduction_review",
           _t_complete_reproduction_review)
 
 _register({"name": "finish_reproduction",
-           "description": "仅在像素级复验 accept 后冻结 Android 工程与 app_output 中的可安装 APK。",
+           "description": "Freeze the Android project and the installable APK in app_output (only after the pixel-level review was accepted). "
+                          "[Flow constraint] After this run is finished the workspace_* tools are unavailable (call start_session again to run more); "
+                          "finish verifies that the project/APK fingerprints from acceptance were not changed.",
            "inputSchema": {"type": "object", "properties": {}}},
           _t_finish_reproduction)
+
+
+# ---------------------------------------------------- 工具错误计数（MCP 侧）
+# 口径：每次 tools/call 结束后检查结果是否为错误；重点统计 record_*（"录入信息"）
+# 这类调用的失败次数——它直接反映 agent 的工具使用能力。全工具口径一并保留，
+# 便于对照（record 占比、非 record 的环境类错误各多少）。
+#
+# 落盘（随 run 一起上云，进入最终结果清单）：
+#   runs/<sid>/mcp_tool_errors.jsonl       一行一次失败（时间/工具/分类/原文）
+#   runs/<sid>/mcp_tool_error_summary.json 累计计数（每次失败后重写，末态即清单）
+#
+# 分类：schema（缺字段/类型错，属"工具用法"）/ evidence（校验规则理解）/
+#       environment（5xx、超时、控制器不可达、进程崩溃）/ other_4xx / other
+#
+# 约束：只记录，不改变任何返回值或行为；任何写入异常都被吞掉。
+_RECORD_TOOL_PREFIX = "record_"
+_TOOL_ERRORS: dict[str, object] = {
+    "total": 0, "record": 0, "by_class": {}, "record_by_class": {},
+    "by_tool": {}, "first_ts": None, "last_ts": None, "session": "",
+}
+
+
+def _http_status_of(text: str) -> int | None:
+    i = text.find("HTTP ")
+    if i >= 0:
+        digits = text[i + 5:i + 8]
+        if digits.isdigit():
+            return int(digits)
+    return None
+
+
+def _tool_error_text(result: object) -> str:
+    """从工具结果里提取错误文本；不是错误则返回 ""。"""
+    if not isinstance(result, dict):
+        return ""
+    flagged = bool(result.get("isError"))
+    texts = [item.get("text") for item in (result.get("content") or [])
+             if isinstance(item, dict) and item.get("type") == "text"
+             and isinstance(item.get("text"), str)]
+    for text in texts:
+        stripped = text.lstrip()
+        if (stripped.startswith("Error") or "HTTP 4" in text or "HTTP 5" in text
+                or "unreachable" in text or "tool crashed" in text
+                or "bootstrap failed" in text or "workspace operation failed" in text):
+            return text
+    if flagged and texts:
+        return texts[0]        # 标了 isError 但文本不显眼，也算
+    return ""
+
+
+def _classify_tool_error(text: str) -> str:
+    if "evidence_invalid" in text:
+        return "evidence"
+    if ("Field required" in text or "missing" in text or "extra_forbidden" in text
+            or "type_error" in text):
+        return "schema"
+    if ("HTTP 5" in text or "unreachable" in text or "bootstrap failed" in text
+            or "timed out" in text or "timeout" in text or "refused" in text
+            or "workspace operation failed" in text
+            # 平台繁忙抖动（控制器 409 {'state': 'busy'}）与各类
+            # 'did not complete this operation'：只用于审计口径，不改写
+            # 交回模型的文本（2026-09-26 起平台不再自述处置建议）。
+            or "did not complete this operation" in text
+            or "'state': 'busy'" in text or '"state": "busy"' in text):
+        return "environment"
+    if "HTTP 4" in text:
+        return "other_4xx"
+    return "other"
+
+
+# 错误分类只用于审计（mcp_tool_errors.jsonl / 摘要），不向模型追加任何提示：
+# 平台不替 Agent 解释、不指路，交回模型的只有工具本身的原始结果
+# （2026-09-26 按「平台只支持探索、不替 Agent 做任何决策」移除装饰层）。
+def _note_tool_error(tool: str, text: str) -> None:
+    now = time.strftime("%Y-%m-%dT%H:%M:%S%z")
+    cls = _classify_tool_error(text)
+    is_record = tool.startswith(_RECORD_TOOL_PREFIX)
+    _TOOL_ERRORS["total"] = int(_TOOL_ERRORS["total"]) + 1
+    if is_record:
+        _TOOL_ERRORS["record"] = int(_TOOL_ERRORS["record"]) + 1
+    by_class = _TOOL_ERRORS["by_class"]
+    by_class[cls] = by_class.get(cls, 0) + 1
+    if is_record:
+        rb = _TOOL_ERRORS["record_by_class"]
+        rb[cls] = rb.get(cls, 0) + 1
+    by_tool = _TOOL_ERRORS["by_tool"]
+    by_tool[tool] = by_tool.get(tool, 0) + 1
+    if not _TOOL_ERRORS["first_ts"]:
+        _TOOL_ERRORS["first_ts"] = now
+    _TOOL_ERRORS["last_ts"] = now
+    sid = _session or "_unbound"
+    _TOOL_ERRORS["session"] = sid
+    run_dir = benchmark_config.RUNS_DIR / sid
+    run_dir.mkdir(parents=True, exist_ok=True)
+    with (run_dir / "mcp_tool_errors.jsonl").open("a", encoding="utf-8") as fh:
+        fh.write(json.dumps({
+            "ts": now, "session_id": sid, "tool": tool,
+            "record_tool": is_record, "class": cls,
+            "http_status": _http_status_of(text), "message": text[:240],
+        }, ensure_ascii=False) + "\n")
+    (run_dir / "mcp_tool_error_summary.json").write_text(json.dumps({
+        "session_id": sid, "updated_at": now,
+        "total_errors": _TOOL_ERRORS["total"],
+        "record_tool_errors": _TOOL_ERRORS["record"],
+        "by_class": _TOOL_ERRORS["by_class"],
+        "record_by_class": _TOOL_ERRORS["record_by_class"],
+        "by_tool": _TOOL_ERRORS["by_tool"],
+        "first_ts": _TOOL_ERRORS["first_ts"],
+        "last_ts": _TOOL_ERRORS["last_ts"],
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
+    _log(f"tool error [{cls}] {tool}: {text[:120]}")
+
+
+def _observe_tool_outcome(tool: str, result: object) -> None:
+    """tools/call 收尾调用；对工具调用零影响（异常全部吞掉）。
+
+    只做审计记录：错误计数/分类写进 mcp_tool_errors.jsonl。**不改写交回模型的
+    任何文本** —— 平台不替 Agent 解释、不指路（2026-09-26 移除原装饰层）。
+    """
+    try:
+        text = _tool_error_text(result)
+        if not text:
+            return
+        _note_tool_error(tool, text)
+    except Exception:
+        pass
 
 
 # ------------------------------------------------------------------ JSON-RPC
@@ -1025,10 +1518,12 @@ def _handle(msg: dict) -> dict | None:
             result = tool["_handler"](dict(args))
         except ValueError as e:
             result = _err(str(e))
-        except (OSError, subprocess.SubprocessError):
-            result = _err("workspace operation failed")
+        except (OSError, subprocess.SubprocessError) as _diag_exc:
+            result = _err("workspace operation failed: "
+                          f"{type(_diag_exc).__name__}: {_diag_exc}")
         except Exception as e:
             result = _err(f"tool crashed: {e!r}")
+        _observe_tool_outcome(name, result)
         return {"jsonrpc": "2.0", "id": mid, "result": result}
     if mid is None:
         return None

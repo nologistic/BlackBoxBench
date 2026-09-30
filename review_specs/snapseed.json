@@ -4,398 +4,398 @@
   "features": [
     {
       "id": "f01",
-      "name": "图片打开与基础编辑工作流",
+      "name": "Image opening and basic editing workflow",
       "steps": [
-        "启动 Snapseed",
-        "选择本地图片",
-        "解码并进入编辑主页",
-        "双指缩放、放大后移动查看",
-        "长按可比较编辑前后的画面",
-        "从“样式 / 工具 / 导出”进入不同工作流",
-        "切换工具时当前图片状态保持。Snapseed 官方也明确采用“选择工具",
-        "实时调整",
-        "确认/取消”的非破坏式工作流。Google 帮助"
+        "Launch Snapseed",
+        "Select a local image",
+        "Decode and enter the editing home",
+        "Pinch to zoom, then move to view after magnifying",
+        "Long-press to compare the image before and after editing",
+        "Enter different workflows from \"styles / tools / export\"",
+        "The current image state is preserved when switching tools. Snapseed officially uses \"choose a tool",
+        "After actually playing a previously unplayed song the play history grows and \"not played recently\" changes accordingly",
+        "confirm/cancel\" non-destructive workflow. Google Help"
       ],
-      "expected": "图片必须被正确解码显示；缩放与平移只影响查看而不修改图片；长按必须显示编辑前原图对比；切换工具或进入导出时当前编辑结果不能丢失。",
+      "expected": "The image must be decoded and displayed correctly; zooming and panning only affect the view and do not modify the image; long-pressing must show the original image for comparison; the current edit result must not be lost when switching tools or entering export.",
       "persistence": true
     },
     {
       "id": "f02",
-      "name": "样式 Looks 预设",
+      "name": "Looks presets",
       "steps": [
-        "打开图片",
-        "横向浏览多个预设 Style",
-        "点击任一 Style 即时预览",
-        "改选另一 Style 时替换当前预览",
-        "✓ 后才正式加入编辑结果",
-        "× 恢复进入样式前的图片"
+        "Open an image",
+        "Browse several preset styles horizontally",
+        "Tap any style to preview immediately",
+        "When choosing another style the current preview is replaced",
+        "Only after ✓ does it formally enter the editing result",
+        "× restores the image from before entering the style"
       ],
-      "expected": "点击 Style 必须即时预览对应效果；改选必须替换而不是叠加；✓ 后效果才进入编辑栈；× 必须恢复到进入样式前的状态。",
+      "expected": "Tapping a style must immediately preview the corresponding effect; choosing another must replace rather than stack; only after ✓ does the effect enter the edit stack; × must restore the state from before entering the style.",
       "persistence": false
     },
     {
       "id": "f03",
-      "name": "调整图片 Tune Image",
+      "name": "Tune Image",
       "steps": [
-        "进入“调整图片”",
-        "上下滑在亮度、对比度、饱和度、氛围、高光、阴影、暖色调之间选择",
-        "左右滑连续改变数值",
-        "多参数共同作用于当前预览",
-        "确认后全部参数作为同一步编辑保存。官方经典版明确包含这 7 个参数。Google 帮助"
+        "Enter \"Tune Image\"",
+        "Swiping up/down selects among brightness, contrast, saturation, ambiance, highlights, shadows, and warmth",
+        "Both versions always use the same view coordinates",
+        "Multiple parameters jointly affect the current preview",
+        "After confirming, all parameters are saved as one edit step. The official classic version explicitly includes these 7 parameters. Google Help"
       ],
-      "expected": "7 个参数必须独立作用于预览且互不覆盖；左右滑数值连续变化；确认后所有参数作为同一步编辑保存，重新进入该步骤显示当前值。",
+      "expected": "The 7 parameters must act on the preview independently without overriding one another; the values change continuously when swiping left/right; after confirming, all parameters are saved as one edit step and re-entering the step shows the current values.",
       "persistence": false
     },
     {
       "id": "f04",
-      "name": "突出细节 Details",
+      "name": "Details",
       "steps": [
-        "进入“突出细节”",
-        "在“结构”和“锐化”之间切换",
-        "Structure 增强局部纹理，Sharpening 强化边缘清晰度",
-        "改变数值实时预览",
-        "旧的参数值在确认后固定于该编辑步骤，而不会继续影响随后新建的 Details 操作。Google 帮助"
+        "Enter \"Details\"",
+        "Switch between \"structure\" and \"sharpening\"",
+        "Structure enhances local texture and Sharpening strengthens edge clarity",
+        "Change the value and preview in real time",
+        "The old parameter values are fixed in that edit step after confirming and will not continue to affect subsequently created Details operations. Google Help"
       ],
-      "expected": "结构必须增强局部纹理、锐化必须强化边缘，两者可辨别；参数实时作用于预览；确认后固定于当前步骤，重新进入显示已保存值且新操作独立。",
+      "expected": "Structure must enhance local texture and sharpening must strengthen edges, and the two must be distinguishable; the parameters act on the preview in real time; after confirming they are fixed in the current step, and re-entering shows the saved values with new operations independent.",
       "persistence": false
     },
     {
       "id": "f05",
-      "name": "曲线 Curves",
+      "name": "Curves",
       "steps": [
-        "进入曲线",
-        "编辑整体 RGB 曲线",
-        "添加/拖动多个控制点",
-        "图像明暗映射实时改变",
-        "切换 R/G/B 通道可产生独立色彩偏移",
-        "使用预设或自定义曲线",
-        "确认后控制点状态随编辑步骤保存"
+        "Enter curves",
+        "Edit the overall RGB curve",
+        "Add/drag several control points",
+        "The image's brightness mapping changes in real time",
+        "Toggling the R/G/B channels can produce independent color shifts",
+        "Use presets or custom curves",
+        "After confirming the control-point state is saved with the edit step"
       ],
-      "expected": "曲线控制点必须实时改变图像明暗映射；RGB 与单通道曲线相互独立；确认后控制点状态随该编辑步骤保存，重新进入可继续调整。",
+      "expected": "The curve control points must change the image's brightness mapping in real time; the RGB and per-channel curves are independent of each other; after confirming the control-point state is saved with that edit step and can be further adjusted on re-entry.",
       "persistence": false
     },
     {
       "id": "f06",
-      "name": "白平衡 White Balance",
+      "name": "White Balance",
       "steps": [
-        "打开白平衡",
-        "调节色温使画面在蓝/黄之间变化",
-        "调节着色使画面在绿/品红之间变化",
-        "使用自动白平衡或吸管选择图片中的中性区域",
-        "根据采样结果重新计算色彩",
-        "确认保存"
+        "Open white balance",
+        "Adjust the temperature so the image shifts between blue/yellow",
+        "Adjust the tint so the image shifts between green/magenta",
+        "Use auto white balance or the eyedropper to select a neutral area in the image",
+        "Recompute the color from the sampled result",
+        "Confirm and save"
       ],
-      "expected": "色温必须沿蓝黄轴变化、着色沿绿品红轴变化；吸管必须基于所选像素重新计算白平衡；自动与手动结果一致作用于预览并可保存。",
+      "expected": "The temperature must change along the blue-yellow axis and the tint along the green-magenta axis; the eyedropper must recompute the white balance based on the selected pixel; the automatic and manual results act consistently on the preview and can be saved.",
       "persistence": false
     },
     {
       "id": "f07",
-      "name": "剪裁 Crop",
+      "name": "Crop",
       "steps": [
-        "进入剪裁",
-        "在自由、原始比例、1:1、DIN、3:2、4:3、5:4、7:5、16:9 等比例间选择",
-        "拖动边/角改变区域",
-        "固定比例时保持约束",
-        "确认后真正改变后续编辑看到的图像区域。官方列出的比例与此一致。Google 帮助"
+        "Enter crop",
+        "Choose among free, original ratio, 1:1, DIN, 3:2, 4:3, 5:4, 7:5, 16:9, etc.",
+        "Drag an edge/corner to change the area",
+        "The constraint is maintained with a fixed ratio",
+        "After confirming, the image area seen by subsequent edits genuinely changes. The ratios listed in the official documentation match this. Google Help"
       ],
-      "expected": "选择比例后拖动必须保持该比例约束，自由模式不受限；确认后图像区域真实改变并影响后续工具；旋转拉直后比例仍正确。",
+      "expected": "After choosing a ratio the drag must maintain that ratio constraint while free mode is unrestricted; after confirming the image area genuinely changes and affects subsequent tools; the ratio is still correct after rotating and straightening.",
       "persistence": false
     },
     {
       "id": "f08",
-      "name": "旋转与拉直 Rotate",
+      "name": "Rotate",
       "steps": [
-        "打开旋转",
-        "执行 90° 旋转或通过滑动进行小角度拉直",
-        "参考网格随角度变化",
-        "旋转产生的边缘按工具规则处理",
-        "确认后后续文字、局部、裁剪等操作使用新的图像坐标"
+        "Open rotate",
+        "Perform a 90° rotation or straighten by a small angle with a swipe",
+        "The reference grid changes with the angle",
+        "The edges produced by rotation are handled according to the tool's rules",
+        "After confirming, subsequent text, selective, and crop operations use the new image coordinates"
       ],
-      "expected": "旋转与拉直必须实时作用于预览；参考网格随角度更新；确认后图像坐标真实改变，后续文字、局部、裁剪等工具使用新坐标。",
+      "expected": "Rotate and straighten must act on the preview in real time; the reference grid updates with the angle; after confirming the image coordinates genuinely change and subsequent text, selective, and crop tools use the new coordinates.",
       "persistence": false
     },
     {
       "id": "f09",
-      "name": "透视 Perspective",
+      "name": "Perspective",
       "steps": [
-        "对建筑或倾斜照片进入透视工具",
-        "通过拖动/缩放改变水平或垂直透视",
-        "图像实时发生几何变换",
-        "开启边缘修复时自动补齐产生的空白；关闭时空白区域保留为黑色",
-        "确认后新的几何状态传递给后续工具。Google 帮助"
+        "Drag to reorder or hide fields such as the start date, due date, recurrence, priority, list, tags, subtasks, reminders, description, place, file, calendar, timer, and creation date",
+        "Change the horizontal or vertical perspective by dragging/zooming",
+        "The image undergoes a geometric transformation in real time",
+        "With edge extension enabled the resulting blank area is filled automatically; when disabled the blank area remains black",
+        "After confirming, the new geometric state is passed to subsequent tools. Google Help"
       ],
-      "expected": "透视变换必须实时作用并改变图像几何；开启边缘修复自动补齐空白，关闭时空白保留为黑色；确认后几何状态传递给后续工具。",
+      "expected": "The perspective transformation must act in real time and change the image geometry; with edge healing enabled the blanks are filled automatically and when disabled they remain black; after confirming the geometric state is passed to subsequent tools.",
       "persistence": false
     },
     {
       "id": "f10",
-      "name": "展开 Expand",
+      "name": "Expand Quantization",
       "steps": [
-        "进入“展开”",
-        "分别向上/下/左/右拉大画布",
-        "选择智能填充、白色或黑色等补边方式",
-        "连续扩展多个方向",
-        "原图保持在正确位置",
-        "确认后真实画布尺寸增加，随后保存得到的新图片尺寸同步变化"
+        "Enter \"expand\"",
+        "Enlarge the canvas up/down/left/right respectively",
+        "Choose the padding method: smart fill, white, or black",
+        "Extend in several directions in succession",
+        "The original image stays in the correct position",
+        "After confirming the real canvas size increases and the subsequently saved new image's dimensions change in sync"
       ],
-      "expected": "扩展后原图必须保持在正确位置；补边方式按所选智能填充、白或黑生效；确认后画布尺寸真实增加，保存输出的图片尺寸同步变化。",
+      "expected": "After extending, the original image must stay in the correct position; the padding method takes effect according to the selected smart fill, white, or black; after confirming the canvas size genuinely increases and the saved output image's dimensions change in sync.",
       "persistence": false
     },
     {
       "id": "f11",
-      "name": "局部 Selective",
+      "name": "Expand Advanced settings",
       "steps": [
-        "点击图片建立 Control Point",
-        "拖动控制点到目标位置",
-        "双指改变作用范围",
-        "红色遮罩显示实际受影响区域",
-        "对该点独立调整亮度、对比度和饱和度",
-        "再创建多个控制点",
-        "复制、移动、删除某一点不会破坏其他点。官方经典 Selective 正是这种 U Point 交互。Google 帮助"
+        "Tap the image to create a Control Point",
+        "Drag the control point to the target position",
+        "Pinch to change the affected range",
+        "The red mask shows the actually affected area",
+        "Undo the error correction",
+        "Create several more control points",
+        "Copying, moving, or deleting one point must not break the other points. The official classic Selective works exactly this way with U Point interaction. Google Help"
       ],
-      "expected": "控制点作用范围必须由红色遮罩可视化且与实际影响一致；每个点的参数相互独立；复制、移动、删除某点不能破坏其他点的效果。",
+      "expected": "The control point's affected area must be visualized by the red mask and match the actual effect; each point's parameters are independent; copying, moving, or deleting one point must not break the other points' effects.",
       "persistence": false
     },
     {
       "id": "f12",
-      "name": "画笔 Brush",
+      "name": "Brush",
       "steps": [
-        "进入画笔",
-        "在加光/减光、曝光、色温、饱和度之间选择",
-        "单指涂抹，仅笔迹覆盖范围改变",
-        "修改强度后新笔迹使用新强度",
-        "强度 0 擦除此前局部效果",
-        "打开遮罩预览后以橙色显示已涂区域。Google 帮助"
+        "Enter brush",
+        "Choose among dodge/burn, exposure, temperature, and saturation",
+        "Single-finger smearing changes only the area the strokes cover",
+        "After changing the strength new strokes use the new strength",
+        "Strength 0 erases the previous local effect",
+        "Opening the mask preview shows the painted area in orange. Google Help"
       ],
-      "expected": "只有笔迹覆盖区域受影响，未涂区域保持原样；修改强度后新笔迹使用新强度；强度为 0 时必须擦除已有局部效果；遮罩预览准确反映已涂区域。",
+      "expected": "Only the stroke-covered area is affected and untouched areas stay as they are; after changing the strength new strokes use the new strength; with strength 0 the existing local effect must be erased; the mask preview accurately reflects the painted area.",
       "persistence": false
     },
     {
       "id": "f13",
-      "name": "修复 Healing",
+      "name": "Healing",
       "steps": [
-        "放大图片",
-        "点击或涂过污点、杂物、小物体区域",
-        "根据周围像素生成替代内容",
-        "连续修复多个位置",
-        "对错误修复执行 Undo",
-        "放大比例变化后屏幕触摸仍映射到正确原图区域",
-        "确认后修复结果进入最终图像"
+        "Zoom in on the image",
+        "Tap or paint over stains, clutter, or small-object areas",
+        "Generate replacement content from the surrounding pixels",
+        "Heal several positions in succession",
+        "Import an image",
+        "After the zoom ratio changes the screen touch still maps to the correct original-image area",
+        "After confirming the healing result enters the final image"
       ],
-      "expected": "修复必须基于周围像素生成替代内容且无明显接缝；支持连续修复与 Undo；缩放或平移后触摸仍映射到正确原图区域；确认后结果保留在最终图像中。",
+      "expected": "Healing must generate replacement content based on surrounding pixels without obvious seams; continuous healing and Undo are supported; after zooming or panning the touch still maps to the correct original-image area; after confirming, the result is kept in the final image.",
       "persistence": false
     },
     {
       "id": "f14",
-      "name": "HDR 景观 HDR Scape",
+      "name": "HDR landscape HDR Scape",
       "steps": [
-        "选择 HDR 风格",
-        "对单张图片执行 Tone Mapping",
-        "分别调节滤镜强度、亮度、饱和度、平滑等参数",
-        "阴影和高光细节同时变化",
-        "切换其他 HDR Style 后使用该 Style 的参数预览",
-        "确认后保存。Google 帮助"
+        "Choose the HDR style",
+        "Perform \"play next\" on another song D",
+        "Adjust parameters such as filter strength, brightness, saturation, and smoothing respectively",
+        "The shadow and highlight detail change at the same time",
+        "After switching to another HDR style, that style's parameters are used for the preview",
+        "Saved after confirming. Google Help"
       ],
-      "expected": "不同 HDR Style 必须产生可辨别的色调映射差异；参数实时作用于预览；切换 Style 后使用该 Style 的参数，确认后组成完整滤镜步骤。",
+      "expected": "Different HDR styles must produce discernible tone-mapping differences; the parameters affect the preview in real time; after switching the style that style's parameters are used and are saved as a complete filter step after confirming.",
       "persistence": false
     },
     {
       "id": "f15",
-      "name": "魅力光晕 Glamour Glow",
+      "name": "Glamour Glow",
       "steps": [
-        "进入魅力光晕",
-        "选择不同柔光预设",
-        "调节光晕、饱和度、暖色调",
-        "高光产生柔和扩散且整体色调随参数变化",
-        "多个参数组合保持在同一滤镜步骤中。Google 帮助"
+        "Enter glamour glow",
+        "Choose different soft-glow presets",
+        "Adjust glow, saturation, and warmth",
+        "The highlights spread softly and the overall tone changes with the parameters",
+        "Multiple parameter combinations stay within the same filter step. Google Help"
       ],
-      "expected": "光晕必须产生高光柔和扩散效果；饱和度与暖色调独立作用；切换预设替换当前参数；确认后所有参数保存在同一滤镜步骤中。",
+      "expected": "Glow must produce a soft highlight-spread effect; saturation and warmth act independently; switching presets replaces the current parameters; after confirming all parameters are saved in the same filter step.",
       "persistence": false
     },
     {
       "id": "f16",
-      "name": "色调对比度 Tonal Contrast",
+      "name": "Tonal Contrast",
       "steps": [
-        "进入色调对比度",
-        "独立调整高色调、中色调、低色调的局部对比",
-        "使用“保护阴影 / 保护高光”减少暗部或亮部细节损失",
-        "调整任一参数时其他参数保持",
-        "确认形成完整效果。Google 帮助"
+        "Enter tonal contrast",
+        "Adjust the local contrast of highlights, midtones, and shadows independently",
+        "Use \"protect shadows / protect highlights\" to reduce detail loss in dark or bright areas",
+        "Other parameters are preserved when any one is adjusted",
+        "Confirming forms the complete effect. Google Help"
       ],
-      "expected": "高、中、低色调调整必须分别作用于对应亮度范围；保护阴影与高光必须减少对应区域细节损失；任一参数改变时其他参数保持；确认后整体保存。",
+      "expected": "The highlight, midtone, and shadow adjustments must each affect the corresponding brightness range; protect-shadows and protect-highlights must reduce detail loss in the corresponding areas; other parameters are preserved when any one changes; all are saved together after confirming.",
       "persistence": false
     },
     {
       "id": "f17",
-      "name": "戏剧效果 Drama",
+      "name": "Drama",
       "steps": [
-        "选择不同 Drama Style",
-        "每种 Style 采用不同局部对比风格",
-        "调节 Strength 改变戏剧化程度",
-        "调节 Saturation 控制色彩",
-        "切换预设时实时替换当前 Drama 预览而不是叠加新的 Drama。Google 帮助"
+        "Choose different Drama styles",
+        "Each style uses a different local-contrast look",
+        "Adjust Strength to change the dramatic degree",
+        "Adjust Saturation to control the color",
+        "Switching presets replaces the current Drama preview in real time rather than stacking a new Drama. Google Help"
       ],
-      "expected": "不同 Style 必须采用不同局部对比风格；Strength 改变戏剧化程度、Saturation 控制色彩；切换预设必须替换当前预览而不是叠加新的效果。",
+      "expected": "Different styles must use different local-contrast looks; Strength changes the dramatic degree and Saturation controls the color; switching presets must replace the current preview rather than stacking a new effect.",
       "persistence": false
     },
     {
       "id": "f18",
-      "name": "复古 Vintage",
+      "name": "Vintage",
       "steps": [
-        "选择不同复古胶片 Style",
-        "调整亮度、饱和度、样式/纹理和晕影",
-        "移动/改变晕影作用区域",
-        "随机化纹理时产生另一种纹理位置",
-        "确认后该次随机结果应保持，而不是重新打开就再次随机。官方 Vintage 也包含 Style、Brightness、Saturation、Texture、Vignette 等控制。Google 帮助"
+        "Choose different vintage-film styles",
+        "Adjust brightness, saturation, style/texture, and vignette",
+        "Move/change the vignette's affected area",
+        "Randomizing the texture produces another texture position",
+        "After confirming, that randomization result should be kept rather than re-randomized on reopening. The official Vintage also includes controls such as Style, Brightness, Saturation, Texture, and Vignette. Google Help"
       ],
-      "expected": "不同 Style 产生不同胶片色调；晕影区域可移动并作用于对应位置；随机化产生另一种纹理位置并在确认后固定，重新打开不能再次随机。",
+      "expected": "Different styles produce different film looks; the vignette area can be moved and acts on the corresponding position; randomization produces another texture position and is fixed after confirming, and reopening must not re-randomize.",
       "persistence": false
     },
     {
       "id": "f19",
-      "name": "粗粒胶片 Grainy Film",
+      "name": "Grainy Film",
       "steps": [
-        "浏览多个胶片预设",
-        "选择某一胶片色彩风格",
-        "独立调整颗粒强度和样式强度",
-        "颗粒变化不应简单等同于整体噪点亮度变化",
-        "确认后预设与参数共同组成滤镜状态"
+        "Browse several film presets",
+        "Choose a film color style",
+        "Adjust the grain intensity and style strength independently",
+        "The grain change should not be simply equivalent to an overall noise brightness change",
+        "After confirming, the preset and parameters together form the filter state"
       ],
-      "expected": "颗粒强度必须只增加颗粒效果，不能等同于整体变亮或噪点变化；样式强度独立控制胶片色调；确认后预设与参数共同组成滤镜状态。",
+      "expected": "The grain intensity must only add a grain effect and must not be equivalent to an overall brightening or noise change; the style strength independently controls the film tone; after confirming, the preset and parameters together form the filter state.",
       "persistence": false
     },
     {
       "id": "f20",
-      "name": "怀旧 Retrolux",
+      "name": "Retrolux",
       "steps": [
-        "选择怀旧风格",
-        "调整亮度、饱和度、对比度、Style、划痕和漏光等效果",
-        "随机化可改变漏光/划痕位置",
-        "同一次确认后随机参数固定",
-        "再次重新生成才产生另一种结果"
+        "Choose the retro style",
+        "Adjust effects such as brightness, saturation, contrast, Style, scratches, and light leaks",
+        "Randomization can change the light-leak/scratch positions",
+        "The random parameters are fixed after the same confirmation",
+        "Only re-generating produces another result"
       ],
-      "expected": "划痕与漏光位置由随机化改变且确认后固定；再次打开不能重新随机；各参数独立作用于预览；切换 Style 时替换当前效果而不是叠加。",
+      "expected": "The scratch and light-leak positions change with randomization and are fixed after confirming; reopening must not re-randomize; each parameter acts on the preview independently; switching styles replaces the current effect rather than stacking.",
       "persistence": false
     },
     {
       "id": "f21",
-      "name": "斑驳 Grunge",
+      "name": "Grunge",
       "steps": [
-        "进入 Grunge",
-        "调节 Style 改变整体色彩分布",
-        "调节亮度、对比度、饱和度、Texture Strength",
-        "随机改变纹理的位置与角度",
-        "当前随机纹理作为该编辑步骤的一部分保存。官方说明 Grunge 可以随机化纹理角度/位置，并提供这些参数。Google 帮助"
+        "Enter Grunge",
+        "Adjust Style to change the overall color distribution",
+        "Adjust brightness, contrast, saturation, and Texture Strength",
+        "Randomly change the texture position and angle",
+        "The current random texture is saved as part of that edit step. The official documentation states that Grunge can randomize the texture angle/position and provides these parameters. Google Help"
       ],
-      "expected": "Style 必须改变整体色彩分布；Texture Strength 控制纹理强度；随机化改变纹理位置与角度且确认后固定；参数组合随该编辑步骤保存。",
+      "expected": "Style must change the overall color distribution; Texture Strength controls the texture intensity; randomization changes the texture position and angle and is fixed after confirming; the parameter combination is saved with that edit step.",
       "persistence": false
     },
     {
       "id": "f22",
-      "name": "黑白 Black & White",
+      "name": "Black & White",
       "steps": [
-        "转换为黑白",
-        "选择多个黑白预设",
-        "调节亮度、对比度和颗粒",
-        "选择红/黄/绿/蓝等颜色滤镜时，不同原始颜色映射到不同灰阶",
-        "切换预设重新计算，但不删除原始彩色信息。Google 帮助"
+        "Convert to black and white",
+        "Choose several black-and-white presets",
+        "Adjust brightness, contrast, and grain",
+        "When choosing red/yellow/green/blue color filters, different original colors map to different gray levels",
+        "Switch presets to recompute without deleting the original color information. Google Help"
       ],
-      "expected": "不同颜色滤镜必须使不同原始颜色映射为不同灰阶；亮度、对比度、颗粒独立作用；工具为非破坏式，原始彩色信息必须保留以便撤销。",
+      "expected": "Different color filters must map different original colors to different gray levels; brightness, contrast, and grain act independently; the tool is non-destructive and the original color information must be preserved for undo.",
       "persistence": false
     },
     {
       "id": "f23",
-      "name": "黑白电影 Noir",
+      "name": "Noir",
       "steps": [
-        "选择 Noir 风格",
-        "产生比普通黑白更重的暗房/电影风格",
-        "调节相关亮度、Wash/冲印感、颗粒等效果",
-        "从 Noir 切回普通黑白时两个工具保持独立参数和独立编辑步骤"
+        "Choose the Noir style",
+        "Produce a heavier darkroom/cinematic look than ordinary black-and-white",
+        "Adjust related effects such as brightness, Wash/print feel, and grain",
+        "When switching from Noir back to ordinary black-and-white the two tools keep independent parameters and edit steps"
       ],
-      "expected": "Noir 必须比普通黑白产生更重的暗房电影风格；其亮度、Wash、颗粒参数独立保存；与普通黑白作为不同编辑步骤存在，切换不互相覆盖。",
+      "expected": "Noir must produce a heavier darkroom/cinematic look than ordinary black-and-white; its brightness, wash, and grain parameters are saved independently; it exists as a separate edit step from ordinary black-and-white and switching does not override one with the other.",
       "persistence": false
     },
     {
       "id": "f24",
-      "name": "美颜 / Face",
+      "name": "Face retouching / Face",
       "steps": [
-        "在含人脸图片上启动美颜",
-        "自动检测人脸",
-        "选择预设打光或肤色效果",
-        "分别调整脸部提亮、柔肤、眼部清晰",
-        "改变只围绕检测到的人脸产生",
-        "无人脸图片不应假造固定脸部区域。官方经典 Face 提供这三个核心控制参数。Google 帮助"
+        "Start face retouching on an image containing a face",
+        "Automatically detect the face",
+        "Choose a preset lighting or skin-tone effect",
+        "Adjust face brightening, skin smoothing, and eye clarity respectively",
+        "The change occurs only around the detected face",
+        "An image without a face should not fake a fixed face region. The official classic Face provides these three core control parameters. Google Help"
       ],
-      "expected": "人脸检测结果必须决定作用范围，效果只出现在检测到的人脸区域；无人脸图片不能出现固定区域效果或崩溃；提亮、柔肤、眼部清晰三个参数独立并保存。",
+      "expected": "The face-detection result must determine the affected area and the effect must appear only in the detected face region; an image with no face must not produce a fixed-area effect or crash; the brighten, smooth, and eye-clarity parameters are independent and saved.",
       "persistence": false
     },
     {
       "id": "f25",
-      "name": "头部姿势 Head Pose",
+      "name": "If elevation data exists show the elevation profile with cumulative ascent/descent",
       "steps": [
-        "在可识别人脸的照片上进入头部姿势",
-        "拖动改变人物左右/上下头部方向",
-        "调整微笑、瞳孔等可用人像参数",
-        "变形应以实际脸部特征为中心",
-        "确认后保持人像几何结果，Undo 可恢复原姿势"
+        "Enter head pose on a photo with a recognizable face",
+        "Drag to change the character's left/right/up/down head direction",
+        "Adjust the available portrait parameters such as smile and pupils",
+        "The deformation should be centered on the actual facial features",
+        "After confirming the portrait geometry result is kept and Undo can restore the original pose"
       ],
-      "expected": "变形必须围绕检测到的脸部特征进行，拖动方向与头部转向对应；确认后几何结果保留且可被 Undo 恢复；无有效人脸时应给出合理反馈。",
+      "expected": "The deformation must be performed around the detected facial features, with the drag direction corresponding to the head turn; after confirming the geometric result is kept and can be restored with Undo; reasonable feedback is required when there is no valid face.",
       "persistence": false
     },
     {
       "id": "f26",
-      "name": "镜头模糊 Lens Blur",
+      "name": "Lens Blur",
       "steps": [
-        "进入镜头模糊",
-        "在线性和椭圆焦区间切换",
-        "拖动焦点",
-        "双指改变焦区大小、形状和旋转",
-        "调节模糊强度、过渡范围和晕影",
-        "只有焦区之外逐渐模糊。Google 帮助"
+        "Enter lens blur",
+        "Switch between linear and elliptical focus",
+        "Drag the focus",
+        "Pinch to change the focus area's size, shape, and rotation",
+        "Adjust the blur strength, transition range, and vignette",
+        "Only the area outside the focus gradually blurs. Google Help"
       ],
-      "expected": "只有焦区之外的区域逐渐模糊，焦区内保持清晰；焦区大小、形状与旋转随双指手势变化；强度、过渡范围与晕影独立作用并可保存。",
+      "expected": "Only the area outside the focus becomes blurred while the focus stays sharp; the focus area's size, shape, and rotation change with the pinch gesture; the strength, transition range, and vignette act independently and can be saved.",
       "persistence": false
     },
     {
       "id": "f27",
-      "name": "晕影 Vignette",
+      "name": "Vignette",
       "steps": [
-        "打开晕影",
-        "拖动蓝色中心点决定主题位置",
-        "双指改变中心区域大小",
-        "分别调整外部亮度和内部亮度",
-        "中心和边缘形成独立明暗效果",
-        "编辑后重新进入时中心位置与参数保持。Google 帮助"
+        "Open vignette",
+        "Drag the blue center point to decide the theme position",
+        "Pinch to change the center area's size",
+        "Adjust the outer brightness and inner brightness respectively",
+        "The center and edges form independent brightness effects",
+        "The center position and parameters are preserved when re-entering after editing. Google Help"
       ],
-      "expected": "中心点位置决定晕影中心，双指改变中心区域大小；外部与内部亮度独立作用；确认后重新进入时中心位置与参数保持。",
+      "expected": "The center point's position determines the vignette center, and pinching changes the center area's size; the outer and inner brightness act independently; after confirming, the center position and parameters are preserved when re-entering.",
       "persistence": true
     },
     {
       "id": "f28",
-      "name": "双重曝光 Double Exposure",
+      "name": "Double Exposure",
       "steps": [
-        "在当前图片上选择第二张图片",
-        "第二图作为独立合成层加入",
-        "移动、缩放并重新定位",
-        "在不同混合模式间切换",
-        "调节透明度",
-        "确认后形成复合结果",
-        "Undo 后第一张原图仍保持完整"
+        "Select a second image over the current image",
+        "The second image is added as an independent compositing layer",
+        "Move, scale, and reposition",
+        "Switch between different blend modes",
+        "Adjust the opacity",
+        "After confirming a composite result is formed",
+        "The first original image remains intact after Undo"
       ],
-      "expected": "第二张图必须作为独立层叠加并可移动、缩放定位；混合模式与透明度实时作用于合成结果；Undo 后第一张原图必须完整恢复。",
+      "expected": "The second image must be overlaid as an independent layer and can be moved and scaled into position; the blend mode and opacity act on the composite in real time; after Undo the first original image must be fully restored.",
       "persistence": true
     },
     {
       "id": "f29",
-      "name": "文字、相框与最终编辑生命周期",
+      "name": "Text, frames, and the final editing lifecycle",
       "steps": [
-        "使用“文字”输入内容",
-        "选择不同排版模板",
-        "修改颜色并移动/缩放/旋转文字；再使用“相框”选择边框样式并调整宽度",
-        "两个效果按应用顺序叠加",
-        "随后可 Undo/Redo、查看此前修改，并通过保存/导出真正生成带全部视觉效果的最终图片。官方明确说明工具顺序会影响最终效果，例如相框在镜头模糊前后产生不同结果，而且编辑采用非破坏式工作流。Google 帮助"
+        "Use \"text\" to enter content",
+        "Choose different layout templates",
+        "Change the color and move/scale/rotate the text; then use \"frame\" to choose a border style and adjust the width",
+        "The two effects are stacked in the order they were applied",
+        "Afterwards Undo/Redo, viewing previous modifications, and saving/exporting genuinely produce a final image with all visual effects. The official documentation explicitly states that the tool order affects the final result, e.g. a frame before or after lens blur gives different results, and that editing uses a non-destructive workflow. Google Help"
       ],
-      "expected": "文字与相框必须按应用顺序叠加，顺序不同最终效果应不同；Undo 与 Redo 正确回退与恢复；导出必须真正生成包含全部视觉效果的最终图片。",
+      "expected": "Text and frames must be stacked in the order applied, and a different order should give a different final effect; Undo and Redo correctly step back and restore; the export must genuinely produce a final image containing all visual effects.",
       "persistence": false
     }
   ]

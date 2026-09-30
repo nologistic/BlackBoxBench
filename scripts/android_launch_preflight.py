@@ -8,7 +8,7 @@ verifies the whole launch chain without consuming an exploration budget:
 
     vendor/python/python.exe scripts/android_launch_preflight.py --app google_clock
     vendor/python/python.exe scripts/android_launch_preflight.py --app google_clock \
-        --condition our-method --close
+        --condition nograph --close
 
 `--close` closes the session it created so the check leaves nothing behind.
 Without it the booted emulator stays up for inspection.
@@ -27,7 +27,7 @@ sys.path.insert(0, str(ROOT))
 
 MODULES = {
     "baseline": "agents.android_baseline.mcp_server",
-    "our-method": "agents.android_our_method.mcp_server",
+    "nograph": "agents.baseline_nograph.mcp_server",
 }
 
 
@@ -121,7 +121,7 @@ def main() -> None:
         print(f"[preflight] observe       : {observed}")
         print()
         print("[preflight] RESULT: launch chain works — "
-              f"$android-{'blackbox-explorer' if args.condition == 'baseline' else 'our-method'} "
+              f"$android-{'blackbox-explorer' if args.condition == 'baseline' else 'baseline-nograph'} "
               f"{args.app}")
     finally:
         if args.close and session_id:

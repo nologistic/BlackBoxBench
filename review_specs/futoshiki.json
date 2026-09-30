@@ -4,173 +4,173 @@
   "features": [
     {
       "id": "f01",
-      "name": "新游戏配置与启动",
+      "name": "New-game configuration and launch",
       "steps": [
-        "首页点击 NEW GAME",
-        "在新游戏面板选择棋盘大小 4×4 / 5×5 / 6×6",
-        "选择难度 Easy / Medium / Hard",
-        "点击 START",
-        "进入对应棋盘"
+        "Tap NEW GAME on the home page",
+        "Choose the board size 4×4 / 5×5 / 6×6 in the new-game panel",
+        "Choose the difficulty Easy / Medium / Hard",
+        "Tap START",
+        "Enter the corresponding board"
       ],
-      "expected": "需要组合处理 3 种棋盘 × 3 种难度；选中项应有明显高亮；进入游戏后数字按钮范围必须与 N 匹配，例如 4×4 仅 1–4，6×6 为 1–6",
+      "expected": "It must handle 3 board sizes × 3 difficulties in combination; the selected item should be clearly highlighted; after entering the game the digit button range must match N, e.g. 4×4 shows only 1–4 and 6×6 shows 1–6",
       "persistence": false
     },
     {
       "id": "f02",
-      "name": "Futoshiki 基础数字输入",
+      "name": "Basic Futoshiki number input",
       "steps": [
-        "开始任意一局",
-        "点击一个空白格",
-        "点击底部数字",
-        "数字写入该格",
-        "再选择其他格继续输入"
+        "Start any game",
+        "Tap an empty cell",
+        "Tap the digits at the bottom",
+        "The number is written into that cell",
+        "Then select another cell and continue entering"
       ],
-      "expected": "初始给定数字不可被修改；用户填入数字与预置数字应有可观察的状态区别；选中格、输入反馈必须正确；不同棋盘大小的数字键数量动态变化",
+      "expected": "The initially given numbers cannot be modified; user-entered numbers and preset numbers should have an observable state difference; the selected cell and input feedback must be correct; the number of digit keys changes dynamically with the board size",
       "persistence": false
     },
     {
       "id": "f03",
-      "name": "行列唯一性规则",
+      "name": "Row/column uniqueness rules",
       "steps": [
-        "在同一行或同一列尝试输入已经存在的数字",
-        "观察错误反馈",
-        "改为合法数字",
-        "继续游戏"
+        "Try entering an already-existing number in the same row or column",
+        "Observe the error feedback",
+        "Change it to a legal number",
+        "Continue the game"
       ],
-      "expected": "每一行和每一列最终都必须恰好包含 1..N 各一次；必须检测重复数字，而不是仅在最终提交时比较整盘答案；错误格应按目标 UI 产生红色等反馈",
+      "expected": "Every row and every column must ultimately contain each of 1..N exactly once; duplicate numbers must be detected rather than only comparing the whole-board answer at final submission; error cells should give feedback such as turning red according to the target UI",
       "persistence": false
     },
     {
       "id": "f04",
-      "name": "不等式约束规则",
+      "name": "Inequality constraint rules",
       "steps": [
-        "找到带 >、<、上/下方向不等式提示的两个相邻格",
-        "输入满足关系的一组数字",
-        "再尝试输入违反关系的数字"
+        "Find two adjacent cells with >, <, or up/down inequality hints",
+        "Enter a set of numbers that satisfies the relationships",
+        "Then try entering a number that violates the relationship"
       ],
-      "expected": "方向解释必须完全正确。比较符指向相邻格之间的大小关系；不仅横向，纵向约束也必须正确；不能仅实现 Latin Square 而忽略不等式",
+      "expected": "The direction interpretation must be fully correct. The comparison operators indicate the size relationship between adjacent cells; not only horizontal but also vertical constraints must be correct; it must not implement only a Latin square while ignoring the inequalities",
       "persistence": false
     },
     {
       "id": "f05",
-      "name": "完整规则联合校验",
+      "name": "Joint validation of the full rule set",
       "steps": [
-        "从初始棋盘开始",
-        "结合行唯一、列唯一和全部不等式连续填数",
-        "完成整个棋盘"
+        "Start from the initial board",
+        "Fill continuously combining row uniqueness, column uniqueness, and all inequalities",
+        "Complete the entire board"
       ],
-      "expected": "这是核心复现任务。完整解必须同时满足：①每格一个数字；②每行 1..N 无重复；③每列 1..N 无重复；④全部不等式成立；其中任一条件失败都不能判定完成",
+      "expected": "This is the core reproduction task. A complete solution must satisfy all of: (1) one number per cell; (2) no repetition of 1..N in each row; (3) no repetition of 1..N in each column; (4) all inequalities hold; failing any one condition must not be judged as complete",
       "persistence": false
     },
     {
       "id": "f06",
-      "name": "错误输入与剩余错误次数",
+      "name": "Wrong input and the remaining mistake count",
       "steps": [
-        "连续故意输入违反规则的数字",
-        "观察错误单元格和顶部 mistakes remaining",
-        "再输入正确数字"
+        "Deliberately enter rule-violating numbers repeatedly",
+        "Observe the error cells and the mistakes remaining at the top",
+        "Then enter the correct number"
       ],
-      "expected": "截图已经显示错误格变红以及 4 mistakes remaining。需要正确维护剩余错误次数；合法输入不能扣次数；错误状态、数字状态和剩余次数必须同步；次数耗尽后的行为需与原 App 一致",
+      "expected": "The screenshot already shows the error cell turning red and \"4 mistakes remaining\". The remaining mistake count must be maintained correctly; legal input must not deduct a mistake; the error state, number state, and remaining count must stay in sync; the behavior after the count runs out must match the original app",
       "persistence": false
     },
     {
       "id": "f07",
-      "name": "Easy / Medium / Hard 难度差异",
+      "name": "Easy / Medium / Hard difficulty differences",
       "steps": [
-        "在同一棋盘尺寸下分别创建 Easy、Medium、Hard",
-        "比较初始给定数字、不等式布局及求解复杂度",
-        "分别尝试完成"
+        "Create Easy, Medium, and Hard separately on the same board size",
+        "Compare the initial given numbers, inequality layout, and solving complexity",
+        "Try to complete each separately"
       ],
-      "expected": "难度不能只是文字标签；不同难度需要产生实际不同的谜题约束/线索结构。三档难度均属于同一生成与求解体系",
+      "expected": "Difficulty must not be just a text label; different difficulties need to produce actually different puzzle constraint/clue structures. The three difficulty levels all belong to the same generation and solving system",
       "persistence": false
     },
     {
       "id": "f08",
-      "name": "4×4 / 5×5 / 6×6 棋盘自适应",
+      "name": "Adaptive 4×4 / 5×5 / 6×6 boards",
       "steps": [
-        "分别建立 4×4、5×5、6×6 游戏",
-        "输入数字",
-        "验证行列规则和不等式",
-        "至少完成其中不同尺寸的棋局"
+        "Create 4×4, 5×5, and 6×6 games respectively",
+        "Enter numbers",
+        "Verify the row/column rules and inequalities",
+        "Complete games of at least different sizes among them"
       ],
-      "expected": "所有核心算法必须参数化到 N×N：棋盘布局、数字范围、约束检查、解题、完成判定均不能硬编码 4×4；这是区分“UI 仿制”和“真正复现逻辑”的重点任务",
+      "expected": "All core algorithms must be parameterized to N×N: board layout, number range, constraint checks, solving, and completion detection must not be hard-coded to 4×4; this is the key task that distinguishes a \"UI imitation\" from a genuine logic reproduction",
       "persistence": false
     },
     {
       "id": "f09",
-      "name": "动态题目生成与唯一解",
+      "name": "Dynamic puzzle generation with a unique solution",
       "steps": [
-        "使用相同“尺寸+难度”连续开始多局",
-        "比较题面",
-        "分别求解",
-        "检查生成题目的合法性"
+        "Start several games in a row with the same \"size + difficulty\"",
+        "Compare the puzzle statements",
+        "Solve each separately",
+        "Check the generated puzzle's validity"
       ],
-      "expected": "目标应用明确包含题目生成器和唯一解保证。F-Droid 新游戏不应始终返回固定模板；生成的预填数字与不等式必须自洽，并应存在唯一完整解。这是最重要的后台逻辑之一",
+      "expected": "The target app explicitly includes a puzzle generator with a unique-solution guarantee. F-Droid A new game must not always return a fixed template; the generated prefilled numbers and inequalities must be self-consistent and a unique complete solution must exist. This is one of the most important pieces of back-end logic",
       "persistence": false
     },
     {
       "id": "f10",
-      "name": "游戏计时、暂停与恢复",
+      "name": "Game timing, pause, and resume",
       "steps": [
-        "开始游戏",
-        "等待计时增长",
-        "点击暂停",
-        "等待一段时间",
-        "恢复",
-        "继续填数"
+        "Start the game",
+        "Wait for the timing to increase",
+        "Tap pause",
+        "Wait for a period of time",
+        "Restore",
+        "Continue filling numbers"
       ],
-      "expected": "右上角计时器应随游戏运行；Pause 后不能继续正常操作棋盘，计时行为要与目标一致；Resume 后恢复同一棋盘和已有输入；顶部忍者/龙动态场景也应与游戏状态匹配",
+      "expected": "The timer at the top-right should run with the game; after Pause the board cannot continue to be operated normally and the timing behavior must match the target; after Resume the same board and existing input are restored; the ninja/dragon animated scene at the top should also match the game state",
       "persistence": false
     },
     {
       "id": "f11",
-      "name": "Reset 当前棋局",
+      "name": "Reset the current game",
       "steps": [
-        "在棋盘填写多个数字并产生若干中间状态",
-        "点击 RESET",
-        "检查棋盘恢复",
-        "再次开始填写"
+        "Fill several numbers on the board and produce several intermediate states",
+        "Tap RESET",
+        "Check the board restoration",
+        "Start filling in again"
       ],
-      "expected": "Reset 应清除本局玩家输入并恢复初始题面；预置数字和不等式必须保留；计时、错误次数等局内状态如何恢复应与原应用一致，不能生成另一道题代替 Reset",
+      "expected": "Reset should clear this game's player input and restore the initial puzzle; the preset numbers and inequalities must be preserved; how in-game states such as the timer and mistake count are restored must match the original app, and a different puzzle must not be generated in place of a Reset",
       "persistence": false
     },
     {
       "id": "f12",
-      "name": "成功完成与胜利页",
+      "name": "Successful completion and the victory page",
       "steps": [
-        "正确填完最后一个空格",
-        "自动触发完成判定",
-        "进入 YOU WON 页面",
-        "检查棋盘尺寸、难度和 SOLVED IN 用时",
-        "点击 NEW GAME"
+        "Correctly fill the last empty cell",
+        "The completion detection triggers automatically",
+        "Enter the YOU WON page",
+        "Check the board size, difficulty, and SOLVED IN time",
+        "Tap NEW GAME"
       ],
-      "expected": "完成应在最后一个合法输入后自动检测；胜利页面需显示对应 Grid 4×4/5×5/6×6、Mode EASY/MEDIUM/HARD 和真实完成时间；新游戏后上一局状态不能污染下一局",
+      "expected": "Completion should be detected automatically after the last legal input; the victory page must show the corresponding Grid 4×4/5×5/6×6, Mode EASY/MEDIUM/HARD, and the real completion time; after a new game the previous game's state must not pollute the next one",
       "persistence": false
     },
     {
       "id": "f13",
-      "name": "Help / 游戏规则教程",
+      "name": "Help / game-rules tutorial",
       "steps": [
-        "首页进入 HELP",
-        "查看 How to Play",
-        "上滑/浏览规则",
-        "返回首页",
-        "启动游戏并依据教程完成若干输入"
+        "Enter HELP from the home page",
+        "View How to Play",
+        "Swipe-up / browsing rules",
+        "Return to the home page",
+        "Start the game and complete several inputs following the tutorial"
       ],
-      "expected": "教程页面应说明行列唯一和不等式核心规则；支持页面滚动；BACK 返回首页并保持正常导航，不产生游戏状态副作用",
+      "expected": "The tutorial page should explain the row/column uniqueness and inequality core rules; the page supports scrolling; BACK returns to the home page with normal navigation and no side effects on the game state",
       "persistence": true
     },
     {
       "id": "f14",
-      "name": "主题系统与视觉状态保持",
+      "name": "Theme system and visual-state preservation",
       "steps": [
-        "首页进入 THEMES",
-        "在不同主题间切换（截图中包括 Sand、Fire、Water、Earth 等）",
-        "切换 MONO / TINTED",
-        "调整 AUTO / DAY / NIGHT",
-        "返回首页并进入游戏"
+        "Enter THEMES from the home page",
+        "Switch between different themes (the screenshots include Sand, Fire, Water, Earth, etc.)",
+        "Switch between MONO / TINTED",
+        "Adjust AUTO / DAY / NIGHT",
+        "Return to the home page and enter the game"
       ],
-      "expected": "当前版本确认存在 4 套颜色主题及多个主题模式。Fossdroid 主题需要作用于按钮强调色等视觉；MONO/TINTED 与 AUTO/DAY/NIGHT 的组合状态要正确保存；切换主题不能改变谜题业务数据",
+      "expected": "The current version is confirmed to have 4 color themes and several theme modes. Fossdroid themes need to affect visuals such as button accent colors; the combined states of MONO/TINTED and AUTO/DAY/NIGHT must be saved correctly; switching themes must not change the puzzle business data",
       "persistence": false
     }
   ]

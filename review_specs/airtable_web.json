@@ -258,78 +258,93 @@
   "exclusions": [
     {
       "feature": "Start with Omni / Build with Omni",
-      "treatment": "排除",
-      "reason": "任务本身由另一套 AI Agent 完成，结果具有生成式不确定性，测到的是 Omni，而不是被测 Agent。"
+      "treatment": "Hard Exclude",
+      "reason": "The task itself is performed by a different AI agent, and the result has generative uncertainty: what is measured is Omni, not the agent under test.",
+      "covered_by": []
     },
     {
       "feature": "Analyze attachment / Research companies / Find image from web / Generate image / Deep match / Generate content / Create custom agent",
-      "treatment": "排除",
-      "reason": "都属于 AI field agents / generative features，依赖模型、网络、额度和非确定性输出。"
+      "treatment": "Hard Exclude",
+      "reason": "These all belong to AI field agents / generative features and depend on the model, network, quota, and non-deterministic output.",
+      "covered_by": []
     },
     {
       "feature": "AI-assisted Filter / natural-language view generation",
-      "treatment": "排除",
-      "reason": "截图里的 Describe what you want to see 属于 AI 辅助入口；benchmark 应要求 Agent 手动配置 Filter conditions。"
+      "treatment": "Hard Exclude",
+      "reason": "The \"Describe what you want to see\" in the screenshot is an AI-assisted entry point; the benchmark should require the agent to configure Filter conditions manually.",
+      "covered_by": []
     },
     {
       "feature": "Shared / Share / Manage groups / Invite collaborators",
-      "treatment": "排除",
-      "reason": "需要额外真实用户、邀请状态和协作者权限，难以在单 Agent benchmark 中稳定复现。"
+      "treatment": "Hard Exclude",
+      "reason": "It requires additional real users, invitation states, and collaborator permissions, which are hard to reproduce reliably in a single-agent benchmark.",
+      "covered_by": []
     },
     {
       "feature": "Real-time collaboration / comments / mentions",
-      "treatment": "排除",
-      "reason": "需要第二参与者才能验证同步、通知、mention 等端到端行为。"
+      "treatment": "Hard Exclude",
+      "reason": "It requires a second participant to verify end-to-end behavior such as sync, notifications, and mentions.",
+      "covered_by": []
     },
     {
       "feature": "Share and sync / synced tables / cross-base live sync",
-      "treatment": "排除",
-      "reason": "涉及第二 Base、权限、同步延迟以及可能的其他账户，不适合作为默认 fixture。"
+      "treatment": "Hard Exclude",
+      "reason": "It involves a second Base, permissions, sync latency, and possibly other accounts, so it is not suitable as a default fixture.",
+      "covered_by": []
     },
     {
       "feature": "Google Calendar / Google Sheets / Gmail / Outlook / Slack / Microsoft Teams / Salesforce integrations",
-      "treatment": "排除",
-      "reason": "需要 OAuth、第三方账户和外部系统状态。"
+      "treatment": "Hard Exclude",
+      "reason": "It requires OAuth, third-party accounts, and external system state.",
+      "covered_by": []
     },
     {
       "feature": "When webhook is received",
-      "treatment": "排除",
-      "reason": "需要外部 HTTP sender 和可访问 endpoint。"
+      "treatment": "Hard Exclude",
+      "reason": "It requires an external HTTP sender and a reachable endpoint.",
+      "covered_by": []
     },
     {
       "feature": "When email is received",
-      "treatment": "排除",
-      "reason": "需要真实邮箱系统和外部邮件事件。"
+      "treatment": "Hard Exclude",
+      "reason": "It requires a real email system and external email events.",
+      "covered_by": []
     },
     {
       "feature": "Send email / external notification delivery",
-      "treatment": "排除",
-      "reason": "会产生真实外部副作用，同时受邮件服务、额度和送达状态影响。"
+      "treatment": "Hard Exclude",
+      "reason": "It produces real external side effects and is also affected by the email service, quota, and delivery status.",
+      "covered_by": []
     },
     {
       "feature": "Run script",
-      "treatment": "默认排除",
-      "reason": "会把任务从网页 UI Agent benchmark 变成 JavaScript coding/runtime benchmark；除非之后单独设计 scripting 子集。"
+      "treatment": "Default Exclude",
+      "reason": "It would turn the task from a web-UI agent benchmark into a JavaScript coding/runtime benchmark; unless a scripting subset is designed separately later.",
+      "covered_by": []
     },
     {
       "feature": "Public form sharing / anonymous external form submission",
-      "treatment": "排除",
-      "reason": "需要第二浏览会话或外部用户环境才能完整验证。"
+      "treatment": "Hard Exclude",
+      "reason": "It requires a second browsing session or an external user environment for full verification.",
+      "covered_by": []
     },
     {
       "feature": "Interface sharing / interface-only collaborators",
-      "treatment": "排除",
-      "reason": "权限和外部用户依赖较强；Interface Designer 本身可探索，但不测试多人发布链路。"
+      "treatment": "Hard Exclude",
+      "reason": "It depends strongly on permissions and external users; the Interface Designer itself is explorable, but the multi-user publishing chain is not tested.",
+      "covered_by": []
     },
     {
       "feature": "Marketplace / Integrations / Builder hub",
-      "treatment": "排除",
-      "reason": "属于扩展生态与发现入口，而不是 Base 数据工作流核心。"
+      "treatment": "Hard Exclude",
+      "reason": "It belongs to the extension ecosystem and discovery entry points rather than the core Base data workflow.",
+      "covered_by": []
     },
     {
       "feature": "Upgrade / Trial / Billing / Account / Notification preferences / Appearance",
-      "treatment": "排除",
-      "reason": "属于账户和商业设置，不能有效测试 Airtable 数据工作流能力。"
+      "treatment": "Hard Exclude",
+      "reason": "It belongs to account and commercial settings and cannot effectively test Airtable data-workflow capabilities.",
+      "covered_by": []
     }
   ]
 }

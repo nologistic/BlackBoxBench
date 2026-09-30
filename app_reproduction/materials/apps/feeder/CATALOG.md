@@ -1,22 +1,22 @@
-# Feeder 复现补充素材
+# Feeder reproduction supplementary materials
 
-本目录是 `feeder`（RSS/Atom/JSON 订阅阅读器）复现工作区的目标专属素材包，
-挂载为只读的 `/materials/app`。所有条目均为虚构测试数据。
+This directory is the target-specific material pack for the `feeder` (RSS/Atom/JSON feed reader) reproduction workspace,
+mounted read-only as `/materials/app`. All entries are fictional test data.
 
-## 实体素材
+## Entity materials
 
-- `feeds/blackbox_times.rss`：RSS 2.0 格式的虚构资讯源（5 条）。
-- `feeds/tech_digest.atom`：Atom 格式的虚构技术源（4 条）。
-- `feeds/design_notes.json`：JSON Feed 1.1 格式的虚构设计源（4 条）。
-- `subscriptions.opml`：包含上述三个源与两个额外虚构源的订阅列表，
-  可直接用于“OPML 导入”演示。
+- `feeds/blackbox_times.rss`: a fictional news feed in RSS 2.0 format (5 items).
+- `feeds/tech_digest.atom`: a fictional tech feed in Atom format (4 items).
+- `feeds/design_notes.json`: a fictional design feed in JSON Feed 1.1 format (4 items).
+- `subscriptions.opml`: a subscription list containing the three feeds above plus two extra fictional feeds,
+  ready for the "OPML import" demo.
 
-## 非实体补充信息
+## Non-entity supplementary information
 
-见 `SUPPLEMENT.md`：三种 Feed 格式的结构要点与统一的 Feed/Article 数据
-模型、OPML 格式、同步与“新文章”判定规则、图片字段来源。
+See `SUPPLEMENT.md`: structural highlights of the three feed formats and the unified Feed/Article data
+model, the OPML format, sync and the "new article" rule, and image-field sources.
 
-## 使用规则
+## Usage rules
 
-不要修改本目录。需要使用时将文件复制进 `/workspace` 工程内再引用；
-文章配图可复用 `/materials/common/images/covers/` 与 `posts/` 的虚构图片。
+Do not modify this directory. To use a file, copy it into the `/workspace` project first and reference it there;
+article images can reuse the fictional images in `/materials/common/images/covers/` and `posts/`.

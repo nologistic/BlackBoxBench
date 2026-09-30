@@ -1,20 +1,20 @@
-# Fossify Calendar 复现补充素材
+# Fossify Calendar reproduction supplementary materials
 
-本目录是 `fossify_calendar` 复现工作区的目标专属素材包，挂载为只读的
-`/materials/app`。所有内容均为虚构测试数据。
+This directory is the target-specific material pack for the `fossify_calendar` reproduction workspace, mounted read-only as
+`/materials/app`. All content is fictional test data.
 
-## 实体素材
+## Entity materials
 
-- `events.json`：3 个虚构日历 + 14 个事件，覆盖单次、每日、每周（含
-  工作日组合）、每月、每年与带结束日期的重复规则。
-- `rrules.txt`：重复规则（RRULE）子集速查与展开示例，是"下一次触发"
-  计算的**必要数据**。
+- `events.json`: 3 fictional calendars + 14 events covering one-off, daily, weekly (including
+  weekday combinations), monthly, yearly, and end-date-bounded recurrence rules.
+- `rrules.txt`: a quick reference for a RRULE subset with expansion examples — the **necessary data**
+  for "next occurrence" computation.
 
-## 非实体补充信息
+## Non-entity supplementary information
 
-见 `SUPPLEMENT.md`：事件/任务/提醒数据模型、RRULE 语义、多日历与颜色
-归属、视图切换与周起始日。
+See `SUPPLEMENT.md`: the event/task/reminder data model, RRULE semantics, multi-calendar and color
+assignment, view switching, and week-start day.
 
-## 使用规则
+## Usage rules
 
-不要修改本目录。需要使用时将文件复制进 `/workspace` 工程内再引用。
+Do not modify this directory. To use a file, copy it into the `/workspace` project first and reference it there.

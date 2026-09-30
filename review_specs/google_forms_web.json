@@ -277,147 +277,180 @@
     {
       "feature": "Gemini – Help me create a form",
       "treatment": "Hard Exclude",
-      "reason": "AI 生成结果非确定性，同时依赖特定 Workspace / Google AI 套餐。Google 官方明确把它作为 Gemini 功能。Google 帮助"
+      "reason": "The AI-generated result is non-deterministic and also depends on a specific Workspace / Google AI plan. Google explicitly presents it as a Gemini feature. Google Help",
+      "covered_by": []
     },
     {
       "feature": "Gemini – Suggest questions",
       "treatment": "Hard Exclude",
-      "reason": "同样属于生成式 AI；输入相同也不适合要求严格 UI/output equivalence。Google 帮助"
+      "reason": "It also belongs to generative AI; even with identical input, strict UI/output equivalence should not be required. Google Help",
+      "covered_by": []
     },
     {
       "feature": "Collaborator editing",
       "treatment": "Hard Exclude",
-      "reason": "需要第二 Google 账号、权限传播和实时协作状态。"
+      "reason": "Requires a second Google account, permission propagation, and real-time collaboration state.",
+      "covered_by": []
     },
     {
       "feature": "Add collaborators / editor permissions",
       "treatment": "Hard Exclude",
-      "reason": "benchmark 会变成账户和权限系统测评，而不是 Forms 编辑器测评。"
+      "reason": "The benchmark would become an evaluation of the account and permission system rather than the Forms editor.",
+      "covered_by": []
     },
     {
       "feature": "Real-time concurrent editing",
       "treatment": "Hard Exclude",
-      "reason": "需要至少两个活动客户端，状态竞争难以做稳定复现。"
+      "reason": "It requires at least two active clients, and the state races are hard to reproduce reliably.",
+      "covered_by": []
     },
     {
       "feature": "Link responses to Google Sheets",
       "treatment": "Hard Exclude",
-      "reason": "跨到 Google Sheets 产品，会引入 spreadsheet 创建、权限和同步组件。"
+      "reason": "It crosses into the Google Sheets product, introducing spreadsheet creation, permission, and sync components.",
+      "covered_by": []
     },
     {
       "feature": "Response sync with Sheets",
       "treatment": "Hard Exclude",
-      "reason": "同上，不属于 Forms 自身核心。"
+      "reason": "Same as above; not part of Forms' own core.",
+      "covered_by": []
     },
     {
       "feature": "Apps Script",
       "treatment": "Hard Exclude",
-      "reason": "已进入可编程扩展平台，不应要求 Forms replica 实现。"
+      "reason": "It enters a programmable extension platform and should not be required of a Forms replica.",
+      "covered_by": []
     },
     {
       "feature": "Add-ons / Plugins",
       "treatment": "Hard Exclude",
-      "reason": "第三方代码和商店依赖不可控。"
+      "reason": "Third-party code and store dependencies are uncontrollable.",
+      "covered_by": []
     },
     {
       "feature": "Email form invitations",
       "treatment": "Hard Exclude",
-      "reason": "需要外部邮件发送和收件验证。"
+      "reason": "Requires external email sending and inbox verification.",
+      "covered_by": []
     },
     {
       "feature": "Response receipts by email",
       "treatment": "Hard Exclude",
-      "reason": "需要真实邮箱投递；官方也指出实际收件可能受到反垃圾系统影响。Google 帮助"
+      "reason": "Requires real email delivery; the official documentation also notes that actual delivery may be affected by anti-spam systems. Google Help",
+      "covered_by": []
     },
     {
       "feature": "Verified email collection",
       "treatment": "Conditional Exclude",
-      "reason": "配置项本身可以展示，但完整行为验证要求 responder 登录 Google Account。"
+      "reason": "The configuration itself can be displayed, but full behavior verification requires responders to sign in to a Google Account.",
+      "covered_by": []
     },
     {
       "feature": "Limit to 1 response",
       "treatment": "Conditional Exclude",
-      "reason": "设置可以实现，但真正验证需要账户身份和重复提交状态。官方明确要求 responder 登录。Google 帮助"
+      "reason": "The configuration can be implemented, but genuine verification requires account identity and repeated-submission state. The official documentation explicitly requires responders to sign in. Google Help",
+      "covered_by": []
     },
     {
       "feature": "File upload question",
       "treatment": "Hard Exclude",
-      "reason": "涉及 responder 文件选择、Google Drive 存储和账户认证，缺少稳定 fixture 时不适合 benchmark。"
+      "reason": "It involves responder file selection, Google Drive storage, and account authentication, and is not suitable for a benchmark without stable fixtures.",
+      "covered_by": []
     },
     {
       "feature": "Header image upload",
       "treatment": "Conditional Exclude",
-      "reason": "如果 benchmark 提供固定本地图片 fixture 可测试；否则涉及系统文件选择器和外部图片源。"
+      "reason": "It is testable if the benchmark provides a fixed local image fixture; otherwise it involves the system file picker and external image sources; retained surface: f22 Default question behavior",
+      "covered_by": [
+        "f22"
+      ]
     },
     {
       "feature": "Question image upload",
       "treatment": "Conditional Exclude",
-      "reason": "同上；核心是表单 schema，而不是媒体管理。"
+      "reason": "Same as above; the core is the form schema rather than media management.",
+      "covered_by": []
     },
     {
       "feature": "YouTube video insertion",
       "treatment": "Hard Exclude",
-      "reason": "需要 YouTube 网络内容和外部资源可用性。"
+      "reason": "Requires YouTube network content and external resource availability.",
+      "covered_by": []
     },
     {
       "feature": "Google Drive image selection",
       "treatment": "Hard Exclude",
-      "reason": "跨产品文件选择器和 Drive 权限依赖。"
+      "reason": "It depends on cross-product file pickers and Drive permissions.",
+      "covered_by": []
     },
     {
       "feature": "Template gallery content",
       "treatment": "Default Exclude",
-      "reason": "模板内容可能随地区、语言和时间变化；不是 Forms 编辑器核心。"
+      "reason": "Template content may change with region, language, and time; it is not the core of the Forms editor.",
+      "covered_by": []
     },
     {
       "feature": "Organization-branded themes",
       "treatment": "Hard Exclude",
-      "reason": "Workspace 管理员配置决定可用性。"
+      "reason": "Availability is determined by the Workspace administrator configuration.",
+      "covered_by": []
     },
     {
       "feature": "Share via social media",
       "treatment": "Hard Exclude",
-      "reason": "外部平台行为，不属于 Forms。"
+      "reason": "External platform behavior, not part of Forms.",
+      "covered_by": []
     },
     {
       "feature": "Embed HTML execution",
       "treatment": "Default Exclude",
-      "reason": "可以保留“获取 embed code”的静态 UI，但无需验证第三方网页中的真实运行。"
+      "reason": "The static \"get embed code\" UI can be kept, but real execution in third-party web pages need not be verified; retained surface: f28 Quiz configuration",
+      "covered_by": [
+        "f28"
+      ]
     },
     {
       "feature": "Print",
       "treatment": "Default Exclude",
-      "reason": "浏览器/系统打印对话框不属于核心 Web app 状态。"
+      "reason": "The browser/system print dialog is not part of the core web app state.",
+      "covered_by": []
     },
     {
       "feature": "Search across forms",
       "treatment": "Default Exclude",
-      "reason": "首页便利功能，对表单创建和逻辑执行没有决定性影响。"
+      "reason": "A home-page convenience feature with no decisive impact on form creation or logic execution.",
+      "covered_by": []
     },
     {
       "feature": "Folder organization in Drive",
       "treatment": "Hard Exclude",
-      "reason": "本质属于 Google Drive 文件组织，而不是 Forms。"
+      "reason": "It is essentially Google Drive file organization rather than Forms.",
+      "covered_by": []
     },
     {
       "feature": "Account / language settings",
       "treatment": "Hard Exclude",
-      "reason": "Google Account 全局功能，不应纳入 Forms benchmark。"
+      "reason": "A global Google Account feature that should not be included in a Forms benchmark.",
+      "covered_by": []
     },
     {
       "feature": "External respondent permissions",
       "treatment": "Hard Exclude",
-      "reason": "若涉及特定人员、群组或 Workspace 域，则需要外部身份环境。"
+      "reason": "If it involves specific people, groups, or Workspace domains, an external identity environment is required.",
+      "covered_by": []
     },
     {
       "feature": "AI-generated quiz answers / feedback",
       "treatment": "Hard Exclude",
-      "reason": "生成式 AI，结果不确定。"
+      "reason": "Generative AI with non-deterministic results.",
+      "covered_by": []
     },
     {
       "feature": "High-volume response behavior",
       "treatment": "Hard Exclude",
-      "reason": "没必要模拟数万条真实 responses；Google 本身对大规模响应还有不同功能限制。"
+      "reason": "There is no need to simulate tens of thousands of real responses; Google itself has different feature limits for large-scale responses.",
+      "covered_by": []
     }
   ]
 }
