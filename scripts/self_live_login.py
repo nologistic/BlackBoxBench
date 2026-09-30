@@ -119,6 +119,22 @@ def capture(target_url: str, *, build: bool = False) -> Path:
         else:
             working.mkdir()
 
+    # The container's entrypoint drops to uid 1000 (bbb) before Chromium
+    # starts, but this host account is usually a different uid, leaving the
+    # bind-mounted profile unwritable ("Failed to create /profile/
+    # SingletonLock: Permission denied", 2026-09-30 on uid 1004). Fix
+    # ownership through a root container (no host sudo needed): owner 1000
+    # for Chromium, group = this host user's gid so publish/cleanup works.
+    try:
+        subprocess.run(
+            [launcher._docker_command(), "run", "--rm",
+             "-v", f"{working}:/p", "alpine", "sh", "-c",
+             f"chown -R 1000:{os.getgid()} /p && chmod -R 775 /p"],
+            check=False, timeout=120,
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except Exception:
+        pass  # best-effort; any failure surfaces later as a container error
+
     port = _free_port()
     project = _project_name(normalized)
     env = _environment(normalized, working, port)

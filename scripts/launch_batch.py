@@ -171,6 +171,28 @@ def launch(task: Task) -> None:
     env.pop("BBB_RUNS_DIR", None)
     env["NO_PROXY"] = "127.0.0.1,localhost"
     env.setdefault("DISPLAY", ":99")
+    # Strip CodeBuddy's safe-delete shims: when inherited from an IDE-derived
+    # shell they poison agent subprocesses (2026-09-30: the kimi MCP server
+    # crashed during the finalize handoff because a safe-bin rm wrapper broke
+    # its cleanup; a clean env reproduced a successful finalize immediately).
+    for _key in [k for k in env if k.startswith("CODEBUDDY")]:
+        env.pop(_key, None)
+    env.pop("NODE_OPTIONS", None)
+    env["PATH"] = os.pathsep.join(
+        part for part in env.get("PATH", "").split(os.pathsep)
+        if "codebuddy" not in part.lower() and "safe-bin" not in part.lower())
+    # zcode does NOT honour the generic HTTPS_PROXY (verified 2026-09-29 via a
+    # dead-port reverse test); its dedicated variable forces all API traffic
+    # through the local mihomo proxy. Direct connections repeatedly died with
+    # stream_idle_timeout during network turbulence (four aborted batches on
+    # 2026-09-29), so route zcode via the proxy. Override with BBB_ZCODE_PROXY.
+    if task.agent == "zcode":
+        # Direct connections are fastest and stable (verified 2026-09-30:
+        # api.z.ai direct = 401 in 0.24s vs 2.8s via the airport proxy; the
+        # earlier stream_idle_timeout storms were the laptop-tunnel era).
+        # Only set the dedicated proxy when explicitly requested.
+        if os.environ.get("BBB_ZCODE_PROXY"):
+            env["ZCODE_HTTP_PROXY"] = os.environ["BBB_ZCODE_PROXY"]
     inner = " ".join(shlex.quote(c) for c in task.command)
     with open(task.log, "wb") as fh:
         task.proc = subprocess.Popen(
