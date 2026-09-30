@@ -54,6 +54,12 @@ _bound_target = ""     # normalized target key set by start_session
 _last_session = _session
 _reproduction: AppReproductionWorkspace | None = None
 _review: AndroidReproductionReview | None = None
+# Self-review observation budget (2026-09-30: a zcode run verified 710 frames
+# in round 1 without ever converging to a decision; the historical
+# distribution across 26 accepted runs is 18–98 observations with median 36,
+# so 100 covers every normal case and only stops runaway verification).
+_review_obs_used = 0
+_REVIEW_BUDGET = int(os.environ.get("BBB_REVIEW_BUDGET", "100"))
 # 这一单是否已走完 finish：_shutdown 用它决定沙箱能不能销毁。
 _finished = False
 
@@ -898,7 +904,19 @@ def _t_start_reproduction_review(args: dict) -> dict:
 
 
 def _t_review_observe(_args: dict) -> dict:
+    global _review_obs_used
+    _review_obs_used += 1
+    if _review_obs_used > _REVIEW_BUDGET:
+        raise ValueError(
+            f"review observation budget exhausted ({_REVIEW_BUDGET} observations; "
+            "override with BBB_REVIEW_BUDGET). You have gathered sufficient "
+            "evidence — call complete_reproduction_review(decision=..., "
+            "checked_flows=..., findings=...) NOW. Do not request more "
+            "screenshots.")
     png, meta = _require_review().observe()
+    if isinstance(meta, dict):
+        meta = {**meta, "review_progress": {
+            "observations_used": _review_obs_used, "budget": _REVIEW_BUDGET}}
     return _ok([
         _image_item(base64.b64encode(png).decode("ascii")),
         _text(meta),
