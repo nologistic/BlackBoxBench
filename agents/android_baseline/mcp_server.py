@@ -59,7 +59,7 @@ _review: AndroidReproductionReview | None = None
 # distribution across 26 accepted runs is 18–98 observations with median 36,
 # so 100 covers every normal case and only stops runaway verification).
 _review_obs_used = 0
-_REVIEW_BUDGET = int(os.environ.get("BBB_REVIEW_BUDGET", "100"))
+_REVIEW_BUDGET = int(os.environ.get("BBB_REVIEW_BUDGET", "150"))
 # 这一单是否已走完 finish：_shutdown 用它决定沙箱能不能销毁。
 _finished = False
 
