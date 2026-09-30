@@ -59,7 +59,7 @@ _review: AndroidReproductionReview | None = None
 # distribution across 26 accepted runs is 18–98 observations with median 36,
 # so 100 covers every normal case and only stops runaway verification).
 _review_obs_used = 0
-_REVIEW_BUDGET = int(os.environ.get("BBB_REVIEW_BUDGET", "100"))
+_REVIEW_BUDGET = int(os.environ.get("BBB_REVIEW_BUDGET", "150"))
 
 # Android session creation boots a fresh AVD clone, pins the guest
 # locale (which restarts the framework) and installs the APK, so the
