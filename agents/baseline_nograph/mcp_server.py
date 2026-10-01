@@ -625,6 +625,7 @@ def _t_finish_reproduction(_args: dict) -> dict:
     review.close()
     _review = None
     _reproduction = None
+    _clear_repro_state()  # 2026-10-02: finish 后清理状态文件，防止积累（30 个残留导致 reattach 唯一候选失效）
     return _ok([_text(result)])
 
 
