@@ -539,13 +539,17 @@ class AndroidEmulatorRuntime(Runtime):
         """
         command = [str(self.toolchain.emulator), "-avd", name,
                    "-port", str(self.port), "-no-audio",
-                   "-no-boot-anim", "-no-snapshot-save", "-no-snapshot-load",
+                   "-no-boot-anim", "-no-snapshot-save",
                    "-gpu",
                    "swiftshader_indirect", "-camera-back", "none",
                    "-camera-front", "none", "-dns-server",
                    "1.1.1.1,8.8.8.8"]
-        if snapshot:
-            command += ["-snapshot", snapshot]
+        # 2026-10-04: the baked bbb_base snapshot (ram.bin) reliably fails to
+        # restore after cloning — force cold boot until the snapshot is re-
+        # baked. Cold boot costs ~17s (verified) vs the broken snapshot that
+        # crashes qemu at startup ("Android emulator exited during boot" 21+
+        # times on the joplin run).
+        command.append("-no-snapshot-load")
         if not self.headed:
             command.append("-no-window")
         self.process = subprocess.Popen(
