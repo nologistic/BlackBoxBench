@@ -539,7 +539,8 @@ class AndroidEmulatorRuntime(Runtime):
         """
         command = [str(self.toolchain.emulator), "-avd", name,
                    "-port", str(self.port), "-no-audio",
-                   "-no-boot-anim", "-no-snapshot-save", "-gpu",
+                   "-no-boot-anim", "-no-snapshot-save", "-no-snapshot-load",
+                   "-gpu",
                    "swiftshader_indirect", "-camera-back", "none",
                    "-camera-front", "none", "-dns-server",
                    "1.1.1.1,8.8.8.8"]
