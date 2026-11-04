@@ -31,7 +31,7 @@ if [ -z "$PY" ]; then
   elif [ -x "$REPO/vendor/python/python.exe" ]; then
     PY="$REPO/vendor/python/python.exe"
   else
-    PY="/home/user/ENTER/envs/app/bin/python3.12"
+    PY="/path/to/env/bin/python3"
   fi
 fi
 LOG="${BBB_CONTROLLER_LOG:-/tmp/bbb_controller.log}"

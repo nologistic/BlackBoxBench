@@ -49,13 +49,13 @@ are kept verbatim.
 
 **A2. Weighted Fidelity Score `WFS = (Σ_r W[grade_r]) / N`.**
 A single 0–1 number per target (aggregatable across the suite). *Meaning:* overall
-reproduction quality. *Script:* `compute_metrics.py` (`wfs`). *zhihu:* 0.317.
+reproduction quality. *Script:* `compute_metrics.py` (`wfs`).317.
 
 **A3. Persistence‑subset WFS** — WFS restricted to requirements with checklist
 flag `persistence:true`. *Meaning:* the **long‑horizon / stateful** core — can the
 reproduction keep state across reload (a hallmark of complex apps). *Source:*
 checklist `persistence` flags ∩ grades. *Script:* `compute_metrics.py`
-(`persistence_wfs`, `persistence_n`). *zhihu:* 0.417 over 9 reqs.
+(`persistence_wfs`, `persistence_n`).417 over 9 reqs.
 
 ### B. Exploration quality
 
@@ -64,21 +64,20 @@ tasks the agent *demonstrably reached/exercised during exploration*. Because
 nograph records nothing, this is computed **passively, post‑hoc**: a *coverage
 judge* (`gpt‑6‑astra`, vision) is shown the exploration keyframes + the checklist
 and decides, per task, reached / not, citing an evidence frame. Zero effect on the
-agent's run. *Script:* `coverage_judge.sh` → `runs/<sid>/coverage_judge.json`.
-*zhihu:* 12/30 = 40 %. *Caveat:* judge‑based estimate, but every "reached" cites an
+agent's run. *Script:* `coverage_judge.sh` → `runs/<sid>/coverage_judge.json`. *Caveat:* judge‑based estimate, but every "reached" cites an
 auditable frame.
 
 **B2. Effective‑action rate.** Fraction of observations whose `diff_score`
 (pixel delta vs previous frame) exceeds `ε` (default 0.002) → share of actions
 that produced a **visible change** (purposeful vs wasted motion). *Source:*
-`observations.jsonl`. *Script:* `compute_metrics.py`. *zhihu:* 0.764.
+`observations.jsonl`. *Script:* `compute_metrics.py`.764.
 
 **B3. Invalid‑action rate.** Fraction of actions with `accepted:false` or an
-`error` (illegal / mis‑targeted). *Source:* `actions.jsonl`. *zhihu:* 0.0.
+`error` (illegal / mis‑targeted). *Source:* `actions.jsonl`.0.
 
 **B4. Exploration horizon.** `steps`, `duration_s`, and distinct frames seen —
 characterises how long‑horizon the exploration was. *Source:*
-`session_summary.json` + `observations.jsonl`. *zhihu:* 58 steps, ~1706 s.
+`session_summary.json` + `observations.jsonl`.
 
 ### C. Visual similarity (CLIP, coverage‑discounted)
 
@@ -92,7 +91,7 @@ characterises how long‑horizon the exploration was. *Source:*
 Average over all tasks = visual similarity. *Meaning:* end‑to‑end "**seen AND
 reproduced** visually" — exploration coverage is baked in (you can only reproduce
 what you saw). Reuses exploration frames (no separate capture) → cheap. *Script:*
-`compute_visual_similarity.py` (CLIP‑L/14 on CPU). *zhihu:* **0.340** (12 non‑zero
+`compute_visual_similarity.py` (CLIP‑L/14 on CPU).340** (12 non‑zero
 of 30). *Caveat:* CLIP absolute values for UI screenshots run high; the signal is
 the **relative** comparison across models/targets.
 <!-- APPEND3 -->
@@ -101,14 +100,13 @@ the **relative** comparison across models/targets.
 **D1. Self‑correction rounds.** `revision_count` / number of review rounds the
 reproduction agent needed before its pixel self‑review accepted the site. *Meaning:*
 proxy for reproduction difficulty / agent self‑critique. *Source:*
-`.blackboxbench/review_summary.json`. *zhihu:* 0 revisions, 1 round, accepted.
+`.blackboxbench/review_summary.json`.
 
 **D2. Illusion rate.** Fraction of requirements graded `placeholder`/`broken`
 **or** whose rationale matches illusion keywords (fake / shell / decorative /
 占位 / 装饰 / no‑op …). *Meaning:* how often the agent produced UI that *looks*
 present but isn't functional — a novel "superficial‑vs‑functional" signal.
-*Source:* `evaluation_report.json` grades + rationale. *Script:* `compute_metrics.py`.
-*zhihu:* 0.467.
+*Source:* `evaluation_report.json` grades + rationale. *Script:* `compute_metrics.py`.467.
 
 ### E. Robustness / benchmark validity
 
@@ -116,7 +114,7 @@ present but isn't functional — a novel "superficial‑vs‑functional" signal.
 `actions.jsonl` entries flagged `environment_degrading` (e.g. a CDP websocket
 timeout). Per `docs/evaluation_contract.md §11`, these separate **platform
 defects** from **agent capability** so a score isn't silently polluted by
-infrastructure blips. Report it to defend the benchmark's validity. *zhihu:* 1
+infrastructure blips. Report it to defend the benchmark's validity.
 (a transient CDP timeout; the session self‑healed and finalized).
 
 ### F. Efficiency (token‑based cost)
@@ -126,12 +124,11 @@ cache_creation + cache_read` from each stage's final `result` event.
 *Note:* dominated by `cache_read` (multi‑turn agents re‑read the cached context
 each turn); this is the literal *total tokens processed*. Switch to
 `input+output` only if you want "new compute" instead. *Source:* the stage
-`stream-json` logs. *zhihu:* explore 11.75M, reproduce 2.95M, evaluate 26.59M,
+`stream-json` logs.75M, reproduce 2.95M, evaluate 26.59M,
 **total 41.29M**.
 
 **F2. Tokens‑per‑fidelity‑point** `= tokens_total / (WFS · N)`. Token cost per
-unit of reproduction success — the key efficiency axis for model comparison.
-*zhihu:* 4.35M tokens / fidelity‑point.
+unit of reproduction success — the key efficiency axis for model comparison.35M tokens / fidelity‑point.
 
 ---
 
@@ -172,26 +169,7 @@ network `bbb-net`, and per‑target login profile `runs/live_targets/<t>/profile
 coverage, visual_sim, eff_action, invalid, platform_fail, revisions, illusion,
 tok_explore, tok_reproduce, tok_evaluate, tok_total, tok_per_fidelity`
 
-## 5. Worked example — `zhihu_web` (C1, validated)
-
-| metric | value |
-|---|---|
-| full / partial / placeholder / broken | 0 / 16 / 6 / 8 |
-| WFS | 0.317 |
-| persistence‑WFS (9 reqs) | 0.417 |
-| exploration coverage | 12/30 (40 %) |
-| visual similarity (coverage‑discounted) | 0.340 |
-| effective‑action rate | 0.764 |
-| invalid‑action rate | 0.0 |
-| platform failures | 1 (CDP timeout, self‑healed) |
-| self‑correction revisions | 0 |
-| illusion rate | 0.467 |
-| tokens (explore / reproduce / evaluate / total) | 11.75M / 2.95M / 26.59M / 41.29M |
-| tokens per fidelity‑point | 4.35M |
-
-*(This C1 run used Opus 5 for all stages; the suite uses Opus 4.8 + gpt‑6‑astra.)*
-
-## 6. Caveats (state these in the paper)
+## 5. Caveats (state these in the paper)
 
 1. **Coverage & visual similarity are judge/model‑assisted**, not ground truth:
    coverage uses a vision‑LLM judge over keyframes; each claim cites an auditable

@@ -1,6 +1,6 @@
 # Android 数据集 APK 清单（APK_MANIFEST）
 
-本目录存放 BlackBoxBench Android 数据集 26 个目标的原始 APK（未修改的上游
+本目录存放 BlackBoxBench Android 数据集的原始 APK（未修改的上游
 构建），用于基准测试的可复现性。**用途、版权与许可证声明见 [NOTICE.md](NOTICE.md)**。
 
 - 完整性校验：`SHA256SUMS.txt`（`joplin.apk` 因超过 GitHub 单文件 100MB 限制

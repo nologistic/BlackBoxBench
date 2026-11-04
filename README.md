@@ -130,25 +130,25 @@ bash scripts/full_metrics_android.sh <sid> <app> <handoff> <agent> [eval_report]
 python scripts/bootstrap.py
 
 # Android 环境（可选）
-vendor/python/bin/python scripts/setup_android.py
-vendor/python/bin/python scripts/android_launch_preflight.py --app <app_id> --condition nograph
+vendor/python/bin/python3 scripts/setup_android.py
+vendor/python/bin/python3 scripts/android_launch_preflight.py --app <app_id> --condition nograph
 ```
 
 ### 启动 Controller
 
 ```bash
-vendor/python/bin/python -m benchmark.server --port 7800
+vendor/python/bin/python3 -m benchmark.server --port 7800
 ```
 
 ### 批量启动探索
 
 ```bash
 # Android nograph 探索
-vendor/python/bin/python scripts/launch_batch.py --max-parallel 4 \
+vendor/python/bin/python3 scripts/launch_batch.py --max-parallel 4 \
   explore dsh nonogram nograph explore zcode nonogram nograph
 
 # Web 探索
-vendor/python/bin/python scripts/launch_batch.py --max-parallel 2 \
+vendor/python/bin/python3 scripts/launch_batch.py --max-parallel 2 \
   explore dsh ecommerce_demo web-nograph
 ```
 
@@ -158,7 +158,7 @@ vendor/python/bin/python scripts/launch_batch.py --max-parallel 2 \
 ### 批量启动评测
 
 ```bash
-vendor/python/bin/python scripts/launch_batch.py --max-parallel 1 \
+vendor/python/bin/python3 scripts/launch_batch.py --max-parallel 1 \
   eval <target> <handoff_id> <checklist>
 ```
 
@@ -170,7 +170,7 @@ BBB_SUITE_GEN_MODEL="Opus 4.8" BBB_SUITE_EVAL_MODEL="gpt-6-astra" \
   bash scripts/run_android_suite.sh <agent> [targets...]
 
 # 单指标
-vendor/python/bin/python scripts/compute_metrics.py \
+vendor/python/bin/python3 scripts/compute_metrics.py \
   --platform android --sid <sid> --app <app> --handoff <handoff> \
   --eval-report <path> --json metrics.json
 ```
@@ -183,7 +183,7 @@ Calendar、Dropbox、Google Forms、Excalidraw、diagrams.net、Spotify、Desmos
 （图形/几何/3D）、Google Maps、Kleki、JS Paint、Squoosh——注册于
 `benchmark/orchestrator/apps.py`，配套人工登录 profile（`runs/live_targets/`）。
 
-**Android 数据集（26 个目标）**：Google 时钟、AnkiDroid、AntennaPod、Fossify
+**Android 数据集（25 个目标）**：Google 时钟、AnkiDroid、AntennaPod、Fossify
 日历/相册/绘图/计算器、cashew、feeder、Loop Habit Tracker、Librera、Organic
 Maps、Snapseed、VLC、Joplin、Tasks、Material Files、Vinyl、MJ PDF、节拍器、
 Markor、Nonogram、Minesweeper、2048、Futoshiki、RTTT——注册于
@@ -259,9 +259,9 @@ review_specs/             人工功能要求清单（web 28 / android 26）
 ## 验证
 
 ```bash
-vendor/python/bin/python -m pytest tests/ -q
-vendor/python/bin/python sample_apps/ecommerce_demo/smoke_test.py
-vendor/python/bin/python scripts/e2e_smoke.py
+vendor/python/bin/python3 -m pytest tests/ -q
+vendor/python/bin/python3 sample_apps/ecommerce_demo/smoke_test.py
+vendor/python/bin/python3 scripts/e2e_smoke.py
 ```
 
 ## 当前范围
