@@ -34,6 +34,6 @@
         "package": "emulator",
         "locked": "36.3.10",
         "upstream_verified": "37.1.11",
-        "reason": "emulator 37.x (incl. 37.1.11 stable / 37.2.10 beta / 37.3.1 canary) never starts a vCPU on this host: kernel 6.8.0-124 + dual-socket AMD EPYC 9274F, physical machine, KVM accel-check OK. QEMU threads hang ~20s (no thread ever in KVM_RUN, guest prints nothing) then the hang detector aborts with SIGSEGV. 36.3.10 boots normally (verified 2026-09-24). Excludes graphics/accel/CPU-model/ASLR/AVD-lock causes."
+        "reason": "emulator 37.x (incl. 37.1.11 stable / 37.2.10 beta / 37.3.1 canary) never starts a vCPU on some hosts: kernel 6.8 + dual-socket server CPU, physical machine, KVM accel-check OK. QEMU threads hang ~20s (no thread ever in KVM_RUN, guest prints nothing) then the hang detector aborts with SIGSEGV. 36.3.10 boots normally (verified 2026-09-24). Excludes graphics/accel/CPU-model/ASLR/AVD-lock causes."
     }
 }

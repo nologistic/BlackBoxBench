@@ -40,14 +40,14 @@ reproduction），**一律不得作为 judge 给复现产物打分**。
   （astra xhigh），历史报告中不同口径的成绩不得混入对照表。
 - **启动模板**：
   `codex exec -m gpt-6-astra -c model_reasoning_effort='xhigh' --skip-git-repo-check -s danger-full-access '/app-review <目标>（handoff_id=..., checklist=...）'`
-  （环境：`NO_PROXY=127.0.0.1,localhost`、`DISPLAY=:99`、cwd=`/storage/dzj/review`、unset `BBB_RUNS_DIR`）
+  （环境：`NO_PROXY=127.0.0.1,localhost`、`DISPLAY=:99`、cwd=`/path/to/review`、unset `BBB_RUNS_DIR`）
 
 ### 1.2 运行目录约定（2026-09-21 确立）
 
 | 环节 | 运行目录（cwd）|
 |---|---|
-| 探索生成（exploration → reproduction）| `/storage/dzj/runs` |
-| 评测（evaluation，astra judge 会话）| `/storage/dzj/review` |
+| 探索生成（exploration → reproduction）| `/path/to/runs` |
+| 评测（evaluation，astra judge 会话）| `/path/to/review` |
 
 探索与评测在**两个独立工作目录**中运行，互不混用：探索产生的现场痕迹
 （目标 lease、控制台输出、临时文件）统一留在 `runs/`；评测（astra judge）

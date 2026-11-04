@@ -15,21 +15,21 @@
 #   - per-target login profile: runs/live_targets/<target>/profile
 #     (capture via the self_login_ui flow; see docs/使用说明 login section)
 #   - the `claude` CLI logged in; run with the ANTHROPIC_* env cleared so it
-#     uses the baidu-cc account (see CLEAN_ENV below)
+#     uses the dedicated judge account (see CLEAN_ENV below)
 #
 # Usage:  bash scripts/run_web_suite.sh  [target1 target2 ...]
 #   no args -> uses the built-in DOMESTIC_TARGETS list
 # ==========================================================================
 set -u
-REPO=/mnt/cfs-agent/workspace/xuzhiyao/blackbench/BlackBoxBench-linux-2
-PARENT=/mnt/cfs-agent/workspace/xuzhiyao/blackbench
+REPO=/path/to/BlackBoxBench
+PARENT=/path/to
 cd "$REPO"
 
 MODEL="${BBB_SUITE_MODEL:-Opus 5[1m]}"
 # Per-stage models: exploration + reproduction (generation) vs evaluation.
 GEN_MODEL="${BBB_SUITE_GEN_MODEL:-Opus 4.8}"
 EVAL_MODEL="${BBB_SUITE_EVAL_MODEL:-gpt-6-astra}"
-USERNAME="${BBB_SUITE_USER:-xuzhiyao}"
+USERNAME="${BBB_SUITE_USER:-user}"
 CONCURRENCY="${BBB_SUITE_CONCURRENCY:-3}"
 MAX_ACTIONS="${BBB_SUITE_MAX_ACTIONS:-120}"
 MINUTES="${BBB_SUITE_MINUTES:-45}"

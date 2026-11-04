@@ -4,8 +4,8 @@
 Replaces the hand-rolled ``sleep 300; script -qec "…" &`` dance: one command
 starts any mix of Android exploration runs and astra evaluations, with
 bounded parallelism, per-task log files and a summary table. Tasks run in
-the canonical directories (exploration under /storage/dzj/runs, evaluation
-under /storage/dzj/review) with the same environment the manual launches
+the canonical directories (exploration under /path/to/runs, evaluation
+under /path/to/review) with the same environment the manual launches
 used (NO_PROXY for the local controller, DISPLAY for headed tooling, and a
 TTY via ``script`` for the agent CLIs that insist on one).
 

@@ -11,7 +11,7 @@
 # Staggering matters: a dozen tasks at once spawn 48+ MCP processes that
 # race the shared Controller's cold start. On 2026-09-17 a 4s gap let that
 # race produce 217 empty sessions and killed one task; the default gap is
-# now 15s. Sessions land in repo/runs; the batch runs from /storage/dzj/runs.
+# now 15s. Sessions land in repo/runs; the batch runs from /path/to/runs.
 set -euo pipefail
 
 GAP=60

@@ -5,7 +5,7 @@
 # citing an evidence frame. Output: runs/<sid>/coverage_judge.json
 #   [ {"id":"f01","reached":true,"evidence_frame":"frame_000012.png","note":"..."} ]
 set -u
-REPO=/mnt/cfs-agent/workspace/xuzhiyao/blackbench/BlackBoxBench-linux-2
+REPO=/path/to/BlackBoxBench
 cd "$REPO"
 SID="$1"; APP="$2"; K="${3:-18}"
 RD="runs/$SID"
@@ -31,7 +31,7 @@ Output ONLY a JSON array, one object per requirement, no prose:
 env -u ANTHROPIC_MODEL -u ANTHROPIC_API_KEY -u ANTHROPIC_BASE_URL -u ANTHROPIC_AUTH_TOKEN \
   -u ANTHROPIC_CUSTOM_HEADERS -u ANTHROPIC_DEFAULT_HAIKU_MODEL -u ANTHROPIC_DEFAULT_OPUS_MODEL \
   -u ANTHROPIC_DEFAULT_SONNET_MODEL claude -p "$PROMPT" \
-  --username "${BBB_SUITE_USER:-xuzhiyao}" --model "${BBB_JUDGE_MODEL:-gpt-6-astra}" \
+  --username "${BBB_SUITE_USER:-user}" --model "${BBB_JUDGE_MODEL:-gpt-6-astra}" \
   --allowedTools "Read" --add-dir "$REPO/runs" --output-format text > "$RD/coverage_raw.txt" 2>&1
 
 # extract the JSON array
