@@ -30,7 +30,7 @@
   Airtable、Google Calendar、Dropbox、Google Forms、Excalidraw、diagrams.net、
   Spotify、Desmos×3、Google Maps、Kleki、JS Paint、Squoosh，注册于
   `benchmark/orchestrator/apps.py`，共 848 条清单要求）与 **Android 26 目标数据集**
-  （`google_clock` + 25 个应用，注册于 `runs/android_targets/targets.json`）是
+  （`google_clock` + 25 个应用，注册于 `android_targets/registry.json`）是
   数据集；`ecommerce_demo` 与 `android_commerce_demo` 只用于冒烟测试。
 - Android 数据集三件套已对齐 26 目标：目标注册（包名/启动 Activity 由持久模拟器
   `bbb_manual_show` 的系统 resolver 解析）、`app_reproduction/materials/apps/`

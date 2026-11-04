@@ -187,7 +187,7 @@ Calendar、Dropbox、Google Forms、Excalidraw、diagrams.net、Spotify、Desmos
 日历/相册/绘图/计算器、cashew、feeder、Loop Habit Tracker、Librera、Organic
 Maps、Snapseed、VLC、Joplin、Tasks、Material Files、Vinyl、MJ PDF、节拍器、
 Markor、Nonogram、Minesweeper、2048、Futoshiki、RTTT——注册于
-`runs/android_targets/targets.json`。
+`android_targets/registry.json`。
 
 每个目标配套 `review_specs/<app_id>.json` 人工功能清单（含 persistence 标志与
 exclusions 排除边界），新目标接入见 [adding reference app](docs/adding_reference_app.md)。

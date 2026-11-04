@@ -76,3 +76,7 @@ review_specs_backup_exclusions/
 app_output/evaluations/eval_16315e903d/
 app_output/evaluations/eval_4a41f33e07/
 app_output/evaluations/eval_e770bf3961/
+# 运行产物：只在本机保留，绝不入库
+app_output/
+desktop_output/
+domain_output/

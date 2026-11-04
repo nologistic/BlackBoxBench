@@ -21,6 +21,7 @@ pluggy==1.6.0
 pydantic==2.11.4
 pydantic_core==2.33.2
 pytest==8.3.5
+pytest-timeout==2.3.1
 python-multipart==0.0.20
 setuptools==84.0.0
 starlette==0.46.2

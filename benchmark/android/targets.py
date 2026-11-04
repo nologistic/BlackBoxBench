@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -67,8 +68,32 @@ class AndroidTargetSpec:
         return Path(self.apk_path).resolve()
 
 
+def _dataset_registry_file() -> Path:
+    """Shipped target registry (read-only dataset, part of the repository).
+
+    The per-target metadata (package, launch activity, brief, reset strategy)
+    is dataset material, not run output: without it the published APKs cannot
+    be used at all. It therefore lives beside the code, while
+    ``_registry_file()`` stays the runtime file that registration writes to.
+    """
+    return config.PROJECT_ROOT / "android_targets" / "registry.json"
+
+
 def _registry_file() -> Path:
     return config.ANDROID_TARGETS_DIR / "targets.json"
+
+
+def _registry_candidates() -> tuple[Path, ...]:
+    """Runtime registry first, then the shipped one.
+
+    The shipped registry is only a fallback for a clean install: as soon as a
+    caller pins ``BBB_ANDROID_TARGETS_DIR`` (tests, isolated pilots) the runtime
+    file is the sole source, so dataset entries never leak into that scope.
+    """
+    candidates = [_registry_file()]
+    if not os.environ.get("BBB_ANDROID_TARGETS_DIR"):
+        candidates.append(_dataset_registry_file())
+    return tuple(candidates)
 
 
 def _sample_spec() -> AndroidTargetSpec:
@@ -92,8 +117,8 @@ def _sample_spec() -> AndroidTargetSpec:
 
 
 def _load_registered() -> dict[str, AndroidTargetSpec]:
-    path = _registry_file()
-    if not path.is_file():
+    path = next((item for item in _registry_candidates() if item.is_file()), None)
+    if path is None:
         return {}
     raw = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(raw, dict):
@@ -102,6 +127,11 @@ def _load_registered() -> dict[str, AndroidTargetSpec]:
     for key, value in raw.items():
         if not isinstance(value, dict):
             raise ValueError(f"invalid Android target entry: {key}")
+        value = dict(value)
+        apk_path = value.get("apk_path")
+        if apk_path and not Path(apk_path).is_absolute():
+            # Shipped registries address APKs relative to the repository root.
+            value["apk_path"] = str((config.PROJECT_ROOT / apk_path).resolve())
         spec = AndroidTargetSpec(**value)
         _validate_spec(spec)
         result[key] = spec
