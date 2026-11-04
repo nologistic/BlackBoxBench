@@ -11,7 +11,7 @@ TTY via ``script`` for the agent CLIs that insist on one).
 
 Examples:
     # one astra evaluation
-    scripts/launch_batch.py eval vinyl sess_20260921_153303_4a8a3f-88bd6c vinyl.json
+    scripts/launch_batch.py eval vinyl sess_<sample> vinyl.json
 
     # three explorations (kimi / dsh / zcode) and two evaluations, at most 4 at once
     scripts/launch_batch.py --max-parallel 4 \

@@ -15,8 +15,8 @@ EVALS = ROOT / "app_output" / "evaluations"
 
 # Map apk hash -> condition via the accepted review summaries.
 products = {}
-for handoff in ("sess_20260901_093928_ad32e3-6919fa",
-                "sess_20260901_094934_3b7a3f-cd968f"):
+for handoff in ("sess_<sample>",
+                "sess_<sample>"):
     summary = json.loads(
         (ROOT / "app_output" / handoff / "review" /
          "review_summary.json").read_text(encoding="utf-8"))

@@ -6,7 +6,7 @@
 
 ## 0. 术语
 
-- `sid`: session_id,形如 `sess_20260818_123000_ab12cd`
+- `sid`: session_id,形如 `sess_<sample>`
 - `frame_id`: 整数,会话内单调递增,对应 `frames/frame_000127.png`
 - `step`: 整数,每个被接受的 action 使 step+1; observe 不增加 step
 
