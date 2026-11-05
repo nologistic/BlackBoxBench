@@ -1,279 +1,266 @@
-# BlackBoxBench
+# Recreate Anything
 
-BlackBoxBench 是一个面向 AI Agent 的黑盒 App 探索与复现基准测试平台。Agent 只能
-看到屏幕像素，并且只能发送坐标级鼠标/键盘/触控输入。平台支持 Web 与 Android 两个
-独立链路，每个链路提供**托管工具**与**消融变体（nograph）**两种探索条件，探索完成后
-自动进入隔离复现工作区生成可交付产物，并由独立 LLM judge 按人工功能清单做四档
-评测。全流程产生的工件（`runs/`、`app_output/`、`website_output/`）均可离线计算
-13 项标准化指标（WFS、覆盖率、视觉相似度、幻觉率、token 效率等），用于跨模型、
-跨条件的系统性对比。
+**一个只靠像素和坐标输入、就能让 AI Agent 复刻未知 App 的黑盒基准测试平台。**
+
+Agent 看不到 DOM、看不到控件树、看不到日志，也拿不到 APK——它只有屏幕截图，和一只"人手"。
+我们用它来回答一个问题：**当一个 Agent 只能像人一样看和操作时，它能把一个陌生的 App 复刻到什么程度？**
+
+<p>
+  <img alt="platform" src="https://img.shields.io/badge/platform-Web%20%7C%20Android-1f6feb">
+  <img alt="python" src="https://img.shields.io/badge/python-3.12-3776ab">
+  <img alt="judge" src="https://img.shields.io/badge/judge-gpt--6--astra-6e40c9">
+  <img alt="metrics" src="https://img.shields.io/badge/metrics-13%20standardized-2ea043">
+  <img alt="conditions" src="https://img.shields.io/badge/conditions-managed%20%2F%20nograph-d29922">
+  <img alt="status" src="https://img.shields.io/badge/status-active%20development-orange">
+</p>
+
+---
+
+## 目录
+
+- [它测什么](#它测什么)
+- [端到端流程](#端到端流程)
+- [探索条件矩阵](#探索条件矩阵)
+- [评测体系](#评测体系)
+- [13 项标准化指标](#13-项标准化指标)
+- [最小架构](#最小架构)
+- [快速开始](#快速开始)
+- [仓库结构](#仓库结构)
+- [不可破坏的边界](#不可破坏的边界)
+- [文档索引](#文档索引)
+
+---
+
+## 它测什么
+
+传统 GUI Agent 基准往往允许读取控件树、DOM、Accessibility 树，或直接调用应用 API。
+这让任务变简单了，也让结论变得不可比——你无法区分"模型理解了界面"和"模型读到了结构"。
+
+Recreate Anything 把信息通道压到最小：
 
 ```text
-Unknown App ──pixels──▶ Agent ──human-like HID──▶ Unknown App
-                           │
-                           ├── evidence ──▶ Functional Topology（托管条件）
-                           │                    │
-                           ▼                    ▼
-                     Reproduction Workspace ──▶ LLM Judge ──▶ Metrics
+Unknown App ──pixels──▶  Agent  ──human-like HID──▶  Unknown App
+                            │
+                            ├── evidence ──▶ Functional Topology（托管条件）
+                            │                     │
+                            ▼                     ▼
+                    Reproduction Workspace ──▶  LLM Judge  ──▶  Metrics
+```
+
+- **输入**：一张 PNG 截图（或一帧画面）
+- **输出**：坐标级点击 / 拖拽 / 触控 / 键盘输入
+- **禁止**：DOM、Accessibility、脚本执行、selector、URL、网络、Cookie、存储、ADB、日志、反编译
+- **产出**：可安装的 APK，或可运行的静态网站；外加一份可被判分的功能拓扑
+
+## 端到端流程
+
+| 阶段 | 发生什么 | 产物 |
+|---|---|---|
+| **1. 探索** | Agent 在受控运行时里操作目标应用，受动作预算与边界约束 | 屏幕帧 + 动作轨迹（JSONL） |
+| **2. 记录**（仅托管条件） | Agent 用 discovery 工具登记状态、功能、数据、边、假设 | 证据校验过的 Functional Topology |
+| **3. 复现** | finalize 后自动进入隔离工作区，按拓扑重写应用 | Android：Kotlin + Compose 工程与签名 APK<br>Web：静态网站 |
+| **4. 自检** | 在另一台独立设备/浏览器里像素复测，多轮修正 | `review_summary.json`（轮次、决策） |
+| **5. 评测** | 独立 LLM judge 按人工功能清单逐项操作复现产物 | `evaluation_report.json`（四档评分） |
+| **6. 度量** | 从工件离线计算 13 项指标 | 跨模型、跨条件的可比表格 |
+
+关键点：**复现工作区与探索环境物理隔离**（`network=none`、只读根文件系统、capability drop），
+输入只有三份只读挂载：
+
+```text
+托管 finalized topology  → /input/functional_topology.json   (read-only)
+公共虚构素材              → /materials                        (read-only)
+过滤后的探索工件          → /exploration                      (read-only)
+复现输出                  → /workspace                        (read-write)
 ```
 
 ## 探索条件矩阵
 
-| 平台 | 条件 | Skill 名称 | Agent 获得什么 | 记录要求 |
+两条链路 × 两种条件，共四种组合。**唯一被测变量是"有没有结构化记录工具"**。
+
+| 平台 | 条件 | Skill | Agent 获得什么 | 记录要求 |
 |---|---|---|---|---|
 | Web | 基线 | `blackbox-explorer` | PNG、坐标输入、discovery MCP | 按指定 DAG 记录 |
 | Web | 消融 | `web-nograph` | PNG、坐标输入（无 discovery 工具） | 自由记录或完全不记录 |
 | Android | 基线 | `android-blackbox-explorer` | PNG、坐标触控、discovery MCP | 按指定 DAG 记录 |
 | Android | 消融 | `baseline-nograph` | PNG、坐标触控（无 discovery 工具） | 自由记录或完全不记录 |
 
-消融条件与基线的唯一差异是**记录工具面**：MCP 工具面 = 基线减去 7 个 discovery
-记录工具（record_state / feature / data / edge / hypothesis / resolve / revise），
-探索纪律（预算、边界、finalize 流程）与复现链路完全保持一致。这使得"是否有结构化
-记录"成为唯一被测变量，可用于量化记录工具对探索质量与复现保真度的影响。
+消融条件 = 基线 **减去 7 个 discovery 记录工具**：
 
-自建工具条件（Agent 完全自主决定工具与工作流）已归档于 `self_explorer/`，不再作为
-活跃实验入口，但代码与文档保留用于复现历史实验。
+```text
+record_state · record_feature · record_data · record_edge
+record_hypothesis · resolve · revise
+```
 
-## 不可破坏的边界
+探索纪律（预算、边界、finalize 流程）与复现链路完全一致，因此"是否有结构化记录"
+成为干净的单一变量，可量化记录工具对探索质量与复现保真度的影响。
 
-- Agent 只能经 `/agent/{sid}/...` 使用截图、预算、坐标输入和 discovery 工具。
-- 禁止 DOM、Accessibility、脚本执行、selector、URL、网络、Cookie 和存储读取。
-- 本地 CDP 只允许 Page 导航/截图、Input、固定 viewport 和 Browser.close。
-- Action 回执不包含"点到了什么"等语义结果。
-- confirmed 的 Feature/Edge 必须引用当前 Session 的真实 step/frame。
-- `sample_apps/*/ground_truth.json` 不通过 HTTP 暴露，也不进入 Agent 容器。
-- Android 侧 Agent 不接触 APK 文件、ADB、控件树、日志或反编译结果。
+自建工具条件（Agent 完全自主决定工具与工作流）已归档于 `self_explorer/`，
+不再作为活跃实验入口，代码与文档保留用于复现历史实验。
 
-详见 [security model](docs/security_model.md)。
+## 评测体系
+
+评测由独立 LLM judge（`gpt-6-astra`，`xhigh` 推理）执行：它拿到人工功能清单，
+像人一样操作复现产物，逐项打分。
+
+| 档位 | 权重 | 含义 |
+|---|:---:|---|
+| `full` | 1.00 | 功能完整实现，含状态持久化 |
+| `partial` | 0.50 | 核心可用但不完整 |
+| `placeholder` | 0.25 | 界面存在但无实际功能 |
+| `broken` | 0.00 | 缺失或报错 |
+
+加权得分 **WFS = Σ(权重 × 档位计数) / 判据总数**，可直接跨目标聚合。
+
+清单来自人工撰写，覆盖真实用户的典型使用路径：
+
+```text
+review_specs/<app_id>.json
+  ├─ checklist_id / platform
+  ├─ features[]   每条判据：id / name / steps / expected
+  │                        / persistence / multi_user
+  └─ exclusions[] 明确排除项：feature / treatment / reason / covered_by
+```
+
+当前随仓库提供 **57 份清单**：Web 28 份、Android 29 份。
+
+## 13 项标准化指标
+
+全部指标从已产出的工件离线计算，不需要额外 Agent 交互。
+
+| 族 | 指标 | 数据来源 |
+|---|---|---|
+| **A 复现保真** | 四档分布 · WFS · persistence-WFS | `evaluation_report.json` |
+| **B 探索质量** | 覆盖率 · 有效动作率 · 无效动作率 · 探索视野 | `actions.jsonl` + 覆盖率判定 |
+| **C 视觉相似** | CLIP-L/14 覆盖折扣相似度 | 探索帧 × 评测帧 |
+| **D 复现过程** | 修正轮数 · 幻觉率 | `review_summary.json` |
+| **E 鲁棒性** | 平台归因故障数 | `crash_report.json` |
+| **F 效率** | 分阶段 token · tokens-per-fidelity | CLI 用量日志 |
+
+- **覆盖率**：用视觉 judge 被动判定探索关键帧与人工清单的交集。
+- **视觉相似度**：对每条清单任务计算 CLIP 余弦相似度（探索帧 vs 复现帧），未覆盖或未复现计零。
+- **幻觉率**：复现产物声称实现了、但 judge 实测无法触达的判据比例。
 
 ## 最小架构
 
 ```text
-Agent framework (kimi / zcode / dsh / codex / any MCP client)
+Agent framework（任意 MCP 客户端：kimi / zcode / dsh / codex / 自研）
   └─ MCP or Python SDK
-       └─ Controller (benchmark.server)
-            ├─ Session: budget / lifecycle / action validation
-            ├─ Runtime: screenshot in / HID out
-            │    ├─ LocalChromiumRuntime（本地开发
-            │    ├─ LiveChromiumRuntime（真实网站
-            │    ├─ DockerX11Runtime（正式网页评测隔离
-            │    └─ AndroidEmulatorRuntime（Android 模拟器
-            ├─ Recorder: frames + JSONL trace
-            └─ Topology: evidence-validated discoveries
+       └─ Controller（benchmark.server）
+            ├─ Session  预算 / 生命周期 / 动作合法性校验
+            ├─ Runtime  截图进、HID 出
+            │    ├─ LocalChromiumRuntime      本地开发
+            │    ├─ LiveChromiumRuntime       真实网站
+            │    ├─ DockerX11Runtime          正式网页评测（隔离）
+            │    └─ AndroidEmulatorRuntime    Android 模拟器
+            ├─ Recorder  帧 + JSONL 轨迹
+            └─ Topology  证据校验后的 discoveries
                  └─ Reference App / Android APK
 ```
 
-### Android 链路
+复现自检的收敛由双闸保障：
 
-Android 探索通过 `AndroidEmulatorRuntime` 在可信宿主模拟器上运行。Agent 收到
-PNG 截图并发送坐标级触控，不能接触 ADB、控件树或日志。探索完成后自动进入离线
-Kotlin + Jetpack Compose 工作区，使用公共虚构素材生成可安装 APK，并在另一台
-独立模拟器中进行多轮像素复测（self-review）。自检收敛由双闸保障：
-
-- **观察预算**（`BBB_REVIEW_BUDGET`，默认 150）：单次自检允许的截图观察总数。
-- **修订上限**（`BBB_REPRO_REVISIONS`，默认 6）：自审发现→修复的最大循环次数。
-
-### 复现阶段
-
-finalize 后自动启动隔离复现容器（`network=none`、只读根文件系统、capability
-drop）：
-
-```text
-托管 finalized topology   → /input/functional_topology.json (read-only)
-公共虚构素材              → /materials (read-only)
-过滤后的探索工件          → /exploration (read-only)
-复现输出                  → /workspace (read-write)
-```
-
-Android 侧在 `app_output/<handoff_id>/` 产出完整 Kotlin + Compose 工程与签名
-APK；Web 侧在 `website_output/<handoff_id>/` 产出静态网站。
-
-## 评测体系
-
-探索与复现完成后，独立 LLM judge（`gpt-6-astra`）按人工功能清单
-（`review_specs/<app_id>.json`）逐项操作复现产物并给出四档评分：
-
-| 档位 | 权重 | 含义 |
-|---|:---:|---|
-| `full` | 1.0 | 功能完整实现，含持久化 |
-| `partial` | 0.5 | 核心可用但不完整 |
-| `placeholder` | 0.25 | 界面存在但无实际功能（装饰性） |
-| `broken` | 0.0 | 缺失或报错 |
-
-### 13 项标准化指标
-
-全部指标从已产出的工件离线计算，不需要额外 Agent 交互：
-
-| 族 | 指标 | 来源 |
-|---|---|---|
-| **A 复现保真** | 四档分布 / WFS / persistence-WFS | `evaluation_report.json` |
-| **B 探索质量** | 覆盖率 / 有效动作率 / 无效动作率 / 探索视野 | `actions.jsonl` + coverage judge |
-| **C 视觉相似** | CLIP-L/14 覆盖折扣相似度 | 探索帧 × 评测帧 |
-| **D 复现过程** | 修正轮数 / 幻觉率 | `review_summary.json` |
-| **E 鲁棒性** | 平台归因故障 | `crash_report.json` |
-| **F 效率** | 分阶段 token / tokens-per-fidelity | CLI 日志 |
-
-覆盖率（B1）通过 gpt-6-astra 视觉 judge 被动判定探索 keyframes 与 checklist 的
-交集；视觉相似度（C1）对每个 checklist 任务计算 CLIP 余弦相似度（探索帧 vs 复现
-帧），未覆盖或未复现的任务计零。一条龙指标计算：
-
-```bash
-bash scripts/full_metrics_android.sh <sid> <app> <handoff> <agent> [eval_report]
-```
+| 闸门 | 环境变量 | 默认值 | 含义 |
+|---|---|:---:|---|
+| 观察预算 | `BBB_REVIEW_BUDGET` | 150 | 单次自检允许的截图观察总数 |
+| 修订上限 | `BBB_REPRO_REVISIONS` | 6 | 自审发现 → 修复的最大循环次数 |
 
 ## 快速开始
 
-### 环境准备
-
 ```bash
-# 首次准备项目内 Python 和 Chromium
-python scripts/bootstrap.py
+# 1. 环境（Python 3.12）
+python3 -m venv vendor/python
+vendor/python/bin/python3 -m pip install -r requirements.txt
 
-# Android 环境（可选）
-vendor/python/bin/python3 scripts/setup_android.py
-vendor/python/bin/python3 scripts/android_launch_preflight.py --app <app_id> --condition nograph
-```
+# 2. 引导（拉取模拟器、Chrome、素材等依赖，可重复执行）
+vendor/python/bin/python3 scripts/bootstrap.py
 
-### 启动 Controller
-
-```bash
+# 3. 启动控制器
 vendor/python/bin/python3 -m benchmark.server --port 7800
+
+# 4. 跑一次探索（以 Android 消融条件为例）
+vendor/python/bin/python3 scripts/launch_batch.py \
+    explore kimi nonogram nograph
+
+# 5. 评测一次复现产物
+vendor/python/bin/python3 scripts/launch_batch.py \
+    eval nonogram sess_20260101_000000_abcdef-cdef01 nonogram.json
+
+# 6. 计算指标
+vendor/python/bin/python3 scripts/compute_metrics.py --runs runs
 ```
 
-### 批量启动探索
+Android 目标需要先注册（本仓库随包提供 25 个目标的元数据于
+`android_targets/registry.json`，APK 位于 `android_apks/`）：
 
 ```bash
-# Android nograph 探索
-vendor/python/bin/python3 scripts/launch_batch.py --max-parallel 4 \
-  explore dsh nonogram nograph explore zcode nonogram nograph
-
-# Web 探索
-vendor/python/bin/python3 scripts/launch_batch.py --max-parallel 2 \
-  explore dsh ecommerce_demo web-nograph
+vendor/python/bin/python3 scripts/android_launch_preflight.py --app ankidroid
+vendor/python/bin/python3 scripts/launch_batch.py explore codex ankidroid nograph
 ```
 
-支持的 Agent：`dsh`（DeepSeek V4.1f）、`kimi`（K3）、`zcode`（GLM-5.3）、`codex`。
-每个 Agent 独立配置 MCP 与 Skill，并发运行不互相干扰。
-
-### 批量启动评测
+常用辅助：
 
 ```bash
-vendor/python/bin/python3 scripts/launch_batch.py --max-parallel 1 \
-  eval <target> <handoff_id> <checklist>
+vendor/python/bin/python3 scripts/bench_status.py          # 当前批次状态
+vendor/python/bin/python3 scripts/check_batch_health.py    # 健康检查
+docker compose up -d                                       # 隔离运行时
 ```
 
-### 全指标套件
-
-```bash
-# 一条龙：探索 → 复现 → 评测 → 全指标 → results.csv
-BBB_SUITE_GEN_MODEL="Opus 4.8" BBB_SUITE_EVAL_MODEL="gpt-6-astra" \
-  bash scripts/run_android_suite.sh <agent> [targets...]
-
-# 单指标
-vendor/python/bin/python3 scripts/compute_metrics.py \
-  --platform android --sid <sid> --app <app> --handoff <handoff> \
-  --eval-report <path> --json metrics.json
-```
-
-## Reference targets
-
-**Web 数据集（28 个 live 目标）**：语雀、YouTube、淘宝、知乎、小红书、微博、
-豆瓣、大众点评、携程、Reddit、Quora、Notion、Trello、Todoist、Airtable、Google
-Calendar、Dropbox、Google Forms、Excalidraw、diagrams.net、Spotify、Desmos
-（图形/几何/3D）、Google Maps、Kleki、JS Paint、Squoosh——注册于
-`benchmark/orchestrator/apps.py`，配套人工登录 profile（`runs/live_targets/`）。
-
-**Android 数据集（25 个目标）**：Google 时钟、AnkiDroid、AntennaPod、Fossify
-日历/相册/绘图/计算器、cashew、feeder、Loop Habit Tracker、Librera、Organic
-Maps、Snapseed、VLC、Joplin、Tasks、Material Files、Vinyl、MJ PDF、节拍器、
-Markor、Nonogram、Minesweeper、2048、Futoshiki、RTTT——注册于
-`android_targets/registry.json`。
-
-每个目标配套 `review_specs/<app_id>.json` 人工功能清单（含 persistence 标志与
-exclusions 排除边界），新目标接入见 [adding reference app](docs/adding_reference_app.md)。
-
-## Session 工件
-
-每次探索写入 `runs/<session_id>/`：
+## 仓库结构
 
 ```text
-session.json
-frames/frame_*.png
-actions.jsonl
-observations.jsonl
-discovery.jsonl                 # 仅托管条件
-functional_topology.json        # 仅托管条件
-functional_topology.md
-coverage_report.json
-session_summary.json
-mcp_reproduction_state.json     # 复现阶段断点续传状态
-crash_report.json               # 仅失败时
+agents/              各条件的 agent 入口（MCP server / skill 安装器）
+  android_baseline/    Android 基线（discovery 工具齐全）
+  baseline_nograph/    Android 消融
+  web_nograph/         Web 消融
+  app_review/          复现产物的评审入口
+  web_review/          Web 复现产物的评审入口
+  cli_explorer/        自建工具条件（归档）
+benchmark/           控制器：会话、运行时、录制、拓扑、编排
+app_evaluation/      四档评分与清单加载
+app_reproduction/    Android 复现工作区与构建
+web_evaluation/      Web 复现产物评测
+reproduction/        Web 复现工作区
+docker/             隔离运行时与镜像定义
+scripts/            引导、启动、诊断、指标、导出等实用脚本
+review_specs/       人工功能清单（57 份）与排除项
+android_apks/       目标 APK 与校验和
+android_seeds/      目标应用的种子素材
+android_targets/    目标注册表（25 个目标）
+sample_apps/        随仓库的演示应用（含 ground truth）
+schemas/            拓扑、清单、评测报告的 schema
+docs/               架构、协议、平台、指标、安全模型等文档
+tests/              单元测试与契约测试
 ```
 
-复现阶段产出 `app_output/<handoff_id>/`（Android）或 `website_output/<handoff_id>/`
-（Web），包含完整工程源码、签名 APK（Android）或静态网站（Web）、审查证据与
-`review/review_summary.json`。
+## 不可破坏的边界
 
-## 目录
+- Agent 只能经 `/agent/{sid}/...` 使用截图、预算、坐标输入与 discovery 工具。
+- 禁止 DOM、Accessibility、脚本执行、selector、URL、网络、Cookie 与存储读取。
+- 本地 CDP 只允许 Page 导航/截图、Input、固定 viewport 与 `Browser.close`。
+- 动作回执不包含"点到了什么"这类语义结果。
+- `confirmed` 的 Feature / Edge 必须引用当前 session 的真实 step / frame。
+- `sample_apps/*/ground_truth.json` 不通过 HTTP 暴露，也不进入 Agent 容器。
+- Android 侧 Agent 不接触 APK 文件、ADB、控件树、日志或反编译结果。
 
-```text
-benchmark/                Controller、Session、Runtime、Recorder、Topology
-benchmark/android/        Android 目标注册、工具链发现与 Emulator Runtime
-agent_sdk/                pixels-only Python SDK
-agents/                   MCP Server、安装器和探索 Skill（两平台 × 两条件）
-agents/app_review/        Android 四档评测 judge
-agents/web_review/        Web 四档评测 judge
-self_explorer/            归档：自建探索工具
-sample_apps/              确定性 Reference App
-docker/                   正式隔离部署（含 reference-raw、live-controller）
-docker-compose*.yml       Docker Compose 部署配置
-schemas/                  Topology/State/Feature/Interaction Schema
-docs/                     API、安全、架构、指标定义、接入说明
-scripts/                  bootstrap、探索/评测启动、指标计算、覆盖判定
-scripts/run_android_suite.sh       Android 全套件 runner
-scripts/coverage_judge_android.sh  codex 版被动覆盖判定
-scripts/compute_metrics.py          A-F 工件指标计算（--platform web|android）
-scripts/compute_visual_similarity.py CLIP-L/14 视觉相似度
-scripts/extract_tokens.py           kimi/zcode token 提取
-scripts/full_metrics_android.sh     一条龙指标 runner
-scripts/launch_batch.py             并发探索/评测启动器
-tests/                    核心行为、安全、MCP、reset、topology 测试
-runs/                     运行工件（Git 忽略）
-runs/android_targets/     Android APK 与目标注册
-reproduction/materials/  公共只读素材、SQLite 和后端模板
-app_reproduction/         Compose 脚手架、移动素材、离线构建与 APK 复测
-app_evaluation/           人工清单加载校验与四档评级（两平台共享）
-app_output/               Android 工程、复测证据和最终 APK
-web_evaluation/           Web 四档评测会话
-website_output/          Agent 生成网页
-review_specs/             人工功能要求清单（web 28 / android 26）
-```
+详见 [docs/security_model.md](docs/security_model.md)。
 
-## 功能排除边界（exclusions）
+## 文档索引
 
-每个数据集目标配套人工维护的排除清单——多人协作、账户/支付、实时数据、AI 生成、
-外部服务等刻意不复现的功能面（`review_specs/<app_id>.json` 的 `exclusions` 键），
-由 `Checklist` 严格校验。探索侧 Agent 不在排除面上花预算，评测侧排除面不参与四档
-判定，边界在探索与评测读同一份文件，口径不会分叉。
+| 文档 | 内容 |
+|---|---|
+| [architecture.md](docs/architecture.md) | 控制器、运行时、会话与工件模型 |
+| [api_contract.md](docs/api_contract.md) | Agent 侧 HTTP / MCP 接口契约 |
+| [topology_schema.md](docs/topology_schema.md) | Functional Topology 的数据结构 |
+| [evaluation_contract.md](docs/evaluation_contract.md) | 判分口径与四档定义 |
+| [benchmark_metrics.md](docs/benchmark_metrics.md) | 13 项指标的计算方式 |
+| [android_platform.md](docs/android_platform.md) | 模拟器、锁、快照与网络策略 |
+| [security_model.md](docs/security_model.md) | 隔离边界与攻击面 |
+| [running_agent.md](docs/running_agent.md) | 接入自有 Agent |
+| [adding_reference_app.md](docs/adding_reference_app.md) | 新增目标应用 |
+| [dependency_requirements.md](docs/dependency_requirements.md) | 工具链与镜像依赖 |
 
-## 验证
+---
 
-```bash
-vendor/python/bin/python3 -m pytest tests/ -q
-vendor/python/bin/python3 sample_apps/ecommerce_demo/smoke_test.py
-vendor/python/bin/python3 scripts/e2e_smoke.py
-```
-
-## 当前范围
-
-平台负责"受控探索 → 条件对应的安全交接 → 隔离复现工作区 → 人工清单四档评测 →
-标准化指标计算"的完整闭环。证据轨迹与功能拓扑只属于托管探索条件；评测由独立 LLM
-judge 做 Semantic judgment，代码只做薄护栏（证据引用真实截图、四档封闭、不漏项、
-报告 schema 固定）。Android 侧与 Web 侧护栏完全对齐，报告可横向比较。
-
-暂不包含：
-
-- 专用 VLM 调用循环（Agent 规划由外部 MCP Agent 框架负责）。
-- Dashboard、视频、历史 Session 浏览和 deterministic replay。
-- 原站/复现站的像素级自动差分（评的是功能是否实现）。
-- 网页条件不规定固定前端或后端技术栈；Android 复现固定使用 Kotlin + Compose。
+<p align="center">
+  <sub>Recreate Anything · 只看像素，只动手，复刻一切</sub>
+</p>
